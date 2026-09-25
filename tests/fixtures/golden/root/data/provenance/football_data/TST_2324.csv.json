@@ -1,0 +1,9 @@
+{
+  "filename": "TST_2324.csv",
+  "note": "synthetic test fixture",
+  "origin": "manual",
+  "retrieved_at_utc": "2026-09-25T00:00:00+00:00",
+  "sha256": "cdb6aba5cb218da3a21410dbd1d108dd0d9939de0ddd3662405cc09874e01f15",
+  "source_id": "manual",
+  "source_url": "file://generate_raw.py"
+}

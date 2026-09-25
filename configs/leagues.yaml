@@ -1,0 +1,22 @@
+# Competition formats. Kickoff times in football-data files are UK time (source_timezone).
+leagues:
+  EPL:
+    source_code: E0
+    country: ENG
+    name: Premier League
+    tier: 1
+    source_timezone: Europe/London
+    n_teams: 20
+    rounds: 2
+    season_start_month: 7
+    season_end_month: 8
+  LALIGA:
+    source_code: SP1
+    country: ESP
+    name: La Liga
+    tier: 1
+    source_timezone: Europe/London
+    n_teams: 20
+    rounds: 2
+    season_start_month: 7
+    season_end_month: 8

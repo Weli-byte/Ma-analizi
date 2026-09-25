@@ -1,0 +1,3 @@
+seed: 7
+feature_version: fv2
+models: [always_home, historical_prior, recent_form_naive, market_implied]

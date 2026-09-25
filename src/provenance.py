@@ -66,16 +66,11 @@ def collect(mode: RunMode | str, root: Path = ROOT) -> Provenance:
     g = git_info(root)
     lh = lock_hash(root)
     if pol.require_real_git_sha and g.sha == "unknown":
-        raise ProvenanceError(
-            f"{mode.value} run needs a real git commit SHA (repo has no commits?)"
-        )
+        raise ProvenanceError(f"{mode.value} run needs a real git commit SHA (repo has no commits?)")
     if pol.require_clean_git and g.dirty:
         raise ProvenanceError(
-            f"{mode.value} run needs a clean working tree; "
-            f"changed files: {list(g.dirty_files)[:10]}"
+            f"{mode.value} run needs a clean working tree; changed files: {list(g.dirty_files)[:10]}"
         )
     if pol.require_complete_provenance and lh == "missing":
         raise ProvenanceError("requirements.lock missing: dependency_lock_hash is required")
-    return Provenance(
-        g.sha, g.dirty, g.dirty_files, sys.version.split()[0], platform.platform(), lh
-    )
+    return Provenance(g.sha, g.dirty, g.dirty_files, sys.version.split()[0], platform.platform(), lh)

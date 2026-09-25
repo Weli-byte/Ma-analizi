@@ -1,0 +1,10 @@
+raw_dir: data/raw/football_data
+processed_dir: data/processed
+provenance_dir: data/provenance/football_data
+expected_checksums: data/expected_checksums.json
+leagues: [DEMO]
+seasons: ["2021-22", "2022-23", "2023-24"]
+as_of: "2026-09-25"
+team_resolution:
+  auto_register_new_teams: false
+  suggest_cutoff: 0.6

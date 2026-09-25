@@ -8,7 +8,7 @@ from typing import Any
 MODEL_ID_RE = re.compile(r"^[a-z][a-z0-9_]*$")  # e.g. elo, dixon_coles, llm_claude
 MODEL_VERSION_RE = re.compile(r"^\d+\.\d+\.\d+$")  # semver, e.g. 1.0.0
 FEATURE_VERSION_RE = re.compile(r"^fv\d+$")  # e.g. fv1
-DATA_VERSION_RE = re.compile(r"^dv\d+$")  # e.g. dv1
+DATA_VERSION_RE = re.compile(r"^dv-[0-9a-f]{12}$")  # content-derived, e.g. dv-3fa9c2b1d07e
 
 
 def check(pattern: re.Pattern[str], value: str, label: str) -> str:

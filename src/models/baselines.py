@@ -10,14 +10,15 @@ import numpy as np
 
 from src.evaluation.dataset import EvalRow
 
-MARKET_SOURCES = [  # preference order; closing first (reference bar only)
-    "closing:Avg", "closing:B365", "pre_match_unspecified:Avg", "pre_match_unspecified:B365",
-]  # fmt: skip
+# preference order; closing first. Closing odds are a REFERENCE bar, never a time-aligned signal.
+MARKET_SOURCES = ["closing:agg_avg", "closing:B365", "pre_match:agg_avg", "pre_match:B365"]
 
 
 class BaselineModel:
     model_id: str
     model_version = "1.0.0"
+    model_class = "baseline"  # baseline | reference_market_baseline
+    required_features: tuple[str, ...] = ()
 
     def __init__(self) -> None:
         self.diagnostics: dict[str, object] = {}
@@ -54,12 +55,11 @@ class HistoricalPrior(BaselineModel):
     def fit(self, train):
         self.global_prior = _freq(train)
         self.league_prior = {
-            lg: _freq([r for r in train if r.league_id == lg])
-            for lg in {r.league_id for r in train}
+            lg: _freq([r for r in train if r.league_id == lg]) for lg in sorted({r.league_id for r in train})
         }
         self.diagnostics = {
             "global_prior": self.global_prior.round(4).tolist(),
-            "league_prior": {k: v.round(4).tolist() for k, v in sorted(self.league_prior.items())},
+            "league_prior": {k: v.round(4).tolist() for k, v in self.league_prior.items()},
             "training_rows": len(train),
         }
         return self
@@ -70,10 +70,12 @@ class HistoricalPrior(BaselineModel):
 
 class RecentFormNaive(BaselineModel):
     """Split non-draw mass by recent form: share prop. to 1 + points last 5 (fixed rule, no
-    weight fitting). Draw probability = training draw rate. Missing form -> historical prior."""
+    weight fitting). Draw probability = training draw rate. Missing form -> historical prior;
+    every fallback is counted here AND reported by the availability report (never silent)."""
 
     model_id = "recent_form_naive"
     HOME, AWAY = "home_form_points_5", "away_form_points_5"
+    required_features = (HOME, AWAY)
 
     def fit(self, train):
         self._prior = HistoricalPrior().fit(train)
@@ -97,9 +99,12 @@ class RecentFormNaive(BaselineModel):
 
 class MarketImplied(BaselineModel):
     """De-vigged (proportional normalisation) bookmaker odds. NaN when no odds exist.
-    Uses closing odds when present => a reference bar, not a pre-cutoff signal."""
+
+    REFERENCE_MARKET_BASELINE: uses CLOSING odds whose timestamp is unknown, so it is a reference
+    bar for probability quality, not a time-aligned trading signal (ADR 0007)."""
 
     model_id = "market_implied"
+    model_class = "reference_market_baseline"
 
     def predict_proba(self, rows):
         out, used = [], Counter()
@@ -115,9 +120,22 @@ class MarketImplied(BaselineModel):
         self.diagnostics = {
             "source_usage": dict(sorted(used.items())),
             "no_odds_rows": len(rows) - sum(used.values()),
+            "timestamp_quality": "unknown",
         }
         return np.array(out)
 
 
+REGISTRY: dict[str, type[BaselineModel]] = {
+    c.model_id: c for c in (AlwaysHome, HistoricalPrior, RecentFormNaive, MarketImplied)
+}
+
+
+def build_models(names: list[str]) -> list[BaselineModel]:
+    unknown = [n for n in names if n not in REGISTRY]
+    if unknown:
+        raise KeyError(f"unknown baseline models {unknown}; available: {sorted(REGISTRY)}")
+    return [REGISTRY[n]() for n in names]
+
+
 def default_baselines() -> list[BaselineModel]:
-    return [AlwaysHome(), HistoricalPrior(), RecentFormNaive(), MarketImplied()]
+    return build_models(list(REGISTRY))

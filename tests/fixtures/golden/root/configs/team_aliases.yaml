@@ -1,0 +1,46 @@
+teams:
+- team_id: TST_alpha_fc
+  canonical_name: Alpha FC
+  country: TST
+- team_id: TST_beta_united
+  canonical_name: Beta United
+  country: TST
+- team_id: TST_gamma_town
+  canonical_name: Gamma Town
+  country: TST
+- team_id: TST_delta_city
+  canonical_name: Delta City
+  country: TST
+aliases:
+- source: football-data
+  raw_name: Alpha FC
+  team_id: TST_alpha_fc
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: fixture-generator
+  confidence: 1.0
+- source: football-data
+  raw_name: Beta Utd
+  team_id: TST_beta_united
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: fixture-generator
+  confidence: 1.0
+- source: football-data
+  raw_name: Gamma Town
+  team_id: TST_gamma_town
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: fixture-generator
+  confidence: 1.0
+- source: football-data
+  raw_name: Delta City
+  team_id: TST_delta_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: fixture-generator
+  confidence: 1.0

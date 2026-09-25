@@ -1,20 +1,19 @@
-from .builder import build_snapshots, load_matches
+"""Feature engine. `builder` is intentionally NOT imported here so that
+`python -m src.features.builder` runs without runpy import warnings."""
+
 from .compute import FeatureResult, compute_features
-from .history import RESULT_LAG, MatchHistory, MatchRecord
+from .history import MatchHistory, MatchRecord
 from .leakage_audit import audit_leakage
 from .registry import FEATURE_VERSION, REGISTRY, registry_hash, spec_for
 
 __all__ = [
     "FEATURE_VERSION",
     "REGISTRY",
-    "RESULT_LAG",
     "FeatureResult",
     "MatchHistory",
     "MatchRecord",
     "audit_leakage",
-    "build_snapshots",
     "compute_features",
-    "load_matches",
     "registry_hash",
     "spec_for",
 ]

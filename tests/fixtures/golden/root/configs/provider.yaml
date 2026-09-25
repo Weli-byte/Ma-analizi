@@ -1,0 +1,2 @@
+providers:
+  openai: {enabled: false, api_key_env: OPENAI_API_KEY, model: TBD}

@@ -1,0 +1,15 @@
+split_strategy: expanding
+min_train_seasons: 1
+rolling_window_seasons: 2
+metrics: [log_loss, brier, rps, ece, accuracy]
+calibration_bins: 5
+bootstrap_samples: 50
+bootstrap_seed: 11
+max_fallback_rate:
+  development: 1.0
+  research: 0.6
+  strict: 0.6
+  final: 0.6
+train_seasons: ["2021-22"]
+validation_seasons: ["2022-23"]
+final_test_seasons: ["2023-24"]

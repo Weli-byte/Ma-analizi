@@ -1,0 +1,17 @@
+# Download sources. TLS verification is always on. The fallback is explicit and its provenance
+# (origin=archive) is always recorded; it is never presented as an official-source retrieval.
+primary:
+  id: football_data_official
+  provider: football-data.co.uk
+  origin: official
+  url_template: "https://www.football-data.co.uk/mmz4281/{season_code}/{div}.csv"
+fallbacks:
+  - id: wayback_archive
+    provider: web.archive.org (Internet Archive copy of football-data.co.uk)
+    origin: archive
+    url_template: "https://web.archive.org/web/{snapshot}id_/https://www.football-data.co.uk/mmz4281/{season_code}/{div}.csv"
+    snapshot: "20260901"
+allow_fallback: true
+retries: 3
+backoff_seconds: 2.0
+timeout_seconds: 60.0

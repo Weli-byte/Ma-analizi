@@ -1,37 +1,726 @@
-# country code -> {source name as it appears in raw data: canonical name}
-# Unknown names that are close (>=0.85) to a known team go to the review queue;
-# add the mapping here and rerun the pipeline to resolve them.
-ENG:
-  Man City: Manchester City
-  Man United: Manchester United
-  Nott'm Forest: Nottingham Forest
-  Sheffield United: Sheffield United
-  Sheffield Weds: Sheffield Wednesday
-  West Brom: West Bromwich Albion
-  Wolves: Wolverhampton Wanderers
-  Tottenham: Tottenham Hotspur
-  Newcastle: Newcastle United
-  Leicester: Leicester City
-  Leeds: Leeds United
-  Norwich: Norwich City
-  Brighton: Brighton & Hove Albion
-  Huddersfield: Huddersfield Town
-  Cardiff: Cardiff City
-  Luton: Luton Town
-  West Ham: West Ham United
-  Bournemouth: AFC Bournemouth
-  Ipswich: Ipswich Town
-ESP:
-  Ath Bilbao: Athletic Bilbao
-  Ath Madrid: Atletico Madrid
-  Betis: Real Betis
-  Celta: Celta Vigo
-  Espanol: Espanyol
-  Sociedad: Real Sociedad
-  Vallecano: Rayo Vallecano
-  Valladolid: Real Valladolid
-  Alaves: Deportivo Alaves
-  Leganes: Leganes
-  Cadiz: Cadiz
-  Almeria: Almeria
-  Sp Gijon: Sporting Gijon
+# Team identity store. canonical `teams` + `aliases` (with provenance and validity window).
+# Add aliases with: python -m src.data.team_resolution approve --raw NAME --team-id ID
+teams:
+- team_id: ENG_afc_bournemouth
+  canonical_name: AFC Bournemouth
+  country: ENG
+- team_id: ENG_arsenal
+  canonical_name: Arsenal
+  country: ENG
+- team_id: ENG_aston_villa
+  canonical_name: Aston Villa
+  country: ENG
+- team_id: ENG_brentford
+  canonical_name: Brentford
+  country: ENG
+- team_id: ENG_brighton_hove_albion
+  canonical_name: Brighton & Hove Albion
+  country: ENG
+- team_id: ENG_burnley
+  canonical_name: Burnley
+  country: ENG
+- team_id: ENG_cardiff_city
+  canonical_name: Cardiff City
+  country: ENG
+- team_id: ENG_chelsea
+  canonical_name: Chelsea
+  country: ENG
+- team_id: ENG_coventry_city
+  canonical_name: Coventry City
+  country: ENG
+- team_id: ENG_crystal_palace
+  canonical_name: Crystal Palace
+  country: ENG
+- team_id: ENG_everton
+  canonical_name: Everton
+  country: ENG
+- team_id: ENG_fulham
+  canonical_name: Fulham
+  country: ENG
+- team_id: ENG_huddersfield_town
+  canonical_name: Huddersfield Town
+  country: ENG
+- team_id: ENG_hull_city
+  canonical_name: Hull City
+  country: ENG
+- team_id: ENG_ipswich_town
+  canonical_name: Ipswich Town
+  country: ENG
+- team_id: ENG_leeds_united
+  canonical_name: Leeds United
+  country: ENG
+- team_id: ENG_leicester_city
+  canonical_name: Leicester City
+  country: ENG
+- team_id: ENG_liverpool
+  canonical_name: Liverpool
+  country: ENG
+- team_id: ENG_luton_town
+  canonical_name: Luton Town
+  country: ENG
+- team_id: ENG_manchester_city
+  canonical_name: Manchester City
+  country: ENG
+- team_id: ENG_manchester_united
+  canonical_name: Manchester United
+  country: ENG
+- team_id: ENG_newcastle_united
+  canonical_name: Newcastle United
+  country: ENG
+- team_id: ENG_norwich_city
+  canonical_name: Norwich City
+  country: ENG
+- team_id: ENG_nottingham_forest
+  canonical_name: Nottingham Forest
+  country: ENG
+- team_id: ENG_sheffield_united
+  canonical_name: Sheffield United
+  country: ENG
+- team_id: ENG_sheffield_wednesday
+  canonical_name: Sheffield Wednesday
+  country: ENG
+- team_id: ENG_southampton
+  canonical_name: Southampton
+  country: ENG
+- team_id: ENG_sunderland
+  canonical_name: Sunderland
+  country: ENG
+- team_id: ENG_tottenham_hotspur
+  canonical_name: Tottenham Hotspur
+  country: ENG
+- team_id: ENG_watford
+  canonical_name: Watford
+  country: ENG
+- team_id: ENG_west_bromwich_albion
+  canonical_name: West Bromwich Albion
+  country: ENG
+- team_id: ENG_west_ham_united
+  canonical_name: West Ham United
+  country: ENG
+- team_id: ENG_wolverhampton_wanderers
+  canonical_name: Wolverhampton Wanderers
+  country: ENG
+- team_id: ESP_almeria
+  canonical_name: Almeria
+  country: ESP
+- team_id: ESP_athletic_bilbao
+  canonical_name: Athletic Bilbao
+  country: ESP
+- team_id: ESP_atletico_madrid
+  canonical_name: Atletico Madrid
+  country: ESP
+- team_id: ESP_barcelona
+  canonical_name: Barcelona
+  country: ESP
+- team_id: ESP_cadiz
+  canonical_name: Cadiz
+  country: ESP
+- team_id: ESP_celta_vigo
+  canonical_name: Celta Vigo
+  country: ESP
+- team_id: ESP_deportivo_alaves
+  canonical_name: Deportivo Alaves
+  country: ESP
+- team_id: ESP_deportivo_la_coruna
+  canonical_name: Deportivo La Coruna
+  country: ESP
+- team_id: ESP_eibar
+  canonical_name: Eibar
+  country: ESP
+- team_id: ESP_elche
+  canonical_name: Elche
+  country: ESP
+- team_id: ESP_espanyol
+  canonical_name: Espanyol
+  country: ESP
+- team_id: ESP_getafe
+  canonical_name: Getafe
+  country: ESP
+- team_id: ESP_girona
+  canonical_name: Girona
+  country: ESP
+- team_id: ESP_granada
+  canonical_name: Granada
+  country: ESP
+- team_id: ESP_huesca
+  canonical_name: Huesca
+  country: ESP
+- team_id: ESP_las_palmas
+  canonical_name: Las Palmas
+  country: ESP
+- team_id: ESP_leganes
+  canonical_name: Leganes
+  country: ESP
+- team_id: ESP_levante
+  canonical_name: Levante
+  country: ESP
+- team_id: ESP_malaga
+  canonical_name: Malaga
+  country: ESP
+- team_id: ESP_mallorca
+  canonical_name: Mallorca
+  country: ESP
+- team_id: ESP_osasuna
+  canonical_name: Osasuna
+  country: ESP
+- team_id: ESP_racing_santander
+  canonical_name: Racing Santander
+  country: ESP
+- team_id: ESP_rayo_vallecano
+  canonical_name: Rayo Vallecano
+  country: ESP
+- team_id: ESP_real_betis
+  canonical_name: Real Betis
+  country: ESP
+- team_id: ESP_real_madrid
+  canonical_name: Real Madrid
+  country: ESP
+- team_id: ESP_real_oviedo
+  canonical_name: Real Oviedo
+  country: ESP
+- team_id: ESP_real_sociedad
+  canonical_name: Real Sociedad
+  country: ESP
+- team_id: ESP_real_valladolid
+  canonical_name: Real Valladolid
+  country: ESP
+- team_id: ESP_sevilla
+  canonical_name: Sevilla
+  country: ESP
+- team_id: ESP_sporting_gijon
+  canonical_name: Sporting Gijon
+  country: ESP
+- team_id: ESP_valencia
+  canonical_name: Valencia
+  country: ESP
+- team_id: ESP_villarreal
+  canonical_name: Villarreal
+  country: ESP
+aliases:
+- source: football-data
+  raw_name: Alaves
+  team_id: ESP_deportivo_alaves
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Almeria
+  team_id: ESP_almeria
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Arsenal
+  team_id: ENG_arsenal
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Aston Villa
+  team_id: ENG_aston_villa
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Ath Bilbao
+  team_id: ESP_athletic_bilbao
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Ath Madrid
+  team_id: ESP_atletico_madrid
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Barcelona
+  team_id: ESP_barcelona
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Betis
+  team_id: ESP_real_betis
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Bournemouth
+  team_id: ENG_afc_bournemouth
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Brentford
+  team_id: ENG_brentford
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Brighton
+  team_id: ENG_brighton_hove_albion
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Burnley
+  team_id: ENG_burnley
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Cadiz
+  team_id: ESP_cadiz
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Cardiff
+  team_id: ENG_cardiff_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Celta
+  team_id: ESP_celta_vigo
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Chelsea
+  team_id: ENG_chelsea
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Coventry
+  team_id: ENG_coventry_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Crystal Palace
+  team_id: ENG_crystal_palace
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Eibar
+  team_id: ESP_eibar
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Elche
+  team_id: ESP_elche
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Espanol
+  team_id: ESP_espanyol
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Everton
+  team_id: ENG_everton
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Fulham
+  team_id: ENG_fulham
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Getafe
+  team_id: ESP_getafe
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Girona
+  team_id: ESP_girona
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Granada
+  team_id: ESP_granada
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Huddersfield
+  team_id: ENG_huddersfield_town
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Huesca
+  team_id: ESP_huesca
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Hull
+  team_id: ENG_hull_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Ipswich
+  team_id: ENG_ipswich_town
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: La Coruna
+  team_id: ESP_deportivo_la_coruna
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Las Palmas
+  team_id: ESP_las_palmas
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Leeds
+  team_id: ENG_leeds_united
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Leganes
+  team_id: ESP_leganes
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Leicester
+  team_id: ENG_leicester_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Levante
+  team_id: ESP_levante
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Liverpool
+  team_id: ENG_liverpool
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Luton
+  team_id: ENG_luton_town
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Malaga
+  team_id: ESP_malaga
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Mallorca
+  team_id: ESP_mallorca
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Man City
+  team_id: ENG_manchester_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Man United
+  team_id: ENG_manchester_united
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Newcastle
+  team_id: ENG_newcastle_united
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Norwich
+  team_id: ENG_norwich_city
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Nott'm Forest
+  team_id: ENG_nottingham_forest
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Osasuna
+  team_id: ESP_osasuna
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Oviedo
+  team_id: ESP_real_oviedo
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Real Madrid
+  team_id: ESP_real_madrid
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Santander
+  team_id: ESP_racing_santander
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Sevilla
+  team_id: ESP_sevilla
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Sheffield United
+  team_id: ENG_sheffield_united
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Sheffield Weds
+  team_id: ENG_sheffield_wednesday
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Sociedad
+  team_id: ESP_real_sociedad
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Southampton
+  team_id: ENG_southampton
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Sp Gijon
+  team_id: ESP_sporting_gijon
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Sunderland
+  team_id: ENG_sunderland
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant (owner review pending; validated by 20-teams-per-season
+    check)
+  confidence: 1.0
+- source: football-data
+  raw_name: Tottenham
+  team_id: ENG_tottenham_hotspur
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Valencia
+  team_id: ESP_valencia
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Valladolid
+  team_id: ESP_real_valladolid
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Vallecano
+  team_id: ESP_rayo_vallecano
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Villarreal
+  team_id: ESP_villarreal
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Watford
+  team_id: ENG_watford
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: West Brom
+  team_id: ENG_west_bromwich_albion
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: West Ham
+  team_id: ENG_west_ham_united
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0
+- source: football-data
+  raw_name: Wolves
+  team_id: ENG_wolverhampton_wanderers
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: 'initial-import (verified: 20 teams per league-season)'
+  confidence: 1.0

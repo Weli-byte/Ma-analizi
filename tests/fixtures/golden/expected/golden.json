@@ -1,0 +1,53 @@
+{
+  "data_version": "dv-77b12b7aa485",
+  "dataset_content_hash": "bc928bd19086ae6d39724e75b07b3379007e2f0c6a62d310831bd06d9b14070a",
+  "features_content_hash": "0805622a30ee7be5b4c498c053dcd9142337fcc522bb9f026b7486a97386fc75",
+  "features_rows": 36,
+  "metrics": {
+    "always_home": {
+      "accuracy": 0.666666667,
+      "brier": 0.666666667,
+      "ece": 0.333333333,
+      "log_loss": 11.512925465,
+      "n": 12,
+      "rps": 0.25
+    },
+    "historical_prior": {
+      "accuracy": 0.666666667,
+      "brier": 0.513888889,
+      "ece": 0.083333333,
+      "log_loss": 0.889006639,
+      "n": 12,
+      "rps": 0.1875
+    },
+    "market_implied": {
+      "accuracy": 0.416666667,
+      "brier": 0.6200844,
+      "ece": 0.100412669,
+      "log_loss": 1.030937304,
+      "n": 12,
+      "rps": 0.238188408
+    },
+    "recent_form_naive": {
+      "accuracy": 0.291666667,
+      "brier": 0.719037728,
+      "ece": 0.258191396,
+      "log_loss": 1.157442018,
+      "n": 12,
+      "rps": 0.290074419
+    }
+  },
+  "metrics_sha256": "cd8924774b9a6c767e73919aae072d2c1ef4a48ff2d2e4c4dc07c7dfaea6741e",
+  "n_predictions": 48,
+  "predictions_sha256": "d15e26fd2bf22b4933fe96f4e7a304567e1a817c668a8790222925acaa0f6888",
+  "report_json_sha256": "2a8a2eee631995f5db1c36fcd0a8e2da7eb6ce807ba5fb1986f520fb11da6e8b",
+  "report_sha256": "f3111805c925772c95488ff11839124240d9bb31385ed153845b75c6201c79c5",
+  "table_hashes": {
+    "fixtures": "152433745e71352fd9aebe26680c4df271a0a278525ef38ec1179f12044cbbc8",
+    "leagues": "a36ace33346bfdde9feab9b2d351a51566f0f7986a28abaa3a75da065430b748",
+    "odds_snapshots": "420c3876b758b6dfc8a6138f661ab2e630b8f785f315feca51808efa1c356994",
+    "results": "1d382238702e29e6ad809dd0b4cad11b04aa0288b1cecb12faa4a876798ce327",
+    "team_match_stats": "302e3c7f32d3ecc9aa858a08df39ca060a87b1b0b497b9ceaa3fa84b1faa3ce1",
+    "teams": "5d19dec883f7c437cee0ffd1478b0aec63d216201bd72647e3620f492dfe1ea6"
+  }
+}

@@ -1,9 +1,16 @@
 split_strategy: expanding
 min_train_seasons: 2
+rolling_window_seasons: 3
 metrics: [log_loss, brier, rps, ece, accuracy]
 calibration_bins: 10
-final_test_touched: false
-# Chronological split. Final test is NOT read by any sprint until the final evaluation.
+bootstrap_samples: 1000
+bootstrap_seed: 20260925
+max_fallback_rate:       # share of eval rows a model may fill via fallback, per run mode
+  development: 1.0
+  research: 0.10
+  strict: 0.05
+  final: 0.05
+# Chronological split (ADR 0012). 2026-27 is CURRENT_PARTIAL and belongs to no split.
 train_seasons: ["2019-20", "2020-21", "2021-22"]
-validation_seasons: ["2022-23"]
-final_test_seasons: ["2023-24"]
+validation_seasons: ["2022-23", "2023-24"]
+final_test_seasons: ["2024-25", "2025-26"]

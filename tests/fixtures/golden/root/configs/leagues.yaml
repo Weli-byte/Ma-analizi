@@ -1,0 +1,11 @@
+leagues:
+  DEMO:
+    source_code: TST
+    country: TST
+    name: Demo League (synthetic test fixture, NOT real football data)
+    tier: 1
+    source_timezone: Europe/London
+    n_teams: 4
+    rounds: 2
+    season_start_month: 7
+    season_end_month: 8

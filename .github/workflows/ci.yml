@@ -1,13 +1,47 @@
 name: ci
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
 jobs:
   test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install locked dependencies (hash-verified)
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+      - name: Import smoke test
+        run: python -c "import src.schemas, src.config, src.versioning, src.provenance, src.runmode"
+      - name: Lint
+        run: ruff check .
+      - name: Tests (unit + integration + golden/regression) with coverage
+        run: pytest --cov=src --cov-report=term-missing --cov-report=json:coverage.json
+      - name: Critical-path coverage gate
+        run: python scripts/check_critical_coverage.py coverage.json
+        if: hashFiles('scripts/check_critical_coverage.py') != ''
+  lock-up-to-date:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.12", cache: pip}
-      - run: pip install -r requirements.lock -e ".[dev]"
-      - run: ruff check .
-      - run: python -c "import src.schemas, src.config, src.versioning"
-      - run: pytest
+        with:
+          python-version: "3.12"
+      - run: pip install uv
+      - name: requirements.lock matches pyproject.toml
+        run: |
+          uv pip compile pyproject.toml --extra dev --universal --generate-hashes \
+            --python-version 3.12 -o /tmp/requirements.lock.check
+          diff <(grep -v '^#' requirements.lock) <(grep -v '^#' /tmp/requirements.lock.check)
+        shell: bash

@@ -6,17 +6,18 @@ build-backend = "setuptools.build_meta"
 name = "football-forecasting"
 version = "0.1.0"
 description = "Global Football Forecasting Benchmark & Intelligence Platform"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.6,<3",
     "pyyaml>=6",
     "numpy>=1.26",
     "duckdb>=1.0",
     "tzdata",
+    "pytz",
 ]
 
 [project.optional-dependencies]
-dev = ["pytest>=8", "ruff>=0.5"]
+dev = ["pytest>=8", "pytest-cov>=5", "ruff>=0.5"]
 
 [tool.setuptools.packages.find]
 include = ["src*"]
@@ -27,7 +28,7 @@ addopts = "-q --basetemp=.pytest_tmp"
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 extend-exclude = [".venv", "notebooks"]
 
 [tool.ruff.lint.per-file-ignores]

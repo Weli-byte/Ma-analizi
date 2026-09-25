@@ -1,0 +1,5 @@
+# Only env var NAMES here. Real keys live in environment / .env (gitignored).
+providers:
+  openai:    {enabled: false, api_key_env: OPENAI_API_KEY,    model: TBD}
+  anthropic: {enabled: false, api_key_env: ANTHROPIC_API_KEY, model: TBD}
+  google:    {enabled: false, api_key_env: GOOGLE_API_KEY,    model: TBD}

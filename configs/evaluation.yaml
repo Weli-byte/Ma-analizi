@@ -1,0 +1,9 @@
+split_strategy: expanding
+min_train_seasons: 2
+metrics: [log_loss, brier, rps, ece, accuracy]
+calibration_bins: 10
+final_test_touched: false
+# Chronological split. Final test is NOT read by any sprint until the final evaluation.
+train_seasons: ["2019-20", "2020-21", "2021-22"]
+validation_seasons: ["2022-23"]
+final_test_seasons: ["2023-24"]

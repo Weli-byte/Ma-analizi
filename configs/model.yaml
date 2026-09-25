@@ -1,0 +1,3 @@
+seed: 42
+feature_version: fv1
+models: [always_home]

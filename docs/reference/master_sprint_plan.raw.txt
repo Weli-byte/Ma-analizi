@@ -1,0 +1,901 @@
+                  GLOBAL FOOTBALL
+
+         FORECASTING BENCHMARK &
+            INTELLIGENCE PLATFORM
+
+               MASTER SPRINT PLANI
+
+     20 sprint · 24­32 hafta · görevler + testler + Definition of Done + ayrintili coding-agent
+                                                                promptlari
+
+Öncelik sirasi: Veri doruluu  leakage kontrolü  baseline  statistical models  ML 
+walk-forward benchmark  LLM benchmark  calibration  ensemble  global live  value engine
+ dashboard/API  startup.
+Bilimsel omurga: Ana çikti 1X2 probability distribution. Ana metrikler Log Loss, Brier, RPS ve calibration/ECE. Accuracy
+ikincil metriktir. Final test seti dokunulmazdir.
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 1
+GLOBAL FOOTBALL FORECASTING & INTELLIGENCE
+PLATFORM
+
+MASTER SPRINT PLANI -- V2
+
+Hedef: Historical football data, statistical models, classical ML, LLM benchmark, ensemble, global live forecasting, value
+analytics, dashboard, API ve startup katmanlarini tek bir reproducible sistemde birletirmek.
+Önerilen süre: 24­32 hafta. lk bilimsel benchmark 6­10. haftada; live MVP 14­18. haftada; startup MVP 20­24. haftada.
+---
+
+1. NHA VZYON
+
+Sistem "maçin kazananini söyleyen AI" olmayacak. Ana çikti 1X2 probability distribution olacaktir:
+· P(Home)
+· P(Draw)
+· P(Away)
+kinci çikti exact-score probability matrix olabilir.
+Üç ana ürün:
+1. Research Benchmark: Elo, Poisson, Dixon-Coles, XGBoost, LightGBM, GPT, Claude, Gemini ve ensemble
+karilatirmasi.
+2. Forecasting Engine: T-24h, T-90m, T-30m, kickoff ve live snapshot'larinda tahmin güncellemesi.
+3. Startup Platform: Dashboard, alerts, API, team intelligence ve paper-trading/value analytics.
+Ana aratirma sorulari:
+· Hangi model ailesi hangi lig ve zaman ufkunda daha iyi probability üretiyor?
+· LLM'lerin calibration/overconfidence davranii nedir?
+· Ensemble tekil modellerden daha iyi out-of-sample sonuç veriyor mu?
+· Lineup/injury/live event bilgisi prediction'i ne kadar deitiriyor?
+· Model probability ile de-vig market probability arasindaki fark istikrarli mi?
+---
+
+2. DEMEZ BLMSEL KURALLAR
+
+· Random train/test split kullanilmayacak; chronological veya walk-forward split kullanilacak.
+· Prediction timestamp'ten sonra örenilen hiçbir bilgi prediction feature'ina girmeyecek.
+· Rolling feature'lar current fixture'i içermeyecek.
+· Final test seti model selection veya hyperparameter tuning için kullanilmayacak.
+· Ensemble yalniz out-of-fold predictions ile eitilecek.
+· LLM historical benchmarki ile forward/prospective benchmark ayri tutulacak.
+· Her prediction immutable olacak; deiiklik yeni snapshot olarak yazilacak.
+· Her prediction: model_version + feature_version + data_version + generated_at + information_cutoff taiyacak.
+· Accuracy tek baina ana baari metrii olmayacak.
+· Ana probability metrikleri: Log Loss, Brier, RPS, Calibration/ECE.
+· Value engine ilk aamada yalniz paper trading kullanacak.
+---
+
+3. TEKNOLOJ MMARS
+
+Backend/Data: Python, PostgreSQL, Parquet/DuckDB.
+ML: scikit-learn, XGBoost, LightGBM, statsmodels, Optuna.
+LLM: provider adapter pattern; OpenAI, Anthropic, Google.
+API: FastAPI.
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 2
+  UI: Next.js/React; ilk prototipte Streamlit kullanilabilir.                                              Sayfa 3
+  Ops: Docker, GitHub Actions, structured logging.
+  Live: scheduled worker + cache + idempotent upsert.
+
+  Önerilen repo:
+
+  football-forecasting/
+  apps/api
+  apps/dashboard
+  apps/worker
+  src/data
+  src/features
+  src/models
+  src/calibration
+  src/evaluation
+  src/ensemble
+  src/value
+  src/monitoring
+  configs
+  tests
+  notebooks
+  reports
+  data/raw
+  data/processed
+  scripts
+  .github/workflows
+
+  ---
+
+ 4. VER MODEL
+
+  Temel entity'ler:
+  · leagues: league_id, country, name, tier
+  · teams: team_id, canonical_name, country
+  · fixtures: fixture_id, league_id, season, kickoff_utc, home_id, away_id, status
+  · results: fixture_id, score, outcome
+  · team_match_stats: shots, xG, xGA, possession, etc.
+  · team_ratings: Elo/strength history
+  · lineups: timestamp, formation, starters
+  · injuries: player/team status + timestamp
+  · odds_snapshots: bookmaker, market, selection, decimal odds, timestamp
+  · feature_snapshots: fixture, feature_version, information_cutoff, feature values
+  · predictions: model, version, probabilities, generated_at, cutoff
+  · evaluations: prediction_id, metrics, result
+  · experiments: run_id, config, dataset version, git SHA, metrics
+
+  Feature contract: Her feature için source, window, aggregation, available_at ve leakage_rule bulunacak.
+
+  Örnek:
+
+  form_points_5 | results | last 5 | points sum | t-1 | current match excluded
+  elo_home | ratings | latest | latest value | t-1 | future rating excluded
+  xg_avg_10 | stats | last 10 | mean | t-1 | only completed matches
+  lineup_strength | lineups | latest | weighted score | T-lineup | no post-kickoff data
+
+  ---
+
+ 5. BENCHMARK PROTOKOLÜ
+
+  Her model ayni fixture setinde karilatirilacak.
+
+  Primary metrics:
+  · Log Loss
+  · Brier Score
+  · Ranked Probability Score (RPS)
+  · Calibration / ECE
+
+Global Football Forecasting -- Master Sprint Plan
+Secondary:
+· Accuracy
+· Exact score accuracy
+· ROI
+· CLV
+Raporlama:
+· global
+· league
+· season
+· model family
+· prediction horizon
+Ayrica confidence interval ve sample size gösterilecek.
+---
+
+Global Football Forecasting -- Master Sprint Plan        Sayfa 4
+S0 -- KAPSAM, REPO VE DENEY SÖZLEMES
+
+Süre: 2­3 gün
+Amaç: Kod yazmaya balamadan önce mimariyi, data contract'lari, versioning ve benchmark kurallarini kilitlemek.
+
+Görevler
+
+1. GitHub monorepo olutur.
+2. Branch, PR, issue ve commit standardini belirle.
+3. Python environment + dependency lock kur.
+4. CI: lint + tests + import check.
+5. Pydantic Fixture, FeatureSnapshot, PredictionRecord, ExperimentRecord emalari.
+6. Config yapisi: data/model/evaluation/provider.
+7. Leakage policy ve benchmark protocol dokümani.
+8. Model/version naming standardi.
+
+Çiktilar
+
+· Çalian repo
+· README
+· Architecture Decision Record
+· Schema package
+· CI pipeline
+· benchmark_protocol.md
+
+Definition of Done
+
+Temiz bir makinede kurulum çaliir; testler geçer; örnek fixture için valid prediction kaydi üretilebilir.
+
+Zorunlu testler
+
+Schema validation, config loading, probability sum, CI smoke, reproducibility.
+
+CODING-AGENT PROMPT
+
+Principal Engineer olarak yalniz S0 kapsamini uygula. Sonraki sprintlerin model veya live kodunu yazma.
+
+Monorepo olutur: apps/api, apps/dashboard, apps/worker, src/data, src/features, src/models, src/evaluation, src/ensemble, src/value, tests,
+configs, reports.
+
+Pydantic emalari olutur: Fixture, FeatureSnapshot, PredictionRecord, ExperimentRecord. PredictionRecord; fixture_id, model_id, model_version,
+feature_version, data_version, generated_at, information_cutoff, p_home, p_draw, p_away, status alanlarini taisin. Probability validation ekle.
+
+CI lint + unit tests çalitirsin. Secrets hard-code edilmesin. Benchmark protocolünde chronological/walk-forward split, proper scoring rules, leakage
+ve immutable prediction kurallarini yaz.
+
+Notebook production logic için kullanilmasin. Deien dosyalari, test sonuçlarini ve kalan TODO'lari raporla.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 5
+S1 -- HISTORICAL DATA PIPELINE
+
+Süre: 1 hafta
+Amaç: Geçmi sonuç, maç istatistii ve odds verisini reproducible biçimde canonical emaya almak.
+
+Görevler
+
+1. Historical source adapter.
+2. Raw file manifest + retrieval timestamp + checksum.
+3. League/season mapping.
+4. Team-name normalization ve canonical team_id.
+5. Fixture/result normalization.
+6. Odds normalization.
+7. Duplicate/missing/invalid-value checks.
+8. Raw  cleaned  processed katmanlari.
+9. Parquet/DuckDB dataset.
+10. Data quality report.
+
+Çiktilar
+
+Historical dataset v1, team mapping, ETL, quality report.
+
+Definition of Done
+
+En az 5 sezon ve 2 lig pipeline ile tekrar üretilebilir.
+
+Zorunlu testler
+
+Schema, idempotency, duplicate, team mapping, invalid score, quality checks.
+
+CODING-AGENT PROMPT
+
+Data Engineer olarak S1'i uygula. Önce S0 schema'larini oku.
+
+Historical CSV/API source adapter yaz. Raw veriyi source, retrieval_time, checksum, league, season metadata ile sakla. Canonical fixture/result
+schema'ya dönütür.
+
+Team mapping otomatik normalizasyon + belirsiz elemeler için review queue kullansin. Odds varsa decimal formatina normalize et fakat
+bookmaker ve timestamp'i koru.
+
+Pipeline idempotent olsun; ikinci çalitirma duplicate üretmesin. Missing deerleri sessizce 0 yapma. Data quality report: row count, null rate,
+duplicate count, invalid values, unmatched teams.
+
+ML yazma. Unit ve integration testlerini ekle. Finalde dataset kapsami ve bilinen veri problemlerini raporla.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 6
+S2 -- TEMPORAL FEATURE ENGINE
+
+Süre: 1 hafta
+Amaç: Leakage-safe ve versioned feature üretim katmani.
+
+Görevler
+
+· Form 3/5/10
+· Goals for/against rolling
+· xG/xGA rolling
+· Home/away split
+· Rest days
+· Win/loss streak
+· Opponent-strength altyapisi
+· Feature availability timestamp
+· Feature lineage
+· Leakage audit
+
+Definition of Done
+
+Belirli bir cutoff verildiinde yalniz cutoff'a kadar mevcut feature'lar üretilir.
+
+CODING-AGENT PROMPT
+
+ML Engineer olarak S2'yi uygula. Her feature için source, window, aggregation, available_at ve leakage_rule metadata'si olutur.
+
+form_points_5, goals_for_avg_5, goals_against_avg_5, xg_avg_10, xga_avg_10, home_win_rate, away_win_rate, rest_days, win_streak ve
+loss_streak üret.
+
+Current fixture rolling hesaplara girmesin. Prediction cutoff sonrasi kayitlar kullanilamasin. Yetersiz history NaN + availability flag ile temsil edilsin.
+
+Random bir cutoff seçip cutoff sonrasindaki bir kaydin feature'i etkileyip etkilemediini yakalayan leakage test harness yaz.
+
+XGBoost/LLM yazma; yalniz feature package + registry + tests.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 7
+S3 -- BASELINE BENCHMARK
+
+Süre: 4­5 gün
+Amaç: Gelimi modeller için dürüst referans oluturmak.
+
+Modeller
+
+· Always Home
+· Historical Prior
+· Recent Form Naive
+· Market Implied (odds varsa)
+
+Definition of Done
+
+Tüm baseline'lar ayni chronological test setinde ayni metrics ile raporlanir.
+
+CODING-AGENT PROMPT
+
+Evaluation Engineer olarak S3'ü uygula. always_home, historical_prior, recent_form_naive ve varsa market_implied modellerini olutur.
+
+Her model predict_proba -> [p_home,p_draw,p_away] döndürsün. Ortak evaluation runner Log Loss, Brier, RPS ve Accuracy hesaplasin.
+
+Random split kullanma. Season, league ve sample size raporla. Metricleri sentetik örneklerle test et.
+
+Baseline'i optimize etme; amaci sonraki modellerin üzerinde karilatirilacai reference üretmektir.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan                                                                                     Sayfa 8
+S4 -- ELO RATING
+
+Süre: 4­5 gün
+Amaç: Zaman içinde takim gücü için leakage-safe Elo.
+
+Görevler
+
+· Initial rating
+· Home advantage
+· K-factor
+· Optional margin adjustment
+· Rating history
+· Idempotent updates
+· Replay
+· 1X2 probability mapping
+
+CODING-AGENT PROMPT
+
+Sports Analytics Engineer olarak S4'ü uygula. Team rating state, home advantage, configurable K ve opsiyonel margin-of-victory düzeltmesi
+olutur.
+
+Rating update yalniz maç sonucundan sonra gerçeklesin. Prediction öncesi rating kullanilsin. Rating history timestamp'li saklansin. Ayni fixture iki
+kez update edilmesin.
+
+Historical replay ayni rating state'i üretmeli. Elo'yu Accuracy, Log Loss, Brier ve RPS ile deerlendir. Config ve model version metadata'sini kaydet.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 9
+S5 -- POISSON + DIXON-COLES
+
+Süre: 1 hafta
+Amaç: Gol üretim sürecinden skor ve 1X2 probability çikarmak.
+
+Görevler
+
+· Attack strength
+· Defense strength
+· Home advantage
+· Lambda home/away
+· Scoreline matrix
+· 1X2 aggregation
+· Dixon-Coles low-score correction
+· Model diagnostics
+
+CODING-AGENT PROMPT
+
+Statistical Football Modeling uzmani olarak S5'i uygula. Poisson attack/defense strengths ve home advantage tahmin et. Lambda_home ve
+lambda_away üret. Scoreline probability matrix olutur ve 1X2'ye aggregate et.
+
+Dixon-Coles low-score correction ekle. Fit yalniz training period üzerinde olsun. Probability normalization testleri yaz. Model card'a varsayimlar,
+identifiability, limitations ve training window ekle.
+
+Exact score ve 1X2 metrics raporla. Future fixture data ile fitting yapma.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 10
+S6 -- XGBOOST / LIGHTGBM + OPTUNA
+
+Süre: 1­2 hafta
+Amaç: Feature-rich ML forecasting.
+
+Görevler
+
+· 1X2 multiclass probability
+· Leakage audit
+· Chronological validation
+· Optuna
+· Early stopping
+· Calibration candidate
+· SHAP
+· Model artifacts
+
+CODING-AGENT PROMPT
+
+Senior ML Scientist olarak S6'yi uygula. S2 feature registry'den yalniz leakage-safe features kullan. XGBoost ve LightGBM multiclass probability
+modelleri kur.
+
+Train/validation/test chronological olsun. Optuna objective primary Log Loss, secondary RPS. Final test tuning sirasinda görülmeyecek. Raw
+probabilities calibration'dan önce saklanacak.
+
+Artifact metadata: training window, feature_version, dataset_version, hyperparameters, git SHA, model_version.
+
+SHAP/feature importance üret fakat model selection'i yalniz importance'a göre yapma. Determinism ve artifact reload testleri ekle.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 11
+S7 -- WALK-FORWARD BACKTEST ENGINE
+
+Süre: 1 hafta
+Amaç: Tüm modeller için tek reproducible forecasting deney motoru.
+
+Görevler
+
+· Expanding window
+· Rolling window
+· Season-by-season splits
+· Experiment registry
+· Prediction ledger
+· Model matrix execution
+· Config hashing
+
+CODING-AGENT PROMPT
+
+Research Infrastructure Lead olarak S7'yi uygula. Input: dataset_version, leagues, seasons, train strategy, validation/test windows, model list.
+
+Her split: train -> validation -> fit -> test prediction -> ledger -> metrics. Her split'in tarihleri, cutoff, model_version, feature_version ve git SHA'si
+kaydedilsin.
+
+Test prediction model selection için kullanilamaz. Expanding ve rolling seçenekleri config'ten seçilsin. Ayni config + ayni commit tekrarlandiinda
+ayni split ve metadata olumali.
+
+Prediction ledger immutable tasarlanmali.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 12
+S8 -- LLM PROBABILITY BENCHMARK
+
+Süre: 1­2 hafta
+Amaç: GPT, Claude ve Gemini'yi ayni structured snapshot altinda benchmarklamak.
+
+Görevler
+
+· Provider adapter
+· Ayni snapshot serialization
+· Strict JSON
+· p_home/draw/away
+· Prompt versioning
+· Cost/latency
+· Retry/error handling
+· Forward-only track
+
+CODING-AGENT PROMPT
+
+LLM Evaluation Researcher olarak S8'i uygula. OpenAI, Anthropic ve Google provider adapter'larini tek interface altinda birletir.
+
+Ayni structured snapshot gönder: fixture, league, kickoff, permitted historical features, permitted current information ve information_cutoff.
+
+Output JSON: home_probability, draw_probability, away_probability, confidence, short_reasoning.
+
+Prompt version, provider model, generated_at, information_cutoff, latency, token/cost metadata sakla. Malformed JSON retry et; provider calls
+testlerde mocklanmali.
+
+Historical LLM benchmark ile prospective/forward benchmarki ayir. LLM memorization riskini açikça raporla.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 13
+S9 -- CALIBRATION + RPS + LEADERBOARD
+
+Süre: 1 hafta
+Amaç: Probability quality ve model güvenilirlii.
+
+Görevler
+
+· Log Loss
+· Brier
+· RPS
+· ECE
+· Reliability curve
+· Raw vs calibrated
+· Season/league/global leaderboard
+· Confidence intervals
+
+CODING-AGENT PROMPT
+
+Forecasting Evaluation Scientist olarak S9'u uygula. Log Loss, multiclass Brier, RPS, ECE ve Accuracy implement et.
+
+Reliability curves, confidence histogram ve season/league score tablolari üret. p=0/p=1, invalid probability ve missing outcome edge-case testleri
+yaz.
+
+Raw ve calibrated predictions ayri tutulmali. Leaderboard global, league, season, model family ve horizon bazinda gösterilmeli. Tek bir overall
+winner etiketi yerine tüm metrikleri birlikte raporla.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 14
+S10 -- LLM LEAKAGE + FORWARD-ONLY BENCHMARK
+
+Süre: 1 hafta
+Amaç: LLM karilatirmasini epistemik olarak savunulabilir hale getirmek.
+
+Görevler
+
+· Information cutoff
+· Prediction lock
+· Immutable response archive
+· Post-kickoff guard
+· Snapshot hash
+· Historical/prospective experiment separation
+
+CODING-AGENT PROMPT
+
+ML Audit Lead olarak S10'u uygula. Prediction lock kaydi olutur: fixture_id, lock_time, information_cutoff, prompt_version, source_snapshot_hash,
+response_timestamp.
+
+Kickoff sonrasi prediction mutation yasak. Audit command yaz: generated_at > kickoff, cutoff > kickoff, feature available_at > cutoff, missing
+provider timestamp, changed prediction.
+
+Historical classic-model backtest ile prospective LLM benchmarki ayri experiment type olarak tutulmali. Kritik leakage kayitlarini benchmark
+sonucundan çikar ve sayisini raporla.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 15
+S11 -- OOF ENSEMBLE / META-MODEL
+
+Süre: 1­2 hafta
+Amaç: Base modellerin out-of-fold probability'lerini örenilebilir biçimde birletirmek.
+
+Base modeller
+
+Elo, Poisson, Dixon-Coles, XGBoost, LightGBM, GPT, Claude, Gemini.
+
+Deneyler
+
+· Simple average
+· Validation-weighted
+· Logistic stacking
+· LightGBM stacking
+· Calibration sonrasi ensemble
+
+CODING-AGENT PROMPT
+
+Ensemble Learning Specialist olarak S11'i uygula. Önce tüm base modeller için OOF predictions üret.
+
+Meta input: her modelin p_home/draw/away; opsiyonel confidence, league ve horizon.
+
+Compare: simple mean, validation-weighted, Logistic Regression stacking, LightGBM stacking.
+
+Final test prediction'lari meta training'e girmeyecek. Ensemble calibration ayri pipeline olacak. Season/league/horizon bazinda improvement
+raporla. Model registry base versions ve meta version'i ilikilendirsin.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan                                                                                            Sayfa 16
+S12 -- GLOBAL FIXTURE INGESTION
+
+Süre: 1­2 hafta
+Amaç: Seçili liglerde global fixture lifecycle.
+
+Görevler
+
+· Provider adapter
+· League/season discovery
+· Fixture upsert
+· Team identity
+· Rate-limit/backoff
+· Cache
+· Coverage matrix
+· Freshness monitor
+
+CODING-AGENT PROMPT
+
+Data Platform Engineer olarak S12'yi uygula. Provider adapter: leagues, seasons, fixtures; ayrica lineups/injuries/events/statistics/odds için
+interface birak.
+
+Raw response audit storage, idempotent upsert, exponential backoff, cache ve rate-limit awareness ekle. Coverage matrix
+league-season-endpoint-last_success-freshness içersin.
+
+lk etapta 10­20 veri kalitesi yüksek lig kullan. Provider error ile empty response'u ayir. Mock API integration tests yaz.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan                                                                                               Sayfa 17
+S13 -- LINEUP + INJURY PRE-MATCH FORECASTING
+
+Süre: 1 hafta
+Amaç: Yeni kadro ve availability bilgisi geldikçe prediction snapshot'i güncellemek.
+
+Snapshot aamalari
+
+· T-24h
+· T-90m
+· T-30m
+· kickoff
+
+CODING-AGENT PROMPT
+
+Football Forecasting Engineer olarak S13'ü uygula. T-24h, T-90m, T-30m ve kickoff immutable snapshot stages olutur.
+
+Lineup, formation, injuries, rest, form, Elo, xG ve market data'yi availability timestamp'ine göre kullan. Her snapshot yeni PredictionRecord
+üretmeli.
+
+Previous/current probability delta hesapla. Bir source deimeden prediction deimemesi invariantini test et. Post-kickoff data pre-match
+snapshot'a girmemeli.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan                                                                                              Sayfa 18
+S14 -- LIVE EVENT FORECASTING
+
+Süre: 1­2 hafta
+Amaç: Gol, kart, deiiklik ve canli istatistiklerle tahmini dinamik güncellemek.
+
+State
+
+minute, score, cards, substitutions, live stats.
+
+Event handling
+
+Goal, red/yellow card, substitution, halftime, fulltime.
+
+CODING-AGENT PROMPT
+
+Real-time ML Engineer olarak S14'ü uygula. Event-driven live state machine kur.
+Duplicate event iki kez uygulanmasin. Out-of-order event için deterministic reorder policy kullan. Her event/update immutable snapshot üretsin.
+lk live model basit olabilir: pre-match prior + score/time/card adjustments. Daha sonra ML live model eklenebilir.
+Replay testinde ayni event sequence ayni final state ve prediction timeline üretmeli. Latency ve missing-data durumlarini raporla.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 19
+S15 -- ODDS + DE-VIG + EV + PAPER TRADING
+
+Süre: 1­2 hafta
+Amaç: Model probability ile market probability arasindaki farki aratirma amaçli ölçmek.
+
+Aki
+
+Odds  implied probability  overround/vig  de-vig  edge  EV  paper ledger  CLV.
+
+CODING-AGENT PROMPT
+
+Quant Research Engineer olarak S15'i uygula. Decimal odds'u dorula; implied probability hesapla; overround/vig çikar; de-vig market probability
+üret; model probability ile edge hesapla; EV hesapla.
+
+Signal generation yalniz o timestamp'teki odds'u kullanmali. Closing odds yalniz CLV evaluation için kullanilmali.
+
+Paper ledger: fixture, timestamp, selection, odds, model_prob, market_prob, edge, EV, result, P&L, CLV.
+
+Fixed stake baseline ve opsiyonel fractional Kelly yalniz aratirma simülasyonu olarak tutulmali. Gerçek para execution yazma.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 20
+S16 -- MLOPS, DRIFT VE RETRAINING
+
+Süre: 1 hafta
+Amaç: Production model ve data health izleme.
+
+Monitor
+
+· Missingness
+· Data freshness
+· Feature drift
+· Probability drift
+· Calibration drift
+· Log Loss/Brier/RPS drift
+· API latency
+· LLM cost
+
+CODING-AGENT PROMPT
+
+MLOps Lead olarak S16'yi uygula. Data freshness, input missingness, feature drift, probability drift, calibration drift, performance drift, latency ve
+LLM cost monitor et.
+
+Champion/challenger modeli kur. Promotion yalniz future validation evidence ile olsun. Threshold'lar config'ten yönetilsin. Alert payload
+model_version, league, time window ve evidence içersin.
+
+Synthetic drift tests yaz ve model promotion/rejection audit log tut.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 21
+S17 -- DASHBOARD + UX
+
+Süre: 1­2 hafta
+Amaç: Aratirma çiktisini denetlenebilir kullanici ürününe çevirmek.
+
+Ekranlar
+
+1. Today
+2. Upcoming
+3. Match Detail
+4. Model Leaderboard
+5. Calibration
+6. Team Intelligence
+7. Prediction History
+
+CODING-AGENT PROMPT
+
+Product Engineer + Data Visualization Specialist olarak S17'yi uygula.
+
+Match Detail: current probabilities, model-by-model probabilities, last update, information cutoff, lineup/injury state, prediction timeline, final
+result.
+
+Leaderboard: model, league, season, Log Loss, Brier, RPS, calibration, sample size.
+
+Value view: model probability, de-vig market probability, edge, timestamp, paper-trading history.
+
+Kesin sonuç/garanti dili kullanma. Probability ve uncertainty açik göster. Empty/loading/error states tasarla. Responsive UI ve API contract tests
+ekle.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 22
+S18 -- FASTAPI + AUTH + PUBLIC API
+
+Süre: 1 hafta
+Amaç: Forecasting engine'i versioned API ürünü yapmak.
+
+Endpoint önerileri
+
+· GET /v1/fixtures
+· GET /v1/fixtures/{id}
+· GET /v1/fixtures/{id}/predictions
+· GET /v1/models
+· GET /v1/benchmarks
+· GET /v1/teams/{id}/forecast
+· GET /v1/value-research
+
+CODING-AGENT PROMPT
+
+Backend Architect olarak S18'i uygula. Versioned FastAPI API olutur.
+
+Response'larda timestamp, model_version, data_version, probabilities ve source metadata olsun. API key veya JWT, rate limit, pagination,
+consistent error schema ve OpenAPI docs ekle.
+
+DB tablolarini dorudan expose etme; service layer kullan. Contract tests, auth tests, rate-limit tests ve error tests yaz.
+
+---
+
+Global Football Forecasting -- Master Sprint Plan                                                                                         Sayfa 23
+S19 -- STARTUP MVP + RELEASE
+
+Süre: 2­3 hafta
+Amaç: Aratirma prototipini kullaniciya sunulabilir ürün ve yayinlanabilir aratirma haline getirmek.
+
+Ürün
+
+· Free: basic forecast + match intelligence
+· Pro: model comparison + calibration + history + alerts + advanced analytics
+· API: developer access
+· B2B: media/scout/club intelligence
+
+Production
+
+· Docker
+· environment separation
+· secrets
+· backups
+· monitoring
+· rollback
+· CI/CD
+
+Research release
+
+· methodology
+· data sources
+· leakage controls
+· walk-forward protocol
+· metrics
+· calibration
+· limitations
+· model cards
+· reproducibility
+
+CODING-AGENT PROMPT
+
+Startup CTO + Research Lead olarak S19'u tamamla. Ürünü Football Forecasting & Intelligence Platform olarak konumlandir; kesin bahis garantisi
+dili kullanma.
+
+Free/Pro/API feature matrix olutur. Production deployment için Docker, environment separation, secrets management, backups, monitoring ve
+rollback ekle.
+
+Final research report: methodology, datasets, leakage controls, split protocol, metrics, calibration, limitations, model cards ve reproducibility
+instructions.
+
+Final demo akii: upcoming fixture  prediction  model comparison  lineup update  live event  result  evaluation  leaderboard 
+paper-trading report.
+
+Yeni feature eklemek yerine stability, security ve reproducibility öncelikli olsun.
+
+---
+
+6. ORTAK TEST STRATEJS
+
+Her sprintte dört test katmani:
+1. Unit: küçük fonksiyonlar ve matematik.
+2. Integration: data  feature  model  DB akii.
+3. Regression: önceki benchmark sonuçlarinin beklenmedik bozulmasi.
+4. Replay/reproducibility: ayni input + version  ayni output.
+Kritik invariant'lar:
+· Probability toplami = 1.
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 24
+· Future data feature'i etkileyemez.
+· Locked prediction deiemez.
+· Ayni event iki kez state'i iki kez deitiremez.
+· Ayni ingestion iki kez duplicate üretmez.
+· Test seti training/tuning'e giremez.
+· OOF olmadan stacking yapilamaz.
+---
+
+7. MVP KESM ÇZGS
+
+lk gerçek demo için:
+· 1­2 kaliteli lig
+· 5+ sezon
+· Home baseline
+· Elo
+· Poisson
+· XGBoost
+· En az 1 LLM
+· Walk-forward benchmark
+· Log Loss/Brier/RPS/Accuracy
+· Match detail dashboard
+· Model leaderboard
+· Result evaluation
+· Paper trading yoksa bile value engine için data hazirlii
+Global ölçek ve live complexity, bu çekirdek benchmark güvenilir olduktan sonra açilmali.
+---
+
+8. 24­32 HAFTALIK ÖRNEK TAKVM
+
+Dönem                                              Sprint   Milestone
+Hafta 1                                            S0       Repo + protocol
+Hafta 2                                            S1­S2    Historical data + feature engine
+Hafta 3                                            S3­S5    Baseline + Elo + statistical models
+Hafta 4­5                                          S6­S7    ML + walk-forward
+Hafta 6­8                                          S8­S10   LLM + calibration + leakage
+Hafta 9­10                                         S11      Ensemble
+Hafta 11­13                                        S12      Global ingestion
+Hafta 14­15                                        S13­S14  Pre-match + live
+Hafta 16­17                                        S15­S16  Value + MLOps
+Hafta 18­19                                        S17­S18  Dashboard + API
+Hafta 20­23                                        S19      Startup MVP
+Hafta 24­32                                        Buffer   Scale + advanced research
+
+---
+
+9. LER SEVYE V2 FKRLER
+
+· Hierarchical Bayesian team strength
+· Time-varying team strength
+· Player-level lineup quality
+
+Global Football Forecasting -- Master Sprint Plan                                                Sayfa 25
+· Transformer sequence model
+· Conformal prediction / uncertainty sets
+· Counterfactual lineup analysis
+· Odds movement model
+· Public model-submission benchmark
+· Research API
+· Team/scout intelligence
+· League-specific calibration
+· Champion/challenger automated retraining
+---
+
+10. FINAL RELEASE CHECKLIST
+
+Data: source, license/terms, freshness, schema, team mapping.
+Leakage: temporal audit temiz, final test untouched.
+Models: versioned artifacts + model cards.
+LLM: provider/model/prompt/timestamp/cost kayitlari.
+Evaluation: Log Loss + Brier + RPS + calibration + accuracy.
+Backtest: walk-forward reproducible.
+Ensemble: OOF leakage-free.
+Live: fixture/event lifecycle stable.
+Value: paper trading + CLV + drawdown.
+API: auth + versioning + rate limit + docs.
+UI: match + comparison + history + errors.
+MLOps: logs + drift + freshness.
+Research: methodology + limitations + reproducibility.
+Startup: positioning + pricing hypothesis + analytics.
+---
+
+NHA GELTRME SIRASI
+
+Veri doruluu  Leakage kontrolü  Baseline  Elo/Poisson/Dixon-Coles  XGBoost/LightGBM 
+Walk-forward  LLM benchmark  Calibration  Ensemble  Global data  Live  Value engine 
+Dashboard/API  Startup.
+
+Slogan: Predict the probability. Benchmark the models. Measure the edge.
+Doküman sürümü: Master Plan v2.0 -- 25 Eylül 2026
+
+Global Football Forecasting -- Master Sprint Plan  Sayfa 26
+

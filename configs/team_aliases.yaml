@@ -1,0 +1,37 @@
+# country code -> {source name as it appears in raw data: canonical name}
+# Unknown names that are close (>=0.85) to a known team go to the review queue;
+# add the mapping here and rerun the pipeline to resolve them.
+ENG:
+  Man City: Manchester City
+  Man United: Manchester United
+  Nott'm Forest: Nottingham Forest
+  Sheffield United: Sheffield United
+  Sheffield Weds: Sheffield Wednesday
+  West Brom: West Bromwich Albion
+  Wolves: Wolverhampton Wanderers
+  Tottenham: Tottenham Hotspur
+  Newcastle: Newcastle United
+  Leicester: Leicester City
+  Leeds: Leeds United
+  Norwich: Norwich City
+  Brighton: Brighton & Hove Albion
+  Huddersfield: Huddersfield Town
+  Cardiff: Cardiff City
+  Luton: Luton Town
+  West Ham: West Ham United
+  Bournemouth: AFC Bournemouth
+  Ipswich: Ipswich Town
+ESP:
+  Ath Bilbao: Athletic Bilbao
+  Ath Madrid: Atletico Madrid
+  Betis: Real Betis
+  Celta: Celta Vigo
+  Espanol: Espanyol
+  Sociedad: Real Sociedad
+  Vallecano: Rayo Vallecano
+  Valladolid: Real Valladolid
+  Alaves: Deportivo Alaves
+  Leganes: Leganes
+  Cadiz: Cadiz
+  Almeria: Almeria
+  Sp Gijon: Sporting Gijon

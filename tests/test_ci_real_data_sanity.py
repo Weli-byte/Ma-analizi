@@ -2,11 +2,14 @@
 (not just as a standalone CI script) — and a staleness guard for its committed requirements.lock
 copy, which must never silently drift from the project's real lock file."""
 
+import sys
 from pathlib import Path
 
-from scripts.ci_real_data_sanity import FIXTURE_ROOT, run_sanity
-
 REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:  # `scripts/` isn't an installed package; CI runs bare
+    sys.path.insert(0, str(REPO_ROOT))  # `pytest` (no CWD auto-insertion), unlike `python -m pytest`
+
+from scripts.ci_real_data_sanity import FIXTURE_ROOT, run_sanity  # noqa: E402
 
 
 def test_fixture_lock_matches_project_lock():

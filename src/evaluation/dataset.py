@@ -25,6 +25,8 @@ class EvalRow:
     unavailable_reasons: dict[str, str] = field(default_factory=dict)
     # "<snapshot_type>:<source>" -> (H, D, A) decimal odds; source is a bookmaker code or agg_avg/agg_max
     odds: dict[str, tuple[float, float, float]] = field(default_factory=dict)
+    home_goals: int | None = None  # FINISHED-match result; only used post-hoc to fit/update models
+    away_goals: int | None = None
 
 
 def load_rows(
@@ -38,7 +40,8 @@ def load_rows(
     con = open_db(ref.db_path)
     marks = ",".join("?" * len(seasons))
     fx = con.execute(
-        "SELECT f.fixture_id, f.league_id, f.season, f.kickoff_utc, f.home_id, f.away_id, r.outcome "
+        "SELECT f.fixture_id, f.league_id, f.season, f.kickoff_utc, f.home_id, f.away_id, r.outcome, "
+        "r.home_goals, r.away_goals "
         "FROM fixtures f JOIN results r USING (fixture_id) "
         f"WHERE f.season IN ({marks}) ORDER BY f.kickoff_utc, f.fixture_id",
         seasons,
@@ -55,7 +58,7 @@ def load_rows(
     con.close()
 
     rows = []
-    for fid, league, season, kickoff, home, away, outcome in fx:
+    for fid, league, season, kickoff, home, away, outcome, home_goals, away_goals in fx:
         book_odds = {k: (v["H"], v["D"], v["A"]) for k, v in odds.get(fid, {}).items() if len(v) == 3}
         rows.append(
             EvalRow(
@@ -69,6 +72,8 @@ def load_rows(
                 dict(features.rows.get(fid, {})) if features else {},
                 dict(features.reasons.get(fid, {})) if features else {},
                 book_odds,
+                home_goals,
+                away_goals,
             )
         )
     return rows

@@ -43,13 +43,14 @@ containers) · `src/config` (typed YAML, all fields consumed or reserved) · `sr
 manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_resolution, timezones) ·
 `src/features` (history, compute, registry, builder, artifact, availability, leakage_audit) ·
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, final) ·
-`src/models` (baselines.py, elo.py) · `src/provenance.py`, `src/runmode.py` · `configs/` · `docs/adr/0001-0012` ·
-`tests/fixtures/golden`.
+`src/models` (baselines.py, elo.py, poisson_dc.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
+`docs/adr/0001-0012` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).
 - [x] S4 Elo (`src/models/elo.py`, `tests/test_elo.py`, `docs/baselines.md`).
-- [ ] S5 Poisson/DC · S6 XGB/LGBM · S7 walk-forward · S8 LLM · S9 calibration · S10 LLM leakage ·
+- [x] S5 Poisson/Dixon-Coles (`src/models/poisson_dc.py`, `tests/test_poisson_dc.py`, `docs/poisson_dc.md`).
+- [ ] S6 XGB/LGBM · S7 walk-forward · S8 LLM · S9 calibration · S10 LLM leakage ·
       S11 ensemble · S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
       S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

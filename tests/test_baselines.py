@@ -25,10 +25,15 @@ def settings(mode=RunMode.RESEARCH, max_rate=1.0, samples=20):
     return EvalSettings(mode, METRICS, 5, samples, 3, max_rate)
 
 
-def row(i, outcome, league="EPL", season="2023-24", day=0, feats=None, odds=None, reasons=None):
+_DEFAULT_SCORE = {0: (2, 0), 1: (1, 1), 2: (0, 2)}  # H, D, A -> a plausible (home, away) scoreline
+
+
+def row(i, outcome, league="EPL", season="2023-24", day=0, feats=None, odds=None, reasons=None,
+        goals=None):  # fmt: skip
+    hg, ag = goals if goals is not None else _DEFAULT_SCORE[outcome]
     return EvalRow(
         f"f{i}", league, season, T0 + timedelta(days=day + i), f"h{i}", f"a{i}", outcome,
-        feats or {}, reasons or {}, odds or {},
+        feats or {}, reasons or {}, odds or {}, hg, ag,
     )  # fmt: skip
 
 
@@ -83,6 +88,8 @@ def test_model_registry_and_build_models():
         "recent_form_naive",
         "market_implied",
         "elo",
+        "poisson",
+        "dixon_coles",
     }
     assert [m.model_id for m in build_models(["market_implied", "always_home"])] == [
         "market_implied",
@@ -90,7 +97,7 @@ def test_model_registry_and_build_models():
     ]
     with pytest.raises(KeyError, match="unknown model"):
         build_models(["mystery"])
-    assert len(default_baselines()) == 5
+    assert len(default_baselines()) == 7
 
 
 def test_runner_common_set_groups_ci_and_availability():

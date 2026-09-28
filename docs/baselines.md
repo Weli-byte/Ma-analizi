@@ -24,6 +24,10 @@ train 2019-20..2021-22 · validation 2022-23..2023-24 (baselines are reported he
   chronologically-ordered rows always reproduces the same rating state (tested in `tests/test_elo.py`). Rating
   difference → 1X2 probability via a 3-outcome ordinal-logit ("proportional odds") mapping fitted once on the
   training replay only.
+- `poisson` / `dixon_coles` (S5, `src/models/poisson_dc.py`, model card `docs/poisson_dc.md`) — attack/defense/
+  home-advantage Poisson goal model fit by iterative proportional fitting on the training period only;
+  `dixon_coles` adds the low-score correlation correction (fitted `rho`). Full scoreline probability matrix via
+  `scoreline_matrix()`; 1X2 = triangular/diagonal sums.
 
 ## Metrics
 Log Loss (clip 1e-15), multiclass Brier, RPS (ordered H<D<A), top-label ECE (`calibration_bins`), Accuracy

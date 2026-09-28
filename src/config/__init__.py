@@ -110,11 +110,19 @@ class EloConfig(_Cfg):
     use_margin_of_victory: bool = False  # off by default: no goal-margin feature exists yet
 
 
+class PoissonConfig(_Cfg):
+    """S5: Poisson / Dixon-Coles goal model hyperparameters. Recorded into ExperimentRecord.config."""
+
+    max_goals: int = Field(default=10, ge=1)
+    ipf_sweeps: int = Field(default=40, ge=1)  # iterative proportional fitting sweeps
+
+
 class ModelConfig(_Cfg):
     seed: int = 42
     feature_version: str
     models: list[str]
     elo: EloConfig = EloConfig()
+    poisson: PoissonConfig = PoissonConfig()
 
 
 # ---------------------------------------------------------- evaluation

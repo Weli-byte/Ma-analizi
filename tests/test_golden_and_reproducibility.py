@@ -25,15 +25,19 @@ def chain(tmp_path_factory):
 
 
 def test_golden_summary_matches(chain):
+    """Exact-hash checked for: the data/feature layer (always deterministic) and predictions
+    from CLOSED-FORM models only (`golden_util.CLOSED_FORM_MODELS`). `predictions_sha256` /
+    `metrics_sha256` / `report_json_sha256` are NOT asserted exactly: they include elo/poisson/
+    dixon_coles, whose iterative floating-point fits can differ in the last bit depending on
+    which CPU a CI runner happens to land on (confirmed empirically across separate GitHub
+    Actions runs on the identical commit — see ADR-0017's second amendment). Their correctness
+    is instead verified by `test_golden_metrics_match_with_tolerance` below."""
     _, summary = chain
     expected = json.loads((GOLDEN_DIR / "golden.json").read_text(encoding="utf-8"))
     for key in ("data_version", "dataset_content_hash", "table_hashes", "features_content_hash",
-                "features_rows", "n_predictions"):  # fmt: skip
+                "features_rows", "n_predictions", "closed_form_predictions_sha256"):  # fmt: skip
         assert summary[key] == expected[key], f"{key} changed - {UPDATE_HINT}"
-    assert summary["predictions_sha256"] == expected["predictions_sha256"], UPDATE_HINT
     assert summary["report_sha256"] == expected["report_sha256"], UPDATE_HINT
-    assert summary["report_json_sha256"] == expected["report_json_sha256"], UPDATE_HINT
-    assert summary["metrics_sha256"] == expected["metrics_sha256"], UPDATE_HINT
 
 
 def test_golden_metrics_match_with_tolerance(chain):

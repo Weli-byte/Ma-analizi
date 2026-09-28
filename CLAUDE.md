@@ -33,6 +33,7 @@ python -m ruff check .
 python -m src.data.pipeline --mode strict     # atomic, content-versioned dataset
 python -m src.features.builder --mode strict
 python -m src.evaluation.run_baselines --mode strict
+python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season-by-season backtest
 python -m src.data.team_resolution review     # unresolved team names
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
@@ -42,7 +43,7 @@ Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed)
 containers) · `src/config` (typed YAML, all fields consumed or reserved) · `src/data` (download, raw_validation,
 manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_resolution, timezones) ·
 `src/features` (history, compute, registry, builder, artifact, availability, leakage_audit) ·
-`src/evaluation` (metrics, context, split, dataset, runner, run_baselines, final) ·
+`src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
 `src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
 `docs/adr/0001-0012` · `tests/fixtures/golden`.
 
@@ -51,7 +52,8 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 - [x] S4 Elo (`src/models/elo.py`, `tests/test_elo.py`, `docs/baselines.md`).
 - [x] S5 Poisson/Dixon-Coles (`src/models/poisson_dc.py`, `tests/test_poisson_dc.py`, `docs/poisson_dc.md`).
 - [x] S6 XGBoost/LightGBM + Optuna (`src/models/gbm.py`, `tests/test_gbm.py`, `docs/gbm.md`).
-- [ ] S7 walk-forward · S8 LLM · S9 calibration · S10 LLM leakage ·
+- [x] S7 walk-forward engine (`src/evaluation/walk_forward.py`, `tests/test_walk_forward.py`, `docs/walk_forward.md`).
+- [ ] S8 LLM · S9 calibration · S10 LLM leakage ·
       S11 ensemble · S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
       S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

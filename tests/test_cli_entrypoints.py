@@ -9,6 +9,7 @@ from src.data import checksums, download
 from src.data import pipeline as pipeline_cli
 from src.evaluation import final as final_cli
 from src.evaluation import run_baselines as baselines_cli
+from src.evaluation import walk_forward as walk_forward_cli
 from src.features import builder as builder_cli
 
 GOOD = (
@@ -30,6 +31,8 @@ def test_full_cli_chain(project, capsys):
     assert baselines_cli.main([*root, "--mode", "strict"]) == 0
     text = capsys.readouterr().out
     assert "Baseline benchmark" in text and "reference_market_baseline" in text and "[95% CI]" in text
+    assert walk_forward_cli.main([*root, "--mode", "strict"]) == 0
+    assert "folds; results written to" in capsys.readouterr().out
     assert final_cli.main([*root]) == 0  # the final path itself (clean tree, final mode)
     assert "final results written" in capsys.readouterr().out
     assert final_cli.main([*root]) == 2  # spent: refused
@@ -121,6 +124,7 @@ def test_python_m_entrypoints_import_without_side_effects():
         "src.data.team_resolution",
         "src.features.builder",
         "src.evaluation.run_baselines",
+        "src.evaluation.walk_forward",
         "src.evaluation.final",
     ):
         mod = importlib.import_module(name)
@@ -129,7 +133,9 @@ def test_python_m_entrypoints_import_without_side_effects():
 
 
 @pytest.mark.parametrize(
-    "module", ["src.data.pipeline", "src.features.builder", "src.evaluation.run_baselines"]
+    "module",
+    ["src.data.pipeline", "src.features.builder", "src.evaluation.run_baselines",
+     "src.evaluation.walk_forward"],  # fmt: skip
 )
 def test_python_dash_m_runs_without_runpy_warnings(module, tmp_path):
     import subprocess

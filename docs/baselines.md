@@ -28,6 +28,10 @@ train 2019-20..2021-22 · validation 2022-23..2023-24 (baselines are reported he
   home-advantage Poisson goal model fit by iterative proportional fitting on the training period only;
   `dixon_coles` adds the low-score correlation correction (fitted `rho`). Full scoreline probability matrix via
   `scoreline_matrix()`; 1X2 = triangular/diagonal sums.
+- `xgboost` / `lightgbm` (S6, `src/models/gbm.py`, model card `docs/gbm.md`) — multiclass boosters on the S2
+  leakage-safe feature set only, chronological internal validation split, Optuna-tuned (primary objective log
+  loss, RPS secondary), early stopping, SHAP diagnostics (informational only), deterministic given a seed,
+  artifact `dump()`/`load()` roundtrip.
 
 ## Metrics
 Log Loss (clip 1e-15), multiclass Brier, RPS (ordered H<D<A), top-label ECE (`calibration_bins`), Accuracy

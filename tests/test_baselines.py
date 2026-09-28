@@ -90,6 +90,8 @@ def test_model_registry_and_build_models():
         "elo",
         "poisson",
         "dixon_coles",
+        "xgboost",
+        "lightgbm",
     }
     assert [m.model_id for m in build_models(["market_implied", "always_home"])] == [
         "market_implied",
@@ -97,11 +99,11 @@ def test_model_registry_and_build_models():
     ]
     with pytest.raises(KeyError, match="unknown model"):
         build_models(["mystery"])
-    assert len(default_baselines()) == 7
+    assert len(default_baselines()) == 9
 
 
 def test_runner_common_set_groups_ci_and_availability():
-    train = [row(i, i % 3, day=-400) for i in range(9)]
+    train = [row(i, i % 3, day=-400) for i in range(24)]  # >= GBM's MIN_TRAIN_ROWS
     feats = {"home_form_points_5": 5.0, "away_form_points_5": 5.0}
     test = [
         row(100, 0, "EPL", odds={"closing:agg_avg": (2.0, 3.5, 4.0)}, feats=feats),

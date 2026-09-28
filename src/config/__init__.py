@@ -117,12 +117,23 @@ class PoissonConfig(_Cfg):
     ipf_sweeps: int = Field(default=40, ge=1)  # iterative proportional fitting sweeps
 
 
+class GBMConfig(_Cfg):
+    """S6: XGBoost/LightGBM hyperparameter-search hyperparameters (not the model's own
+    hyperparameters — those come out of Optuna and are recorded in ExperimentRecord.config)."""
+
+    seed: int = 42
+    n_optuna_trials: int = Field(default=8, ge=0)
+    validation_fraction: float = Field(default=0.15, gt=0, lt=1)
+    early_stopping_rounds: int = Field(default=20, ge=1)
+
+
 class ModelConfig(_Cfg):
     seed: int = 42
     feature_version: str
     models: list[str]
     elo: EloConfig = EloConfig()
     poisson: PoissonConfig = PoissonConfig()
+    gbm: GBMConfig = GBMConfig()
 
 
 # ---------------------------------------------------------- evaluation

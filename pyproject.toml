@@ -14,6 +14,12 @@ dependencies = [
     "duckdb>=1.0",
     "tzdata",
     "pytz",
+    "xgboost>=2",
+    "lightgbm>=4",
+    "optuna>=3",
+    "shap>=0.44",
+    "numba>=0.60",  # shap's transitive dep; pinned up so uv's universal resolver doesn't pick
+    "llvmlite>=0.43",  # an ancient numba/llvmlite pair that predates our numpy/python versions
 ]
 
 [project.optional-dependencies]

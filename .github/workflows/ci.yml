@@ -2,6 +2,17 @@ name: ci
 on:
   push:
   pull_request:
+env:
+  # Pin BLAS/OpenMP to 1 thread everywhere in this workflow: multi-threaded reductions (np.sum
+  # etc, used heavily by Elo's gradient ascent and Poisson's IPF) are not guaranteed associative,
+  # so thread scheduling can change the last bit of a float sum run-to-run under concurrent CI
+  # load -- enough to change a golden-chain SHA256 hash even though every metric value still
+  # matches to 1e-8. Must match .github/workflows/regenerate-golden.yml. See ADR-0017 amendment
+  # / reports/remediation/S0_S7_HARDENING_AUDIT.md (Phase 4 finding).
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
 jobs:
   test:
     runs-on: ubuntu-latest

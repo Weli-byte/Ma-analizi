@@ -45,7 +45,7 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 `src/features` (history, compute, registry, builder, artifact, availability, leakage_audit) ·
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
 `src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
-`docs/adr/0001-0016` · `tests/fixtures/golden`.
+`docs/adr/0001-0017` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).

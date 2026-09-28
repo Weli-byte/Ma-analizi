@@ -1,3 +1,7 @@
 seed: 7
 feature_version: fv2
-models: [always_home, historical_prior, recent_form_naive, market_implied]
+# xgboost/lightgbm are deliberately NOT in the golden chain: this synthetic project has only 12
+# rows per season, below GBMModel.MIN_TRAIN_ROWS=20 (a real leakage/robustness guard, not
+# something to relax just to fit this fixture — see ADR-0017 and docs/golden_coverage.md). Their
+# determinism is instead proven at real-data scale by the Phase 3 real-data-sanity layer.
+models: [always_home, historical_prior, recent_form_naive, market_implied, elo, poisson, dixon_coles]

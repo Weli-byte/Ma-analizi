@@ -81,13 +81,13 @@ def test_predictions_are_immutable_records_with_full_provenance(chain):
 
     lines = (run_dirs[0] / "predictions.jsonl").read_text().strip().splitlines()
     recs = [PredictionRecord.from_json(ln) for ln in lines]  # verifies stored identity hashes
-    assert len(recs) == 48 and {r.status.value for r in recs} == {"evaluated"}
+    assert len(recs) == 84 and {r.status.value for r in recs} == {"evaluated"}  # 12 rows x 7 models
     ref = resolve_dataset(root / "data" / "processed")
     assert {r.data_version for r in recs} == {ref.data_version} and {r.feature_version for r in recs} == {
         "fv2"
     }
     assert all(r.information_cutoff <= r.kickoff_utc and r.generated_at <= r.kickoff_utc for r in recs)
-    assert len({r.prediction_id for r in recs}) == 48  # content-derived ids are unique here
+    assert len({r.prediction_id for r in recs}) == 84  # content-derived ids are unique here
     exp = json.loads(next((run_dirs[0] / "experiments").glob("market_implied.json")).read_text())
     for key in (
         "git_sha",

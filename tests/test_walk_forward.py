@@ -74,12 +74,13 @@ def test_walk_forward_runs_one_fold_per_config_and_writes_artifacts(built):
     assert len(out.fold_results) == 1  # golden config: 1 train + 1 validation season, min_train=1
     fr = out.fold_results[0]
     assert fr.fold.test_season == "2022-23" and fr.fold.train_seasons == ("2021-22",)
-    assert set(fr.metrics) == {"always_home", "historical_prior", "recent_form_naive", "market_implied"}
+    assert set(fr.metrics) == {"always_home", "historical_prior", "recent_form_naive", "market_implied",
+                                "elo", "poisson", "dixon_coles"}  # fmt: skip
     assert (out.out_dir / "predictions.jsonl").exists()
     assert (out.out_dir / "report.json").exists()
     assert (out.out_dir / "split_manifest.json").exists()
     experiments = list((out.out_dir / "experiments").glob("fold0_*.json"))
-    assert len(experiments) == 4
+    assert len(experiments) == 7
 
 
 def test_predictions_are_immutable_and_carry_fold_provenance(built):

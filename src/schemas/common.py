@@ -21,18 +21,32 @@ class Outcome(StrEnum):
 
 
 class FixtureStatus(StrEnum):
+    """Match lifecycle (ADR 0006)."""
+
     SCHEDULED = "scheduled"
-    LIVE = "live"
-    FINISHED = "finished"
     POSTPONED = "postponed"
+    IN_PROGRESS = "in_progress"
+    FINISHED = "finished"
+    ABANDONED = "abandoned"
     CANCELLED = "cancelled"
+    RESCHEDULED = "rescheduled"
+
+
+class SeasonStatus(StrEnum):
+    """Data-completeness category of a league-season (ADR 0012)."""
+
+    HISTORICAL_COMPLETE = "historical_complete"
+    CURRENT_PARTIAL = "current_partial"
+    FUTURE_FIXTURE = "future_fixture"
+    INCOMPLETE_HISTORICAL = "incomplete_historical"  # season is over but matches are missing (error)
 
 
 class PredictionStatus(StrEnum):
-    CREATED = "created"
+    DRAFT = "draft"
+    PUBLISHED = "published"
     LOCKED = "locked"
     EVALUATED = "evaluated"
-    INVALID = "invalid"
+    VOID = "void"
 
 
 class ExperimentType(StrEnum):
@@ -41,6 +55,7 @@ class ExperimentType(StrEnum):
 
 
 class ImmutableModel(BaseModel):
-    """Base for records that must never mutate after creation."""
+    """Base for records that must never mutate after creation (attribute level; nested containers
+    are frozen via schemas.frozen types)."""
 
     model_config = ConfigDict(frozen=True, extra="forbid")

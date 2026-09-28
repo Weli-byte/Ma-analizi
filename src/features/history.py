@@ -1,41 +1,46 @@
 """Cutoff-driven match history. The ONLY way features see the past.
 
-A match becomes usable only once its result is available:
-    available_at = kickoff + RESULT_LAG   and   available_at <= cutoff.
-So anything that happens after the prediction cutoff (including the current fixture itself)
-is invisible by construction.
+A match becomes usable only once its RESULT is available:
+    result_available_at_utc <= information_cutoff   and   status == FINISHED.
+Postponed / cancelled / abandoned / scheduled matches never enter the history. The current
+fixture and everything later are invisible by construction. For historical data the availability
+time is INFERRED (kickoff + provisional lag, ADR 0006), not observed.
 """
 
 from bisect import bisect_right
-from dataclasses import dataclass
-from datetime import datetime, timedelta
+from collections.abc import Mapping
+from dataclasses import dataclass, field
+from datetime import datetime
+from types import MappingProxyType
 
-RESULT_LAG = timedelta(hours=3)  # conservative: match over + result published
+from src.schemas import FixtureStatus
 
 
 @dataclass(frozen=True)
 class MatchRecord:
     fixture_id: str
+    season: str
     kickoff_utc: datetime
     home_id: str
     away_id: str
-    home_goals: int
-    away_goals: int
-    home_xg: float | None = None
-    away_xg: float | None = None
+    home_goals: int | None
+    away_goals: int | None
+    result_available_at_utc: datetime | None
+    status: FixtureStatus = FixtureStatus.FINISHED
+    # post-match stats / market data, loaded ONLY so the leakage audit can prove features ignore them
+    extras: Mapping[str, float] = field(default_factory=lambda: MappingProxyType({}))
 
 
 @dataclass(frozen=True)
 class TeamMatch:
     fixture_id: str
+    season: str
     kickoff_utc: datetime
     available_at: datetime
     is_home: bool
     opp_id: str
     gf: int
     ga: int
-    xg_for: float | None
-    xg_against: float | None
 
     @property
     def points(self) -> int:
@@ -45,34 +50,41 @@ class TeamMatch:
 class MatchHistory:
     def __init__(self, matches: list[MatchRecord]):
         per_team: dict[str, list[TeamMatch]] = {}
+        all_avail: list[tuple[datetime, str]] = []
         for m in matches:
-            avail = m.kickoff_utc + RESULT_LAG
+            avail = m.result_available_at_utc
+            if (
+                m.status != FixtureStatus.FINISHED
+                or avail is None
+                or m.home_goals is None
+                or m.away_goals is None
+            ):
+                continue  # only finished matches with a known result time are history
             per_team.setdefault(m.home_id, []).append(
                 TeamMatch(
                     m.fixture_id,
+                    m.season,
                     m.kickoff_utc,
                     avail,
                     True,
                     m.away_id,
                     m.home_goals,
                     m.away_goals,
-                    m.home_xg,
-                    m.away_xg,
                 )
             )
             per_team.setdefault(m.away_id, []).append(
                 TeamMatch(
                     m.fixture_id,
+                    m.season,
                     m.kickoff_utc,
                     avail,
                     False,
                     m.home_id,
                     m.away_goals,
                     m.home_goals,
-                    m.away_xg,
-                    m.home_xg,
                 )
             )
+            all_avail.append((avail, m.season))
         self._matches: dict[str, list[TeamMatch]] = {}
         self._keys: dict[str, list[datetime]] = {}
         self._cum_points: dict[str, list[int]] = {}
@@ -84,11 +96,19 @@ class MatchHistory:
             for x in ms:
                 cum.append(cum[-1] + x.points)
             self._cum_points[team] = cum
+        all_avail.sort()
+        self._all_keys = [a for a, _ in all_avail]
+        self._all_seasons = [s for _, s in all_avail]
 
     def eligible(self, team: str, cutoff: datetime, exclude: str | None = None) -> list[TeamMatch]:
         """Team's matches whose result was available at cutoff, oldest first."""
         idx = bisect_right(self._keys.get(team, []), cutoff)
         return [m for m in self._matches.get(team, [])[:idx] if m.fixture_id != exclude]
+
+    def has_prior_season(self, cutoff: datetime, season: str) -> bool:
+        """Is any match of an EARLIER season available at cutoff? (diagnostic for NaN reasons)"""
+        idx = bisect_right(self._all_keys, cutoff)
+        return any(s < season for s in self._all_seasons[:idx])
 
     def ppg(self, team: str, cutoff: datetime, min_matches: int) -> tuple[float, datetime] | None:
         """Points per game over all matches available at cutoff, plus latest availability."""

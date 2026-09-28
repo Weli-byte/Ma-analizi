@@ -1,0 +1,4 @@
+feature_version: fv2
+rest_days_cap: 30
+result_lag_hours: 3
+cutoff_offset_hours: 0

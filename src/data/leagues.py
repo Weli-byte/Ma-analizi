@@ -1,24 +1,6 @@
-"""League / season mapping for the football-data.co.uk source."""
+"""League/season helpers. Formats live in configs/leagues.yaml (LeagueFormat), never in code."""
 
-from dataclasses import dataclass
-
-
-@dataclass(frozen=True)
-class League:
-    league_id: str
-    source_code: str  # football-data "Div" / file code
-    country: str  # ISO-ish 3 letter, used in team ids
-    country_name: str
-    name: str
-    tier: int
-    matches_per_season: int
-
-
-LEAGUES: dict[str, League] = {
-    "EPL": League("EPL", "E0", "ENG", "England", "Premier League", 1, 380),
-    "LALIGA": League("LALIGA", "SP1", "ESP", "Spain", "La Liga", 1, 380),
-}
-BY_SOURCE_CODE = {lg.source_code: lg for lg in LEAGUES.values()}
+from src.config import LeagueFormat
 
 
 def season_from_code(code: str) -> str:
@@ -33,4 +15,16 @@ def season_from_code(code: str) -> str:
 
 def season_to_code(season: str) -> str:
     """'2023-24' -> '2324'."""
+    if len(season) != 7 or season[4] != "-":
+        raise ValueError(f"invalid season {season!r}")
     return season[2:4] + season[5:7]
+
+
+def season_start_year(season: str) -> int:
+    return int(season[:4])
+
+
+def season_date_window(season: str, fmt: LeagueFormat) -> tuple[tuple[int, int], tuple[int, int]]:
+    """((start_year, start_month), (end_year, end_month)) within which matches may fall."""
+    y = season_start_year(season)
+    return (y, fmt.season_start_month), (y + 1, fmt.season_end_month)

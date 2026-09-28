@@ -1,3 +1,17 @@
 seed: 42
-feature_version: fv1
-models: [always_home]
+feature_version: fv2
+models: [always_home, historical_prior, recent_form_naive, market_implied, elo, poisson, dixon_coles,
+         xgboost, lightgbm]
+elo:
+  initial_rating: 1500.0
+  k_factor: 20.0
+  home_advantage: 60.0
+  use_margin_of_victory: false
+poisson:
+  max_goals: 10
+  ipf_sweeps: 40
+gbm:
+  seed: 42
+  n_optuna_trials: 8
+  validation_fraction: 0.15
+  early_stopping_rounds: 20

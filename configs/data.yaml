@@ -1,5 +1,14 @@
-raw_dir: data/raw
+raw_dir: data/raw/football_data
 processed_dir: data/processed
-data_version: dv1
+provenance_dir: data/provenance/football_data
+expected_checksums: data/expected_checksums.json
 leagues: [EPL, LALIGA]
-seasons: ["2019-20", "2020-21", "2021-22", "2022-23", "2023-24"]
+seasons: ["2019-20", "2020-21", "2021-22", "2022-23", "2023-24", "2024-25", "2025-26", "2026-27"]
+as_of: null              # null -> today (UTC)
+team_resolution:
+  auto_register_new_teams: false
+  suggest_cutoff: 0.6
+acknowledged_anomalies:   # reviewed source oddities; they stay in the report but do not block STRICT
+  - check: Q17
+    match: LALIGA_2025-26_20250816_ESP_mallorca_ESP_barcelona
+    reason: "aggregate closing odds sum to an implied probability of 0.929 (<0.95) in the source; reviewed, source data error, odds not used for signals"

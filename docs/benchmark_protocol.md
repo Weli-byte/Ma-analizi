@@ -6,13 +6,16 @@ Main output = 1X2 probability distribution `[p_home, p_draw, p_away]`. Not "matc
 - Chronological / walk-forward only. **No random split. Ever.**
 - Expanding or rolling window (config `evaluation.split_strategy`).
 - Each split: train -> validation -> fit -> test prediction -> ledger -> metrics.
-- Final test set is untouchable: no model selection, no hyperparameter tuning on it.
-  Config enforces `final_test_touched: false`.
+- Final test set is untouchable: no model selection, no hyperparameter tuning on it. It is technically
+  locked: only `run_final_evaluation()` (FINAL run mode, clean git tree, one run per data/feature/split/model set)
+  can read it (ADR 0004). Splits are config-driven and stored as a split manifest with every run (ADR 0012).
 - All models compared on the identical fixture set.
 
 ## 2. Metrics (proper scoring rules)
 Primary: Log Loss, multiclass Brier, RPS (ordered H<D<A), Calibration/ECE.
 Secondary: Accuracy, exact-score accuracy, ROI, CLV.
+Accuracy is never the sole success metric; ties get fractional credit (never silently "home").
+ECE and bootstrap confidence intervals are part of the standard report.
 Accuracy is never the sole success metric. Never declare one "overall winner" from one metric.
 Report by: global, league, season, model family, prediction horizon — always with
 confidence interval and sample size.
@@ -41,3 +44,11 @@ No real-money execution.
 ## 8. Reproducibility
 Same config + same commit + same data_version => same splits, metadata, outputs.
 Experiments record `config_hash`, `dataset_version`, `git_sha`, `seed`.
+
+## 9. Run modes (ADR 0012)
+DEVELOPMENT (flexible) · RESEARCH (real git SHA, complete provenance, quality errors fail) · STRICT (clean tree,
+known checksums, quality warnings fail, no unexpected missing features) · FINAL (STRICT + may unlock final data).
+
+## 10. Data lineage
+Every artifact carries the content-derived `data_version` (ADR 0003); loaders fail loudly on mismatch.
+`PredictionRecord` identity is content-hashed; the ledger rejects a changed prediction for the same logical id.

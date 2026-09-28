@@ -1,0 +1,45 @@
+name: nightly-full-benchmark
+on:
+  schedule:
+    - cron: "17 3 * * *"  # 03:17 UTC daily
+  workflow_dispatch: {}
+jobs:
+  full-benchmark:
+    # The full real 2019-2024+ dataset (both leagues, every configured season) — network
+    # download from football-data.co.uk (Wayback fallback per configs/sources.yaml). This is
+    # deliberately NOT run on every PR (see .github/workflows/ci.yml's real-data-sanity job,
+    # which uses a small committed real fixture instead). research mode, not strict: the
+    # current-partial season file changes daily upstream, so a pinned-checksum mismatch there
+    # must not fail this job — provenance/quality enforcement still applies.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install locked dependencies (hash-verified)
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+      - name: Download real dataset (football-data.co.uk, Wayback fallback)
+        run: python -m src.data.download
+      - name: Pipeline (research mode)
+        run: python -m src.data.pipeline --mode research
+      - name: Features (research mode)
+        run: python -m src.features.builder --mode research
+      - name: Baselines benchmark (research mode)
+        run: python -m src.evaluation.run_baselines --mode research
+      - name: Walk-forward benchmark (research mode)
+        run: python -m src.evaluation.walk_forward --mode research
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nightly-full-benchmark-${{ github.run_id }}
+          path: |
+            artifacts/runs/
+            artifacts/walk_forward/
+          retention-days: 30

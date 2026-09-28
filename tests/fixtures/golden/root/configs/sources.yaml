@@ -1,0 +1,10 @@
+primary:
+  id: demo_primary
+  provider: local test fixture
+  origin: official
+  url_template: "https://example.invalid/{season_code}/{div}.csv"
+fallbacks: []
+allow_fallback: false
+retries: 2
+backoff_seconds: 0.0
+timeout_seconds: 5.0

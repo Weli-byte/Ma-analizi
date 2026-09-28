@@ -1,15 +1,20 @@
-"""Feature registry (feature contract): source, window, aggregation, available_at, leakage_rule."""
+"""Feature registry (feature contract): source, window, aggregation, available_at, leakage_rule.
+
+`FEATURE_VERSION` must be bumped whenever ANY definition or computation changes; `registry_hash`
+detects definition changes made without a bump (stale artifacts then fail to load).
+"""
 
 import hashlib
 
 from src.schemas import FeatureSpec
 from src.versioning import canonical_json
 
-FEATURE_VERSION = "fv1"
-AVAIL_SUFFIX = "_avail"  # 1.0 = value present, 0.0 = insufficient history (value is None/NaN)
+FEATURE_VERSION = "fv2"
+BUILDER_VERSION = "builder-2.0.0"
+AVAIL_SUFFIX = "_available"  # 1.0 = value present, 0.0 = unavailable (value is None/NaN)
 VENUE_FEATURES = ("home_win_rate", "away_win_rate")  # already side-specific
-_RES = ["fixtures.results", "fixtures.kickoff_utc"]
-_LEAK = "only matches with kickoff+3h <= information_cutoff; current fixture excluded"
+_RES = ("fixtures.result", "fixtures.result_available_at_utc", "fixtures.kickoff_utc")
+_LEAK = "only FINISHED matches with result_available_at_utc <= information_cutoff; current fixture excluded"
 
 REGISTRY: list[FeatureSpec] = [
     *[
@@ -43,24 +48,6 @@ REGISTRY: list[FeatureSpec] = [
         depends_on=_RES,
     ),
     FeatureSpec(
-        name="xg_avg_10",
-        source="team_match_stats",
-        window="last 10 matches",
-        aggregation="mean xG for",
-        available_at="t-1",
-        leakage_rule=_LEAK + "; NaN when any xG missing (source has none in dv1)",
-        depends_on=["team_match_stats.xg"],
-    ),
-    FeatureSpec(
-        name="xga_avg_10",
-        source="team_match_stats",
-        window="last 10 matches",
-        aggregation="mean xG against",
-        available_at="t-1",
-        leakage_rule=_LEAK + "; NaN when any xG missing (source has none in dv1)",
-        depends_on=["team_match_stats.xg"],
-    ),
-    FeatureSpec(
         name="home_win_rate",
         source="results",
         window="last 10 home matches (>=5)",
@@ -79,10 +66,29 @@ REGISTRY: list[FeatureSpec] = [
         depends_on=_RES,
     ),
     FeatureSpec(
-        name="rest_days",
+        name="rest_days_raw",
         source="results",
         window="last match",
-        aggregation="days between last available match kickoff and this kickoff",
+        aggregation="days between last available match kickoff and this kickoff "
+        "(includes summer breaks; cup/continental matches are absent)",
+        available_at="t-1",
+        leakage_rule=_LEAK,
+        depends_on=_RES,
+    ),
+    FeatureSpec(
+        name="rest_days_capped",
+        source="results",
+        window="last match",
+        aggregation="min(rest_days_raw, features.rest_days_cap)",
+        available_at="t-1",
+        leakage_rule=_LEAK,
+        depends_on=_RES,
+    ),
+    FeatureSpec(
+        name="season_break_flag",
+        source="results",
+        window="last match",
+        aggregation="1 if the last available match belongs to an earlier season",
         available_at="t-1",
         leakage_rule=_LEAK,
         depends_on=_RES,
@@ -109,19 +115,42 @@ REGISTRY: list[FeatureSpec] = [
         name="opp_ppg_5",
         source="results",
         window="last 5 opponents (>=3 rated)",
-        aggregation="mean points-per-game of recent opponents at cutoff "
-        "(opponent-strength base; opponent needs >=5 matches)",
+        aggregation="mean points-per-game of recent opponents at cutoff (opponent needs >=5 matches)",
         available_at="t-1",
         leakage_rule=_LEAK,
         depends_on=_RES,
     ),
 ]
-SPECS = {s.name: s for s in REGISTRY}
+
+# Declared but NOT active: never produced, never fed to models (ADR 0009; docs/data_sources/xg.md).
+EXPERIMENTAL: list[FeatureSpec] = [
+    FeatureSpec(
+        name="xg_avg_10",
+        source="team_match_stats",
+        window="last 10 matches",
+        aggregation="mean xG for",
+        available_at="t-1",
+        leakage_rule=_LEAK,
+        depends_on=("team_match_stats.xg",),
+        status="experimental",
+    ),
+    FeatureSpec(
+        name="xga_avg_10",
+        source="team_match_stats",
+        window="last 10 matches",
+        aggregation="mean xG against",
+        available_at="t-1",
+        leakage_rule=_LEAK,
+        depends_on=("team_match_stats.xg",),
+        status="experimental",
+    ),
+]
+SPECS = {s.name: s for s in [*REGISTRY, *EXPERIMENTAL]}
 TEAM_FEATURES = [s.name for s in REGISTRY if s.name not in VENUE_FEATURES]
 
 
 def spec_for(produced_name: str) -> FeatureSpec:
-    """Map a produced column (home_form_points_5, away_rest_days, home_win_rate) to its spec."""
+    """Map a produced column (home_form_points_5, away_rest_days_raw, home_win_rate) to its spec."""
     if produced_name in SPECS:
         return SPECS[produced_name]
     for side in ("home_", "away_"):
@@ -136,6 +165,12 @@ def produced_names() -> list[str]:
 
 
 def registry_hash() -> str:
-    """Hash of the feature contract; changes whenever a definition changes (bump fv!)."""
-    payload = canonical_json([s.model_dump() for s in REGISTRY])
+    """Hash of the feature contract + builder version."""
+    payload = canonical_json(
+        {
+            "version": FEATURE_VERSION,
+            "builder": BUILDER_VERSION,
+            "specs": [s.model_dump(mode="json") for s in [*REGISTRY, *EXPERIMENTAL]],
+        }
+    )
     return hashlib.sha256(payload.encode()).hexdigest()[:16]

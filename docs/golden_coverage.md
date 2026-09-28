@@ -29,9 +29,21 @@ could not.
 
 ## Updating the golden artifact
 
-`python scripts/update_golden.py` — ONLY for an intentional change (new model added, a fixed
-bug that legitimately changes normalized data/features/predictions/metrics). Before accepting
-the regenerated file: diff it against the previous one and confirm every UNCHANGED model's
-metrics are byte-identical; only the NEW/intentionally-changed entries should differ. Write or
-update an ADR explaining why. Never regenerate to make a failing test pass without that
-investigation — a golden-hash failure is a regression signal until proven otherwise.
+**Always regenerate via the `regenerate-golden` GitHub Actions workflow** (`workflow_dispatch`,
+`.github/workflows/regenerate-golden.yml`, targetable at any branch), download the
+`golden-artifacts-<run_id>` artifact, and copy it into `tests/fixtures/golden/expected/`. Do
+**not** run `scripts/update_golden.py` locally and commit the result directly — see ADR-0017's
+amendment: `elo`/`poisson`/`dixon_coles` involve iterative floating-point reductions
+(`np.sum`/`exp`/`log` in a loop) whose last bit can differ between platforms (Windows vs Linux
+libm/BLAS) and even between runs on the SAME platform if BLAS/OpenMP thread counts aren't
+pinned. `regenerate-golden.yml` and `ci.yml` both pin
+`OMP_NUM_THREADS=OPENBLAS_NUM_THREADS=MKL_NUM_THREADS=NUMEXPR_NUM_THREADS=1`; a locally-generated
+file (especially on Windows) will NOT reproduce what CI computes, even though the underlying
+metric VALUES match to within floating-point tolerance.
+
+This applies ONLY for an intentional change (new model added, a fixed bug that legitimately
+changes normalized data/features/predictions/metrics). Before accepting the regenerated file:
+diff it against the previous one and confirm every UNCHANGED model's metrics are byte-identical;
+only the NEW/intentionally-changed entries should differ. Write or update an ADR explaining why.
+Never regenerate to make a failing test pass without that investigation — a golden-hash failure
+is a regression signal until proven otherwise.

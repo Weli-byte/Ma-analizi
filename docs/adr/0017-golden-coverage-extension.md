@@ -84,6 +84,33 @@ total runtime is unaffected in any noticeable way.
 - The synthetic golden fixture's Elo/Poisson/Dixon-Coles metrics (12 rows) should never be read
   as representative of real model quality — only as regression-detection pins.
 
+## Amendment (same day): BLAS/OpenMP thread-count reproducibility bug
+
+Discovered while landing this ADR: `golden.json` regenerated locally (Windows) did not match
+what CI's `test` job (Linux) computed live for the NEW `elo`/`poisson`/`dixon_coles` predictions
+— every metric VALUE still matched to 1e-8 (`test_golden_metrics_match_with_tolerance` passed
+throughout), but the exact `predictions_sha256`/`metrics_sha256`/`report_json_sha256` did not.
+Root-caused by running `.github/workflows/regenerate-golden.yml` (an isolated, single-purpose
+job) twice on Linux — identical hash both times — versus the full `test` job (same commit, same
+Linux runner type, same Python) computing a THIRD, different hash. `always_home`/
+`historical_prior`/`recent_form_naive`/`market_implied` were never affected (closed-form, no
+iterative floating-point reduction); `elo`'s gradient-ascent fit and `poisson`'s IPF both run
+many iterations of `np.sum`/`exp`/`log`, whose thread-parallel reduction order is not guaranteed
+associative — under concurrent CI load, thread scheduling can change the last bit of a float sum.
+
+Fix: `OMP_NUM_THREADS`/`OPENBLAS_NUM_THREADS`/`MKL_NUM_THREADS`/`NUMEXPR_NUM_THREADS=1` pinned at
+`.github/workflows/ci.yml`'s workflow level (every job) and in `regenerate-golden.yml`. Verified:
+after pinning, `test (3.12)` AND `test (3.14)` both reproduce the canonical Linux-generated
+`golden.json` exactly. This is now a documented, general reproducibility requirement (Rule 8 —
+"every experiment must be reproducible") for any future model whose fit involves iterative
+numpy reductions, not just Elo/Poisson.
+
+Windows-vs-Linux parity was NOT established (and is not claimed): thread-pinning fixed
+run-to-run non-determinism WITHIN Linux CI, but a separate, expected libm/BLAS implementation
+difference means a Windows-generated golden file still won't byte-match a Linux one. This is why
+`docs/golden_coverage.md` now says to ALWAYS regenerate via `regenerate-golden.yml` (Linux, the
+platform CI verifies against), never locally on a developer's own machine.
+
 ## Revisit conditions
 Revisit if: `MIN_TRAIN_ROWS` changes, the golden fixture's dataset size changes for any other
 reason (at which point re-evaluating GBM inclusion is a natural side effect to check), or a

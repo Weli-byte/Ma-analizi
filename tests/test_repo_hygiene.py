@@ -55,6 +55,19 @@ def test_tls_verification_is_never_disabled_and_no_blanket_process_kills():
             assert token not in text, f"{path.relative_to(ROOT)} contains {token!r}"
 
 
+def test_ci_pins_blas_thread_count_for_reproducibility():
+    """Regression guard for audit finding H-09: multi-threaded BLAS/OpenMP reductions in Elo's
+    gradient-ascent fit and Poisson's IPF are not guaranteed associative, so an unpinned thread
+    count made the golden-chain hash non-reproducible between CI runs (see ADR-0017's amendment).
+    If this ever silently drops from a workflow file, golden/reproducibility tests would become
+    flaky rather than cleanly failing -- catch the config gap directly instead."""
+    required = ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS")
+    for wf in ("ci.yml", "regenerate-golden.yml"):
+        text = (ROOT / ".github" / "workflows" / wf).read_text(encoding="utf-8")
+        for var in required:
+            assert f'{var}: "1"' in text, f"{wf} is missing {var}=1 (thread-pin regression, H-09)"
+
+
 def test_no_skip_or_true_hacks_in_tests():
     this = Path(__file__).name
     for path in Path(__file__).parent.glob("test_*.py"):

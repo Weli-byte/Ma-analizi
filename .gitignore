@@ -14,3 +14,7 @@ data/features/*
 artifacts/
 coverage.json
 .coverage
+# real-data CI sanity fixture: raw/config/checksums/lock are committed, generated outputs are not
+# (data/processed/* etc above are anchored to repo root, not nested project roots like this one)
+tests/fixtures/real_smoke/root/data/processed/
+tests/fixtures/real_smoke/root/data/features/

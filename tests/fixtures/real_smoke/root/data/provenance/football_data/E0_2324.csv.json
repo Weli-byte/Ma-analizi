@@ -1,0 +1,9 @@
+{
+  "filename": "E0_2324.csv",
+  "note": "real football-data.co.uk historical results, committed as a small fixed CI real-data-sanity fixture (not re-downloaded in CI)",
+  "origin": "archive",
+  "retrieved_at_utc": "2026-09-28T00:00:00+00:00",
+  "sha256": "b2e057b0ed959f198b0f63d2391c01239f3608e6de5db68edab3f88e04d07ff3",
+  "source_id": "football_data_official",
+  "source_url": "https://www.football-data.co.uk/mmz4281/2324/E0.csv"
+}

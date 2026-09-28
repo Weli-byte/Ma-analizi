@@ -101,10 +101,20 @@ class FeaturesConfig(_Cfg):
 
 
 # --------------------------------------------------------------- model
+class EloConfig(_Cfg):
+    """S4: rating engine hyperparameters. Recorded verbatim into ExperimentRecord.config."""
+
+    initial_rating: float = 1500.0
+    k_factor: float = Field(default=20.0, gt=0)
+    home_advantage: float = 60.0
+    use_margin_of_victory: bool = False  # off by default: no goal-margin feature exists yet
+
+
 class ModelConfig(_Cfg):
     seed: int = 42
     feature_version: str
     models: list[str]
+    elo: EloConfig = EloConfig()
 
 
 # ---------------------------------------------------------- evaluation

@@ -1,3 +1,8 @@
 seed: 42
 feature_version: fv2
-models: [always_home, historical_prior, recent_form_naive, market_implied]
+models: [always_home, historical_prior, recent_form_naive, market_implied, elo]
+elo:
+  initial_rating: 1500.0
+  k_factor: 20.0
+  home_advantage: 60.0
+  use_margin_of_victory: false

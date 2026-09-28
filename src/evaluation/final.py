@@ -80,7 +80,7 @@ def run_final_evaluation(root: Path = ROOT, mode: RunMode | str = RunMode.FINAL)
         bootstrap_seed=eval_cfg.bootstrap_seed,
         max_fallback_rate=getattr(eval_cfg.max_fallback_rate, mode.value),
     )
-    rep = evaluate(build_models(model_cfg.models), fit_rows, final_rows, settings)
+    rep = evaluate(build_models(model_cfg.models, model_cfg.elo), fit_rows, final_rows, settings)
     out_dir.mkdir(parents=True)
     payload = {
         "split_id": split["split_id"],

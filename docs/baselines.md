@@ -17,6 +17,13 @@ train 2019-20..2021-22 · validation 2022-23..2023-24 (baselines are reported he
   enforced by the availability report (ADR 0009).
 - `market_implied` — proportional de-vig of closing odds; **REFERENCE_MARKET_BASELINE** (timestamp unknown; not a
   signal, not a competitor; ADR 0007).
+- `elo` (S4, `src/models/elo.py`) — team-strength Elo, leakage-safe: rating updates happen only after a fixture's
+  result is known, always using the rating from BEFORE that fixture. Config: `initial_rating`, `k_factor`,
+  `home_advantage`, optional `use_margin_of_victory` (off — no goal-margin feature exists, never fabricated).
+  Idempotent per `fixture_id`; full timestamped rating history in `model.history`; replaying the same
+  chronologically-ordered rows always reproduces the same rating state (tested in `tests/test_elo.py`). Rating
+  difference → 1X2 probability via a 3-outcome ordinal-logit ("proportional odds") mapping fitted once on the
+  training replay only.
 
 ## Metrics
 Log Loss (clip 1e-15), multiclass Brier, RPS (ordered H<D<A), top-label ECE (`calibration_bins`), Accuracy

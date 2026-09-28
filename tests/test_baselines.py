@@ -77,14 +77,20 @@ def test_market_implied_is_a_labelled_reference_baseline_with_devig():
 
 
 def test_model_registry_and_build_models():
-    assert set(REGISTRY) == {"always_home", "historical_prior", "recent_form_naive", "market_implied"}
+    assert set(REGISTRY) == {
+        "always_home",
+        "historical_prior",
+        "recent_form_naive",
+        "market_implied",
+        "elo",
+    }
     assert [m.model_id for m in build_models(["market_implied", "always_home"])] == [
         "market_implied",
         "always_home",
     ]
-    with pytest.raises(KeyError, match="unknown baseline"):
+    with pytest.raises(KeyError, match="unknown model"):
         build_models(["mystery"])
-    assert len(default_baselines()) == 4
+    assert len(default_baselines()) == 5
 
 
 def test_runner_common_set_groups_ci_and_availability():

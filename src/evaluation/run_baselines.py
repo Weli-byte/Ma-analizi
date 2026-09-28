@@ -156,7 +156,7 @@ def run_baselines(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> 
         bootstrap_seed=eval_cfg.bootstrap_seed,
         max_fallback_rate=getattr(eval_cfg.max_fallback_rate, mode.value),
     )
-    rep = evaluate(build_models(model_cfg.models), train, test, settings)
+    rep = evaluate(build_models(model_cfg.models, model_cfg.elo), train, test, settings)
 
     meta = {
         "data_version": ref.data_version,

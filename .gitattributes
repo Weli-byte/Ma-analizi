@@ -3,3 +3,7 @@
 *.pdf binary
 *.parquet binary
 *.duckdb binary
+# Real-data CI fixture: pinned checksums must be byte-exact on every platform/checkout config,
+# so no line-ending translation at all (avoids the eol=lf-vs-core.autocrlf checkout ambiguity
+# that bit this fixture in review — see reports/remediation/S0_S7_HARDENING_AUDIT.md H-02).
+tests/fixtures/real_smoke/root/data/raw/football_data/*.csv -text

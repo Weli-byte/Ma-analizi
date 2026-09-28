@@ -111,6 +111,37 @@ difference means a Windows-generated golden file still won't byte-match a Linux 
 `docs/golden_coverage.md` now says to ALWAYS regenerate via `regenerate-golden.yml` (Linux, the
 platform CI verifies against), never locally on a developer's own machine.
 
+## Second amendment (same day): thread-pinning was insufficient — root cause is CPU/SIMD dispatch
+
+Re-verification after the thread-pinning fix showed it was NOT the full fix: the identical
+commit's `test` job computed a THIRD different `predictions_sha256` on a later CI run, with zero
+code changes in between. Controlled comparison: `regenerate-golden.yml` alone (isolated process)
+— 3/3 runs identical; local Windows, standalone script or under pytest — 3/3 identical; the full
+`test` job on GitHub-hosted Linux runners — 2 different hashes observed across otherwise-identical
+commits/runs. This pattern (stable within any single controlled process or machine, unstable only
+across separate ephemeral CI runner instances) points to CPU-dependent SIMD dispatch variance in
+NumPy/OpenBLAS's `exp`/`log`/`sum` implementations — different runner VMs can have different CPU
+microarchitectures, and NumPy's runtime CPU-feature dispatch can select a different code path
+with different last-bit rounding — not thread scheduling (already pinned) and not the platform
+(Linux-to-Linux).
+
+**Actual fix**: stop claiming byte-exact reproducibility for predictions from ANY model with an
+iterative floating-point fit, across heterogeneous CI hardware. `tests/golden_util.py` now
+computes `closed_form_predictions_sha256`, scoped to only `always_home`/`historical_prior`/
+`recent_form_naive`/`market_implied` (no iterative fit) — genuinely byte-reproducible everywhere
+observed (Windows, Linux, any CI runner instance). `test_golden_summary_matches` asserts THIS
+hash exactly; the full `predictions_sha256`/`metrics_sha256`/`report_json_sha256` (which include
+`elo`/`poisson`/`dixon_coles`) remain in `golden.json` for informational/same-process value but
+are no longer strictly asserted. `elo`/`poisson`/`dixon_coles` correctness and stability remain
+fully verified by `test_golden_metrics_match_with_tolerance` (`abs=1e-8`), which passed
+throughout this entire investigation and was never the source of any false confidence — the
+metric VALUES were correct the whole time; only the exact-byte-hash claim for those three models
+was too strong a guarantee to make across heterogeneous hardware.
+
+The BLAS/OpenMP thread-pinning from the first amendment is KEPT (it is still correct hygiene —
+unpinned multi-threading is a real, if here not the dominant, source of non-associativity — and
+costs nothing), but is no longer claimed to be sufficient on its own.
+
 ## Revisit conditions
 Revisit if: `MIN_TRAIN_ROWS` changes, the golden fixture's dataset size changes for any other
 reason (at which point re-evaluating GBM inclusion is a natural side effect to check), or a

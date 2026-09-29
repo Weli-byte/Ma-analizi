@@ -125,6 +125,13 @@ on real data). `rho` grid search: 81 candidate values × O(n_train_rows) each �
   (`0.5 ** (age_days / half_life)`, age measured from the LAST training match's kickoff) on the
   IPF actual/expected sums and the rho log-likelihood. `None` (default) = every match equal
   weight, byte-identical to the pre-decay fit (tested).
+  **Old vs new, real data** (train 2019-20..2021-22, validation 2022-23..2023-24): `poisson`
+  Log Loss 0.9998 → 0.9998 (unchanged — `max_iterations=200`/`tolerance=1e-6` converges to the
+  same fixed point the old fixed-40-sweep budget already reached); `dixon_coles` Log Loss
+  1.0012 → 1.0013 (a negligible +0.0001 — the continuous bounded optimizer found essentially the
+  same rho the 0.005-step grid already had, as expected for a well-behaved 1-D objective).
+  Reported per the hardening rule "do not hide a changed result" — the change was expected to be
+  neutral and it was.
 - **Tail mass (L-02, closed)**: `scoreline_matrix` now records `self.last_captured_mass`/
   `self.last_tail_mass` (measured, not assumed) before folding the tail into the boundary cell;
   `predict_proba` tracks the max tail mass across a batch in `diagnostics["max_tail_mass"]` and

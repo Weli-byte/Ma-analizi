@@ -18,6 +18,8 @@ dependencies = [
     "lightgbm>=4",
     "optuna>=3",
     "shap>=0.44",
+    "scipy>=1.11",  # was already transitive (shap/scikit-learn); promoted to direct for
+    # EloModel's scipy.optimize.minimize fit (S0-S7 hardening Phase 6, ADR-0013 amendment)
     "numba>=0.60",  # shap's transitive dep; pinned up so uv's universal resolver doesn't pick
     "llvmlite>=0.43",  # an ancient numba/llvmlite pair that predates our numpy/python versions
 ]

@@ -99,8 +99,50 @@ Negligible compared to GBM/Optuna cost.
   exists) — this is a deliberate, documented no-op (L-01), not a limitation to "fix" by
   fabricating data.
 
+## Amendment (S0-S7 hardening, Phases 6-9): optimizer, tuning, decay, MOV infra
+
+- **Optimizer (M-01, closed)**: `_fit_outcome_mapping` now uses `scipy.optimize.minimize`
+  (BFGS, `gtol=1e-9`, `maxiter=500`) minimizing the exact same ordinal-logit negative
+  log-likelihood the hand-rolled gradient ascent targeted — no change to the underlying
+  formulation, only to how it's optimized. `EloModel.optimizer_diagnostics`
+  (`OptimizerDiagnostics`) always records `success`, `status`, `message`, `n_iter`, `objective`,
+  `tolerance`, `initial_params`, `final_params` — surfaced in `diagnostics["optimizer"]` on every
+  fit, so an unconverged result is never silently treated as success.
+  **Old vs new, real data** (train 2019-20..2021-22, validation 2022-23..2023-24): Log Loss
+  0.9718 (hand-rolled) → 0.9695 (scipy BFGS) — a small improvement (−0.0023), not a regression;
+  Accuracy 0.557 → 0.546 (a secondary metric; per CLAUDE.md, Log Loss/Brier/RPS are primary,
+  Accuracy is not optimized for). Reported here per the hardening rule "do not hide a changed
+  result" — the change was expected to be neutral-to-slightly-positive (both target the same
+  likelihood) and it was.
+- **Hyperparameter tuning (M-02, closed)**: `EloConfig.tuning` (`EloTuningConfig`) +
+  `src/models/elo_tuning.py` (`python -m src.models.elo_tuning`). Optuna search over
+  `k_factor`/`home_advantage`/optional `decay_half_life_days`, objective = mean Log Loss across
+  `src.evaluation.split.walk_forward_folds` (train+validation seasons only, read through a
+  VALIDATION-mode `EvaluationContext` — final-test seasons structurally unreachable, same
+  mechanism as ADR-0016). Baseline and tuned Elo are evaluated on IDENTICAL folds
+  (`EloTuningReport`); the report lists every fold's log loss, never only the mean. Disabled by
+  default (`tuning.enabled: false` in `configs/model.yaml`) — an explicit opt-in, not a
+  default behavior change to the shipped `elo` model.
+- **Time decay (M-03, closed)**: optional `decay_half_life_days`. A team's rating decays toward
+  `initial_rating` between its matches: `_decayed_rating` applies a half-life curve
+  (`0.5 ** (days_since_last_match / half_life)`) at READ time (pre-match diff and the update
+  itself), never mutating the stored raw rating — so decay is purely a function of
+  `(current row's own kickoff time, that team's last-seen time)`, both always causally known,
+  leakage-safe by construction. `None` (default) = no decay, byte-identical to the pre-decay
+  model (verified: `test_no_decay_by_default`). Off by default; comparing decayed vs
+  non-decayed Elo under walk-forward is exactly what `elo_tuning.py`'s
+  `decay_half_life_days_range` enables, not assumed to be better without that evidence.
+- **MOV infrastructure (L-01, still inert, now more explicit)**: renamed the read path from a
+  single ad hoc `result_goal_margin` to two explicitly-named fields,
+  `features["goal_difference"]` and `features["margin_of_victory_available"]`, matching the
+  hardening task's literal naming. Still permanently inert (`_mov_unavailable` increments,
+  never silently defaults) because no such feature source exists yet — this amendment only
+  clarifies the infrastructure's shape for when one does; it does not activate anything.
+
 ## Revisit conditions
 Revisit this ADR (not just the model card) if: the core rating-update formula changes (e.g.
 switching away from the standard Elo expected-score formula), the outcome mapping changes from
-ordinal-logit to a different family, or a goal-margin data source becomes available and MOV is
-actually activated (at which point its evaluation impact must be reported, not assumed).
+ordinal-logit to a different family, a goal-margin data source becomes available and MOV is
+actually activated (at which point its evaluation impact must be reported, not assumed), or
+`tuning.enabled` is ever flipped to `true` as the shipped default (that promotion needs its own
+documented walk-forward evidence, same bar `dixon_coles`'s joint-MLE variant would need).

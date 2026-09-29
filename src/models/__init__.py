@@ -36,7 +36,9 @@ def build_models(
     out = []
     for n in names:
         if n == EloModel.model_id and elo_config is not None:
-            out.append(EloModel(**elo_config.model_dump()))
+            params = elo_config.model_dump()
+            params.pop("tuning", None)  # tuning config drives src.models.elo_tuning, not __init__
+            out.append(EloModel(**params))
         elif n in (PoissonModel.model_id, DixonColesModel.model_id) and poisson_config is not None:
             out.append(REGISTRY[n](**poisson_config.model_dump()))
         elif n in _GBM_IDS and gbm_config is not None:

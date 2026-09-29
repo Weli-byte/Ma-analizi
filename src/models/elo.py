@@ -1,4 +1,6 @@
 """S4 — leakage-safe sequential Elo rating with an ordinal-logit 1X2 mapping.
+S0-S7 hardening Phase 6 (ADR-0013 amendment): scipy-based convergence-tracked optimizer,
+optional time decay, MOV availability infrastructure.
 
 Rating updates happen only AFTER a fixture's result is known, and always use the rating that
 was current BEFORE that fixture (pre-match). Each fixture updates the two teams' ratings
@@ -11,8 +13,10 @@ only — evaluation outcomes never influence the mapping or the ratings used to 
 """
 
 from dataclasses import dataclass
+from datetime import datetime
 
 import numpy as np
+from scipy.optimize import minimize
 
 from src.evaluation.dataset import EvalRow
 
@@ -39,13 +43,31 @@ class RatingEvent:
     away_rating_post: float
 
 
+@dataclass(frozen=True)
+class OptimizerDiagnostics:
+    """scipy.optimize.minimize's own convergence report — never silently treat an unconverged
+    fit as success (S0-S7 hardening Phase 6)."""
+
+    optimizer: str
+    success: bool
+    status: int
+    message: str
+    n_iter: int
+    objective: float
+    tolerance: float
+    initial_params: tuple[float, float, float]
+    final_params: tuple[float, float, float]
+
+
 class EloModel(BaselineModel):
-    """Team-strength Elo: initial rating, home advantage, configurable K, optional
-    margin-of-victory K-scaling (off by default — no goal-margin feature exists yet, and this
-    model never fabricates one), full rating history, idempotent updates."""
+    """Team-strength Elo: initial rating, home advantage, configurable K, optional time decay
+    (rating regresses toward `initial_rating` between a team's matches, older information fading
+    over calendar time), optional margin-of-victory K-scaling (off by default — no goal-margin
+    feature exists yet, and this model never fabricates one), full rating history, idempotent
+    updates."""
 
     model_id = "elo"
-    model_version = "1.0.0"
+    model_version = "1.1.0"  # 1.1.0: scipy optimizer + decay (Phase 6); rating formula unchanged
     model_class = "statistical"
 
     def __init__(
@@ -54,13 +76,16 @@ class EloModel(BaselineModel):
         k_factor: float = 20.0,
         home_advantage: float = 60.0,
         use_margin_of_victory: bool = False,
+        decay_half_life_days: float | None = None,
     ) -> None:
         super().__init__()
         self.initial_rating = initial_rating
         self.k_factor = k_factor
         self.home_advantage = home_advantage
         self.use_margin_of_victory = use_margin_of_victory
+        self.decay_half_life_days = decay_half_life_days
         self.ratings: dict[str, float] = {}
+        self._last_seen: dict[str, datetime] = {}
         self.history: list[RatingEvent] = []
         self._processed: set[str] = set()
         self._mov_unavailable = 0
@@ -69,31 +94,45 @@ class EloModel(BaselineModel):
         self._theta1 = -0.5
         self._theta2 = 0.5
         self._fitted = False
+        self.optimizer_diagnostics: OptimizerDiagnostics | None = None
 
     # ---- rating engine ---------------------------------------------------------------
-    def _rating(self, team: str) -> float:
-        return self.ratings.get(team, self.initial_rating)
+    def _decayed_rating(self, team: str, at: datetime) -> float:
+        raw = self.ratings.get(team, self.initial_rating)
+        if self.decay_half_life_days is None or team not in self._last_seen:
+            return raw
+        days = (at - self._last_seen[team]).total_seconds() / 86400.0
+        if days <= 0:
+            return raw
+        weight = 0.5 ** (days / self.decay_half_life_days)  # exp(-ln(2)/half_life * age), i.e. a
+        return self.initial_rating + (raw - self.initial_rating) * weight  # half-life decay curve
 
     def _pre_match_diff(self, row: EvalRow) -> float:
-        return self._rating(row.home_id) - self._rating(row.away_id) + self.home_advantage
+        rh = self._decayed_rating(row.home_id, row.kickoff_utc)
+        ra = self._decayed_rating(row.away_id, row.kickoff_utc)
+        return rh - ra + self.home_advantage
 
     def _apply_result(self, row: EvalRow, diff: float) -> None:
         if row.fixture_id in self._processed:  # idempotent: never update the same fixture twice
             return
-        rh, ra = self._rating(row.home_id), self._rating(row.away_id)
+        rh = self._decayed_rating(row.home_id, row.kickoff_utc)
+        ra = self._decayed_rating(row.away_id, row.kickoff_utc)
         expected_home = 1.0 / (1.0 + 10 ** (-diff / 400.0))
         s_home = OUTCOME_TO_HOME_SCORE[row.outcome]
         k = self.k_factor
         if self.use_margin_of_victory:
-            margin = row.features.get("result_goal_margin")
-            if margin is None:
+            goal_difference = row.features.get("goal_difference")
+            margin_of_victory_available = row.features.get("margin_of_victory_available")
+            if not margin_of_victory_available or goal_difference is None:
                 self._mov_unavailable += 1  # counted, never silently ignored
             else:
-                k = k * np.log(abs(margin) + 1.0) * (2.2 / (abs(rh - ra) * 0.001 + 2.2))
+                k = k * np.log(abs(goal_difference) + 1.0) * (2.2 / (abs(rh - ra) * 0.001 + 2.2))
         delta = k * (s_home - expected_home)
         new_rh, new_ra = rh + delta, ra - delta
         self.ratings[row.home_id] = new_rh
         self.ratings[row.away_id] = new_ra
+        self._last_seen[row.home_id] = row.kickoff_utc
+        self._last_seen[row.away_id] = row.kickoff_utc
         self.history.append(
             RatingEvent(
                 row.fixture_id,
@@ -120,36 +159,52 @@ class EloModel(BaselineModel):
 
     # ---- ordinal-logit 1X2 mapping ---------------------------------------------------
     ELO_SCALE = 400.0  # standard Elo normalisation; keeps the optimizer's x well-scaled
+    OPT_TOLERANCE = 1e-9
+    OPT_MAX_ITER = 500
 
     def _fit_outcome_mapping(self, diffs: np.ndarray, outcomes: np.ndarray) -> None:
-        """3-outcome proportional-odds fit via batch gradient ascent on the log-likelihood.
-        y_ord: away < draw < home. theta2 = theta1 + softplus(gap) keeps theta1 < theta2."""
+        """3-outcome proportional-odds fit via scipy.optimize.minimize (BFGS) on the negative
+        log-likelihood. y_ord: away < draw < home. theta2 = theta1 + softplus(gap) keeps
+        theta1 < theta2. Convergence is checked and recorded, never assumed
+        (`self.optimizer_diagnostics`); an unconverged fit is used as-is but flagged, not hidden."""
         x = diffs / self.ELO_SCALE
         y_home = (outcomes == 0).astype(float)
         y_draw = (outcomes == 1).astype(float)
         y_away = (outcomes == 2).astype(float)
-        n = max(len(x), 1)
-        beta, theta1, gap = self._beta, self._theta1, 1.0
-        lr, iters = 0.05, 800
-        for _ in range(iters):
-            theta2 = theta1 + float(np.logaddexp(0.0, gap))
+
+        def neg_log_lik(params: np.ndarray) -> float:
+            beta, theta1, gap = params
+            theta2 = theta1 + np.logaddexp(0.0, gap)
             z1, z2 = theta1 - beta * x, theta2 - beta * x
             s1, s2 = _sigmoid(z1), _sigmoid(z2)
-            p_draw = np.clip(s2 - s1, 1e-9, None)
-            g_theta1 = np.sum(y_away * (1 - s1) - y_draw * s1 * (1 - s1) / p_draw)
-            g_theta2 = np.sum(-y_home * s2 + y_draw * s2 * (1 - s2) / p_draw)
-            g_beta = np.sum(
-                -x * y_away * (1 - s1)
-                + x * y_home * s2
-                + x * y_draw * (s1 * (1 - s1) - s2 * (1 - s2)) / p_draw
-            )
-            g_gap = g_theta2 * float(_sigmoid(np.array(gap)))
-            theta1 += lr * g_theta1 / n
-            gap += lr * g_gap / n
-            beta = np.clip(beta + lr * g_beta / n, -6.0, 6.0)  # bounded: avoid saturated blow-up
+            p_home = np.clip(1.0 - s2, 1e-12, None)
+            p_draw = np.clip(s2 - s1, 1e-12, None)
+            p_away = np.clip(s1, 1e-12, None)
+            ll = np.sum(y_home * np.log(p_home) + y_draw * np.log(p_draw) + y_away * np.log(p_away))
+            return -float(ll)
+
+        x0 = np.array([self._beta, self._theta1, 1.0])
+        result = minimize(
+            neg_log_lik,
+            x0,
+            method="BFGS",
+            options={"gtol": self.OPT_TOLERANCE, "maxiter": self.OPT_MAX_ITER},
+        )
+        beta, theta1, gap = result.x
         self._beta = float(beta)
         self._theta1 = float(theta1)
         self._theta2 = float(theta1 + np.logaddexp(0.0, gap))
+        self.optimizer_diagnostics = OptimizerDiagnostics(
+            optimizer="scipy.optimize.minimize(BFGS)",
+            success=bool(result.success),
+            status=int(result.status),
+            message=str(result.message),
+            n_iter=int(result.nit),
+            objective=float(result.fun),
+            tolerance=self.OPT_TOLERANCE,
+            initial_params=tuple(float(v) for v in x0),
+            final_params=(self._beta, self._theta1, float(gap)),
+        )
 
     def _map_probs(self, diffs: np.ndarray) -> np.ndarray:
         x = diffs / self.ELO_SCALE
@@ -165,7 +220,7 @@ class EloModel(BaselineModel):
         ordered = sorted(train, key=lambda r: (r.kickoff_utc, r.fixture_id))
         diffs = np.array(self.replay(ordered))
         outcomes = np.array([r.outcome for r in ordered])
-        self._fit_outcome_mapping(diffs, outcomes)
+        self._fit_outcome_mapping(diffs, outcomes)  # convergence status always in diagnostics below
         self._fitted = True
         self.diagnostics = {
             "teams_rated": len(self.ratings),
@@ -177,6 +232,16 @@ class EloModel(BaselineModel):
             "home_advantage": self.home_advantage,
             "use_margin_of_victory": self.use_margin_of_victory,
             "mov_unavailable_rows": self._mov_unavailable,
+            "decay_half_life_days": self.decay_half_life_days,
+            "optimizer": {
+                "name": self.optimizer_diagnostics.optimizer,
+                "success": self.optimizer_diagnostics.success,
+                "status": self.optimizer_diagnostics.status,
+                "message": self.optimizer_diagnostics.message,
+                "n_iter": self.optimizer_diagnostics.n_iter,
+                "objective": round(self.optimizer_diagnostics.objective, 6),
+                "tolerance": self.optimizer_diagnostics.tolerance,
+            },
         }
         return self
 

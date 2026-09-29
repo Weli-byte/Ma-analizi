@@ -101,6 +101,20 @@ class FeaturesConfig(_Cfg):
 
 
 # --------------------------------------------------------------- model
+class EloTuningConfig(_Cfg):
+    """S0-S7 hardening Phase 6: temporal (walk-forward) hyperparameter search. Never tuned on
+    final-test data -- consumed only by src.models.elo_tuning, which reads walk-forward folds."""
+
+    enabled: bool = False
+    method: Literal["optuna"] = "optuna"
+    objective: Literal["log_loss"] = "log_loss"
+    n_trials: int = Field(default=20, ge=0)  # 0 = skip search, tuned == baseline (still evaluated)
+    seed: int = 42
+    k_factor_range: tuple[float, float] = (5.0, 60.0)
+    home_advantage_range: tuple[float, float] = (0.0, 150.0)
+    decay_half_life_days_range: tuple[float, float] | None = (30.0, 3650.0)
+
+
 class EloConfig(_Cfg):
     """S4: rating engine hyperparameters. Recorded verbatim into ExperimentRecord.config."""
 
@@ -108,6 +122,8 @@ class EloConfig(_Cfg):
     k_factor: float = Field(default=20.0, gt=0)
     home_advantage: float = 60.0
     use_margin_of_victory: bool = False  # off by default: no goal-margin feature exists yet
+    decay_half_life_days: float | None = None  # None = no decay (S0-S7 hardening Phase 6)
+    tuning: EloTuningConfig = EloTuningConfig()
 
 
 class PoissonConfig(_Cfg):

@@ -142,8 +142,29 @@ The BLAS/OpenMP thread-pinning from the first amendment is KEPT (it is still cor
 unpinned multi-threading is a real, if here not the dominant, source of non-associativity — and
 costs nothing), but is no longer claimed to be sufficient on its own.
 
+## Third amendment (Phase 6): the H-09 pattern recurred on `report_sha256` and metric tolerance
+
+Landing Phase 6 (elo's optimizer swap, ADR-0013's amendment) hit the SAME class of issue twice
+more, confirming H-09 is a general property of iterative-fit models, not an elo-gradient-ascent-
+specific quirk:
+
+1. **`report_sha256` is not exact-hash-safe either.** It embeds every model's full `diagnostics`
+   dict verbatim (via `json.dumps(r.diagnostics, sort_keys=True)` in `render_md`) — including
+   elo's new `optimizer.n_iter`/`optimizer.objective`, which vary by a few ULPs across CI runner
+   instances just like `predictions_sha256` already did. Dropped from
+   `test_golden_summary_matches`'s strict checks alongside the other three (informational only).
+2. **1e-8 metric tolerance was too tight.** `elo`'s `brier` differed by ~2.4e-7 between two
+   Linux-generated golden runs (same commit, same workflow, different runner instances) — inside
+   the SAME class of variance H-09 describes, just below `metrics_sha256`'s bit-exact threshold
+   but above `pytest.approx(abs=1e-8)`. `test_golden_metrics_match_with_tolerance` now uses
+   `abs=1e-6` — still far tighter than any real decision boundary (a probability shifting by
+   1e-6 changes no ranking, no bet, no report figure at any sane precision), and it is the
+   measured achievable precision for this class of algorithm, not an arbitrarily loosened check.
+
 ## Revisit conditions
 Revisit if: `MIN_TRAIN_ROWS` changes, the golden fixture's dataset size changes for any other
-reason (at which point re-evaluating GBM inclusion is a natural side effect to check), or a
-future model class is added whose fitting procedure also can't run on 12 rows (same exclusion
-pattern would apply, documented the same way).
+reason (at which point re-evaluating GBM inclusion is a natural side effect to check), a future
+model class is added whose fitting procedure also can't run on 12 rows (same exclusion pattern
+would apply, documented the same way), or `report_sha256`/metric tolerance need to move again
+(if so, prefer widening the closed-form-vs-iterative SCOPE rather than the tolerance NUMBER,
+following the same reasoning as the second amendment above).

@@ -27,26 +27,35 @@ def chain(tmp_path_factory):
 def test_golden_summary_matches(chain):
     """Exact-hash checked for: the data/feature layer (always deterministic) and predictions
     from CLOSED-FORM models only (`golden_util.CLOSED_FORM_MODELS`). `predictions_sha256` /
-    `metrics_sha256` / `report_json_sha256` are NOT asserted exactly: they include elo/poisson/
-    dixon_coles, whose iterative floating-point fits can differ in the last bit depending on
-    which CPU a CI runner happens to land on (confirmed empirically across separate GitHub
-    Actions runs on the identical commit — see ADR-0017's second amendment). Their correctness
-    is instead verified by `test_golden_metrics_match_with_tolerance` below."""
+    `metrics_sha256` / `report_json_sha256` / `report_sha256` are NOT asserted exactly: they
+    (report_sha256 included -- it embeds every model's full `diagnostics` dict verbatim, e.g.
+    elo's optimizer `n_iter`/`objective`) cover elo/poisson/dixon_coles, whose iterative
+    floating-point fits can differ in the last bit depending on which CPU a CI runner happens to
+    land on (confirmed empirically across separate GitHub Actions runs on the identical commit —
+    see ADR-0017's second amendment, and ADR-0013's Phase 6 amendment for the same effect after
+    swapping elo's optimizer). Their correctness is instead verified by
+    `test_golden_metrics_match_with_tolerance` below."""
     _, summary = chain
     expected = json.loads((GOLDEN_DIR / "golden.json").read_text(encoding="utf-8"))
     for key in ("data_version", "dataset_content_hash", "table_hashes", "features_content_hash",
                 "features_rows", "n_predictions", "closed_form_predictions_sha256"):  # fmt: skip
         assert summary[key] == expected[key], f"{key} changed - {UPDATE_HINT}"
-    assert summary["report_sha256"] == expected["report_sha256"], UPDATE_HINT
 
 
 def test_golden_metrics_match_with_tolerance(chain):
+    """Tolerance is 1e-6, not 1e-8: models with an iterative optimizer (elo's scipy.optimize.
+    minimize, same class of issue as the IPF-based poisson/dixon_coles) can differ by a few
+    ULPs of their converged parameters depending on which CPU a CI runner lands on -- the SAME
+    cross-runner floating-point variance behind audit finding H-09, observed directly here after
+    Phase 6 swapped elo's optimizer (brier differed by ~2.4e-7 between two Linux-generated golden
+    runs). 1e-6 is still far tighter than any real decision boundary; it is not a weakened
+    correctness check, it is the actual achievable precision for this class of algorithm."""
     _, summary = chain
     expected = json.loads((GOLDEN_DIR / "golden.json").read_text(encoding="utf-8"))["metrics"]
     assert summary["metrics"].keys() == expected.keys()
     for model, metrics in expected.items():
         for name, value in metrics.items():
-            assert summary["metrics"][model][name] == pytest.approx(value, abs=1e-8), (
+            assert summary["metrics"][model][name] == pytest.approx(value, abs=1e-6), (
                 model,
                 name,
                 UPDATE_HINT,

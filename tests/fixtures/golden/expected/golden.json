@@ -22,12 +22,12 @@
       "rps": 0.251394563
     },
     "elo": {
-      "accuracy": 0.666666667,
-      "brier": 0.527286856,
-      "ece": 0.082051378,
-      "log_loss": 0.907370331,
+      "accuracy": 0.583333333,
+      "brier": 0.643671838,
+      "ece": 0.204385068,
+      "log_loss": 1.073396498,
       "n": 12,
-      "rps": 0.194768175
+      "rps": 0.256547783
     },
     "historical_prior": {
       "accuracy": 0.666666667,
@@ -62,11 +62,11 @@
       "rps": 0.290074419
     }
   },
-  "metrics_sha256": "d913be109438fed9c7b980283b68daefe30e956416f7d133d4858ce03b3dbf42",
+  "metrics_sha256": "c9ce7149136b59139d7d5929bec6abf54f3bba04af2db41e449b84930ff7e8b2",
   "n_predictions": 84,
-  "predictions_sha256": "6b53c64b35c66dcbd4a5339d24d8a260b5503a0044786d2b0f92bebeee5b9ca9",
-  "report_json_sha256": "ba26c5787edb00afecf5e233dc5c9dcf99ebad75a6915b46cbcd28d78f6b4809",
-  "report_sha256": "fe37c8cf8da49f32c6a87426508b4d8453497c2daa2518b96f1881774c9d1c6f",
+  "predictions_sha256": "5e4a5191297a7561729dc3f9f93fbaac9dd4802236b54d42cee2123e9e7a4c75",
+  "report_json_sha256": "ff0f398b9aa57f869dd0529fa2811fef9d4ef2192f8b557d0277a0b84fd1331d",
+  "report_sha256": "78cbdc13331e9369f32887f22db8c6030231edf81bdac8fa91dc5b374312419d",
   "table_hashes": {
     "fixtures": "152433745e71352fd9aebe26680c4df271a0a278525ef38ec1179f12044cbbc8",
     "leagues": "a36ace33346bfdde9feab9b2d351a51566f0f7986a28abaa3a75da065430b748",

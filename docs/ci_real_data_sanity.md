@@ -56,7 +56,7 @@ strict-only).
   the nightly run (larger date range? additional leagues? a stricter regression-threshold
   comparison against a stored baseline?) needs a decision before building it — tracked as a
   remaining Phase 3 item, not silently dropped.
-- The real-data reproducibility TEST (as a pytest test, not a CI script) is Phase 5 of the
-  hardening pass (audit finding H-04) — a related but distinct deliverable from this real-data
-  CI layer; Phase 3's determinism check inside `ci_real_data_sanity.py` covers the CI-gating
-  need, Phase 5 covers the "documented, reusable, testable in isolation" need.
+- ~~The real-data reproducibility TEST~~ — done: `tests/test_real_data_reproducibility.py`
+  (Phase 5, audit finding H-04, CLOSED). Reuses `ci_real_data_sanity.run_sanity` rather than
+  duplicating its two-runs-and-diff logic; kept deliberately same-process so it can't hit
+  H-09's cross-CI-runner CPU/SIMD-dispatch variance.

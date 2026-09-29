@@ -9,7 +9,8 @@ elo:
   use_margin_of_victory: false
 poisson:
   max_goals: 10
-  ipf_sweeps: 40
+  max_iterations: 200
+  convergence_tolerance: 1.0e-6
 gbm:
   seed: 42
   n_optuna_trials: 2

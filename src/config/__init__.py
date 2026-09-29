@@ -130,7 +130,11 @@ class PoissonConfig(_Cfg):
     """S5: Poisson / Dixon-Coles goal model hyperparameters. Recorded into ExperimentRecord.config."""
 
     max_goals: int = Field(default=10, ge=1)
-    ipf_sweeps: int = Field(default=40, ge=1)  # iterative proportional fitting sweeps
+    max_iterations: int = Field(default=200, ge=1)  # IPF sweep upper bound (S0-S7 Phase 7)
+    convergence_tolerance: float = Field(default=1e-6, gt=0)
+    fail_on_non_convergence: bool = False  # strict-research posture: opt-in, not default-fatal
+    decay_half_life_days: float | None = None  # None = no time decay
+    tail_mass_warn_threshold: float = Field(default=0.01, gt=0, lt=1)
 
 
 class GBMConfig(_Cfg):

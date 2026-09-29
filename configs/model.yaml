@@ -19,7 +19,11 @@ elo:
     decay_half_life_days_range: [30.0, 3650.0]
 poisson:
   max_goals: 10
-  ipf_sweeps: 40
+  max_iterations: 200
+  convergence_tolerance: 1.0e-6
+  fail_on_non_convergence: false
+  decay_half_life_days: null
+  tail_mass_warn_threshold: 0.01
 gbm:
   seed: 42
   n_optuna_trials: 8

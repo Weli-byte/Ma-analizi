@@ -99,9 +99,46 @@ on real data). `rho` grid search: 81 candidate values × O(n_train_rows) each �
 - `max_goals=10` truncation folds rare high-scoring tails into the boundary cell; tail mass is
   not currently measured (L-02) — Phase 15 adds `captured_mass`/`tail_mass` diagnostics.
 
+## Amendment (S0-S7 hardening, Phase 7): convergence tracking, continuous rho, decay, joint-MLE
+
+- **IPF convergence (M-04, closed)**: `ipf_sweeps` replaced by `max_iterations` (upper bound,
+  default 200) + `convergence_tolerance` (default `1e-6`, on max absolute parameter delta across
+  attack/defense/home_adv in a sweep). `diagnostics["converged"]`/`["iterations_used"]`/
+  `["final_delta"]` always reported; `fail_on_non_convergence=True` (config, default `False`)
+  raises rather than silently using an unconverged fit. The IPF algorithm itself is unchanged —
+  only when it stops.
+- **Continuous rho (M-05, partially closed)**: `DixonColesModel`'s sequential rho fit now uses
+  `scipy.optimize.minimize_scalar(method="bounded")` instead of a fixed `0.005`-step grid;
+  `diagnostics["rho_optimizer"]` records optimizer/success/n_iter/objective/bounds. Still
+  SEQUENTIAL (attack/defense/home_adv fixed first) — the joint-MLE variant below is the full
+  answer to M-05, this is the smaller, lower-risk half of it landed first.
+- **Joint-MLE DC variant (M-05, closed)**: `DixonColesJointMLE` (`model_id
+  "dixon_coles_v2_joint_mle"`, `model_version "0.1.0-research"`) jointly optimizes
+  attack/defense/home_adv/rho in one `scipy.optimize.minimize(L-BFGS-B)` call, warm-started from
+  the sequential `DixonColesModel` fit for efficiency (still a genuine joint optimization from
+  there, not a shortcut). Registered in `REGISTRY` (so `build_models(["dixon_coles_v2_joint_mle"])`
+  works for an explicit walk-forward comparison) but explicitly excluded from
+  `default_baselines()` and NOT in `configs/model.yaml`'s default `models:` list — per the
+  hardening rule, `dixon_coles` (this ADR's DC_v1) is not deleted or silently replaced; promoting
+  v2 to the default needs its own documented walk-forward evidence (see Revisit conditions).
+- **Time decay (M-06, closed)**: optional `decay_half_life_days`, applied as a per-match weight
+  (`0.5 ** (age_days / half_life)`, age measured from the LAST training match's kickoff) on the
+  IPF actual/expected sums and the rho log-likelihood. `None` (default) = every match equal
+  weight, byte-identical to the pre-decay fit (tested).
+- **Tail mass (L-02, closed)**: `scoreline_matrix` now records `self.last_captured_mass`/
+  `self.last_tail_mass` (measured, not assumed) before folding the tail into the boundary cell;
+  `predict_proba` tracks the max tail mass across a batch in `diagnostics["max_tail_mass"]` and
+  emits a `warnings.warn` if it exceeds `tail_mass_warn_threshold` (config, default `0.01`) for
+  any fixture — a warning, not a hard failure (no run-mode-aware plumbing reaches model
+  instances today; upgrading this to a STRICT-mode failure would need that wiring, noted as a
+  remaining gap, not silently dropped).
+
 ## Revisit conditions
 Revisit if: the core goal-generating-process assumption changes (e.g. moving off Poisson
 entirely, such as to a negative-binomial or zero-inflated model), IPF is replaced by a different
-estimator for the base attack/defense/home_adv parameters, or `DC_v2_joint_mle` is promoted to
-the DEFAULT `dixon_coles` model (that promotion itself requires documented walk-forward evidence
-per Phase 12, and would be recorded as an amendment here or a dedicated follow-up ADR).
+estimator for the base attack/defense/home_adv parameters, or `DixonColesJointMLE` is promoted to
+the DEFAULT `dixon_coles` model (that promotion requires documented walk-forward evidence showing
+it's reliably convergent, leakage-safe, and numerically stable across the real dataset — not just
+passing its own unit tests on synthetic data — and would be recorded as an amendment here or a
+dedicated follow-up ADR). Also revisit if `tail_mass_warn_threshold` enforcement is ever wired to
+actually fail STRICT-mode runs (currently a warning only).

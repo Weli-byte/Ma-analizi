@@ -90,6 +90,7 @@ def test_model_registry_and_build_models():
         "elo",
         "poisson",
         "dixon_coles",
+        "dixon_coles_v2_joint_mle",  # research-only: registered, excluded from default_baselines()
         "xgboost",
         "lightgbm",
     }
@@ -100,6 +101,7 @@ def test_model_registry_and_build_models():
     with pytest.raises(KeyError, match="unknown model"):
         build_models(["mystery"])
     assert len(default_baselines()) == 9
+    assert "dixon_coles_v2_joint_mle" not in {m.model_id for m in default_baselines()}
 
 
 def test_runner_common_set_groups_ci_and_availability():
@@ -113,7 +115,7 @@ def test_runner_common_set_groups_ci_and_availability():
     ]
     rep = evaluate(default_baselines(), train, test, settings())
     assert rep.n_eval_rows == 4 and rep.n_common_rows == 3
-    assert [r.model_id for r in rep.results] == list(REGISTRY)
+    assert [r.model_id for r in rep.results] == [m.model_id for m in default_baselines()]
     for r in rep.results:
         assert r.metrics["n"] == 3  # identical fixture set for every model
         assert set(r.by_league) == {"EPL", "LALIGA"} and r.by_league["LALIGA"]["n"] == 2

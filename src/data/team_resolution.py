@@ -77,12 +77,20 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         for entry in sorted(queue.values(), key=lambda e: e["raw_name"]):
             print(
-                f"UNRESOLVED {entry['raw_name']!r} ({entry.get('country')}) "
-                f"first seen {entry.get('first_seen')}"
+                f"UNRESOLVED {entry['raw_name']!r} (country={entry.get('country')}, "
+                f"source={entry.get('source', '?')}, first_seen={entry.get('first_seen')})"
             )
+            # Phase 36 (audit finding L-09): surface confidence/source/timestamp per suggestion,
+            # not a raw dict repr, so a reviewer can act on `approve` without opening the JSON.
             if a.cmd == "suggest":
-                for s in entry.get("suggestions", []) or ["(no similar known team)"]:
-                    print(f"    suggestion: {s}")
+                suggestions = entry.get("suggestions") or []
+                if not suggestions:
+                    print("    (no similar known team)")
+                for s in suggestions:
+                    print(
+                        f"    suggestion: {s['candidate']!r} -> team_id={s['team_id']} "
+                        f"(similarity={s['similarity']:.3f})"
+                    )
         return 1  # non-zero: there is work to do
     if a.cmd == "validate":
         problems = directory.validate()

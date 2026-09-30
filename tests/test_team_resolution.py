@@ -111,7 +111,12 @@ def test_cli_review_suggest_approve_workflow(project, capsys):
     assert cli.main([*root, "review"]) == 1
     out = capsys.readouterr().out
     assert "UNRESOLVED 'Gamma Twn'" in out
-    assert cli.main([*root, "suggest"]) == 1 and "TST_gamma_town" in capsys.readouterr().out
+    assert cli.main([*root, "suggest"]) == 1
+    suggest_out = capsys.readouterr().out
+    # L-09 (Phase 36): review report surfaces suggested alias, target team_id, and a numeric
+    # similarity/confidence score, not a raw dict repr.
+    assert "TST_gamma_town" in suggest_out
+    assert "similarity=" in suggest_out and "source=" in suggest_out
     # approving into an unknown team is refused; registering first makes it possible
     assert cli.main([*root, "approve", "--raw", "Gamma Twn", "--team-id", "TST_nope"]) == 2
     assert cli.main([*root, "approve", "--raw", "Gamma Twn", "--team-id", "TST_gamma_town",

@@ -178,3 +178,33 @@ def test_mov_activates_when_features_present():
     m_plain = EloModel(use_margin_of_victory=False, k_factor=32.0, home_advantage=0.0).fit([r1])
     assert m_mov.diagnostics["mov_unavailable_rows"] == 0
     assert m_mov.ratings["H"] != m_plain.ratings["H"]  # MOV scaling actually changed the update
+
+
+# -------------------------------------------------- S0-S7 hardening Phase 43 (audit finding H-08)
+def test_mutated_update_before_predict_is_caught_by_the_existing_invariant():
+    """H-08: prove a DELIBERATELY BROKEN implementation (rating updated with the match's own
+    outcome BEFORE the pre-match diff is computed, instead of after) gets caught by the existing
+    `test_prediction_uses_only_pre_match_rating`-style invariant -- not just that the real
+    implementation happens to be correct, but that the checking pattern actually detects the
+    class of bug it claims to guard against."""
+
+    class BrokenLeakyElo(EloModel):
+        def replay(self, rows):  # deliberately wrong: apply BEFORE computing the pre-match diff
+            diffs = []
+            for r in rows:
+                self._apply_result(r, self._pre_match_diff(r))
+                diffs.append(self._pre_match_diff(r))  # now reads the POST-update rating
+            return diffs
+
+    honest = EloModel(k_factor=32.0, home_advantage=0.0)
+    broken = BrokenLeakyElo(k_factor=32.0, home_advantage=0.0)
+    r1 = row(1, 0, "H", "A", day=0)  # home win
+    r2 = row(2, 0, "H", "A", day=1)  # same pair again, home win
+
+    honest_diffs = honest.replay([r1, r2])
+    broken_diffs = broken.replay([r1, r2])
+
+    assert honest_diffs[0] == 0.0  # both start at initial_rating -- true pre-match diff
+    assert broken_diffs[0] != honest_diffs[0]  # the mutation is caught: leaked post-match info
+    # the second prediction also diverges, since the corruption compounds
+    assert broken_diffs[1] != honest_diffs[1]

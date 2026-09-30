@@ -7,9 +7,11 @@ python -m src.evaluation.walk_forward [--root DIR] [--mode development|research|
 ```
 
 Outputs: `artifacts/walk_forward/<data_version>_<feature_version>_<split_id>_walkforward/`
-(gitignored) — `report.json` (per-fold metrics + notes), `predictions.jsonl` (immutable,
-content-hashed `PredictionRecord`s across every fold, status EVALUATED), `split_manifest.json`,
-`hashes.json`, `experiments/fold<i>_<model>.json` (one `ExperimentRecord` per fold × model,
+(gitignored) — `report.json` (per-fold metrics + confidence intervals + notes),
+`walk_forward_summary.json`/`.md` (cross-fold aggregate — see below), `timings.json` (runtime
+accounting, unhashed), `predictions.jsonl` (immutable, content-hashed `PredictionRecord`s across
+every fold, status EVALUATED), `split_manifest.json`, `hashes.json`,
+`experiments/fold<i>_<model>.json` (one `ExperimentRecord` per fold × model,
 `experiment_type=HISTORICAL_BACKTEST`).
 
 ## What it does
@@ -57,10 +59,26 @@ hashes (`tests/test_walk_forward.py::test_reproducible_given_same_config_and_com
   evaluation + features + fold), so the SAME fold+config always hashes to the SAME value, and a
   DIFFERENT config (different fold, different hyperparameters, ...) always hashes differently.
 
-## What it deliberately does NOT do
+## S0-S7 hardening Phase 9 additions
 
-- No bootstrap confidence intervals per fold (`bootstrap_samples=0`): this loop reports point
-  metrics per fold; `run_baselines` remains the CI-bearing benchmark for the single
-  train→validation split most sprints compare against.
-- No cross-fold aggregation/averaging of metrics into a single number: `report.json` lists each
-  fold's metrics separately, on purpose (mirrors "no single overall winner", `docs/baselines.md`).
+- **Bootstrap CIs per fold** (audit finding H-06, was hardcoded `bootstrap_samples=0`): now uses
+  `evaluation.bootstrap_samples` — the same config `run_baselines` reads. Overlapping intervals
+  still mean a difference is NOT established (uncertainty reporting, not a significance test).
+- **Cross-fold aggregation** (M-14/M-15): `walk_forward_summary.json`/`.md` — mean, weighted
+  mean (by that fold's common-row count), std, min, max, fold count, total matches, per model
+  per metric. This is ADDED alongside `report.json`'s per-fold detail, never instead of it (Rule
+  29: never hide fold-level results) — read `report.json` for the individual fold numbers.
+- **Runtime accounting** (M-16): `timings.json` records each model's fit+predict wall time per
+  fold and the fold's total. Deliberately kept OUT of `report.json`/`ExperimentRecord.config`:
+  wall-clock time is not deterministic run-to-run, and both `report_json`'s hash and every
+  `config_hash` must stay reproducible — mixing in timing would break that (tested:
+  `test_timings_recorded_but_never_part_of_the_reproducibility_hash`).
+- **Configurable model subset** (M-17): `ModelConfig.walk_forward_models` (default `None` = fall
+  back to the shared `models` list, unchanged behavior). Set it to run a cheaper/different subset
+  through walk-forward without touching `run_baselines`/`final`'s own model list.
+
+## What it still deliberately does NOT do
+
+No single "winner" is ever computed or declared from the aggregate — `walk_forward_summary.md`
+is a comparison table, not a ranking; picking a model to ship remains the once-only FINAL-mode
+evaluation's job (`src/evaluation/final.py`), same as `run_baselines` (`docs/baselines.md`).

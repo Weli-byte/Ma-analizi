@@ -106,12 +106,41 @@ artifact exists yet). On real data (3 folds, 9 models incl. both GBMs): not yet 
 as an artifact (Phase 30 of hardening adds this).
 
 ## Known limitations
-- `bootstrap_samples=0`: no per-fold confidence intervals (H-06) — Phase 27.
-- No cross-fold aggregate summary artifact, only per-fold `report.json` entries (M-14/M-15) —
-  Phase 28 adds `reports/walk_forward_summary.*` WITHOUT removing fold-level detail.
-- No per-fold/per-model runtime accounting (M-16) — Phase 30.
-- Model list is always `model_cfg.models`, shared with `run_baselines`/`final`; no
-  walk-forward-specific cheaper/more-expensive subset config exists (M-17) — Phase 31.
+All four items below are now CLOSED — see the Phase 9 amendment below.
+- ~~`bootstrap_samples=0`: no per-fold confidence intervals (H-06) — Phase 27.~~
+- ~~No cross-fold aggregate summary artifact, only per-fold `report.json` entries (M-14/M-15) —
+  Phase 28 adds `reports/walk_forward_summary.*` WITHOUT removing fold-level detail.~~
+- ~~No per-fold/per-model runtime accounting (M-16) — Phase 30.~~
+- ~~Model list is always `model_cfg.models`, shared with `run_baselines`/`final`; no
+  walk-forward-specific cheaper/more-expensive subset config exists (M-17) — Phase 31.~~
+
+## Amendment (S0-S7 hardening Phase 9)
+
+Closes the four "Known limitations" above, per the deferrals already recorded in Decision/
+Alternatives-considered — no fold-construction or final-test-isolation decision changes.
+
+- **H-06 — bootstrap CI**: `run_walk_forward` now passes `bootstrap_samples=eval_cfg.bootstrap_samples`
+  (was hardcoded `0`) into each fold's `evaluate()` call, populating `FoldResult.confidence_intervals`
+  per model per metric. Reuses the existing `evaluation.bootstrap_samples` knob `run_baselines`
+  already reads — no new config field. Per the Revisit-conditions note above, this changes the
+  MECHANISM (configurable) but the shipped DEFAULT is whatever `configs/evaluation.yaml` already
+  set, so it is not a methodology-changing default flip.
+- **M-14/M-15 — cross-fold aggregation**: `walk_forward_summary.json`/`.md` (mean, weighted mean by
+  fold row count, std, min, max per model per metric) written alongside, never instead of,
+  `report.json`'s per-fold entries (Rule 29 still holds — no aggregate "winner" is declared).
+- **M-16 — runtime accounting**: `timings.json` records per-fold/per-model fit+predict wall time,
+  via a `_time_wrap` method-wrapper. Deliberately excluded from `report.json` and from
+  `ExperimentRecord.config` — wall-clock time is not a deterministic function of config/data/seed,
+  and mixing it into either would break `test_reproducible_given_same_config_and_commit` and
+  `test_config_hash_is_deterministic_and_fold_scoped`. Regression-guarded by
+  `tests/test_walk_forward.py::test_timings_recorded_but_never_part_of_the_reproducibility_hash`.
+- **M-17 — configurable model subset**: new `ModelConfig.walk_forward_models: list[str] | None`
+  (default `None` = unchanged, falls back to `models`). `run_walk_forward` resolves
+  `model_cfg.walk_forward_models or model_cfg.models` once per run. `run_baselines`/`final` are
+  untouched — they still always read `model_cfg.models` directly.
+
+Tests: `tests/test_walk_forward.py` (4 new: bootstrap CI populated, summary aggregates without
+hiding fold detail, timings excluded from the reproducibility hash, model-subset override honored).
 
 ## Revisit conditions
 Revisit if: the fold-construction algorithm itself changes (e.g. adding gap/embargo periods

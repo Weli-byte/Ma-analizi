@@ -165,6 +165,9 @@ class ModelConfig(_Cfg):
     elo: EloConfig = EloConfig()
     poisson: PoissonConfig = PoissonConfig()
     gbm: GBMConfig = GBMConfig()
+    # S0-S7 hardening Phase 9 (audit finding M-17): walk-forward can run a cheaper/different
+    # model subset than run_baselines/final; None = fall back to `models` (unchanged default).
+    walk_forward_models: list[str] | None = None
 
 
 # ---------------------------------------------------------- evaluation

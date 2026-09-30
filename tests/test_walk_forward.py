@@ -132,3 +132,64 @@ def test_test_season_prediction_never_reused_as_next_folds_train_label(built):
     recs = [PredictionRecord.from_json(ln) for ln in lines]
     keys = [(r.fixture_id, r.model_id) for r in recs]
     assert len(keys) == len(set(keys))
+
+
+# ------------------------------------------------- S0-S7 hardening Phase 9
+def test_bootstrap_confidence_intervals_populated_per_fold(built):
+    """H-06: bootstrap CI is no longer hardcoded to 0 -- golden's evaluation.yaml sets
+    bootstrap_samples=50, so every fold/model should carry real (lower <= upper) intervals."""
+    out = run_walk_forward(built, "strict")
+    fr = out.fold_results[0]
+    assert fr.confidence_intervals  # non-empty: bootstrap actually ran
+    for model_id, ci in fr.confidence_intervals.items():
+        assert ci, model_id
+        for _metric, bounds in ci.items():
+            assert bounds["lower"] <= bounds["upper"]
+
+
+def test_walk_forward_summary_aggregates_without_hiding_fold_detail(built):
+    """M-14/M-15: aggregate summary exists ALONGSIDE (never instead of) fold-level detail."""
+    out = run_walk_forward(built, "strict")
+    summary = json.loads((out.out_dir / "walk_forward_summary.json").read_text())
+    assert summary["n_folds"] == 1
+    for m in summary["models"].values():
+        assert m["fold_count"] == 1
+        assert m["total_matches"] > 0
+        for stats in m["metrics"].values():
+            assert stats["min"] <= stats["mean"] <= stats["max"]
+            assert stats["weighted_mean"] == pytest.approx(stats["mean"], abs=1e-6)  # 1 fold: equal
+    md = (out.out_dir / "walk_forward_summary.md").read_text()
+    assert "market_implied" in md
+    # fold-level detail is still fully present in report.json, not just the summary
+    report = json.loads((out.out_dir / "report.json").read_text())
+    assert report["folds"][0]["metrics"]
+
+
+def test_timings_recorded_but_never_part_of_the_reproducibility_hash(built):
+    """M-16: runtime accounting exists as its own artifact; it must NOT affect report_json's
+    hash (wall-clock time is not deterministic run-to-run)."""
+    out = run_walk_forward(built, "strict")
+    timings = json.loads((out.out_dir / "timings.json").read_text())
+    assert timings["folds"][0]["fold_total_seconds"] > 0
+    assert timings["folds"][0]["timings_seconds"]
+    a = run_walk_forward(built, "strict")
+    b = run_walk_forward(built, "strict")
+    assert a.hashes == b.hashes  # unaffected by however long each run actually took
+
+
+def test_walk_forward_models_override_is_a_real_subset(built, monkeypatch):
+    """M-17: a configured walk_forward_models subset is honored instead of the shared
+    model_cfg.models list, without touching run_baselines/final's own model list."""
+    import src.config as config_module
+
+    orig_load_config = config_module.load_config
+
+    def patched(name, cdir=None):
+        cfg = orig_load_config(name, cdir)
+        if name == "model":
+            cfg = cfg.model_copy(update={"walk_forward_models": ["always_home", "market_implied"]})
+        return cfg
+
+    monkeypatch.setattr("src.evaluation.walk_forward.load_config", patched)
+    out = run_walk_forward(built, "strict")
+    assert set(out.fold_results[0].metrics) == {"always_home", "market_implied"}

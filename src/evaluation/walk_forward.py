@@ -26,10 +26,13 @@ import hashlib
 import json
 import shutil
 import sys
+import time
 import uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
+
+import numpy as np
 
 from src.cli_utils import configure_output
 from src.config import config_dir_for, load_config
@@ -57,6 +60,8 @@ class FoldResult:
     train_range: tuple[str, str]
     test_range: tuple[str, str]
     metrics: dict[str, dict]  # model_id -> metrics
+    confidence_intervals: dict[str, dict] = field(default_factory=dict)  # model_id -> {metric: ci}
+    timings_seconds: dict[str, float] = field(default_factory=dict)  # model_id -> fit+predict time
 
 
 @dataclass(frozen=True)
@@ -64,6 +69,81 @@ class WalkForwardOutput:
     out_dir: Path
     fold_results: list[FoldResult]
     hashes: dict[str, str]
+
+
+def _time_wrap(model, times: dict[str, float]):
+    """S0-S7 hardening Phase 9 (audit finding M-16): wrap `fit`/`predict_proba` to record wall
+    time without touching `runner.evaluate`'s internals. `times` is mutated in place, keyed by
+    'fit'/'predict', so the caller can read it after `evaluate()` runs."""
+    orig_fit, orig_predict = model.fit, model.predict_proba
+
+    def timed_fit(train):
+        t0 = time.perf_counter()
+        result = orig_fit(train)
+        times["fit"] = time.perf_counter() - t0
+        return result
+
+    def timed_predict(rows):
+        t0 = time.perf_counter()
+        result = orig_predict(rows)
+        times["predict"] = time.perf_counter() - t0
+        return result
+
+    model.fit = timed_fit
+    model.predict_proba = timed_predict
+    return model
+
+
+def _aggregate_summary(fold_reports: list[dict]) -> dict:
+    """S0-S7 hardening Phase 9 (audit findings M-14/M-15): cross-fold, cross-model aggregation
+    -- mean, weighted mean (by that fold's common-row count), std, min, max, fold_count,
+    total_matches -- alongside (never instead of) the fold-level detail already in `report.json`
+    (Rule 29: never hide fold-level results)."""
+    model_ids = sorted({m for fr in fold_reports for m in fr["metrics"]})
+    metric_names = sorted({k for fr in fold_reports for m in fr["metrics"].values() for k in m})
+    per_model: dict[str, dict] = {}
+    for model_id in model_ids:
+        weights = np.array([fr["n_common_rows"] for fr in fold_reports if model_id in fr["metrics"]])
+        per_metric = {}
+        for metric in metric_names:
+            values = np.array(
+                [fr["metrics"][model_id][metric] for fr in fold_reports if model_id in fr["metrics"]]
+            )
+            if len(values) == 0:
+                continue
+            per_metric[metric] = {
+                "mean": round(float(np.mean(values)), 6),
+                "weighted_mean": round(float(np.average(values, weights=weights)), 6),
+                "std": round(float(np.std(values)), 6),
+                "min": round(float(np.min(values)), 6),
+                "max": round(float(np.max(values)), 6),
+            }
+        per_model[model_id] = {
+            "fold_count": len(weights),
+            "total_matches": int(weights.sum()),
+            "metrics": per_metric,
+        }
+    return {"models": per_model, "n_folds": len(fold_reports)}
+
+
+def _render_summary_md(summary: dict) -> str:
+    lines = [
+        "# Walk-forward summary (aggregated across folds)",
+        "",
+        "Per-fold detail lives in `report.json`/`report.md` -- this table aggregates it, it does "
+        "not replace it (Rule 29). No single \"winner\" is declared (docs/baselines.md).",
+        "",
+        "| model | folds | total matches | metric | mean | weighted mean | std | min | max |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for model_id, m in summary["models"].items():
+        for metric, stats in m["metrics"].items():
+            lines.append(
+                f"| {model_id} | {m['fold_count']} | {m['total_matches']} | {metric} | "
+                f"{stats['mean']:.4f} | {stats['weighted_mean']:.4f} | {stats['std']:.4f} | "
+                f"{stats['min']:.4f} | {stats['max']:.4f} |"
+            )
+    return "\n".join(lines) + "\n"
 
 
 def _fold_predictions(rep, meta: dict, cutoff_offset_hours: float) -> list[PredictionRecord]:
@@ -112,10 +192,16 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
         run_mode=mode,
         metrics=list(eval_cfg.metrics),
         bins=eval_cfg.calibration_bins,
-        bootstrap_samples=0,  # walk-forward is a per-fold diagnostic loop, not the CI-bearing
-        bootstrap_seed=eval_cfg.bootstrap_seed,  # benchmark run_baselines already is
+        # S0-S7 hardening Phase 9 (audit finding H-06): per-fold bootstrap CIs are now
+        # configurable (previously hardcoded 0) via the SAME eval_cfg.bootstrap_samples
+        # run_baselines uses -- overlapping intervals still mean no significance claim.
+        bootstrap_samples=eval_cfg.bootstrap_samples,
+        bootstrap_seed=eval_cfg.bootstrap_seed,
         max_fallback_rate=getattr(eval_cfg.max_fallback_rate, mode.value),
     )
+    # S0-S7 hardening Phase 9 (audit finding M-17): walk-forward's own model subset, defaulting
+    # to model_cfg.models unchanged when unset -- never a hidden hardcoded list.
+    wf_models = model_cfg.walk_forward_models or model_cfg.models
 
     tag = f"{ref.data_version}_{model_cfg.feature_version}_{split['split_id']}_walkforward"
     out_dir = root / "artifacts" / "walk_forward" / tag
@@ -125,14 +211,25 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
     all_records: list[PredictionRecord] = []
     fold_results: list[FoldResult] = []
     fold_reports: list[dict] = []
+    # Runtime accounting (M-16) is DELIBERATELY kept OUT of `report`/`fold_reports` (and out of
+    # ExperimentRecord.config): wall-clock timing is not deterministic run-to-run, and both
+    # report_json's hash and every ExperimentRecord's config_hash must stay reproducible (same
+    # config + same commit -> same hash, ADR-0016). Timings go to a separate, unhashed file.
+    fold_timings: list[dict] = []
     try:
         for fold in folds:
+            fold_t0 = time.perf_counter()
             train_rows = load_rows(ref, ctx, list(fold.train_seasons), feats)
             test_rows = load_rows(ref, ctx, [fold.test_season], feats)
             models = build_models(  # fresh instances every fold: no state carries across folds
-                model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm, mode.value
+                wf_models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm, mode.value
             )
+            per_model_times: dict[str, dict[str, float]] = {}
+            for m in models:
+                per_model_times[m.model_id] = {}
+                _time_wrap(m, per_model_times[m.model_id])
             rep = evaluate(models, train_rows, test_rows, settings)
+            fold_total_seconds = time.perf_counter() - fold_t0
 
             meta = {"data_version": ref.data_version, "feature_version": model_cfg.feature_version}
             all_records += _fold_predictions(rep, meta, feat_cfg.cutoff_offset_hours)
@@ -143,8 +240,13 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
             test_end = max(r.kickoff_utc for r in test_rows).isoformat()
 
             metrics_by_model: dict[str, dict] = {}
+            ci_by_model: dict[str, dict] = {}
+            timings_by_model: dict[str, float] = {}
             for r in rep.results:
                 metrics_by_model[r.model_id] = r.metrics
+                ci_by_model[r.model_id] = r.confidence_intervals
+                t = per_model_times.get(r.model_id, {})
+                timings_by_model[r.model_id] = round(t.get("fit", 0.0) + t.get("predict", 0.0), 4)
                 exp = ExperimentRecord(
                     experiment_id=f"{tag}_fold{fold.index}_{r.model_id}",
                     run_mode=mode,
@@ -185,7 +287,14 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
                     exp.model_dump_json(indent=2), encoding="utf-8"
                 )
             fold_results.append(
-                FoldResult(fold, (train_start, train_end), (test_start, test_end), metrics_by_model)
+                FoldResult(
+                    fold,
+                    (train_start, train_end),
+                    (test_start, test_end),
+                    metrics_by_model,
+                    ci_by_model,
+                    timings_by_model,
+                )
             )
             fold_reports.append(
                 {
@@ -198,11 +307,25 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
                     "n_test_rows": len(test_rows),
                     "n_common_rows": rep.n_common_rows,
                     "metrics": metrics_by_model,
+                    "confidence_intervals": ci_by_model,
+                }
+            )
+            fold_timings.append(
+                {
+                    "index": fold.index,
+                    "test_season": fold.test_season,
+                    "timings_seconds": timings_by_model,
+                    "fold_total_seconds": round(fold_total_seconds, 4),
                 }
             )
 
         pred_text = dump_records(all_records)
         (tmp / "predictions.jsonl").write_text(pred_text + "\n", encoding="utf-8")
+        summary = _aggregate_summary(fold_reports)
+        (tmp / "walk_forward_summary.json").write_text(
+            json.dumps(summary, indent=2, sort_keys=True, default=str), encoding="utf-8"
+        )
+        (tmp / "walk_forward_summary.md").write_text(_render_summary_md(summary), encoding="utf-8")
         report = {
             "split_id": split["split_id"],
             "data_version": ref.data_version,
@@ -214,15 +337,23 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
                 "Every fold trains and predicts strictly inside train+validation seasons; final-test "
                 "seasons are never read here (ADR 0004) and this run never unlocks a FINAL context.",
                 "A fold's test-season prediction is a walk-forward diagnostic, not a model-selection "
-                "signal: no fold or aggregate here declares an overall winner (docs/baselines.md).",
-                "bootstrap_samples=0 for every fold: point metrics per fold, not confidence intervals "
-                "(run_baselines is the CI-bearing benchmark).",
+                "signal: no fold or aggregate here declares an overall winner (docs/baselines.md); "
+                "see walk_forward_summary.md for the aggregate table -- fold-level detail is never "
+                "hidden behind it (Rule 29).",
+                "Bootstrap CI per fold uses evaluation.bootstrap_samples (was hardcoded 0; now "
+                "configurable, S0-S7 hardening Phase 9 / audit finding H-06). Overlapping intervals "
+                "mean a difference is NOT established -- uncertainty reporting, not a significance test.",
             ],
         }
         report_json = json.dumps(report, indent=2, sort_keys=True, default=str)
         (tmp / "report.json").write_text(report_json, encoding="utf-8")
         (tmp / "split_manifest.json").write_text(
             json.dumps(split, indent=2, sort_keys=True), encoding="utf-8"
+        )
+        # Wall-clock runtime, deliberately NOT hashed/reproducibility-checked (M-16) -- see the
+        # comment on `fold_timings`'s declaration above.
+        (tmp / "timings.json").write_text(
+            json.dumps({"folds": fold_timings}, indent=2, sort_keys=True), encoding="utf-8"
         )
         hashes = {
             "predictions": hashlib.sha256(pred_text.encode()).hexdigest(),

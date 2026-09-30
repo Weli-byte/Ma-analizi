@@ -37,6 +37,10 @@ python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season
 python -m src.data.team_resolution review     # unresolved team names
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
+Lock regeneration MUST use `uv pip compile pyproject.toml -o requirements.lock --generate-hashes --upgrade`
+(the `--upgrade` flag is required — without it `uv` treats the existing lock file as a soft
+preference and can pin a stale transitive version that only the fresh-file `lock-up-to-date` CI
+job catches; see incident `dec5c04` (H-05, hardening audit Phase 23).
 
 ## Layout
 `src/schemas` (Fixture lifecycle, FeatureSnapshot, PredictionRecord + lifecycle/ledger, ExperimentRecord, frozen

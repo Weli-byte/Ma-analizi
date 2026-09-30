@@ -253,6 +253,7 @@ def test_cross_model_probability_contract():
     gbm_cfg = GBMConfig(n_optuna_trials=zero_budget)
     for model_id in sorted(FULL_REGISTRY):
         m = build_all_models([model_id], gbm_config=gbm_cfg, mode="development")[0]
+        assert m.raw_probs_ is None, f"{model_id}: raw_probs_ must start None (before predict)"
         m.fit(train)
         p = m.predict_proba(test)
         assert p.shape == (len(test), 3), model_id
@@ -262,6 +263,24 @@ def test_cross_model_probability_contract():
             if not nan_mask.any():
                 assert np.all((r >= 0) & (r <= 1)), model_id
                 assert r.sum() == pytest.approx(1.0, abs=1e-6), model_id
+
+
+def test_raw_probs_matches_last_predict_proba_call_for_every_model():
+    """M-13: calibration-ready contract, ahead of S9. No model calibrates yet, so
+    `raw_probs_` must equal `predict_proba`'s last returned array for EVERY registered model
+    (set generically by `BaselineModel.__init_subclass__`, not per-model bookkeeping)."""
+    from src.config import GBMConfig, GBMTrialBudget
+    from src.models import REGISTRY as FULL_REGISTRY
+    from src.models import build_models as build_all_models
+
+    train, test = contract_rows(40, seed=0), contract_rows(10, seed=1)
+    zero_budget = GBMTrialBudget(development=0, research=0, strict=0, final=0)
+    gbm_cfg = GBMConfig(n_optuna_trials=zero_budget)
+    for model_id in sorted(FULL_REGISTRY):
+        m = build_all_models([model_id], gbm_config=gbm_cfg, mode="development")[0]
+        m.fit(train)
+        p = m.predict_proba(test)
+        assert m.raw_probs_ is p or np.array_equal(m.raw_probs_, p, equal_nan=True), model_id
 
 
 def test_only_market_implied_is_labelled_reference_market_baseline():

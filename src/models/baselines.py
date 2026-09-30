@@ -34,6 +34,29 @@ class BaselineModel:
 
     def __init__(self) -> None:
         self.diagnostics: dict[str, object] = {}
+        # S0-S7 hardening Phase 25 (audit finding M-13): calibration-ready contract, ahead of
+        # S9. No model calibrates yet -- `raw_probs_` always equals `predict_proba`'s last
+        # returned array for every registered model (set generically by `__init_subclass__`
+        # below, not per-model). When S9 lands, `predict_proba` becomes the CALIBRATED output
+        # and `raw_probs_` stays the pre-calibration signal, so callers that already read
+        # `raw_probs_` (e.g. `docs/gbm.md`) do not need to change.
+        self.raw_probs_: np.ndarray | None = None
+
+    def __init_subclass__(cls, **kwargs) -> None:
+        super().__init_subclass__(**kwargs)
+        impl = cls.__dict__.get("predict_proba")
+        if impl is None:
+            return
+
+        def predict_proba(self, rows: list[EvalRow], _impl=impl) -> np.ndarray:
+            probs = _impl(self, rows)
+            self.raw_probs_ = probs
+            return probs
+
+        predict_proba.__name__ = "predict_proba"
+        predict_proba.__doc__ = impl.__doc__
+        predict_proba.__wrapped__ = impl
+        cls.predict_proba = predict_proba
 
     def fit(self, train: list[EvalRow]) -> "BaselineModel":
         return self

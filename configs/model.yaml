@@ -26,6 +26,11 @@ poisson:
   tail_mass_warn_threshold: 0.01
 gbm:
   seed: 42
-  n_optuna_trials: 8
+  n_optuna_trials:
+    development: 2
+    research: 8
+    strict: 8
+    final: 30
   validation_fraction: 0.15
   early_stopping_rounds: 20
+  n_temporal_folds: 1

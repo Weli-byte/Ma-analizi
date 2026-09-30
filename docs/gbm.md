@@ -28,8 +28,21 @@ are never read by `fit()` regardless (ADR 0004).
 Primary objective: validation log loss (what the study minimizes). RPS is computed on every
 trial and recorded as a `trial.user_attr` for secondary comparison/reporting — it never
 overrides the primary objective or picks the winning trial (`diagnostics["optuna_best_rps_secondary"]`).
-`n_optuna_trials` (config, default 8) trials with a seeded `TPESampler` (`seed`, config, default
-42) for determinism. `n_optuna_trials=0` skips tuning and uses the class defaults.
+A seeded `TPESampler` (`seed`, config, default 42) for determinism. `n_optuna_trials=0` skips
+tuning and uses the class defaults.
+
+**Per-mode trial budget** (S0-S7 hardening Phase 8, audit finding M-10): `GBMConfig.
+n_optuna_trials` is a `GBMTrialBudget` (`development`/`research`/`strict`/`final`), not one flat
+number — `configs/model.yaml` defaults: 2/8/8/30. `build_models(..., mode=...)` resolves the
+right budget for the run's `RunMode`; `run_baselines`/`walk_forward`/`final` all pass their own
+mode through automatically.
+
+**Temporal (multi-window) tuning** (Phase 8, M-11): `GBMConfig.n_temporal_folds` (default `1`,
+exactly the single-holdout behavior below, unchanged). `>1` builds that many chronological
+EXPANDING windows from the `train` rows `fit()` itself received
+(`src.models.gbm._temporal_cv_folds`) — Optuna's objective becomes the MEAN validation log loss
+across every fold, not one window's number. The deployed booster is still fit on the most
+recent (last) chronological window.
 
 ## Early stopping
 
@@ -65,7 +78,33 @@ verifies a reload reproduces byte-identical (`atol=1e-6`) predictions.
 ## Determinism
 
 Same `train` + same `seed` → identical `predict_proba` output (both boosters are deterministic
-given a fixed seed and single-threaded-equivalent training; verified in `tests/test_gbm.py`).
+given a fixed seed and single-threaded-equivalent training; verified in `tests/test_gbm.py`,
+including the multi-fold temporal CV path). Cross-platform bitwise-identical output is NOT
+claimed (same class of limitation as ADR-0017's H-09 finding for Elo/Poisson/DC — tree-split
+comparisons are structurally less exposed to CPU/SIMD dispatch variance than iterative float
+accumulation, but this is not proven immunity).
+
+## Feature audit & correlated-feature comparison (Phase 8, M-08/M-09)
+
+`scripts/gbm_feature_audit.py`: every feature grouped (form/scoring/conceding/home-away/
+opponent/rest/streaks/future-planned) with contract metadata from `src.features.registry` plus
+runtime null-rate/variance from the built feature artifact, and the real correlation matrix
+within `form_points_{3,5,10}` (0.83/0.82/0.69 pairwise on real data — confirms the expected
+nested-window correlation).
+
+`scripts/gbm_feature_reduction_comparison.py`: fits XGBoost on the full vs a reduced
+(`form_points_3`/`form_points_10` excluded) feature set across every walk-forward fold via the
+new `GBMModel.excluded_features` constructor param (masks columns to NaN/unavailable without
+changing the feature contract's shape). Real-data result: mixed sign across folds — no removal
+warranted; nothing was removed (diagnostic only, per Rule 4/18).
+
+## Early-stopping leakage test (Phase 8, L-03)
+
+`tests/test_gbm.py::test_early_stopping_uses_only_the_internal_validation_split_never_anything_else`:
+a mutation-style test corrupting only the internal validation labels and confirming the fitted
+booster's `best_iteration`/hyperparameters change — positive proof early stopping reads
+`X_val`/`y_val` and nothing else. A companion test confirms `predict_proba` is read-only and can
+never affect `best_iteration` or later predictions regardless of what rows it's called with.
 
 ## Validation numbers (current split, `configs/evaluation.yaml`)
 

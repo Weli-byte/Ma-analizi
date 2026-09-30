@@ -13,6 +13,10 @@ poisson:
   convergence_tolerance: 1.0e-6
 gbm:
   seed: 42
-  n_optuna_trials: 2
+  n_optuna_trials:
+    development: 2
+    research: 2
+    strict: 2
+    final: 2
   validation_fraction: 0.2
   early_stopping_rounds: 5

@@ -35,7 +35,11 @@ def build_models(
     elo_config: EloConfig | None = None,
     poisson_config: PoissonConfig | None = None,
     gbm_config: GBMConfig | None = None,
+    mode: str = "research",
 ) -> list[BaselineModel]:
+    """`mode` (a `RunMode` value) only affects GBM's Optuna trial budget
+    (`GBMConfig.n_optuna_trials`, per-mode — S0-S7 hardening Phase 8, audit finding M-10); every
+    other model is mode-independent."""
     unknown = [n for n in names if n not in REGISTRY]
     if unknown:
         raise KeyError(f"unknown model {unknown}; available: {sorted(REGISTRY)}")
@@ -48,7 +52,10 @@ def build_models(
         elif n in _POISSON_FAMILY_IDS and poisson_config is not None:
             out.append(REGISTRY[n](**poisson_config.model_dump()))
         elif n in _GBM_IDS and gbm_config is not None:
-            out.append(REGISTRY[n](**gbm_config.model_dump()))
+            params = gbm_config.model_dump()
+            budget = gbm_config.n_optuna_trials
+            params["n_optuna_trials"] = getattr(budget, mode, budget.research)
+            out.append(REGISTRY[n](**params))
         else:
             out.append(REGISTRY[n]())
     return out

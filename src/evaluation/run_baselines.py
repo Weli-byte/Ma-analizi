@@ -157,7 +157,7 @@ def run_baselines(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> 
         max_fallback_rate=getattr(eval_cfg.max_fallback_rate, mode.value),
     )
     rep = evaluate(
-        build_models(model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm),
+        build_models(model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm, mode.value),
         train,
         test,
         settings,

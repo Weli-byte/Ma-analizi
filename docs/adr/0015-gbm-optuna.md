@@ -107,10 +107,54 @@ Full model-matrix real-data run (9 models incl. both GBMs, 8 Optuna trials each,
 - Determinism is same-machine/same-run verified; cross-platform bitwise-identical output from
   XGBoost/LightGBM's internal threading is NOT claimed (L-04).
 
+## Amendment (S0-S7 hardening, Phase 8): per-mode budget, temporal CV, feature audit, leakage test
+
+- **Per-mode Optuna budget (M-10, closed)**: `GBMConfig.n_optuna_trials` is now a
+  `GBMTrialBudget` (`development`/`research`/`strict`/`final`, mirroring `FallbackThresholds`'s
+  existing per-mode pattern), not one flat number. `build_models(..., mode=...)` resolves the
+  right budget for the run's `RunMode` (default config: 2/8/8/30). `run_baselines`/
+  `walk_forward`/`final` all now pass their own `mode` through.
+- **Temporal (multi-window) tuning (M-11, closed)**: `GBMConfig.n_temporal_folds` (default `1`,
+  fully backward-compatible — reduces to exactly the old single last-`validation_fraction`
+  holdout, tested). `>1` builds that many chronological EXPANDING windows
+  (`src.models.gbm._temporal_cv_folds`) purely from row-count cuts within whatever `train` rows
+  `fit()` itself received (no dependency on season metadata) — Optuna's objective becomes the
+  MEAN validation log loss across every fold, never a single window's number. The deployed
+  booster is still fit on the most recent (last) chronological window, same as before.
+- **Feature audit (M-08, closed)**: `scripts/gbm_feature_audit.py` — every feature grouped
+  (form/scoring/conceding/home-away/opponent/rest/streaks/future-planned) with its contract
+  metadata (type, `available_at`, source, leakage status, feature version) from
+  `src.features.registry`, plus runtime null-rate/variance from the currently built feature
+  artifact when one exists. Also reports the REAL correlation matrix within
+  `form_points_{3,5,10}` (real data: 0.83/0.82/0.69 pairwise — confirms the expected
+  nested-window correlation).
+- **Correlated features (M-09, closed)**: `scripts/gbm_feature_reduction_comparison.py` fits
+  XGBoost on the full vs a reduced (`form_points_3`/`form_points_10` excluded, `form_points_5`
+  kept) feature set across every walk-forward fold, reporting log loss per fold for both —
+  `GBMModel.excluded_features` (new constructor param) makes this possible without touching the
+  feature CONTRACT (`FEATURES`/`FEATURE_NAMES` stay fixed-shape; excluded columns are forced to
+  NaN/unavailable, same as any other genuinely-missing feature). Real-data result: mixed sign
+  across folds (+0.0054, +0.0019, −0.0066) — NOT consistently negative, so no removal is
+  warranted by this evidence; nothing was removed.
+- **Early-stopping leakage test (L-03, closed)**: added an explicit mutation-style test
+  (`test_early_stopping_uses_only_the_internal_validation_split_never_anything_else`) —
+  corrupting only the internal validation labels changes the fitted booster's `best_iteration`
+  or chosen hyperparameters, positively confirming early stopping reads `X_val`/`y_val` and
+  nothing else. A second test confirms `predict_proba` is read-only and can never affect
+  `best_iteration` or later predictions regardless of what rows it's called with.
+- **Determinism (L-04, unchanged/reaffirmed)**: multi-fold temporal CV re-verified
+  deterministic (same seed → same predictions) in addition to the existing single-fold case;
+  cross-platform bitwise-identical output is still NOT claimed (same class of limitation as
+  ADR-0017's H-09 finding for Elo/Poisson/DC, though GBM's tree-split arithmetic has not itself
+  been observed to trigger it — tree splits are comparisons, not accumulating sums, and are
+  structurally less exposed to this than Elo/Poisson's iterative float accumulation).
+
 ## Revisit conditions
 Revisit if: the feature contract source changes (e.g. S12 adds new leakage-safe features and
 GBM should consume them — that's an automatic consequence of `produced_names()` changing, not a
 methodology change, so likely doesn't need a NEW ADR unless the missingness representation also
 changes), the Optuna objective changes from pure Log Loss to a multi-objective or weighted
-scheme, or the internal split strategy changes from a single chronological holdout to
-multi-window temporal CV (Phase 20) — the latter should be recorded as an amendment here.
+scheme, the internal split strategy's DEFAULT changes from a single chronological holdout to
+multi-window temporal CV (`n_temporal_folds` default moving off `1`), or
+`gbm_feature_reduction_comparison.py`'s evidence is ever acted on to actually remove
+`form_points_3`/`form_points_10` (that would need its own ADR, not just this ADR's amendment).

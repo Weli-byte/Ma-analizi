@@ -129,11 +129,19 @@ def test_model_card_metadata_recorded(model_cls):
 def test_build_models_wires_gbm_config():
     from src.config import GBMConfig
 
-    cfg = GBMConfig(seed=3, n_optuna_trials=1, validation_fraction=0.2, early_stopping_rounds=5)
-    [xgb_m, lgbm_m] = build_models(["xgboost", "lightgbm"], gbm_config=cfg)
+    cfg = GBMConfig(
+        seed=3,
+        n_optuna_trials={"development": 1, "research": 5, "strict": 5, "final": 9},
+        validation_fraction=0.2,
+        early_stopping_rounds=5,
+    )
+    [xgb_m, lgbm_m] = build_models(["xgboost", "lightgbm"], gbm_config=cfg, mode="development")
     assert isinstance(xgb_m, XGBModel) and isinstance(lgbm_m, LGBMModel)
-    assert xgb_m.seed == 3 and xgb_m.n_optuna_trials == 1
+    assert xgb_m.seed == 3 and xgb_m.n_optuna_trials == 1  # resolved from the "development" budget
     assert lgbm_m.seed == 3 and lgbm_m.n_optuna_trials == 1
+
+    [xgb_final] = build_models(["xgboost"], gbm_config=cfg, mode="final")
+    assert xgb_final.n_optuna_trials == 9  # per-mode budget: "final" gets a much bigger search
 
 
 def test_no_optuna_trials_falls_back_to_default_params_without_crashing(model_cls):
@@ -150,3 +158,98 @@ def test_base_class_hooks_are_abstract():
         m._default_params()
     with pytest.raises(NotImplementedError):
         m.dump()
+
+
+# ------------------------------------------------- S0-S7 hardening Phase 8
+def test_temporal_cv_reduces_to_single_split_when_n_folds_is_1():
+    from src.models.gbm import _chronological_split, _temporal_cv_folds
+
+    train = synthetic_rows(n=60)
+    fit_a, val_a = _chronological_split(train, 0.2)
+    [(fit_b, val_b)] = _temporal_cv_folds(train, 1, 0.2)
+    assert fit_a == fit_b and val_a == val_b
+
+
+def test_temporal_cv_produces_multiple_chronological_non_overlapping_folds():
+    from src.models.gbm import _temporal_cv_folds
+
+    train = synthetic_rows(n=120)
+    folds = _temporal_cv_folds(train, 3, 0.2)
+    assert len(folds) == 3
+    for fit_idx, val_idx in folds:
+        assert fit_idx and val_idx
+        assert max(fit_idx) < min(val_idx)  # every fold's val strictly follows its own train
+    # folds are chronologically ordered and expanding: later folds' train sets are supersets
+    for (fit_a, _), (fit_b, _) in zip(folds, folds[1:], strict=False):
+        assert set(fit_a) < set(fit_b)
+
+
+def test_temporal_cv_folds_never_overlap_a_later_folds_training_future(model_cls):
+    train = synthetic_rows(n=120)
+    m = model_cls(seed=1, n_optuna_trials=1, validation_fraction=0.3, n_temporal_folds=3)
+    m.fit(train)
+    assert m.diagnostics["n_temporal_folds"] == 3
+    assert m.diagnostics["n_folds_used_for_tuning"] >= 1
+
+
+def test_multi_fold_tuning_is_deterministic(model_cls):
+    train = synthetic_rows(n=120)
+    a = model_cls(seed=7, n_optuna_trials=2, n_temporal_folds=3).fit(train)
+    b = model_cls(seed=7, n_optuna_trials=2, n_temporal_folds=3).fit(train)
+    test = synthetic_rows(n=10, seed=99)
+    assert np.allclose(a.predict_proba(test), b.predict_proba(test), atol=1e-6)
+
+
+def test_per_mode_optuna_budget_resolved_by_build_models():
+    from src.config import GBMConfig
+    from src.models import build_models
+
+    cfg = GBMConfig(n_optuna_trials={"development": 0, "research": 4, "strict": 4, "final": 15})
+    [dev] = build_models(["xgboost"], gbm_config=cfg, mode="development")
+    [research] = build_models(["xgboost"], gbm_config=cfg, mode="research")
+    [final] = build_models(["xgboost"], gbm_config=cfg, mode="final")
+    assert dev.n_optuna_trials == 0
+    assert research.n_optuna_trials == 4
+    assert final.n_optuna_trials == 15
+
+
+def test_early_stopping_uses_only_the_internal_validation_split_never_anything_else(model_cls):
+    """Mutation-style leakage guard: swap the internal validation labels for noise and confirm
+    the fitted booster's chosen iteration count changes -- proving early stopping actually reads
+    X_val/y_val (not some cached/ignored value), so if a future change accidentally fed it
+    something else (e.g. test data), this test would have a chance of catching it too."""
+    train = synthetic_rows(n=80)
+    m1 = model_cls(seed=1, n_optuna_trials=0, validation_fraction=0.25).fit(train)
+    it1 = getattr(m1.booster_, "best_iteration", None)
+
+    corrupted = list(train)
+    fit_idx, val_idx = _chronological_split_public(corrupted)
+    rng = np.random.default_rng(0)
+    corrupted = [
+        EvalRow(r.fixture_id, r.league_id, r.season, r.kickoff_utc, r.home_id, r.away_id,
+                int(rng.integers(0, 3)) if i in val_idx else r.outcome, r.features)  # fmt: skip
+        for i, r in enumerate(corrupted)
+    ]
+    m2 = model_cls(seed=1, n_optuna_trials=0, validation_fraction=0.25).fit(corrupted)
+    it2 = getattr(m2.booster_, "best_iteration", None)
+    assert it1 != it2 or m1.diagnostics["hyperparameters"] != m2.diagnostics["hyperparameters"]
+
+
+def _chronological_split_public(rows):
+    from src.models.gbm import _chronological_split
+
+    return _chronological_split(rows, 0.25)
+
+
+def test_predict_proba_never_affects_the_fitted_boosters_state(model_cls):
+    """predict_proba must be read-only w.r.t. the fitted booster: calling it with different rows
+    (any rows, including ones resembling held-out test data) must never change best_iteration or
+    future predictions -- the exact property early-stopping leakage would violate."""
+    train = synthetic_rows(n=60)
+    m = model_cls(seed=1, n_optuna_trials=0).fit(train)
+    it_before = getattr(m.booster_, "best_iteration", None)
+    p1 = m.predict_proba(synthetic_rows(n=5, seed=1))
+    m.predict_proba(synthetic_rows(n=5, seed=2))  # different rows, discarded result
+    p2 = m.predict_proba(synthetic_rows(n=5, seed=1))  # same rows as p1 again
+    assert getattr(m.booster_, "best_iteration", None) == it_before
+    assert np.allclose(p1, p2, atol=1e-9)

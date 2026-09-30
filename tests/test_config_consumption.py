@@ -11,7 +11,9 @@ SRC = Path(__file__).resolve().parents[1] / "src"
 CONFIG_FILE = SRC / "config" / "__init__.py"
 # fields read dynamically through getattr(cfg, mode.value); verified by a dedicated test below
 DYNAMIC = {"FallbackThresholds.development", "FallbackThresholds.research",
-           "FallbackThresholds.strict", "FallbackThresholds.final"}  # fmt: skip
+           "FallbackThresholds.strict", "FallbackThresholds.final",
+           "GBMTrialBudget.development", "GBMTrialBudget.research",
+           "GBMTrialBudget.strict", "GBMTrialBudget.final"}  # fmt: skip
 
 
 def consumed_names() -> set[str]:
@@ -58,7 +60,20 @@ def test_reserved_fields_exist_and_are_tagged():
 def test_dynamic_fallback_thresholds_are_actually_read_by_mode():
     src = (SRC / "evaluation" / "run_baselines.py").read_text(encoding="utf-8")
     assert "getattr(eval_cfg.max_fallback_rate, mode.value)" in src
-    modes = {k.split(".")[1] for k in DYNAMIC}
+    modes = {k.split(".")[1] for k in DYNAMIC if k.startswith("FallbackThresholds.")}
+    from src.runmode import RunMode
+
+    assert modes == {m.value for m in RunMode}
+
+
+def test_dynamic_gbm_trial_budget_is_actually_read_by_mode():
+    """S0-S7 hardening Phase 8 (audit finding M-10): GBMTrialBudget's 4 fields are read via
+    getattr(budget, mode, ...) with a variable `mode`, invisible to the static consumed_names()
+    scan -- this test is the dedicated proof they are genuinely read, matching the same pattern
+    FallbackThresholds already established above."""
+    src = (SRC / "models" / "__init__.py").read_text(encoding="utf-8")
+    assert "getattr(budget, mode" in src
+    modes = {k.split(".")[1] for k in DYNAMIC if k.startswith("GBMTrialBudget.")}
     from src.runmode import RunMode
 
     assert modes == {m.value for m in RunMode}

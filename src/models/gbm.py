@@ -35,12 +35,20 @@ FEATURE_NAMES: list[str] = list(FEATURES) + [f"{n}{AVAIL_SUFFIX}" for n in FEATU
 MIN_TRAIN_ROWS = 20
 
 
-def _design_matrix(rows: list[EvalRow]) -> np.ndarray:
+def _design_matrix(rows: list[EvalRow], excluded_features: frozenset[str] = frozenset()) -> np.ndarray:
+    """`excluded_features` (S0-S7 hardening Phase 8, audit finding M-09): a research knob for
+    comparing the full vs a reduced feature set under walk-forward (`scripts/
+    gbm_feature_reduction_comparison.py`) — an excluded feature's column (and its `_available`
+    flag) is forced to NaN/0, i.e. always "missing", never silently dropped from the matrix
+    shape/`FEATURE_NAMES` alignment. Empty by default: the full S2 contract is used unless a
+    caller explicitly opts into a reduced set for that comparison."""
     n = len(rows)
     raw = np.full((n, len(FEATURES)), np.nan)
     avail = np.zeros((n, len(FEATURES)))
     for i, r in enumerate(rows):
         for j, name in enumerate(FEATURES):
+            if name in excluded_features:
+                continue
             v = r.features.get(name)
             if v is not None:
                 raw[i, j] = v
@@ -59,6 +67,27 @@ def _chronological_split(rows: list[EvalRow], validation_fraction: float) -> tup
     return fit_idx, val_idx_list
 
 
+def _temporal_cv_folds(
+    rows: list[EvalRow], n_folds: int, validation_fraction: float
+) -> list[tuple[list[int], list[int]]]:
+    """S0-S7 hardening Phase 8 (audit finding M-11): `n_folds` chronological expanding windows,
+    each fold's validation slice strictly AFTER its own training slice (never random, never
+    overlapping a later fold's train with an earlier fold's future). `n_folds=1` reduces to
+    exactly `_chronological_split`'s single last-`validation_fraction` holdout, unchanged."""
+    ordered = sorted(range(len(rows)), key=lambda i: (rows[i].kickoff_utc, rows[i].fixture_id))
+    n = len(ordered)
+    val_size = max(1, int(n * validation_fraction / n_folds))
+    folds: list[tuple[list[int], list[int]]] = []
+    for k in range(n_folds):
+        val_end = n - k * val_size
+        val_start = max(0, val_end - val_size)
+        if val_start <= 1:
+            break
+        folds.append((ordered[:val_start], ordered[val_start:val_end]))
+    folds.reverse()  # earliest fold first, matching walk-forward's own chronological convention
+    return folds or [(ordered, [])]
+
+
 class GBMModel(BaselineModel):
     """Common scaffolding for the two multiclass boosters; subclasses implement the booster
     calls only (`_default_params`, `_suggest_params`, `_fit_booster`, `_predict_booster`)."""
@@ -72,12 +101,16 @@ class GBMModel(BaselineModel):
         n_optuna_trials: int = 8,
         validation_fraction: float = 0.15,
         early_stopping_rounds: int = 20,
+        n_temporal_folds: int = 1,
+        excluded_features: frozenset[str] = frozenset(),
     ) -> None:
         super().__init__()
         self.seed = seed
         self.n_optuna_trials = n_optuna_trials
         self.validation_fraction = validation_fraction
         self.early_stopping_rounds = early_stopping_rounds
+        self.n_temporal_folds = n_temporal_folds
+        self.excluded_features = excluded_features
         self.booster_ = None
         self.best_params_: dict = {}
         self.raw_probs_: np.ndarray | None = None
@@ -102,11 +135,15 @@ class GBMModel(BaselineModel):
     def load(self, data: bytes) -> None:
         raise NotImplementedError
 
-    # ---- Optuna tuning (chronological internal split only) ------------------------
-    def _tune(self, X_fit, y_fit, X_val, y_val) -> tuple[dict, dict]:
+    # ---- Optuna tuning (chronological internal split(s) only) ---------------------
+    def _tune(self, X_all, y_all, folds: list[tuple[list[int], list[int]]]) -> tuple[dict, dict]:
+        """`folds`: one or more (fit_idx, val_idx) chronological windows (Phase 8, M-11) —
+        objective = MEAN validation log loss across every fold, never a single holdout when
+        `n_temporal_folds > 1`. RPS is averaged too, purely for secondary reporting."""
         base = self._default_params()
-        if len(X_val) == 0 or self.n_optuna_trials <= 0:
-            return base, {"best_log_loss": None, "best_rps": None, "n_trials_run": 0}
+        usable_folds = [(f, v) for f, v in folds if len(v) > 0]
+        if not usable_folds or self.n_optuna_trials <= 0:
+            return base, {"best_log_loss": None, "best_rps": None, "n_trials_run": 0, "n_folds_used": 0}
 
         import optuna
 
@@ -117,11 +154,16 @@ class GBMModel(BaselineModel):
 
         def objective(trial):
             params = {**base, **self._suggest_params(trial)}
-            booster = self._fit_booster(X_fit, y_fit, X_val, y_val, params)
-            p = self._predict_booster(booster, X_val)
-            ll = log_loss(p, y_val)
-            trial.set_user_attr("rps", rps(p, y_val))  # secondary; never overrides log loss
-            return ll
+            lls, rpss = [], []
+            for fit_idx, val_idx in usable_folds:
+                booster = self._fit_booster(
+                    X_all[fit_idx], y_all[fit_idx], X_all[val_idx], y_all[val_idx], params
+                )
+                p = self._predict_booster(booster, X_all[val_idx])
+                lls.append(log_loss(p, y_all[val_idx]))
+                rpss.append(rps(p, y_all[val_idx]))
+            trial.set_user_attr("rps", float(np.mean(rpss)))  # secondary; never overrides log loss
+            return float(np.mean(lls))
 
         study.optimize(objective, n_trials=self.n_optuna_trials, show_progress_bar=False)
         best = study.best_trial
@@ -129,6 +171,7 @@ class GBMModel(BaselineModel):
             "best_log_loss": best.value,
             "best_rps": best.user_attrs.get("rps"),
             "n_trials_run": len(study.trials),
+            "n_folds_used": len(usable_folds),
         }
 
     def _shap_summary(self, X: np.ndarray, top_n: int = 10) -> dict:
@@ -158,13 +201,14 @@ class GBMModel(BaselineModel):
         rows = list(train)
         if len(rows) < MIN_TRAIN_ROWS:
             raise ValueError(f"{self.model_id}: needs at least {MIN_TRAIN_ROWS} rows, got {len(rows)}")
-        X_all = _design_matrix(rows)
+        X_all = _design_matrix(rows, self.excluded_features)
         y_all = np.array([r.outcome for r in rows])
-        fit_idx, val_idx = _chronological_split(rows, self.validation_fraction)
+        folds = _temporal_cv_folds(rows, self.n_temporal_folds, self.validation_fraction)
+
+        self.best_params_, tuning = self._tune(X_all, y_all, folds)
+        fit_idx, val_idx = folds[-1]  # deployed booster: most recent chronological window
         X_fit, y_fit = X_all[fit_idx], y_all[fit_idx]
         X_val, y_val = X_all[val_idx], y_all[val_idx]
-
-        self.best_params_, tuning = self._tune(X_fit, y_fit, X_val, y_val)
         self.booster_ = self._fit_booster(X_fit, y_fit, X_val, y_val, self.best_params_)
         self._fitted = True
 
@@ -173,6 +217,8 @@ class GBMModel(BaselineModel):
             "training_rows": len(rows),
             "internal_fit_rows": len(fit_idx),
             "internal_val_rows": len(val_idx),
+            "n_temporal_folds": self.n_temporal_folds,
+            "n_folds_used_for_tuning": tuning["n_folds_used"],
             "training_window": [min(kickoffs).isoformat(), max(kickoffs).isoformat()],
             "hyperparameters": {k: v for k, v in self.best_params_.items()},
             "n_optuna_trials": self.n_optuna_trials,
@@ -180,6 +226,7 @@ class GBMModel(BaselineModel):
             "optuna_best_rps_secondary": tuning["best_rps"],
             "seed": self.seed,
             "n_features": len(FEATURE_NAMES),
+            "excluded_features": sorted(self.excluded_features),
             "top_shap_features": self._shap_summary(X_val if len(X_val) else X_fit),
         }
         return self
@@ -187,7 +234,7 @@ class GBMModel(BaselineModel):
     def predict_proba(self, rows: list[EvalRow]) -> np.ndarray:
         if not self._fitted:
             raise RuntimeError(f"{self.model_id}.predict_proba called before fit()")
-        X = _design_matrix(rows)
+        X = _design_matrix(rows, self.excluded_features)
         p = self._predict_booster(self.booster_, X)
         self.raw_probs_ = p
         return p

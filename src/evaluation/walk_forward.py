@@ -130,7 +130,7 @@ def run_walk_forward(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) 
             train_rows = load_rows(ref, ctx, list(fold.train_seasons), feats)
             test_rows = load_rows(ref, ctx, [fold.test_season], feats)
             models = build_models(  # fresh instances every fold: no state carries across folds
-                model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm
+                model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm, mode.value
             )
             rep = evaluate(models, train_rows, test_rows, settings)
 

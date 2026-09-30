@@ -137,14 +137,25 @@ class PoissonConfig(_Cfg):
     tail_mass_warn_threshold: float = Field(default=0.01, gt=0, lt=1)
 
 
+class GBMTrialBudget(_Cfg):
+    """S0-S7 hardening Phase 8: Optuna trial count is a serious research knob, not one flat
+    number for every run mode (audit finding M-10)."""
+
+    development: int = Field(default=2, ge=0)
+    research: int = Field(default=8, ge=0)
+    strict: int = Field(default=8, ge=0)
+    final: int = Field(default=30, ge=0)
+
+
 class GBMConfig(_Cfg):
     """S6: XGBoost/LightGBM hyperparameter-search hyperparameters (not the model's own
     hyperparameters — those come out of Optuna and are recorded in ExperimentRecord.config)."""
 
     seed: int = 42
-    n_optuna_trials: int = Field(default=8, ge=0)
+    n_optuna_trials: GBMTrialBudget = GBMTrialBudget()
     validation_fraction: float = Field(default=0.15, gt=0, lt=1)
     early_stopping_rounds: int = Field(default=20, ge=1)
+    n_temporal_folds: int = Field(default=1, ge=1)  # >1: multi-window chronological tuning (Phase 8)
 
 
 class ModelConfig(_Cfg):

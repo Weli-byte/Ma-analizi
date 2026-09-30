@@ -81,7 +81,7 @@ def run_final_evaluation(root: Path = ROOT, mode: RunMode | str = RunMode.FINAL)
         max_fallback_rate=getattr(eval_cfg.max_fallback_rate, mode.value),
     )
     rep = evaluate(
-        build_models(model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm),
+        build_models(model_cfg.models, model_cfg.elo, model_cfg.poisson, model_cfg.gbm, mode.value),
         fit_rows,
         final_rows,
         settings,

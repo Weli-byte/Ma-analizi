@@ -57,3 +57,24 @@ class ExperimentRecord(ImmutableModel):
     def config_hash(self) -> str:
         cfg: dict[str, Any] = thaw(self.config)
         return config_hash(cfg)
+
+
+def is_research_validated(exp: ExperimentRecord) -> bool:
+    """S0-S7 hardening Phase 40 (audit finding H-07): `ExperimentRecord` already carries every
+    provenance field Rule 9 requires and the model's own validator already enforces most of the
+    "complete provenance" invariants at construction time (see `_check` above) -- what was
+    missing was a single named function stating the judgment explicitly, rather than it being
+    implicit in "the record exists and validated".
+
+    RESEARCH_VALIDATED means: not a scratch DEVELOPMENT run, a known (non-'unknown') git commit,
+    a clean working tree, and a real dependency lock hash. This is a labeling/verification
+    helper only -- it reads fields already present, never mutates or produces new data. STRICT
+    and FINAL runs are always RESEARCH_VALIDATED because `_check` already forbids git_dirty for
+    them; RESEARCH-mode runs qualify too as long as the tree was clean when they ran.
+    """
+    return (
+        exp.run_mode != RunMode.DEVELOPMENT
+        and exp.git_sha != "unknown"
+        and not exp.git_dirty
+        and exp.dependency_lock_hash != "missing"
+    )

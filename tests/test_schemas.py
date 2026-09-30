@@ -221,6 +221,24 @@ def test_experiment_development_may_have_unknown_sha():
     assert final.final_test_rows == 4
 
 
+# H-07 (Phase 40): RESEARCH_VALIDATED is a judgment over fields already on the record.
+def test_is_research_validated():
+    from src.schemas.experiment import is_research_validated
+
+    assert is_research_validated(ExperimentRecord(**experiment_kwargs()))  # clean RESEARCH run
+    assert is_research_validated(
+        ExperimentRecord(**experiment_kwargs(run_mode=RunMode.STRICT))
+    )  # STRICT is always clean (_check forbids git_dirty there)
+    assert not is_research_validated(
+        ExperimentRecord(
+            **experiment_kwargs(run_mode=RunMode.DEVELOPMENT, git_sha="unknown", dependency_lock_hash="missing")
+        )
+    )  # development scratch run
+    assert not is_research_validated(
+        ExperimentRecord(**experiment_kwargs(git_dirty=True, dirty_files=("x.py",)))
+    )  # dirty tree (RESEARCH mode permits dirty, but it's not RESEARCH_VALIDATED)
+
+
 def test_fixture_status_enum_covers_lifecycle():
     assert {s.value for s in FixtureStatus} == {
         "scheduled", "postponed", "in_progress", "finished", "abandoned", "cancelled", "rescheduled",

@@ -1,3 +1,4 @@
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
 
 import numpy as np
@@ -209,6 +210,76 @@ def test_declared_startup_nans_are_allowed_in_strict_within_threshold():
         [RecentFormNaive()], train, form_rows(2, declared=True), settings(RunMode.STRICT, max_rate=0.5)
     )
     assert rep.results[0].availability["unexpected_missing_rows"] == 0
+
+
+# ------------------------------------------- S0-S7 hardening Phase 10 (L-06/L-07)
+def contract_rows(n=40, seed=0):
+    """Repeated team ids (mod 8) so Elo/Poisson/DC build real rating/strength history; features
+    and odds populated so GBM/market_implied have something real to key off too."""
+    rng = np.random.default_rng(seed)
+    rows = []
+    for i in range(n):
+        home_form, away_form = float(rng.uniform(0, 15)), float(rng.uniform(0, 15))  # real range
+        edge = home_form - away_form
+        outcome = 0 if edge > 0.4 else (2 if edge < -0.4 else 1)
+        feats = {
+            "home_form_points_5": home_form,
+            "away_form_points_5": away_form,
+            "home_form_points_5_available": 1.0,
+            "away_form_points_5_available": 1.0,
+        }
+        r = row(
+            i,
+            outcome,
+            league="EPL" if i % 2 == 0 else "LALIGA",
+            day=i,
+            feats=feats,
+            odds={"closing:agg_avg": (2.0, 3.4, 3.8)},
+        )
+        rows.append(replace(r, home_id=f"h{i % 8}", away_id=f"a{i % 8}"))
+    return rows
+
+
+def test_cross_model_probability_contract():
+    """L-06: (n, 3) shape, [home, draw, away] order, each row sums to 1 or is entirely NaN --
+    verified once, shared, across EVERY registered model (baseline/statistical/ml), not just the
+    four pure baselines `test_runner_common_set_groups_ci_and_availability` already covers."""
+    from src.config import GBMConfig, GBMTrialBudget
+    from src.models import REGISTRY as FULL_REGISTRY
+    from src.models import build_models as build_all_models
+
+    train, test = contract_rows(40, seed=0), contract_rows(10, seed=1)
+    zero_budget = GBMTrialBudget(development=0, research=0, strict=0, final=0)
+    gbm_cfg = GBMConfig(n_optuna_trials=zero_budget)
+    for model_id in sorted(FULL_REGISTRY):
+        m = build_all_models([model_id], gbm_config=gbm_cfg, mode="development")[0]
+        m.fit(train)
+        p = m.predict_proba(test)
+        assert p.shape == (len(test), 3), model_id
+        for r in p:
+            nan_mask = np.isnan(r)
+            assert nan_mask.all() or not nan_mask.any(), f"{model_id}: partial-NaN row"
+            if not nan_mask.any():
+                assert np.all((r >= 0) & (r <= 1)), model_id
+                assert r.sum() == pytest.approx(1.0, abs=1e-6), model_id
+
+
+def test_only_market_implied_is_labelled_reference_market_baseline():
+    """L-07: `market_implied.model_class == "reference_market_baseline"` already distinguishes it
+    from every other model class (`baseline`/`statistical`/`ml`) -- re-verified here across the
+    FULL registry (not just the four baselines) as an explicit invariant, per the hardening audit
+    (previously only implied by `test_market_implied_is_a_labelled_reference_baseline_with_devig`
+    checking the three pure-baseline classes)."""
+    from src.models import REGISTRY as FULL_REGISTRY
+
+    reference = {c for c in FULL_REGISTRY.values() if c.model_class == "reference_market_baseline"}
+    assert reference == {MarketImplied}
+    assert {c.model_class for c in FULL_REGISTRY.values()} == {
+        "baseline",
+        "reference_market_baseline",
+        "statistical",
+        "ml",
+    }
 
 
 def test_missing_feature_record_is_unexpected():

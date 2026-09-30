@@ -15,9 +15,21 @@ MARKET_SOURCES = ["closing:agg_avg", "closing:B365", "pre_match:agg_avg", "pre_m
 
 
 class BaselineModel:
+    """S0-S7 hardening Phase 10 (audit finding L-06): the shared contract every registered model
+    (baseline, statistical, ml) must honor, not just a convention each class happens to follow --
+    `tests/test_baselines.py::test_cross_model_probability_contract` parametrizes over the full
+    `src.models.REGISTRY` to verify it:
+
+    `predict_proba(rows)` returns an `(len(rows), 3)` array in `[P(home), P(draw), P(away)]`
+    order (`EvalRow.outcome`: 0 home, 1 draw, 2 away). Each row either sums to 1 (all three
+    entries in [0, 1]) or is entirely NaN ("this model cannot predict this fixture") -- a
+    partial-NaN row is never valid. `runner.evaluate` re-checks the shape at eval time, but the
+    contract itself is a property of every model class, independent of the runner.
+    """
+
     model_id: str
     model_version = "1.0.0"
-    model_class = "baseline"  # baseline | reference_market_baseline
+    model_class = "baseline"  # baseline | reference_market_baseline | statistical | ml
     required_features: tuple[str, ...] = ()
 
     def __init__(self) -> None:

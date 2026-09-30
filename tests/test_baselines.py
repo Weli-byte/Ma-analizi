@@ -19,7 +19,7 @@ from src.models import (
 from src.runmode import RunMode
 
 T0 = datetime(2023, 8, 1, tzinfo=UTC)
-METRICS = ["log_loss", "brier", "rps", "ece", "accuracy"]
+METRICS = ["log_loss", "brier", "rps", "ece_raw", "accuracy"]
 
 
 def settings(mode=RunMode.RESEARCH, max_rate=1.0, samples=20):

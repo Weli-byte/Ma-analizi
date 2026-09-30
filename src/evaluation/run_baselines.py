@@ -58,7 +58,7 @@ def render_md(rep: EvalReport, meta: dict) -> str:
         f"- evaluated on: {rep.eval_range[0]} .. {rep.eval_range[1]} (validation; final test never loaded)",
         f"- eval fixtures: {rep.n_eval_rows} | common set: {rep.n_common_rows}",
         "",
-        "| model | class | n | Log Loss [95% CI] | Brier [95% CI] | RPS [95% CI] | ECE | Accuracy |",
+        "| model | class | n | Log Loss [95% CI] | Brier [95% CI] | RPS [95% CI] | ECE (raw) | Accuracy |",
         "|---|---|---|---|---|---|---|---|",
     ]
 
@@ -71,21 +71,21 @@ def render_md(rep: EvalReport, meta: dict) -> str:
         L.append(
             f"| {r.model_id} v{r.model_version} | {r.model_class} | {r.metrics['n']} | "
             f"{cell(r, 'log_loss')} | {cell(r, 'brier')} | {cell(r, 'rps')} | "
-            f"{_f(r.metrics['ece'])} | {r.metrics['accuracy']:.3f} |"
+            f"{_f(r.metrics['ece_raw'])} | {r.metrics['accuracy']:.3f} |"
         )
     for title, attr in (("league", "by_league"), ("season", "by_season")):
         L += [
             "",
             f"## By {title}",
             "",
-            f"| model | {title} | n | Log Loss | Brier | RPS | ECE | Accuracy |",
+            f"| model | {title} | n | Log Loss | Brier | RPS | ECE (raw) | Accuracy |",
             "|---|---|---|---|---|---|---|---|",
         ]
         for r in rep.results:
             for k, m in getattr(r, attr).items():
                 L.append(
                     f"| {r.model_id} | {k} | {m['n']} | {_f(m['log_loss'])} | {_f(m['brier'])} | "
-                    f"{_f(m['rps'])} | {_f(m['ece'])} | {m['accuracy']:.3f} |"
+                    f"{_f(m['rps'])} | {_f(m['ece_raw'])} | {m['accuracy']:.3f} |"
                 )
     L += ["", "## Feature availability / diagnostics"]
     for r in rep.results:

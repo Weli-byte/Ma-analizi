@@ -182,7 +182,7 @@ class EvaluationConfig(_Cfg):
     split_strategy: Literal["expanding", "rolling"]
     min_train_seasons: int = Field(ge=1)
     rolling_window_seasons: int = Field(default=3, ge=1)
-    metrics: list[Literal["log_loss", "brier", "rps", "ece", "accuracy"]]
+    metrics: list[Literal["log_loss", "brier", "rps", "ece_raw", "accuracy"]]
     calibration_bins: int = Field(ge=2)
     bootstrap_samples: int = Field(ge=0)
     bootstrap_seed: int = 0

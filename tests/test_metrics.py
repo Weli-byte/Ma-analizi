@@ -88,7 +88,7 @@ def test_bootstrap_is_deterministic_and_brackets_the_estimate():
     rng = np.random.default_rng(1)
     p = rng.dirichlet([3, 2, 2], size=300)
     y = rng.integers(0, 3, 300)
-    names = ["log_loss", "brier", "rps", "accuracy", "ece"]
+    names = ["log_loss", "brier", "rps", "accuracy", "ece_raw"]
     a = bootstrap_ci(names, p, y, samples=200, seed=7)
     b = bootstrap_ci(names, p, y, samples=200, seed=7)
     assert a == b  # same seed, same intervals
@@ -98,7 +98,7 @@ def test_bootstrap_is_deterministic_and_brackets_the_estimate():
         ci = a[n]
         assert ci["lower"] <= ci["mean"] <= ci["upper"] and ci["bootstrap_samples"] == 200
         assert ci["random_seed"] == 7 and ci["n"] == 300 and ci["metric"] == n
-        if n != "ece":  # ECE is biased upward by resampling; the others bracket the point estimate
+        if n != "ece_raw":  # ECE is biased upward by resampling; the others bracket the point estimate
             assert ci["lower"] <= point[n] <= ci["upper"]
 
 

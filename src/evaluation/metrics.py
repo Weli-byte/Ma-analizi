@@ -89,7 +89,10 @@ def ece(probs, outcomes, bins: int = 10) -> float:
     return float(total)
 
 
-METRICS = {"log_loss": log_loss, "brier": brier, "rps": rps, "accuracy": accuracy, "ece": ece}
+# "ece_raw" (ADR 0018): no model calibrates yet (S9 is future scope) -- the key names the value
+# as raw/uncalibrated ECE explicitly, instead of a bare "ece" a reader could mistake for
+# calibrated quality. The `ece()` function name itself is unchanged; only this report-facing key.
+METRICS = {"log_loss": log_loss, "brier": brier, "rps": rps, "accuracy": accuracy, "ece_raw": ece}
 
 
 def compute_metrics(names: list[str], probs, outcomes, bins: int = 10) -> dict[str, float]:
@@ -97,7 +100,7 @@ def compute_metrics(names: list[str], probs, outcomes, bins: int = 10) -> dict[s
     for name in names:
         if name not in METRICS:
             raise KeyError(f"unknown metric {name!r}")
-        out[name] = ece(probs, outcomes, bins) if name == "ece" else METRICS[name](probs, outcomes)
+        out[name] = ece(probs, outcomes, bins) if name == "ece_raw" else METRICS[name](probs, outcomes)
     return out
 
 

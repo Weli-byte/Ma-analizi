@@ -1,7 +1,7 @@
 split_strategy: expanding
 min_train_seasons: 2
 rolling_window_seasons: 3
-metrics: [log_loss, brier, rps, ece, accuracy]
+metrics: [log_loss, brier, rps, ece_raw, accuracy]
 calibration_bins: 10
 bootstrap_samples: 1000
 bootstrap_seed: 20260925

@@ -78,3 +78,27 @@ Phase 2 (ADR debt: H-01) is completed alongside this audit — see
 in the order specified by the hardening task, each phase closing a subset of the findings above
 and updating their `Status` column (tracked via follow-up commits, not retroactive edits to this
 audit's original findings).
+
+## Status as of Phase 43 (2026-09-30)
+
+Phases 2-10, 23-25, 35, 36, 40, 42, 43 closed. Remaining `OPEN` rows, by design:
+
+- **M-07** (GBM not beating market/Elo on real data) — an explicit behavioral guardrail against
+  overfitting to the metric, not a defect; stays open as a standing reminder, not a task.
+- **L-10** (flat model versioning scheme) — deliberately deferred until a second model variant
+  actually ships (per its own row); renaming today's working `1.0.0` versions retroactively
+  would be pure churn.
+- **L-05** (`ece` → `ece_raw` relabel) — touches `tests/fixtures/golden/expected/golden.json`;
+  `CLAUDE.md` requires an ADR AND `scripts/update_golden.py` for any golden-artifact change, and
+  `docs/golden_coverage.md` (H-09) requires golden regeneration to go through the CI workflow,
+  never a local machine. Deferred, not attempted unsupervised in this pass — needs an ADR +
+  CI-triggered regen with a human able to review the diff.
+- **L-08** (status enums `AVAILABLE/MISSING/NOT_COLLECTED/NOT_APPLICABLE/INFERRED`,
+  `rest_data_scope`, `result_available_at_quality`) — a schema-wide addition touching
+  `src/schemas/fixture.py`, `src/features/availability.py`, and every call site that reads those
+  fields. Explicitly NOT a disclosure gap (current prose documentation is already correct) —
+  deferred as a larger, reviewable unit of work rather than rushed unsupervised.
+
+`READY_FOR_S8` in `CLAUDE.md` is NOT flipped by this pass — that is the project owner's call,
+not an automatic consequence of closing audit rows; the two golden/schema-touching items above
+are exactly the kind of change that warrants a look before S8 starts.

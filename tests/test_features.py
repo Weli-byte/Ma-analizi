@@ -206,6 +206,16 @@ def test_registry_contract_and_xg_is_experimental_only():
         spec_for("mystery_feature")
 
 
+# S0-S7 hardening Phase 34/37/38 (audit finding L-08): the rest_days scope limitation
+# (domestic-league-only; cup/continental matches absent) is queryable in code, not just prose.
+def test_rest_days_scope_is_queryable():
+    from src.features.registry import rest_days_scope_of
+
+    assert rest_days_scope_of("home_rest_days_raw") == "domestic_league_only"
+    assert rest_days_scope_of("away_rest_days_capped") == "domestic_league_only"
+    assert rest_days_scope_of("home_form_points_5") is None  # not a rest-days feature
+
+
 def test_registry_hash_detects_definition_changes(monkeypatch):
     before = registry_hash()
     assert registry_hash() == before

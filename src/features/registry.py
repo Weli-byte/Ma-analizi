@@ -148,6 +148,23 @@ EXPERIMENTAL: list[FeatureSpec] = [
 SPECS = {s.name: s for s in [*REGISTRY, *EXPERIMENTAL]}
 TEAM_FEATURES = [s.name for s in REGISTRY if s.name not in VENUE_FEATURES]
 
+# S0-S7 hardening Phase 34/37/38 (audit finding L-08): a queryable scope-limitation lookup,
+# deliberately NOT a `FeatureSpec` field -- `registry_hash()` hashes every `FeatureSpec`'s
+# `model_dump()`, so adding a field there changes the hash and, per this file's own docstring
+# rule, would require a `FEATURE_VERSION` bump (fv2 -> fv3), invalidating every `dv-.../fv2/...`
+# cached artifact and golden/real-smoke fixture keyed on "fv2" across the repo -- a large,
+# unrelated blast radius for a metadata-only addition that changes no computation. Kept as a
+# separate, still-queryable mapping instead; the underlying limitation was already documented in
+# `rest_days_raw`'s `aggregation` prose ("cup/continental matches are absent").
+REST_DAYS_SCOPE = "domestic_league_only"
+REST_DAYS_SCOPED_FEATURES = frozenset({"rest_days_raw", "rest_days_capped"})
+
+
+def rest_days_scope_of(produced_name: str) -> str | None:
+    """`REST_DAYS_SCOPE` if `produced_name` is rest-days-scoped, else `None`."""
+    spec = spec_for(produced_name)
+    return REST_DAYS_SCOPE if spec.name in REST_DAYS_SCOPED_FEATURES else None
+
 
 def spec_for(produced_name: str) -> FeatureSpec:
     """Map a produced column (home_form_points_5, away_rest_days_raw, home_win_rate) to its spec."""

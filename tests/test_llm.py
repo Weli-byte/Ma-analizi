@@ -129,15 +129,35 @@ def test_anthropic_provider_builds_request_and_parses_usage(monkeypatch):
 
 
 def test_google_provider_builds_request_and_parses_usage(monkeypatch):
+    captured = {}
+
     def fake_post(url, headers, body, timeout=30.0):
+        captured.update(url=url, headers=headers)
         return {
             "candidates": [{"content": {"parts": [{"text": "hi"}]}}],
             "usageMetadata": {"promptTokenCount": 4, "candidatesTokenCount": 2},
         }
 
     monkeypatch.setattr("src.llm.providers._post_json", fake_post)
-    resp = GoogleProvider().complete("PROMPT", "gemini-1.5-pro", "key")
+    resp = GoogleProvider().complete("PROMPT", "gemini-1.5-pro", "sk-secret")
     assert resp.text == "hi" and resp.prompt_tokens == 4 and resp.completion_tokens == 2
+    # the key must be a header, never a URL query param (it would otherwise land in logs/traces)
+    assert "sk-secret" not in captured["url"]
+    assert captured["headers"]["x-goog-api-key"] == "sk-secret"
+
+
+def test_post_json_error_scrubs_query_string_secrets(monkeypatch):
+    import urllib.error
+
+    from src.llm.providers import _post_json
+
+    def fake_urlopen(req, timeout=30.0):
+        raise urllib.error.URLError("boom")
+
+    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+    with pytest.raises(ProviderError) as exc_info:
+        _post_json("https://example.invalid/v1?key=sk-should-not-leak", {}, {})
+    assert "sk-should-not-leak" not in str(exc_info.value)
 
 
 def test_post_json_failure_raises_provider_error(monkeypatch):

@@ -12,6 +12,7 @@ API keys are NEVER hardcoded; `ProviderConfig.api_key()` reads them from the env
 import json
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 from typing import Protocol
@@ -48,6 +49,12 @@ class Provider(Protocol):
     def complete(self, prompt: str, model: str, api_key: str) -> LLMResponse: ...
 
 
+def _scrubbed(url: str) -> str:
+    """Strip the query string before a URL ever reaches an exception message -- a provider API
+    key must never be reflected into a log/traceback (Google's adapter puts its key in `?key=`)."""
+    return urllib.parse.urlparse(url)._replace(query="").geturl()
+
+
 def _post_json(url: str, headers: dict[str, str], body: dict, timeout: float = 30.0) -> dict:
     """Isolated so tests monkeypatch exactly this, never the real network."""
     req = urllib.request.Request(  # noqa: S310 - fixed https URLs, not user input
@@ -57,7 +64,7 @@ def _post_json(url: str, headers: dict[str, str], body: dict, timeout: float = 3
         with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310
             return json.loads(resp.read().decode())
     except urllib.error.URLError as e:
-        raise ProviderError(f"{url}: {e}") from e
+        raise ProviderError(f"{_scrubbed(url)}: {e}") from e
 
 
 def cost_usd(provider: str, model: str, prompt_tokens: int, completion_tokens: int) -> float:
@@ -118,9 +125,8 @@ class GoogleProvider:
     def complete(self, prompt: str, model: str, api_key: str) -> LLMResponse:
         t0 = time.monotonic()
         data = _post_json(
-            f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
-            f"?key={api_key}",
-            {"Content-Type": "application/json"},
+            f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent",
+            {"Content-Type": "application/json", "x-goog-api-key": api_key},
             {"contents": [{"parts": [{"text": prompt}]}]},
         )
         latency_ms = (time.monotonic() - t0) * 1000

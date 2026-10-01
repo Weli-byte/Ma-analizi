@@ -35,12 +35,14 @@ python -m src.features.builder --mode strict
 python -m src.evaluation.run_baselines --mode strict
 python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season-by-season backtest
 python -m src.data.team_resolution review     # unresolved team names
-python -m src.llm.cli --provider openai       # S8 LLM benchmark; disabled until enabled+keyed
+python -m src.llm.live_smoke                  # ONE real call per enabled provider (ADR 0024)
+ALLOW_REAL_LLM_CALLS=true python -m src.llm.cli --provider openai   # S8 LLM benchmark; real money, budget-gated
+pytest -m live tests/integration              # real provider tests (excluded from default run)
 python -m src.llm.audit                       # S10 scan artifacts/llm_runs/ for tampering/leakage
 python -m src.evaluation.run_ensemble          # S11 OOF ensemble; run walk_forward first
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
-Lock regeneration MUST use `uv pip compile pyproject.toml -o requirements.lock --generate-hashes --upgrade`
+Lock regeneration MUST use `uv pip compile pyproject.toml --extra dev --universal --generate-hashes --python-version 3.12 --upgrade -o requirements.lock`
 (the `--upgrade` flag is required — without it `uv` treats the existing lock file as a soft
 preference and can pin a stale transitive version that only the fresh-file `lock-up-to-date` CI
 job catches; see incident `dec5c04` (H-05, hardening audit Phase 23).
@@ -102,5 +104,8 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       (`docs/data_sources/licensing.md`); a PAID commercial vendor is still the project owner's
       open decision. `src/data/`'s football-data.co.uk pipeline is unchanged and untouched.
       Timestamped odds (S15) and the xG decision remain separately open.
+- [x] REAL-AI provider core (ADR 0024, 2026-10-01): official-SDK OpenAI(Responses)/Gemini/Anthropic
+      adapters, NO mock path (mocks deleted), budget pre-flight, central pricing, error taxonomy +
+      retry. OpenAI + Gemini verified by real calls; Anthropic NOT_CONFIGURED (no key yet).
 - [ ] S13 pre-match · S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

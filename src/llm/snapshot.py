@@ -27,3 +27,32 @@ def build_snapshot(row: EvalRow, information_cutoff: datetime) -> dict:
             "odds": {k: list(v) for k, v in sorted(row.odds.items())},
         },
     }
+
+
+FORBIDDEN_KEYS = frozenset({"outcome", "result", "home_goals", "away_goals", "score", "final_score"})
+
+
+class CutoffViolation(RuntimeError):
+    """The snapshot would reveal information not available at `information_cutoff`."""
+
+
+def audit_snapshot(snapshot: dict, kickoff_utc: datetime, cutoff: datetime) -> None:
+    """Final gate run before EVERY provider call (ADR 0024). Raises `CutoffViolation` (and so no
+    call is made) if the snapshot's cutoff is after kickoff or differs from the requested cutoff,
+    or if any result-bearing key appears anywhere in it."""
+    if cutoff > kickoff_utc:
+        raise CutoffViolation(f"information_cutoff {cutoff} is after kickoff {kickoff_utc}")
+    if snapshot.get("information_cutoff") != cutoff.isoformat():
+        raise CutoffViolation("snapshot information_cutoff does not match the requested cutoff")
+
+    def walk(node, path: str) -> None:
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if str(k).lower() in FORBIDDEN_KEYS:
+                    raise CutoffViolation(f"result-bearing key {path}{k!r} in snapshot")
+                walk(v, f"{path}{k}.")
+        elif isinstance(node, list):
+            for v in node:
+                walk(v, path)
+
+    walk(snapshot, "")

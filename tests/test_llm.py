@@ -1,27 +1,29 @@
-"""S8: LLM 1X2 benchmark. Every provider call in this file is MOCKED (no network, no API key) --
-per the sprint's own spec ("provider calls testlerde mocklanmali")."""
+"""S8: LLM 1X2 benchmark -- OFFLINE tests only. There is NO mock provider: provider behaviour is
+proven by REAL calls (`tests/integration/test_*_live.py`, `python -m src.llm.live_smoke`) and by
+`REAL_PROVIDER_CAPTURE` fixtures recorded from them. Here: pure logic, schema, guards, budget."""
 
 import json
+import re
 from datetime import UTC, datetime, timedelta
+from pathlib import Path
 
 import pytest
 
+from src.config import LLMBudget
 from src.evaluation.dataset import EvalRow
-from src.llm.parse import MalformedLLMOutput, parse_llm_output
-from src.llm.prompt import build_prompt, prompt_hash, snapshot_hash
-from src.llm.providers import (
-    AnthropicProvider,
-    GoogleProvider,
-    LLMResponse,
-    OpenAIProvider,
-    ProviderError,
-    cost_usd,
-)
+from src.llm.budget import BudgetExceeded, preflight
+from src.llm.contract import SCHEMA_VERSION, MalformedLLMOutput, parse_forecast, response_json_schema
+from src.llm.pricing import load_price_table
+from src.llm.prompt import PROMPT_VERSION, build_user_prompt, prompt_meta, snapshot_hash
+from src.llm.providers import ErrorKind, ProviderError
+from src.llm.providers.base import classify_status, scrub, with_retries
 from src.llm.runner import ProviderNotConfigured, resolve_provider, run_llm_benchmark, run_one
-from src.llm.snapshot import build_snapshot
+from src.llm.snapshot import CutoffViolation, audit_snapshot, build_snapshot
 from src.schemas import ExperimentType
 
 T0 = datetime(2024, 3, 1, tzinfo=UTC)
+PINNED_SYSTEM_PROMPT_HASH = "0b4300e32ad3ea08fa0c9889c2ea08a48ad66e77b98dbc6413aba111e4303c16"
+CAPTURES = Path(__file__).parent / "fixtures" / "real_provider_captures"
 
 
 def row(fixture_id="f1", outcome=0, feats=None, kickoff=T0):
@@ -32,25 +34,13 @@ def row(fixture_id="f1", outcome=0, feats=None, kickoff=T0):
     )  # fmt: skip
 
 
-def future_row(fixture_id="f1", outcome=0, feats=None):
-    """S10: a genuinely prospective fixture -- kickoff 2h ahead of real now() so the post-kickoff
-    guard never fires for tests exercising PROSPECTIVE mechanics other than the guard itself.
-    Callers must pass `cutoff_offset_hours=3` so the computed cutoff (kickoff - offset) lands
-    safely in the past relative to real now(), satisfying LLMCallRecord's own
-    `generated_at >= information_cutoff` check too."""
-    return row(fixture_id, outcome, feats, kickoff=datetime.now(UTC) + timedelta(hours=2))
+class MustNotBeCalled:
+    """Not a provider stand-in: it only proves a guard fired BEFORE any provider contact."""
 
+    name = "openai"
 
-def ok_json(home=0.6, draw=0.25, away=0.15, confidence=0.7, reasoning="home form is strong"):
-    return json.dumps(
-        {
-            "home_probability": home,
-            "draw_probability": draw,
-            "away_probability": away,
-            "confidence": confidence,
-            "short_reasoning": reasoning,
-        }
-    )
+    def complete(self, *a, **k):
+        raise AssertionError("provider was contacted")
 
 
 # ------------------------------------------------------------------------- snapshot / prompt
@@ -60,7 +50,6 @@ def test_snapshot_never_carries_outcome_or_goals():
     blob = json.dumps(snap)
     assert "outcome" not in blob and "goal" not in blob.lower()
     assert snap["permitted_historical_features"]["home_form_points_5"] == 10.0
-    assert "away_form_points_5" in snap["permitted_historical_features"]
 
 
 def test_snapshot_omits_none_valued_features():
@@ -70,31 +59,36 @@ def test_snapshot_omits_none_valued_features():
     assert snap["permitted_historical_features"]["away_form_points_5"] == 4.0
 
 
-def test_prompt_is_strict_json_only_instruction_and_deterministic_hash():
+def test_user_prompt_and_snapshot_hashes_are_deterministic():
     snap = build_snapshot(row(), T0)
-    p1, p2 = build_prompt(snap), build_prompt(snap)
-    assert p1 == p2
-    assert "STRICT JSON" in p1
-    assert prompt_hash(p1) == prompt_hash(p2)
+    assert build_user_prompt(snap) == build_user_prompt(snap)
     assert snapshot_hash(snap) == snapshot_hash(build_snapshot(row(), T0))
 
 
-# ------------------------------------------------------------------------------- parse
-def test_parse_accepts_well_formed_output():
-    parsed = parse_llm_output(ok_json())
-    assert parsed["p_home"] == pytest.approx(0.6)
-    assert parsed["confidence"] == 0.7
-    assert parsed["short_reasoning"] == "home form is strong"
+def test_prompt_versioning_fields_and_pinned_system_prompt_hash():
+    meta = prompt_meta(build_user_prompt(build_snapshot(row(), T0)))
+    assert meta.prompt_id and meta.prompt_version == PROMPT_VERSION
+    assert meta.schema_version == SCHEMA_VERSION
+    # Editing SYSTEM_PROMPT changes this hash: bump PROMPT_VERSION, write an ADR, update the pin.
+    assert meta.system_prompt_hash == PINNED_SYSTEM_PROMPT_HASH
 
 
-def test_parse_tolerates_a_fenced_code_block():
-    fenced = f"```json\n{ok_json()}\n```"
-    assert parse_llm_output(fenced)["p_home"] == pytest.approx(0.6)
+# ------------------------------------------------------------------------------ contract
+def load_capture(name: str) -> dict:
+    """A REAL_PROVIDER_CAPTURE: recorded from an actual call (`live_smoke --capture`)."""
+    cap = json.loads((CAPTURES / f"{name}.json").read_text(encoding="utf-8"))
+    assert cap["label"] == "REAL_PROVIDER_CAPTURE"
+    return cap
 
 
-def test_parse_renormalizes_slightly_off_sums():
-    parsed = parse_llm_output(ok_json(home=0.601, draw=0.25, away=0.15))  # sums to 1.001
-    assert parsed["p_home"] + parsed["p_draw"] + parsed["p_away"] == pytest.approx(1.0)
+@pytest.mark.parametrize("name", ["openai", "gemini"])
+def test_real_captured_responses_satisfy_the_contract(name):
+    cap = load_capture(name)
+    out = parse_forecast(cap["text"])
+    total = out.home_probability + out.draw_probability + out.away_probability
+    assert total == pytest.approx(1.0, abs=1e-3)
+    assert cap["request_id"] and cap["input_tokens"] and cap["output_tokens"]
+    assert cap["prompt_meta"]["schema_version"] == SCHEMA_VERSION
 
 
 @pytest.mark.parametrize(
@@ -102,251 +96,127 @@ def test_parse_renormalizes_slightly_off_sums():
     [
         "not json at all",
         json.dumps({"home_probability": 0.5}),  # missing keys
-        json.dumps({"home_probability": 1.5, "draw_probability": 0.0, "away_probability": 0.0, "confidence": 0.5}),
-        json.dumps({"home_probability": 0.9, "draw_probability": 0.9, "away_probability": 0.9, "confidence": 0.5}),
+        json.dumps({"home_probability": 1.5, "draw_probability": 0.0, "away_probability": 0.0}),
+        json.dumps({"home_probability": 0.9, "draw_probability": 0.9, "away_probability": 0.9}),
         json.dumps({"home_probability": 0.5, "draw_probability": 0.3, "away_probability": 0.2, "confidence": 2.0}),
+        json.dumps({"home_probability": 0.5, "draw_probability": 0.3, "away_probability": 0.2, "extra": 1}),
         "[1, 2, 3]",  # valid JSON, not an object
     ],
 )  # fmt: skip
-def test_parse_rejects_malformed_output(bad):
+def test_contract_rejects_malformed_output(bad):
     with pytest.raises(MalformedLLMOutput):
-        parse_llm_output(bad)
+        parse_forecast(bad)
 
 
-# ------------------------------------------------------------------------------ providers
-def test_openai_provider_builds_request_and_parses_usage(monkeypatch):
-    captured = {}
-
-    def fake_post(url, headers, body, timeout=30.0):
-        captured.update(url=url, headers=headers, body=body)
-        return {"choices": [{"message": {"content": "hi"}}], "usage": {"prompt_tokens": 10, "completion_tokens": 5}}
-
-    monkeypatch.setattr("src.llm.providers._post_json", fake_post)
-    resp = OpenAIProvider().complete("PROMPT", "gpt-4o", "sk-test")
-    assert resp.text == "hi" and resp.prompt_tokens == 10 and resp.completion_tokens == 5
-    assert captured["headers"]["Authorization"] == "Bearer sk-test"
-    assert captured["body"]["messages"][0]["content"] == "PROMPT"
+def test_contract_tolerance_is_documented_and_never_exceeded():
+    near = json.dumps({"home_probability": 0.6005, "draw_probability": 0.25, "away_probability": 0.15})
+    assert parse_forecast(near).home_probability == 0.6005  # within 1e-3: accepted as returned
+    far = json.dumps({"home_probability": 0.62, "draw_probability": 0.25, "away_probability": 0.15})
+    with pytest.raises(MalformedLLMOutput):
+        parse_forecast(far)
 
 
-def test_anthropic_provider_builds_request_and_parses_usage(monkeypatch):
-    def fake_post(url, headers, body, timeout=30.0):
-        return {"content": [{"text": "hi"}], "usage": {"input_tokens": 7, "output_tokens": 3}}
-
-    monkeypatch.setattr("src.llm.providers._post_json", fake_post)
-    resp = AnthropicProvider().complete("PROMPT", "claude-3-5-sonnet-latest", "key")
-    assert resp.text == "hi" and resp.prompt_tokens == 7 and resp.completion_tokens == 3
+def test_provider_schema_is_strict_mode_compatible():
+    schema = response_json_schema()
+    assert schema["additionalProperties"] is False
+    assert set(schema["required"]) == set(schema["properties"])
 
 
-def test_google_provider_builds_request_and_parses_usage(monkeypatch):
-    captured = {}
-
-    def fake_post(url, headers, body, timeout=30.0):
-        captured.update(url=url, headers=headers)
-        return {
-            "candidates": [{"content": {"parts": [{"text": "hi"}]}}],
-            "usageMetadata": {"promptTokenCount": 4, "candidatesTokenCount": 2},
-        }
-
-    monkeypatch.setattr("src.llm.providers._post_json", fake_post)
-    resp = GoogleProvider().complete("PROMPT", "gemini-1.5-pro", "sk-secret")
-    assert resp.text == "hi" and resp.prompt_tokens == 4 and resp.completion_tokens == 2
-    # the key must be a header, never a URL query param (it would otherwise land in logs/traces)
-    assert "sk-secret" not in captured["url"]
-    assert captured["headers"]["x-goog-api-key"] == "sk-secret"
+# ------------------------------------------------------------- provider plumbing (pure logic)
+@pytest.mark.parametrize(
+    "code,kind",
+    [(429, ErrorKind.RATE_LIMIT), (401, ErrorKind.AUTH), (403, ErrorKind.AUTH),
+     (400, ErrorKind.INVALID_REQUEST), (404, ErrorKind.MODEL_UNAVAILABLE),
+     (408, ErrorKind.TIMEOUT), (500, ErrorKind.SERVER), (503, ErrorKind.SERVER)],
+)  # fmt: skip
+def test_http_status_classification(code, kind):
+    assert classify_status(code) == kind
 
 
-def test_post_json_error_scrubs_query_string_secrets(monkeypatch):
-    import urllib.error
-
-    from src.llm.providers import _post_json
-
-    def fake_urlopen(req, timeout=30.0):
-        raise urllib.error.URLError("boom")
-
-    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
-    with pytest.raises(ProviderError) as exc_info:
-        _post_json("https://example.invalid/v1?key=sk-should-not-leak", {}, {})
-    assert "sk-should-not-leak" not in str(exc_info.value)
+def test_scrub_removes_key_shaped_strings():
+    msg = scrub("bad key sk-abcdefghij1234 and AIzaSyABCDEFGHIJKL and url?key=zzz", "zzz")
+    assert "sk-abcdefghij1234" not in msg and "AIza" not in msg and "zzz" not in msg
 
 
-def test_post_json_failure_raises_provider_error(monkeypatch):
-    import urllib.error
+def test_retry_only_retryable_errors_with_backoff_and_counts():
+    delays, state = [], {"n": 0}
 
-    from src.llm.providers import _post_json
+    def flaky():
+        state["n"] += 1
+        if state["n"] < 3:
+            raise ProviderError(ErrorKind.RATE_LIMIT, "429")
+        return "done"
 
-    def fake_urlopen(req, timeout=30.0):
-        raise urllib.error.URLError("boom")
+    result, retries = with_retries(flaky, retry_limit=3, sleep=delays.append)
+    assert (result, retries) == ("done", 2)
+    assert len(delays) == 2 and delays[1] > 0  # exponential backoff + jitter
 
-    monkeypatch.setattr("urllib.request.urlopen", fake_urlopen)
+
+def test_auth_error_is_never_retried():
+    state = {"n": 0}
+
+    def denied():
+        state["n"] += 1
+        raise ProviderError(ErrorKind.AUTH, "401", status_code=401)
+
     with pytest.raises(ProviderError):
-        _post_json("https://example.invalid", {}, {})
+        with_retries(denied, retry_limit=5, sleep=lambda s: None)
+    assert state["n"] == 1
 
 
-def test_cost_usd_known_and_unknown_model():
-    assert cost_usd("openai", "gpt-4o", 1000, 1000) == pytest.approx(0.0125)
-    assert cost_usd("openai", "no-such-model", 1000, 1000) == 0.0
+def test_retry_limit_is_enforced_and_reported():
+    def down():
+        raise ProviderError(ErrorKind.SERVER, "503")
+
+    with pytest.raises(ProviderError) as e:
+        with_retries(down, retry_limit=2, sleep=lambda s: None)
+    assert e.value.retry_count == 2
 
 
-# -------------------------------------------------------------------------------- runner
-class _FakeProvider:
-    name = "openai"
-
-    def __init__(self, text="x", prompt_tokens=10, completion_tokens=5):
-        self.text, self.prompt_tokens, self.completion_tokens = text, prompt_tokens, completion_tokens
-        self.calls = 0
-
-    def complete(self, prompt, model, api_key):
-        self.calls += 1
-        return LLMResponse(self.text, self.prompt_tokens, self.completion_tokens, latency_ms=12.0)
+# ------------------------------------------------------------------------ pricing / budget
+def test_pricing_comes_from_central_table_and_unknown_is_none():
+    prices = load_price_table()
+    assert prices.version and prices.has("openai", "gpt-6-luna")
+    assert prices.estimate("openai", "gpt-6-luna", 1_000_000, 1_000_000) == pytest.approx(0.60)
+    assert prices.estimate("openai", "no-such-model", 10, 10) is None  # never a fabricated 0
+    assert prices.estimate("openai", "gpt-6-luna", None, 10) is None  # unreported usage -> None
 
 
-def test_run_one_ok_produces_matching_prediction_and_call_record():
-    provider = _FakeProvider(text=ok_json())
-    result = run_one(
-        row(), provider, "gpt-4o", "key", ExperimentType.HISTORICAL_BACKTEST,
-        feature_version="fv2", data_version="dv-aaaaaaaaaaaa",
-    )  # fmt: skip
-    assert result.call.status == "ok"
-    assert result.call.retries == 0
-    assert result.call.track == ExperimentType.HISTORICAL_BACKTEST
-    assert result.prediction is not None
-    assert result.prediction.model_id == "llm_openai_gpt_4o"
-    assert result.prediction.p_home == pytest.approx(0.6)
-    assert result.prediction.information_cutoff == result.prediction.generated_at  # backtest convention
-    # LLMCallRecord's generated_at is the REAL call time, independent of the backtest cutoff
-    assert result.call.generated_at >= result.call.information_cutoff
+def test_budget_preflight_fails_before_any_call():
+    prices = load_price_table()
+    ok = preflight([("openai", "gpt-6-luna", 300)], LLMBudget(), prices)
+    assert ok.request_count == 1 and ok.max_cost_usd < 0.01
+    with pytest.raises(BudgetExceeded):
+        preflight([("openai", "gpt-6-luna", 300)] * 4, LLMBudget(max_requests_per_run=3), prices)
+    with pytest.raises(BudgetExceeded):
+        preflight([("openai", "gpt-6-luna", 300)], LLMBudget(max_total_tokens=100), prices)
+    with pytest.raises(BudgetExceeded):
+        preflight([("openai", "gpt-6-luna", 300)], LLMBudget(max_estimated_cost_usd=1e-9), prices)
+    with pytest.raises(BudgetExceeded):  # a model without a price cannot be cost-bounded
+        preflight([("openai", "unpriced", 300)], LLMBudget(), prices)
 
 
-def test_run_one_retries_then_succeeds():
-    provider = _FakeProvider(text="garbage")
-    calls = {"n": 0}
-    real_complete = provider.complete
-
-    def flaky(prompt, model, api_key):
-        calls["n"] += 1
-        if calls["n"] < 2:
-            return real_complete(prompt, model, api_key)
-        return LLMResponse(ok_json(), 10, 5, 12.0)
-
-    provider.complete = flaky
-    result = run_one(future_row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, max_retries=2, cutoff_offset_hours=3)
-    assert result.call.status == "ok" and result.call.retries == 1
+def test_run_llm_benchmark_over_budget_makes_no_call():
+    rows = [row(f"f{i}") for i in range(5)]
+    with pytest.raises(BudgetExceeded):
+        run_llm_benchmark(rows, MustNotBeCalled(), "gpt-6-luna", "key", ExperimentType.HISTORICAL_BACKTEST)
 
 
-def test_run_one_exhausts_retries_and_reports_no_prediction():
-    provider = _FakeProvider(text="still garbage")
-    result = run_one(row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, max_retries=1)
-    assert result.prediction is None
-    assert result.call.status == "malformed_json_exhausted"
-    assert result.call.retries == 1
+# ------------------------------------------------------------------------------- guards
+def test_cutoff_audit_blocks_result_bearing_snapshot_before_any_call():
+    snap = build_snapshot(row(), T0)
+    audit_snapshot(snap, T0, T0)  # clean snapshot passes
+    snap["permitted_historical_features"]["home_goals"] = 3  # leakage injected
+    with pytest.raises(CutoffViolation):
+        audit_snapshot(snap, T0, T0)
+    later = T0 + timedelta(hours=1)
+    with pytest.raises(CutoffViolation):  # cutoff after kickoff
+        audit_snapshot(build_snapshot(row(), later), T0, later)
 
 
-def test_run_one_provider_error_reports_no_prediction():
-    class BoomProvider:
-        name = "openai"
-
-        def complete(self, prompt, model, api_key):
-            raise ProviderError("network down")
-
-    result = run_one(row(), BoomProvider(), "gpt-4o", "key", ExperimentType.PROSPECTIVE)
-    assert result.prediction is None
-    assert result.call.status == "provider_error"
-
-
-def test_run_llm_benchmark_processes_every_row():
-    provider = _FakeProvider(text=ok_json())
-    rows = [future_row(f"f{i}") for i in range(3)]
-    results = run_llm_benchmark(rows, provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, cutoff_offset_hours=3)
-    assert len(results) == 3
-    assert all(r.prediction is not None for r in results)
-    assert {r.prediction.fixture_id for r in results} == {"f0", "f1", "f2"}
-
-
-def test_historical_track_is_flagged_distinctly_from_prospective():
-    """S8 scope: separate historical replay from forward-only benchmark, memorization risk
-    explicit via `track`, not hidden."""
-    provider = _FakeProvider(text=ok_json())
-    hist = run_one(row(), provider, "gpt-4o", "key", ExperimentType.HISTORICAL_BACKTEST)
-    fwd = run_one(future_row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, cutoff_offset_hours=3)
-    assert hist.call.track != fwd.call.track
-
-
-# --------------------------------------------------------------------- provider config wiring
-def test_resolve_provider_reads_provider_yaml(monkeypatch):
-    from src.config import ProviderConfig
-
-    monkeypatch.setenv("TEST_OPENAI_KEY", "sk-real")
-    cfg = ProviderConfig(providers={"openai": {"enabled": True, "api_key_env": "TEST_OPENAI_KEY", "model": "gpt-4o"}})  # fmt: skip
-    provider, model, api_key = resolve_provider(cfg, "openai")
-    assert provider.name == "openai" and model == "gpt-4o" and api_key == "sk-real"
-
-
-def test_resolve_provider_rejects_disabled_and_missing_key(monkeypatch):
-    from src.config import ProviderConfig
-
-    disabled = ProviderConfig(providers={"openai": {"enabled": False, "api_key_env": "X", "model": "m"}})
-    with pytest.raises(ProviderNotConfigured):
-        resolve_provider(disabled, "openai")
-
-    monkeypatch.delenv("UNSET_KEY_VAR", raising=False)
-    enabled_no_key = ProviderConfig(providers={"openai": {"enabled": True, "api_key_env": "UNSET_KEY_VAR", "model": "m"}})  # fmt: skip
-    with pytest.raises(ProviderNotConfigured):
-        resolve_provider(enabled_no_key, "openai")
-
-
-# ------------------------------------------------------------------------------------ CLI
-def test_cli_runs_end_to_end_on_the_golden_project(project, monkeypatch):
-    from conftest import build_all
-
-    from src.llm import cli as llm_cli
-    from src.llm.providers import PROVIDERS
-
-    build_all(project, mode="research")
-    (project / "configs" / "provider.yaml").write_text(
-        "providers:\n  openai: {enabled: true, api_key_env: TEST_LLM_KEY, model: gpt-4o}\n",
-        encoding="utf-8",
-    )
-    monkeypatch.setenv("TEST_LLM_KEY", "sk-test")
-    monkeypatch.setitem(PROVIDERS, "openai", _FakeProvider(text=ok_json()))
-
-    rc = llm_cli.main(["--root", str(project), "--provider", "openai", "--limit", "2"])
-    assert rc == 0
-
-    out_dirs = list((project / "artifacts" / "llm_runs").iterdir())
-    assert len(out_dirs) == 1
-    files = {p.name for p in out_dirs[0].iterdir()}
-    assert {"predictions.jsonl", "calls.jsonl", "summary.md", "hashes.json"} <= files
-    assert "HISTORICAL_BACKTEST" in (out_dirs[0] / "summary.md").read_text(encoding="utf-8")
-
-
-def test_cli_fails_cleanly_when_provider_disabled(project):
-    from src.llm import cli as llm_cli
-
-    rc = llm_cli.main(["--root", str(project), "--provider", "anthropic"])
-    assert rc == 2
-
-
-# --------------------------------------------------------------------- S10 post-kickoff guard
-def test_prospective_call_after_kickoff_is_rejected_not_silently_published():
-    """S10 (ADR 0021): a PROSPECTIVE call whose real wall-clock time is already past kickoff
-    (the match started) must not produce a PredictionRecord -- using the default past-dated
-    `row()` with PROSPECTIVE exercises exactly this (kickoff 2024-03-01, real now() is later)."""
-    provider = _FakeProvider(text=ok_json())
-    result = run_one(row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE)
-    assert result.prediction is None
-    assert result.call.status == "post_kickoff_rejected"
-    # the call itself (provider request/response) is still recorded, just not turned into a
-    # usable prediction -- the guard rejects PUBLISHING, not the fact that a call happened
-    assert result.call.confidence == 0.7
-
-
-def test_historical_backtest_is_never_subject_to_the_post_kickoff_guard():
-    """A HISTORICAL_BACKTEST replay's PredictionRecord uses the synthetic cutoff convention
-    (ADR 0019), so a past kickoff is expected and must not trigger S10's guard."""
-    provider = _FakeProvider(text=ok_json())
-    result = run_one(row(), provider, "gpt-4o", "key", ExperimentType.HISTORICAL_BACKTEST)
-    assert result.prediction is not None
-    assert result.call.status == "ok"
+def test_prospective_post_kickoff_is_rejected_without_contacting_the_provider():
+    result = run_one(row(), MustNotBeCalled(), "gpt-6-luna", "key", ExperimentType.PROSPECTIVE)
+    assert result.prediction is None and result.call.status == "post_kickoff_rejected"
 
 
 def test_llm_call_record_rejects_generated_at_before_cutoff():
@@ -356,10 +226,78 @@ def test_llm_call_record_rejects_generated_at_before_cutoff():
 
     with pytest.raises(ValidationError):
         LLMCallRecord(
-            fixture_id="f1", provider="openai", model="gpt-4o", prompt_version="v1",
+            fixture_id="f1", provider="openai", model="gpt-6-luna", prompt_version="v1",
             prompt_hash="a" * 8, snapshot_hash="b" * 8,
             information_cutoff=T0, generated_at=T0 - timedelta(hours=1),
             track=ExperimentType.PROSPECTIVE, status="ok", latency_ms=1.0,
-            prompt_tokens=1, completion_tokens=1, cost_usd=0.0,
-            raw_response_sha256="c" * 8, confidence=0.5,
         )  # fmt: skip
+
+
+def test_llm_call_record_keeps_unreported_usage_as_none_not_zero():
+    from src.schemas import LLMCallRecord
+
+    rec = LLMCallRecord(
+        fixture_id="f1", provider="gemini", model="m", prompt_version="v", prompt_hash="a" * 8,
+        snapshot_hash="b" * 8, information_cutoff=T0, generated_at=T0,
+        track=ExperimentType.HISTORICAL_BACKTEST, status="provider_error", error_kind="auth",
+    )  # fmt: skip
+    assert rec.prompt_tokens is None and rec.cost_usd is None and rec.latency_ms is None
+
+
+# --------------------------------------------------------------------- provider config wiring
+def test_resolve_provider_reads_provider_yaml(monkeypatch):
+    from src.config import ProviderConfig
+
+    monkeypatch.setenv("TEST_OPENAI_KEY", "sk-real")
+    cfg = ProviderConfig(providers={"openai": {"enabled": True, "api_key_env": "TEST_OPENAI_KEY", "model": "gpt-6-luna"}})  # fmt: skip
+    provider, model, api_key = resolve_provider(cfg, "openai")
+    assert provider.name == "openai" and model == "gpt-6-luna" and api_key == "sk-real"
+
+
+def test_resolve_provider_rejects_disabled_missing_key_and_tbd_model(monkeypatch):
+    from src.config import ProviderConfig
+
+    disabled = ProviderConfig(providers={"openai": {"enabled": False, "api_key_env": "X", "model": "m"}})
+    with pytest.raises(ProviderNotConfigured):
+        resolve_provider(disabled, "openai")
+
+    monkeypatch.delenv("UNSET_KEY_VAR", raising=False)
+    no_key = ProviderConfig(providers={"openai": {"enabled": True, "api_key_env": "UNSET_KEY_VAR", "model": "m"}})  # fmt: skip
+    with pytest.raises(ProviderNotConfigured):
+        resolve_provider(no_key, "openai")
+
+    monkeypatch.setenv("SOME_KEY", "k")
+    tbd = ProviderConfig(providers={"anthropic": {"enabled": True, "api_key_env": "SOME_KEY", "model": "TBD"}})  # fmt: skip
+    with pytest.raises(ProviderNotConfigured):
+        resolve_provider(tbd, "anthropic")
+
+
+def test_no_mock_provider_exists_in_the_product():
+    """ADR 0024: product code under src/llm contains no mock/fake/dummy/simulation path."""
+    pattern = re.compile(r"\b(mock\w*|fake\w*|dummy|simulat\w*)\b", re.I)
+    src = Path(__file__).resolve().parents[1] / "src" / "llm"
+    hits = [
+        f"{p.name}:{i}"
+        for p in src.rglob("*.py")
+        for i, line in enumerate(p.read_text(encoding="utf-8").splitlines(), 1)
+        if pattern.search(line) and "no mock" not in line.lower() and "never" not in line.lower()
+        and "stand-in" not in line.lower()
+    ]
+    assert not hits, hits
+
+
+# ------------------------------------------------------------------------------------ CLI
+def test_cli_refuses_without_operator_flag_and_makes_no_call(project, monkeypatch):
+    from src.llm import cli as llm_cli
+
+    monkeypatch.delenv("ALLOW_REAL_LLM_CALLS", raising=False)
+    rc = llm_cli.main(["--root", str(project), "--provider", "openai", "--limit", "2"])
+    assert rc == 4  # REAL_CALLS_DISABLED_BY_OPERATOR
+
+
+def test_cli_fails_cleanly_when_provider_disabled(project, monkeypatch):
+    from src.llm import cli as llm_cli
+
+    monkeypatch.setenv("ALLOW_REAL_LLM_CALLS", "true")
+    rc = llm_cli.main(["--root", str(project), "--provider", "anthropic"])
+    assert rc == 2

@@ -1,0 +1,12 @@
+# Central LLM price table (ADR 0024). The ONLY place prices live -- never inside provider code.
+# Prices are USD per 1M tokens from the providers' official pricing pages; an ESTIMATE of the
+# bill, not an invoice. A model absent from this table has NO estimate (cost = NULL, never 0).
+pricing_version: "2026-10-01"
+retrieved_at_utc: "2026-10-01T16:50:00Z"
+sources:
+  openai: https://developers.openai.com/api/docs/models
+  gemini: https://ai.google.dev/gemini-api/docs/pricing
+models:
+  "openai:gpt-6-luna": {input_per_mtok: 0.10, output_per_mtok: 0.50}
+  "gemini:gemini-3.1-flash-lite": {input_per_mtok: 0.25, output_per_mtok: 1.50}
+  "gemini:gemini-3.5-flash-lite": {input_per_mtok: 0.30, output_per_mtok: 2.50}

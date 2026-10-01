@@ -211,10 +211,23 @@ class ProviderEntry(_Cfg):
     model: str
 
 
+class LLMBudget(_Cfg):
+    """ADR 0024 no-cost-surprise policy: checked by `src.llm.budget` BEFORE any API call."""
+
+    max_requests_per_run: int = Field(default=3, ge=1)
+    max_total_tokens: int = Field(default=6000, ge=1)
+    max_estimated_cost_usd: float = Field(default=0.01, gt=0)
+    max_concurrency: int = Field(default=1, ge=1)
+    request_timeout_seconds: float = Field(default=30.0, gt=0)
+    retry_limit: int = Field(default=2, ge=0)
+    max_output_tokens: int = Field(default=400, ge=16)
+
+
 class ProviderConfig(_Cfg):
     """S8 (LLM benchmark): validated here, consumed by `src.llm.runner.resolve_provider`."""
 
     providers: dict[str, ProviderEntry]
+    budget: LLMBudget = Field(default_factory=LLMBudget)
 
     @model_validator(mode="after")
     def _no_literal_secrets(self) -> "ProviderConfig":
@@ -225,6 +238,20 @@ class ProviderConfig(_Cfg):
 
     def api_key(self, provider: str) -> str | None:
         return os.environ.get(self.providers[provider].api_key_env)
+
+
+class ModelPrice(_Cfg):
+    input_per_mtok: float = Field(ge=0)
+    output_per_mtok: float = Field(ge=0)
+
+
+class PricingConfig(_Cfg):
+    """ADR 0024: the ONLY place LLM prices live; consumed by `src.llm.pricing`."""
+
+    pricing_version: str = Field(min_length=1)
+    retrieved_at_utc: str = Field(min_length=1)
+    sources: dict[str, str]
+    models: dict[str, ModelPrice]
 
 
 # ------------------------------------------------------------ ingestion
@@ -260,6 +287,7 @@ _MODELS = {
     "model": ModelConfig,
     "evaluation": EvaluationConfig,
     "provider": ProviderConfig,
+    "pricing": PricingConfig,
     "ingestion": IngestionConfig,
 }
 
@@ -268,6 +296,7 @@ _MODELS = {
 # resolve_provider() and no longer reserved.
 RESERVED_FIELDS = {
     "SourceEntry.provider": "docs",  # documentation/provenance label
+    "PricingConfig.sources": "docs",  # where each price was read (provenance label)
     "AcknowledgedAnomaly.reason": "docs",  # human justification kept in the config
 }
 

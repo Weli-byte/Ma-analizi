@@ -1,5 +1,12 @@
 # LLM probability benchmark (S8, `src/llm/`, ADR 0019)
 
+> **Superseded in part by ADR 0024 (2026-10-01):** providers are now REAL official-SDK adapters
+> (`src/llm/providers/`), there is no mock path, prompts are v2 with a Pydantic contract
+> (`src/llm/contract.py`), costs come from `configs/pricing.yaml`, and a budget pre-flight plus
+> `ALLOW_REAL_LLM_CALLS=true` gate every real run. Check status with `python -m src.llm.live_smoke`.
+> Sections below that mention `urllib`, `parse.py`, `google`, or `short_reasoning` are historical.
+
+
 Run: `python -m src.llm.cli --provider openai [--root DIR] [--limit N]` (also `anthropic`,
 `google`). Disabled by default — enable in `configs/provider.yaml` (`enabled: true`) and set the
 named environment variable (e.g. `OPENAI_API_KEY`); nothing is ever hardcoded. A real run costs

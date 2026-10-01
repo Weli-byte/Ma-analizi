@@ -53,8 +53,8 @@ def test_audit_predictions_ignores_blank_lines():
 # -------------------------------------------------------------------------------- calls.jsonl
 def valid_call_dict(fixture_id="f1") -> dict:
     return {
-        "fixture_id": fixture_id, "provider": "openai", "model": "gpt-4o",
-        "prompt_version": "llm-prompt-v1", "prompt_hash": "a" * 8, "snapshot_hash": "b" * 8,
+        "fixture_id": fixture_id, "provider": "openai", "model": "gpt-6-luna",
+        "prompt_version": "llm-prompt-v2", "prompt_hash": "a" * 8, "snapshot_hash": "b" * 8,
         "information_cutoff": T0.isoformat(), "generated_at": T0.isoformat(),
         "track": "historical_backtest", "status": "ok", "retries": 0, "latency_ms": 12.0,
         "prompt_tokens": 10, "completion_tokens": 5, "cost_usd": 0.001,
@@ -135,29 +135,20 @@ def test_audit_main_returns_zero_on_a_clean_run_dir(tmp_path):
 
 # ------------------------------------------------------------------- post-kickoff guard (S10)
 def test_post_kickoff_rejection_never_produces_a_predictionrecord():
-    """Already covered at the runner level in tests/test_llm.py; re-asserted here as the exact
-    property the audit assumes: a rejected call never reaches predictions.jsonl in the first
-    place, so the audit's job is corruption/tampering detection, not re-deriving this guard."""
-    import json as _json
-
+    """A PROSPECTIVE request at/after kickoff is refused BEFORE the provider is contacted
+    (ADR 0024 phase 22): no prediction, and the provider object is never touched."""
     from src.evaluation.dataset import EvalRow
-    from src.llm.providers import LLMResponse
     from src.llm.runner import run_one
     from src.schemas import ExperimentType
 
-    class FakeProvider:
+    class MustNotBeCalled:
         name = "openai"
 
-        def complete(self, prompt, model, api_key):
-            body = _json.dumps(
-                {
-                    "home_probability": 0.5, "draw_probability": 0.3, "away_probability": 0.2,
-                    "confidence": 0.6, "short_reasoning": "x",
-                }
-            )  # fmt: skip
-            return LLMResponse(body, 10, 5, 1.0)
+        def complete(self, *a, **k):
+            raise AssertionError("provider contacted after kickoff")
 
     row = EvalRow("f1", "EPL", "2023-24", T0, "H", "A", 0, features={"home_form_points_5": 1.0})
-    result = run_one(row, FakeProvider(), "gpt-4o", "key", ExperimentType.PROSPECTIVE)
+    result = run_one(row, MustNotBeCalled(), "gpt-6-luna", "key", ExperimentType.PROSPECTIVE)
     assert result.prediction is None
     assert result.call.status == "post_kickoff_rejected"
+    assert result.call.raw_response_sha256 is None and result.call.latency_ms is None

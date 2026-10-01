@@ -1,30 +1,35 @@
-"""S8 runner: snapshot -> prompt -> provider call (retry on malformed JSON) -> (PredictionRecord,
-LLMCallRecord) pair per fixture.
+"""S8 runner: snapshot -> pre-call audit -> budget pre-flight -> REAL provider call (bounded
+retries) -> (PredictionRecord, LLMCallRecord) per fixture. See ADR 0019 / 0021 / 0024.
 
-Two timestamps matter and must not be confused (this is exactly the gap S10 formally locks down;
-S8's job is to report it honestly, not to prevent it):
+Two timestamps matter and must not be confused:
 - `PredictionRecord.generated_at` follows the SAME backtest convention every other model in this
-  repo uses (`run_baselines.py::_predictions`): `= information_cutoff`, a synthetic "as of" time,
-  so the record validates (`generated_at <= kickoff_utc`) and metrics compare like with like.
+  repo uses for HISTORICAL_BACKTEST (`= information_cutoff`); for PROSPECTIVE it is the REAL call
+  time, so a post-kickoff prediction cannot even be constructed.
 - `LLMCallRecord.generated_at` is the REAL wall-clock time the response was received. For a
-  HISTORICAL_BACKTEST track this is necessarily long after `kickoff_utc` -- the LLM's training
-  data may already contain this match's real result (memorization risk). `track` on every
-  record makes this queryable; it is never hidden.
+  HISTORICAL_BACKTEST this is long after kickoff -- the LLM may already know the result
+  (memorization risk). `track` makes this queryable; it is never hidden.
+
+Failure policy (ADR 0024): a failed provider call yields NO prediction (status provider_error /
+malformed_json_exhausted / post_kickoff_rejected). Nothing is substituted -- not a random value,
+not an older prediction, not another provider.
 """
 
-import hashlib
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
 from pydantic import ValidationError
 
+from src.config import LLMBudget
 from src.evaluation.dataset import EvalRow
 from src.schemas import ExperimentType, LLMCallRecord, PredictionRecord
 
-from .parse import MalformedLLMOutput, parse_llm_output
-from .prompt import PROMPT_VERSION, build_prompt, prompt_hash, snapshot_hash
-from .providers import PROVIDERS, Provider, ProviderError, cost_usd
-from .snapshot import build_snapshot
+from .budget import estimate_input_tokens, preflight
+from .contract import MalformedLLMOutput, parse_forecast
+from .pricing import PriceTable, load_price_table
+from .prompt import SYSTEM_PROMPT, build_user_prompt, prompt_meta, snapshot_hash
+from .providers import PROVIDERS, ErrorKind, Provider, ProviderError
+from .snapshot import audit_snapshot, build_snapshot
 
 
 class ProviderNotConfigured(RuntimeError):
@@ -32,14 +37,16 @@ class ProviderNotConfigured(RuntimeError):
 
 
 def resolve_provider(provider_cfg, name: str) -> tuple[Provider, str, str]:
-    """`configs/provider.yaml` (`ProviderConfig`, RESERVED for S8 since S0-S3) -> (adapter,
-    model string, API key). Raises if disabled or the env var it names holds nothing -- a
-    missing key is never silently treated as "skip this provider"."""
+    """`configs/provider.yaml` -> (adapter, model string, API key). Raises if disabled, if the
+    model is still `TBD`, or if the env var it names holds nothing -- a missing key is never
+    silently treated as "skip" and never replaced by another provider."""
     if name not in provider_cfg.providers:
         raise ProviderNotConfigured(f"no provider.yaml entry for {name!r}")
     entry = provider_cfg.providers[name]
     if not entry.enabled:
         raise ProviderNotConfigured(f"provider {name!r} is disabled in provider.yaml")
+    if entry.model.upper() == "TBD":
+        raise ProviderNotConfigured(f"provider {name!r} has no model configured (model: TBD)")
     api_key = provider_cfg.api_key(name)
     if not api_key:
         raise ProviderNotConfigured(
@@ -47,9 +54,9 @@ def resolve_provider(provider_cfg, name: str) -> tuple[Provider, str, str]:
         )
     return PROVIDERS[name], entry.model, api_key
 
-RUNNER_VERSION = "1.0.0"  # PredictionRecord.model_version must be semver; the provider's own
-# model string (gpt-4o, claude-3-5-sonnet-latest, ...) goes into model_id instead (slugified)
-# and is kept verbatim on LLMCallRecord.model, which has no such regex constraint.
+
+RUNNER_VERSION = "2.0.0"  # PredictionRecord.model_version must be semver; the provider's own
+# model string goes into model_id (slugified) and verbatim on LLMCallRecord.model.
 
 
 def _slug(model: str) -> str:
@@ -62,104 +69,76 @@ class LLMBenchmarkResult:
     call: LLMCallRecord
 
 
-def _response_sha256(text: str) -> str:
-    return hashlib.sha256(text.encode()).hexdigest()
-
-
 def run_one(
     row: EvalRow,
     provider: Provider,
     model: str,
     api_key: str,
     track: ExperimentType,
+    budget: LLMBudget | None = None,
+    prices: PriceTable | None = None,
     cutoff_offset_hours: float = 0.0,
-    max_retries: int = 2,
     feature_version: str = "fv0",
     data_version: str = "dv-000000000000",
 ) -> LLMBenchmarkResult:
+    budget = budget or LLMBudget()
+    prices = prices or load_price_table()
     cutoff = row.kickoff_utc - timedelta(hours=cutoff_offset_hours)
     snapshot = build_snapshot(row, cutoff)
-    prompt = build_prompt(snapshot)
-    s_hash, p_hash = snapshot_hash(snapshot), prompt_hash(prompt)
+    audit_snapshot(snapshot, row.kickoff_utc, cutoff)  # raises BEFORE any provider call
+    user = build_user_prompt(snapshot)
+    meta = prompt_meta(user)
 
-    retries = 0
-    exhausted = False
-    while True:
-        try:
-            resp = provider.complete(prompt, model, api_key)
-        except ProviderError as e:
-            call = LLMCallRecord(
-                fixture_id=row.fixture_id,
-                provider=provider.name,
-                model=model,
-                prompt_version=PROMPT_VERSION,
-                prompt_hash=p_hash,
-                snapshot_hash=s_hash,
-                information_cutoff=cutoff,
-                generated_at=datetime.now(UTC),
-                track=track,
-                status="provider_error",
-                retries=retries,
-                latency_ms=0.0,
-                prompt_tokens=0,
-                completion_tokens=0,
-                cost_usd=0.0,
-                raw_response_sha256=_response_sha256(str(e)),
-            )
-            return LLMBenchmarkResult(None, call)
-        try:
-            parsed = parse_llm_output(resp.text)
-            break
-        except MalformedLLMOutput:
-            if retries >= max_retries:
-                exhausted = True
-                break
-            retries += 1
-    if exhausted:
-        call = LLMCallRecord(
+    def record(status: str, **kw) -> LLMCallRecord:
+        return LLMCallRecord(
             fixture_id=row.fixture_id,
             provider=provider.name,
             model=model,
-            prompt_version=PROMPT_VERSION,
-            prompt_hash=p_hash,
-            snapshot_hash=s_hash,
+            prompt_version=meta.prompt_version,
+            prompt_hash=meta.user_prompt_hash,
+            snapshot_hash=snapshot_hash(snapshot),
             information_cutoff=cutoff,
-            generated_at=datetime.now(UTC),
+            generated_at=max(datetime.now(UTC), cutoff),
             track=track,
-            status="malformed_json_exhausted",
-            retries=retries,
-            latency_ms=resp.latency_ms,
-            prompt_tokens=resp.prompt_tokens,
-            completion_tokens=resp.completion_tokens,
-            cost_usd=cost_usd(provider.name, model, resp.prompt_tokens, resp.completion_tokens),
-            raw_response_sha256=_response_sha256(resp.text),
+            status=status,
+            prompt_id=meta.prompt_id,
+            system_prompt_hash=meta.system_prompt_hash,
+            schema_version=meta.schema_version,
+            pricing_version=prices.version,
+            **kw,
         )
-        return LLMBenchmarkResult(None, call)
 
-    call = LLMCallRecord(
-        fixture_id=row.fixture_id,
-        provider=provider.name,
-        model=model,
-        prompt_version=PROMPT_VERSION,
-        prompt_hash=p_hash,
-        snapshot_hash=s_hash,
-        information_cutoff=cutoff,
-        generated_at=datetime.now(UTC),
-        track=track,
-        status="ok",
-        retries=retries,
-        latency_ms=resp.latency_ms,
-        prompt_tokens=resp.prompt_tokens,
-        completion_tokens=resp.completion_tokens,
-        cost_usd=cost_usd(provider.name, model, resp.prompt_tokens, resp.completion_tokens),
-        raw_response_sha256=_response_sha256(resp.text),
-        confidence=parsed["confidence"],
-        short_reasoning=parsed["short_reasoning"],
-    )
-    # S10 (ADR 0021): PROSPECTIVE uses the REAL call time, not the backtest cutoff -- this is
-    # the structural post-kickoff guard. If a live call actually happens after kickoff (the
-    # match already started), PredictionRecord's own `generated_at <= kickoff_utc` validator
-    # rejects it below, refusing to even construct the record, not just refusing to publish it.
+    # Phase 22: a PROSPECTIVE (pre-match) call at/after kickoff is refused BEFORE the provider is
+    # contacted -- no money spent, no prediction. (Live forecasting is a separate, explicit mode.)
+    if track == ExperimentType.PROSPECTIVE and datetime.now(UTC) >= row.kickoff_utc:
+        return LLMBenchmarkResult(None, record("post_kickoff_rejected", retries=0))
+
+    retries = 0
+    while True:
+        try:
+            resp = provider.complete(
+                SYSTEM_PROMPT, user, model=model, api_key=api_key,
+                timeout_s=budget.request_timeout_seconds,
+                max_output_tokens=budget.max_output_tokens,
+                retry_limit=budget.retry_limit - retries,
+            )  # fmt: skip
+        except ProviderError as e:
+            return LLMBenchmarkResult(
+                None,
+                record("provider_error", retries=retries + e.retry_count,
+                       error_kind=e.kind.value, request_id=e.request_id),
+            )  # fmt: skip
+        retries += resp.retry_count
+        try:
+            out = parse_forecast(resp.text)
+            break
+        except MalformedLLMOutput:
+            if retries >= budget.retry_limit:
+                return LLMBenchmarkResult(None, _call(record, resp, model, prices, retries, ErrorKind.SCHEMA))
+            retries += 1
+
+    call = _call(record, resp, model, prices, retries, None, out)
+    total = out.home_probability + out.draw_probability + out.away_probability
     prediction_generated_at = call.generated_at if track == ExperimentType.PROSPECTIVE else cutoff
     try:
         prediction = PredictionRecord(
@@ -171,14 +150,32 @@ def run_one(
             kickoff_utc=row.kickoff_utc,
             information_cutoff=cutoff,
             generated_at=prediction_generated_at,
-            p_home=parsed["p_home"],
-            p_draw=parsed["p_draw"],
-            p_away=parsed["p_away"],
+            p_home=out.home_probability / total,
+            p_draw=out.draw_probability / total,
+            p_away=out.away_probability / total,
         )
     except ValidationError:
-        rejected_call = call.model_copy(update={"status": "post_kickoff_rejected"})
-        return LLMBenchmarkResult(None, rejected_call)
+        return LLMBenchmarkResult(None, call.model_copy(update={"status": "post_kickoff_rejected"}))
     return LLMBenchmarkResult(prediction, call)
+
+
+def _call(
+    record, resp, model: str, prices: PriceTable, retries: int, error: ErrorKind | None, out=None
+) -> LLMCallRecord:
+    return record(
+        "ok" if error is None else "malformed_json_exhausted",
+        retries=retries,
+        latency_ms=resp.latency_ms,
+        prompt_tokens=resp.input_tokens,
+        completion_tokens=resp.output_tokens,
+        total_tokens=resp.total_tokens,
+        cost_usd=prices.estimate(resp.provider, model, resp.input_tokens, resp.output_tokens),
+        request_id=resp.request_id,
+        raw_response_sha256=resp.raw_response_hash,
+        error_kind=error.value if error else None,
+        confidence=out.confidence if out else None,
+        short_reasoning=out.analysis_summary if out else None,
+    )  # fmt: skip
 
 
 def run_llm_benchmark(
@@ -187,15 +184,29 @@ def run_llm_benchmark(
     model: str,
     api_key: str,
     track: ExperimentType,
+    budget: LLMBudget | None = None,
+    prices: PriceTable | None = None,
     cutoff_offset_hours: float = 0.0,
-    max_retries: int = 2,
     feature_version: str = "fv0",
     data_version: str = "dv-000000000000",
 ) -> list[LLMBenchmarkResult]:
-    return [
-        run_one(
-            row, provider, model, api_key, track, cutoff_offset_hours, max_retries,
+    """Budget pre-flight for the WHOLE run first (raises `BudgetExceeded` before any call)."""
+    budget = budget or LLMBudget()
+    prices = prices or load_price_table()
+    plan = []
+    for row in rows:
+        cutoff = row.kickoff_utc - timedelta(hours=cutoff_offset_hours)
+        s = build_snapshot(row, cutoff)
+        plan.append((provider.name, model, estimate_input_tokens(SYSTEM_PROMPT, build_user_prompt(s))))
+    preflight(plan, budget, prices)
+
+    def one(row: EvalRow) -> LLMBenchmarkResult:
+        return run_one(
+            row, provider, model, api_key, track, budget, prices, cutoff_offset_hours,
             feature_version, data_version,
         )  # fmt: skip
-        for row in rows
-    ]
+
+    if budget.max_concurrency > 1:
+        with ThreadPoolExecutor(max_workers=budget.max_concurrency) as pool:
+            return list(pool.map(one, rows))
+    return [one(r) for r in rows]

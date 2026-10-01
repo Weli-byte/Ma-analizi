@@ -15,6 +15,7 @@ including failures), summary.md, hashes.json.
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import sys
 import uuid
@@ -30,6 +31,7 @@ from src.schemas import ExperimentType, PredictionLedger
 from src.schemas.lifecycle import dump_records
 from src.versioning import canonical_json
 
+from .budget import BudgetExceeded
 from .runner import ProviderNotConfigured, resolve_provider, run_llm_benchmark
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -38,18 +40,22 @@ ROOT = Path(__file__).resolve().parents[2]
 def render_summary(provider: str, model: str, results) -> str:
     by_status: dict[str, int] = {}
     total_cost = 0.0
+    unknown_cost = 0
     latencies = []
     for r in results:
         by_status[r.call.status] = by_status.get(r.call.status, 0) + 1
-        total_cost += r.call.cost_usd
-        latencies.append(r.call.latency_ms)
+        total_cost += r.call.cost_usd or 0.0
+        unknown_cost += r.call.cost_usd is None
+        if r.call.latency_ms is not None:
+            latencies.append(r.call.latency_ms)
     avg_latency = sum(latencies) / len(latencies) if latencies else 0.0
     lines = [
         f"# LLM benchmark — {provider}/{model}",
         "",
         f"- fixtures attempted: {len(results)}",
         f"- status counts: {by_status}",
-        f"- total estimated cost: ${total_cost:.4f} (static rate table, not a real invoice)",
+        f"- total estimated cost: ${total_cost:.6f} (configs/pricing.yaml estimate, not an invoice; "
+        f"{unknown_cost} call(s) without a cost estimate)",
         f"- average latency: {avg_latency:.0f} ms",
         "",
         "Track: HISTORICAL_BACKTEST (replay). The LLM's training data may already contain these "
@@ -76,7 +82,7 @@ def run_llm_cli(root: Path, provider_name: str, limit: int | None) -> Path:
         rows = rows[:limit]
 
     results = run_llm_benchmark(
-        rows, adapter, model, api_key, ExperimentType.HISTORICAL_BACKTEST,
+        rows, adapter, model, api_key, ExperimentType.HISTORICAL_BACKTEST, provider_cfg.budget,
         feature_version=model_cfg.feature_version, data_version=ref.data_version,
     )  # fmt: skip
 
@@ -116,12 +122,16 @@ def main(argv: list[str] | None = None) -> int:
     configure_output()
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", default=str(ROOT))
-    p.add_argument("--provider", required=True, choices=["openai", "anthropic", "google"])
+    p.add_argument("--provider", required=True, choices=["openai", "anthropic", "gemini"])
     p.add_argument("--limit", type=int, default=None, help="cap rows (cost control)")
     a = p.parse_args(argv)
+    if os.environ.get("ALLOW_REAL_LLM_CALLS", "").lower() != "true":
+        print("REAL_CALLS_DISABLED_BY_OPERATOR: set ALLOW_REAL_LLM_CALLS=true to spend API budget. "
+              "No API call was made; the benchmark is NOT complete.", file=sys.stderr)  # fmt: skip
+        return 4
     try:
         out_dir = run_llm_cli(Path(a.root), a.provider, a.limit)
-    except (ProviderNotConfigured, RuntimeError, ValueError, KeyError) as e:
+    except (BudgetExceeded, ProviderNotConfigured, RuntimeError, ValueError, KeyError) as e:
         print(f"LLM BENCHMARK FAILED: {type(e).__name__}: {e}", file=sys.stderr)
         return 2
     print((out_dir / "summary.md").read_text(encoding="utf-8"))

@@ -37,6 +37,7 @@ python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season
 python -m src.data.team_resolution review     # unresolved team names
 python -m src.llm.cli --provider openai       # S8 LLM benchmark; disabled until enabled+keyed
 python -m src.llm.audit                       # S10 scan artifacts/llm_runs/ for tampering/leakage
+python -m src.evaluation.run_ensemble          # S11 OOF ensemble; run walk_forward first
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
 Lock regeneration MUST use `uv pip compile pyproject.toml -o requirements.lock --generate-hashes --upgrade`
@@ -52,7 +53,7 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
 `src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/llm` (S8: providers.py, snapshot.py,
 prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
-`docs/adr/0001-0021` · `tests/fixtures/golden`.
+`docs/adr/0001-0022` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).
@@ -80,6 +81,12 @@ prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py`
       persisted artifacts for tampering/corruption (defense in depth; schema validators already
       forbid these for anything this repo's own code writes) and `partition_clean()` excludes +
       counts critical-leakage fixtures from a benchmark result.
-      S11 ensemble · S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
+- [x] S11 OOF ensemble (`src/evaluation/ensemble.py`, `run_ensemble.py`, `tests/test_ensemble.py`,
+      `test_run_ensemble.py`, `docs/ensemble.md`, ADR 0022) — simple mean / validation-weighted /
+      logistic stacking / LightGBM stacking over walk-forward's OOF predictions, three-way
+      chronological split (fit-ensemble/fit-calibration/report), by-league/by-season breakdown,
+      no single winner. LLM base models can join once their predictions exist; not wired by
+      default (no real LLM data to test against without spending API budget).
+- [ ] S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
       S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

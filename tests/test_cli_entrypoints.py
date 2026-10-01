@@ -126,6 +126,7 @@ def test_python_m_entrypoints_import_without_side_effects():
         "src.evaluation.run_baselines",
         "src.evaluation.walk_forward",
         "src.evaluation.final",
+        "src.evaluation.run_ensemble",
         "src.llm.cli",
         "src.llm.audit",
     ):
@@ -137,7 +138,7 @@ def test_python_m_entrypoints_import_without_side_effects():
 @pytest.mark.parametrize(
     "module",
     ["src.data.pipeline", "src.features.builder", "src.evaluation.run_baselines",
-     "src.evaluation.walk_forward", "src.llm.cli", "src.llm.audit"],  # fmt: skip
+     "src.evaluation.walk_forward", "src.evaluation.run_ensemble", "src.llm.cli", "src.llm.audit"],  # fmt: skip
 )
 def test_python_dash_m_runs_without_runpy_warnings(module, tmp_path):
     import subprocess

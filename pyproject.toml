@@ -22,6 +22,8 @@ dependencies = [
     # EloModel's scipy.optimize.minimize fit (S0-S7 hardening Phase 6, ADR-0013 amendment)
     "numba>=0.60",  # shap's transitive dep; pinned up so uv's universal resolver doesn't pick
     "llvmlite>=0.43",  # an ancient numba/llvmlite pair that predates our numpy/python versions
+    "scikit-learn>=1.3",  # was already transitive (shap); promoted to direct for S11's logistic
+    # stacking ensemble (src/evaluation/ensemble.py, ADR-0022)
 ]
 
 [project.optional-dependencies]

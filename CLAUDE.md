@@ -36,6 +36,7 @@ python -m src.evaluation.run_baselines --mode strict
 python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season-by-season backtest
 python -m src.data.team_resolution review     # unresolved team names
 python -m src.llm.cli --provider openai       # S8 LLM benchmark; disabled until enabled+keyed
+python -m src.llm.audit                       # S10 scan artifacts/llm_runs/ for tampering/leakage
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
 Lock regeneration MUST use `uv pip compile pyproject.toml -o requirements.lock --generate-hashes --upgrade`
@@ -51,7 +52,7 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
 `src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/llm` (S8: providers.py, snapshot.py,
 prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
-`docs/adr/0001-0020` · `tests/fixtures/golden`.
+`docs/adr/0001-0021` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).
@@ -71,7 +72,14 @@ prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py`
       calibrated on disjoint chronological halves), reliability curve, confidence histogram,
       global/league/season/model-class leaderboard with no single winner. Wired into
       `run_baselines.py`'s `report.json`/`report.md`; `predictions.jsonl` unaffected.
-- [ ] S10 LLM leakage ·
+- [x] S10 LLM leakage + forward-only guard (`src/llm/audit.py`, `tests/test_llm_audit.py`,
+      ADR 0021) — `PROSPECTIVE` track now uses the REAL call time for `PredictionRecord.generated_at`,
+      so a post-kickoff live call is structurally refused (`status="post_kickoff_rejected"`), not
+      silently accepted. "Prediction lock" is the pre-existing `PredictionLedger`
+      (`LedgerConflict` already forbids content mutation, S0-S3) — not duplicated. Audit CLI scans
+      persisted artifacts for tampering/corruption (defense in depth; schema validators already
+      forbid these for anything this repo's own code writes) and `partition_clean()` excludes +
+      counts critical-leakage fixtures from a benchmark result.
       S11 ensemble · S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
       S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

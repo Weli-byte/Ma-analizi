@@ -22,7 +22,7 @@ class LLMCallRecord(ImmutableModel):
     information_cutoff: UtcDatetime
     generated_at: UtcDatetime  # when the response was actually received
     track: ExperimentType  # HISTORICAL_BACKTEST (replay) vs PROSPECTIVE (forward-only, real time)
-    status: Literal["ok", "malformed_json_exhausted", "provider_error"]
+    status: Literal["ok", "malformed_json_exhausted", "provider_error", "post_kickoff_rejected"]
     retries: int = Field(ge=0, default=0)
     latency_ms: float = Field(ge=0.0)
     prompt_tokens: int = Field(ge=0)

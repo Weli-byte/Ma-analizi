@@ -39,9 +39,34 @@ Every `LLMCallRecord` carries `track` (`ExperimentType.HISTORICAL_BACKTEST` or `
 For a historical replay, `PredictionRecord.generated_at` follows this repo's existing backtest
 convention (`= information_cutoff`), but `LLMCallRecord.generated_at` is the REAL time the
 response was received — necessarily long after the match's `kickoff_utc`. The LLM's training
-data may already contain that match's real result. This gap is reported, not hidden; S10 closes
-it with a prediction lock and post-kickoff mutation guard. `src/llm/cli.py` only runs the
-historical validation split today — there is no live fixture feed yet (S13/S14).
+data may already contain that match's real result. This gap is reported, not hidden.
+`src/llm/cli.py` only runs the historical validation split today — there is no live fixture feed
+yet (S13/S14).
+
+## Post-kickoff guard (S10, ADR 0021)
+
+For `PROSPECTIVE`, `run_one` sets `PredictionRecord.generated_at` to the REAL call time (not the
+backtest cutoff). If a live call genuinely happens after kickoff, `PredictionRecord`'s own
+`generated_at <= kickoff_utc` validator refuses to construct the record; the runner catches this
+and records `LLMCallRecord.status = "post_kickoff_rejected"` instead of crashing or silently
+publishing a late prediction. `HISTORICAL_BACKTEST` is never subject to this (its `generated_at`
+is always the synthetic pre-kickoff cutoff, by design).
+
+"Prediction lock" is the pre-existing `PredictionLedger` (`src/schemas/lifecycle.py`, S0-S3):
+it already rejects any content change for the same logical prediction (`LedgerConflict`) — S10
+does not add a parallel lock record (see ADR 0021 for why).
+
+## Audit (`src/llm/audit.py`, S10)
+
+    python -m src.llm.audit --root DIR
+
+Scans every `artifacts/llm_runs/*/predictions.jsonl` + `calls.jsonl` for corruption/tampering
+that could only happen to a hand-edited or externally-modified file — everything this checks is
+already enforced by schema validators for anything this repo's own code writes. Reports
+`content_tampered` (hash no longer matches content), `invalid_record`/`invalid_json`
+(unparseable), `missing_timestamp`. Exits non-zero if any CRITICAL violation is found.
+`partition_clean(predictions, violations)` excludes a critical fixture's prediction from a
+benchmark result and reports how many were excluded — never drops them silently.
 
 ## Tests
 
@@ -49,5 +74,7 @@ historical validation split today — there is no live fixture feed yet (S13/S14
 itself); no network access or API key is needed to run the suite, per the sprint's own
 instruction. Covers: snapshot leakage exclusion, prompt determinism, strict-JSON parse
 (accept/reject/renormalize), all three provider adapters' request/response shape, retry and
-exhaustion, provider-error handling, `ProviderConfig` wiring (`resolve_provider`), and an
-end-to-end CLI run against the golden fixture project.
+exhaustion, provider-error handling, `ProviderConfig` wiring (`resolve_provider`), the
+post-kickoff guard, and an end-to-end CLI run against the golden fixture project.
+`tests/test_llm_audit.py` — the audit scan and `partition_clean`, including tampered/corrupted
+fixtures and its own CLI entrypoint.

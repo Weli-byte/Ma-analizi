@@ -24,12 +24,21 @@ from src.schemas import ExperimentType
 T0 = datetime(2024, 3, 1, tzinfo=UTC)
 
 
-def row(fixture_id="f1", outcome=0, feats=None):
+def row(fixture_id="f1", outcome=0, feats=None, kickoff=T0):
     return EvalRow(
-        fixture_id, "EPL", "2023-24", T0, "H", "A", outcome,
+        fixture_id, "EPL", "2023-24", kickoff, "H", "A", outcome,
         features=feats or {"home_form_points_5": 10.0, "away_form_points_5": 4.0},
         odds={"closing:agg_avg": (2.0, 3.4, 3.8)},
     )  # fmt: skip
+
+
+def future_row(fixture_id="f1", outcome=0, feats=None):
+    """S10: a genuinely prospective fixture -- kickoff 2h ahead of real now() so the post-kickoff
+    guard never fires for tests exercising PROSPECTIVE mechanics other than the guard itself.
+    Callers must pass `cutoff_offset_hours=3` so the computed cutoff (kickoff - offset) lands
+    safely in the past relative to real now(), satisfying LLMCallRecord's own
+    `generated_at >= information_cutoff` check too."""
+    return row(fixture_id, outcome, feats, kickoff=datetime.now(UTC) + timedelta(hours=2))
 
 
 def ok_json(home=0.6, draw=0.25, away=0.15, confidence=0.7, reasoning="home form is strong"):
@@ -220,7 +229,7 @@ def test_run_one_retries_then_succeeds():
         return LLMResponse(ok_json(), 10, 5, 12.0)
 
     provider.complete = flaky
-    result = run_one(row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, max_retries=2)
+    result = run_one(future_row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, max_retries=2, cutoff_offset_hours=3)
     assert result.call.status == "ok" and result.call.retries == 1
 
 
@@ -246,8 +255,8 @@ def test_run_one_provider_error_reports_no_prediction():
 
 def test_run_llm_benchmark_processes_every_row():
     provider = _FakeProvider(text=ok_json())
-    rows = [row(f"f{i}") for i in range(3)]
-    results = run_llm_benchmark(rows, provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE)
+    rows = [future_row(f"f{i}") for i in range(3)]
+    results = run_llm_benchmark(rows, provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, cutoff_offset_hours=3)
     assert len(results) == 3
     assert all(r.prediction is not None for r in results)
     assert {r.prediction.fixture_id for r in results} == {"f0", "f1", "f2"}
@@ -258,7 +267,7 @@ def test_historical_track_is_flagged_distinctly_from_prospective():
     explicit via `track`, not hidden."""
     provider = _FakeProvider(text=ok_json())
     hist = run_one(row(), provider, "gpt-4o", "key", ExperimentType.HISTORICAL_BACKTEST)
-    fwd = run_one(row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE)
+    fwd = run_one(future_row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE, cutoff_offset_hours=3)
     assert hist.call.track != fwd.call.track
 
 
@@ -315,6 +324,29 @@ def test_cli_fails_cleanly_when_provider_disabled(project):
 
     rc = llm_cli.main(["--root", str(project), "--provider", "anthropic"])
     assert rc == 2
+
+
+# --------------------------------------------------------------------- S10 post-kickoff guard
+def test_prospective_call_after_kickoff_is_rejected_not_silently_published():
+    """S10 (ADR 0021): a PROSPECTIVE call whose real wall-clock time is already past kickoff
+    (the match started) must not produce a PredictionRecord -- using the default past-dated
+    `row()` with PROSPECTIVE exercises exactly this (kickoff 2024-03-01, real now() is later)."""
+    provider = _FakeProvider(text=ok_json())
+    result = run_one(row(), provider, "gpt-4o", "key", ExperimentType.PROSPECTIVE)
+    assert result.prediction is None
+    assert result.call.status == "post_kickoff_rejected"
+    # the call itself (provider request/response) is still recorded, just not turned into a
+    # usable prediction -- the guard rejects PUBLISHING, not the fact that a call happened
+    assert result.call.confidence == 0.7
+
+
+def test_historical_backtest_is_never_subject_to_the_post_kickoff_guard():
+    """A HISTORICAL_BACKTEST replay's PredictionRecord uses the synthetic cutoff convention
+    (ADR 0019), so a past kickoff is expected and must not trigger S10's guard."""
+    provider = _FakeProvider(text=ok_json())
+    result = run_one(row(), provider, "gpt-4o", "key", ExperimentType.HISTORICAL_BACKTEST)
+    assert result.prediction is not None
+    assert result.call.status == "ok"
 
 
 def test_llm_call_record_rejects_generated_at_before_cutoff():

@@ -16,6 +16,8 @@ import hashlib
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
+from pydantic import ValidationError
+
 from src.evaluation.dataset import EvalRow
 from src.schemas import ExperimentType, LLMCallRecord, PredictionRecord
 
@@ -154,19 +156,28 @@ def run_one(
         confidence=parsed["confidence"],
         short_reasoning=parsed["short_reasoning"],
     )
-    prediction = PredictionRecord(
-        fixture_id=row.fixture_id,
-        model_id=f"llm_{provider.name}_{_slug(model)}",
-        model_version=RUNNER_VERSION,
-        feature_version=feature_version,
-        data_version=data_version,
-        kickoff_utc=row.kickoff_utc,
-        information_cutoff=cutoff,
-        generated_at=cutoff,  # backtest convention; see module docstring
-        p_home=parsed["p_home"],
-        p_draw=parsed["p_draw"],
-        p_away=parsed["p_away"],
-    )
+    # S10 (ADR 0021): PROSPECTIVE uses the REAL call time, not the backtest cutoff -- this is
+    # the structural post-kickoff guard. If a live call actually happens after kickoff (the
+    # match already started), PredictionRecord's own `generated_at <= kickoff_utc` validator
+    # rejects it below, refusing to even construct the record, not just refusing to publish it.
+    prediction_generated_at = call.generated_at if track == ExperimentType.PROSPECTIVE else cutoff
+    try:
+        prediction = PredictionRecord(
+            fixture_id=row.fixture_id,
+            model_id=f"llm_{provider.name}_{_slug(model)}",
+            model_version=RUNNER_VERSION,
+            feature_version=feature_version,
+            data_version=data_version,
+            kickoff_utc=row.kickoff_utc,
+            information_cutoff=cutoff,
+            generated_at=prediction_generated_at,
+            p_home=parsed["p_home"],
+            p_draw=parsed["p_draw"],
+            p_away=parsed["p_away"],
+        )
+    except ValidationError:
+        rejected_call = call.model_copy(update={"status": "post_kickoff_rejected"})
+        return LLMBenchmarkResult(None, rejected_call)
     return LLMBenchmarkResult(prediction, call)
 
 

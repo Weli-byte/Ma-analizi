@@ -37,6 +37,32 @@ sync_league_season(provider, league_id, season, directory, country, ...)
 - `rate_limit.py` — `RateLimiter` (token bucket) + `with_backoff` (exponential, `RateLimitedError`
   only).
 
+## Real adapter: football-data.org (ADR 0023 amendment, free tier, 2026-10-01)
+
+`src/ingestion/football_data_org.py::FootballDataOrgProvider` — a REAL `FixtureProvider`
+implementation against football-data.org's free API (v4): 10 calls/minute, 12 competitions, no
+payment method required (register at https://www.football-data.org/client/register). Chosen
+because the project owner has no budget right now, not as a resolved commercial answer — its
+terms remain unverified (`docs/data_sources/licensing.md`), classification stays
+`RESEARCH_ONLY`.
+
+Enable: set `FOOTBALL_DATA_ORG_API_KEY` in the environment and `enabled: true` in
+`configs/ingestion.yaml`'s `football-data-org` entry (disabled by default). Resolve it the same
+way S8 resolves an LLM provider:
+
+```python
+from src.config import config_dir_for, load_config
+from src.ingestion import resolve_ingestion_provider, sync_league_season
+
+cfg = load_config("ingestion", config_dir_for(root))
+provider, api_key, leagues = resolve_ingestion_provider(cfg, "football-data-org")
+result, upserts = sync_league_season(provider, "2021", "2023-24", directory, "ENG")
+```
+
+(`"2021"` is football-data.org's own id for the Premier League; `list_leagues()` returns every
+competition the free tier exposes.) No standalone CLI yet — a concrete sync command is left for
+when the owner has a key to actually run it against.
+
 ## Tests
 
 `tests/test_ingestion.py` — every test uses a `MockProvider` (subclasses `FixtureProvider` so the
@@ -44,3 +70,6 @@ default `NotImplementedError` bodies are inherited); no network. 37 tests coveri
 rate limiting, cache/audit round-trip and TTL, upsert (new/unchanged/changed/idempotent/pending
 team resolution/never-auto-registers), coverage (success/error/staleness/JSON round-trip), and
 full `sync_league_season` orchestration including provider-error and cache-hit paths.
+`tests/test_football_data_org.py` — the real adapter's request/response parsing (leagues,
+seasons, fixtures, status mapping), rate-limit/error handling, and `resolve_ingestion_provider`
+wiring; every network call mocked.

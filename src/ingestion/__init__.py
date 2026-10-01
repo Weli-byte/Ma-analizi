@@ -9,7 +9,7 @@ from .cache import CacheEntry, ResponseCache
 from .coverage import CoverageCell, CoverageMatrix
 from .provider import FixtureProvider, League, ProviderError, RateLimitedError, RawFixture, Season
 from .rate_limit import RateLimiter, with_backoff
-from .sync import SyncResult, sync_league_season
+from .sync import IngestionProviderNotConfigured, SyncResult, resolve_ingestion_provider, sync_league_season
 from .upsert import UnknownStatusError, UpsertResult, build_fixture, resolve_status, upsert_fixture
 
 __all__ = [
@@ -17,6 +17,7 @@ __all__ = [
     "CoverageCell",
     "CoverageMatrix",
     "FixtureProvider",
+    "IngestionProviderNotConfigured",
     "League",
     "ProviderError",
     "RateLimitedError",
@@ -28,6 +29,7 @@ __all__ = [
     "UnknownStatusError",
     "UpsertResult",
     "build_fixture",
+    "resolve_ingestion_provider",
     "resolve_status",
     "sync_league_season",
     "upsert_fixture",

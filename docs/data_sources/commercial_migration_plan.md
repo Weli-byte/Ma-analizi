@@ -1,10 +1,12 @@
 # Commercial data source migration plan (S12 preparation)
 
-**Status:** planning document only — no architecture change. Written ahead of S12
-(`CLAUDE.md` Status: "S12 ingestion (commercial data source + timestamped odds + xG decision)")
-so that sprint does not start from zero. See `docs/data_sources/licensing.md` for why this is
-needed: the current source (football-data.co.uk + Internet Archive fallback) is `RESEARCH_ONLY`
-and must not back any startup/production architecture (S19).
+**Status:** planning document, written ahead of S12 so that sprint did not start from zero. S12
+has since built the ingestion adapter infrastructure (`src/ingestion/`, ADR 0023) AND connected
+one real, free-tier source (`football-data.org`, no cost — the project owner has no budget
+currently) for research/testing. See `docs/data_sources/licensing.md` for why the current
+sources (football-data.co.uk + Internet Archive fallback, AND football-data.org's free tier) are
+all still `RESEARCH_ONLY` — none has had explicit commercial/redistribution terms confirmed yet
+— and must not back any startup/production architecture (S19) until one does.
 
 ## Why now, not later
 
@@ -62,8 +64,12 @@ others found during S12 review):
    fixtures stay pinned to the original research dataset for regression protection; a
    commercial-source golden set, if wanted, is a new, separate fixture set.
 
-## Non-goals of this document
+## Non-goals of this document (as originally written; superseded where noted)
 
-- Does not select a provider — that decision is S12's, informed by terms actually being reviewed.
-- Does not change any code or config now.
+- ~~Does not select a provider~~ — superseded: S12 connected football-data.org's FREE tier for
+  research/testing (no cost, owner has no budget currently). This is NOT the resolved commercial
+  answer this plan still asks for — football-data.org's commercial/redistribution terms remain
+  unverified (`docs/data_sources/licensing.md`), same unresolved status as football-data.co.uk.
+- ~~Does not change any code or config now~~ — superseded: `src/ingestion/football_data_org.py` +
+  `configs/ingestion.yaml` exist, disabled by default until the owner adds a real API key.
 - Does not resolve the xG decision — xG stays NOT_PRODUCED until a dedicated ADR says otherwise.

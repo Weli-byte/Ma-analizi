@@ -227,6 +227,31 @@ class ProviderConfig(_Cfg):
         return os.environ.get(self.providers[provider].api_key_env)
 
 
+# ------------------------------------------------------------ ingestion
+class IngestionProviderEntry(_Cfg):
+    enabled: bool = False
+    api_key_env: str  # NAME of env var; never the key itself
+    leagues: list[str] = Field(default_factory=list)  # provider's own league ids to sync
+
+
+class IngestionConfig(_Cfg):
+    """S12 (global fixture ingestion): validated here, consumed by
+    `src.ingestion.sync.sync_league_season` callers (no built-in CLI orchestrator yet -- see
+    ADR 0023; wiring a concrete sync command is left for whenever a provider is actually used)."""
+
+    providers: dict[str, IngestionProviderEntry] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def _no_literal_secrets(self) -> "IngestionConfig":
+        for name, p in self.providers.items():
+            if not p.api_key_env.isupper() or " " in p.api_key_env:
+                raise ValueError(f"{name}.api_key_env must be an ENV VAR NAME, not a secret")
+        return self
+
+    def api_key(self, provider: str) -> str | None:
+        return os.environ.get(self.providers[provider].api_key_env)
+
+
 _MODELS = {
     "data": DataConfig,
     "leagues": LeaguesConfig,
@@ -235,6 +260,7 @@ _MODELS = {
     "model": ModelConfig,
     "evaluation": EvaluationConfig,
     "provider": ProviderConfig,
+    "ingestion": IngestionConfig,
 }
 
 # Fields intentionally not consumed yet. Each needs a sprint tag; the consumption test checks it.

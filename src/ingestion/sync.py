@@ -18,6 +18,31 @@ from .upsert import UpsertResult, upsert_fixture
 ENDPOINT = "fixtures"
 
 
+class IngestionProviderNotConfigured(RuntimeError):
+    pass
+
+
+def resolve_ingestion_provider(ingestion_cfg, name: str) -> tuple[FixtureProvider, str, list[str]]:
+    """`configs/ingestion.yaml` (`IngestionConfig`, S12) -> (adapter, api_key, leagues). Same
+    pattern as `src.llm.runner.resolve_provider` (S8): raises if disabled or the named env var
+    is unset, never silently skips a provider the caller asked for."""
+    if name not in ingestion_cfg.providers:
+        raise IngestionProviderNotConfigured(f"no ingestion.yaml entry for {name!r}")
+    entry = ingestion_cfg.providers[name]
+    if not entry.enabled:
+        raise IngestionProviderNotConfigured(f"provider {name!r} is disabled in ingestion.yaml")
+    api_key = ingestion_cfg.api_key(name)
+    if not api_key:
+        raise IngestionProviderNotConfigured(
+            f"provider {name!r} enabled but ${entry.api_key_env} is unset in the environment"
+        )
+    if name == "football-data-org":
+        from .football_data_org import FootballDataOrgProvider
+
+        return FootballDataOrgProvider(api_key), api_key, list(entry.leagues)
+    raise IngestionProviderNotConfigured(f"no adapter implementation registered for {name!r}")
+
+
 @dataclass(frozen=True)
 class SyncResult:
     league_id: str

@@ -98,3 +98,20 @@ Retrying a non-transient failure forever would hide a real bug behind apparent "
   vocabulary to hardcode yet; `League`/`Season` discovery is generic over whatever
   `list_leagues()` returns, and the specific league selection becomes a `configs/` entry once a
   vendor and its league IDs are known.
+
+## Amendment (2026-10-01): one free-tier vendor connected
+
+At the project owner's explicit request ("ücretsiz bişeyler ayarla" — set up something free; no
+budget currently), `src/ingestion/football_data_org.py` implements `FixtureProvider` against
+football-data.org's free tier (API v4) — free, email-only registration, no payment method
+required, 10 calls/minute, 12 competitions (confirmed via their pricing/docs pages, 2026-10-01).
+This does NOT change the "no vendor selected" decision above as a COMMERCIAL answer — their
+commercial/redistribution terms were not found on the pages checked and remain unverified
+(`docs/data_sources/licensing.md`); classification stays `RESEARCH_ONLY`. It exists so S12's
+infrastructure has at least one real adapter to validate against once the owner has a key,
+without waiting on a paid-vendor decision this agent still has no authority to make.
+
+New: `configs/ingestion.yaml` (`IngestionConfig`, same `enabled`/`api_key_env` pattern as
+`configs/provider.yaml`'s S8 `ProviderConfig`) + `sync.resolve_ingestion_provider` (same shape
+as `src.llm.runner.resolve_provider`). `football-data-org`'s `enabled: false` by default; the
+owner still needs to register and set `FOOTBALL_DATA_ORG_API_KEY` before any real call happens.

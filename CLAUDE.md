@@ -51,7 +51,7 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
 `src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/llm` (S8: providers.py, snapshot.py,
 prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
-`docs/adr/0001-0019` · `tests/fixtures/golden`.
+`docs/adr/0001-0020` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).
@@ -65,7 +65,13 @@ prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py`
 - [x] S8 LLM probability benchmark (`src/llm/`, `tests/test_llm.py`, `docs/llm.md`, ADR 0019) —
       OpenAI/Anthropic/Google adapters, strict JSON + retry, historical/prospective track
       separation. Disabled by default; a real run needs the owner's own API keys and costs money.
-- [ ] S9 calibration · S10 LLM leakage ·
+- [x] S9 calibration/reliability/leaderboard (`src/evaluation/calibration.py`, `reliability.py`,
+      `leaderboard.py`, `tests/test_calibration.py`, `test_reliability.py`, `test_leaderboard.py`,
+      `test_s9_integration.py`, `docs/calibration.md`, ADR 0020) — temperature scaling (raw vs
+      calibrated on disjoint chronological halves), reliability curve, confidence histogram,
+      global/league/season/model-class leaderboard with no single winner. Wired into
+      `run_baselines.py`'s `report.json`/`report.md`; `predictions.jsonl` unaffected.
+- [ ] S10 LLM leakage ·
       S11 ensemble · S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
       S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

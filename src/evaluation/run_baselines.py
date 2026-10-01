@@ -16,6 +16,8 @@ from dataclasses import asdict, dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
+import numpy as np
+
 from src.cli_utils import configure_output
 from src.config import config_dir_for, load_config
 from src.data.dataset import resolve_dataset
@@ -28,10 +30,16 @@ from src.schemas.common import PredictionStatus as PS
 from src.schemas.lifecycle import dump_records
 from src.versioning import canonical_json
 
+from .calibration import apply_temperature, fit_temperature
 from .context import EvalMode, make_context
 from .dataset import load_rows
+from .leaderboard import build_leaderboard, render_leaderboard_md
+from .metrics import compute_metrics
+from .reliability import confidence_histogram, reliability_curve
 from .runner import EvalReport, EvalSettings, evaluate
 from .split import build_split_manifest
+
+MIN_CALIBRATION_ROWS = 10  # per half; below this a fitted T is noise, not a real estimate
 
 ROOT = Path(__file__).resolve().parents[2]
 NOTES = [
@@ -44,6 +52,49 @@ NOTES = [
     "difference is NOT established. No significance claim is made.",
     "Accuracy uses fractional credit on exact ties. No single overall winner is declared.",
 ]
+
+
+def _calibration_for_model(p: np.ndarray, y: np.ndarray, metric_names: list[str], bins: int) -> dict:
+    """ADR 0020: fit T on the chronological FIRST half, report raw vs calibrated metrics on the
+    SECOND half only -- never the same rows, so "calibrated is better" is never self-graded."""
+    n = len(y)
+    half = n // 2
+    if half < MIN_CALIBRATION_ROWS:
+        return {"skipped": True, "reason": f"only {n} common rows, need >= {2 * MIN_CALIBRATION_ROWS}"}
+    calib_p, calib_y = p[:half], y[:half]
+    report_p, report_y = p[half:], y[half:]
+    t = fit_temperature(calib_p, calib_y)
+    calibrated = apply_temperature(report_p, t)
+    return {
+        "skipped": False,
+        "temperature": round(t, 6),
+        "calibration_fit_rows": int(half),
+        "report_rows": int(n - half),
+        "raw_metrics": compute_metrics(metric_names, report_p, report_y, bins),
+        "calibrated_metrics": compute_metrics(metric_names, calibrated, report_y, bins),
+    }
+
+
+def compute_s9_diagnostics(rep: EvalReport, settings: EvalSettings) -> dict:
+    """S9 (ADR 0020): per-model calibration (raw vs calibrated, held-out half), reliability
+    curve + confidence histogram (full common set, raw probabilities), and a cross-model
+    leaderboard. Purely additive -- does not touch `rep`/`predictions.jsonl`."""
+    y = np.array([r.outcome for r in rep.common_rows])
+    calibration = {}
+    reliability = {}
+    histograms = {}
+    for model_id, p in rep.probs.items():
+        calibration[model_id] = _calibration_for_model(p, y, settings.metrics, settings.bins)
+        reliability[model_id] = reliability_curve(p, y, settings.bins)
+        histograms[model_id] = confidence_histogram(p, settings.bins)
+    leaderboard = build_leaderboard(rep.results)
+    return {
+        "calibration": calibration,
+        "reliability": reliability,
+        "confidence_histogram": histograms,
+        "leaderboard": {k: [asdict(row) for row in v] for k, v in leaderboard.items()},
+        "leaderboard_md": render_leaderboard_md(leaderboard, settings.metrics),
+    }
 
 
 def _f(x: float) -> str:
@@ -162,6 +213,7 @@ def run_baselines(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> 
         test,
         settings,
     )
+    s9 = compute_s9_diagnostics(rep, settings)
 
     meta = {
         "data_version": ref.data_version,
@@ -181,13 +233,17 @@ def run_baselines(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> 
                 "meta": meta,
                 "split_id": split["split_id"],
                 "report": {k: v for k, v in asdict(rep).items() if k not in ("common_rows", "probs")},
+                "calibration": s9["calibration"],
+                "reliability": s9["reliability"],
+                "confidence_histogram": s9["confidence_histogram"],
+                "leaderboard": s9["leaderboard"],
             },
             indent=2,
             sort_keys=True,
             default=str,
         )
         (tmp / "report.json").write_text(report_json, encoding="utf-8")
-        report_md = render_md(rep, meta)
+        report_md = render_md(rep, meta) + "\n" + s9["leaderboard_md"]
         (tmp / "report.md").write_text(report_md, encoding="utf-8")
         (tmp / "split_manifest.json").write_text(
             json.dumps(split, indent=2, sort_keys=True), encoding="utf-8"

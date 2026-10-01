@@ -10,6 +10,7 @@ from .lifecycle import (
     can_transition,
     transition,
 )
+from .llm import LLMCallRecord
 from .prediction import PredictionRecord
 
 __all__ = [
@@ -20,6 +21,7 @@ __all__ = [
     "Fixture",
     "FixtureStatus",
     "InvalidTransition",
+    "LLMCallRecord",
     "LedgerConflict",
     "Outcome",
     "PredictionLedger",

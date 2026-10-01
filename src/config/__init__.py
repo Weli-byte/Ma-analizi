@@ -212,7 +212,7 @@ class ProviderEntry(_Cfg):
 
 
 class ProviderConfig(_Cfg):
-    """RESERVED for S8 (LLM benchmark): validated here, consumed later."""
+    """S8 (LLM benchmark): validated here, consumed by `src.llm.runner.resolve_provider`."""
 
     providers: dict[str, ProviderEntry]
 
@@ -238,11 +238,9 @@ _MODELS = {
 }
 
 # Fields intentionally not consumed yet. Each needs a sprint tag; the consumption test checks it.
+# ProviderConfig.providers/ProviderEntry.* (ex-S8) are now wired up by src/llm/runner.py's
+# resolve_provider() and no longer reserved.
 RESERVED_FIELDS = {
-    "ProviderConfig.providers": "S8",
-    "ProviderEntry.enabled": "S8",
-    "ProviderEntry.api_key_env": "S8",
-    "ProviderEntry.model": "S8",
     "SourceEntry.provider": "docs",  # documentation/provenance label
     "AcknowledgedAnomaly.reason": "docs",  # human justification kept in the config
 }

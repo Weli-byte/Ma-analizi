@@ -35,6 +35,7 @@ python -m src.features.builder --mode strict
 python -m src.evaluation.run_baselines --mode strict
 python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season-by-season backtest
 python -m src.data.team_resolution review     # unresolved team names
+python -m src.llm.cli --provider openai       # S8 LLM benchmark; disabled until enabled+keyed
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
 Lock regeneration MUST use `uv pip compile pyproject.toml -o requirements.lock --generate-hashes --upgrade`
@@ -48,8 +49,9 @@ containers) · `src/config` (typed YAML, all fields consumed or reserved) · `sr
 manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_resolution, timezones) ·
 `src/features` (history, compute, registry, builder, artifact, availability, leakage_audit) ·
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
-`src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
-`docs/adr/0001-0017` · `tests/fixtures/golden`.
+`src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/llm` (S8: providers.py, snapshot.py,
+prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
+`docs/adr/0001-0019` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).
@@ -57,9 +59,13 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 - [x] S5 Poisson/Dixon-Coles (`src/models/poisson_dc.py`, `tests/test_poisson_dc.py`, `docs/poisson_dc.md`).
 - [x] S6 XGBoost/LightGBM + Optuna (`src/models/gbm.py`, `tests/test_gbm.py`, `docs/gbm.md`).
 - [x] S7 walk-forward engine (`src/evaluation/walk_forward.py`, `tests/test_walk_forward.py`, `docs/walk_forward.md`).
-- [~] S0-S7 research-grade hardening pass IN PROGRESS — see `reports/remediation/S0_S7_HARDENING_AUDIT.md`
-      and ADR 0013-0016. `READY_FOR_S8 = FALSE` until the hardening pass's final report says otherwise.
-- [ ] S8 LLM · S9 calibration · S10 LLM leakage ·
+- [x] S0-S7 research-grade hardening pass COMPLETE — see `reports/remediation/S0_S7_HARDENING_AUDIT.md`
+      (every MEDIUM/HIGH row and all but two deliberately-standing LOW rows closed, CI-verified) and
+      ADR 0013-0018.
+- [x] S8 LLM probability benchmark (`src/llm/`, `tests/test_llm.py`, `docs/llm.md`, ADR 0019) —
+      OpenAI/Anthropic/Google adapters, strict JSON + retry, historical/prospective track
+      separation. Disabled by default; a real run needs the owner's own API keys and costs money.
+- [ ] S9 calibration · S10 LLM leakage ·
       S11 ensemble · S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
       S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

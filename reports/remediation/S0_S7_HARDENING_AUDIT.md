@@ -98,5 +98,7 @@ per-row NaN+reason availability) plus one genuinely new queryable addition
 (`rest_days_scope_of()`) kept deliberately outside `FeatureSpec` to avoid an unrelated
 `FEATURE_VERSION` bump.
 
-`READY_FOR_S8` in `CLAUDE.md` is NOT flipped by this pass — that is the project owner's call,
-not an automatic consequence of closing audit rows.
+`READY_FOR_S8` in `CLAUDE.md` was NOT flipped by this hardening pass itself — that stayed the
+project owner's call, not an automatic consequence of closing audit rows. The owner explicitly
+instructed S8 to start on 2026-10-01; S8 (`src/llm/`, ADR 0019, `docs/llm.md`) is now built and
+tested, see `CLAUDE.md`'s Status section.

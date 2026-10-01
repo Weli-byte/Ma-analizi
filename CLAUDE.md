@@ -52,8 +52,9 @@ manifest, checksums, versioning, dataset, pipeline, clean, quality, teams, team_
 `src/features` (history, compute, registry, builder, artifact, availability, leakage_audit) ·
 `src/evaluation` (metrics, context, split, dataset, runner, run_baselines, walk_forward, final) ·
 `src/models` (baselines.py, elo.py, poisson_dc.py, gbm.py) · `src/llm` (S8: providers.py, snapshot.py,
-prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
-`docs/adr/0001-0022` · `tests/fixtures/golden`.
+prompt.py, parse.py, runner.py, cli.py, audit.py) · `src/ingestion` (S12: provider.py, upsert.py,
+coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runmode.py` · `configs/` ·
+`docs/adr/0001-0023` · `tests/fixtures/golden`.
 
 ## Status
 - [x] S0–S3 built and REMEDIATED (see `reports/remediation/FINAL_S0_S3_REMEDIATION_REPORT.md`).
@@ -87,6 +88,14 @@ prompt.py, parse.py, runner.py, cli.py) · `src/provenance.py`, `src/runmode.py`
       chronological split (fit-ensemble/fit-calibration/report), by-league/by-season breakdown,
       no single winner. LLM base models can join once their predictions exist; not wired by
       default (no real LLM data to test against without spending API budget).
-- [ ] S12 ingestion (commercial data source + timestamped odds + xG decision) · S13 pre-match ·
-      S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
+- [x] S12 global fixture ingestion adapter/infra (`src/ingestion/`, `tests/test_ingestion.py`,
+      `docs/ingestion.md`, ADR 0023) — `FixtureProvider` protocol (leagues/seasons/fixtures
+      required; lineups/injuries/events/statistics/odds left as an interface for S13+), idempotent
+      upsert reusing the existing `TeamDirectory` (never auto-registers), coverage matrix +
+      freshness monitor, rate-limit token bucket + backoff, cache = raw-response audit store. NO
+      commercial vendor connected yet (`docs/data_sources/commercial_migration_plan.md` still
+      leaves provider selection to the project owner); tested entirely against a mock provider.
+      Still RESEARCH_ONLY: `src/data/`'s football-data.co.uk pipeline is unchanged and untouched.
+      Timestamped odds (S15) and the xG decision remain separately open.
+- [ ] S13 pre-match · S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

@@ -95,8 +95,10 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       freshness monitor, rate-limit token bucket + backoff, cache = raw-response audit store.
       One FREE-tier adapter connected (`football_data_org.py`, `configs/ingestion.yaml`,
       `tests/test_football_data_org.py`, ADR 0023 amendment, 2026-10-01) — football-data.org,
-      no cost, owner has no budget currently; `enabled: false` until a real API key is set. NOT
-      a resolved commercial answer — terms unverified, stays `RESEARCH_ONLY`
+      no cost, owner has no budget currently; CONNECTED with a real free API key (`.env`,
+      gitignored, auto-loaded by `cli_utils.load_dotenv`), `enabled: true`, verified end-to-end
+      (leagues/seasons/fixtures all returned real data). NOT a resolved commercial answer — terms
+      unverified, stays `RESEARCH_ONLY`
       (`docs/data_sources/licensing.md`); a PAID commercial vendor is still the project owner's
       open decision. `src/data/`'s football-data.co.uk pipeline is unchanged and untouched.
       Timestamped odds (S15) and the xG decision remain separately open.

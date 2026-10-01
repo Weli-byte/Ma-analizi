@@ -46,9 +46,13 @@ because the project owner has no budget right now, not as a resolved commercial 
 terms remain unverified (`docs/data_sources/licensing.md`), classification stays
 `RESEARCH_ONLY`.
 
-Enable: set `FOOTBALL_DATA_ORG_API_KEY` in the environment and `enabled: true` in
-`configs/ingestion.yaml`'s `football-data-org` entry (disabled by default). Resolve it the same
-way S8 resolves an LLM provider:
+**Connected 2026-10-01** with the project owner's own free API key (`.env`, gitignored, loaded
+automatically by every `python -m ...` entrypoint via `cli_utils.load_dotenv`).
+`configs/ingestion.yaml`'s `football-data-org` entry is `enabled: true`, `leagues: [PL, PD, BL1,
+SA, FL1, CL, DED, PPL]` (8 of the free tier's 12 competitions — the major leagues + Champions
+League). Verified end-to-end against the real API: `list_leagues` (13 competitions returned),
+`list_seasons`, and `list_fixtures` (380 fixtures for one Premier League season) all confirmed
+working. Resolve it the same way S8 resolves an LLM provider:
 
 ```python
 from src.config import config_dir_for, load_config
@@ -59,9 +63,10 @@ provider, api_key, leagues = resolve_ingestion_provider(cfg, "football-data-org"
 result, upserts = sync_league_season(provider, "2021", "2023-24", directory, "ENG")
 ```
 
-(`"2021"` is football-data.org's own id for the Premier League; `list_leagues()` returns every
-competition the free tier exposes.) No standalone CLI yet — a concrete sync command is left for
-when the owner has a key to actually run it against.
+(`"2021"` or `"PL"` both work as the league id — football-data.org's v4 API accepts either its
+numeric id or its short code interchangeably.) No standalone CLI yet — `sync_league_season` is
+called directly or wired into a script when a real sync is actually wanted; nothing in this
+repo runs it automatically (no scheduled job, no test calls the real API).
 
 ## Tests
 

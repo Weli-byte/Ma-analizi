@@ -115,3 +115,17 @@ New: `configs/ingestion.yaml` (`IngestionConfig`, same `enabled`/`api_key_env` p
 `configs/provider.yaml`'s S8 `ProviderConfig`) + `sync.resolve_ingestion_provider` (same shape
 as `src.llm.runner.resolve_provider`). `football-data-org`'s `enabled: false` by default; the
 owner still needs to register and set `FOOTBALL_DATA_ORG_API_KEY` before any real call happens.
+
+## Second amendment (2026-10-01, same day): connected with a real key
+
+The owner registered and provided a real free-tier API key. `.env` (gitignored) now holds
+`FOOTBALL_DATA_ORG_API_KEY`; `src.cli_utils.load_dotenv` (new, stdlib-only, no `python-dotenv`
+dependency) loads it automatically in every `python -m ...` entrypoint via the existing
+`configure_output()` call every entrypoint already makes — never overriding a real environment
+variable if one is already set. `configs/ingestion.yaml`'s `football-data-org` entry is now
+`enabled: true` with 8 of the free tier's 12 competitions listed (`PL, PD, BL1, SA, FL1, CL,
+DED, PPL`). Verified end-to-end against the REAL API (one-off manual verification, not a
+committed test — `tests/test_football_data_org.py` still mocks every call, per this ADR's
+original decision): `list_leagues` returned 13 competitions, `list_seasons` and `list_fixtures`
+(380 real Premier League fixtures) both returned real data. No CI job or scheduled process
+calls the real API — this repo makes zero automatic real network calls to football-data.org.

@@ -2,13 +2,13 @@
 # Every enabled provider makes REAL API calls; there is no mock/fake provider (ADR 0024).
 # A provider is operational only after `python -m src.llm.live_smoke` received a real response.
 budget:                       # enforced BEFORE any call; exceeding it fails without calling
-  max_requests_per_run: 3
-  max_total_tokens: 15000
-  max_estimated_cost_usd: 0.01
+  max_requests_per_run: 60      # owner-approved 2026-10-02: 20 matches x 3 providers
+  max_total_tokens: 500000
+  max_estimated_cost_usd: 0.15   # WORST-CASE bound (all retries, full output); expected real cost ~0.03
   max_concurrency: 1
   request_timeout_seconds: 30
   retry_limit: 2
-  max_output_tokens: 400      # per request; covers reasoning/thinking tokens too
+  max_output_tokens: 800      # per request; covers reasoning/thinking tokens too
 providers:
   openai:    {enabled: true,  api_key_env: OPENAI_API_KEY,    model: gpt-6-luna}
   anthropic: {enabled: false, api_key_env: ANTHROPIC_API_KEY, model: TBD}

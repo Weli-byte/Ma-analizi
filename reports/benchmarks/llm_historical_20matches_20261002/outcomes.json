@@ -1,0 +1,122 @@
+{
+  "EPL_2022-23_20220805_ENG_crystal_palace_ENG_arsenal": {
+    "kickoff_utc": "2022-08-05T19:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 2,
+    "season": "2022-23"
+  },
+  "EPL_2022-23_20220831_ENG_manchester_city_ENG_nottingham_forest": {
+    "kickoff_utc": "2022-08-31T18:30:00+00:00",
+    "league_id": "EPL",
+    "outcome": 0,
+    "season": "2022-23"
+  },
+  "EPL_2022-23_20221008_ENG_newcastle_united_ENG_brentford": {
+    "kickoff_utc": "2022-10-08T14:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 0,
+    "season": "2022-23"
+  },
+  "EPL_2022-23_20230225_ENG_leicester_city_ENG_arsenal": {
+    "kickoff_utc": "2023-02-25T15:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 2,
+    "season": "2022-23"
+  },
+  "EPL_2022-23_20230513_ENG_southampton_ENG_fulham": {
+    "kickoff_utc": "2023-05-13T14:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 2,
+    "season": "2022-23"
+  },
+  "EPL_2023-24_20230903_ENG_arsenal_ENG_manchester_united": {
+    "kickoff_utc": "2023-09-03T15:30:00+00:00",
+    "league_id": "EPL",
+    "outcome": 0,
+    "season": "2023-24"
+  },
+  "EPL_2023-24_20231007_ENG_burnley_ENG_chelsea": {
+    "kickoff_utc": "2023-10-07T14:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 2,
+    "season": "2023-24"
+  },
+  "EPL_2023-24_20231209_ENG_sheffield_united_ENG_brentford": {
+    "kickoff_utc": "2023-12-09T15:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 0,
+    "season": "2023-24"
+  },
+  "EPL_2023-24_20240205_ENG_brentford_ENG_manchester_city": {
+    "kickoff_utc": "2024-02-05T20:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 2,
+    "season": "2023-24"
+  },
+  "EPL_2023-24_20240303_ENG_manchester_city_ENG_manchester_united": {
+    "kickoff_utc": "2024-03-03T15:30:00+00:00",
+    "league_id": "EPL",
+    "outcome": 0,
+    "season": "2023-24"
+  },
+  "EPL_2023-24_20240406_ENG_wolverhampton_wanderers_ENG_west_ham_united": {
+    "kickoff_utc": "2024-04-06T14:00:00+00:00",
+    "league_id": "EPL",
+    "outcome": 2,
+    "season": "2023-24"
+  },
+  "LALIGA_2022-23_20221029_ESP_almeria_ESP_celta_vigo": {
+    "kickoff_utc": "2022-10-29T12:00:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 0,
+    "season": "2022-23"
+  },
+  "LALIGA_2022-23_20221230_ESP_real_valladolid_ESP_real_madrid": {
+    "kickoff_utc": "2022-12-30T20:30:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 2,
+    "season": "2022-23"
+  },
+  "LALIGA_2022-23_20230128_ESP_sevilla_ESP_elche": {
+    "kickoff_utc": "2023-01-28T17:30:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 0,
+    "season": "2022-23"
+  },
+  "LALIGA_2022-23_20230401_ESP_girona_ESP_espanyol": {
+    "kickoff_utc": "2023-04-01T12:00:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 0,
+    "season": "2022-23"
+  },
+  "LALIGA_2022-23_20230423_ESP_elche_ESP_valencia": {
+    "kickoff_utc": "2023-04-23T12:00:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 2,
+    "season": "2022-23"
+  },
+  "LALIGA_2023-24_20230811_ESP_almeria_ESP_rayo_vallecano": {
+    "kickoff_utc": "2023-08-11T17:30:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 2,
+    "season": "2023-24"
+  },
+  "LALIGA_2023-24_20231106_ESP_getafe_ESP_cadiz": {
+    "kickoff_utc": "2023-11-06T20:00:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 0,
+    "season": "2023-24"
+  },
+  "LALIGA_2023-24_20240102_ESP_valencia_ESP_villarreal": {
+    "kickoff_utc": "2024-01-02T20:30:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 0,
+    "season": "2023-24"
+  },
+  "LALIGA_2023-24_20240504_ESP_real_madrid_ESP_cadiz": {
+    "kickoff_utc": "2024-05-04T14:15:00+00:00",
+    "league_id": "LALIGA",
+    "outcome": 0,
+    "season": "2023-24"
+  }
+}

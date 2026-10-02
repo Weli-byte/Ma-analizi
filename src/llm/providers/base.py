@@ -59,6 +59,16 @@ def scrub(message: str, api_key: str | None = None) -> str:
     return _SECRET_RE.sub("[REDACTED]", message)[:300]
 
 
+def retry_after_from(exc: Exception) -> float | None:
+    """The server's `retry-after` header (seconds) from an SDK status error, if it sent one."""
+    headers = getattr(getattr(exc, "response", None), "headers", None)
+    try:
+        value = headers.get("retry-after") if headers is not None else None
+        return float(value) if value is not None else None
+    except (TypeError, ValueError):
+        return None
+
+
 class ProviderError(RuntimeError):
     def __init__(
         self,
@@ -67,10 +77,12 @@ class ProviderError(RuntimeError):
         status_code: int | None = None,
         request_id: str | None = None,
         retry_count: int = 0,
+        retry_after_s: float | None = None,
     ):
         super().__init__(f"{kind.value}: {message}")
         self.kind, self.status_code = kind, status_code
         self.request_id, self.retry_count = request_id, retry_count
+        self.retry_after_s = retry_after_s  # the provider's own `retry-after` hint, when sent
 
 
 @dataclass(frozen=True)
@@ -115,7 +127,8 @@ def with_retries[T](
     *,
     retry_limit: int,
     sleep: Callable[[float], None] = time.sleep,
-    base_delay_s: float = 1.0,
+    base_delay_s: float = 2.0,
+    max_wait_s: float = 60.0,
 ) -> tuple[T, int]:
     """Run `call`; retry ONLY retryable ProviderErrors with exponential backoff + jitter.
     Returns (result, retry_count). Auth/invalid-request/etc. fail immediately."""
@@ -127,5 +140,8 @@ def with_retries[T](
             if e.kind not in RETRYABLE or attempt >= retry_limit:
                 e.retry_count = attempt
                 raise
-            sleep(base_delay_s * (2**attempt) * (0.5 + random.random()))  # noqa: S311 - jitter
+            delay = base_delay_s * (2**attempt) * (0.5 + random.random())  # noqa: S311 - jitter
+            if e.retry_after_s:  # honour the provider's own hint when it is longer
+                delay = max(delay, e.retry_after_s)
+            sleep(min(delay, max_wait_s))
             attempt += 1

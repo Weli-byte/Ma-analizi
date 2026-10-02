@@ -9,7 +9,16 @@ import openai
 
 from src.llm.contract import response_json_schema
 
-from .base import ErrorKind, LLMResponse, ProviderError, classify_status, scrub, sha256_text, with_retries
+from .base import (
+    ErrorKind,
+    LLMResponse,
+    ProviderError,
+    classify_status,
+    retry_after_from,
+    scrub,
+    sha256_text,
+    with_retries,
+)
 
 
 def _translate(e: Exception, api_key: str) -> ProviderError:
@@ -23,7 +32,11 @@ def _translate(e: Exception, api_key: str) -> ProviderError:
         if "content_filter" in str(body.get("code", "")) or "safety" in str(body.get("code", "")):
             kind = ErrorKind.CONTENT_POLICY
         return ProviderError(
-            kind, scrub(str(e.message), api_key), status_code=e.status_code, request_id=e.request_id
+            kind,
+            scrub(str(e.message), api_key),
+            status_code=e.status_code,
+            request_id=e.request_id,
+            retry_after_s=retry_after_from(e),
         )
     return ProviderError(ErrorKind.UNKNOWN, f"{type(e).__name__}: {scrub(str(e), api_key)}")
 

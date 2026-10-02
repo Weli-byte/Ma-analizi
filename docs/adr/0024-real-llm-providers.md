@@ -54,3 +54,11 @@ cutoff must not be in the future. First run: Arsenal FC vs Leeds United FC (2026
 Gemini and Groq all returned valid forecasts (about $0.0008 total). Known limit: the
 football-data.co.uk history ends 2026-08-27, so newer results are not in the features.
 `max_total_tokens` raised to 15000 because real snapshots are ~1k tokens.
+
+## Addendum 2026-10-02 (2) — `retry-after`, output budget
+The first 20-match benchmark had Groq at 40% coverage: free-tier 429s were retried after only
+1-2 s. `ProviderError.retry_after_s` now carries the server's `retry-after` header and
+`with_retries` waits at least that long (capped at 60 s; base backoff 2 s). `max_output_tokens`
+raised 400 -> 800 because one OpenAI response was truncated by reasoning tokens. The rerun reached
+60/60 requests. Budget raised by the owner for this run (`max_requests_per_run` 60,
+`max_total_tokens` 500000, worst-case `max_estimated_cost_usd` 0.15; real cost $0.021).

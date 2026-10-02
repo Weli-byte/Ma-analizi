@@ -110,5 +110,8 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       retry. OpenAI + Gemini verified by real calls; Anthropic NOT_CONFIGURED (no key yet).
 - [x] Phase G (ADR 0026, 2026-10-02): `src.llm.benchmark` engine (plan/budget/operator gate), coverage report,
       `LLM_REAL` evaluation with raw+calibrated, ensemble `--llm-run`; verified with real calls on 3 providers.
-- [ ] S13 pre-match · S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
+- [x] S13 snapshot engine (ADR 0027, 2026-10-02): `src/snapshot/` stages t-24h/t-90m/t-30m/kickoff, immutable
+      content-hashed locked stages, deltas, lineups/injuries UNKNOWN; verified on a real historical fixture; the
+      first LIVE stage run is pending real time (next fixtures 2026-10-09/10). Run: `python -m src.snapshot.run`.
+- [ ] S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

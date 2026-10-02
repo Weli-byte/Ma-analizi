@@ -9,7 +9,16 @@ import groq
 
 from src.llm.contract import response_json_schema
 
-from .base import ErrorKind, LLMResponse, ProviderError, classify_status, scrub, sha256_text, with_retries
+from .base import (
+    ErrorKind,
+    LLMResponse,
+    ProviderError,
+    classify_status,
+    retry_after_from,
+    scrub,
+    sha256_text,
+    with_retries,
+)
 
 
 def _translate(e: Exception, api_key: str) -> ProviderError:
@@ -23,6 +32,7 @@ def _translate(e: Exception, api_key: str) -> ProviderError:
             scrub(str(e.message), api_key),
             status_code=e.status_code,
             request_id=getattr(e, "request_id", None),
+            retry_after_s=retry_after_from(e),
         )
     return ProviderError(ErrorKind.UNKNOWN, f"{type(e).__name__}: {scrub(str(e), api_key)}")
 

@@ -255,5 +255,15 @@ class EloModel(BaselineModel):
         diffs = np.array(self.replay(rows))
         return self._map_probs(diffs)
 
+    def predict_proba_pending(self, rows: list[EvalRow]) -> np.ndarray:
+        """Forecast fixtures whose result does NOT exist yet (live S13 stages). Reads the current
+        ratings and never advances them -- `predict_proba` replays outcomes into the state, which
+        is only valid when the outcome is known. Ratings are as of the end of `fit()` (training
+        seasons only, ADR 0027 limitation), so repeated calls give identical results."""
+        if not self._fitted:
+            raise RuntimeError("EloModel.predict_proba_pending called before fit()")
+        diffs = np.array([self._pre_match_diff(r) for r in rows])
+        return self._map_probs(diffs)
+
 
 REGISTRY: dict[str, type[BaselineModel]] = {EloModel.model_id: EloModel}

@@ -1,0 +1,921 @@
+{
+  "awaiting_result": {
+    "llm_gemini_gemini_3_1_flash_lite": 0,
+    "llm_groq_openai_gpt_oss_20b": 0,
+    "llm_openai_gpt_6_luna": 0
+  },
+  "calibration": {
+    "llm_gemini_gemini_3_1_flash_lite": {
+      "calibrated_metrics": {
+        "accuracy": 0.8,
+        "brier": 0.30168435778132174,
+        "ece_raw": 0.20808204366127292,
+        "log_loss": 0.731856304965201,
+        "rps": 0.1476743607782926
+      },
+      "calibration_fit_rows": 10,
+      "raw_metrics": {
+        "accuracy": 0.8,
+        "brier": 0.4067226,
+        "ece_raw": 0.24969999999999995,
+        "log_loss": 0.7349815956703252,
+        "rps": 0.17270824999999995
+      },
+      "report_rows": 10,
+      "skipped": false,
+      "temperature": 0.185571
+    },
+    "llm_groq_openai_gpt_oss_20b": {
+      "calibrated_metrics": {
+        "accuracy": 0.6,
+        "brier": 0.4744637278459978,
+        "ece_raw": 0.3179875461049209,
+        "log_loss": 0.8591657253658018,
+        "rps": 0.21603423279004202
+      },
+      "calibration_fit_rows": 10,
+      "raw_metrics": {
+        "accuracy": 0.6,
+        "brier": 0.4800528,
+        "ece_raw": 0.2591,
+        "log_loss": 0.8345952226201518,
+        "rps": 0.20233985
+      },
+      "report_rows": 10,
+      "skipped": false,
+      "temperature": 0.36131
+    },
+    "llm_openai_gpt_6_luna": {
+      "calibrated_metrics": {
+        "accuracy": 0.8,
+        "brier": 0.29540579600331174,
+        "ece_raw": 0.2093007344665552,
+        "log_loss": 0.6761112929454423,
+        "rps": 0.14460930903673083
+      },
+      "calibration_fit_rows": 10,
+      "raw_metrics": {
+        "accuracy": 0.8,
+        "brier": 0.4034632,
+        "ece_raw": 0.2515,
+        "log_loss": 0.7302053553375625,
+        "rps": 0.17150959999999998
+      },
+      "report_rows": 10,
+      "skipped": false,
+      "temperature": 0.197095
+    }
+  },
+  "leaderboard": {
+    "by_league": [
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.9090909090909091,
+          "brier": 0.3468169090909092,
+          "ece_raw": 0.31963636363636366,
+          "log_loss": 0.6465852434933939,
+          "rps": 0.1473677272727273
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_gemini_gemini_3_1_flash_lite",
+        "n": 11,
+        "scope": "league:EPL"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.7777777777777778,
+          "brier": 0.3961275555555555,
+          "ece_raw": 0.33788888888888885,
+          "log_loss": 0.7180444938685853,
+          "rps": 0.16292288888888884
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_gemini_gemini_3_1_flash_lite",
+        "n": 9,
+        "scope": "league:LALIGA"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.7272727272727273,
+          "brier": 0.43476909090909094,
+          "ece_raw": 0.2351818181818182,
+          "log_loss": 0.7641543604013901,
+          "rps": 0.1819526818181818
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_groq_openai_gpt_oss_20b",
+        "n": 11,
+        "scope": "league:EPL"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.6666666666666666,
+          "brier": 0.45016070666666663,
+          "ece_raw": 0.4167777777777777,
+          "log_loss": 0.8047819976841044,
+          "rps": 0.1875848011111111
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_groq_openai_gpt_oss_20b",
+        "n": 9,
+        "scope": "league:LALIGA"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.9090909090909091,
+          "brier": 0.3483921818181818,
+          "ece_raw": 0.3216363636363636,
+          "log_loss": 0.648562156240982,
+          "rps": 0.1482786363636364
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_openai_gpt_6_luna",
+        "n": 11,
+        "scope": "league:EPL"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.7777777777777778,
+          "brier": 0.39126222222222223,
+          "ece_raw": 0.33655555555555555,
+          "log_loss": 0.711867051338628,
+          "rps": 0.16106322222222222
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_openai_gpt_6_luna",
+        "n": 9,
+        "scope": "league:LALIGA"
+      }
+    ],
+    "by_model_class": [
+      {
+        "confidence_intervals": {
+          "accuracy": {
+            "bootstrap_samples": 1000,
+            "lower": 0.7,
+            "mean": 0.8509500000000001,
+            "metric": "accuracy",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 1.0
+          },
+          "brier": {
+            "bootstrap_samples": 1000,
+            "lower": 0.2717940925,
+            "mean": 0.36968547749999997,
+            "metric": "brier",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.47255727000000003
+          },
+          "ece_raw": {
+            "bootstrap_samples": 1000,
+            "lower": 0.223485,
+            "mean": 0.33000845,
+            "metric": "ece_raw",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.43806249999999997
+          },
+          "log_loss": {
+            "bootstrap_samples": 1000,
+            "lower": 0.5400548539392581,
+            "mean": 0.679655304923216,
+            "metric": "log_loss",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.8289862232627553
+          },
+          "rps": {
+            "bootstrap_samples": 1000,
+            "lower": 0.109769624375,
+            "mean": 0.15468341222499998,
+            "metric": "rps",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.203953210625
+          }
+        },
+        "metrics": {
+          "accuracy": 0.85,
+          "brier": 0.36900669999999997,
+          "ece_raw": 0.29135,
+          "log_loss": 0.67874190616223,
+          "n": 20,
+          "rps": 0.15436755
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_gemini_gemini_3_1_flash_lite",
+        "n": 20,
+        "scope": "global"
+      },
+      {
+        "confidence_intervals": {
+          "accuracy": {
+            "bootstrap_samples": 1000,
+            "lower": 0.5,
+            "mean": 0.70175,
+            "metric": "accuracy",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.9
+          },
+          "brier": {
+            "bootstrap_samples": 1000,
+            "lower": 0.32641967704999997,
+            "mean": 0.44202865184099993,
+            "metric": "brier",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.569204343975
+          },
+          "ece_raw": {
+            "bootstrap_samples": 1000,
+            "lower": 0.22019,
+            "mean": 0.329196025,
+            "metric": "ece_raw",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.431408625
+          },
+          "log_loss": {
+            "bootstrap_samples": 1000,
+            "lower": 0.6130756458970124,
+            "mean": 0.7829139206568334,
+            "metric": "log_loss",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.97049763517012
+          },
+          "rps": {
+            "bootstrap_samples": 1000,
+            "lower": 0.13030742253125,
+            "mean": 0.18473941520224998,
+            "metric": "rps",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.245316478
+          }
+        },
+        "metrics": {
+          "accuracy": 0.7,
+          "brier": 0.441695318,
+          "ece_raw": 0.2807,
+          "log_loss": 0.7824367971786115,
+          "n": 20,
+          "rps": 0.1844871355
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_groq_openai_gpt_oss_20b",
+        "n": 20,
+        "scope": "global"
+      },
+      {
+        "confidence_intervals": {
+          "accuracy": {
+            "bootstrap_samples": 1000,
+            "lower": 0.7,
+            "mean": 0.8509500000000001,
+            "metric": "accuracy",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 1.0
+          },
+          "brier": {
+            "bootstrap_samples": 1000,
+            "lower": 0.26993741999999993,
+            "mean": 0.3685282324,
+            "metric": "brier",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.4692646575
+          },
+          "ece_raw": {
+            "bootstrap_samples": 1000,
+            "lower": 0.22347374999999994,
+            "mean": 0.3305942,
+            "metric": "ece_raw",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.43927624999999987
+          },
+          "log_loss": {
+            "bootstrap_samples": 1000,
+            "lower": 0.5371639994348109,
+            "mean": 0.6781972106644462,
+            "metric": "log_loss",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.824933958786954
+          },
+          "rps": {
+            "bootstrap_samples": 1000,
+            "lower": 0.10847306312499999,
+            "mean": 0.15442665077499998,
+            "metric": "rps",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.20251836562499997
+          }
+        },
+        "metrics": {
+          "accuracy": 0.85,
+          "brier": 0.3676837,
+          "ece_raw": 0.29234999999999994,
+          "log_loss": 0.6770493590349227,
+          "n": 20,
+          "rps": 0.1540317
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_openai_gpt_6_luna",
+        "n": 20,
+        "scope": "global"
+      }
+    ],
+    "by_season": [
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.9,
+          "brier": 0.3312908,
+          "ece_raw": 0.415,
+          "log_loss": 0.6225022166541345,
+          "rps": 0.13602685
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_gemini_gemini_3_1_flash_lite",
+        "n": 10,
+        "scope": "season:2022-23"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.8,
+          "brier": 0.4067226,
+          "ece_raw": 0.24969999999999995,
+          "log_loss": 0.7349815956703252,
+          "rps": 0.17270824999999995
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_gemini_gemini_3_1_flash_lite",
+        "n": 10,
+        "scope": "season:2023-24"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.8,
+          "brier": 0.40333783599999995,
+          "ece_raw": 0.4165,
+          "log_loss": 0.7302783717370713,
+          "rps": 0.166634421
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_groq_openai_gpt_oss_20b",
+        "n": 10,
+        "scope": "season:2022-23"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.6,
+          "brier": 0.4800528,
+          "ece_raw": 0.2591,
+          "log_loss": 0.8345952226201518,
+          "rps": 0.20233985
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_groq_openai_gpt_oss_20b",
+        "n": 10,
+        "scope": "season:2023-24"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.9,
+          "brier": 0.33190420000000004,
+          "ece_raw": 0.41519999999999996,
+          "log_loss": 0.6238933627322831,
+          "rps": 0.1365538
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_openai_gpt_6_luna",
+        "n": 10,
+        "scope": "season:2022-23"
+      },
+      {
+        "confidence_intervals": {},
+        "metrics": {
+          "accuracy": 0.8,
+          "brier": 0.4034632,
+          "ece_raw": 0.2515,
+          "log_loss": 0.7302053553375625,
+          "rps": 0.17150959999999998
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_openai_gpt_6_luna",
+        "n": 10,
+        "scope": "season:2023-24"
+      }
+    ],
+    "global": [
+      {
+        "confidence_intervals": {
+          "accuracy": {
+            "bootstrap_samples": 1000,
+            "lower": 0.7,
+            "mean": 0.8509500000000001,
+            "metric": "accuracy",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 1.0
+          },
+          "brier": {
+            "bootstrap_samples": 1000,
+            "lower": 0.2717940925,
+            "mean": 0.36968547749999997,
+            "metric": "brier",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.47255727000000003
+          },
+          "ece_raw": {
+            "bootstrap_samples": 1000,
+            "lower": 0.223485,
+            "mean": 0.33000845,
+            "metric": "ece_raw",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.43806249999999997
+          },
+          "log_loss": {
+            "bootstrap_samples": 1000,
+            "lower": 0.5400548539392581,
+            "mean": 0.679655304923216,
+            "metric": "log_loss",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.8289862232627553
+          },
+          "rps": {
+            "bootstrap_samples": 1000,
+            "lower": 0.109769624375,
+            "mean": 0.15468341222499998,
+            "metric": "rps",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.203953210625
+          }
+        },
+        "metrics": {
+          "accuracy": 0.85,
+          "brier": 0.36900669999999997,
+          "ece_raw": 0.29135,
+          "log_loss": 0.67874190616223,
+          "n": 20,
+          "rps": 0.15436755
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_gemini_gemini_3_1_flash_lite",
+        "n": 20,
+        "scope": "global"
+      },
+      {
+        "confidence_intervals": {
+          "accuracy": {
+            "bootstrap_samples": 1000,
+            "lower": 0.5,
+            "mean": 0.70175,
+            "metric": "accuracy",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.9
+          },
+          "brier": {
+            "bootstrap_samples": 1000,
+            "lower": 0.32641967704999997,
+            "mean": 0.44202865184099993,
+            "metric": "brier",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.569204343975
+          },
+          "ece_raw": {
+            "bootstrap_samples": 1000,
+            "lower": 0.22019,
+            "mean": 0.329196025,
+            "metric": "ece_raw",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.431408625
+          },
+          "log_loss": {
+            "bootstrap_samples": 1000,
+            "lower": 0.6130756458970124,
+            "mean": 0.7829139206568334,
+            "metric": "log_loss",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.97049763517012
+          },
+          "rps": {
+            "bootstrap_samples": 1000,
+            "lower": 0.13030742253125,
+            "mean": 0.18473941520224998,
+            "metric": "rps",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.245316478
+          }
+        },
+        "metrics": {
+          "accuracy": 0.7,
+          "brier": 0.441695318,
+          "ece_raw": 0.2807,
+          "log_loss": 0.7824367971786115,
+          "n": 20,
+          "rps": 0.1844871355
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_groq_openai_gpt_oss_20b",
+        "n": 20,
+        "scope": "global"
+      },
+      {
+        "confidence_intervals": {
+          "accuracy": {
+            "bootstrap_samples": 1000,
+            "lower": 0.7,
+            "mean": 0.8509500000000001,
+            "metric": "accuracy",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 1.0
+          },
+          "brier": {
+            "bootstrap_samples": 1000,
+            "lower": 0.26993741999999993,
+            "mean": 0.3685282324,
+            "metric": "brier",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.4692646575
+          },
+          "ece_raw": {
+            "bootstrap_samples": 1000,
+            "lower": 0.22347374999999994,
+            "mean": 0.3305942,
+            "metric": "ece_raw",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.43927624999999987
+          },
+          "log_loss": {
+            "bootstrap_samples": 1000,
+            "lower": 0.5371639994348109,
+            "mean": 0.6781972106644462,
+            "metric": "log_loss",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.824933958786954
+          },
+          "rps": {
+            "bootstrap_samples": 1000,
+            "lower": 0.10847306312499999,
+            "mean": 0.15442665077499998,
+            "metric": "rps",
+            "n": 20,
+            "random_seed": 20260925,
+            "upper": 0.20251836562499997
+          }
+        },
+        "metrics": {
+          "accuracy": 0.85,
+          "brier": 0.3676837,
+          "ece_raw": 0.29234999999999994,
+          "log_loss": 0.6770493590349227,
+          "n": 20,
+          "rps": 0.1540317
+        },
+        "model_class": "LLM_REAL",
+        "model_id": "llm_openai_gpt_6_luna",
+        "n": 20,
+        "scope": "global"
+      }
+    ]
+  },
+  "leaderboard_md": "## Leaderboard\n\nNo single overall winner: read every metric together.\n\n### global\n\n| model | class | scope | n | log_loss | brier | rps | ece_raw | accuracy |\n|---|---|---|---|---|---|---|---|---|\n| llm_gemini_gemini_3_1_flash_lite | LLM_REAL | global | 20 | 0.6787 | 0.3690 | 0.1544 | 0.2913 | 0.8500 |\n| llm_groq_openai_gpt_oss_20b | LLM_REAL | global | 20 | 0.7824 | 0.4417 | 0.1845 | 0.2807 | 0.7000 |\n| llm_openai_gpt_6_luna | LLM_REAL | global | 20 | 0.6770 | 0.3677 | 0.1540 | 0.2923 | 0.8500 |\n\n### by_league\n\n| model | class | scope | n | log_loss | brier | rps | ece_raw | accuracy |\n|---|---|---|---|---|---|---|---|---|\n| llm_gemini_gemini_3_1_flash_lite | LLM_REAL | league:EPL | 11 | 0.6466 | 0.3468 | 0.1474 | 0.3196 | 0.9091 |\n| llm_gemini_gemini_3_1_flash_lite | LLM_REAL | league:LALIGA | 9 | 0.7180 | 0.3961 | 0.1629 | 0.3379 | 0.7778 |\n| llm_groq_openai_gpt_oss_20b | LLM_REAL | league:EPL | 11 | 0.7642 | 0.4348 | 0.1820 | 0.2352 | 0.7273 |\n| llm_groq_openai_gpt_oss_20b | LLM_REAL | league:LALIGA | 9 | 0.8048 | 0.4502 | 0.1876 | 0.4168 | 0.6667 |\n| llm_openai_gpt_6_luna | LLM_REAL | league:EPL | 11 | 0.6486 | 0.3484 | 0.1483 | 0.3216 | 0.9091 |\n| llm_openai_gpt_6_luna | LLM_REAL | league:LALIGA | 9 | 0.7119 | 0.3913 | 0.1611 | 0.3366 | 0.7778 |\n\n### by_season\n\n| model | class | scope | n | log_loss | brier | rps | ece_raw | accuracy |\n|---|---|---|---|---|---|---|---|---|\n| llm_gemini_gemini_3_1_flash_lite | LLM_REAL | season:2022-23 | 10 | 0.6225 | 0.3313 | 0.1360 | 0.4150 | 0.9000 |\n| llm_gemini_gemini_3_1_flash_lite | LLM_REAL | season:2023-24 | 10 | 0.7350 | 0.4067 | 0.1727 | 0.2497 | 0.8000 |\n| llm_groq_openai_gpt_oss_20b | LLM_REAL | season:2022-23 | 10 | 0.7303 | 0.4033 | 0.1666 | 0.4165 | 0.8000 |\n| llm_groq_openai_gpt_oss_20b | LLM_REAL | season:2023-24 | 10 | 0.8346 | 0.4801 | 0.2023 | 0.2591 | 0.6000 |\n| llm_openai_gpt_6_luna | LLM_REAL | season:2022-23 | 10 | 0.6239 | 0.3319 | 0.1366 | 0.4152 | 0.9000 |\n| llm_openai_gpt_6_luna | LLM_REAL | season:2023-24 | 10 | 0.7302 | 0.4035 | 0.1715 | 0.2515 | 0.8000 |\n",
+  "model_class": "LLM_REAL",
+  "rejected_incomplete_provenance": 0,
+  "results": [
+    {
+      "availability": {},
+      "by_league": {
+        "EPL": {
+          "accuracy": 0.9090909090909091,
+          "brier": 0.3468169090909092,
+          "ece_raw": 0.31963636363636366,
+          "log_loss": 0.6465852434933939,
+          "n": 11,
+          "rps": 0.1473677272727273
+        },
+        "LALIGA": {
+          "accuracy": 0.7777777777777778,
+          "brier": 0.3961275555555555,
+          "ece_raw": 0.33788888888888885,
+          "log_loss": 0.7180444938685853,
+          "n": 9,
+          "rps": 0.16292288888888884
+        }
+      },
+      "by_season": {
+        "2022-23": {
+          "accuracy": 0.9,
+          "brier": 0.3312908,
+          "ece_raw": 0.415,
+          "log_loss": 0.6225022166541345,
+          "n": 10,
+          "rps": 0.13602685
+        },
+        "2023-24": {
+          "accuracy": 0.8,
+          "brier": 0.4067226,
+          "ece_raw": 0.24969999999999995,
+          "log_loss": 0.7349815956703252,
+          "n": 10,
+          "rps": 0.17270824999999995
+        }
+      },
+      "confidence_intervals": {
+        "accuracy": {
+          "bootstrap_samples": 1000,
+          "lower": 0.7,
+          "mean": 0.8509500000000001,
+          "metric": "accuracy",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 1.0
+        },
+        "brier": {
+          "bootstrap_samples": 1000,
+          "lower": 0.2717940925,
+          "mean": 0.36968547749999997,
+          "metric": "brier",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.47255727000000003
+        },
+        "ece_raw": {
+          "bootstrap_samples": 1000,
+          "lower": 0.223485,
+          "mean": 0.33000845,
+          "metric": "ece_raw",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.43806249999999997
+        },
+        "log_loss": {
+          "bootstrap_samples": 1000,
+          "lower": 0.5400548539392581,
+          "mean": 0.679655304923216,
+          "metric": "log_loss",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.8289862232627553
+        },
+        "rps": {
+          "bootstrap_samples": 1000,
+          "lower": 0.109769624375,
+          "mean": 0.15468341222499998,
+          "metric": "rps",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.203953210625
+        }
+      },
+      "diagnostics": {
+        "raw_probs_only": true
+      },
+      "metrics": {
+        "accuracy": 0.85,
+        "brier": 0.36900669999999997,
+        "ece_raw": 0.29135,
+        "log_loss": 0.67874190616223,
+        "n": 20,
+        "rps": 0.15436755
+      },
+      "model_class": "LLM_REAL",
+      "model_id": "llm_gemini_gemini_3_1_flash_lite",
+      "model_version": "2.0.0",
+      "unpredictable_rows": 0
+    },
+    {
+      "availability": {},
+      "by_league": {
+        "EPL": {
+          "accuracy": 0.7272727272727273,
+          "brier": 0.43476909090909094,
+          "ece_raw": 0.2351818181818182,
+          "log_loss": 0.7641543604013901,
+          "n": 11,
+          "rps": 0.1819526818181818
+        },
+        "LALIGA": {
+          "accuracy": 0.6666666666666666,
+          "brier": 0.45016070666666663,
+          "ece_raw": 0.4167777777777777,
+          "log_loss": 0.8047819976841044,
+          "n": 9,
+          "rps": 0.1875848011111111
+        }
+      },
+      "by_season": {
+        "2022-23": {
+          "accuracy": 0.8,
+          "brier": 0.40333783599999995,
+          "ece_raw": 0.4165,
+          "log_loss": 0.7302783717370713,
+          "n": 10,
+          "rps": 0.166634421
+        },
+        "2023-24": {
+          "accuracy": 0.6,
+          "brier": 0.4800528,
+          "ece_raw": 0.2591,
+          "log_loss": 0.8345952226201518,
+          "n": 10,
+          "rps": 0.20233985
+        }
+      },
+      "confidence_intervals": {
+        "accuracy": {
+          "bootstrap_samples": 1000,
+          "lower": 0.5,
+          "mean": 0.70175,
+          "metric": "accuracy",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.9
+        },
+        "brier": {
+          "bootstrap_samples": 1000,
+          "lower": 0.32641967704999997,
+          "mean": 0.44202865184099993,
+          "metric": "brier",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.569204343975
+        },
+        "ece_raw": {
+          "bootstrap_samples": 1000,
+          "lower": 0.22019,
+          "mean": 0.329196025,
+          "metric": "ece_raw",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.431408625
+        },
+        "log_loss": {
+          "bootstrap_samples": 1000,
+          "lower": 0.6130756458970124,
+          "mean": 0.7829139206568334,
+          "metric": "log_loss",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.97049763517012
+        },
+        "rps": {
+          "bootstrap_samples": 1000,
+          "lower": 0.13030742253125,
+          "mean": 0.18473941520224998,
+          "metric": "rps",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.245316478
+        }
+      },
+      "diagnostics": {
+        "raw_probs_only": true
+      },
+      "metrics": {
+        "accuracy": 0.7,
+        "brier": 0.441695318,
+        "ece_raw": 0.2807,
+        "log_loss": 0.7824367971786115,
+        "n": 20,
+        "rps": 0.1844871355
+      },
+      "model_class": "LLM_REAL",
+      "model_id": "llm_groq_openai_gpt_oss_20b",
+      "model_version": "2.0.0",
+      "unpredictable_rows": 0
+    },
+    {
+      "availability": {},
+      "by_league": {
+        "EPL": {
+          "accuracy": 0.9090909090909091,
+          "brier": 0.3483921818181818,
+          "ece_raw": 0.3216363636363636,
+          "log_loss": 0.648562156240982,
+          "n": 11,
+          "rps": 0.1482786363636364
+        },
+        "LALIGA": {
+          "accuracy": 0.7777777777777778,
+          "brier": 0.39126222222222223,
+          "ece_raw": 0.33655555555555555,
+          "log_loss": 0.711867051338628,
+          "n": 9,
+          "rps": 0.16106322222222222
+        }
+      },
+      "by_season": {
+        "2022-23": {
+          "accuracy": 0.9,
+          "brier": 0.33190420000000004,
+          "ece_raw": 0.41519999999999996,
+          "log_loss": 0.6238933627322831,
+          "n": 10,
+          "rps": 0.1365538
+        },
+        "2023-24": {
+          "accuracy": 0.8,
+          "brier": 0.4034632,
+          "ece_raw": 0.2515,
+          "log_loss": 0.7302053553375625,
+          "n": 10,
+          "rps": 0.17150959999999998
+        }
+      },
+      "confidence_intervals": {
+        "accuracy": {
+          "bootstrap_samples": 1000,
+          "lower": 0.7,
+          "mean": 0.8509500000000001,
+          "metric": "accuracy",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 1.0
+        },
+        "brier": {
+          "bootstrap_samples": 1000,
+          "lower": 0.26993741999999993,
+          "mean": 0.3685282324,
+          "metric": "brier",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.4692646575
+        },
+        "ece_raw": {
+          "bootstrap_samples": 1000,
+          "lower": 0.22347374999999994,
+          "mean": 0.3305942,
+          "metric": "ece_raw",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.43927624999999987
+        },
+        "log_loss": {
+          "bootstrap_samples": 1000,
+          "lower": 0.5371639994348109,
+          "mean": 0.6781972106644462,
+          "metric": "log_loss",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.824933958786954
+        },
+        "rps": {
+          "bootstrap_samples": 1000,
+          "lower": 0.10847306312499999,
+          "mean": 0.15442665077499998,
+          "metric": "rps",
+          "n": 20,
+          "random_seed": 20260925,
+          "upper": 0.20251836562499997
+        }
+      },
+      "diagnostics": {
+        "raw_probs_only": true
+      },
+      "metrics": {
+        "accuracy": 0.85,
+        "brier": 0.3676837,
+        "ece_raw": 0.29234999999999994,
+        "log_loss": 0.6770493590349227,
+        "n": 20,
+        "rps": 0.1540317
+      },
+      "model_class": "LLM_REAL",
+      "model_id": "llm_openai_gpt_6_luna",
+      "model_version": "2.0.0",
+      "unpredictable_rows": 0
+    }
+  ]
+}

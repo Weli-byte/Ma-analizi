@@ -51,3 +51,14 @@ extend-exclude = [".venv", "notebooks"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
+
+[tool.coverage.run]
+# These adapters only run against the providers' real servers. They are verified by the REAL-API
+# tests (`pytest -m live tests/integration`, workflow live-ai.yml), which normal CI deliberately does
+# not run (no keys, per-call cost); mocking them to inflate a percentage is forbidden (ADR 0024).
+omit = [
+    "src/llm/providers/openai_provider.py",
+    "src/llm/providers/gemini_provider.py",
+    "src/llm/providers/anthropic_provider.py",
+    "src/llm/providers/groq_provider.py",
+]

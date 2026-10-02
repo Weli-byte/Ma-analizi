@@ -36,11 +36,11 @@ python -m src.evaluation.run_baselines --mode strict
 python -m src.evaluation.walk_forward --mode strict   # expanding/rolling season-by-season backtest
 python -m src.data.team_resolution review     # unresolved team names
 python -m src.llm.live_smoke                  # ONE real call per enabled provider (ADR 0024)
-ALLOW_REAL_LLM_CALLS=true python -m src.llm.cli --provider openai   # S8 LLM benchmark; real money, budget-gated
+ALLOW_REAL_LLM_CALLS=true python -m src.llm.benchmark --track historical --limit 2   # plan, budget, coverage, LLM_REAL eval (ADR 0026)
 pytest -m live tests/integration              # real provider tests (excluded from default run)
 ALLOW_REAL_LLM_CALLS=true python -m src.llm.forecast --league PL   # real end-to-end forecast, next upcoming fixture
 python -m src.llm.audit                       # S10 scan artifacts/llm_runs/ for tampering/leakage
-python -m src.evaluation.run_ensemble          # S11 OOF ensemble; run walk_forward first
+python -m src.evaluation.run_ensemble [--llm-run DIR]   # S11 OOF ensemble; run walk_forward first; --llm-run adds REAL LLM models
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
 Lock regeneration MUST use `uv pip compile pyproject.toml --extra dev --universal --generate-hashes --python-version 3.12 --upgrade -o requirements.lock`
@@ -108,5 +108,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] REAL-AI provider core (ADR 0024, 2026-10-01): official-SDK OpenAI(Responses)/Gemini/Anthropic
       adapters, NO mock path (mocks deleted), budget pre-flight, central pricing, error taxonomy +
       retry. OpenAI + Gemini verified by real calls; Anthropic NOT_CONFIGURED (no key yet).
+- [x] Phase G (ADR 0026, 2026-10-02): `src.llm.benchmark` engine (plan/budget/operator gate), coverage report,
+      `LLM_REAL` evaluation with raw+calibrated, ensemble `--llm-run`; verified with real calls on 3 providers.
 - [ ] S13 pre-match · S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

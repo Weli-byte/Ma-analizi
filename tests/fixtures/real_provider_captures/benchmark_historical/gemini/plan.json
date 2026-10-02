@@ -1,0 +1,14 @@
+{
+  "match_count": 2,
+  "request_count": 2,
+  "provider_count": 1,
+  "model_count": 1,
+  "est_max_cost_usd": 0.00566475,
+  "est_token_budget": 10659,
+  "providers": [
+    "gemini"
+  ],
+  "not_configured": [],
+  "track": "historical",
+  "note": "HISTORICAL replay: the LLM may have memorized these results (memorization risk)."
+}

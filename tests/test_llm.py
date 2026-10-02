@@ -257,8 +257,16 @@ def test_no_mock_provider_exists_in_the_product():
 
 # ------------------------------------------------------------------------------------ CLI
 def test_cli_refuses_without_operator_flag_and_makes_no_call(project, monkeypatch):
+    from conftest import build_all
+
     from src.llm import cli as llm_cli
 
+    build_all(project, mode="research")
+    (project / "configs" / "provider.yaml").write_text(
+        "budget: {max_total_tokens: 15000}\nproviders:\n  openai: {enabled: true, api_key_env: TEST_GATE_KEY, model: gpt-6-luna}\n",
+        encoding="utf-8",
+    )
+    monkeypatch.setenv("TEST_GATE_KEY", "present-for-gate-only")  # no call is made: gate fires first
     monkeypatch.delenv("ALLOW_REAL_LLM_CALLS", raising=False)
     rc = llm_cli.main(["--root", str(project), "--provider", "openai", "--limit", "2"])
     assert rc == 4  # REAL_CALLS_DISABLED_BY_OPERATOR

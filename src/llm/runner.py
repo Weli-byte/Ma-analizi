@@ -197,13 +197,14 @@ def run_llm_benchmark(
     cutoff_offset_hours: float = 0.0,
     feature_version: str = "fv0",
     data_version: str = "dv-000000000000",
+    information_cutoff: datetime | None = None,
 ) -> list[LLMBenchmarkResult]:
     """Budget pre-flight for the WHOLE run first (raises `BudgetExceeded` before any call)."""
     budget = budget or LLMBudget()
     prices = prices or load_price_table()
     plan = []
     for row in rows:
-        cutoff = row.kickoff_utc - timedelta(hours=cutoff_offset_hours)
+        cutoff = information_cutoff or row.kickoff_utc - timedelta(hours=cutoff_offset_hours)
         s = build_snapshot(row, cutoff)
         plan.append((provider.name, model, estimate_input_tokens(SYSTEM_PROMPT, build_user_prompt(s))))
     preflight(plan, budget, prices)
@@ -211,7 +212,7 @@ def run_llm_benchmark(
     def one(row: EvalRow) -> LLMBenchmarkResult:
         return run_one(
             row, provider, model, api_key, track, budget, prices, cutoff_offset_hours,
-            feature_version, data_version,
+            feature_version, data_version, information_cutoff,
         )  # fmt: skip
 
     if budget.max_concurrency > 1:

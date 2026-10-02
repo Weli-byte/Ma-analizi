@@ -45,6 +45,7 @@ from .split import build_split_manifest
 ROOT = Path(__file__).resolve().parents[2]
 ENSEMBLE_VERSION = "1.0.0"  # bumped whenever the combination LOGIC changes, not per-run
 MIN_SPLIT_ROWS = 15  # per third of the 3-way split; below this a fit is noise
+MIN_LLM_FIXTURES = 20  # an LLM base model needs this many OOF fixtures covered to join (ADR 0026)
 
 
 class EnsembleError(RuntimeError):
@@ -60,6 +61,49 @@ def _load_walk_forward_predictions(root: Path, tag: str) -> list[PredictionRecor
         )
     lines = path.read_text(encoding="utf-8").strip().splitlines()
     return [PredictionRecord.from_json(line) for line in lines if line.strip()]
+
+
+def add_llm_models(
+    predictions: list[PredictionRecord],
+    base_models: list[str],
+    llm_run_dirs: list[Path],
+    data_version: str,
+) -> tuple[list[PredictionRecord], list[str], dict[str, dict]]:
+    """ADR 0026: let REAL LLM predictions (`predictions.jsonl` of `src.llm.benchmark` runs) join the
+    OOF ensemble. Only successfully produced records exist in those files, so nothing is
+    synthesized; a model covering fewer than MIN_LLM_FIXTURES OOF fixtures is EXCLUDED and the
+    coverage is reported either way. Stale artifacts (other data_version) fail loudly."""
+    llm_preds: list[PredictionRecord] = []
+    for d in llm_run_dirs:
+        path = Path(d) / "predictions.jsonl"
+        if not path.exists():
+            raise EnsembleError(f"{path} not found")
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                llm_preds.append(PredictionRecord.from_json(line))
+    stale = {p.data_version for p in llm_preds if p.data_version != data_version}
+    if stale:
+        raise EnsembleError(f"LLM predictions carry stale data_version {sorted(stale)} != {data_version}")
+    oof = {p.fixture_id for p in predictions}
+    by_model: dict[str, set[str]] = defaultdict(set)
+    for p in llm_preds:
+        by_model[p.model_id].add(p.fixture_id)
+    coverage, included = {}, []
+    for model_id in sorted(by_model):
+        covered = by_model[model_id] & oof
+        ok = len(covered) >= MIN_LLM_FIXTURES
+        coverage[model_id] = {
+            "model_class": "LLM_REAL",
+            "fixtures_with_prediction": len(by_model[model_id]),
+            "oof_fixtures_covered": len(covered),
+            "oof_fixtures_total": len(oof),
+            "coverage": round(len(covered) / len(oof), 4) if oof else 0.0,
+            "included": ok,
+            "reason": None if ok else f"fewer than {MIN_LLM_FIXTURES} OOF fixtures covered",
+        }
+        if ok:
+            included.append(model_id)
+    return predictions + llm_preds, base_models + included, coverage
 
 
 def _common_fixtures(predictions: list[PredictionRecord], model_ids: list[str]) -> list[str]:
@@ -225,7 +269,11 @@ def render_ensemble_md(variants: list[EnsembleVariantResult], metric_names: list
     return "\n".join(lines) + "\n"
 
 
-def run_ensemble(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> Path:
+def run_ensemble(
+    root: Path = ROOT,
+    mode: RunMode | str = RunMode.RESEARCH,
+    llm_runs: list[Path] | None = None,
+) -> Path:
     mode = RunMode(mode)
     cdir = config_dir_for(root)
     data_cfg = load_config("data", cdir)
@@ -239,6 +287,11 @@ def run_ensemble(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> P
     predictions = _load_walk_forward_predictions(root, wf_tag)
 
     base_models = model_cfg.walk_forward_models or model_cfg.models
+    llm_coverage = None
+    if llm_runs:
+        predictions, base_models, llm_coverage = add_llm_models(
+            predictions, list(base_models), list(llm_runs), ref.data_version
+        )
     fixtures = _common_fixtures(predictions, base_models)
 
     # outcome/league/season lookup: walk-forward spans train+validation seasons only (its own
@@ -259,6 +312,8 @@ def run_ensemble(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> P
     )
 
     tag = f"{ref.data_version}_{model_cfg.feature_version}_{split['split_id']}_ensemble"
+    if llm_runs:
+        tag += "_llm"  # separate directory: the non-LLM ensemble artifacts are never touched
     out_dir = root / "artifacts" / "ensemble" / tag
     out_dir.mkdir(parents=True, exist_ok=True)
     report = {
@@ -267,6 +322,7 @@ def run_ensemble(root: Path = ROOT, mode: RunMode | str = RunMode.RESEARCH) -> P
         "split_id": split["split_id"],
         "base_models": base_models,
         "n_common_oof_fixtures": len(fixtures),
+        "llm_coverage": llm_coverage,
         "variants": [asdict(v) for v in variants],
     }
     report_json = json.dumps(report, indent=2, sort_keys=True, default=str)
@@ -283,9 +339,15 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", default=str(ROOT))
     p.add_argument("--mode", default="research", choices=[m.value for m in RunMode if m != RunMode.FINAL])
+    p.add_argument(
+        "--llm-run",
+        action="append",
+        default=None,
+        help="llm_runs/<dir> from src.llm.benchmark; repeatable (adds REAL LLM base models)",
+    )
     a = p.parse_args(argv)
     try:
-        out_dir = run_ensemble(Path(a.root), a.mode)
+        out_dir = run_ensemble(Path(a.root), a.mode, [Path(x) for x in a.llm_run] if a.llm_run else None)
     except (EnsembleError, RuntimeError, ValueError, KeyError) as e:
         print(f"ENSEMBLE RUN FAILED: {type(e).__name__}: {e}", file=sys.stderr)
         return 2

@@ -78,52 +78,107 @@ def pick_fixture(raws, now: datetime, fixture_id: str | None):
     return upcoming[0]
 
 
-def run_forecast(root: Path, league: str, fixture_id: str | None, only: list[str] | None) -> Path:
+@dataclass(frozen=True)
+class UpcomingBundle:
+    rows: list[UpcomingRow]
+    raws: list  # RawFixture, same order as rows
+    now: datetime  # the information cutoff
+    data_version: str
+    feature_version: str
+    skipped_unresolved: list[str]
+    history_latest_match_utc: datetime | None
+
+
+def pick_fixtures(raws, now: datetime, fixture_id: str | None, n: int) -> list:
+    if fixture_id:
+        return [pick_fixture(raws, now, fixture_id)]
+    upcoming = sorted(
+        (f for f in raws if f.status_raw == "NS" and f.kickoff_utc > now), key=lambda f: f.kickoff_utc
+    )
+    if not upcoming:
+        raise ValueError("no upcoming fixtures returned by the provider")
+    return upcoming[:n]
+
+
+def load_upcoming_rows(root: Path, league: str, fixture_id: str | None = None, n: int = 1) -> UpcomingBundle:
+    """Real upcoming fixtures -> team resolution (never auto-register) -> leakage-safe features at
+    `information_cutoff = now`. Fixtures with an unresolved team are skipped and REPORTED; a
+    requested `fixture_id` that cannot be resolved raises."""
     from src.ingestion.football_data_org import FootballDataOrgProvider
 
     if league not in LEAGUES:
         raise ValueError(f"league must be one of {sorted(LEAGUES)}")
     repo_league, country = LEAGUES[league]
     cdir = config_dir_for(root)
-    cfg = load_config("provider", cdir)
     model_cfg = load_config("model", cdir)
     data_cfg = load_config("data", cdir)
     ing_cfg = load_config("ingestion", cdir)
-    prices = load_price_table()
     now = datetime.now(UTC).replace(microsecond=0)
 
     fd_key = ing_cfg.api_key(SOURCE)
     if not fd_key:
         raise ProviderNotConfigured("FOOTBALL_DATA_ORG_API_KEY is not set (fixture source)")
-    raws = FootballDataOrgProvider(fd_key).list_fixtures(league, current_season(now))
-    raw = pick_fixture(raws, now, fixture_id)
+    all_raws = FootballDataOrgProvider(fd_key).list_fixtures(league, current_season(now))
+    # over-fetch candidates so unresolved teams can be skipped without returning fewer than `n`
+    candidates = pick_fixtures(all_raws, now, fixture_id, n if fixture_id else max(n * 4, n))
 
     directory = TeamDirectory.load(cdir / "team_aliases.yaml")
-    day = raw.kickoff_utc.date()
-    home = directory.resolve(SOURCE, raw.home_team_raw_name, country, day)
-    away = directory.resolve(SOURCE, raw.away_team_raw_name, country, day)
-    unresolved = [
-        n for n, r in ((raw.home_team_raw_name, home), (raw.away_team_raw_name, away)) if r.team_id is None
-    ]
-    if unresolved:
-        raise ValueError(
-            f"unresolved team name(s) {unresolved}: review with `python -m src.data.team_resolution "
-            f"review`, then approve (ADR 0010; teams are never auto-registered)"
-        )
-
     ref = resolve_dataset(root / data_cfg.processed_dir)
     matches = load_matches(ref)
     history = MatchHistory(matches)
-    stub = UpcomingRow(
-        f"fdorg-{raw.provider_fixture_id}", repo_league, raw.season, raw.kickoff_utc,
-        home.team_id, away.team_id,
+
+    rows, raws, skipped = [], [], []
+    for raw in candidates:
+        day = raw.kickoff_utc.date()
+        home = directory.resolve(SOURCE, raw.home_team_raw_name, country, day)
+        away = directory.resolve(SOURCE, raw.away_team_raw_name, country, day)
+        unresolved = [
+            nm for nm, r in ((raw.home_team_raw_name, home), (raw.away_team_raw_name, away))
+            if r.team_id is None
+        ]  # fmt: skip
+        if unresolved:
+            if fixture_id:
+                raise ValueError(
+                    f"unresolved team name(s) {unresolved}: review with `python -m "
+                    f"src.data.team_resolution review`, then approve (ADR 0010; never auto-registered)"
+                )
+            skipped.extend(unresolved)
+            continue
+        stub = UpcomingRow(
+            f"fdorg-{raw.provider_fixture_id}", repo_league, raw.season, raw.kickoff_utc,
+            home.team_id, away.team_id,
+        )  # fmt: skip
+        fr = compute_features(stub, history, now)  # raises if cutoff is after kickoff
+        rows.append(
+            UpcomingRow(
+                stub.fixture_id,
+                repo_league,
+                raw.season,
+                raw.kickoff_utc,
+                home.team_id,
+                away.team_id,
+                dict(fr.values),
+                dict(fr.reasons),
+            )  # fmt: skip
+        )
+        raws.append(raw)
+        if len(rows) >= n:
+            break
+    if not rows:
+        raise ValueError(f"no forecastable fixture; unresolved team names: {sorted(set(skipped))}")
+    return UpcomingBundle(
+        rows, raws, now, ref.data_version, model_cfg.feature_version, sorted(set(skipped)),
+        max((m.kickoff_utc for m in matches), default=None),
     )  # fmt: skip
-    fr = compute_features(stub, history, now)  # raises if cutoff is after kickoff
-    row = UpcomingRow(
-        stub.fixture_id, repo_league, raw.season, raw.kickoff_utc, home.team_id, away.team_id,
-        {k: v for k, v in fr.values.items()}, dict(fr.reasons),
-    )  # fmt: skip
-    latest_result = max((m.kickoff_utc for m in matches), default=None)
+
+
+def run_forecast(root: Path, league: str, fixture_id: str | None, only: list[str] | None) -> Path:
+    cdir = config_dir_for(root)
+    cfg = load_config("provider", cdir)
+    prices = load_price_table()
+    bundle = load_upcoming_rows(root, league, fixture_id, 1)
+    row, raw, now = bundle.rows[0], bundle.raws[0], bundle.now
+    latest_result = bundle.history_latest_match_utc
 
     enabled = [(n, e) for n, e in cfg.providers.items() if e.enabled and (not only or n in only)]
     statuses, runnable = [], []
@@ -150,8 +205,8 @@ def run_forecast(root: Path, league: str, fixture_id: str | None, only: list[str
     for name, entry in runnable:
         res = run_one(
             row, PROVIDERS[name], entry.model, cfg.api_key(name), ExperimentType.PROSPECTIVE,
-            cfg.budget, prices, feature_version=model_cfg.feature_version,
-            data_version=ref.data_version, information_cutoff=now,
+            cfg.budget, prices, feature_version=bundle.feature_version,
+            data_version=bundle.data_version, information_cutoff=now,
         )  # fmt: skip
         calls.append(res.call)
         if res.prediction is not None:
@@ -177,8 +232,8 @@ def run_forecast(root: Path, league: str, fixture_id: str | None, only: list[str
     (out_dir / "snapshot.json").write_text(json.dumps(snapshot, indent=2, sort_keys=True), encoding="utf-8")
     (out_dir / "coverage.json").write_text(json.dumps({
         "fixture": row.fixture_id, "kickoff_utc": row.kickoff_utc.isoformat(),
-        "information_cutoff": now.isoformat(), "data_version": ref.data_version,
-        "feature_version": model_cfg.feature_version, "providers": statuses,
+        "information_cutoff": now.isoformat(), "data_version": bundle.data_version,
+        "feature_version": bundle.feature_version, "providers": statuses,
         "history_latest_match_utc": latest_result.isoformat() if latest_result else None,
         "note": "history = football-data.co.uk dataset; later results are not in the features",
     }, indent=2), encoding="utf-8")  # fmt: skip

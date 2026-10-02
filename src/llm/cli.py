@@ -122,7 +122,7 @@ def main(argv: list[str] | None = None) -> int:
     configure_output()
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--root", default=str(ROOT))
-    p.add_argument("--provider", required=True, choices=["openai", "anthropic", "gemini"])
+    p.add_argument("--provider", required=True, choices=["openai", "anthropic", "gemini", "groq"])
     p.add_argument("--limit", type=int, default=None, help="cap rows (cost control)")
     a = p.parse_args(argv)
     if os.environ.get("ALLOW_REAL_LLM_CALLS", "").lower() != "true":

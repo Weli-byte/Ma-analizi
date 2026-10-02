@@ -1,8 +1,8 @@
 {
-  "captured_at_utc": "2026-10-01T13:52:25.671649+00:00",
+  "captured_at_utc": "2026-10-02T07:15:59.189207+00:00",
   "input_tokens": 292,
   "label": "REAL_PROVIDER_CAPTURE",
-  "output_tokens": 104,
+  "output_tokens": 115,
   "prompt_meta": {
     "prompt_id": "football-1x2-forecast",
     "prompt_version": "llm-prompt-v2",
@@ -11,10 +11,10 @@
     "user_prompt_hash": "39837722eef4f043e96afed0bbab15713abe679b93b607b5ebb2afb923e8133a"
   },
   "provider": "gemini",
-  "raw_response_hash": "5829d51b82cdfae03801dfbbc79513311f07510f2e55713bcf92d601e866bb42",
+  "raw_response_hash": "8c9485efee1a2561848c28dfd6effd0c820417df883d66a11bd4618c558fdd79",
   "reported_model": "gemini-3.1-flash-lite",
-  "request_id": "mGW-ase8AuC3vdIP1fOY-Qo",
+  "request_id": "MVq_atf7CojXxN8P8dSV2Ao",
   "requested_model": "gemini-3.1-flash-lite",
-  "text": "{\n  \"home_probability\": 0.55,\n  \"draw_probability\": 0.25,\n  \"away_probability\": 0.2,\n  \"predicted_home_goals\": 2.1,\n  \"predicted_away_goals\": 1.2,\n  \"confidence\": 0.65,\n  \"analysis_summary\": \"Arsenal's superior recent form and home advantage make them the favorites against Chelsea.\"\n}",
-  "total_tokens": 396
+  "text": "{\n  \"home_probability\": 0.52,\n  \"draw_probability\": 0.25,\n  \"away_probability\": 0.23,\n  \"predicted_home_goals\": 1.8,\n  \"predicted_away_goals\": 1.2,\n  \"confidence\": 0.65,\n  \"analysis_summary\": \"Arsenal enters the match in significantly better form than Chelsea over the last five fixtures, granting them a solid edge as the home side.\"\n}",
+  "total_tokens": 407
 }

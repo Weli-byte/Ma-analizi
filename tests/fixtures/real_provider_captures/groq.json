@@ -1,0 +1,20 @@
+{
+  "captured_at_utc": "2026-10-02T07:16:00.035027+00:00",
+  "input_tokens": 462,
+  "label": "REAL_PROVIDER_CAPTURE",
+  "output_tokens": 139,
+  "prompt_meta": {
+    "prompt_id": "football-1x2-forecast",
+    "prompt_version": "llm-prompt-v2",
+    "schema_version": "forecast-output-v1",
+    "system_prompt_hash": "0b4300e32ad3ea08fa0c9889c2ea08a48ad66e77b98dbc6413aba111e4303c16",
+    "user_prompt_hash": "39837722eef4f043e96afed0bbab15713abe679b93b607b5ebb2afb923e8133a"
+  },
+  "provider": "groq",
+  "raw_response_hash": "ecfc525aa36c59fdcd195b9e107f26f591a90f2b53f0983c7e369fbc1b9623f2",
+  "reported_model": "openai/gpt-oss-20b",
+  "request_id": "chatcmpl-f6f9d54e-ef96-4b66-b64d-cd1f7dd389d3",
+  "requested_model": "openai/gpt-oss-20b",
+  "text": "{\"home_probability\":0.55,\"draw_probability\":0.25,\"away_probability\":0.20,\"predicted_home_goals\":null,\"predicted_away_goals\":null,\"confidence\":null,\"analysis_summary\":\"Arsenal\u2019s superior recent form at home suggests a slight edge over Chelsea.\"}",
+  "total_tokens": 601
+}

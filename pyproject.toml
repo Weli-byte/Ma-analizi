@@ -27,6 +27,7 @@ dependencies = [
     "openai>=2",  # official SDKs for the REAL provider adapters (src/llm/providers/, ADR-0024);
     "anthropic>=0.100",  # replaces the urllib adapters + mocked tests
     "google-genai>=1",
+    "groq>=0.30",  # free-tier third provider (ADR 0025)
 ]
 
 [project.optional-dependencies]

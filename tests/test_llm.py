@@ -81,7 +81,7 @@ def load_capture(name: str) -> dict:
     return cap
 
 
-@pytest.mark.parametrize("name", ["openai", "gemini"])
+@pytest.mark.parametrize("name", ["openai", "gemini", "groq"])
 def test_real_captured_responses_satisfy_the_contract(name):
     cap = load_capture(name)
     out = parse_forecast(cap["text"])

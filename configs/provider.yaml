@@ -3,7 +3,7 @@
 # A provider is operational only after `python -m src.llm.live_smoke` received a real response.
 budget:                       # enforced BEFORE any call; exceeding it fails without calling
   max_requests_per_run: 3
-  max_total_tokens: 6000
+  max_total_tokens: 9000
   max_estimated_cost_usd: 0.01
   max_concurrency: 1
   request_timeout_seconds: 30
@@ -13,3 +13,4 @@ providers:
   openai:    {enabled: true,  api_key_env: OPENAI_API_KEY,    model: gpt-6-luna}
   anthropic: {enabled: false, api_key_env: ANTHROPIC_API_KEY, model: TBD}
   gemini:    {enabled: true,  api_key_env: GEMINI_API_KEY,    model: gemini-3.1-flash-lite}
+  groq:      {enabled: true,  api_key_env: GROQ_API_KEY,      model: openai/gpt-oss-20b}

@@ -47,6 +47,7 @@ def run_stage(
     features_cfg: FeaturesConfig = DEFAULT_CONFIG,
     llm_step: LLMStep | None = None,
     injuries: dict | None = None,
+    lineups: dict | None = None,
 ) -> StageResult:
     fid = fixture.fixture_id
     if store.is_locked(fid, stage):  # idempotent: the stored forecast is the forecast
@@ -60,7 +61,15 @@ def run_stage(
         return StageResult(state.name, fid, stage.value)
 
     snapshot = build_stage_snapshot(
-        fixture, history, stage, data_version, feature_version, features_cfg, injuries
+        fixture,
+        history,
+        stage,
+        data_version,
+        feature_version,
+        features_cfg,
+        injuries,
+        lineups,
+        information_cutoff=now,
     )
     records, statuses = predict_stage(snapshot, models, now)
     llm_calls: list[str] = []

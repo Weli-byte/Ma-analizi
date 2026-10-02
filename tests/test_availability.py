@@ -128,5 +128,84 @@ def test_capability_report_is_truthful_about_what_real_data_exists():
     assert rep[Capability.INJURIES.value]["license_status"] == ["RESEARCH_ONLY"]
     assert rep[Capability.EVENTS.value]["supported_by"] == ["openligadb"]  # goals only (Bundesliga)
     assert rep[Capability.ODDS.value]["supported_by"] == ["espn"]
-    for cap in (Capability.LINEUPS, Capability.STATISTICS, Capability.XG):
+    assert rep[Capability.LINEUPS.value]["supported_by"] == ["espn"]
+    for cap in (Capability.STATISTICS, Capability.XG):
         assert rep[cap.value]["status"] == "NONE" and rep[cap.value]["supported_by"] == []
+
+
+# ------------------------------------------------------------------------------ lineups (ADR 0031)
+LINEUP_CAPTURE = json.loads(
+    (ROOT / "tests" / "fixtures" / "real_provider_captures" / "espn_rosters.json").read_text(encoding="utf-8")
+)
+
+
+def test_real_finished_match_lineups_parse_to_two_elevens_with_formation():
+    from src.ingestion.lineups import parse_lineups
+
+    cap = LINEUP_CAPTURE["events"]["finished_401879301"]
+    block = parse_lineups(cap["summary"], OBSERVED, cap["sha256"], "401879301")
+    assert block["status"] == "OBSERVED" and block["event_id"] == "401879301" and block["source"] == "espn"
+    for side, formation in (("home", "4-2-3-1"), ("away", "4-1-4-1")):
+        assert len(block[side]["starters"]) == 11 and block[side]["formation"] == formation
+        assert block[side]["starters"][0]["position"] == "G"  # formation place 1 = goalkeeper
+        assert len(block[side]["substitutes"]) == 9
+    blob = json.dumps(block)
+    assert "subbed" not in blob and "stats" not in blob  # in-match fields are never carried
+    assert "announcement" in block["note"]
+
+
+def test_real_upcoming_match_without_a_lineup_is_unknown_not_a_partial_lineup():
+    from src.ingestion.lineups import parse_lineups
+
+    cap = LINEUP_CAPTURE["events"]["upcoming_401879268"]
+    block = parse_lineups(cap["summary"], OBSERVED, cap["sha256"], "401879268")
+    assert block == {
+        "status": "UNKNOWN", "reason": "not_announced_yet", "source": "espn",
+        "observed_at": OBSERVED.isoformat(), "event_id": "401879268",
+    }  # fmt: skip
+
+
+def test_a_lineup_with_fewer_than_eleven_starters_on_a_side_is_not_used():
+    import copy
+
+    from src.ingestion.lineups import parse_lineups
+
+    summary = copy.deepcopy(LINEUP_CAPTURE["events"]["finished_401879301"]["summary"])
+    summary["rosters"][1]["roster"][0]["starter"] = False  # away side now has 10 starters
+    assert parse_lineups(summary, OBSERVED)["status"] == "UNKNOWN"
+
+
+def test_lineups_reach_the_llm_snapshot_only_when_observed_before_the_cutoff():
+    from src.ingestion.lineups import parse_lineups
+
+    cap = LINEUP_CAPTURE["events"]["finished_401879301"]
+    cutoff = datetime(2026, 10, 9, 11, 0, tzinfo=UTC)
+    before = parse_lineups(cap["summary"], cutoff - timedelta(seconds=30), "sha", "e")
+    after = parse_lineups(cap["summary"], cutoff + timedelta(seconds=30), "sha", "e")
+    sent = build_snapshot(Row({"lineups": before}), cutoff)["permitted_current_information"]
+    assert sent["lineups"]["home"]["formation"] == "4-2-3-1" and "observed_at" not in sent["lineups"]
+    assert "lineups" not in build_snapshot(Row({"lineups": after}), cutoff)["permitted_current_information"]
+    unknown = {"status": "UNKNOWN", "reason": "not_announced_yet"}
+    assert "lineups" not in build_snapshot(Row({"lineups": unknown}), cutoff)["permitted_current_information"]
+
+
+def test_stage_snapshot_uses_the_run_time_as_information_cutoff_and_records_lineups():
+    from src.features.history import MatchHistory
+    from src.ingestion.lineups import parse_lineups
+    from src.snapshot.engine import build_stage_snapshot
+    from src.snapshot.stages import SnapshotStage, cutoff_for_stage
+
+    nominal = cutoff_for_stage(Row.kickoff_utc, SnapshotStage.T_90M)
+    run_time = nominal + timedelta(minutes=3)
+    block = parse_lineups(
+        LINEUP_CAPTURE["events"]["finished_401879301"]["summary"], run_time - timedelta(seconds=2)
+    )
+    kw = {"data_version": "dv-000000000000", "feature_version": "fv2"}
+    snap = build_stage_snapshot(
+        Row({}), MatchHistory([]), SnapshotStage.T_90M, lineups=block, information_cutoff=run_time, **kw
+    )
+    assert snap.information_cutoff == run_time and snap.stage_cutoff == nominal
+    assert snap.availability["lineups"]["status"] == "OBSERVED"
+    assert json.loads(json.dumps(snap.to_dict()))["stage_cutoff"] == nominal.isoformat()
+    default = build_stage_snapshot(Row({}), MatchHistory([]), SnapshotStage.T_90M, **kw)
+    assert default.information_cutoff == nominal  # no run-time override: the nominal stage cutoff

@@ -50,6 +50,9 @@ class StageSnapshot:
     features: dict[str, float | None]
     unavailable_reasons: dict[str, str]
     availability: dict[str, dict]
+    stage_cutoff: datetime | None = (
+        None  # nominal cutoff of the stage (label); information_cutoff is the truth
+    )
     snapshot_hash: str = field(default="")
 
     def content(self) -> dict:
@@ -68,6 +71,7 @@ class StageSnapshot:
             "features": self.features,
             "unavailable_reasons": self.unavailable_reasons,
             "availability": self.availability,
+            "stage_cutoff": self.stage_cutoff.isoformat() if self.stage_cutoff else None,
         }
 
     def to_dict(self) -> dict:
@@ -94,16 +98,23 @@ def build_stage_snapshot(
     feature_version: str,
     features_cfg: FeaturesConfig = DEFAULT_CONFIG,
     injuries: dict | None = None,
+    lineups: dict | None = None,
+    information_cutoff: datetime | None = None,
 ) -> StageSnapshot:
-    cutoff = cutoff_for_stage(fixture.kickoff_utc, stage)
+    # ADR 0027 amendment: a live run passes its actual snapshot time as the information cutoff, so
+    # data fetched at run time (injuries, lineups) can never post-date it; the nominal stage cutoff
+    # stays in the content as `stage_cutoff`.
+    cutoff = information_cutoff or cutoff_for_stage(fixture.kickoff_utc, stage)
     availability = {k: dict(UNKNOWN_AVAILABILITY) for k in AVAILABILITY_FIELDS}
     if injuries:  # a real provider answer (OBSERVED) or an explicit FAILED -- never silently dropped
         availability["injuries"] = injuries
+    if lineups:  # OBSERVED, UNKNOWN (not announced) or FAILED
+        availability["lineups"] = lineups
     fr = compute_features(fixture, history, cutoff, features_cfg)  # raises if cutoff > kickoff
     snap = StageSnapshot(
         fixture.fixture_id, stage.value, fixture.league_id, fixture.season, fixture.home_id,
         fixture.away_id, fixture.kickoff_utc, cutoff, data_version, feature_version,
-        dict(fr.values), dict(fr.reasons), availability,
+        dict(fr.values), dict(fr.reasons), availability, cutoff_for_stage(fixture.kickoff_utc, stage),
     )  # fmt: skip
     return StageSnapshot(**{**snap.__dict__, "snapshot_hash": hash_content(snap.content())})
 

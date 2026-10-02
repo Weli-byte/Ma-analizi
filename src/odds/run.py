@@ -10,6 +10,7 @@ numbers. Forecasts come from the locked S13 stage predictions (artifacts/snapsho
 
 import argparse
 import json
+import os
 import sys
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -22,23 +23,38 @@ from src.schemas import PredictionRecord
 from .espn import LEAGUE_CODES, SOURCE, EspnOddsFeed
 from .paper import PaperLedger, dumps, summarize
 from .store import OddsStore
+from .theoddsapi import KEY_ENV, TheOddsApiFeed
+from .theoddsapi import SOURCE as ODDSAPI_SOURCE
 from .value import closing_reference, value_row
 
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def collect(root: Path, league: str, now: datetime | None = None) -> list[str]:
+    lines = _collect_feed(root, league, EspnOddsFeed(), SOURCE, now)  # approximate quotes (no provider time)
+    key = os.environ.get(KEY_ENV)
+    if key:
+        lines += _collect_feed(root, league, TheOddsApiFeed(key), ODDSAPI_SOURCE, now)
+    else:
+        lines.append(
+            f"{ODDSAPI_SOURCE}: NOT_CONFIGURED (${KEY_ENV} not set): no exact-timestamp odds source, "
+            "so edge/EV/CLV stay unavailable"
+        )
+    return lines
+
+
+def _collect_feed(root: Path, league: str, feed, source: str, now: datetime | None) -> list[str]:
     cdir = config_dir_for(root)
     directory = TeamDirectory.load(cdir / "team_aliases.yaml")
     _, repo_league, country = LEAGUE_CODES[league]
     now = now or datetime.now(UTC)
     lines = []
-    for ev in EspnOddsFeed().fetch(league, now):
+    for ev in feed.fetch(league, now):
         if ev["status"] != "STATUS_SCHEDULED" or ev["kickoff_utc"] <= now:
             continue
         day = ev["kickoff_utc"].date()
-        h = directory.resolve(SOURCE, ev["home_name"], country, day)
-        a = directory.resolve(SOURCE, ev["away_name"], country, day)
+        h = directory.resolve(source, ev["home_name"], country, day)
+        a = directory.resolve(source, ev["away_name"], country, day)
         if h.team_id is None or a.team_id is None:
             lines.append(
                 f"{ev['fixture_id']} SKIPPED unresolved team(s): {ev['home_name']} / {ev['away_name']}"
@@ -100,12 +116,16 @@ def value(root: Path, paper: bool) -> list[str]:
         for p in preds:
             row = value_row(p, quotes, kickoff, meta["fixture_id"])
             if row.status != "ELIGIBLE":
-                lines.append(f"{meta['fixture_id']} {p.model_id}: NOT_ELIGIBLE ({row.reason})")
+                ref = ""
+                if row.reference_market_probs:
+                    probs = tuple(round(x, 3) for x in row.reference_market_probs)
+                    ref = f" | market reference (not a signal): {probs}"
+                lines.append(f"{meta['fixture_id']} {p.model_id}: NOT_ELIGIBLE ({row.reason}){ref}")
                 continue
             lines.append(
                 f"{meta['fixture_id']} {p.model_id}: odds={tuple(round(x, 2) for x in row.odds)} "
                 f"edge={tuple(round(x, 3) for x in row.edge)} ev={tuple(round(x, 3) for x in row.ev)} "
-                f"overround={row.overround:.3f} (latency unknown)"
+                f"overround={row.overround:.3f} latency={row.source_latency_s:.1f}s"
             )
             if paper:
                 bet = ledger.place(row, kickoff, odds_cfg.min_edge, odds_cfg.min_ev, odds_cfg.stake_units)

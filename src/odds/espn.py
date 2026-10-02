@@ -4,7 +4,8 @@ Verified live on 2026-10-02: `site.api.espn.com/apis/site/v2/sports/soccer/{eng.
 lists the current matchweek's events; each competition carries `odds[0]` (provider DraftKings) with
 `moneyline.{home,draw,away}.{open,close}.odds` as American prices. `close` is the CURRENT line as of
 the request (the match has not been played), not a final closing price. ESPN states no quote
-timestamp, so `observed_at` is our fetch time and the latency is unknown (ADR 0030).
+timestamp (the payload was searched for one on 2026-10-02: none), so quotes are `approximate`: they
+are kept as a time series and a market reference, and can NOT drive edge/EV/CLV (ADR 0030).
 Endpoint terms are not verified: research use only, not a licensed odds feed.
 """
 
@@ -27,16 +28,17 @@ META = ProviderMeta(
     name=SOURCE,
     capabilities={
         Capability.FIXTURES: Support.NOT_SUPPORTED,
-        Capability.LINEUPS: Support.NOT_SUPPORTED,  # `rosters` exist in /summary; not verified as lineups
-        Capability.INJURIES: Support.NOT_SUPPORTED,  # core injuries endpoint returned an empty list
+        Capability.LINEUPS: Support.SUPPORTED,  # /summary rosters, verified on a finished match
+        Capability.INJURIES: Support.NOT_SUPPORTED,  # its injuries endpoint returned an empty list
         Capability.EVENTS: Support.NOT_SUPPORTED,
         Capability.ODDS: Support.SUPPORTED,
         Capability.STATISTICS: Support.NOT_SUPPORTED,
         Capability.XG: Support.NOT_SUPPORTED,
     },
-    coverage="current matchweek of eng.1 and esp.1 (DraftKings 1X2 moneyline, open and current)",
-    timestamp_semantics="no quote timestamp from the source; observed_at = our fetch time; 'close' = "
-    "current line, not a final closing price",
+    coverage="eng.1 and esp.1: DraftKings 1X2 moneyline (current matchweek) and match-summary lineups "
+    "(empty until announced; announcement timing not yet observed)",
+    timestamp_semantics="no quote timestamp from the source (only our fetch time), so quotes are "
+    "'approximate', never 'exact'; 'close' = current line, not a final closing price",
     rate_limit="undocumented; one request per league per collection run",
     license="unofficial public endpoint, terms not verified",
     license_status="RESEARCH_ONLY",
@@ -71,7 +73,7 @@ def parse_event(event: dict, observed_at: datetime, raw_sha256: str = "") -> dic
                 OddsQuote(
                     source=SOURCE, bookmaker=book, fixture_id=fixture_id, selection=sel,
                     decimal_odds=american_to_decimal(close), snapshot_type="pre_match",
-                    observed_at=observed_at, timestamp_quality="exact", raw_price=str(close),
+                    observed_at=observed_at, timestamp_quality="approximate", raw_price=str(close),
                     provenance={**prov, "field": f"moneyline.{side}.close"},
                 )
             )  # fmt: skip

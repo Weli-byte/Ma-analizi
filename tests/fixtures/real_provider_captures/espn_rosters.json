@@ -1,0 +1,778 @@
+{
+ "captured_at_utc": "2026-10-02T13:36:37.088948+00:00",
+ "events": {
+  "finished_401879301": {
+   "sha256": "ce427084c53316ebe84bb696fa57cd6602eec6eb5aaed1a2ffe8d25eb775d670",
+   "summary": {
+    "header": {
+     "competitions": [
+      {
+       "date": "2026-08-21T19:00Z",
+       "status": {
+        "type": {
+         "completed": true,
+         "description": "Full Time",
+         "detail": "FT",
+         "id": "28",
+         "name": "STATUS_FULL_TIME",
+         "shortDetail": "FT",
+         "state": "post"
+        }
+       }
+      }
+     ],
+     "id": "401879301"
+    },
+    "rosters": [
+     {
+      "formation": "4-2-3-1",
+      "homeAway": "home",
+      "roster": [
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "David Raya",
+         "id": "196176"
+        },
+        "formationPlace": "1",
+        "jersey": "1",
+        "position": {
+         "abbreviation": "G",
+         "displayName": "Goalkeeper",
+         "name": "Goalkeeper"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Gabriel Magalhães",
+         "id": "236322"
+        },
+        "formationPlace": "6",
+        "jersey": "6",
+        "position": {
+         "abbreviation": "CD-L",
+         "displayName": "Center Left Defender",
+         "name": "Center Left Defender"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Cristhian Mosquera",
+         "id": "328497"
+        },
+        "formationPlace": "5",
+        "jersey": "3",
+        "position": {
+         "abbreviation": "CD-R",
+         "displayName": "Center Right Defender",
+         "name": "Center Right Defender"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Riccardo Calafiori",
+         "id": "298329"
+        },
+        "formationPlace": "3",
+        "jersey": "33",
+        "position": {
+         "abbreviation": "LB",
+         "displayName": "Left Back",
+         "name": "Left Back"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Ben White",
+         "id": "241077"
+        },
+        "formationPlace": "2",
+        "jersey": "4",
+        "position": {
+         "abbreviation": "RB",
+         "displayName": "Right Back",
+         "name": "Right Back"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Martin Ødegaard",
+         "id": "203669"
+        },
+        "formationPlace": "10",
+        "jersey": "8",
+        "position": {
+         "abbreviation": "AM",
+         "displayName": "Attacking Midfielder",
+         "name": "Attacking Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Declan Rice",
+         "id": "238262"
+        },
+        "formationPlace": "4",
+        "jersey": "41",
+        "position": {
+         "abbreviation": "LM",
+         "displayName": "Left Midfielder",
+         "name": "Left Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Myles Lewis-Skelly",
+         "id": "352758"
+        },
+        "formationPlace": "8",
+        "jersey": "49",
+        "position": {
+         "abbreviation": "RM",
+         "displayName": "Right Midfielder",
+         "name": "Right Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Kai Havertz",
+         "id": "231182"
+        },
+        "formationPlace": "9",
+        "jersey": "29",
+        "position": {
+         "abbreviation": "F",
+         "displayName": "Forward",
+         "name": "Forward"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Christos Tzolis",
+         "id": "303793"
+        },
+        "formationPlace": "11",
+        "jersey": "17",
+        "position": {
+         "abbreviation": "AM-L",
+         "displayName": "Attacking Midfielder Left",
+         "name": "Attacking Midfielder Left"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Bukayo Saka",
+         "id": "280555"
+        },
+        "formationPlace": "7",
+        "jersey": "7",
+        "position": {
+         "abbreviation": "AM-R",
+         "displayName": "Attacking Midfielder Right",
+         "name": "Attacking Midfielder Right"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Noni Madueke",
+         "id": "293236"
+        },
+        "formationPlace": "0",
+        "jersey": "20",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Max Dowman",
+         "id": "397263"
+        },
+        "formationPlace": "0",
+        "jersey": "56",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Mikel Merino",
+         "id": "209581"
+        },
+        "formationPlace": "0",
+        "jersey": "23",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Kepa Arrizabalaga",
+         "id": "169532"
+        },
+        "formationPlace": "0",
+        "jersey": "13",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Piero Hincapié",
+         "id": "292062"
+        },
+        "formationPlace": "0",
+        "jersey": "5",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Viktor Gyökeres",
+         "id": "258906"
+        },
+        "formationPlace": "0",
+        "jersey": "14",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Eberechi Eze",
+         "id": "251400"
+        },
+        "formationPlace": "0",
+        "jersey": "10",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Martín Zubimendi",
+         "id": "287266"
+        },
+        "formationPlace": "0",
+        "jersey": "36",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Ethan Nwaneri",
+         "id": "349733"
+        },
+        "formationPlace": "0",
+        "jersey": "22",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       }
+      ],
+      "team": {
+       "displayName": "Arsenal",
+       "id": "359"
+      }
+     },
+     {
+      "formation": "4-1-4-1",
+      "homeAway": "away",
+      "roster": [
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Carl Rushworth",
+         "id": "307069"
+        },
+        "formationPlace": "1",
+        "jersey": "19",
+        "position": {
+         "abbreviation": "G",
+         "displayName": "Goalkeeper",
+         "name": "Goalkeeper"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Aurèle Amenda",
+         "id": "319404"
+        },
+        "formationPlace": "6",
+        "jersey": "24",
+        "position": {
+         "abbreviation": "CD-L",
+         "displayName": "Center Left Defender",
+         "name": "Center Left Defender"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Bobby Thomas",
+         "id": "303931"
+        },
+        "formationPlace": "5",
+        "jersey": "4",
+        "position": {
+         "abbreviation": "CD-R",
+         "displayName": "Center Right Defender",
+         "name": "Center Right Defender"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Matt Grimes",
+         "id": "191337"
+        },
+        "formationPlace": "4",
+        "jersey": "6",
+        "position": {
+         "abbreviation": "DM",
+         "displayName": "Defensive Midfielder",
+         "name": "Defensive Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Jay Da Silva",
+         "id": "206172"
+        },
+        "formationPlace": "3",
+        "jersey": "3",
+        "position": {
+         "abbreviation": "LB",
+         "displayName": "Left Back",
+         "name": "Left Back"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Milan van Ewijk",
+         "id": "281139"
+        },
+        "formationPlace": "2",
+        "jersey": "27",
+        "position": {
+         "abbreviation": "RB",
+         "displayName": "Right Back",
+         "name": "Right Back"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Frank Onyeka",
+         "id": "258491"
+        },
+        "formationPlace": "10",
+        "jersey": "16",
+        "position": {
+         "abbreviation": "CM-L",
+         "displayName": "Center Left Midfielder",
+         "name": "Center Left Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Caleb Yirenkyi",
+         "id": "387659"
+        },
+        "formationPlace": "8",
+        "jersey": "8",
+        "position": {
+         "abbreviation": "CM-R",
+         "displayName": "Center Right Midfielder",
+         "name": "Center Right Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Brandon Thomas-Asante",
+         "id": "240495"
+        },
+        "formationPlace": "11",
+        "jersey": "23",
+        "position": {
+         "abbreviation": "LM",
+         "displayName": "Left Midfielder",
+         "name": "Left Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Loum Tchaouna",
+         "id": "324541"
+        },
+        "formationPlace": "7",
+        "jersey": "18",
+        "position": {
+         "abbreviation": "RM",
+         "displayName": "Right Midfielder",
+         "name": "Right Midfielder"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Ellis Simms",
+         "id": "282647"
+        },
+        "formationPlace": "9",
+        "jersey": "9",
+        "position": {
+         "abbreviation": "F",
+         "displayName": "Forward",
+         "name": "Forward"
+        },
+        "starter": true,
+        "subbedIn": false,
+        "subbedOut": true
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Joel Latibeaudiere",
+         "id": "260168"
+        },
+        "formationPlace": "0",
+        "jersey": "22",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Liam Kitching",
+         "id": "269341"
+        },
+        "formationPlace": "0",
+        "jersey": "15",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Victor Torp",
+         "id": "256015"
+        },
+        "formationPlace": "0",
+        "jersey": "29",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Tatsuhiro Sakamoto",
+         "id": "302002"
+        },
+        "formationPlace": "0",
+        "jersey": "7",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Gustavo Hamer",
+         "id": "236912"
+        },
+        "formationPlace": "0",
+        "jersey": "38",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Josh Eccles",
+         "id": "277614"
+        },
+        "formationPlace": "0",
+        "jersey": "28",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Ben Wilson",
+         "id": "169619"
+        },
+        "formationPlace": "0",
+        "jersey": "13",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": false,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Jack Rudoni",
+         "id": "286967"
+        },
+        "formationPlace": "0",
+        "jersey": "5",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       },
+       {
+        "active": true,
+        "athlete": {
+         "displayName": "Taiwo Awoniyi",
+         "id": "194686"
+        },
+        "formationPlace": "0",
+        "jersey": "14",
+        "position": {
+         "abbreviation": "SUB",
+         "displayName": "Substitute",
+         "name": "Substitute"
+        },
+        "starter": false,
+        "subbedIn": true,
+        "subbedOut": false
+       }
+      ],
+      "team": {
+       "displayName": "Coventry City",
+       "id": "388"
+      }
+     }
+    ]
+   }
+  },
+  "upcoming_401879268": {
+   "sha256": "76c8e9db3ec62afa6dd3a87c9b1918f1e00ec374e241eb5c0af50f690eea9f3c",
+   "summary": {
+    "header": {
+     "competitions": [
+      {
+       "date": "2026-10-10T11:30Z",
+       "status": {
+        "type": {
+         "completed": false,
+         "description": "Scheduled",
+         "detail": "Sat, October 10th at 7:30 AM EDT",
+         "id": "1",
+         "name": "STATUS_SCHEDULED",
+         "shortDetail": "10/10 - 7:30 AM EDT",
+         "state": "pre"
+        }
+       }
+      }
+     ],
+     "id": "401879268"
+    },
+    "rosters": [
+     {
+      "formation": null,
+      "homeAway": "home",
+      "roster": [],
+      "team": {
+       "displayName": "Arsenal",
+       "id": "359"
+      }
+     },
+     {
+      "formation": null,
+      "homeAway": "away",
+      "roster": [],
+      "team": {
+       "displayName": "Leeds United",
+       "id": "357"
+      }
+     }
+    ]
+   }
+  }
+ },
+ "label": "REAL_PROVIDER_CAPTURE",
+ "note": "rosters only, fields limited to those the parser reads; values unmodified",
+ "source": "site.api.espn.com/apis/site/v2/sports/soccer/eng.1/summary?event=<id>"
+}

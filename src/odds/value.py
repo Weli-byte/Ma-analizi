@@ -33,7 +33,9 @@ class ValueRow:
     overround: float | None = None
     edge: tuple[float, float, float] | None = None
     ev: tuple[float, float, float] | None = None
-    source_latency_known: bool = False  # always False for ESPN: EV assumes the line was live when read
+    source_latency_s: float | None = None  # MEASURED feed latency of the quotes used (exact quotes only)
+    # market REFERENCE for non-exact snapshots: de-vigged implied probabilities, NOT a signal, no edge/EV
+    reference_market_probs: tuple[float, float, float] | None = None
 
 
 def _not_eligible(reason: str, fixture_id: str, model_id: str) -> ValueRow:
@@ -67,14 +69,21 @@ def value_row(
             "no quote observed after the forecast and before kickoff", fid, prediction.model_id
         )
     (book, observed), snap = max(usable, key=lambda kv: kv[0][1])  # most recent eligible observation
-    if any(q.timestamp_quality != "exact" for q in snap.values()):
-        return _not_eligible("timestamp_quality is not exact", fid, prediction.model_id)
     odds = tuple(snap[s].decimal_odds for s in SELECTIONS)
+    qualities = sorted({q.timestamp_quality for q in snap.values()})
+    if qualities != ["exact"]:
+        return ValueRow(
+            "NOT_ELIGIBLE",
+            f"timestamp_quality is {'/'.join(qualities)}, not exact: no edge/EV/CLV (market reference only)",
+            fid, prediction.model_id, book, observed, None, None, None, None, None, None, None,
+            tuple(float(x) for x in devig(odds)),
+        )  # fmt: skip
+    latency = max(q.source_latency_s for q in snap.values())
     p = (prediction.p_home, prediction.p_draw, prediction.p_away)
     return ValueRow(
         "ELIGIBLE", None, fid, prediction.model_id, book, observed, odds, p,
         tuple(float(x) for x in devig(odds)), overround(odds),
-        tuple(float(x) for x in edge(p, odds)), tuple(float(x) for x in ev(p, odds)),
+        tuple(float(x) for x in edge(p, odds)), tuple(float(x) for x in ev(p, odds)), latency,
     )  # fmt: skip
 
 

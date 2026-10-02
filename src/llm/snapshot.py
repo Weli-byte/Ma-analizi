@@ -22,6 +22,13 @@ def _current_information(row, cutoff: datetime) -> dict:
             ],
             "note": injuries["note"],
         }
+    lineups = getattr(row, "availability", {}).get("lineups")
+    if (
+        lineups
+        and lineups.get("status") == "OBSERVED"
+        and datetime.fromisoformat(lineups["observed_at"]) <= cutoff  # observed at/before the cutoff only
+    ):
+        info["lineups"] = {k: lineups[k] for k in ("source", "home", "away", "note")}  # fetch time not sent
     return info
 
 

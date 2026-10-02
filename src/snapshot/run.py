@@ -30,6 +30,8 @@ from src.features.artifact import load_features
 from src.features.builder import load_matches
 from src.features.history import MatchHistory
 from src.ingestion.fpl import FplInjuryProvider
+from src.ingestion.lineups import LEAGUE_CODES as LINEUP_LEAGUES
+from src.ingestion.lineups import EspnLineupProvider
 from src.ingestion.provider import ProviderError as IngestionProviderError
 from src.llm.budget import BudgetExceeded, estimate_input_tokens, preflight
 from src.llm.forecast import LEAGUES, load_upcoming_rows
@@ -40,7 +42,7 @@ from src.llm.runner import ProviderNotConfigured, run_one
 from src.models import build_models
 from src.schemas import ExperimentType
 
-from .availability import failed_block, injuries_block
+from .availability import failed_block, injuries_block, unknown_block
 from .pipeline import run_stage
 from .stages import STAGE_ORDER, SnapshotStage, StageState, cutoff_for_stage, due_stage, stage_state
 from .store import StageStore
@@ -104,6 +106,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--fixture-id", default=None)
     p.add_argument("--with-llm", action="store_true")
     p.add_argument("--no-fpl", action="store_true", help="skip the FPL injury source (EPL only)")
+    p.add_argument("--no-lineups", action="store_true", help="skip the ESPN lineup source")
     p.add_argument("--models", default=None, help="comma list; default: configured models")
     a = p.parse_args(argv)
     root = Path(a.root)
@@ -163,19 +166,37 @@ def main(argv: list[str] | None = None) -> int:
             except IngestionProviderError as e:
                 fpl_error = str(e)
                 print(f"WARNING fpl injuries FAILED (stage runs with injuries=FAILED): {e}")
+        espn = (
+            EspnLineupProvider(TeamDirectory.load(cdir / "team_aliases.yaml")) if not a.no_lineups else None
+        )
         for row, stage in todo:
+            # 1. everything fetched at run time first; 2. THEN the snapshot time, so no fetched item can
+            #    post-date the information cutoff (ADR 0027 amendment)
+            lineups = None
+            if stage == SnapshotStage.T_24H:
+                lineups = unknown_block("not_attempted_at_t-24h")
+            elif espn is not None and row.league_id in LINEUP_LEAGUES:
+                try:
+                    eid = espn.find_event_id(row.league_id, row.home_id, row.away_id, row.kickoff_utc)
+                    lineups = (
+                        espn.fetch_lineups(row.league_id, eid, datetime.now(UTC))
+                        if eid
+                        else unknown_block("espn_event_not_found")
+                    )
+                except IngestionProviderError as e:
+                    lineups = failed_block("espn", str(e))
+            stage_now = datetime.now(UTC)
             injuries = None
             if row.league_id == "EPL" and not a.no_fpl:
                 if fpl_players is not None:
                     injuries = injuries_block(
-                        fpl_players, (row.home_id, row.away_id), cutoff_for_stage(row.kickoff_utc, stage),
-                        fpl_observed, "fpl", fpl_sha,
-                    )  # fmt: skip
+                        fpl_players, (row.home_id, row.away_id), stage_now, fpl_observed, "fpl", fpl_sha
+                    )
                 else:
                     injuries = failed_block("fpl", fpl_error or "not fetched")
             res = run_stage(
-                store, row, history, stage, now, bundle.data_version, bundle.feature_version,
-                models, feat_cfg, llm_step, injuries,
+                store, row, history, stage, stage_now, bundle.data_version, bundle.feature_version,
+                models, feat_cfg, llm_step, injuries, lineups,
             )  # fmt: skip
             print(json.dumps({
                 "fixture": res.fixture_id, "stage": res.stage, "status": res.status,
@@ -183,6 +204,7 @@ def main(argv: list[str] | None = None) -> int:
                 "models": {s["model_id"]: s["status"] for s in res.model_statuses},
                 "n_predictions": len(res.predictions), "n_deltas": len(res.deltas),
                 "injuries": (injuries or {}).get("status", "UNKNOWN"),
+                "lineups": (lineups or {}).get("status", "UNKNOWN"),
             }, sort_keys=True))  # fmt: skip
         _ = model_cfg
     except (BudgetExceeded, ProviderNotConfigured, ValueError, RuntimeError, KeyError) as e:

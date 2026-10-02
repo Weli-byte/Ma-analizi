@@ -7,13 +7,21 @@ Status: accepted · 2026-10-02 · extends ADR 0007 (odds timestamp policy)
   DraftKings 1X2 moneylines (open and current) for the current matchweek. Keyless, UNOFFICIAL,
   `RESEARCH_ONLY` (terms unverified). `src/odds/espn.py`; team names resolve through
   `TeamDirectory` (source `espn`; 3 aliases approved, owner to re-confirm).
-- **`timestamp_quality` — owner to confirm this definition:** `exact` = the quote was read from a
-  live bookmaker line by OUR collector and `observed_at` is our own fetch time (to the second).
-  ESPN states no quote time, so the bookmaker-side time and the feed latency are UNKNOWN
-  (`source_latency_s = None`, `source_latency_known = False` on every value row): an EV on such a
-  quote assumes the line was live when read. Opening prices (no open time given) are `unknown`
-  and the schema forbids calling them `exact`. Historical football-data.co.uk odds stay `unknown`
-  and remain only the REFERENCE_MARKET_BASELINE.
+- **`timestamp_quality` (strict; the owner REJECTED the first, looser definition on 2026-10-02):**
+  `exact` = the SOURCE supplies its own capture/update time for the quote (`provider_timestamp`)
+  and we record when we received it, so the feed latency is MEASURED
+  (`source_latency_s = observed_at - provider_timestamp`, never guessed; a provider clock more than
+  5 s ahead of ours is not trusted as exact). `approximate` = only our own observation time is known.
+  `unknown` = no usable time (opening prices, historical football-data odds). ESPN's payload carries
+  no quote time (searched 2026-10-02), so its DraftKings quotes are `approximate`: kept as a time
+  series and shown only as a labelled market REFERENCE (de-vigged probabilities), never as edge,
+  EV, CLV or a paper bet. The model enforces this (`exact` without a provider timestamp / measured
+  non-negative latency is a validation error).
+- **Route to exact odds:** The Odds API (`src/odds/theoddsapi.py`) documents a per-market
+  `last_update`. It needs a free key (`THE_ODDS_API_KEY`, owner action: email signup), and the adapter
+  is UNVERIFIED (`verified_on=None`) until `pytest -m live tests/integration/test_theoddsapi_live.py`
+  parses a real response; until then `collect` prints NOT_CONFIGURED and edge/EV/CLV stay unavailable.
+  Its terms for the free plan are unverified.
 - **Gate** (`value.py`): edge/EV/CLV are produced only from a complete 1X2 snapshot (same
   bookmaker, same observation time) of `exact` quotes, observed at/after the forecast was
   generated and strictly before kickoff. Otherwise the row is `NOT_ELIGIBLE` with the reason and

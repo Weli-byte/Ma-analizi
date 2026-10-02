@@ -120,6 +120,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       in-play Poisson model, separate `LivePredictionRecord` + store; Windows task `FootballLiveTick` (2 min).
       Real in-play football-data.org payload still unverified (no live match yet). Transfermarkt rejected (ToS).
 - [x] S15 odds/EV/CLV paper (ADR 0030, 2026-10-02): `src/odds/` real DraftKings 1X2 via ESPN (RESEARCH_ONLY), exact-only gate,
-      paper ledger; Windows task `FootballOddsTick`. `exact` definition awaits owner confirmation.
+      paper ledger; Windows task `FootballOddsTick`. ESPN quotes are `approximate` (no provider timestamp) => no edge/EV/CLV;
+      exact odds need THE_ODDS_API_KEY (adapter unverified, NOT_CONFIGURED).
 - [ ] S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

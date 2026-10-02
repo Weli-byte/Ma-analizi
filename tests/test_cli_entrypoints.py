@@ -134,6 +134,7 @@ def test_python_m_entrypoints_import_without_side_effects():
         "src.llm.forecast",
         "src.snapshot.run",
         "src.live.run",
+        "src.odds.run",
     ):
         mod = importlib.import_module(name)
         assert callable(mod.main)
@@ -144,7 +145,7 @@ def test_python_m_entrypoints_import_without_side_effects():
     "module",
     ["src.data.pipeline", "src.features.builder", "src.evaluation.run_baselines",
      "src.evaluation.walk_forward", "src.evaluation.run_ensemble", "src.llm.cli", "src.llm.audit", "src.llm.live_smoke",
-     "src.llm.benchmark", "src.llm.forecast", "src.snapshot.run", "src.live.run"],  # fmt: skip
+     "src.llm.benchmark", "src.llm.forecast", "src.snapshot.run", "src.live.run", "src.odds.run"],  # fmt: skip
 )
 def test_python_dash_m_runs_without_runpy_warnings(module, tmp_path):
     import subprocess

@@ -1,0 +1,734 @@
+{
+ "captured_at_utc": "2026-10-02T12:54:05.953645+00:00",
+ "events": [
+  {
+   "competitions": [
+    {
+     "altGameNote": "English Premier League",
+     "attendance": 0,
+     "broadcast": "",
+     "broadcasts": [],
+     "competitors": [
+      {
+       "form": "LWWWW",
+       "homeAway": "home",
+       "id": "359",
+       "leaders": [
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Bukayo Saka",
+            "fullName": "Bukayo Saka",
+            "id": "280555",
+            "jersey": "7",
+            "position": {
+             "abbreviation": "F"
+            },
+            "shortName": "B. Saka",
+            "team": {
+             "id": "359"
+            }
+           },
+           "displayValue": "3",
+           "team": {
+            "id": "359"
+           },
+           "value": 3.0
+          }
+         ],
+         "name": "goals",
+         "shortDisplayName": "Goals"
+        },
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Bukayo Saka",
+            "fullName": "Bukayo Saka",
+            "id": "280555",
+            "jersey": "7",
+            "position": {
+             "abbreviation": "F"
+            },
+            "shortName": "B. Saka",
+            "team": {
+             "id": "359"
+            }
+           },
+           "displayValue": "3",
+           "team": {
+            "id": "359"
+           },
+           "value": 3.0
+          }
+         ],
+         "name": "goalsLeaders",
+         "shortDisplayName": "Goals"
+        }
+       ],
+       "order": 0,
+       "records": [
+        {
+         "abbreviation": "Total",
+         "name": "All Splits",
+         "summary": "4-0-1",
+         "type": "total"
+        }
+       ],
+       "score": "0",
+       "statistics": [],
+       "team": {
+        "abbreviation": "ARS",
+        "alternateColor": "003399",
+        "color": "e20520",
+        "displayName": "Arsenal",
+        "id": "359",
+        "isActive": true,
+        "location": "Arsenal",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/359.png",
+        "name": "Arsenal",
+        "shortDisplayName": "Arsenal",
+        "uid": "s:600~t:359",
+        "venue": {
+         "id": "2267"
+        }
+       },
+       "type": "team",
+       "uid": "s:600~t:359",
+       "winner": false
+      },
+      {
+       "form": "DWLDD",
+       "homeAway": "away",
+       "id": "357",
+       "leaders": [
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Dominic Calvert-Lewin",
+            "fullName": "Dominic Calvert-Lewin",
+            "id": "197717",
+            "jersey": "9",
+            "position": {
+             "abbreviation": "F"
+            },
+            "shortName": "D. Calvert-Lewin",
+            "team": {
+             "id": "357"
+            }
+           },
+           "displayValue": "2",
+           "team": {
+            "id": "357"
+           },
+           "value": 2.0
+          }
+         ],
+         "name": "goals",
+         "shortDisplayName": "Goals"
+        },
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Dominic Calvert-Lewin",
+            "fullName": "Dominic Calvert-Lewin",
+            "id": "197717",
+            "jersey": "9",
+            "position": {
+             "abbreviation": "F"
+            },
+            "shortName": "D. Calvert-Lewin",
+            "team": {
+             "id": "357"
+            }
+           },
+           "displayValue": "2",
+           "team": {
+            "id": "357"
+           },
+           "value": 2.0
+          }
+         ],
+         "name": "goalsLeaders",
+         "shortDisplayName": "Goals"
+        }
+       ],
+       "order": 1,
+       "records": [
+        {
+         "abbreviation": "Total",
+         "name": "All Splits",
+         "summary": "2-3-0",
+         "type": "total"
+        }
+       ],
+       "score": "0",
+       "statistics": [],
+       "team": {
+        "abbreviation": "LEE",
+        "alternateColor": "FFCD00",
+        "color": "ffffff",
+        "displayName": "Leeds United",
+        "id": "357",
+        "isActive": true,
+        "location": "Leeds United",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/357.png",
+        "name": "Leeds United",
+        "shortDisplayName": "Leeds",
+        "uid": "s:600~t:357",
+        "venue": {
+         "id": "190"
+        }
+       },
+       "type": "team",
+       "uid": "s:600~t:357",
+       "winner": false
+      }
+     ],
+     "date": "2026-10-10T11:30Z",
+     "details": [],
+     "format": {
+      "regulation": {
+       "periods": 2
+      }
+     },
+     "geoBroadcasts": [],
+     "id": "401879268",
+     "notes": [],
+     "odds": [
+      {
+       "details": "ARS -260",
+       "drawOdds": {
+        "moneyLine": 390
+       },
+       "moneyline": {
+        "away": {
+         "close": {
+          "odds": "+650"
+         },
+         "open": {
+          "odds": "+800"
+         }
+        },
+        "displayName": "Moneyline",
+        "draw": {
+         "close": {
+          "odds": "+390"
+         },
+         "open": {
+          "odds": "+425"
+         }
+        },
+        "home": {
+         "close": {
+          "odds": "-260"
+         },
+         "open": {
+          "odds": "-340"
+         }
+        },
+        "shortDisplayName": "ML"
+       },
+       "overUnder": 2.5,
+       "pointSpread": {
+        "away": {
+         "close": {
+          "line": "+1.5",
+          "odds": "-155"
+         },
+         "open": {
+          "line": "+1.5",
+          "odds": "-125"
+         }
+        },
+        "displayName": "Spread",
+        "home": {
+         "close": {
+          "line": "-1.5",
+          "odds": "+105"
+         },
+         "open": {
+          "line": "-1.5",
+          "odds": "-120"
+         }
+        },
+        "shortDisplayName": "Spread"
+       },
+       "provider": {
+        "displayName": "DraftKings",
+        "id": "100",
+        "name": "DraftKings",
+        "priority": 1
+       },
+       "total": {
+        "displayName": "Total",
+        "over": {
+         "close": {
+          "line": "o2.5",
+          "odds": "-135"
+         },
+         "open": {
+          "line": "o2.5",
+          "odds": "-145"
+         }
+        },
+        "shortDisplayName": "Total",
+        "under": {
+         "close": {
+          "line": "u2.5",
+          "odds": "+100"
+         },
+         "open": {
+          "line": "u2.5",
+          "odds": "+110"
+         }
+        }
+       }
+      }
+     ],
+     "playByPlayAthletes": true,
+     "playByPlayAvailable": true,
+     "recent": false,
+     "startDate": "2026-10-10T11:30Z",
+     "status": {
+      "clock": 0.0,
+      "displayClock": "0'",
+      "type": {
+       "completed": false,
+       "description": "Scheduled",
+       "detail": "Sat, October 10th at 7:30 AM EDT",
+       "id": "1",
+       "name": "STATUS_SCHEDULED",
+       "shortDetail": "Scheduled",
+       "state": "pre"
+      }
+     },
+     "tickets": [
+      {
+       "numberAvailable": 3504,
+       "summary": "Tickets as low as $291"
+      }
+     ],
+     "timeValid": true,
+     "uid": "s:600~l:700~e:401879268~c:401879268",
+     "venue": {
+      "address": {
+       "city": "London",
+       "country": "England"
+      },
+      "fullName": "Emirates Stadium",
+      "id": "2267"
+     },
+     "wasSuspended": false
+    }
+   ],
+   "date": "2026-10-10T11:30Z",
+   "id": "401879268",
+   "name": "Leeds United at Arsenal",
+   "season": {
+    "slug": "2026-27-english-premier-league",
+    "type": 14308,
+    "year": 2026
+   },
+   "shortName": "LEE @ ARS",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0'",
+    "type": {
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 7:30 AM EDT",
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "shortDetail": "Scheduled",
+     "state": "pre"
+    }
+   },
+   "uid": "s:600~l:700~e:401879268",
+   "venue": {
+    "displayName": "Emirates Stadium"
+   }
+  },
+  {
+   "competitions": [
+    {
+     "altGameNote": "English Premier League",
+     "attendance": 0,
+     "broadcast": "",
+     "broadcasts": [],
+     "competitors": [
+      {
+       "form": "LDWLW",
+       "homeAway": "home",
+       "id": "363",
+       "leaders": [
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Morgan Rogers",
+            "fullName": "Morgan Rogers",
+            "id": "265653",
+            "jersey": "17",
+            "position": {
+             "abbreviation": "M"
+            },
+            "shortName": "M. Rogers",
+            "team": {
+             "id": "363"
+            }
+           },
+           "displayValue": "3",
+           "team": {
+            "id": "363"
+           },
+           "value": 3.0
+          }
+         ],
+         "name": "goals",
+         "shortDisplayName": "Goals"
+        },
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Morgan Rogers",
+            "fullName": "Morgan Rogers",
+            "id": "265653",
+            "jersey": "17",
+            "position": {
+             "abbreviation": "M"
+            },
+            "shortName": "M. Rogers",
+            "team": {
+             "id": "363"
+            }
+           },
+           "displayValue": "3",
+           "team": {
+            "id": "363"
+           },
+           "value": 3.0
+          }
+         ],
+         "name": "goalsLeaders",
+         "shortDisplayName": "Goals"
+        }
+       ],
+       "order": 0,
+       "records": [
+        {
+         "abbreviation": "Total",
+         "name": "All Splits",
+         "summary": "2-1-2",
+         "type": "total"
+        }
+       ],
+       "score": "0",
+       "statistics": [],
+       "team": {
+        "abbreviation": "CHE",
+        "alternateColor": "FFFFFF",
+        "color": "144992",
+        "displayName": "Chelsea",
+        "id": "363",
+        "isActive": true,
+        "location": "Chelsea",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/363.png",
+        "name": "Chelsea",
+        "shortDisplayName": "Chelsea",
+        "uid": "s:600~t:363",
+        "venue": {
+         "id": "249"
+        }
+       },
+       "type": "team",
+       "uid": "s:600~t:363",
+       "winner": false
+      },
+      {
+       "form": "LWDWD",
+       "homeAway": "away",
+       "id": "349",
+       "leaders": [
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Marcus Tavernier",
+            "fullName": "Marcus Tavernier",
+            "id": "243364",
+            "jersey": "16",
+            "position": {
+             "abbreviation": "M"
+            },
+            "shortName": "M. Tavernier",
+            "team": {
+             "id": "349"
+            }
+           },
+           "displayValue": "3",
+           "team": {
+            "id": "349"
+           },
+           "value": 3.0
+          }
+         ],
+         "name": "goals",
+         "shortDisplayName": "Goals"
+        },
+        {
+         "abbreviation": "G",
+         "displayName": "Goals",
+         "leaders": [
+          {
+           "athlete": {
+            "active": true,
+            "displayName": "Marcus Tavernier",
+            "fullName": "Marcus Tavernier",
+            "id": "243364",
+            "jersey": "16",
+            "position": {
+             "abbreviation": "M"
+            },
+            "shortName": "M. Tavernier",
+            "team": {
+             "id": "349"
+            }
+           },
+           "displayValue": "3",
+           "team": {
+            "id": "349"
+           },
+           "value": 3.0
+          }
+         ],
+         "name": "goalsLeaders",
+         "shortDisplayName": "Goals"
+        }
+       ],
+       "order": 1,
+       "records": [
+        {
+         "abbreviation": "Total",
+         "name": "All Splits",
+         "summary": "0-3-2",
+         "type": "total"
+        }
+       ],
+       "score": "0",
+       "statistics": [],
+       "team": {
+        "abbreviation": "BOU",
+        "alternateColor": "B57EDC",
+        "color": "f42727",
+        "displayName": "AFC Bournemouth",
+        "id": "349",
+        "isActive": true,
+        "location": "AFC Bournemouth",
+        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/349.png",
+        "name": "AFC Bournemouth",
+        "shortDisplayName": "Bournemouth",
+        "uid": "s:600~t:349",
+        "venue": {
+         "id": "6020"
+        }
+       },
+       "type": "team",
+       "uid": "s:600~t:349",
+       "winner": false
+      }
+     ],
+     "date": "2026-10-10T14:00Z",
+     "details": [],
+     "format": {
+      "regulation": {
+       "periods": 2
+      }
+     },
+     "geoBroadcasts": [],
+     "id": "401878775",
+     "notes": [],
+     "odds": [
+      {
+       "details": "CHE -140",
+       "drawOdds": {
+        "moneyLine": 300
+       },
+       "moneyline": {
+        "away": {
+         "close": {
+          "odds": "+320"
+         },
+         "open": {
+          "odds": "+285"
+         }
+        },
+        "displayName": "Moneyline",
+        "draw": {
+         "close": {
+          "odds": "+300"
+         },
+         "open": {
+          "odds": "+310"
+         }
+        },
+        "home": {
+         "close": {
+          "odds": "-140"
+         },
+         "open": {
+          "odds": "-130"
+         }
+        },
+        "shortDisplayName": "ML"
+       },
+       "overUnder": 3.5,
+       "pointSpread": {
+        "away": {
+         "close": {
+          "line": "+0.5",
+          "odds": "+100"
+         },
+         "open": {
+          "line": "+0.5",
+          "odds": "-105"
+         }
+        },
+        "displayName": "Spread",
+        "home": {
+         "close": {
+          "line": "-0.5",
+          "odds": "-155"
+         },
+         "open": {
+          "line": "-0.5",
+          "odds": "-145"
+         }
+        },
+        "shortDisplayName": "Spread"
+       },
+       "provider": {
+        "id": "100",
+        "name": "DraftKings",
+        "priority": 1
+       },
+       "total": {
+        "displayName": "Total",
+        "over": {
+         "close": {
+          "line": "o3.5",
+          "odds": "+110"
+         },
+         "open": {
+          "line": "o3.5",
+          "odds": "+100"
+         }
+        },
+        "shortDisplayName": "Total",
+        "under": {
+         "close": {
+          "line": "u3.5",
+          "odds": "-150"
+         },
+         "open": {
+          "line": "u3.5",
+          "odds": "-140"
+         }
+        }
+       }
+      }
+     ],
+     "playByPlayAthletes": true,
+     "playByPlayAvailable": true,
+     "recent": false,
+     "startDate": "2026-10-10T14:00Z",
+     "status": {
+      "clock": 0.0,
+      "displayClock": "0'",
+      "type": {
+       "completed": false,
+       "description": "Scheduled",
+       "detail": "Sat, October 10th at 10:00 AM EDT",
+       "id": "1",
+       "name": "STATUS_SCHEDULED",
+       "shortDetail": "Scheduled",
+       "state": "pre"
+      }
+     },
+     "tickets": [
+      {
+       "numberAvailable": 1063,
+       "summary": "Tickets as low as $222"
+      }
+     ],
+     "timeValid": true,
+     "uid": "s:600~l:700~e:401878775~c:401878775",
+     "venue": {
+      "address": {
+       "city": "London",
+       "country": "England"
+      },
+      "fullName": "Stamford Bridge",
+      "id": "249"
+     },
+     "wasSuspended": false
+    }
+   ],
+   "date": "2026-10-10T14:00Z",
+   "id": "401878775",
+   "name": "AFC Bournemouth at Chelsea",
+   "season": {
+    "slug": "2026-27-english-premier-league",
+    "type": 14308,
+    "year": 2026
+   },
+   "shortName": "BOU @ CHE",
+   "status": {
+    "clock": 0.0,
+    "displayClock": "0'",
+    "type": {
+     "completed": false,
+     "description": "Scheduled",
+     "detail": "Sat, October 10th at 10:00 AM EDT",
+     "id": "1",
+     "name": "STATUS_SCHEDULED",
+     "shortDetail": "Scheduled",
+     "state": "pre"
+    }
+   },
+   "uid": "s:600~l:700~e:401878775",
+   "venue": {
+    "displayName": "Stamford Bridge"
+   }
+  }
+ ],
+ "full_response_sha256": "6e781b9e1881f0c0eb7291cf0b7aee80c628a54deb75a875a051e0e314fd1707",
+ "label": "REAL_PROVIDER_CAPTURE",
+ "note": "2 events; logo/link/tracking keys removed, all values unmodified",
+ "source_url": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard"
+}

@@ -2,11 +2,14 @@
 real data do we have?", derived from each provider's own `ProviderMeta`, never hand-maintained
 prose. A capability nobody supports is reported as `NONE` (and stays UNKNOWN downstream)."""
 
+from src.live.feeds import OLDB_META
+from src.odds.espn import META as ESPN_META
+
 from .football_data_org import META as FDORG_META
 from .fpl import META as FPL_META
 from .interfaces import Capability, ProviderMeta
 
-PROVIDER_METAS: tuple[ProviderMeta, ...] = (FDORG_META, FPL_META)
+PROVIDER_METAS: tuple[ProviderMeta, ...] = (FDORG_META, FPL_META, OLDB_META, ESPN_META)
 
 
 def capability_report() -> dict[str, dict]:

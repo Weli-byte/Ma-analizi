@@ -1,0 +1,7 @@
+# S15 value analytics (ADR 0030). PAPER ONLY: nothing places a real bet.
+# A paper bet needs an ELIGIBLE value row (all three 1X2 quotes timestamp_quality=exact, observed
+# after the forecast and before kickoff) with edge and EV at or above these thresholds.
+min_edge: 0.05      # model probability minus de-vigged market probability
+min_ev: 0.05        # expected profit per unit staked at the offered price
+stake_units: 1.0    # paper stake, in abstract units
+leagues: ["PL", "PD"]   # ESPN collection codes (src/odds/espn.py LEAGUE_CODES)

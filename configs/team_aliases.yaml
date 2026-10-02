@@ -197,6 +197,33 @@ teams:
   canonical_name: Villarreal
   country: ESP
 aliases:
+- source: espn
+  raw_name: Alavés
+  team_id: ESP_deportivo_alaves
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (ESPN club name checked against the canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: espn
+  raw_name: Athletic Club
+  team_id: ESP_athletic_bilbao
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (ESPN club name checked against the canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: espn
+  raw_name: Deportivo
+  team_id: ESP_deportivo_la_coruna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (ESPN club name checked against the canonical
+    team; owner to re-confirm)
+  confidence: 0.95
 - source: football-data
   raw_name: Alaves
   team_id: ESP_deportivo_alaves

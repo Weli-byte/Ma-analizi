@@ -254,6 +254,15 @@ class PricingConfig(_Cfg):
     models: dict[str, ModelPrice]
 
 
+class OddsConfig(_Cfg):
+    """S15 (ADR 0030): paper-trading thresholds, consumed by `src.odds.paper`/`src.odds.run`."""
+
+    min_edge: float = Field(ge=0)
+    min_ev: float = Field(ge=0)
+    stake_units: float = Field(gt=0)
+    leagues: list[str] = Field(min_length=1)
+
+
 # ------------------------------------------------------------ ingestion
 class IngestionProviderEntry(_Cfg):
     enabled: bool = False
@@ -288,6 +297,7 @@ _MODELS = {
     "evaluation": EvaluationConfig,
     "provider": ProviderConfig,
     "pricing": PricingConfig,
+    "odds": OddsConfig,
     "ingestion": IngestionConfig,
 }
 

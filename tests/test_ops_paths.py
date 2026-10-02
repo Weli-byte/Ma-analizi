@@ -96,3 +96,36 @@ def test_live_runner_rejects_bad_arguments_without_touching_the_network(real_roo
     )
     assert "30 seconds" in capsys.readouterr().err
     assert live_run.main(["--root", str(real_root), "--source", "fdorg", "--league", "XX"]) == 2
+
+
+def test_benchmark_reports_missing_providers_instead_of_calling_anything(real_root, monkeypatch):
+    from src.llm.benchmark import run_benchmark
+
+    monkeypatch.delenv("NO_SUCH_KEY_D", raising=False)
+    write_provider_yaml(
+        real_root,
+        "providers:\n  openai: {enabled: true, api_key_env: NO_SUCH_KEY_D, model: gpt-6-luna}\n",
+    )
+    with pytest.raises(ProviderNotConfigured, match="no runnable provider"):
+        run_benchmark(
+            real_root, "historical", None, 2, "PL", "validation", None, None, None, "llm-prompt-v2", 0.0, True
+        )
+    with pytest.raises(ProviderNotConfigured, match="unknown provider"):
+        run_benchmark(
+            real_root,
+            "historical",
+            ["nope"],
+            2,
+            "PL",
+            "validation",
+            None,
+            None,
+            None,
+            "llm-prompt-v2",
+            0.0,
+            True,
+        )
+    with pytest.raises(ValueError, match="track"):
+        run_benchmark(
+            real_root, "weird", None, 2, "PL", "validation", None, None, None, "llm-prompt-v2", 0.0, True
+        )

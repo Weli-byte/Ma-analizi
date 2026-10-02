@@ -126,5 +126,7 @@ def test_capability_report_is_truthful_about_what_real_data_exists():
     assert rep[Capability.FIXTURES.value]["supported_by"] == ["football-data-org"]
     assert rep[Capability.INJURIES.value]["supported_by"] == ["fpl"]
     assert rep[Capability.INJURIES.value]["license_status"] == ["RESEARCH_ONLY"]
-    for cap in (Capability.LINEUPS, Capability.EVENTS, Capability.ODDS, Capability.STATISTICS, Capability.XG):
+    assert rep[Capability.EVENTS.value]["supported_by"] == ["openligadb"]  # goals only (Bundesliga)
+    assert rep[Capability.ODDS.value]["supported_by"] == ["espn"]
+    for cap in (Capability.LINEUPS, Capability.STATISTICS, Capability.XG):
         assert rep[cap.value]["status"] == "NONE" and rep[cap.value]["supported_by"] == []

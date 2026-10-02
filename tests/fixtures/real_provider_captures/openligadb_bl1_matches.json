@@ -1,0 +1,383 @@
+{
+ "captured_at_utc": "2026-10-02T09:20:00.373015+00:00",
+ "full_response_sha256": "f458ec10905021323619f6a47da1970b23c9b2dc31314acf71fcb56ea6fa0fcb",
+ "label": "REAL_PROVIDER_CAPTURE",
+ "matches": [
+  {
+   "goals": [
+    {
+     "comment": null,
+     "goalGetterID": 18700,
+     "goalGetterName": "J. Musiala",
+     "goalID": 147949,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 18,
+     "scoreTeam1": 1,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 18898,
+     "goalGetterName": "H. Kane",
+     "goalID": 147956,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": true,
+     "matchMinute": 39,
+     "scoreTeam1": 2,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 23135,
+     "goalGetterName": "M. Olise",
+     "goalID": 147957,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 43,
+     "scoreTeam1": 3,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 18898,
+     "goalGetterName": "H. Kane",
+     "goalID": 147969,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 54,
+     "scoreTeam1": 4,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 23965,
+     "goalGetterName": "I. Saibari",
+     "goalID": 147975,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 70,
+     "scoreTeam1": 5,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 23135,
+     "goalGetterName": "M. Olise",
+     "goalID": 147976,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 73,
+     "scoreTeam1": 6,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 23135,
+     "goalGetterName": "M. Olise",
+     "goalID": 147977,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 76,
+     "scoreTeam1": 7,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    }
+   ],
+   "group": {
+    "groupID": 50636,
+    "groupName": "4. Spieltag",
+    "groupOrderID": 4
+   },
+   "lastUpdateDateTime": "2026-09-18T22:23:06.137",
+   "leagueId": 4937,
+   "leagueName": "1. Fußball-Bundesliga 2026/2027",
+   "leagueSeason": 2026,
+   "leagueShortcut": "bl1",
+   "location": null,
+   "matchDateTime": "2026-09-18T20:30:00",
+   "matchDateTimeUTC": "2026-09-18T18:30:00Z",
+   "matchID": 83183,
+   "matchIsFinished": true,
+   "matchResults": [
+    {
+     "pointsTeam1": 3,
+     "pointsTeam2": 0,
+     "resultDescription": "Ergebnis nach Ende der ersten Halbzeit",
+     "resultID": 128495,
+     "resultName": "Halbzeit",
+     "resultOrderID": 1,
+     "resultTypeID": 1,
+     "resultTypeKind": "HalfTime"
+    },
+    {
+     "pointsTeam1": 7,
+     "pointsTeam2": 0,
+     "resultDescription": "Ergebnis nach Ende der offiziellen Spielzeit",
+     "resultID": 128497,
+     "resultName": "Endergebnis",
+     "resultOrderID": 2,
+     "resultTypeID": 2,
+     "resultTypeKind": "After90Minutes"
+    }
+   ],
+   "numberOfViewers": null,
+   "team1": {
+    "shortName": "Bayern",
+    "teamGroupName": null,
+    "teamIconUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Logo_FC_Bayern_M%C3%BCnchen_%282002%E2%80%932017%29.svg",
+    "teamId": 40,
+    "teamName": "FC Bayern München"
+   },
+   "team2": {
+    "shortName": "Union Berlin",
+    "teamGroupName": null,
+    "teamIconUrl": "https://assets.dfb.de/uploads/000/018/232/small_union-Berlin.jpg",
+    "teamId": 80,
+    "teamName": "1. FC Union Berlin"
+   },
+   "timeZoneID": null
+  },
+  {
+   "goals": [
+    {
+     "comment": null,
+     "goalGetterID": 19198,
+     "goalGetterName": "D. Upamecano",
+     "goalID": 146249,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 21,
+     "scoreTeam1": 1,
+     "scoreTeam2": 0,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 18488,
+     "goalGetterName": "J. Vagnoman",
+     "goalID": 146252,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 52,
+     "scoreTeam1": 1,
+     "scoreTeam2": 1,
+     "scoringTeamId": 16
+    },
+    {
+     "comment": null,
+     "goalGetterID": 23135,
+     "goalGetterName": "M. Olise",
+     "goalID": 146253,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 55,
+     "scoreTeam1": 2,
+     "scoreTeam2": 1,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 18488,
+     "goalGetterName": "J. Vagnoman",
+     "goalID": 146254,
+     "isOvertime": false,
+     "isOwnGoal": true,
+     "isPenalty": false,
+     "matchMinute": 57,
+     "scoreTeam1": 3,
+     "scoreTeam2": 1,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 24759,
+     "goalGetterName": "Aleksandar Pavlovic",
+     "goalID": 146257,
+     "isOvertime": false,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 82,
+     "scoreTeam1": 4,
+     "scoreTeam2": 1,
+     "scoringTeamId": 40
+    },
+    {
+     "comment": null,
+     "goalGetterID": 18880,
+     "goalGetterName": "Luis Díaz",
+     "goalID": 146259,
+     "isOvertime": true,
+     "isOwnGoal": false,
+     "isPenalty": false,
+     "matchMinute": 92,
+     "scoreTeam1": 5,
+     "scoreTeam2": 1,
+     "scoringTeamId": 40
+    }
+   ],
+   "group": {
+    "groupID": 50633,
+    "groupName": "1. Spieltag",
+    "groupOrderID": 1
+   },
+   "lastUpdateDateTime": "2026-09-02T15:36:25.313",
+   "leagueId": 4937,
+   "leagueName": "1. Fußball-Bundesliga 2026/2027",
+   "leagueSeason": 2026,
+   "leagueShortcut": "bl1",
+   "location": null,
+   "matchDateTime": "2026-08-28T20:30:00",
+   "matchDateTimeUTC": "2026-08-28T18:30:00Z",
+   "matchID": 83156,
+   "matchIsFinished": true,
+   "matchResults": [
+    {
+     "pointsTeam1": 1,
+     "pointsTeam2": 0,
+     "resultDescription": "Ergebnis nach Ende der ersten Halbzeit",
+     "resultID": 127516,
+     "resultName": "Halbzeit",
+     "resultOrderID": 1,
+     "resultTypeID": 1,
+     "resultTypeKind": "HalfTime"
+    },
+    {
+     "pointsTeam1": 5,
+     "pointsTeam2": 1,
+     "resultDescription": "Ergebnis nach Ende der offiziellen Spielzeit",
+     "resultID": 127517,
+     "resultName": "Endergebnis",
+     "resultOrderID": 2,
+     "resultTypeID": 2,
+     "resultTypeKind": "After90Minutes"
+    }
+   ],
+   "numberOfViewers": null,
+   "team1": {
+    "shortName": "Bayern",
+    "teamGroupName": null,
+    "teamIconUrl": "https://upload.wikimedia.org/wikipedia/commons/1/1f/Logo_FC_Bayern_M%C3%BCnchen_%282002%E2%80%932017%29.svg",
+    "teamId": 40,
+    "teamName": "FC Bayern München"
+   },
+   "team2": {
+    "shortName": "Stuttgart",
+    "teamGroupName": null,
+    "teamIconUrl": "https://i.imgur.com/v0tkpNx.png",
+    "teamId": 16,
+    "teamName": "VfB Stuttgart"
+   },
+   "timeZoneID": null
+  },
+  {
+   "goals": [],
+   "group": {
+    "groupID": 50633,
+    "groupName": "1. Spieltag",
+    "groupOrderID": 1
+   },
+   "lastUpdateDateTime": "2026-08-29T17:25:32.37",
+   "leagueId": 4937,
+   "leagueName": "1. Fußball-Bundesliga 2026/2027",
+   "leagueSeason": 2026,
+   "leagueShortcut": "bl1",
+   "location": null,
+   "matchDateTime": "2026-08-29T15:30:00",
+   "matchDateTimeUTC": "2026-08-29T13:30:00Z",
+   "matchID": 83161,
+   "matchIsFinished": true,
+   "matchResults": [
+    {
+     "pointsTeam1": 0,
+     "pointsTeam2": 0,
+     "resultDescription": "Ergebnis nach Ende der ersten Halbzeit",
+     "resultID": 127559,
+     "resultName": "Halbzeit",
+     "resultOrderID": 1,
+     "resultTypeID": 1,
+     "resultTypeKind": "HalfTime"
+    },
+    {
+     "pointsTeam1": 0,
+     "pointsTeam2": 0,
+     "resultDescription": "Ergebnis nach Ende der offiziellen Spielzeit",
+     "resultID": 127560,
+     "resultName": "Endergebnis",
+     "resultOrderID": 2,
+     "resultTypeID": 2,
+     "resultTypeKind": "After90Minutes"
+    }
+   ],
+   "numberOfViewers": null,
+   "team1": {
+    "shortName": "Mainz",
+    "teamGroupName": null,
+    "teamIconUrl": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Logo_Mainz_05.svg",
+    "teamId": 81,
+    "teamName": "1. FSV Mainz 05"
+   },
+   "team2": {
+    "shortName": "Paderborn",
+    "teamGroupName": null,
+    "teamIconUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e3/SC_Paderborn_07_Logo.svg",
+    "teamId": 31,
+    "teamName": "SC Paderborn 07"
+   },
+   "timeZoneID": null
+  },
+  {
+   "goals": [],
+   "group": {
+    "groupID": 50637,
+    "groupName": "5. Spieltag",
+    "groupOrderID": 5
+   },
+   "lastUpdateDateTime": "2026-09-10T17:22:25.727",
+   "leagueId": 4937,
+   "leagueName": "1. Fußball-Bundesliga 2026/2027",
+   "leagueSeason": 2026,
+   "leagueShortcut": "bl1",
+   "location": null,
+   "matchDateTime": "2026-10-09T20:30:00",
+   "matchDateTimeUTC": "2026-10-09T18:30:00Z",
+   "matchID": 83192,
+   "matchIsFinished": false,
+   "matchResults": [],
+   "numberOfViewers": null,
+   "team1": {
+    "shortName": "Dortmund",
+    "teamGroupName": null,
+    "teamIconUrl": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Borussia_Dortmund_logo.svg/960px-Borussia_Dortmund_logo.svg.png",
+    "teamId": 7,
+    "teamName": "Borussia Dortmund"
+   },
+   "team2": {
+    "shortName": "Bremen",
+    "teamGroupName": null,
+    "teamIconUrl": "https://upload.wikimedia.org/wikipedia/commons/b/be/SV-Werder-Bremen-Logo.svg",
+    "teamId": 134,
+    "teamName": "SV Werder Bremen"
+   },
+   "timeZoneID": "W. Europe Standard Time"
+  }
+ ],
+ "note": "4 real matches kept unmodified (penalty, own goal, goalless if any, not yet played)",
+ "source_url": "https://api.openligadb.de/getmatchdata/bl1/2026"
+}

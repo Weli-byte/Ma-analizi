@@ -228,6 +228,17 @@ class PoissonModel(BaselineModel):
         return np.ones_like(x, dtype=float)
 
     # ---- scoreline matrix / 1X2 --------------------------------------------------------
+    def expected_goals(self, home_id: str, away_id: str) -> tuple[float, float, bool, bool]:
+        """Pre-match goal rates (lambda_home, lambda_away) for one fixture, plus whether each team
+        was seen in training. An unseen team gets league-average strength (existing behaviour);
+        the flags let callers record that instead of hiding it."""
+        if not self._fitted:
+            raise RuntimeError("PoissonModel.expected_goals called before fit()")
+        lam_h, lam_a = self._lambdas(np.array([home_id]), np.array([away_id]))
+        seen_h = home_id in self.attack or home_id in self.defense
+        seen_a = away_id in self.attack or away_id in self.defense
+        return float(lam_h[0]), float(lam_a[0]), seen_h, seen_a
+
     def scoreline_matrix(self, lam_h: float, lam_a: float) -> np.ndarray:
         """(max_goals+1, max_goals+1) matrix; tail mass folded into the last row/col so it sums to 1.
         `self.last_captured_mass`/`self.last_tail_mass` record how much of the TRUE (untruncated)

@@ -116,5 +116,8 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] Phase I (ADR 0028, 2026-10-02): capability interfaces + `ProviderMeta`; REAL injuries via FPL (EPL only,
       RESEARCH_ONLY) with cutoff rule + provenance; lineups stay UNKNOWN (no free source). Scheduler: Windows task
       `FootballSnapshotTick` (every 10 min, `scripts/snapshot_tick.ps1`).
-- [ ] S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
+- [x] S14 live engine (ADR 0029, 2026-10-02): `src/live/` feeds (OpenLigaDB real, football-data.org), events/state,
+      in-play Poisson model, separate `LivePredictionRecord` + store; Windows task `FootballLiveTick` (2 min).
+      Real in-play football-data.org payload still unverified (no live match yet). Transfermarkt rejected (ToS).
+- [ ] S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

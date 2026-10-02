@@ -270,3 +270,46 @@ def test_cli_fails_cleanly_when_provider_disabled(project, monkeypatch):
     monkeypatch.setenv("ALLOW_REAL_LLM_CALLS", "true")
     rc = llm_cli.main(["--root", str(project), "--provider", "anthropic"])
     assert rc == 2
+
+
+# ------------------------------------------------------------ forecast (real upcoming fixture)
+def test_current_season_label_and_upcoming_picker():
+    from src.ingestion.provider import RawFixture
+    from src.llm.forecast import UpcomingRow, current_season, pick_fixture
+
+    assert current_season(datetime(2026, 10, 2, tzinfo=UTC)) == "2026-27"
+    assert current_season(datetime(2027, 3, 1, tzinfo=UTC)) == "2026-27"
+
+    def raw(i, ko, status):
+        return RawFixture(str(i), "PL", "2026-27", ko, "H", "A", status)
+
+    now = datetime(2026, 10, 2, tzinfo=UTC)
+    fx = [
+        raw(1, now - timedelta(days=1), "FT"),
+        raw(3, now + timedelta(days=9), "NS"),
+        raw(2, now + timedelta(days=8), "NS"),
+    ]
+    assert pick_fixture(fx, now, None).provider_fixture_id == "2"  # earliest future NS
+    assert pick_fixture(fx, now, "3").provider_fixture_id == "3"
+    with pytest.raises(ValueError):
+        pick_fixture(fx, now, "1")  # finished fixtures are not forecastable
+    up = UpcomingRow("f", "EPL", "2026-27", now + timedelta(days=8), "H", "A", {"home_form_points_5": 7.0})
+    assert not hasattr(up, "outcome") and not hasattr(up, "home_goals")  # nothing to leak
+    snap = build_snapshot(up, now)
+    audit_snapshot(snap, up.kickoff_utc, now)
+
+
+def test_future_information_cutoff_is_refused_before_any_call():
+    from src.llm.snapshot import CutoffViolation
+
+    future = datetime.now(UTC) + timedelta(days=1)
+    r = row(kickoff=future + timedelta(days=1))
+    with pytest.raises(CutoffViolation):
+        run_one(r, MustNotBeCalled(), "gpt-6-luna", "key", ExperimentType.PROSPECTIVE, information_cutoff=future)
+
+
+def test_forecast_cli_refuses_without_operator_flag(project, monkeypatch):
+    from src.llm import forecast
+
+    monkeypatch.delenv("ALLOW_REAL_LLM_CALLS", raising=False)
+    assert forecast.main(["--root", str(project)]) == 4

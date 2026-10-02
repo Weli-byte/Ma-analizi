@@ -29,7 +29,7 @@ from .contract import MalformedLLMOutput, parse_forecast
 from .pricing import PriceTable, load_price_table
 from .prompt import SYSTEM_PROMPT, build_user_prompt, prompt_meta, snapshot_hash
 from .providers import PROVIDERS, ErrorKind, Provider, ProviderError
-from .snapshot import audit_snapshot, build_snapshot
+from .snapshot import CutoffViolation, audit_snapshot, build_snapshot
 
 
 class ProviderNotConfigured(RuntimeError):
@@ -67,6 +67,7 @@ def _slug(model: str) -> str:
 class LLMBenchmarkResult:
     prediction: PredictionRecord | None  # None iff status != "ok"
     call: LLMCallRecord
+    raw_text: str | None = None  # the provider's actual response text (persisted by callers)
 
 
 def run_one(
@@ -80,10 +81,13 @@ def run_one(
     cutoff_offset_hours: float = 0.0,
     feature_version: str = "fv0",
     data_version: str = "dv-000000000000",
+    information_cutoff: datetime | None = None,
 ) -> LLMBenchmarkResult:
     budget = budget or LLMBudget()
     prices = prices or load_price_table()
-    cutoff = row.kickoff_utc - timedelta(hours=cutoff_offset_hours)
+    cutoff = information_cutoff or row.kickoff_utc - timedelta(hours=cutoff_offset_hours)
+    if cutoff > datetime.now(UTC):  # information cannot come from the future
+        raise CutoffViolation(f"information_cutoff {cutoff} is in the future")
     snapshot = build_snapshot(row, cutoff)
     audit_snapshot(snapshot, row.kickoff_utc, cutoff)  # raises BEFORE any provider call
     user = build_user_prompt(snapshot)
@@ -98,7 +102,7 @@ def run_one(
             prompt_hash=meta.user_prompt_hash,
             snapshot_hash=snapshot_hash(snapshot),
             information_cutoff=cutoff,
-            generated_at=max(datetime.now(UTC), cutoff),
+            generated_at=datetime.now(UTC),
             track=track,
             status=status,
             prompt_id=meta.prompt_id,
@@ -134,7 +138,9 @@ def run_one(
             break
         except MalformedLLMOutput:
             if retries >= budget.retry_limit:
-                return LLMBenchmarkResult(None, _call(record, resp, model, prices, retries, ErrorKind.SCHEMA))
+                return LLMBenchmarkResult(
+                    None, _call(record, resp, model, prices, retries, ErrorKind.SCHEMA), resp.text
+                )
             retries += 1
 
     call = _call(record, resp, model, prices, retries, None, out)
@@ -155,8 +161,10 @@ def run_one(
             p_away=out.away_probability / total,
         )
     except ValidationError:
-        return LLMBenchmarkResult(None, call.model_copy(update={"status": "post_kickoff_rejected"}))
-    return LLMBenchmarkResult(prediction, call)
+        return LLMBenchmarkResult(
+            None, call.model_copy(update={"status": "post_kickoff_rejected"}), resp.text
+        )
+    return LLMBenchmarkResult(prediction, call, resp.text)
 
 
 def _call(

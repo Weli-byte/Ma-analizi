@@ -38,6 +38,7 @@ python -m src.data.team_resolution review     # unresolved team names
 python -m src.llm.live_smoke                  # ONE real call per enabled provider (ADR 0024)
 ALLOW_REAL_LLM_CALLS=true python -m src.llm.cli --provider openai   # S8 LLM benchmark; real money, budget-gated
 pytest -m live tests/integration              # real provider tests (excluded from default run)
+ALLOW_REAL_LLM_CALLS=true python -m src.llm.forecast --league PL   # real end-to-end forecast, next upcoming fixture
 python -m src.llm.audit                       # S10 scan artifacts/llm_runs/ for tampering/leakage
 python -m src.evaluation.run_ensemble          # S11 OOF ensemble; run walk_forward first
 ```

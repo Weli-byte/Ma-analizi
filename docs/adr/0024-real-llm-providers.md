@@ -43,3 +43,14 @@ Anthropic model: not yet chosen (no key available to verify).
 ## Consequences
 New direct dependencies: `openai`, `anthropic`, `google-genai`. Live tests are excluded from
 the default run (`-m "not live"`); the live smoke costs about $0.0004.
+
+## Addendum 2026-10-02 — real end-to-end forecast (phase 39)
+`python -m src.llm.forecast` (needs `ALLOW_REAL_LLM_CALLS=true`) forecasts one REAL upcoming
+fixture from football-data.org: team names resolved through the existing `TeamDirectory`
+(source `football-data-org`; two aliases were approved for the first run, owner to re-confirm),
+leakage-safe features at `information_cutoff = now`, cutoff audit, budget pre-flight, one real
+call per keyed provider, immutable PredictionRecords + raw responses persisted. PROSPECTIVE
+cutoff must not be in the future. First run: Arsenal FC vs Leeds United FC (2026-10-10), OpenAI,
+Gemini and Groq all returned valid forecasts (about $0.0008 total). Known limit: the
+football-data.co.uk history ends 2026-08-27, so newer results are not in the features.
+`max_total_tokens` raised to 15000 because real snapshots are ~1k tokens.

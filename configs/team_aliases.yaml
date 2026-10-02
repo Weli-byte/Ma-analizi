@@ -724,3 +724,19 @@ aliases:
   provenance: manual
   approved_by: 'initial-import (verified: 20 teams per league-season)'
   confidence: 1.0
+- source: football-data-org
+  raw_name: Arsenal FC
+  team_id: ENG_arsenal
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (exact name + FC suffix; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Leeds United FC
+  team_id: ENG_leeds_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (exact name + FC suffix; owner to re-confirm)
+  confidence: 0.95

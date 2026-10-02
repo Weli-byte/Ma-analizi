@@ -3,7 +3,7 @@
 # A provider is operational only after `python -m src.llm.live_smoke` received a real response.
 budget:                       # enforced BEFORE any call; exceeding it fails without calling
   max_requests_per_run: 3
-  max_total_tokens: 9000
+  max_total_tokens: 15000
   max_estimated_cost_usd: 0.01
   max_concurrency: 1
   request_timeout_seconds: 30

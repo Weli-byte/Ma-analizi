@@ -105,6 +105,10 @@ def main(argv: list[str] | None = None) -> int:
     now = datetime.now(UTC).replace(microsecond=0)
     try:
         bundle = load_upcoming_rows(root, a.league, a.fixture_id, 30)
+        if bundle.skipped_unresolved:
+            print(
+                f"WARNING unresolved team names skipped (never auto-registered): {bundle.skipped_unresolved}"
+            )
         todo = []
         for row in bundle.rows:
             stage = due_stage(row.kickoff_utc, now) if a.stage == "auto" else SnapshotStage(a.stage)

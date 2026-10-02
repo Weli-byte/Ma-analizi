@@ -733,10 +733,334 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (exact name + FC suffix; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: Aston Villa FC
+  team_id: ENG_aston_villa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Athletic Club
+  team_id: ESP_athletic_bilbao
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Brentford FC
+  team_id: ENG_brentford
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Brighton & Hove Albion FC
+  team_id: ENG_brighton_hove_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: CA Osasuna
+  team_id: ESP_osasuna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Chelsea FC
+  team_id: ENG_chelsea
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Club Atlético de Madrid
+  team_id: ESP_atletico_madrid
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Coventry City FC
+  team_id: ENG_coventry_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Crystal Palace FC
+  team_id: ENG_crystal_palace
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Elche CF
+  team_id: ESP_elche
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Everton FC
+  team_id: ENG_everton
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: FC Barcelona
+  team_id: ESP_barcelona
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Fulham FC
+  team_id: ENG_fulham
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Getafe CF
+  team_id: ESP_getafe
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Hull City AFC
+  team_id: ENG_hull_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Ipswich Town FC
+  team_id: ENG_ipswich_town
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Leeds United FC
   team_id: ENG_leeds_united
   valid_from: null
   valid_to: null
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (exact name + FC suffix; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Levante UD
+  team_id: ESP_levante
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Liverpool FC
+  team_id: ENG_liverpool
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Manchester City FC
+  team_id: ENG_manchester_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Manchester United FC
+  team_id: ENG_manchester_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Málaga CF
+  team_id: ESP_malaga
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Newcastle United FC
+  team_id: ENG_newcastle_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Nottingham Forest FC
+  team_id: ENG_nottingham_forest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: RC Celta de Vigo
+  team_id: ESP_celta_vigo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: RC Deportivo La Coruña
+  team_id: ESP_deportivo_la_coruna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: RCD Espanyol de Barcelona
+  team_id: ESP_espanyol
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Rayo Vallecano de Madrid
+  team_id: ESP_rayo_vallecano
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Real Betis Balompié
+  team_id: ESP_real_betis
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Real Madrid CF
+  team_id: ESP_real_madrid
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Real Racing Club de Santander
+  team_id: ESP_racing_santander
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Real Sociedad de Fútbol
+  team_id: ESP_real_sociedad
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Sevilla FC
+  team_id: ESP_sevilla
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Sunderland AFC
+  team_id: ENG_sunderland
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Tottenham Hotspur FC
+  team_id: ENG_tottenham_hotspur
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Valencia CF
+  team_id: ESP_valencia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Villarreal CF
+  team_id: ESP_villarreal
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
+    the canonical team; owner to re-confirm)
   confidence: 0.95

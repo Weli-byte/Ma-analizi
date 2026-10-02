@@ -78,6 +78,7 @@ class StageSnapshot:
         return EvalRow(
             self.fixture_id, self.league_id, self.season, self.kickoff_utc, self.home_id, self.away_id,
             UNKNOWN_OUTCOME, dict(self.features), dict(self.unavailable_reasons), {},
+            availability=self.availability,
         )  # fmt: skip
 
 
@@ -92,13 +93,17 @@ def build_stage_snapshot(
     data_version: str,
     feature_version: str,
     features_cfg: FeaturesConfig = DEFAULT_CONFIG,
+    injuries: dict | None = None,
 ) -> StageSnapshot:
     cutoff = cutoff_for_stage(fixture.kickoff_utc, stage)
+    availability = {k: dict(UNKNOWN_AVAILABILITY) for k in AVAILABILITY_FIELDS}
+    if injuries:  # a real provider answer (OBSERVED) or an explicit FAILED -- never silently dropped
+        availability["injuries"] = injuries
     fr = compute_features(fixture, history, cutoff, features_cfg)  # raises if cutoff > kickoff
     snap = StageSnapshot(
         fixture.fixture_id, stage.value, fixture.league_id, fixture.season, fixture.home_id,
         fixture.away_id, fixture.kickoff_utc, cutoff, data_version, feature_version,
-        dict(fr.values), dict(fr.reasons), {k: dict(UNKNOWN_AVAILABILITY) for k in AVAILABILITY_FIELDS},
+        dict(fr.values), dict(fr.reasons), availability,
     )  # fmt: skip
     return StageSnapshot(**{**snap.__dict__, "snapshot_hash": hash_content(snap.content())})
 

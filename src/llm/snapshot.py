@@ -10,6 +10,21 @@ from datetime import datetime
 from src.evaluation.dataset import EvalRow
 
 
+def _current_information(row, cutoff: datetime) -> dict:
+    info: dict = {"odds": {k: list(v) for k, v in sorted(row.odds.items())}}
+    injuries = getattr(row, "availability", {}).get("injuries")
+    if injuries and injuries.get("status") == "OBSERVED":
+        # only entries the provider itself dated at/before the cutoff; observation time is not sent
+        info["injuries"] = {
+            "source": injuries["source"],
+            "players": [
+                p for p in injuries["players"] if datetime.fromisoformat(p["effective_at"]) <= cutoff
+            ],
+            "note": injuries["note"],
+        }
+    return info
+
+
 def build_snapshot(row: EvalRow, information_cutoff: datetime) -> dict:
     """JSON-serializable. `None`-valued features are omitted (never sent as a fake 0)."""
     return {
@@ -20,12 +35,8 @@ def build_snapshot(row: EvalRow, information_cutoff: datetime) -> dict:
         "information_cutoff": information_cutoff.isoformat(),
         "home_team_id": row.home_id,
         "away_team_id": row.away_id,
-        "permitted_historical_features": {
-            k: v for k, v in sorted(row.features.items()) if v is not None
-        },
-        "permitted_current_information": {
-            "odds": {k: list(v) for k, v in sorted(row.odds.items())},
-        },
+        "permitted_historical_features": {k: v for k, v in sorted(row.features.items()) if v is not None},
+        "permitted_current_information": _current_information(row, information_cutoff),
     }
 
 
@@ -56,3 +67,7 @@ def audit_snapshot(snapshot: dict, kickoff_utc: datetime, cutoff: datetime) -> N
                 walk(v, path)
 
     walk(snapshot, "")
+    # ADR 0028: any provider-dated item inside the snapshot must be dated at/before the cutoff
+    for p in snapshot.get("permitted_current_information", {}).get("injuries", {}).get("players", []):
+        if datetime.fromisoformat(p["effective_at"]) > cutoff:
+            raise CutoffViolation(f"injury entry {p['player']!r} is dated after the cutoff")

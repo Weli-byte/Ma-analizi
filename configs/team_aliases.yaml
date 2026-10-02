@@ -1064,3 +1064,75 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
   confidence: 0.95
+- source: fpl
+  raw_name: Bournemouth
+  team_id: ENG_afc_bournemouth
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Brighton
+  team_id: ENG_brighton_hove_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Leeds
+  team_id: ENG_leeds_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Man City
+  team_id: ENG_manchester_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Man Utd
+  team_id: ENG_manchester_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Newcastle
+  team_id: ENG_newcastle_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Nott'm Forest
+  team_id: ENG_nottingham_forest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95
+- source: fpl
+  raw_name: Spurs
+  team_id: ENG_tottenham_hotspur
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
+    team; owner to re-confirm)
+  confidence: 0.95

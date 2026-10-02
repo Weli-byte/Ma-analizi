@@ -113,5 +113,8 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] S13 snapshot engine (ADR 0027, 2026-10-02): `src/snapshot/` stages t-24h/t-90m/t-30m/kickoff, immutable
       content-hashed locked stages, deltas, lineups/injuries UNKNOWN; verified on a real historical fixture; the
       first LIVE stage run is pending real time (next fixtures 2026-10-09/10). Run: `python -m src.snapshot.run`.
+- [x] Phase I (ADR 0028, 2026-10-02): capability interfaces + `ProviderMeta`; REAL injuries via FPL (EPL only,
+      RESEARCH_ONLY) with cutoff rule + provenance; lineups stay UNKNOWN (no free source). Scheduler: Windows task
+      `FootballSnapshotTick` (every 10 min, `scripts/snapshot_tick.ps1`).
 - [ ] S14 live · S15 odds/EV · S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

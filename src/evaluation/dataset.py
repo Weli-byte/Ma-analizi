@@ -27,6 +27,8 @@ class EvalRow:
     odds: dict[str, tuple[float, float, float]] = field(default_factory=dict)
     home_goals: int | None = None  # FINISHED-match result; only used post-hoc to fit/update models
     away_goals: int | None = None
+    # real-time context (S13, ADR 0028): {'injuries': {...}}; empty for historical rows
+    availability: dict = field(default_factory=dict)
 
 
 def load_rows(

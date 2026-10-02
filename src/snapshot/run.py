@@ -23,11 +23,14 @@ from pathlib import Path
 from src.cli_utils import configure_output, load_dotenv
 from src.config import config_dir_for, load_config
 from src.data.dataset import resolve_dataset
+from src.data.teams import TeamDirectory
 from src.evaluation.context import EvalMode, make_context
 from src.evaluation.dataset import load_rows
 from src.features.artifact import load_features
 from src.features.builder import load_matches
 from src.features.history import MatchHistory
+from src.ingestion.fpl import FplInjuryProvider
+from src.ingestion.provider import ProviderError as IngestionProviderError
 from src.llm.budget import BudgetExceeded, estimate_input_tokens, preflight
 from src.llm.forecast import LEAGUES, load_upcoming_rows
 from src.llm.pricing import load_price_table
@@ -37,6 +40,7 @@ from src.llm.runner import ProviderNotConfigured, run_one
 from src.models import build_models
 from src.schemas import ExperimentType
 
+from .availability import failed_block, injuries_block
 from .pipeline import run_stage
 from .stages import STAGE_ORDER, SnapshotStage, StageState, cutoff_for_stage, due_stage, stage_state
 from .store import StageStore
@@ -99,6 +103,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--stage", default="auto", choices=["auto", *[s.value for s in STAGE_ORDER]])
     p.add_argument("--fixture-id", default=None)
     p.add_argument("--with-llm", action="store_true")
+    p.add_argument("--no-fpl", action="store_true", help="skip the FPL injury source (EPL only)")
     p.add_argument("--models", default=None, help="comma list; default: configured models")
     a = p.parse_args(argv)
     root = Path(a.root)
@@ -146,16 +151,38 @@ def main(argv: list[str] | None = None) -> int:
             f"fitted {info['models']} on {info['fit_rows']} rows "
             f"({info['seasons'][0]}..{info['seasons'][-1]})"
         )
+        fpl_players, fpl_observed, fpl_sha, fpl_error = None, None, None, None
+        if not a.no_fpl and any(r.league_id == "EPL" for r, _ in todo):
+            fpl = FplInjuryProvider(
+                TeamDirectory.load(cdir / "team_aliases.yaml"), root / "artifacts" / "ingestion" / "fpl"
+            )
+            try:
+                fpl_observed = datetime.now(UTC)
+                fpl_players = fpl.list_availability(fpl_observed)
+                fpl_sha = fpl.last_raw_sha256
+            except IngestionProviderError as e:
+                fpl_error = str(e)
+                print(f"WARNING fpl injuries FAILED (stage runs with injuries=FAILED): {e}")
         for row, stage in todo:
+            injuries = None
+            if row.league_id == "EPL" and not a.no_fpl:
+                if fpl_players is not None:
+                    injuries = injuries_block(
+                        fpl_players, (row.home_id, row.away_id), cutoff_for_stage(row.kickoff_utc, stage),
+                        fpl_observed, "fpl", fpl_sha,
+                    )  # fmt: skip
+                else:
+                    injuries = failed_block("fpl", fpl_error or "not fetched")
             res = run_stage(
                 store, row, history, stage, now, bundle.data_version, bundle.feature_version,
-                models, feat_cfg, llm_step,
+                models, feat_cfg, llm_step, injuries,
             )  # fmt: skip
             print(json.dumps({
                 "fixture": res.fixture_id, "stage": res.stage, "status": res.status,
                 "snapshot_hash": res.snapshot_hash, "lateness_min": res.lateness_minutes,
                 "models": {s["model_id"]: s["status"] for s in res.model_statuses},
                 "n_predictions": len(res.predictions), "n_deltas": len(res.deltas),
+                "injuries": (injuries or {}).get("status", "UNKNOWN"),
             }, sort_keys=True))  # fmt: skip
         _ = model_cfg
     except (BudgetExceeded, ProviderNotConfigured, ValueError, RuntimeError, KeyError) as e:

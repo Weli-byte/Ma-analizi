@@ -23,6 +23,7 @@ import urllib.parse
 import urllib.request
 from datetime import date, datetime
 
+from .interfaces import Capability, ProviderMeta, Support
 from .provider import FixtureProvider, League, ProviderError, RateLimitedError, RawFixture, Season
 
 BASE_URL = "https://api.football-data.org/v4"
@@ -31,10 +32,13 @@ BASE_URL = "https://api.football-data.org/v4"
 # AWARDED (a match decided administratively, e.g. forfeit) maps to ABANDONED -- the closest
 # existing FixtureStatus; there is no separate "awarded" concept in schemas.common.FixtureStatus.
 STATUS_MAP = {
-    "SCHEDULED": "NS", "TIMED": "NS",
-    "IN_PLAY": "1H", "PAUSED": "HT",
+    "SCHEDULED": "NS",
+    "TIMED": "NS",
+    "IN_PLAY": "1H",
+    "PAUSED": "HT",
     "FINISHED": "FT",
-    "SUSPENDED": "PST", "POSTPONED": "PST",
+    "SUSPENDED": "PST",
+    "POSTPONED": "PST",
     "CANCELLED": "CANC",
     "AWARDED": "AWD",
 }  # fmt: skip  -- re-expressed through upsert.DEFAULT_STATUS_MAP's own vocabulary, not a parallel one
@@ -58,7 +62,30 @@ def _get(path: str, api_key: str, params: dict | None = None, timeout: float = 1
         raise ProviderError(f"{path}: {e}") from e
 
 
+META = ProviderMeta(
+    name="football-data-org",
+    capabilities={
+        Capability.FIXTURES: Support.SUPPORTED,
+        Capability.LINEUPS: Support.NOT_SUPPORTED,  # free tier: `lineup`/`bench` absent (checked 2026-10-02)
+        Capability.INJURIES: Support.NOT_SUPPORTED,
+        Capability.EVENTS: Support.NOT_SUPPORTED,
+        Capability.ODDS: Support.NOT_SUPPORTED,  # `odds` key present but not populated on the free tier
+        Capability.STATISTICS: Support.NOT_SUPPORTED,
+        Capability.XG: Support.NOT_SUPPORTED,
+    },
+    coverage="12 free-tier competitions (PL, PD, BL1, SA, FL1, CL, DED, PPL, ...)",
+    timestamp_semantics="utcDate = scheduled kickoff; lastUpdated = provider record update time",
+    rate_limit="10 requests/minute (free tier)",
+    license="free tier, commercial terms unverified",
+    license_status="RESEARCH_ONLY",
+    provenance="https://api.football-data.org/v4/competitions/{id}/matches, /matches/{id}",
+    verified_on="2026-10-02",
+)
+
+
 class FootballDataOrgProvider(FixtureProvider):
+    meta = META
+
     name = "football-data-org"
 
     def __init__(self, api_key: str):

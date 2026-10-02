@@ -15,8 +15,8 @@ from src.llm.budget import BudgetExceeded, preflight
 from src.llm.contract import SCHEMA_VERSION, MalformedLLMOutput, parse_forecast, response_json_schema
 from src.llm.pricing import load_price_table
 from src.llm.prompt import PROMPT_VERSION, build_user_prompt, prompt_meta, snapshot_hash
-from src.llm.providers import ErrorKind, ProviderError
-from src.llm.providers.base import classify_status, scrub, with_retries
+from src.llm.providers import ErrorKind
+from src.llm.providers.base import classify_status, scrub
 from src.llm.runner import ProviderNotConfigured, resolve_provider, run_llm_benchmark, run_one
 from src.llm.snapshot import CutoffViolation, audit_snapshot, build_snapshot
 from src.schemas import ExperimentType
@@ -138,39 +138,8 @@ def test_scrub_removes_key_shaped_strings():
     assert "sk-abcdefghij1234" not in msg and "AIza" not in msg and "zzz" not in msg
 
 
-def test_retry_only_retryable_errors_with_backoff_and_counts():
-    delays, state = [], {"n": 0}
-
-    def flaky():
-        state["n"] += 1
-        if state["n"] < 3:
-            raise ProviderError(ErrorKind.RATE_LIMIT, "429")
-        return "done"
-
-    result, retries = with_retries(flaky, retry_limit=3, sleep=delays.append)
-    assert (result, retries) == ("done", 2)
-    assert len(delays) == 2 and delays[1] > 0  # exponential backoff + jitter
-
-
-def test_auth_error_is_never_retried():
-    state = {"n": 0}
-
-    def denied():
-        state["n"] += 1
-        raise ProviderError(ErrorKind.AUTH, "401", status_code=401)
-
-    with pytest.raises(ProviderError):
-        with_retries(denied, retry_limit=5, sleep=lambda s: None)
-    assert state["n"] == 1
-
-
-def test_retry_limit_is_enforced_and_reported():
-    def down():
-        raise ProviderError(ErrorKind.SERVER, "503")
-
-    with pytest.raises(ProviderError) as e:
-        with_retries(down, retry_limit=2, sleep=lambda s: None)
-    assert e.value.retry_count == 2
+# Retry/backoff/auth-not-retried behaviour is proven against REAL provider errors in
+# tests/integration/test_live_errors.py (no synthetic exceptions here).
 
 
 # ------------------------------------------------------------------------ pricing / budget

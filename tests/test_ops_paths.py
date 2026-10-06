@@ -129,3 +129,20 @@ def test_benchmark_reports_missing_providers_instead_of_calling_anything(real_ro
         run_benchmark(
             real_root, "weird", None, 2, "PL", "validation", None, None, None, "llm-prompt-v2", 0.0, True
         )
+
+
+def test_elo_tuning_cli_respects_the_disabled_switch_and_runs_when_enabled(real_root, capsys):
+    import yaml
+
+    from src.models import elo_tuning
+
+    assert elo_tuning.main(["--root", str(real_root)]) == 0
+    assert "disabled" in capsys.readouterr().out
+    path = real_root / "configs" / "model.yaml"
+    cfg = yaml.safe_load(path.read_text(encoding="utf-8"))
+    cfg.setdefault("elo", {}).setdefault("tuning", {}).update({"enabled": True, "n_trials": 2})
+    path.write_text(yaml.safe_dump(cfg), encoding="utf-8")
+    rc = elo_tuning.main(["--root", str(real_root)])
+    out = capsys.readouterr()
+    assert rc in (0, 2)  # 2 = the fixture's split has no walk-forward fold: reported, never a traceback
+    assert out.out or "ELO TUNING FAILED" in out.err

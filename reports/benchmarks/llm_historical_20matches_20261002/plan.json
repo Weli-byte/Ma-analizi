@@ -1,0 +1,16 @@
+{
+  "match_count": 20,
+  "request_count": 60,
+  "provider_count": 3,
+  "model_count": 3,
+  "est_max_cost_usd": 0.14520876999999996,
+  "est_token_budget": 389709,
+  "providers": [
+    "openai",
+    "gemini",
+    "groq"
+  ],
+  "not_configured": [],
+  "track": "historical",
+  "note": "HISTORICAL replay: the LLM may have memorized these results (memorization risk)."
+}

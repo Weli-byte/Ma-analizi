@@ -1,0 +1,20 @@
+{
+  "captured_at_utc": "2026-10-02T07:15:56.805131+00:00",
+  "input_tokens": 356,
+  "label": "REAL_PROVIDER_CAPTURE",
+  "output_tokens": 189,
+  "prompt_meta": {
+    "prompt_id": "football-1x2-forecast",
+    "prompt_version": "llm-prompt-v2",
+    "schema_version": "forecast-output-v1",
+    "system_prompt_hash": "0b4300e32ad3ea08fa0c9889c2ea08a48ad66e77b98dbc6413aba111e4303c16",
+    "user_prompt_hash": "39837722eef4f043e96afed0bbab15713abe679b93b607b5ebb2afb923e8133a"
+  },
+  "provider": "openai",
+  "raw_response_hash": "94befe43b5661a248a0ec71f10dafac73c5d58fbe28d7d2842258dc918262d89",
+  "reported_model": "gpt-6-luna",
+  "request_id": "req_0fd5a559b6bb43d5bee995fedfbfd67f",
+  "requested_model": "gpt-6-luna",
+  "text": "{\"home_probability\":0.42,\"draw_probability\":0.29,\"away_probability\":0.29,\"predicted_home_goals\":1.6,\"predicted_away_goals\":1.3,\"confidence\":0.35,\"analysis_summary\":\"Arsenal\u2019s stronger recent points return gives them a modest home edge, but the limited snapshot supports only low confidence.\"}",
+  "total_tokens": 545
+}

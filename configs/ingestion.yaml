@@ -1,0 +1,5 @@
+# S12: only env var NAMES here. Real keys live in environment / .env (gitignored).
+# football-data-org: free tier (10 calls/min, 12 competitions) -- register at
+# https://www.football-data.org/client/register. Disabled until a real key is set.
+providers:
+  football-data-org: {enabled: true, api_key_env: FOOTBALL_DATA_ORG_API_KEY, leagues: ["PL", "PD", "BL1", "SA", "FL1", "CL", "DED", "PPL"]}

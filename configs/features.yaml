@@ -1,0 +1,4 @@
+feature_version: fv2
+rest_days_cap: 30        # days; raw value is kept separately, see ADR 0008
+result_lag_hours: 3      # PROVISIONAL research policy for inferred result availability, ADR 0006
+cutoff_offset_hours: 0   # information_cutoff = kickoff - offset (T-0 snapshot)

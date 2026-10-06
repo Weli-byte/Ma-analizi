@@ -1,3 +1,36 @@
 seed: 42
-feature_version: fv1
-models: [always_home]
+feature_version: fv2
+models: [always_home, historical_prior, recent_form_naive, market_implied, elo, poisson, dixon_coles,
+         xgboost, lightgbm]
+elo:
+  initial_rating: 1500.0
+  k_factor: 20.0
+  home_advantage: 60.0
+  use_margin_of_victory: false
+  decay_half_life_days: null
+  tuning:
+    enabled: false
+    method: optuna
+    objective: log_loss
+    n_trials: 20
+    seed: 42
+    k_factor_range: [5.0, 60.0]
+    home_advantage_range: [0.0, 150.0]
+    decay_half_life_days_range: [30.0, 3650.0]
+poisson:
+  max_goals: 10
+  max_iterations: 200
+  convergence_tolerance: 1.0e-6
+  fail_on_non_convergence: false
+  decay_half_life_days: null
+  tail_mass_warn_threshold: 0.01
+gbm:
+  seed: 42
+  n_optuna_trials:
+    development: 2
+    research: 8
+    strict: 8
+    final: 30
+  validation_fraction: 0.15
+  early_stopping_rounds: 20
+  n_temporal_folds: 1

@@ -1,13 +1,77 @@
 name: ci
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+env:
+  # Pin BLAS/OpenMP to 1 thread everywhere in this workflow: multi-threaded reductions (np.sum
+  # etc, used heavily by Elo's gradient ascent and Poisson's IPF) are not guaranteed associative,
+  # so thread scheduling can change the last bit of a float sum run-to-run under concurrent CI
+  # load -- enough to change a golden-chain SHA256 hash even though every metric value still
+  # matches to 1e-8. Must match .github/workflows/regenerate-golden.yml. See ADR-0017 amendment
+  # / reports/remediation/S0_S7_HARDENING_AUDIT.md (Phase 4 finding).
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
 jobs:
   test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.14"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          allow-prereleases: true
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install locked dependencies (hash-verified)
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+      - name: Import smoke test
+        run: python -c "import src.schemas, src.config, src.versioning, src.provenance, src.runmode"
+      - name: Lint
+        run: ruff check .
+      - name: Tests (unit + integration + golden/regression) with coverage
+        run: pytest --cov=src --cov-report=term-missing --cov-report=json:coverage.json
+      - name: Critical-path coverage gate
+        run: python scripts/check_critical_coverage.py coverage.json
+        if: hashFiles('scripts/check_critical_coverage.py') != ''
+  real-data-sanity:
+    # Real (not synthetic) EPL data, committed as a small fixed fixture — no network access.
+    # This is a fast smoke layer only; the full 2019-2024 benchmark runs on a schedule
+    # (nightly-full-benchmark.yml), not on every PR. See docs/ci_real_data_sanity.md.
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with: {python-version: "3.12", cache: pip}
-      - run: pip install -r requirements.lock -e ".[dev]"
-      - run: ruff check .
-      - run: python -c "import src.schemas, src.config, src.versioning"
-      - run: pytest
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install locked dependencies (hash-verified)
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+      - name: Real-data sanity (pipeline -> features -> baselines -> walk-forward, x2 for determinism)
+        run: python scripts/ci_real_data_sanity.py --mode strict
+  lock-up-to-date:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install uv
+      - name: requirements.lock matches pyproject.toml
+        run: |
+          uv pip compile pyproject.toml --extra dev --universal --generate-hashes \
+            --python-version 3.12 -o /tmp/requirements.lock.check
+          diff <(grep -v '^#' requirements.lock) <(grep -v '^#' /tmp/requirements.lock.check)
+        shell: bash

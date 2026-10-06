@@ -1,0 +1,85 @@
+{
+  "files": {
+    "E0_1920.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "100037618b94f94057400bb02bf6bac4ef74ddaa58cde4b38370839c39caee61",
+      "status": "pinned_observed"
+    },
+    "E0_2021.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "5afe63f69401457b8354eaacee24f9a3e520b3c3af6329564a9783e20d789c62",
+      "status": "pinned_observed"
+    },
+    "E0_2122.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "d3487b29c2c60e05eec4bd39def9f1654ea5d87d67921eeb98eb9b51c11eba19",
+      "status": "pinned_observed"
+    },
+    "E0_2223.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "8442792d3b614c94ea3cf381bd2736805889cc1713169035368fff19c3d02380",
+      "status": "pinned_observed"
+    },
+    "E0_2324.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "b2e057b0ed959f198b0f63d2391c01239f3608e6de5db68edab3f88e04d07ff3",
+      "status": "pinned_observed"
+    },
+    "E0_2425.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "d0c8ce4a96d886cf60cf101f570f4a3893844226f91c7bd769eb568c49edbfa4",
+      "status": "pinned_observed"
+    },
+    "E0_2526.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "3e3a8352f9ada6789c508d6ca184424421fed56a30400904a4a327c583407e62",
+      "status": "pinned_observed"
+    },
+    "E0_2627.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "26e404d6184b16b84fc7dff45e9db4a7dae70bdefb05abd4cc92bd2fef211812",
+      "status": "pinned_observed"
+    },
+    "SP1_1920.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "a05d5d60eee0b1414c56d6d6817f860cdc620e206234069a1886c98a8cb318da",
+      "status": "pinned_observed"
+    },
+    "SP1_2021.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "b4137db923101f464e8403c4973acbfaf7d71724ce93b4336fad580e894d9591",
+      "status": "pinned_observed"
+    },
+    "SP1_2122.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "2d9e619700712823d15716c07715133f8c3b1a09046930dcfc785a38633dee2e",
+      "status": "pinned_observed"
+    },
+    "SP1_2223.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "53348112526b5165539df240be350083989bb258f30c0ff7cacbc0165ca7e4b3",
+      "status": "pinned_observed"
+    },
+    "SP1_2324.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "5323f596c7ed318e4bce95557a369d809d98501fa499ea5f41350cd45cf3c7d9",
+      "status": "pinned_observed"
+    },
+    "SP1_2425.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "c086e96d6a53f6e6c0fce4e35db0d1728c773b4362323da0161a34769e315a36",
+      "status": "pinned_observed"
+    },
+    "SP1_2526.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "4ca2e285f3ee0702f6bc55fcaa4f5a15cb3aef6220735a1d15398131e21d63f5",
+      "status": "pinned_observed"
+    },
+    "SP1_2627.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "4adbe7de6b4e3abc0297c1774c8fb09bb309e950c5d9823c2119ebabac0648c2",
+      "status": "pinned_observed"
+    }
+  },
+  "schema": 1
+}

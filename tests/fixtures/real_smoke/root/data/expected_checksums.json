@@ -1,0 +1,20 @@
+{
+  "files": {
+    "E0_2122.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "d3487b29c2c60e05eec4bd39def9f1654ea5d87d67921eeb98eb9b51c11eba19",
+      "status": "pinned_observed"
+    },
+    "E0_2223.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "8442792d3b614c94ea3cf381bd2736805889cc1713169035368fff19c3d02380",
+      "status": "pinned_observed"
+    },
+    "E0_2324.csv": {
+      "basis": "observed at pin time; not independently verified",
+      "sha256": "b2e057b0ed959f198b0f63d2391c01239f3608e6de5db68edab3f88e04d07ff3",
+      "status": "pinned_observed"
+    }
+  },
+  "schema": 1
+}

@@ -1,0 +1,78 @@
+{
+  "closed_form_predictions_sha256": "d15e26fd2bf22b4933fe96f4e7a304567e1a817c668a8790222925acaa0f6888",
+  "data_version": "dv-77b12b7aa485",
+  "dataset_content_hash": "bc928bd19086ae6d39724e75b07b3379007e2f0c6a62d310831bd06d9b14070a",
+  "features_content_hash": "0805622a30ee7be5b4c498c053dcd9142337fcc522bb9f026b7486a97386fc75",
+  "features_rows": 36,
+  "metrics": {
+    "always_home": {
+      "accuracy": 0.666666667,
+      "brier": 0.666666667,
+      "ece_raw": 0.333333333,
+      "log_loss": 11.512925465,
+      "n": 12,
+      "rps": 0.25
+    },
+    "dixon_coles": {
+      "accuracy": 0.5,
+      "brier": 0.639305725,
+      "ece_raw": 0.180836205,
+      "log_loss": 1.066176974,
+      "n": 12,
+      "rps": 0.251285138
+    },
+    "elo": {
+      "accuracy": 0.583333333,
+      "brier": 0.643671838,
+      "ece_raw": 0.204385068,
+      "log_loss": 1.073396498,
+      "n": 12,
+      "rps": 0.256547783
+    },
+    "historical_prior": {
+      "accuracy": 0.666666667,
+      "brier": 0.513888889,
+      "ece_raw": 0.083333333,
+      "log_loss": 0.889006639,
+      "n": 12,
+      "rps": 0.1875
+    },
+    "market_implied": {
+      "accuracy": 0.416666667,
+      "brier": 0.6200844,
+      "ece_raw": 0.100412669,
+      "log_loss": 1.030937304,
+      "n": 12,
+      "rps": 0.238188408
+    },
+    "poisson": {
+      "accuracy": 0.5,
+      "brier": 0.645375477,
+      "ece_raw": 0.383103457,
+      "log_loss": 1.100653649,
+      "n": 12,
+      "rps": 0.252296764
+    },
+    "recent_form_naive": {
+      "accuracy": 0.291666667,
+      "brier": 0.719037728,
+      "ece_raw": 0.258191396,
+      "log_loss": 1.157442018,
+      "n": 12,
+      "rps": 0.290074419
+    }
+  },
+  "metrics_sha256": "0635bdf8274a0f79f11c458c42f842c5576ebfb4e6e6226c92aff811789bc1f4",
+  "n_predictions": 84,
+  "predictions_sha256": "e45af332f072d324af5c54bf8d06369d99e5ec7f8f59932b3f22ad535b3f21b9",
+  "report_json_sha256": "55ab5fd91561e06e526ff5e110983fd532432e70aff6fd05b44e4329112c5874",
+  "report_sha256": "5fbade2c2e44aa747cca02a4fa8664881e6b59fbfcc075fb476fc05a89af3bb0",
+  "table_hashes": {
+    "fixtures": "152433745e71352fd9aebe26680c4df271a0a278525ef38ec1179f12044cbbc8",
+    "leagues": "a36ace33346bfdde9feab9b2d351a51566f0f7986a28abaa3a75da065430b748",
+    "odds_snapshots": "420c3876b758b6dfc8a6138f661ab2e630b8f785f315feca51808efa1c356994",
+    "results": "1d382238702e29e6ad809dd0b4cad11b04aa0288b1cecb12faa4a876798ce327",
+    "team_match_stats": "302e3c7f32d3ecc9aa858a08df39ca060a87b1b0b497b9ceaa3fa84b1faa3ce1",
+    "teams": "5d19dec883f7c437cee0ffd1478b0aec63d216201bd72647e3620f492dfe1ea6"
+  }
+}

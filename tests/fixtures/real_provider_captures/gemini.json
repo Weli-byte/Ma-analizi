@@ -1,0 +1,20 @@
+{
+  "captured_at_utc": "2026-10-02T07:15:59.189207+00:00",
+  "input_tokens": 292,
+  "label": "REAL_PROVIDER_CAPTURE",
+  "output_tokens": 115,
+  "prompt_meta": {
+    "prompt_id": "football-1x2-forecast",
+    "prompt_version": "llm-prompt-v2",
+    "schema_version": "forecast-output-v1",
+    "system_prompt_hash": "0b4300e32ad3ea08fa0c9889c2ea08a48ad66e77b98dbc6413aba111e4303c16",
+    "user_prompt_hash": "39837722eef4f043e96afed0bbab15713abe679b93b607b5ebb2afb923e8133a"
+  },
+  "provider": "gemini",
+  "raw_response_hash": "8c9485efee1a2561848c28dfd6effd0c820417df883d66a11bd4618c558fdd79",
+  "reported_model": "gemini-3.1-flash-lite",
+  "request_id": "MVq_atf7CojXxN8P8dSV2Ao",
+  "requested_model": "gemini-3.1-flash-lite",
+  "text": "{\n  \"home_probability\": 0.52,\n  \"draw_probability\": 0.25,\n  \"away_probability\": 0.23,\n  \"predicted_home_goals\": 1.8,\n  \"predicted_away_goals\": 1.2,\n  \"confidence\": 0.65,\n  \"analysis_summary\": \"Arsenal enters the match in significantly better form than Chelsea over the last five fixtures, granting them a solid edge as the home side.\"\n}",
+  "total_tokens": 407
+}

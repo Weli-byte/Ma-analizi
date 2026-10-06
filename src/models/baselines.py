@@ -10,17 +10,53 @@ import numpy as np
 
 from src.evaluation.dataset import EvalRow
 
-MARKET_SOURCES = [  # preference order; closing first (reference bar only)
-    "closing:Avg", "closing:B365", "pre_match_unspecified:Avg", "pre_match_unspecified:B365",
-]  # fmt: skip
+# preference order; closing first. Closing odds are a REFERENCE bar, never a time-aligned signal.
+MARKET_SOURCES = ["closing:agg_avg", "closing:B365", "pre_match:agg_avg", "pre_match:B365"]
 
 
 class BaselineModel:
+    """S0-S7 hardening Phase 10 (audit finding L-06): the shared contract every registered model
+    (baseline, statistical, ml) must honor, not just a convention each class happens to follow --
+    `tests/test_baselines.py::test_cross_model_probability_contract` parametrizes over the full
+    `src.models.REGISTRY` to verify it:
+
+    `predict_proba(rows)` returns an `(len(rows), 3)` array in `[P(home), P(draw), P(away)]`
+    order (`EvalRow.outcome`: 0 home, 1 draw, 2 away). Each row either sums to 1 (all three
+    entries in [0, 1]) or is entirely NaN ("this model cannot predict this fixture") -- a
+    partial-NaN row is never valid. `runner.evaluate` re-checks the shape at eval time, but the
+    contract itself is a property of every model class, independent of the runner.
+    """
+
     model_id: str
     model_version = "1.0.0"
+    model_class = "baseline"  # baseline | reference_market_baseline | statistical | ml
+    required_features: tuple[str, ...] = ()
 
     def __init__(self) -> None:
         self.diagnostics: dict[str, object] = {}
+        # S0-S7 hardening Phase 25 (audit finding M-13): calibration-ready contract, ahead of
+        # S9. No model calibrates yet -- `raw_probs_` always equals `predict_proba`'s last
+        # returned array for every registered model (set generically by `__init_subclass__`
+        # below, not per-model). When S9 lands, `predict_proba` becomes the CALIBRATED output
+        # and `raw_probs_` stays the pre-calibration signal, so callers that already read
+        # `raw_probs_` (e.g. `docs/gbm.md`) do not need to change.
+        self.raw_probs_: np.ndarray | None = None
+
+    def __init_subclass__(cls, **kwargs) -> None:
+        super().__init_subclass__(**kwargs)
+        impl = cls.__dict__.get("predict_proba")
+        if impl is None:
+            return
+
+        def predict_proba(self, rows: list[EvalRow], _impl=impl) -> np.ndarray:
+            probs = _impl(self, rows)
+            self.raw_probs_ = probs
+            return probs
+
+        predict_proba.__name__ = "predict_proba"
+        predict_proba.__doc__ = impl.__doc__
+        predict_proba.__wrapped__ = impl
+        cls.predict_proba = predict_proba
 
     def fit(self, train: list[EvalRow]) -> "BaselineModel":
         return self
@@ -54,12 +90,11 @@ class HistoricalPrior(BaselineModel):
     def fit(self, train):
         self.global_prior = _freq(train)
         self.league_prior = {
-            lg: _freq([r for r in train if r.league_id == lg])
-            for lg in {r.league_id for r in train}
+            lg: _freq([r for r in train if r.league_id == lg]) for lg in sorted({r.league_id for r in train})
         }
         self.diagnostics = {
             "global_prior": self.global_prior.round(4).tolist(),
-            "league_prior": {k: v.round(4).tolist() for k, v in sorted(self.league_prior.items())},
+            "league_prior": {k: v.round(4).tolist() for k, v in self.league_prior.items()},
             "training_rows": len(train),
         }
         return self
@@ -70,10 +105,12 @@ class HistoricalPrior(BaselineModel):
 
 class RecentFormNaive(BaselineModel):
     """Split non-draw mass by recent form: share prop. to 1 + points last 5 (fixed rule, no
-    weight fitting). Draw probability = training draw rate. Missing form -> historical prior."""
+    weight fitting). Draw probability = training draw rate. Missing form -> historical prior;
+    every fallback is counted here AND reported by the availability report (never silent)."""
 
     model_id = "recent_form_naive"
     HOME, AWAY = "home_form_points_5", "away_form_points_5"
+    required_features = (HOME, AWAY)
 
     def fit(self, train):
         self._prior = HistoricalPrior().fit(train)
@@ -97,9 +134,12 @@ class RecentFormNaive(BaselineModel):
 
 class MarketImplied(BaselineModel):
     """De-vigged (proportional normalisation) bookmaker odds. NaN when no odds exist.
-    Uses closing odds when present => a reference bar, not a pre-cutoff signal."""
+
+    REFERENCE_MARKET_BASELINE: uses CLOSING odds whose timestamp is unknown, so it is a reference
+    bar for probability quality, not a time-aligned trading signal (ADR 0007)."""
 
     model_id = "market_implied"
+    model_class = "reference_market_baseline"
 
     def predict_proba(self, rows):
         out, used = [], Counter()
@@ -115,9 +155,22 @@ class MarketImplied(BaselineModel):
         self.diagnostics = {
             "source_usage": dict(sorted(used.items())),
             "no_odds_rows": len(rows) - sum(used.values()),
+            "timestamp_quality": "unknown",
         }
         return np.array(out)
 
 
+REGISTRY: dict[str, type[BaselineModel]] = {
+    c.model_id: c for c in (AlwaysHome, HistoricalPrior, RecentFormNaive, MarketImplied)
+}
+
+
+def build_models(names: list[str]) -> list[BaselineModel]:
+    unknown = [n for n in names if n not in REGISTRY]
+    if unknown:
+        raise KeyError(f"unknown baseline models {unknown}; available: {sorted(REGISTRY)}")
+    return [REGISTRY[n]() for n in names]
+
+
 def default_baselines() -> list[BaselineModel]:
-    return [AlwaysHome(), HistoricalPrior(), RecentFormNaive(), MarketImplied()]
+    return build_models(list(REGISTRY))

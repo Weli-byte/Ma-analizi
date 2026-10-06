@@ -1,0 +1,26 @@
+# S16 MLOps thresholds (ADR 0032). Alerts are raised when a monitored value crosses these; nothing
+# retrains or changes a model automatically -- see src/mlops/retrain_gate.py.
+data_freshness_days: {warning: 7, stale: 30}   # age of the newest finished match in the dataset
+provider:
+  window_hours: 24
+  max_error_rate: 0.2          # share of failed requests per provider in the window
+  max_p95_latency_ms: 8000
+  stale_minutes: 60            # no successful call for this long while ticks are running => STALE
+heartbeat:
+  max_gap_minutes: 30          # a scheduled tick missing this long (PC off / task dead) raises an alert
+  names: [snapshot, live, odds]
+llm:
+  max_rate_limit_rate: 0.1     # share of 429 among calls
+  max_server_error_rate: 0.05
+  max_schema_failure_rate: 0.1
+  max_failure_rate: 0.2
+  max_p95_latency_ms: 20000
+  max_cost_usd_per_day: 0.25
+drift:
+  min_samples: 5               # fewer predictions/snapshots than this => INSUFFICIENT_DATA, not a verdict
+  feature_z_threshold: 3.0     # |mean shift| in training standard deviations
+  psi_threshold: 0.25          # population stability index on the top-probability histogram
+  max_missing_share: 0.5       # share of unavailable feature values in a snapshot
+metric_drift:
+  min_settled: 20              # settled forecasts needed before a metric comparison means anything
+  max_log_loss_increase: 0.05  # vs the reference (walk-forward) log loss

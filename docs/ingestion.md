@@ -70,11 +70,11 @@ repo runs it automatically (no scheduled job, no test calls the real API).
 
 ## Tests
 
-`tests/test_ingestion.py` — every test uses a `MockProvider` (subclasses `FixtureProvider` so the
-default `NotImplementedError` bodies are inherited); no network. 37 tests covering the protocol,
-rate limiting, cache/audit round-trip and TTL, upsert (new/unchanged/changed/idempotent/pending
-team resolution/never-auto-registers), coverage (success/error/staleness/JSON round-trip), and
-full `sync_league_season` orchestration including provider-error and cache-hit paths.
-`tests/test_football_data_org.py` — the real adapter's request/response parsing (leagues,
-seasons, fixtures, status mapping), rate-limit/error handling, and `resolve_ingestion_provider`
-wiring; every network call mocked.
+`tests/test_ingestion.py` — rate limiting, cache/audit round-trip and TTL, upsert (new/unchanged/
+changed/idempotent/pending team resolution/never-auto-registers), coverage, and `sync_league_season`
+orchestration. There is NO mock provider (ADR 0024/0032): orchestration runs the REAL football-data.org
+adapter over a real loopback HTTP socket against REAL captured responses
+(`src/ingestion/endpoints.py` allows redirecting an endpoint to loopback only); a provider failure is a
+real connection refusal. `tests/test_football_data_org.py` — the real adapter parsing real captures
+(leagues, seasons, fixtures, status mapping) and `resolve_ingestion_provider` wiring; the real-server
+403/429 paths are `tests/integration/test_fdorg_errors_live.py`.

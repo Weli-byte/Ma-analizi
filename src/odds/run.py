@@ -18,6 +18,7 @@ from pathlib import Path
 from src.cli_utils import configure_output, load_dotenv
 from src.config import config_dir_for, load_config
 from src.data.teams import TeamDirectory
+from src.mlops.oplog import heartbeat
 from src.schemas import PredictionRecord
 
 from .espn import LEAGUE_CODES, SOURCE, EspnOddsFeed
@@ -187,6 +188,7 @@ def settle(root: Path, now: datetime | None = None) -> list[str]:
 def main(argv: list[str] | None = None) -> int:
     configure_output()
     load_dotenv()
+    heartbeat("odds")  # proves the scheduler ran this tick (gaps are alerted)
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--root", default=str(ROOT))
     sub = p.add_subparsers(dest="cmd", required=True)

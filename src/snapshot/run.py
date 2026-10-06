@@ -33,12 +33,14 @@ from src.ingestion.fpl import FplInjuryProvider
 from src.ingestion.lineups import LEAGUE_CODES as LINEUP_LEAGUES
 from src.ingestion.lineups import EspnLineupProvider
 from src.ingestion.provider import ProviderError as IngestionProviderError
+from src.ingestion.results import ingested_matches, merge_history
 from src.llm.budget import BudgetExceeded, estimate_input_tokens, preflight
 from src.llm.forecast import LEAGUES, load_upcoming_rows
 from src.llm.pricing import load_price_table
 from src.llm.prompt import SYSTEM_PROMPT, build_user_prompt
 from src.llm.providers import PROVIDERS
 from src.llm.runner import ProviderNotConfigured, run_one
+from src.mlops.oplog import heartbeat
 from src.models import build_models
 from src.schemas import ExperimentType
 
@@ -99,6 +101,7 @@ def make_llm_step(cfg, prices, budget, feature_version: str, data_version: str, 
 def main(argv: list[str] | None = None) -> int:
     configure_output()
     load_dotenv()
+    heartbeat("snapshot")  # proves the scheduler ran this tick (gaps are alerted)
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--root", default=str(ROOT))
     p.add_argument("--league", default="PL", choices=sorted(LEAGUES))
@@ -148,7 +151,7 @@ def main(argv: list[str] | None = None) -> int:
 
         models, info = fit_models(root, a.models.split(",") if a.models else None)
         ref = resolve_dataset(root / load_config("data", cdir).processed_dir)
-        history = MatchHistory(load_matches(ref))
+        history = MatchHistory(merge_history(load_matches(ref), ingested_matches(root)))
         store = StageStore(root)
         print(
             f"fitted {info['models']} on {info['fit_rows']} rows "

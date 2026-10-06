@@ -1,8 +1,8 @@
 """S12: global fixture ingestion from a commercial/provider data source (separate from
 `src.data`'s football-data.co.uk CSV pipeline). No commercial vendor is wired in yet --
 `docs/data_sources/commercial_migration_plan.md` (S0-S7 hardening) leaves provider selection to
-the project owner. This package is the adapter/upsert/coverage INFRASTRUCTURE, tested against a
-mock provider, ready for a real adapter to be written against `FixtureProvider` later.
+the project owner. This package is the adapter/upsert/coverage INFRASTRUCTURE plus REAL free-tier
+adapters (football-data.org, FPL, ESPN lineups); there is no mock provider.
 """
 
 from .cache import CacheEntry, ResponseCache

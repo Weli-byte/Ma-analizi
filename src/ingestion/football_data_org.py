@@ -23,6 +23,9 @@ import urllib.parse
 import urllib.request
 from datetime import date, datetime
 
+from src.mlops.oplog import logged_urlopen
+
+from .endpoints import endpoint
 from .interfaces import Capability, ProviderMeta, Support
 from .provider import FixtureProvider, League, ProviderError, RateLimitedError, RawFixture, Season
 
@@ -45,15 +48,13 @@ STATUS_MAP = {
 
 
 def _get(path: str, api_key: str, params: dict | None = None, timeout: float = 15.0) -> dict:
-    """Isolated so tests monkeypatch exactly this, never the real network (same seam as
-    `src/llm/providers.py::_post_json`)."""
-    url = f"{BASE_URL}{path}"
+    """The only network call of this adapter (verified by `tests/integration/test_live_feeds.py`)."""
+    url = f"{endpoint('FOOTBALL_DATA_ORG_BASE_URL', BASE_URL)}{path}"
     if params:
         url += "?" + urllib.parse.urlencode(params)
     req = urllib.request.Request(url, headers={"X-Auth-Token": api_key}, method="GET")  # noqa: S310
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310
-            return json.loads(resp.read().decode())
+        return json.loads(logged_urlopen("football-data-org", path, req, timeout).decode())
     except urllib.error.HTTPError as e:
         if e.code == 429:
             raise RateLimitedError(f"{path}: HTTP 429 rate limited") from e
@@ -83,6 +84,26 @@ META = ProviderMeta(
 )
 
 
+def raw_fixture(m: dict, league_id: str, season: str) -> RawFixture:
+    """Pure conversion of one football-data.org match object (real captures are parsed by the same code)."""
+    status = STATUS_MAP.get(m["status"], m["status"])  # unknown codes pass through as-is;
+    # upsert.resolve_status raises UnknownStatusError rather than guessing (same contract
+    # as every other status_map consumer).
+    full_time = (m.get("score") or {}).get("fullTime") or {}
+    return RawFixture(
+        provider_fixture_id=str(m["id"]),
+        league_id=league_id,
+        season=season,
+        kickoff_utc=datetime.fromisoformat(m["utcDate"].replace("Z", "+00:00")),
+        home_team_raw_name=m["homeTeam"]["name"],
+        away_team_raw_name=m["awayTeam"]["name"],
+        status_raw=status,
+        home_goals=full_time.get("home"),
+        away_goals=full_time.get("away"),
+        extra={"provider_match_id": m["id"]},
+    )
+
+
 class FootballDataOrgProvider(FixtureProvider):
     meta = META
 
@@ -110,27 +131,7 @@ class FootballDataOrgProvider(FixtureProvider):
     def list_fixtures(self, league_id: str, season: str) -> list[RawFixture]:
         year = _season_start_year(season)
         data = _get(f"/competitions/{league_id}/matches", self.api_key, params={"season": year})
-        fixtures = []
-        for m in data.get("matches", []):
-            status = STATUS_MAP.get(m["status"], m["status"])  # unknown codes pass through as-is;
-            # upsert.resolve_status raises UnknownStatusError rather than guessing (same contract
-            # as every other status_map consumer).
-            full_time = (m.get("score") or {}).get("fullTime") or {}
-            fixtures.append(
-                RawFixture(
-                    provider_fixture_id=str(m["id"]),
-                    league_id=league_id,
-                    season=season,
-                    kickoff_utc=datetime.fromisoformat(m["utcDate"].replace("Z", "+00:00")),
-                    home_team_raw_name=m["homeTeam"]["name"],
-                    away_team_raw_name=m["awayTeam"]["name"],
-                    status_raw=status,
-                    home_goals=full_time.get("home"),
-                    away_goals=full_time.get("away"),
-                    extra={"provider_match_id": m["id"]},
-                )
-            )
-        return fixtures
+        return [raw_fixture(m, league_id, season) for m in data.get("matches", [])]
 
     # lineups/injuries/events/statistics/odds: NOT overridden -- inherit FixtureProvider's
     # NotImplementedError bodies (S13+ scope; football-data.org's free tier doesn't expose most

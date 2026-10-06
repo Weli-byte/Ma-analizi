@@ -19,7 +19,9 @@ import urllib.request
 from datetime import UTC, date, datetime
 
 from src.data.teams import TeamDirectory
+from src.mlops.oplog import logged_urlopen
 
+from .endpoints import endpoint
 from .provider import ProviderError
 
 BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
@@ -69,8 +71,7 @@ def parse_lineups(summary: dict, observed_at: datetime, raw_sha256: str = "", ev
 def _get(url: str, timeout: float) -> bytes:
     req = urllib.request.Request(url, headers={"User-Agent": "football-forecast-research"})
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 - fixed https host
-            return r.read()
+        return logged_urlopen("espn", url.split("/soccer/", 1)[-1].split("?")[0], req, timeout)
     except (urllib.error.URLError, TimeoutError) as e:
         raise ProviderError(f"espn: {type(e).__name__}: {e}") from e
 
@@ -84,7 +85,7 @@ class EspnLineupProvider:
         """The ESPN event of this fixture (matched on resolved team ids and the match day), or None."""
         code, country = LEAGUE_CODES[repo_league]
         day: date = kickoff.astimezone(UTC).date()
-        raw = _get(f"{BASE}/{code}/scoreboard?dates={day:%Y%m%d}", self.timeout)
+        raw = _get(f"{endpoint('ESPN_BASE_URL', BASE)}/{code}/scoreboard?dates={day:%Y%m%d}", self.timeout)
         for ev in json.loads(raw.decode("utf-8")).get("events", []):
             teams = {
                 c["homeAway"]: self.directory.resolve(SOURCE, c["team"]["displayName"], country, day).team_id
@@ -96,7 +97,7 @@ class EspnLineupProvider:
 
     def fetch_lineups(self, repo_league: str, event_id: str, observed_at: datetime | None = None) -> dict:
         code, _ = LEAGUE_CODES[repo_league]
-        raw = _get(f"{BASE}/{code}/summary?event={event_id}", self.timeout)
+        raw = _get(f"{endpoint('ESPN_BASE_URL', BASE)}/{code}/summary?event={event_id}", self.timeout)
         observed = observed_at or datetime.now(UTC)
         return parse_lineups(
             json.loads(raw.decode("utf-8")), observed, hashlib.sha256(raw).hexdigest(), event_id

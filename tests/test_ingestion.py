@@ -1,28 +1,37 @@
-"""S12 (ADR 0023): global fixture ingestion -- provider adapter interface, rate-limit/backoff,
-cache/audit storage, idempotent upsert, coverage matrix, orchestration. Every test here uses a
-MOCK provider (no network) -- the sprint's own instruction ("Mock API integration tests yaz")."""
+"""S12 (ADR 0023): global fixture ingestion -- rate-limit/backoff, cache/audit storage, idempotent
+upsert, coverage matrix, orchestration. There is NO mock provider: orchestration runs the real
+football-data.org adapter over a real HTTP socket against REAL captured responses (loopback server,
+`src/ingestion/endpoints.py`); the real-server error paths are in tests/integration. Pure upsert /
+rate-limit logic is tested with explicit inputs."""
 
-from datetime import UTC, date, datetime, timedelta
+import json
+import threading
+from datetime import UTC, datetime, timedelta
+from functools import partial
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
 from src.data.teams import Alias, TeamDirectory
 from src.ingestion.cache import ResponseCache
 from src.ingestion.coverage import CoverageMatrix
-from src.ingestion.provider import (
-    FixtureProvider,
-    League,
-    ProviderError,
-    RateLimitedError,
-    RawFixture,
-    Season,
-)
+from src.ingestion.football_data_org import FootballDataOrgProvider
+from src.ingestion.provider import ProviderError, RateLimitedError, RawFixture
 from src.ingestion.rate_limit import RateLimiter, with_backoff
 from src.ingestion.sync import sync_league_season
 from src.ingestion.upsert import UnknownStatusError, build_fixture, resolve_status, upsert_fixture
 from src.schemas import FixtureStatus
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
+CAPTURE = json.loads(
+    (REPO_ROOT / "tests" / "fixtures" / "real_provider_captures" / "fdorg_competitions.json").read_text(
+        encoding="utf-8"
+    )
+)
 T0 = datetime(2024, 3, 1, 15, 0, tzinfo=UTC)
+INGESTED = datetime(2026, 10, 2, 12, 0, tzinfo=UTC)  # after the real 2025 matches' kickoffs
 
 
 def directory():
@@ -41,45 +50,6 @@ def directory():
 def raw_fixture(fid="f1", status="NS", home="Alpha FC", away="Beta United", goals=None):
     hg, ag = goals or (None, None)
     return RawFixture(fid, "EPL", "2023-24", T0, home, away, status, home_goals=hg, away_goals=ag)
-
-
-# -------------------------------------------------------------------------------- provider
-class MockProvider(FixtureProvider):
-    name = "mock-provider"
-
-    def __init__(self, fixtures: list[RawFixture] | None = None, fail: bool = False):
-        self._fixtures = fixtures or [raw_fixture()]
-        self.fail = fail
-        self.calls = 0
-
-    def list_leagues(self) -> list[League]:
-        return [League("EPL", "Premier League", "ENG")]
-
-    def list_seasons(self, league_id: str) -> list[Season]:
-        return [Season(league_id, "2023-24", date(2023, 8, 1), date(2024, 5, 31))]
-
-    def list_fixtures(self, league_id: str, season: str) -> list[RawFixture]:
-        self.calls += 1
-        if self.fail:
-            raise ProviderError("boom")
-        return self._fixtures
-
-
-def test_mock_provider_satisfies_the_protocol():
-    p: FixtureProvider = MockProvider()
-    assert p.list_leagues()[0].league_id == "EPL"
-    assert p.list_seasons("EPL")[0].season == "2023-24"
-    assert len(p.list_fixtures("EPL", "2023-24")) == 1
-
-
-def test_provider_optional_endpoints_raise_not_implemented_not_empty():
-    """An unsupported endpoint must raise, never silently return []  -- empty means "provider
-    legitimately has nothing," not "we didn't build this yet"."""
-    p = MockProvider()
-    with pytest.raises(NotImplementedError):
-        p.list_lineups("f1")
-    with pytest.raises(NotImplementedError):
-        p.list_odds("f1")
 
 
 # -------------------------------------------------------------------------------- rate_limit
@@ -260,7 +230,9 @@ def test_upsert_fixture_detects_a_status_change():
 def test_upsert_fixture_is_idempotent_across_many_identical_calls():
     result = None
     for _ in range(5):
-        result = upsert_fixture(result.fixture if result else None, raw_fixture(), directory(), "mock-provider", "ENG")
+        result = upsert_fixture(
+            result.fixture if result else None, raw_fixture(), directory(), "mock-provider", "ENG"
+        )
     assert result.fixture.fixture_id == "f1"
 
 
@@ -303,56 +275,87 @@ def test_coverage_matrix_load_missing_file_is_empty(tmp_path):
 
 
 # -------------------------------------------------------------------------------------- sync
-def test_sync_league_season_happy_path():
-    provider = MockProvider([raw_fixture()])
+@pytest.fixture
+def real_provider(tmp_path, monkeypatch):
+    """The REAL football-data.org adapter served real captured matches over a loopback socket."""
+    web = tmp_path / "web" / "competitions" / "PL"
+    web.mkdir(parents=True)
+    (web / "matches").write_text(json.dumps(CAPTURE["matches_PL_2025"]), encoding="utf-8")
+    hits = []
+
+    class Handler(SimpleHTTPRequestHandler):
+        def do_GET(self):
+            hits.append(self.path)
+            super().do_GET()
+
+        def log_message(self, *args):
+            pass
+
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(Handler, directory=str(tmp_path / "web")))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    monkeypatch.setenv("FOOTBALL_DATA_ORG_BASE_URL", f"http://127.0.0.1:{srv.server_address[1]}")
+    yield SimpleNamespace(provider=FootballDataOrgProvider("key"), hits=hits)
+    srv.shutdown()
+
+
+def real_directory():
+    return TeamDirectory.load(REPO_ROOT / "configs" / "team_aliases.yaml")
+
+
+def test_sync_league_season_happy_path(real_provider):
     coverage = CoverageMatrix()
     result, upserts = sync_league_season(
-        provider, "EPL", "2023-24", directory(), "ENG", coverage=coverage, ingested_at=T0
+        real_provider.provider, "PL", "2025-26", real_directory(), "ENG", coverage=coverage,
+        status_map=None, ingested_at=INGESTED,
+    )  # fmt: skip
+    assert result.fetched == 3 and result.upserted == 3 and result.unchanged == 0 and result.error is None
+    assert {u.fixture.status for u in upserts} == {FixtureStatus.FINISHED}
+    assert all(u.fixture.result_available_at_source == "observed" for u in upserts)  # never backdated
+    assert coverage.cells()[0].last_success_utc == INGESTED.isoformat()
+
+
+def test_sync_league_season_second_run_is_unchanged(real_provider):
+    r1, upserts1 = sync_league_season(
+        real_provider.provider, "PL", "2025-26", real_directory(), "ENG", ingested_at=INGESTED
     )
-    assert result.fetched == 1 and result.upserted == 1 and result.unchanged == 0
-    assert result.error is None
-    assert upserts[0].fixture.fixture_id == "f1"
-    assert coverage.cells()[0].last_success_utc == T0.isoformat()
-
-
-def test_sync_league_season_second_run_is_unchanged():
-    provider = MockProvider([raw_fixture()])
-    r1, upserts1 = sync_league_season(provider, "EPL", "2023-24", directory(), "ENG", ingested_at=T0)
     existing = {u.fixture.fixture_id: u.fixture for u in upserts1}
     r2, _ = sync_league_season(
-        provider, "EPL", "2023-24", directory(), "ENG", existing_by_fixture_id=existing, ingested_at=T0
-    )
-    assert r2.upserted == 0 and r2.unchanged == 1
+        real_provider.provider, "PL", "2025-26", real_directory(), "ENG",
+        existing_by_fixture_id=existing, ingested_at=INGESTED,
+    )  # fmt: skip
+    assert r2.upserted == 0 and r2.unchanged == 3
 
 
-def test_sync_league_season_records_pending_team_resolution():
-    provider = MockProvider([raw_fixture(home="Totally Unknown FC")])
-    result, upserts = sync_league_season(provider, "EPL", "2023-24", directory(), "ENG")
-    assert "Totally Unknown FC" in result.pending_team_resolution
-    assert upserts[0].fixture is None
+def test_sync_league_season_records_pending_team_resolution(real_provider):
+    d = real_directory()
+    del d.teams["ENG_liverpool"]  # a directory that does not know one of the real clubs
+    result, upserts = sync_league_season(real_provider.provider, "PL", "2025-26", d, "ENG")
+    assert "Liverpool FC" in result.pending_team_resolution
+    assert any(u.fixture is None for u in upserts) and result.upserted == 2  # the other two still upsert
 
 
-def test_sync_league_season_provider_error_records_coverage_error_not_a_crash():
-    provider = MockProvider(fail=True)
+def test_sync_league_season_real_connection_failure_is_a_coverage_error_not_a_crash(monkeypatch):
+    monkeypatch.setenv("FOOTBALL_DATA_ORG_BASE_URL", "http://127.0.0.1:9")  # nothing listens: a REAL refusal
     coverage = CoverageMatrix()
-    result, upserts = sync_league_season(provider, "EPL", "2023-24", directory(), "ENG", coverage=coverage)
-    assert result.error is not None and result.fetched == 0
-    assert upserts == []
+    result, upserts = sync_league_season(
+        FootballDataOrgProvider("key"), "PL", "2025-26", real_directory(), "ENG", coverage=coverage
+    )  # fmt: skip
+    assert result.error is not None and result.fetched == 0 and upserts == []
     assert coverage.cells()[0].last_error is not None
 
 
-def test_sync_league_season_uses_the_rate_limiter():
-    provider = MockProvider()
+def test_sync_league_season_uses_the_rate_limiter(real_provider):
     sleeps = []
     rl = RateLimiter(max_calls=1, period_seconds=100.0, sleep_fn=sleeps.append)
     rl.acquire()  # exhaust the bucket up front
-    sync_league_season(provider, "EPL", "2023-24", directory(), "ENG", rate_limiter=rl)
+    sync_league_season(real_provider.provider, "PL", "2025-26", real_directory(), "ENG", rate_limiter=rl)
     assert len(sleeps) == 1
 
 
-def test_sync_league_season_uses_the_cache_on_a_second_call(tmp_path):
-    provider = MockProvider([raw_fixture()])
-    cache = ResponseCache(tmp_path)
-    sync_league_season(provider, "EPL", "2023-24", directory(), "ENG", cache=cache, ingested_at=T0)
-    sync_league_season(provider, "EPL", "2023-24", directory(), "ENG", cache=cache, ingested_at=T0)
-    assert provider.calls == 1  # second sync served entirely from cache
+def test_sync_league_season_uses_the_cache_on_a_second_call(real_provider, tmp_path):
+    cache = ResponseCache(tmp_path / "cache")
+    for _ in range(2):
+        sync_league_season(
+            real_provider.provider, "PL", "2025-26", real_directory(), "ENG", cache=cache, ingested_at=INGESTED
+        )  # fmt: skip
+    assert len(real_provider.hits) == 1  # the second sync was served entirely from the cache

@@ -17,10 +17,13 @@ Nothing is assumed: a status the feed does not state is inferred from the clock 
 import hashlib
 import json
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import UTC, datetime
 
+from src.ingestion.endpoints import endpoint
 from src.ingestion.interfaces import Capability, ProviderMeta, Support
+from src.mlops.oplog import logged_urlopen
 
 from .events import EventType, LiveEvent, LiveSnapshot, MatchStatus
 
@@ -175,11 +178,11 @@ def derive_goal_events(prev_score: tuple[int, int] | None, snap: LiveSnapshot) -
 
 
 # ----------------------------------------------------------------------------------- HTTP
-def _get(url: str, headers: dict, timeout: float = 20.0) -> bytes:
+def _get(url: str, headers: dict, timeout: float = 20.0, provider: str = "football-data-org") -> bytes:
     req = urllib.request.Request(url, headers=headers)
+    host = urllib.parse.urlparse(url)
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as r:  # noqa: S310 - fixed https hosts
-            return r.read()
+        return logged_urlopen(provider, host.path, req, timeout)  # path only: no query, no key
     except (urllib.error.URLError, TimeoutError) as e:
         raise RuntimeError(f"live feed request failed: {type(e).__name__}: {e}") from e
 
@@ -188,13 +191,21 @@ class OpenLigaDBFeed:
     meta = OLDB_META
 
     def poll(self, match_id: str, now: datetime | None = None) -> LiveSnapshot:
-        raw = _get(f"{OLDB_BASE}/getmatchdata/{match_id}", {"User-Agent": "football-forecast-research"})
+        raw = _get(
+            f"{endpoint('OPENLIGADB_BASE_URL', OLDB_BASE)}/getmatchdata/{match_id}",
+            {"User-Agent": "football-forecast-research"},
+            provider="openligadb",
+        )
         return parse_openligadb_match(json.loads(raw.decode("utf-8")), now or datetime.now(UTC), _sha(raw))
 
     def list_current(self, league: str, now: datetime | None = None) -> list[dict]:
         """Matches of the current matchday that are in progress by the clock and not finished."""
         now = now or datetime.now(UTC)
-        raw = _get(f"{OLDB_BASE}/getmatchdata/{league}", {"User-Agent": "football-forecast-research"})
+        raw = _get(
+            f"{endpoint('OPENLIGADB_BASE_URL', OLDB_BASE)}/getmatchdata/{league}",
+            {"User-Agent": "football-forecast-research"},
+            provider="openligadb",
+        )
         out = []
         for m in json.loads(raw.decode("utf-8")):
             ko = _ts(m["matchDateTimeUTC"])
@@ -211,9 +222,17 @@ class FootballDataOrgLiveFeed:
         return {"X-Auth-Token": self.api_key}
 
     def poll(self, match_id: str, now: datetime | None = None) -> LiveSnapshot:
-        raw = _get(f"{FDORG_BASE}/matches/{match_id}", self._h())
+        raw = _get(f"{endpoint('FOOTBALL_DATA_ORG_BASE_URL', FDORG_BASE)}/matches/{match_id}", self._h())
         return parse_fdorg_match(json.loads(raw.decode("utf-8")), now or datetime.now(UTC), _sha(raw))
 
+    def list_live_all(self) -> list[dict]:
+        """Every match in play in ANY competition of the plan: ONE request per pass."""
+        raw = _get(
+            f"{endpoint('FOOTBALL_DATA_ORG_BASE_URL', FDORG_BASE)}/matches?status=IN_PLAY,PAUSED", self._h()
+        )
+        return json.loads(raw.decode("utf-8")).get("matches", [])
+
     def list_live(self, competition: str) -> list[dict]:
-        raw = _get(f"{FDORG_BASE}/competitions/{competition}/matches?status=IN_PLAY,PAUSED", self._h())
+        base = endpoint("FOOTBALL_DATA_ORG_BASE_URL", FDORG_BASE)
+        raw = _get(f"{base}/competitions/{competition}/matches?status=IN_PLAY,PAUSED", self._h())
         return json.loads(raw.decode("utf-8")).get("matches", [])

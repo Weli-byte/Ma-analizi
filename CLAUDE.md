@@ -122,5 +122,9 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] S15 odds/EV/CLV paper (ADR 0030, 2026-10-02): `src/odds/` real DraftKings 1X2 via ESPN (RESEARCH_ONLY), exact-only gate,
       paper ledger; Windows task `FootballOddsTick`. ESPN quotes are `approximate` (no provider timestamp) => no edge/EV/CLV;
       exact odds need THE_ODDS_API_KEY (adapter unverified, NOT_CONFIGURED).
-- [ ] S16 MLOps · S17 dashboard · S18 API · S19 startup MVP.
+- [x] S16 MLOps (ADR 0032, 2026-10-06): `src/mlops/` operational log + heartbeats, monitors (freshness, providers, LLM, drift),
+      alerts, registry, retrain gate (no automatic retraining), `python -m src.mlops.report`; recent results ingested into the
+      live history (`src/ingestion/results.py`). Windows tasks: FootballSnapshotTick/LiveTick/OddsTick/MonitorTick. Findings:
+      PC off 2026-10-02..06, dataset stale (primary source unreachable), see ADR 0032.
+- [ ] S17 dashboard · S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

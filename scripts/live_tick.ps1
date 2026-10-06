@@ -8,8 +8,7 @@ New-Item -ItemType Directory -Force $logDir | Out-Null
 $log = Join-Path $logDir "live_tick.log"
 $py = Join-Path $root ".venv\Scripts\python.exe"
 $feeds = @(
-    @("fdorg", "PL"),
-    @("fdorg", "PD"),
+    @("fdorg", "ALL"),
     @("openligadb", "bl1")
 )
 foreach ($f in $feeds) {

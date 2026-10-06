@@ -4,8 +4,8 @@ No concrete commercial vendor is wired in this sprint -- `docs/data_sources/comm
 (S0-S7 hardening) is explicit that no provider has been chosen yet (open action for the project
 owner). This module defines the CONTRACT so a real adapter (API-Football, Sportmonks, ...) can be
 written against it later without touching `sync.py`/`upsert.py`/`coverage.py`, and so tests can
-exercise the full ingestion pipeline against a `MockProvider` today (ADR 0023; "Mock API
-integration tests yaz" is the sprint's own instruction).
+exercise the full ingestion pipeline against the real adapters (ADR 0023); there is no mock provider --
+tests run the real football-data.org adapter over a loopback socket against REAL captured responses.
 """
 
 from dataclasses import dataclass, field

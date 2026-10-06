@@ -47,6 +47,12 @@ def project(tmp_path) -> Path:
     return make_project(tmp_path / "proj")
 
 
+@pytest.fixture(autouse=True)
+def _isolated_ops_dir(tmp_path, monkeypatch):
+    """Operational logs (provider calls, heartbeats) from tests never touch the real artifacts/ops."""
+    monkeypatch.setenv("FOOTBALL_OPS_DIR", str(tmp_path / "ops"))
+
+
 @pytest.fixture
 def built(project) -> Path:
     build_all(project)

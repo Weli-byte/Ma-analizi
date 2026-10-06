@@ -20,6 +20,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 from src.data.teams import TeamDirectory
+from src.mlops.oplog import logged_urlopen
 
 from .interfaces import AvailabilityStatus, Capability, PlayerAvailability, ProviderMeta, Support
 from .provider import ProviderError
@@ -75,8 +76,7 @@ class FplInjuryProvider:
     def _fetch(self) -> bytes:
         req = urllib.request.Request(URL, headers={"User-Agent": "football-forecast-research"})
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as resp:  # noqa: S310 - fixed https URL
-                return resp.read()
+            return logged_urlopen("fpl", "bootstrap-static", req, self.timeout)
         except (urllib.error.URLError, TimeoutError) as e:
             raise ProviderError(f"fpl: {type(e).__name__}: {e}") from e
 

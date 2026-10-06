@@ -15,7 +15,9 @@ import urllib.error
 import urllib.request
 from datetime import UTC, datetime
 
+from src.ingestion.endpoints import endpoint
 from src.ingestion.interfaces import Capability, ProviderMeta, Support
+from src.mlops.oplog import logged_urlopen
 
 from .quotes import OddsQuote, american_to_decimal
 
@@ -103,11 +105,11 @@ class EspnOddsFeed:
     def fetch(self, league: str, observed_at: datetime | None = None) -> list[dict]:
         code = LEAGUE_CODES[league][0]
         req = urllib.request.Request(
-            f"{BASE}/{code}/scoreboard", headers={"User-Agent": "football-forecast-research"}
+            f"{endpoint('ESPN_BASE_URL', BASE)}/{code}/scoreboard",
+            headers={"User-Agent": "football-forecast-research"},
         )
         try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as r:  # noqa: S310 - fixed https URL
-                raw = r.read()
+            raw = logged_urlopen("espn", "scoreboard", req, self.timeout)
         except (urllib.error.URLError, TimeoutError) as e:
             raise RuntimeError(f"espn scoreboard request failed: {type(e).__name__}: {e}") from e
         observed = observed_at or datetime.now(UTC)

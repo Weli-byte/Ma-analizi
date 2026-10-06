@@ -263,6 +263,55 @@ class OddsConfig(_Cfg):
     leagues: list[str] = Field(min_length=1)
 
 
+class _FreshnessDays(_Cfg):
+    warning: int = Field(gt=0)
+    stale: int = Field(gt=0)
+
+
+class _ProviderThresholds(_Cfg):
+    window_hours: int = Field(gt=0)
+    max_error_rate: float = Field(ge=0, le=1)
+    max_p95_latency_ms: float = Field(gt=0)
+    stale_minutes: int = Field(gt=0)
+
+
+class _HeartbeatThresholds(_Cfg):
+    max_gap_minutes: int = Field(gt=0)
+    names: list[str] = Field(min_length=1)
+
+
+class _LLMThresholds(_Cfg):
+    max_rate_limit_rate: float = Field(ge=0, le=1)
+    max_server_error_rate: float = Field(ge=0, le=1)
+    max_schema_failure_rate: float = Field(ge=0, le=1)
+    max_failure_rate: float = Field(ge=0, le=1)
+    max_p95_latency_ms: float = Field(gt=0)
+    max_cost_usd_per_day: float = Field(gt=0)
+
+
+class _DriftThresholds(_Cfg):
+    min_samples: int = Field(gt=0)
+    feature_z_threshold: float = Field(gt=0)
+    psi_threshold: float = Field(gt=0)
+    max_missing_share: float = Field(ge=0, le=1)
+
+
+class _MetricDriftThresholds(_Cfg):
+    min_settled: int = Field(gt=0)
+    max_log_loss_increase: float = Field(ge=0)
+
+
+class MlopsConfig(_Cfg):
+    """S16 (ADR 0032): monitoring thresholds, consumed by `src.mlops.monitor` / `src.mlops.alerts`."""
+
+    data_freshness_days: _FreshnessDays
+    provider: _ProviderThresholds
+    heartbeat: _HeartbeatThresholds
+    llm: _LLMThresholds
+    drift: _DriftThresholds
+    metric_drift: _MetricDriftThresholds
+
+
 # ------------------------------------------------------------ ingestion
 class IngestionProviderEntry(_Cfg):
     enabled: bool = False
@@ -298,6 +347,7 @@ _MODELS = {
     "provider": ProviderConfig,
     "pricing": PricingConfig,
     "odds": OddsConfig,
+    "mlops": MlopsConfig,
     "ingestion": IngestionConfig,
 }
 

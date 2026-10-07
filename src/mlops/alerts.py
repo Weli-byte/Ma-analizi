@@ -52,6 +52,10 @@ def evaluate(report: dict) -> list[Alert]:
                     f"{h.get('minutes_since_last')} min ago, {h.get('n_gaps', 0)} gap(s) over the limit",
                 )
             )
+    bad = report.get("ops_log_corrupt_lines", {})
+    if any(bad.values()):
+        msg = f"corrupt lines skipped in the operational log: {bad}"
+        out.append(Alert("warning", "ops_log_corrupt", msg))
     llm = report.get("llm", {})
     for b in llm.get("breaches", []):
         out.append(

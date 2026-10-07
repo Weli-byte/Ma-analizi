@@ -31,7 +31,7 @@ def test_burst_beyond_the_free_tier_limit_is_a_real_429():
     provider = FootballDataOrgProvider(key)
     try:
         with pytest.raises(RateLimitedError):
-            for _ in range(14):  # free tier: 10 requests per minute
+            for _ in range(40):  # free tier: 10 requests per minute; stops at the first real 429
                 provider.list_seasons("PL")
     finally:
         time.sleep(65)  # let the per-minute quota reset so the other live tests are not starved

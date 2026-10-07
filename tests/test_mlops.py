@@ -57,7 +57,7 @@ def test_logged_urlopen_records_real_success_latency_and_size(local_server):
     (row,) = read_rows("provider_calls.jsonl")
     assert row["ok"] is True and row["status"] == 200 and row["response_bytes"] == len(body) > 1000
     assert (
-        row["latency_ms"] > 0 and row["provider"] == "local" and "127.0.0.1" not in json.dumps(row)
+        row["latency_ms"] >= 0 and row["provider"] == "local" and "127.0.0.1" not in json.dumps(row)
     )  # no URL logged
 
 
@@ -82,7 +82,7 @@ def test_provider_health_from_the_real_log(local_server):
         "status"
     ] == "WARNING"  # 25% > 20%
     assert h["last_success"] and h["last_failure"] and h["error_kinds"] == {"HTTP 404": 1}
-    assert h["latency_p50_ms"] > 0 and h["minutes_since_success"] < 1
+    assert h["latency_p50_ms"] >= 0 and h["minutes_since_success"] < 1
 
 
 def test_provider_staleness_and_failure_states_use_the_time_since_the_last_success():

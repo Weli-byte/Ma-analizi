@@ -25,7 +25,7 @@ from src.schemas import FixtureStatus
 
 from . import alerts as alerts_mod
 from . import monitor
-from .oplog import ops_dir, read_rows
+from .oplog import ops_dir, read_rows, read_rows_checked
 from .registry import write_registry
 from .retrain_gate import evaluate_retrain
 
@@ -162,8 +162,11 @@ def build_report(root: Path, now: datetime | None = None) -> dict:
     except Exception as e:  # noqa: BLE001 - reported as FAILED freshness, not hidden
         report["data_error"] = f"{type(e).__name__}: {e}"
     report["data_freshness"] = monitor.data_freshness(latest, now, cfg)
-    report["providers"] = monitor.provider_health(monitor.read_provider_calls(), now, cfg)
-    report["heartbeats"] = monitor.heartbeat_gaps(read_rows("heartbeats.jsonl"), now, cfg)
+    calls_rows, bad_calls = read_rows_checked("provider_calls.jsonl")
+    beats_rows, bad_beats = read_rows_checked("heartbeats.jsonl")
+    report["ops_log_corrupt_lines"] = {"provider_calls": bad_calls, "heartbeats": bad_beats}
+    report["providers"] = monitor.provider_health(calls_rows, now, cfg)
+    report["heartbeats"] = monitor.heartbeat_gaps(beats_rows, now, cfg)
     calls, sizes = monitor.read_llm_calls(root)
     report["llm"] = monitor.llm_health(calls, sizes, now, cfg)
 

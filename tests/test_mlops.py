@@ -371,3 +371,40 @@ def test_checklist_marks_only_real_evidence_as_done(real_root, monkeypatch):
     assert {c["item"]: c["done"] for c in report_mod.checklist(real_root)}[
         "first real in-play football-data.org payload captured"
     ]
+
+
+# ------------------------------------------------------- concurrent appends / corrupt lines
+def _hammer(directory: str, tag: str, n: int) -> None:
+    from pathlib import Path as _P
+
+    from src.mlops.oplog import record_call
+
+    for i in range(n):
+        record_call("p", f"{tag}-{i}", True, 1.0, 200, directory=_P(directory))
+
+
+def test_concurrent_processes_never_interleave_ops_log_lines(tmp_path):
+    import multiprocessing as mp
+
+    procs = [mp.Process(target=_hammer, args=(str(tmp_path), f"w{k}", 150)) for k in range(4)]
+    for p in procs:
+        p.start()
+    for p in procs:
+        p.join(60)
+    from src.mlops.oplog import read_rows_checked
+
+    rows, bad = read_rows_checked("provider_calls.jsonl", tmp_path)
+    assert bad == 0 and len(rows) == 600  # every line intact, none lost
+
+
+def test_corrupt_ops_log_lines_are_counted_not_fatal(tmp_path):
+    from src.mlops.oplog import read_rows_checked
+
+    (tmp_path / "heartbeats.jsonl").write_text(
+        '{"ts": "2026-10-06T00:00:00+00:00", "name": "live"}\n242+00:00"}\n{"ts": "2026-10-06T00:02:00+00:00", "name": "live"}\n',
+        encoding="utf-8",
+    )
+    rows, bad = read_rows_checked("heartbeats.jsonl", tmp_path)
+    assert len(rows) == 2 and bad == 1
+    out = alerts.evaluate({"ops_log_corrupt_lines": {"provider_calls": 0, "heartbeats": 1}})
+    assert [a.key for a in out] == ["ops_log_corrupt"]

@@ -24,9 +24,52 @@ def ops_dir() -> Path:
 
 
 def _append(name: str, row: dict, directory: Path | None = None) -> None:
+    """One line per call, appended under an OS file lock. Several scheduler processes append at the
+    same moment; plain buffered writes interleaved their lines (a corrupted line was found in
+    provider_calls.jsonl on 2026-10-07) and Windows' emulated O_APPEND loses lines (measured: 510 of
+    600), so the append is serialised with msvcrt/fcntl locking."""
     path = (directory or ops_dir()) / name
-    with path.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(row, sort_keys=True) + "\n")
+    data = (json.dumps(row, sort_keys=True) + "\n").encode("utf-8")
+    with open(path, "ab") as f:
+        _lock(f)
+        try:
+            f.seek(0, os.SEEK_END)
+            f.write(data)
+            f.flush()
+        finally:
+            _unlock(f)
+
+
+def _lock(f) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        deadline = time.monotonic() + 10
+        while True:
+            try:
+                f.seek(0)
+                msvcrt.locking(f.fileno(), msvcrt.LK_NBLCK, 1)
+                return
+            except OSError:
+                if time.monotonic() > deadline:
+                    raise
+                time.sleep(0.005)
+    else:
+        import fcntl
+
+        fcntl.flock(f.fileno(), fcntl.LOCK_EX)
+
+
+def _unlock(f) -> None:
+    if os.name == "nt":
+        import msvcrt
+
+        f.seek(0)
+        msvcrt.locking(f.fileno(), msvcrt.LK_UNLCK, 1)
+    else:
+        import fcntl
+
+        fcntl.flock(f.fileno(), fcntl.LOCK_UN)
 
 
 def record_call(
@@ -56,11 +99,25 @@ def heartbeat(name: str, directory: Path | None = None) -> None:
     _append("heartbeats.jsonl", {"ts": datetime.now(UTC).isoformat(), "name": name}, directory)
 
 
-def read_rows(name: str, directory: Path | None = None) -> list[dict]:
+def read_rows_checked(name: str, directory: Path | None = None) -> tuple[list[dict], int]:
+    """(rows, number of corrupt lines skipped). A damaged line never takes the monitor down; it is
+    counted and reported so the damage is visible instead of silently dropped."""
     path = (directory or ops_dir()) / name
     if not path.exists():
-        return []
-    return [json.loads(x) for x in path.read_text(encoding="utf-8").splitlines() if x.strip()]
+        return [], 0
+    rows, bad = [], 0
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            rows.append(json.loads(line))
+        except json.JSONDecodeError:
+            bad += 1
+    return rows, bad
+
+
+def read_rows(name: str, directory: Path | None = None) -> list[dict]:
+    return read_rows_checked(name, directory)[0]
 
 
 def logged_urlopen(provider: str, endpoint: str, req, timeout: float) -> bytes:

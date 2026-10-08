@@ -130,5 +130,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       read-only HTML from real artifacts; unknown stays UNKNOWN; no bet advice.
 - [x] S18 API (`src/api/`, `tests/test_api.py`, `docs/api.md`, ADR 0035) — FastAPI /v1, API-key auth (fail closed),
       rate limit, pagination, error schema, OpenAPI; RESEARCH_ONLY.
-- [ ] S19 startup MVP.
+- [x] Phase O commercial readiness (ADR 0036): provider_evaluation.md, product.md, Dockerfile, backup script, deployment.md.
+      Every source still RESEARCH_ONLY; commercial launch gated on written provider terms (owner).
+- [ ] S19 startup MVP (final research report + demo flow remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

@@ -48,7 +48,10 @@ K = datetime(2026, 10, 10, 15, 0, tzinfo=UTC)
 def test_every_stage_cutoff_is_before_kickoff_and_windows_never_overlap():
     cutoffs = [cutoff_for_stage(K, s) for s in STAGE_ORDER]
     assert all(c < K for c in cutoffs) and cutoffs == sorted(cutoffs)
-    windows = [(c, c + timedelta(minutes=STAGE_TOLERANCE_MINUTES[s])) for c, s in zip(cutoffs, STAGE_ORDER, strict=True)]
+    windows = [
+        (c, c + timedelta(minutes=STAGE_TOLERANCE_MINUTES[s]))
+        for c, s in zip(cutoffs, STAGE_ORDER, strict=True)
+    ]
     for (_, end), (start, _) in zip(windows, windows[1:], strict=False):
         assert end < start  # a given instant belongs to at most one stage
 
@@ -192,3 +195,24 @@ def test_snapshot_cli_modules_import():
     import importlib
 
     assert callable(importlib.import_module("src.snapshot.run").main)
+
+
+def test_dashboard_lists_locked_stage_predictions_and_deltas(real_project):
+    from src.dashboard.render import render_html
+    from src.dashboard.viewmodel import build_viewmodel
+
+    rp = real_project
+    for cfg in (Path(__file__).resolve().parents[1] / "configs").glob("*.yaml"):  # ops sections need these
+        if not (rp["root"] / "configs" / cfg.name).exists():
+            shutil.copy(cfg, rp["root"] / "configs" / cfg.name)
+    k = rp["fixture"].kickoff_utc
+    store = StageStore(rp["root"])
+    stage_run(rp, SnapshotStage.T_24H, cutoff_for_stage(k, SnapshotStage.T_24H) + timedelta(minutes=1), store)
+    stage_run(rp, SnapshotStage.T_90M, cutoff_for_stage(k, SnapshotStage.T_90M) + timedelta(minutes=2), store)
+    vm = build_viewmodel(rp["root"], k - timedelta(days=2))
+    (m,) = [x for x in vm["matches"] if x["upcoming"] and "t-24h" in x["stages"]]
+    assert set(m["stages"]) >= {"t-24h", "t-90m"} and m["lineups"] == "UNKNOWN"
+    stage_preds = [p for p in vm["predictions"] if p["source"].startswith("stage")]
+    assert {p["model_id"] for p in stage_preds} >= {"elo", "poisson", "historical_prior"}
+    assert all(p["model_class"] != "unknown" for p in stage_preds) and vm["updates"]
+    assert "t-90m" in render_html(vm)

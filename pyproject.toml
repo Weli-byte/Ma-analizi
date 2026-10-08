@@ -48,6 +48,7 @@ extend-exclude = [".venv", "notebooks"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["E501"]
+"src/dashboard/*" = ["E501"]  # inline CSS and wide table headers
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

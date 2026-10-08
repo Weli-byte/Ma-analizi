@@ -11,8 +11,8 @@
       "status": "pinned_observed"
     },
     "E0_2122.csv": {
-      "basis": "observed at pin time; not independently verified",
-      "sha256": "d3487b29c2c60e05eec4bd39def9f1654ea5d87d67921eeb98eb9b51c11eba19",
+      "basis": "re-pinned 2026-10-08 (ADR 0037): upstream added a UTF-8 BOM and corrected one half-time score (Wolves-Watford 2022-03-10 HTHG 2->3); full-time results identical; observed, not independently verified",
+      "sha256": "335afcbabeb2939fa10ab39ba3e8215072d0b577cb8d0705c1e44c56e934e703",
       "status": "pinned_observed"
     },
     "E0_2223.csv": {
@@ -33,11 +33,6 @@
     "E0_2526.csv": {
       "basis": "observed at pin time; not independently verified",
       "sha256": "3e3a8352f9ada6789c508d6ca184424421fed56a30400904a4a327c583407e62",
-      "status": "pinned_observed"
-    },
-    "E0_2627.csv": {
-      "basis": "observed at pin time; not independently verified",
-      "sha256": "26e404d6184b16b84fc7dff45e9db4a7dae70bdefb05abd4cc92bd2fef211812",
       "status": "pinned_observed"
     },
     "SP1_1920.csv": {
@@ -73,11 +68,6 @@
     "SP1_2526.csv": {
       "basis": "observed at pin time; not independently verified",
       "sha256": "4ca2e285f3ee0702f6bc55fcaa4f5a15cb3aef6220735a1d15398131e21d63f5",
-      "status": "pinned_observed"
-    },
-    "SP1_2627.csv": {
-      "basis": "observed at pin time; not independently verified",
-      "sha256": "4adbe7de6b4e3abc0297c1774c8fb09bb309e950c5d9823c2119ebabac0648c2",
       "status": "pinned_observed"
     }
   },

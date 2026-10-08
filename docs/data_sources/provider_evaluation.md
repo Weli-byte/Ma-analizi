@@ -13,10 +13,17 @@ written permission.
 | ESPN (public JSON) | rosters/lineups, DraftKings odds (approximate) | undocumented public endpoints, no terms granting reuse | everything | RESEARCH_ONLY, never for product |
 | FPL (public JSON) | EPL injuries | undocumented public endpoints | terms | RESEARCH_ONLY |
 | OpenLigaDB | Bundesliga live/test data | open community API | licence text | RESEARCH_ONLY until read |
+| **openfootball/football.json** | fixtures + results (EPL, La Liga, more leagues exist) | repository README: public domain, "no restrictions whatsoever"; real files fetched and ingested 2026-10-08 | completeness (community contributions); no lineups/injuries/odds | **COMMERCIAL OK (public domain)** for results and fixtures only |
 | Transfermarkt | rejected | ToS forbids scraping (transfermarkt_decision.md) | - | NOT USED |
 
+## Free options researched (2026-10-08)
+- openfootball: adopted (above), ADR 0038.
+- StatsBomb open data: free for research with mandatory attribution and logo; commercial terms are in a LICENSE.pdf that was not read; covers selected historical competitions, not current matches. Not adopted.
+- FBref/Understat/Transfermarkt/WhoScored: scraping against ToS. Not used.
+No free source with an explicit commercial grant exists for odds, injuries or lineups; those stay research-only or need a paid contract.
+
 ## What a commercial launch needs (owner decisions, in this order)
-1. One paid, contract-backed fixtures + results + live provider whose written terms allow display and derived
+1. Fixtures + results: openfootball covers this for free. Live scores, injuries, lineups: one paid, contract-backed provider whose written terms allow display and derived
    forecasts (candidates to ask: football-data.org paid tiers, API-Football paid, Sportmonks, Opta/StatsBomb).
 2. Same for odds (The Odds API paid plan or football-data.org Odds add-on). Until then value analytics stay
    paper-only and are not shown to end users.

@@ -280,7 +280,8 @@ def test_value_report_with_exact_quotes_joins_forecasts_and_records_paper_bets(t
     assert PaperLedger(root).bets() == []  # report only: nothing recorded without --paper
     (root / "configs" / "odds.yaml").write_text(
         "min_edge: 0.0\nmin_ev: 0.0\nstake_units: 1.0\nleagues: [PL]\n"
-        "odds_api_reserve_credits: 0\nexact_horizon_hours: 26\nodds_api_bookmakers: [pinnacle]\n",
+        "odds_api_reserve_credits: 0\nexact_horizon_hours: 26\nodds_api_bookmakers: [pinnacle]\n"
+        "kelly_fraction: 0.25\nmax_stake_pct: 2.0\n",
         encoding="utf-8",
     )
     expected = 0

@@ -135,6 +135,30 @@ def _upcoming(vm) -> list[str]:
     return [f"<h2>Upcoming matches ({len(up)})</h2>", table(head, rows)]
 
 
+def _picks(vm) -> list[str]:
+    pk = vm["picks"]
+    out = ["<h2>Bet suggestions (model-based research, not guarantees)</h2>"]
+    out.append(
+        f"<div class='card'>Thresholds: edge &ge; {pk['thresholds']['min_edge']}, EV &ge; "
+        f"{pk['thresholds']['min_ev']}. Only complete <b>exact</b>-timestamp odds qualify. "
+        f"{e(pk['note'])}</div>"
+    )
+    rows = [
+        [e(p["fixture_id"]), e(p["selection"]), f(p["odds"], 2), e(p["bookmaker"]), f(p["mean_model_prob"]),
+         f(p["market_prob_devig"]), f(p["edge"]), f(p["ev_per_unit"]), f(p["stake_hint_pct_of_bankroll"], 2) + "%",
+         f"{p['models_agreeing']}/{p['models_evaluated']}", tag(p["confidence"]), e(p["observed_at"])]
+        for p in pk["picks"]
+    ]  # fmt: skip
+    head = ["fixture", "pick", "odds", "bookmaker", "model p", "market p (de-vig)", "edge", "EV / unit",
+            "stake hint (% bankroll, 1/4 Kelly, capped)", "models agree", "confidence", "odds observed"]  # fmt: skip
+    out.append(table(head, rows))
+    if pk["picks"]:
+        out.append(
+            "<ul class='mut'>" + "".join(f"<li>{e(c)}</li>" for c in pk["picks"][0]["caveats"]) + "</ul>"
+        )
+    return out
+
+
 def _live(vm) -> list[str]:
     out = ["<h2>Live matches</h2>"]
     if not vm["live"]:
@@ -272,6 +296,7 @@ def render_html(vm: dict) -> str:
             [[e(u["match"]), e(str({k: v for k, v in u.items() if k != "match"}))] for u in vm["updates"]],
         )
     )
+    out += _picks(vm)
     out += _live(vm)
     out += _models(vm["models"])
     out += _usage(vm["ops"])

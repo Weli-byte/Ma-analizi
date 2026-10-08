@@ -5,7 +5,7 @@ user's language. Remote: github.com/Weli-byte/Ma-analizi (work on branches; `mai
 
 ## Goal
 Benchmark Elo/Poisson/Dixon-Coles/XGBoost/LightGBM/LLMs/ensemble on 1X2 probabilities; then live forecasting,
-value analytics (paper only), dashboard, API. Order: data correctness → leakage control → baseline → statistical →
+value analytics (suggestions only, ADR 0039; the system never places bets), dashboard, API. Order: data correctness → leakage control → baseline → statistical →
 ML → walk-forward → LLM → calibration → ensemble → global live → value → dashboard/API → startup.
 
 ## Non-negotiable rules

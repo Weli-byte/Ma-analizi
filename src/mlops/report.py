@@ -39,19 +39,29 @@ def collect_results(root: Path) -> int:
     Returns the number of NEW results."""
     from src.data.teams import TeamDirectory
     from src.ingestion.football_data_org import FootballDataOrgProvider
+    from src.ingestion.openfootball import OpenFootballProvider
     from src.ingestion.results import ingest_finished, read_store
     from src.llm.forecast import LEAGUES, current_season
 
     cdir = config_dir_for(root)
     key = load_config("ingestion", cdir).api_key("football-data-org")
-    if not key:
-        raise RuntimeError("FOOTBALL_DATA_ORG_API_KEY is not set")
     directory = TeamDirectory.load(cdir / "team_aliases.yaml")
-    provider = FootballDataOrgProvider(key)
     season = current_season(datetime.now(UTC))
     new = 0
-    for code, (repo_league, country) in LEAGUES.items():
-        counts = ingest_finished(root, provider.list_fixtures(code, season), directory, country, repo_league)
+    if key:  # football-data.org first (carries a provider fixture id used by the snapshot stages)
+        provider = FootballDataOrgProvider(key)
+        for code, (repo_league, country) in LEAGUES.items():
+            counts = ingest_finished(
+                root, provider.list_fixtures(code, season), directory, country, repo_league
+            )
+            new += counts["new"]
+    # openfootball (public domain, no key) adds what is missing and is the fallback when the key is absent
+    of = OpenFootballProvider()
+    for _code, (repo_league, country) in LEAGUES.items():
+        counts = ingest_finished(
+            root, of.list_fixtures(repo_league, int(season[:4])), directory, country, repo_league,
+            source="openfootball", id_prefix="of",
+        )  # fmt: skip
         new += counts["new"]
     path = ops_dir() / "results.jsonl"
     known = {r["fixture_id"] for r in read_rows("results.jsonl")}

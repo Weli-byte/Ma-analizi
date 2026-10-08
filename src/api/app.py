@@ -176,4 +176,9 @@ def create_app(
     def value_research(request: Request):
         return envelope(service.value_research(), request)
 
+    @app.get("/v1/value-picks", tags=["research"], dependencies=[Depends(auth)])
+    def value_picks(request: Request, min_edge: float | None = Query(None, ge=0, le=1),
+                    min_ev: float | None = Query(None, ge=0, le=5)):  # fmt: skip
+        return envelope(service.value_picks(min_edge, min_ev), request)
+
     return app

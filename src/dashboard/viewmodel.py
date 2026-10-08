@@ -296,6 +296,12 @@ def ops_sections(root: Path, now: datetime) -> dict:
     }  # fmt: skip
 
 
+def value_picks_section(root: Path, now: datetime) -> dict:
+    from src.api.service import ForecastService
+
+    return ForecastService(root, lambda: now).value_picks()
+
+
 def build_viewmodel(root: Path, now: datetime) -> dict:
     root = Path(root)
     matches, preds, updates = matches_and_predictions(root, now)
@@ -305,6 +311,7 @@ def build_viewmodel(root: Path, now: datetime) -> dict:
         "predictions": preds,
         "updates": updates,
         "models": models_and_calibration(root),
+        "picks": value_picks_section(root, now),
         "live": live_matches(root),
         "ops": ops_sections(root, now),
     }

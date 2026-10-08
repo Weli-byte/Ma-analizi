@@ -132,5 +132,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       rate limit, pagination, error schema, OpenAPI; RESEARCH_ONLY.
 - [x] Phase O commercial readiness (ADR 0036): provider_evaluation.md, product.md, Dockerfile, backup script, deployment.md.
       Every source still RESEARCH_ONLY; commercial launch gated on written provider terms (owner).
-- [ ] S19 startup MVP (final research report + demo flow remain).
+- [x] Follow-ups 2026-10-08: ADR 0037 re-pin, 0038 openfootball (public domain results), 0039 bet suggestions, slim API image, `docs/research_report.md`.
+- [ ] S19 startup MVP (hosting, licences, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

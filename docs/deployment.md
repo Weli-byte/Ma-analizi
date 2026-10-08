@@ -9,7 +9,7 @@
 Separate keys per environment; a key in one environment is never reused in another.
 
 ## Image
-`docker build -t forecast-api .` then
+`docker build -t forecast-api .` (uses the slim `requirements-api.lock`, 33 packages; verified 2026-10-08: builds, runs, health + auth + data OK, non-root) then
 `docker run -p 8000:8000 -e FORECAST_API_KEYS=<key> -v <artifacts>:/app/artifacts:ro forecast-api`.
 Non-root user, hashed requirements, no secret baked in, HEALTHCHECK on `/v1/health`.
 Collectors (snapshot/live/odds ticks) are NOT in the image: they run as scheduled jobs (Windows tasks today,

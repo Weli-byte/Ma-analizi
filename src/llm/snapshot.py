@@ -18,7 +18,7 @@ def _current_information(row, cutoff: datetime) -> dict:
         info["injuries"] = {
             "source": injuries["source"],
             "players": [
-                p for p in injuries["players"] if datetime.fromisoformat(p["effective_at"]) <= cutoff
+                p for p in injuries["players"] if datetime.fromisoformat(p["as_of"]) <= cutoff
             ],
             "note": injuries["note"],
         }
@@ -76,5 +76,5 @@ def audit_snapshot(snapshot: dict, kickoff_utc: datetime, cutoff: datetime) -> N
     walk(snapshot, "")
     # ADR 0028: any provider-dated item inside the snapshot must be dated at/before the cutoff
     for p in snapshot.get("permitted_current_information", {}).get("injuries", {}).get("players", []):
-        if datetime.fromisoformat(p["effective_at"]) > cutoff:
+        if datetime.fromisoformat(p["as_of"]) > cutoff:
             raise CutoffViolation(f"injury entry {p['player']!r} is dated after the cutoff")

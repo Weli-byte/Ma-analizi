@@ -29,6 +29,8 @@ from src.evaluation.dataset import load_rows
 from src.features.artifact import load_features
 from src.features.builder import load_matches
 from src.features.history import MatchHistory
+from src.ingestion.api_football import LEAGUE_IDS as AF_LEAGUE_IDS
+from src.ingestion.api_football import ApiFootballProvider
 from src.ingestion.fpl import FplInjuryProvider
 from src.ingestion.lineups import LEAGUE_CODES as LINEUP_LEAGUES
 from src.ingestion.lineups import EspnLineupProvider
@@ -44,12 +46,13 @@ from src.mlops.oplog import heartbeat
 from src.models import build_models
 from src.schemas import ExperimentType
 
-from .availability import failed_block, injuries_block, unknown_block
+from .availability import failed_block, injuries_block, merge_blocks, unknown_block
 from .pipeline import run_stage
 from .stages import STAGE_ORDER, SnapshotStage, StageState, cutoff_for_stage, due_stage, stage_state
 from .store import StageStore
 
 ROOT = Path(__file__).resolve().parents[2]
+AF_LEAGUES = set(AF_LEAGUE_IDS)  # repo leagues API-Football covers for injuries (EPL, LALIGA)
 SKIP_MODELS = {"market_implied"}  # needs exact-timestamp odds, which do not exist (ADR 0005)
 
 
@@ -109,6 +112,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--fixture-id", default=None)
     p.add_argument("--with-llm", action="store_true")
     p.add_argument("--no-fpl", action="store_true", help="skip the FPL injury source (EPL only)")
+    p.add_argument("--no-apifootball", action="store_true", help="skip the API-Football injury source")
     p.add_argument("--no-lineups", action="store_true", help="skip the ESPN lineup source")
     p.add_argument("--models", default=None, help="comma list; default: configured models")
     a = p.parse_args(argv)
@@ -169,6 +173,13 @@ def main(argv: list[str] | None = None) -> int:
             except IngestionProviderError as e:
                 fpl_error = str(e)
                 print(f"WARNING fpl injuries FAILED (stage runs with injuries=FAILED): {e}")
+        af_key = os.environ.get("API_FOOTBALL_KEY")
+        af = (
+            ApiFootballProvider(af_key, TeamDirectory.load(cdir / "team_aliases.yaml"))
+            if af_key and not a.no_apifootball
+            else None
+        )
+        af_cache: dict = {}  # kickoff date -> (players, observed_at, sha, error): ONE request per date
         espn = (
             EspnLineupProvider(TeamDirectory.load(cdir / "team_aliases.yaml")) if not a.no_lineups else None
         )
@@ -189,14 +200,38 @@ def main(argv: list[str] | None = None) -> int:
                 except IngestionProviderError as e:
                     lineups = failed_block("espn", str(e))
             stage_now = datetime.now(UTC)
-            injuries = None
+            blocks = []
             if row.league_id == "EPL" and not a.no_fpl:
                 if fpl_players is not None:
-                    injuries = injuries_block(
-                        fpl_players, (row.home_id, row.away_id), stage_now, fpl_observed, "fpl", fpl_sha
+                    blocks.append(
+                        injuries_block(
+                            fpl_players, (row.home_id, row.away_id), stage_now, fpl_observed, "fpl", fpl_sha
+                        )
                     )
                 else:
-                    injuries = failed_block("fpl", fpl_error or "not fetched")
+                    blocks.append(failed_block("fpl", fpl_error or "not fetched"))
+            if af is not None and row.league_id in AF_LEAGUES:
+                day = row.kickoff_utc.date()
+                if day not in af_cache:
+                    try:
+                        observed = datetime.now(UTC)
+                        af_cache[day] = (
+                            af.injuries_for_date(day, observed),
+                            observed,
+                            af.last_raw_sha256,
+                            None,
+                        )
+                    except IngestionProviderError as e:
+                        af_cache[day] = ([], None, None, str(e))
+                players, observed, sha, err = af_cache[day]
+                blocks.append(
+                    injuries_block(
+                        players, (row.home_id, row.away_id), stage_now, observed, "api-football", sha
+                    )
+                    if err is None
+                    else failed_block("api-football", err)
+                )
+            injuries = merge_blocks(blocks, (row.home_id, row.away_id)) if blocks else None
             res = run_stage(
                 store, row, history, stage, stage_now, bundle.data_version, bundle.feature_version,
                 models, feat_cfg, llm_step, injuries, lineups,

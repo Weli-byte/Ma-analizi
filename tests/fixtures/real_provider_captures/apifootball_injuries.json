@@ -1,0 +1,443 @@
+{
+ "captured_at_utc": "2026-10-08T08:36:42.800621+00:00",
+ "label": "REAL_PROVIDER_CAPTURE",
+ "note": "subset of /injuries?date=... responses (leagues 39, 140 and a few others), values unmodified",
+ "responses": {
+  "2026-10-08": {
+   "parameters": {
+    "date": "2026-10-08"
+   },
+   "response": [
+    {
+     "fixture": {
+      "date": "2026-10-08T00:30:00+00:00",
+      "id": 1492393,
+      "timestamp": 1791419400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Brazil",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "id": 71,
+      "logo": "https://media.api-sports.io/football/leagues/71.png",
+      "name": "Serie A",
+      "season": 2026
+     },
+     "player": {
+      "id": 10089,
+      "name": "Fabricio Bruno",
+      "photo": "https://media.api-sports.io/football/players/10089.png",
+      "reason": "Inactive",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 135,
+      "logo": "https://media.api-sports.io/football/teams/135.png",
+      "name": "Cruzeiro"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-08T00:30:00+00:00",
+      "id": 1492393,
+      "timestamp": 1791419400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Brazil",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "id": 71,
+      "logo": "https://media.api-sports.io/football/leagues/71.png",
+      "name": "Serie A",
+      "season": 2026
+     },
+     "player": {
+      "id": 143367,
+      "name": "Gabriel Pec",
+      "photo": "https://media.api-sports.io/football/players/143367.png",
+      "reason": "Broken Leg",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 135,
+      "logo": "https://media.api-sports.io/football/teams/135.png",
+      "name": "Cruzeiro"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-08T00:30:00+00:00",
+      "id": 1492393,
+      "timestamp": 1791419400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Brazil",
+      "flag": "https://media.api-sports.io/flags/br.svg",
+      "id": 71,
+      "logo": "https://media.api-sports.io/football/leagues/71.png",
+      "name": "Serie A",
+      "season": 2026
+     },
+     "player": {
+      "id": 465165,
+      "name": "Kenji",
+      "photo": "https://media.api-sports.io/football/players/465165.png",
+      "reason": "Ankle Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 135,
+      "logo": "https://media.api-sports.io/football/teams/135.png",
+      "name": "Cruzeiro"
+     }
+    }
+   ],
+   "results": 58
+  },
+  "2026-10-09": {
+   "parameters": {
+    "date": "2026-10-09"
+   },
+   "response": [
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 182602,
+      "name": "J. Lobete",
+      "photo": "https://media.api-sports.io/football/players/182602.png",
+      "reason": "Knee Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 444451,
+      "name": "A. Ochoa",
+      "photo": "https://media.api-sports.io/football/players/444451.png",
+      "reason": "Knee Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 184407,
+      "name": "J. Salinas",
+      "photo": "https://media.api-sports.io/football/players/184407.png",
+      "reason": "Loan agreement",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 15797,
+      "name": "J. Cajuste",
+      "photo": "https://media.api-sports.io/football/players/15797.png",
+      "reason": "Injury",
+      "type": "Questionable"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 328192,
+      "name": "M. Diarra",
+      "photo": "https://media.api-sports.io/football/players/328192.png",
+      "reason": "Calf Injury",
+      "type": "Questionable"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 185234,
+      "name": "D. Murillo",
+      "photo": "https://media.api-sports.io/football/players/185234.png",
+      "reason": "Knee Injury",
+      "type": "Questionable"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 47396,
+      "name": "K. Garcia",
+      "photo": "https://media.api-sports.io/football/players/47396.png",
+      "reason": "Hamstring Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 540,
+      "logo": "https://media.api-sports.io/football/teams/540.png",
+      "name": "Espanyol"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 47349,
+      "name": "J. Puado",
+      "photo": "https://media.api-sports.io/football/players/47349.png",
+      "reason": "Knee Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 540,
+      "logo": "https://media.api-sports.io/football/teams/540.png",
+      "name": "Espanyol"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 182674,
+      "name": "Jofre",
+      "photo": "https://media.api-sports.io/football/players/182674.png",
+      "reason": "Groin Injury",
+      "type": "Questionable"
+     },
+     "team": {
+      "id": 540,
+      "logo": "https://media.api-sports.io/football/teams/540.png",
+      "name": "Espanyol"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 182602,
+      "name": "J. Lobete",
+      "photo": "https://media.api-sports.io/football/players/182602.png",
+      "reason": "Knee Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 444451,
+      "name": "A. Ochoa",
+      "photo": "https://media.api-sports.io/football/players/444451.png",
+      "reason": "Knee Injury",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    },
+    {
+     "fixture": {
+      "date": "2026-10-09T19:00:00+00:00",
+      "id": 1570408,
+      "timestamp": 1791572400,
+      "timezone": "UTC"
+     },
+     "league": {
+      "country": "Spain",
+      "flag": "https://media.api-sports.io/flags/es.svg",
+      "id": 140,
+      "logo": "https://media.api-sports.io/football/leagues/140.png",
+      "name": "La Liga",
+      "season": 2026
+     },
+     "player": {
+      "id": 184407,
+      "name": "J. Salinas",
+      "photo": "https://media.api-sports.io/football/players/184407.png",
+      "reason": "Loan agreement",
+      "type": "Missing Fixture"
+     },
+     "team": {
+      "id": 535,
+      "logo": "https://media.api-sports.io/football/teams/535.png",
+      "name": "Malaga"
+     }
+    }
+   ],
+   "results": 208
+  }
+ }
+}

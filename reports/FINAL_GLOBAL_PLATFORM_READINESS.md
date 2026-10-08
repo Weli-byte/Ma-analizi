@@ -20,22 +20,26 @@ CI_ON_MAIN:               green for the last push (ci run 37802234561); nightly-
   37752169709 green (real OpenAI/Gemini/Groq/FPL/football-data.org/The Odds API calls).
 - API verified over a real socket (uvicorn) against local artifacts; dashboard built from real artifacts.
 
-## Not verified / open (honest list)
-1. **nightly-full-benchmark is failing** (2026-10-07 and 10-08): `E0_2122.csv sha256 335afc.. != pinned d3487b..`.
-   The upstream CSV changed after pinning; the pipeline correctly refuses. Needs an owner decision (inspect the
-   change, then re-pin with an ADR). Not silently re-pinned.
-2. Dataset STALE (newest result 2026-08-27): primary source unreachable from this network; partial mitigation
-   by ingesting recent results.
-3. Docker image: Dockerfile written; a local `docker build` did not finish in 25+ minutes (very large locked ML
-   dependency set), so the image is NOT verified. Consider a slimmer API-only requirements file.
-4. No real S13 locked stage, S14 real in-play payload, announced ESPN lineup or settled paper bet exists yet.
-5. Scheduling depends on the PC being on (only the odds collector runs in the cloud).
-6. Data licences unverified for every source (`docs/data_sources/provider_evaluation.md`); several vendor
-   pages returned 403/404/TLS errors to automated fetch.
-7. API rate limiter is in-process (single worker); no TLS/hosting yet.
-8. Anthropic: owner adds `ANTHROPIC_API_KEY` later; then run live test and pick the cheapest model from official docs.
-9. S19 final research report and demo flow are not written.
+## Update 2026-10-08 (follow-ups closed)
+- nightly-full-benchmark: root cause = upstream E0_2122.csv added a BOM and corrected one half-time score;
+  re-pinned (ADR 0037), in-progress 2026-27 files unpinned; nightly run 37808159418 GREEN.
+- Docker: slim API image (`requirements-api.lock`, ADR 0040 note in deployment.md) built (467 MB) and run:
+  /v1/health ok, 401 without key, data with key, non-root uid 10001, read-only artifact mount.
+- First real S13 stage locked (Malaga-Espanyol t-24h, 96 min late because the PC was off; injuries OBSERVED
+  from API-Football, lineups UNKNOWN).
+- Free commercially usable data: openfootball (public domain) ingested (ADR 0038). Odds/injuries/lineups still
+  have no free source with a commercial grant.
+- Bet suggestions added at the owner's request (ADR 0039): exact odds only, quarter Kelly capped at 2%,
+  confidence at most MEDIUM. Honest context: on 2022-24 validation no model beats the market (log loss 0.9476
+  market vs 0.9695 Elo), so suggestions are a research signal, not an edge.
+- S19 research report: `docs/research_report.md`.
+- Dataset freshness: STALE -> WARNING (newest 2026-09-20; upstream itself ends there).
 
-## Owner actions
-Decide the nightly CSV re-pin; get written data terms or a paid provider; add the Anthropic key; keep the PC on
-(or move collectors to the cloud) so real stages and live forecasts accumulate.
+## Still open
+1. Data licences for football-data.co.uk / football-data.org / API-Football / The Odds API remain unverified
+   (vendor pages blocked automated fetch); commercial launch still gated.
+2. No S14 real in-play payload, announced ESPN lineup or settled paper bet observed yet.
+3. Scheduling needs the PC on (only the odds collector is in the cloud).
+4. API rate limiter is in-process; no TLS/hosting.
+5. Anthropic not configured (no key).
+6. Local PC cannot reach football-data.co.uk; fresh CSVs come from the cloud (CI) only.

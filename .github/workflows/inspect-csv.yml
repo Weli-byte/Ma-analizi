@@ -1,0 +1,14 @@
+name: inspect-csv
+on:
+  push:
+    branches: [feat/followups]
+    paths: [".github/workflows/inspect-csv.yml"]
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          curl -sS -o E0_2122.csv https://www.football-data.co.uk/mmz4281/2122/E0.csv
+          sha256sum E0_2122.csv; wc -l E0_2122.csv
+      - uses: actions/upload-artifact@v4
+        with: {name: e0_2122, path: E0_2122.csv}

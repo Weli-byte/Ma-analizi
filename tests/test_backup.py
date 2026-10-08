@@ -1,9 +1,15 @@
 """Backup script: round-trips real files and detects corruption."""
 
+import sys
 import zipfile
 from datetime import UTC, datetime
+from pathlib import Path
 
-from scripts.backup_artifacts import backup, verify
+REPO_ROOT = Path(__file__).resolve().parents[1]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))  # `pytest` (no CWD auto-insertion), unlike `python -m pytest`
+
+from scripts.backup_artifacts import backup, verify  # noqa: E402
 
 
 def test_backup_contains_state_excludes_env_and_detects_corruption(tmp_path):

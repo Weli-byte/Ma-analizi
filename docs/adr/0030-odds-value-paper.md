@@ -43,3 +43,22 @@ Status: accepted · 2026-10-02 · extends ADR 0007 (odds timestamp policy)
 One bookmaker (DraftKings via ESPN), current matchweek only, no history; a 15-minute cadence makes
 the "closing" reference up to 15 minutes stale; no staking strategy (flat 1 unit); no claim of
 profitability — a handful of paper bets proves nothing.
+
+## Amendment 2026-10-08 — exact odds are verified and collected in the cloud
+- **Verified on a real response** (GitHub Actions, `scripts/probe_theoddsapi.py`): The Odds API v4 `h2h`
+  carries a per-market `last_update`; sport keys `soccer_epl`, `soccer_spain_la_liga`; the free plan
+  reported 500 credits and one league call cost 2. `src/odds/theoddsapi.py` is now `SUPPORTED`
+  (`verified_on` 2026-10-08); `tests/test_odds_exact.py` parses the REAL captured event (Arsenal v Leeds,
+  three bookmaker keys, measured latency ~tens of seconds) and drives the REAL forecasts of 2026-10-02
+  to ELIGIBLE value rows with no injected timestamps. Bookmaker identity is `title (key)` because two
+  feeds share the title "Betfair".
+- **ISP block:** from the owner's network the API host fails TLS (`WRONG_VERSION_NUMBER`), the same
+  interference that served a "Güvenli İnternet" page for the site. Not bypassed. Collection therefore
+  runs from GitHub (`.github/workflows/odds-exact.yml`, every 10 min), spends credits only while a window
+  is open (`src/odds/schedule.py`: t-24h, t-95..65, t-35..10 and the last 12 minutes before kickoff;
+  one call per league serves all its fixtures), keeps `odds_api_reserve_credits` (25) unspent, and commits
+  quotes to the `odds-data` branch. The PC pulls them (`python -m src.odds.run sync-remote` ->
+  `artifacts/odds_remote/`, read-only) and `value`/`settle` read both stores.
+- Budget estimate: about 4 windows x 1 call x 2 credits per league per match day; a normal week stays
+  well under the 500-credit month. Terms of the free plan (redistribution) are NOT verified: only a
+  minimal real sample is committed as a test fixture.

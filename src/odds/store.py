@@ -8,8 +8,10 @@ from .quotes import OddsQuote
 
 
 class OddsStore:
-    def __init__(self, root: Path, fixture_id: str):
-        self.dir = Path(root) / "artifacts" / "odds" / fixture_id
+    def __init__(self, root: Path, fixture_id: str, base: str = "odds"):
+        """`base`: `odds` (collected on this machine) or `odds_remote` (read-only copy of what the cloud
+        collector committed to the `odds-data` branch, see `sync_remote`)."""
+        self.dir = Path(root) / "artifacts" / base / fixture_id
         self.dir.mkdir(parents=True, exist_ok=True)
         self.quotes_path = self.dir / "quotes.jsonl"
         self.meta_path = self.dir / "meta.json"
@@ -42,3 +44,11 @@ class OddsStore:
                     known.add(q.quote_id)
                     n += 1
         return n
+
+
+def existing_store(root: Path, fixture_id: str) -> OddsStore | None:
+    """The store holding this fixture, wherever it was collected (local first, then the remote copy)."""
+    for base in ("odds", "odds_remote"):
+        if (Path(root) / "artifacts" / base / fixture_id / "meta.json").exists():
+            return OddsStore(root, fixture_id, base)
+    return None

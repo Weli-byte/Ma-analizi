@@ -23,7 +23,8 @@ from src.schemas import PredictionRecord
 
 from .espn import LEAGUE_CODES, SOURCE, EspnOddsFeed
 from .paper import PaperLedger, dumps, summarize
-from .store import OddsStore
+from .schedule import due_window
+from .store import OddsStore, existing_store
 from .theoddsapi import KEY_ENV, TheOddsApiFeed
 from .theoddsapi import SOURCE as ODDSAPI_SOURCE
 from .value import closing_reference, value_row
@@ -44,7 +45,9 @@ def collect(root: Path, league: str, now: datetime | None = None) -> list[str]:
     return lines
 
 
-def _collect_feed(root: Path, league: str, feed, source: str, now: datetime | None) -> list[str]:
+def _collect_feed(
+    root: Path, league: str, feed, source: str, now: datetime | None, data_root: Path | None = None
+) -> list[str]:
     cdir = config_dir_for(root)
     directory = TeamDirectory.load(cdir / "team_aliases.yaml")
     _, repo_league, country = LEAGUE_CODES[league]
@@ -61,7 +64,7 @@ def _collect_feed(root: Path, league: str, feed, source: str, now: datetime | No
                 f"{ev['fixture_id']} SKIPPED unresolved team(s): {ev['home_name']} / {ev['away_name']}"
             )
             continue
-        store = OddsStore(root, ev["fixture_id"])
+        store = OddsStore(data_root or root, ev["fixture_id"])
         store.write_meta(
             {
                 "fixture_id": ev["fixture_id"],
@@ -105,8 +108,14 @@ def value(root: Path, paper: bool) -> list[str]:
     preds_by_key = _stage_predictions(root)
     ledger = PaperLedger(root)
     lines = []
-    for meta_path in sorted((Path(root) / "artifacts" / "odds").glob("espn-*/meta.json")):
-        store = OddsStore(root, meta_path.parent.name)
+    metas = [
+        (base, p)
+        for base in ("odds", "odds_remote")
+        for p in sorted((Path(root) / "artifacts" / base).glob("*/meta.json"))
+        if p.parent.name.startswith(("espn-", "oddsapi-"))
+    ]
+    for base, meta_path in metas:
+        store = OddsStore(root, meta_path.parent.name, base)
         meta = store.meta()
         kickoff = datetime.fromisoformat(meta["kickoff_utc"])
         preds = preds_by_key.get((meta["home_id"], meta["away_id"], meta["kickoff_utc"][:10]), [])
@@ -169,7 +178,10 @@ def settle(root: Path, now: datetime | None = None) -> list[str]:
                         "H" if f.home_goals > f.away_goals else "A" if f.home_goals < f.away_goals else "D"
                     )
         for b in open_bets:
-            store = OddsStore(root, b.fixture_id)
+            store = existing_store(root, b.fixture_id)
+            if store is None:
+                lines.append(f"{b.bet_id}: odds store for {b.fixture_id} not found")
+                continue
             meta = store.meta()
             outcome = results.get((meta["home_id"], meta["away_id"], meta["kickoff_utc"][:10]))
             if outcome is None:
@@ -185,6 +197,85 @@ def settle(root: Path, now: datetime | None = None) -> list[str]:
     return lines
 
 
+CREDITS_FILE = "_credits.json"
+
+
+def collect_exact(
+    root: Path, league: str, data_root: Path | None = None, now: datetime | None = None, force: bool = False
+) -> list[str]:
+    """Exact-timestamp odds (The Odds API), only when a collection window is open for some fixture of
+    the league (one call serves the whole league; free plan = 500 credits/month, 2 per call). Meant for
+    the cloud runner: the API host is unreachable from some ISPs (TLS interference)."""
+    from src.ingestion.football_data_org import FootballDataOrgProvider
+    from src.llm.forecast import current_season
+
+    key = os.environ.get(KEY_ENV)
+    if not key:
+        return [f"{ODDSAPI_SOURCE}: NOT_CONFIGURED (${KEY_ENV} not set)"]
+    cdir = config_dir_for(root)
+    cfg = load_config("odds", cdir)
+    now = now or datetime.now(UTC)
+    store_root = Path(data_root or root)
+    credits_path = store_root / "artifacts" / "odds" / CREDITS_FILE
+    if not force:
+        fd_key = load_config("ingestion", cdir).api_key("football-data-org")
+        if not fd_key:
+            return ["football-data-org: NOT_CONFIGURED: cannot tell which fixtures are due"]
+        horizon = now + timedelta(hours=cfg.exact_horizon_hours)
+        fixtures = FootballDataOrgProvider(fd_key).list_fixtures(league, current_season(now))
+        due = [
+            f
+            for f in fixtures
+            if f.status_raw == "NS"
+            and now < f.kickoff_utc <= horizon
+            and due_window(f.kickoff_utc, now) is not None
+        ]
+        if not due:
+            return [f"{league}: no collection window open (no credit spent)"]
+    if credits_path.exists():
+        remaining = json.loads(credits_path.read_text(encoding="utf-8")).get("remaining")
+        if remaining is not None and int(remaining) < cfg.odds_api_reserve_credits:
+            return [f"{league}: SKIPPED, {remaining} credits left < reserve {cfg.odds_api_reserve_credits}"]
+    feed = TheOddsApiFeed(key)
+    lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
+    credits_path.parent.mkdir(parents=True, exist_ok=True)
+    credits_path.write_text(
+        json.dumps({"remaining": feed.requests_remaining, "updated_at": now.isoformat()}), encoding="utf-8"
+    )
+    lines.append(f"{league}: credits remaining {feed.requests_remaining}")
+    return lines
+
+
+def sync_remote(root: Path, branch: str = "odds-data") -> list[str]:
+    """Copy what the cloud collector committed to `branch` (artifacts/odds/**) into
+    artifacts/odds_remote/ (read-only copy; never overwrites local collection)."""
+    import subprocess
+
+    def git(*args: str) -> bytes:
+        return subprocess.run(
+            ["git", "-C", str(root), *args], capture_output=True, check=True, timeout=120
+        ).stdout
+
+    try:
+        git("fetch", "--quiet", "origin", branch)
+        names = (
+            git("ls-tree", "-r", "--name-only", f"origin/{branch}", "--", "artifacts/odds").decode().split()
+        )
+    except subprocess.CalledProcessError as e:
+        why = e.stderr.decode(errors="replace")[:100].strip()
+        return [f"sync-remote: branch {branch!r} not available yet ({why})"]
+    n = 0
+    for name in names:
+        rel = name.removeprefix("artifacts/odds/")
+        data = git("show", f"origin/{branch}:{name}")
+        dest = Path(root) / "artifacts" / "odds_remote" / rel
+        if not dest.exists() or dest.read_bytes() != data:
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(data)
+            n += 1
+    return [f"sync-remote: {len(names)} files on origin/{branch}, {n} updated"]
+
+
 def main(argv: list[str] | None = None) -> int:
     configure_output()
     load_dotenv()
@@ -196,6 +287,11 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--league", choices=sorted(LEAGUE_CODES), help="default: leagues in configs/odds.yaml")
     v = sub.add_parser("value")
     v.add_argument("--paper", action="store_true", help="record paper bets for eligible edges")
+    ce = sub.add_parser("collect-exact")
+    ce.add_argument("--league", choices=sorted(LEAGUE_CODES))
+    ce.add_argument("--data-root", default=None, help="where quotes are stored (default: --root)")
+    ce.add_argument("--force", action="store_true", help="ignore the collection windows (spends credits)")
+    sub.add_parser("sync-remote")
     sub.add_parser("settle")
     a = p.parse_args(argv)
     root = Path(a.root)
@@ -203,6 +299,15 @@ def main(argv: list[str] | None = None) -> int:
         if a.cmd == "collect":
             leagues = [a.league] if a.league else load_config("odds", config_dir_for(root)).leagues
             lines = [line for lg in leagues for line in collect(root, lg)]
+        elif a.cmd == "collect-exact":
+            leagues = [a.league] if a.league else load_config("odds", config_dir_for(root)).leagues
+            lines = [
+                line
+                for lg in leagues
+                for line in collect_exact(root, lg, Path(a.data_root) if a.data_root else None, force=a.force)
+            ]
+        elif a.cmd == "sync-remote":
+            lines = sync_remote(root)
         elif a.cmd == "value":
             lines = value(root, a.paper)
         else:

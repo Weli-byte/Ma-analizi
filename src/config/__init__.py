@@ -261,6 +261,8 @@ class OddsConfig(_Cfg):
     min_ev: float = Field(ge=0)
     stake_units: float = Field(gt=0)
     leagues: list[str] = Field(min_length=1)
+    odds_api_reserve_credits: int = Field(ge=0)  # never spend the last credits of the month
+    exact_horizon_hours: int = Field(gt=0)  # only fixtures kicking off within this horizon are considered
 
 
 class _FreshnessDays(_Cfg):

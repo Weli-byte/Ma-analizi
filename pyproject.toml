@@ -61,5 +61,4 @@ omit = [
     "src/llm/providers/gemini_provider.py",
     "src/llm/providers/anthropic_provider.py",
     "src/llm/providers/groq_provider.py",
-    "src/odds/theoddsapi.py",  # unverified until a real response exists (tests/integration/test_theoddsapi_live.py)
 ]

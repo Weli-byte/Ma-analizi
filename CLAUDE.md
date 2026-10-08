@@ -121,7 +121,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       Real in-play football-data.org payload still unverified (no live match yet). Transfermarkt rejected (ToS).
 - [x] S15 odds/EV/CLV paper (ADR 0030, 2026-10-02): `src/odds/` real DraftKings 1X2 via ESPN (RESEARCH_ONLY), exact-only gate,
       paper ledger; Windows task `FootballOddsTick`. ESPN quotes are `approximate` (no provider timestamp) => no edge/EV/CLV;
-      exact odds need THE_ODDS_API_KEY (adapter unverified, NOT_CONFIGURED).
+      exact odds: The Odds API verified 2026-10-08, collected by the cloud workflow odds-exact.yml (PC network blocked).
 - [x] S16 MLOps (ADR 0032, 2026-10-06): `src/mlops/` operational log + heartbeats, monitors (freshness, providers, LLM, drift),
       alerts, registry, retrain gate (no automatic retraining), `python -m src.mlops.report`; recent results ingested into the
       live history (`src/ingestion/results.py`). Windows tasks: FootballSnapshotTick/LiveTick/OddsTick/MonitorTick. Findings:

@@ -1,0 +1,11 @@
+.venv
+.git
+.env
+artifacts
+reports
+tests
+docs
+notebooks
+.pytest_tmp
+__pycache__
+*.pyc

@@ -126,5 +126,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       alerts, registry, retrain gate (no automatic retraining), `python -m src.mlops.report`; recent results ingested into the
       live history (`src/ingestion/results.py`). Windows tasks: FootballSnapshotTick/LiveTick/OddsTick/MonitorTick. Findings:
       PC off 2026-10-02..06, dataset stale (primary source unreachable), see ADR 0032.
-- [ ] S17 dashboard · S18 API · S19 startup MVP.
+- [x] S17 dashboard (`src/dashboard/`, `tests/test_dashboard.py`, `docs/dashboard.md`, ADR 0034) — static,
+      read-only HTML from real artifacts; unknown stays UNKNOWN; no bet advice.
+- [ ] S18 API · S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

@@ -105,22 +105,25 @@ def parse_event(event: dict, received_at: datetime, raw_sha256: str = "") -> dic
 class TheOddsApiFeed:
     meta = META
 
-    def __init__(self, api_key: str, timeout: float = 20.0):
+    def __init__(self, api_key: str, bookmakers: list[str] | None = None, timeout: float = 20.0):
         self.api_key = api_key
+        self.bookmakers = bookmakers
         self.timeout = timeout
         self.requests_remaining: str | None = None
 
+    def url(self, league: str) -> str:
+        """`bookmakers=` (max 10 keys) costs ONE credit per call; `regions=` costs one per region and
+        returns every bookmaker of the region (~120 quotes per event)."""
+        params = {"markets": "h2h", "oddsFormat": "decimal", "dateFormat": "iso"}
+        if self.bookmakers:
+            params["bookmakers"] = ",".join(self.bookmakers)
+        else:
+            params["regions"] = "uk,eu"
+        params["apiKey"] = self.api_key  # last: the only place the key appears is this query parameter
+        return f"{BASE}/sports/{SPORT_KEYS[league]}/odds/?{urllib.parse.urlencode(params)}"
+
     def fetch(self, league: str, received_at: datetime | None = None) -> list[dict]:
-        query = urllib.parse.urlencode(
-            {
-                "regions": "uk,eu",
-                "markets": "h2h",
-                "oddsFormat": "decimal",
-                "dateFormat": "iso",
-                "apiKey": self.api_key,
-            }
-        )
-        url = f"{BASE}/sports/{SPORT_KEYS[league]}/odds/?{query}"
+        url = self.url(league)
         try:
             with urllib.request.urlopen(url, timeout=self.timeout) as r:  # noqa: S310 - fixed https host
                 raw = r.read()

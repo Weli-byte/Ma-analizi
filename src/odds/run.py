@@ -236,7 +236,7 @@ def collect_exact(
         remaining = json.loads(credits_path.read_text(encoding="utf-8")).get("remaining")
         if remaining is not None and int(remaining) < cfg.odds_api_reserve_credits:
             return [f"{league}: SKIPPED, {remaining} credits left < reserve {cfg.odds_api_reserve_credits}"]
-    feed = TheOddsApiFeed(key)
+    feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
     lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
     credits_path.parent.mkdir(parents=True, exist_ok=True)
     credits_path.write_text(

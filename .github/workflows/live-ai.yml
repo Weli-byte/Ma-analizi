@@ -34,6 +34,11 @@ jobs:
           pip install --no-deps -e .
       - name: The Odds API real response shape (key never printed)
         run: python scripts/probe_theoddsapi.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: odds-api-sample
+          path: odds_api_sample.json
+          retention-days: 3
       - name: Live smoke (one real call per enabled provider)
         run: python -m src.llm.live_smoke
       - name: Live integration tests (real calls, real error paths, real rate limit)

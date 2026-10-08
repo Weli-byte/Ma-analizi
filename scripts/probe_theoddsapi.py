@@ -51,3 +51,25 @@ for sport in ("soccer_epl", "soccer_spain_la_liga"):
     print(sport, "events", len(ev), "teams", names)
     books = sorted({b["title"] for e in ev for b in e["bookmakers"]})
     print(sport, "bookmakers", books)
+
+# a minimal REAL sample for offline parser tests: one event, three bookmakers, values unmodified
+import hashlib  # noqa: E402
+from datetime import UTC, datetime  # noqa: E402
+
+ev, hdr = get(
+    "/sports/soccer_epl/odds/", regions="uk,eu", markets="h2h", oddsFormat="decimal", dateFormat="iso"
+)
+first = ev[0]
+want = ("Pinnacle", "Betfair", "William Hill")
+sample = {**first, "bookmakers": [b for b in first["bookmakers"] if b["title"] in want][:3]}
+out = {
+    "label": "REAL_PROVIDER_CAPTURE",
+    "captured_at_utc": datetime.now(UTC).isoformat(),
+    "source": f"{BASE}/sports/soccer_epl/odds/?regions=uk,eu&markets=h2h&oddsFormat=decimal&dateFormat=iso",
+    "note": "one event, three bookmakers, values unmodified; free-plan terms unverified (test sample only)",
+    "sha256_of_event": hashlib.sha256(json.dumps(sample, sort_keys=True).encode()).hexdigest(),
+    "event": sample,
+}
+with open("odds_api_sample.json", "w", encoding="utf-8") as f:
+    json.dump(out, f, indent=1, sort_keys=True, ensure_ascii=False)
+print("sample written:", len(sample["bookmakers"]), "bookmakers")

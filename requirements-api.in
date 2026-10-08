@@ -1,0 +1,14 @@
+# Slim runtime set for the API/dashboard image (ADR 0040). The API imports only these third-party packages
+# (verified by importing every service path and listing sys.modules); the ML libraries are not needed.
+# Regenerate: uv pip compile requirements-api.in --universal --generate-hashes --python-version 3.12 --upgrade -o requirements-api.lock
+fastapi>=0.115
+uvicorn>=0.30
+pydantic>=2.6,<3
+pyyaml>=6
+numpy>=1.26
+duckdb>=1.0
+tzdata
+pytz
+openai>=2
+anthropic>=0.100
+groq>=0.30

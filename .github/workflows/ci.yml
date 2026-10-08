@@ -75,3 +75,8 @@ jobs:
             --python-version 3.12 -o /tmp/requirements.lock.check
           diff <(grep -v '^#' requirements.lock) <(grep -v '^#' /tmp/requirements.lock.check)
         shell: bash
+      - name: requirements-api.lock matches requirements-api.in
+        run: |
+          uv pip compile requirements-api.in --universal --generate-hashes             --python-version 3.12 -o /tmp/requirements-api.lock.check
+          diff <(grep -v '^#' requirements-api.lock) <(grep -v '^#' /tmp/requirements-api.lock.check)
+        shell: bash

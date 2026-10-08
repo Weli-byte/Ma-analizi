@@ -2,8 +2,8 @@
 FROM python:3.12-slim AS base
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1
 WORKDIR /app
-COPY requirements.lock .
-RUN pip install --no-cache-dir --require-hashes --no-deps -r requirements.lock
+COPY requirements-api.lock .
+RUN pip install --no-cache-dir --require-hashes --no-deps -r requirements-api.lock
 COPY src ./src
 COPY configs ./configs
 RUN useradd --create-home --uid 10001 app && mkdir -p /app/artifacts && chown -R app /app

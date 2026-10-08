@@ -12,7 +12,10 @@ from collections import defaultdict
 SELECTIONS = ("H", "D", "A")
 
 CAVEATS = (
-    "Model probabilities are not proven better than the market (small, possibly memorized benchmark).",
+    (
+        "No model has beaten the market-implied probabilities on the 2022-24 validation "
+        "(1520 matches; see docs/research_report.md)."
+    ),
     "Expected value is an estimate, not a promise: every bet can lose; never stake money you cannot lose.",
     "Odds are research snapshots and may have moved; check the live price before acting.",
     "18+ only. If gambling stops being fun, get help (e.g. begambleaware.org).",

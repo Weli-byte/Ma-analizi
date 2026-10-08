@@ -157,6 +157,20 @@ def create_app(
             raise HTTPException(404, f"unknown fixture {fixture_id!r}")
         return paged(p, limit, offset, request)
 
+    @app.get("/v1/fixtures/{fixture_id}/intelligence", tags=["fixtures"], dependencies=[Depends(auth)])
+    def intelligence(fixture_id: str, request: Request):
+        i = service.intelligence(fixture_id)
+        if i is None:
+            raise HTTPException(
+                404, f"no match intelligence for {fixture_id!r} (run python -m src.markets.run)"
+            )
+        return envelope(i, request)
+
+    @app.get("/v1/tips", tags=["research"], dependencies=[Depends(auth)])
+    def tips(request: Request, min_probability: float = Query(0.55, ge=0.5, le=1),
+             upcoming_only: bool = True, limit: int = Limit, offset: int = Offset):  # fmt: skip
+        return paged(service.tips(min_probability, upcoming_only), limit, offset, request)
+
     @app.get("/v1/models", tags=["models"], dependencies=[Depends(auth)])
     def models(request: Request, limit: int = Limit, offset: int = Offset):
         return paged(service.models(), limit, offset, request)

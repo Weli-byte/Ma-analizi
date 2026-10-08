@@ -185,3 +185,48 @@ class ForecastService:
                 "No pick does not mean no bet is good; it means none is supported by the data."
             ),
         }  # fmt: skip
+
+    # ----------------------------------------------------------------- match intelligence (ADR 0041)
+    def _intel_files(self) -> list[Path]:
+        out = []
+        for d in sorted((self.root / "artifacts" / "markets").glob("*__*__*")):
+            files = sorted(d.glob("intel-*.json"))
+            if files:
+                out.append(files[-1])  # newest immutable artifact per fixture
+        return out
+
+    @staticmethod
+    def _public_intel(body: dict) -> dict:
+        return {
+            "fixture_id": body["fixture_key"], "league": body["league"], "kickoff_utc": body["kickoff_utc"],
+            "home_team_id": body["home_id"], "away_team_id": body["away_id"],
+            "generated_at": body["generated_at"], "information_cutoff": body["information_cutoff"],
+            "data_version": body["data_version"], "feature_version": body["feature_version"],
+            "model_version": body["model_version"], "content_hash": body["content_hash"],
+            "market_source": body["market_source"], **body["intelligence"],
+        }  # fmt: skip
+
+    def intelligence(self, fixture_id: str) -> dict | None:
+        import json
+
+        for f in self._intel_files():
+            if f.parent.name == fixture_id:
+                return self._public_intel(json.loads(f.read_text(encoding="utf-8")))
+        return None
+
+    def tips(self, min_probability: float, upcoming_only: bool = True) -> list[dict]:
+        import json
+
+        now = self.now_fn()
+        out = []
+        for f in self._intel_files():
+            body = json.loads(f.read_text(encoding="utf-8"))
+            if upcoming_only and datetime.fromisoformat(body["kickoff_utc"]) <= now:
+                continue
+            for t in body["intelligence"]["tips"]:
+                if t["probability"] >= min_probability:
+                    out.append(
+                        {"fixture_id": body["fixture_key"], "kickoff_utc": body["kickoff_utc"],
+                         "generated_at": body["generated_at"], **t}
+                    )  # fmt: skip
+        return sorted(out, key=lambda t: -t["probability"])

@@ -135,6 +135,43 @@ def _upcoming(vm) -> list[str]:
     return [f"<h2>Upcoming matches ({len(up)})</h2>", table(head, rows)]
 
 
+def _intel(vm) -> list[str]:
+    out = ["<h2>Match intelligence (scores, goals, corners, cards)</h2>"]
+    if not vm["intel"]:
+        return [*out, '<p class="mut">no artifact yet: run python -m src.markets.run</p>']
+    out.append(
+        "<p class='mut'>Model estimates; evaluated out of sample in artifacts/markets/evaluation "
+        "(1X2 and totals clearly beat baselines, BTTS/cards/shots only weakly). Not guarantees.</p>"
+    )
+    for i in vm["intel"]:
+        r, g = i["result"], i["goals"]
+        hp = r["headline_probs"]
+        flags = "; ".join(i["data_quality"]["flags"]) or "none"
+        out.append(
+            f"<div class='card'><b>{e(i['home'])} vs {e(i['away'])}</b> - {e(i['kickoff_utc'])}"
+            f"<br>{prob_bar([hp['home'], hp['draw'], hp['away']])} <span class='mut'>({e(r['headline_basis'])})</span>"
+            f"<br>Most likely score <b>{e(i['most_likely_score'])}</b>; top: "
+            + ", ".join(f"{e(s['score'])} ({s['p']:.0%})" for s in i["scorelines"][:5])
+            + f"<br>Expected goals {g['expected']['home']:.2f} - {g['expected']['away']:.2f}; "
+            f"BTTS {g['btts_yes']:.0%}; O/U 2.5 over "
+            f"{next(x for x in g['over_under'] if x['line'] == 2.5)['over']:.0%}"
+        )
+        for stat, c in i["counts"].items():
+            mid = min(c["over_under"], key=lambda x: abs(x["over"] - 0.5)) if c["over_under"] else None
+            out.append(
+                f"<br>{e(stat.replace('_', ' '))}: expected {c['expected']['home']:.1f} + {c['expected']['away']:.1f}"
+                f" = {c['expected']['total']:.1f}"
+                + (f"; over {mid['line']} {mid['over']:.0%}" if mid else "")
+            )
+        out.append(
+            "<br>Tips: "
+            + "; ".join(f"{e(t['pick'])} {t['probability']:.0%} ({e(t['lean'])})" for t in i["tips"][:5])
+            + f"<br><span class='mut'>data quality flags: {e(flags)}; {e(i['model_version'])}, "
+            f"<code>{e(i['data_version'])}</code>, cutoff {e(i['information_cutoff'])}</span></div>"
+        )
+    return out
+
+
 def _picks(vm) -> list[str]:
     pk = vm["picks"]
     out = ["<h2>Bet suggestions (model-based research, not guarantees)</h2>"]
@@ -296,6 +333,7 @@ def render_html(vm: dict) -> str:
             [[e(u["match"]), e(str({k: v for k, v in u.items() if k != "match"}))] for u in vm["updates"]],
         )
     )
+    out += _intel(vm)
     out += _picks(vm)
     out += _live(vm)
     out += _models(vm["models"])

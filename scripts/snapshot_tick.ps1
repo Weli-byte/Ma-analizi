@@ -15,6 +15,10 @@ foreach ($league in @("PL", "PD")) {
     & $py -m src.snapshot.run --league $league 2>&1 | ForEach-Object { $_.ToString() } | Out-File -Append -Encoding utf8 $log
     "[$stamp] league=$league exit=$LASTEXITCODE" | Out-File -Append -Encoding utf8 $log
 }
+# match intelligence (scores, goals, corners, cards): skips fixtures refreshed within refresh_hours
+$stamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ")
+& $py -m src.markets.run 2>&1 | ForEach-Object { $_.ToString() } | Out-File -Append -Encoding utf8 $log
+"[$stamp] markets exit=$LASTEXITCODE" | Out-File -Append -Encoding utf8 $log
 # keep the log small: retain the last 2000 lines
 $lines = Get-Content $log -ErrorAction SilentlyContinue
 if ($lines.Count -gt 2000) { $lines | Select-Object -Last 2000 | Set-Content -Encoding utf8 $log }

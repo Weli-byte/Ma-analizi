@@ -302,6 +302,20 @@ def value_picks_section(root: Path, now: datetime) -> dict:
     return ForecastService(root, lambda: now).value_picks()
 
 
+def intel_section(root: Path, now: datetime) -> list[dict]:
+    from src.api.service import ForecastService
+
+    svc = ForecastService(root, lambda: now)
+    names = _names(root)
+    out = []
+    for f in svc._intel_files():
+        i = svc._public_intel(json.loads(f.read_text(encoding="utf-8")))
+        if datetime.fromisoformat(i["kickoff_utc"]) > now:
+            out.append({**i, "home": names.get(i["home_team_id"], i["home_team_id"]),
+                        "away": names.get(i["away_team_id"], i["away_team_id"])})  # fmt: skip
+    return sorted(out, key=lambda x: x["kickoff_utc"])
+
+
 def build_viewmodel(root: Path, now: datetime) -> dict:
     root = Path(root)
     matches, preds, updates = matches_and_predictions(root, now)
@@ -312,6 +326,7 @@ def build_viewmodel(root: Path, now: datetime) -> dict:
         "updates": updates,
         "models": models_and_calibration(root),
         "picks": value_picks_section(root, now),
+        "intel": intel_section(root, now),
         "live": live_matches(root),
         "ops": ops_sections(root, now),
     }

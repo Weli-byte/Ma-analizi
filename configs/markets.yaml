@@ -1,0 +1,16 @@
+# Match-intelligence markets (ADR 0041): goals/scoreline, over-under, BTTS, corners, cards, shots on target.
+# Hyper-parameters were chosen on train/validation seasons ONLY (final-test seasons are never used for
+# selection). Change them only with an ADR + a new evaluation.
+half_life_days: 400          # exponential decay of match weights (recent form matters more)
+shrink_pseudo_matches: 6.0   # pseudo-matches pulling a team strength toward 1.0 (promoted/few matches)
+max_goals: 10                # scoreline matrix is 0..max_goals per side
+ipf_iterations: 40
+refit_block_days: 30         # evaluation refits every N days using only matches finished before the block
+count_stats: [corners, yellow_cards, shots_on_target]
+over_under_goal_lines: [0.5, 1.5, 2.5, 3.5, 4.5]
+over_under_lines:            # per count stat
+  corners: [7.5, 8.5, 9.5, 10.5, 11.5, 12.5]
+  yellow_cards: [2.5, 3.5, 4.5, 5.5]
+  shots_on_target: [7.5, 8.5, 9.5, 10.5]
+market_blend_weight: 1.0     # headline 1X2 weight of the de-vigged market when odds exist; chosen on 2022-23 (grid optimum), reported on 2023-24: market 0.9253 vs model 0.9505 log loss (ADR 0041)
+refresh_hours: 6             # src.markets.run skips fixtures whose latest artifact is younger than this

@@ -342,6 +342,21 @@ class IngestionConfig(_Cfg):
         return os.environ.get(self.providers[provider].api_key_env)
 
 
+class MarketsConfig(_Cfg):
+    """ADR 0041: match-intelligence markets."""
+
+    half_life_days: float = Field(gt=0)
+    shrink_pseudo_matches: float = Field(ge=0)
+    max_goals: int = Field(ge=4, le=20)
+    ipf_iterations: int = Field(ge=1)
+    refit_block_days: int = Field(ge=1)
+    count_stats: list[Literal["corners", "yellow_cards", "shots_on_target"]]
+    over_under_goal_lines: list[float]
+    over_under_lines: dict[str, list[float]]
+    market_blend_weight: float = Field(ge=0, le=1)
+    refresh_hours: float = Field(gt=0)
+
+
 _MODELS = {
     "data": DataConfig,
     "leagues": LeaguesConfig,
@@ -354,6 +369,7 @@ _MODELS = {
     "odds": OddsConfig,
     "mlops": MlopsConfig,
     "ingestion": IngestionConfig,
+    "markets": MarketsConfig,
 }
 
 # Fields intentionally not consumed yet. Each needs a sprint tag; the consumption test checks it.

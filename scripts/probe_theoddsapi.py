@@ -40,3 +40,14 @@ if events:
     b = e["bookmakers"][0]
     print("bookmaker keys:", sorted(b.keys()), "| market keys:", sorted(b["markets"][0].keys()))
     print(json.dumps({**e, "bookmakers": e["bookmakers"][:1]}, indent=1)[:2500])
+
+
+# team names exactly as the provider spells them (for TeamDirectory aliases), both leagues
+for sport in ("soccer_epl", "soccer_spain_la_liga"):
+    ev, _ = get(
+        f"/sports/{sport}/odds/", regions="uk,eu", markets="h2h", oddsFormat="decimal", dateFormat="iso"
+    )
+    names = sorted({t for e in ev for t in (e["home_team"], e["away_team"])})
+    print(sport, "events", len(ev), "teams", names)
+    books = sorted({b["title"] for e in ev for b in e["bookmakers"]})
+    print(sport, "bookmakers", books)

@@ -2,7 +2,7 @@ name: live-ai
 # REAL provider API calls (OpenAI, Gemini, Groq; Anthropic joins when its key exists). No mocks.
 # Runs weekly and on demand -- NOT on every push (each run spends a fraction of a cent and must
 # not make normal CI depend on third-party uptime). Needs repository secrets:
-#   OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, FOOTBALL_DATA_ORG_API_KEY, THE_ODDS_API_KEY
+#   OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, FOOTBALL_DATA_ORG_API_KEY, THE_ODDS_API_KEY, API_FOOTBALL_KEY
 #   (Settings > Secrets and variables > Actions). The Anthropic test is deselected until
 #   its key exists (they FAIL as NOT_CONFIGURED when run without a key).
 # A missing secret FAILS the job (NOT_CONFIGURED), it is never reported as a pass.
@@ -20,6 +20,7 @@ jobs:
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+      API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

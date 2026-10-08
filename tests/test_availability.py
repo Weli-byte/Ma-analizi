@@ -55,8 +55,8 @@ def test_cutoff_rule_uses_only_entries_dated_at_or_before_the_cutoff(players):
     ]
     assert block["status"] == "OBSERVED" and len(block["players"]) == len(expected_used)
     assert block["excluded_post_cutoff"] == len(expected_excluded) and expected_excluded
-    assert all(datetime.fromisoformat(p["effective_at"]) <= cutoff for p in block["players"])
-    assert block["cutoff_rule"] == "effective_at <= information_cutoff" and "absence" in block["note"]
+    assert all(datetime.fromisoformat(p["as_of"]) <= cutoff for p in block["players"])
+    assert block["cutoff_rule"].endswith("<= information_cutoff") and "absence" in block["note"]
 
 
 def test_unknown_and_failed_are_distinct_from_observed():
@@ -82,7 +82,7 @@ def test_llm_snapshot_carries_only_cutoff_safe_injury_entries(players):
     snap = build_snapshot(Row({"injuries": block}), cutoff)
     sent = snap["permitted_current_information"]["injuries"]
     assert sent["source"] == "fpl" and "observed_at" not in json.dumps(sent)  # fetch time is not sent
-    assert all(datetime.fromisoformat(p["effective_at"]) <= cutoff for p in sent["players"])
+    assert all(datetime.fromisoformat(p["as_of"]) <= cutoff for p in sent["players"])
     audit_snapshot(snap, Row.kickoff_utc, cutoff)  # clean snapshot passes the pre-call gate
 
 
@@ -97,7 +97,7 @@ def test_audit_refuses_an_injury_entry_dated_after_the_cutoff(players):
     block = injuries_block(players, ("ENG_arsenal", "ENG_leeds_united"), cutoff, OBSERVED, "fpl", "sha")
     snap = build_snapshot(Row({"injuries": block}), cutoff)
     snap["permitted_current_information"].setdefault("injuries", {"players": []})["players"].append(
-        {"player": "Leaked", "effective_at": (cutoff + timedelta(minutes=1)).isoformat()}
+        {"player": "Leaked", "as_of": (cutoff + timedelta(minutes=1)).isoformat()}
     )
     with pytest.raises(CutoffViolation):
         audit_snapshot(snap, Row.kickoff_utc, cutoff)
@@ -124,7 +124,7 @@ def test_stage_snapshot_records_injuries_status_and_keeps_lineups_unknown(player
 def test_capability_report_is_truthful_about_what_real_data_exists():
     rep = capability_report()
     assert rep[Capability.FIXTURES.value]["supported_by"] == ["football-data-org"]
-    assert rep[Capability.INJURIES.value]["supported_by"] == ["fpl"]
+    assert rep[Capability.INJURIES.value]["supported_by"] == ["fpl", "api-football"]
     assert rep[Capability.INJURIES.value]["license_status"] == ["RESEARCH_ONLY"]
     assert rep[Capability.EVENTS.value]["supported_by"] == ["openligadb"]  # goals only (Bundesliga)
     assert rep[Capability.ODDS.value]["supported_by"] == ["espn", "the-odds-api"]

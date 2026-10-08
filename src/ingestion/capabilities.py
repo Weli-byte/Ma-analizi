@@ -6,11 +6,19 @@ from src.live.feeds import OLDB_META
 from src.odds.espn import META as ESPN_META
 from src.odds.theoddsapi import META as ODDSAPI_META
 
+from .api_football import META as APIFOOTBALL_META
 from .football_data_org import META as FDORG_META
 from .fpl import META as FPL_META
 from .interfaces import Capability, ProviderMeta
 
-PROVIDER_METAS: tuple[ProviderMeta, ...] = (FDORG_META, FPL_META, OLDB_META, ESPN_META, ODDSAPI_META)
+PROVIDER_METAS: tuple[ProviderMeta, ...] = (
+    FDORG_META,
+    FPL_META,
+    OLDB_META,
+    ESPN_META,
+    ODDSAPI_META,
+    APIFOOTBALL_META,
+)
 
 
 def capability_report() -> dict[str, dict]:

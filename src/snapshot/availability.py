@@ -38,8 +38,9 @@ def injuries_block(
     mine = [p for p in players if p.team_id in team_ids]
     used, excluded = [], 0
     for p in mine:
-        if p.effective_at is None or p.effective_at > cutoff:
-            excluded += 1  # undated or dated after the cutoff: cannot be proven known at cutoff
+        as_of = p.effective_at or p.observed_at  # provider date if given, else the state as of our fetch
+        if as_of > cutoff:
+            excluded += 1  # dated/observed after the cutoff: cannot be known at cutoff
             continue
         used.append(
             {
@@ -48,7 +49,9 @@ def injuries_block(
                 "status": p.status.value,
                 "availability_pct": p.availability_pct,
                 "detail": p.detail,
-                "effective_at": p.effective_at.isoformat(),
+                "source": p.source,
+                "effective_at": p.effective_at.isoformat() if p.effective_at else None,
+                "as_of": as_of.isoformat(),  # the single time the cutoff rule is checked against
                 "confidence": p.confidence,
             }
         )
@@ -58,9 +61,35 @@ def injuries_block(
         "source": source,
         "observed_at": observed_at.isoformat(),
         "raw_response_sha256": raw_response_sha256,
-        "cutoff_rule": "effective_at <= information_cutoff",
+        "cutoff_rule": "(effective_at or observed_at) <= information_cutoff",
         "players": used,
         "excluded_post_cutoff": excluded,
         "note": NOTE,
         "counts": {s.value: sum(1 for d in used if d["status"] == s.value) for s in AvailabilityStatus},
+    }
+
+
+def merge_blocks(blocks: list[dict], team_ids: tuple[str, str]) -> dict:
+    """One availability.injuries block from several sources. OBSERVED if any source answered; a source
+    that FAILED is listed (never silently dropped); players keep their `source`."""
+    observed = [b for b in blocks if b["status"] == "OBSERVED"]
+    if not observed:
+        return blocks[0]
+    players = sorted(
+        (p for b in observed for p in b["players"]), key=lambda d: (d["team_id"], d["player"], d["source"])
+    )
+    return {
+        "status": "OBSERVED",
+        "source": "+".join(sorted({b["source"] for b in observed})),
+        "sources": {
+            b["source"]: {"observed_at": b["observed_at"], "raw_response_sha256": b["raw_response_sha256"]}
+            for b in observed
+        },
+        "failed_sources": {b["source"]: b["reason"] for b in blocks if b["status"] == "FAILED"},
+        "observed_at": max(b["observed_at"] for b in observed),
+        "cutoff_rule": observed[0]["cutoff_rule"],
+        "players": players,
+        "excluded_post_cutoff": sum(b["excluded_post_cutoff"] for b in observed),
+        "note": NOTE,
+        "counts": {s.value: sum(1 for d in players if d["status"] == s.value) for s in AvailabilityStatus},
     }

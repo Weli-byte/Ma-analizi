@@ -1,9 +1,9 @@
 {
   "filename": "E0_2627.csv",
-  "note": "fallback wayback_archive (20260901)",
-  "origin": "archive",
-  "retrieved_at_utc": "2026-10-06T18:52:56+00:00",
-  "sha256": "26e404d6184b16b84fc7dff45e9db4a7dae70bdefb05abd4cc92bd2fef211812",
-  "source_id": "wayback_archive",
-  "source_url": "https://web.archive.org/web/20260901id_/https://www.football-data.co.uk/mmz4281/2627/E0.csv"
+  "note": "",
+  "origin": "official",
+  "retrieved_at_utc": "2026-10-08T15:55:59+00:00",
+  "sha256": "8e21d4821be776332f3504f55f85b4277f326f03513b2c7501fbdedf92b8b1a2",
+  "source_id": "football_data_official",
+  "source_url": "https://www.football-data.co.uk/mmz4281/2627/E0.csv"
 }

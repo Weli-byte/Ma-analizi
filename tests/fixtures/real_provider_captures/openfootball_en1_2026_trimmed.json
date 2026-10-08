@@ -1,0 +1,135 @@
+{
+ "name": "English Premier League 2026/27",
+ "captured_at_utc": "2026-10-08T16:00:21.744624+00:00",
+ "source": "https://raw.githubusercontent.com/openfootball/football.json/master/2026-27/en.1.json",
+ "note": "trimmed real response: 6 finished, 1 bare-list score, 2 scheduled",
+ "matches": [
+  {
+   "round": "Matchday 1",
+   "date": "2026-08-21",
+   "time": "20:00",
+   "team1": "Arsenal FC",
+   "team2": "Coventry City FC",
+   "score": {
+    "ht": [
+     2,
+     0
+    ],
+    "ft": [
+     3,
+     0
+    ]
+   }
+  },
+  {
+   "round": "Matchday 1",
+   "date": "2026-08-22",
+   "time": "12:30",
+   "team1": "Hull City AFC",
+   "team2": "Manchester United FC",
+   "score": {
+    "ht": [
+     2,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ]
+   }
+  },
+  {
+   "round": "Matchday 1",
+   "date": "2026-08-22",
+   "time": "15:00",
+   "team1": "Ipswich Town FC",
+   "team2": "Sunderland AFC",
+   "score": {
+    "ht": [
+     1,
+     1
+    ],
+    "ft": [
+     2,
+     1
+    ]
+   }
+  },
+  {
+   "round": "Matchday 1",
+   "date": "2026-08-22",
+   "time": "15:00",
+   "team1": "Nottingham Forest FC",
+   "team2": "Leeds United FC",
+   "score": {
+    "ht": [
+     0,
+     0
+    ],
+    "ft": [
+     0,
+     1
+    ]
+   }
+  },
+  {
+   "round": "Matchday 1",
+   "date": "2026-08-22",
+   "time": "15:00",
+   "team1": "Everton FC",
+   "team2": "Crystal Palace FC",
+   "score": {
+    "ht": [
+     1,
+     0
+    ],
+    "ft": [
+     2,
+     0
+    ]
+   }
+  },
+  {
+   "round": "Matchday 1",
+   "date": "2026-08-22",
+   "time": "17:30",
+   "team1": "Brentford FC",
+   "team2": "Tottenham Hotspur FC",
+   "score": {
+    "ht": [
+     2,
+     0
+    ],
+    "ft": [
+     3,
+     0
+    ]
+   }
+  },
+  {
+   "round": "Matchday 3",
+   "date": "2026-09-05",
+   "time": "15:00",
+   "team1": "Nottingham Forest FC",
+   "team2": "Tottenham Hotspur FC",
+   "score": [
+    0,
+    0
+   ]
+  },
+  {
+   "round": "Matchday 6",
+   "date": "2026-10-10",
+   "time": "12:30",
+   "team1": "Arsenal FC",
+   "team2": "Leeds United FC"
+  },
+  {
+   "round": "Matchday 6",
+   "date": "2026-10-10",
+   "time": "15:00",
+   "team1": "Sunderland AFC",
+   "team2": "Brighton & Hove Albion FC"
+  }
+ ]
+}

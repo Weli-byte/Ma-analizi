@@ -45,7 +45,7 @@ def read_store(root: Path) -> list[dict]:
 
 def ingest_finished(
     root: Path, raws: list[RawFixture], directory: TeamDirectory, country: str, repo_league: str,
-    now: datetime | None = None,
+    now: datetime | None = None, source: str = SOURCE, id_prefix: str = "fdorg",
 ) -> dict:  # fmt: skip
     """Append finished results not stored yet. Returns counts (new / known / unresolved / not_finished)."""
     now = now or datetime.now(UTC)
@@ -58,8 +58,8 @@ def ingest_finished(
             if raw.status_raw not in ("FT", "AWD") or raw.home_goals is None or raw.away_goals is None:
                 counts["not_finished"] += 1
                 continue
-            h = directory.resolve(SOURCE, raw.home_team_raw_name, country, raw.kickoff_utc.date())
-            a = directory.resolve(SOURCE, raw.away_team_raw_name, country, raw.kickoff_utc.date())
+            h = directory.resolve(source, raw.home_team_raw_name, country, raw.kickoff_utc.date())
+            a = directory.resolve(source, raw.away_team_raw_name, country, raw.kickoff_utc.date())
             if h.team_id is None or a.team_id is None:
                 counts["unresolved"] += 1
                 continue
@@ -71,11 +71,11 @@ def ingest_finished(
             f.write(
                 json.dumps(
                     {
-                        "fixture_id": f"fdorg-{raw.provider_fixture_id}", "league": repo_league,
+                        "fixture_id": f"{id_prefix}-{raw.provider_fixture_id}", "league": repo_league,
                         "season": raw.season, "kickoff_utc": raw.kickoff_utc.isoformat(),
                         "home_id": h.team_id, "away_id": a.team_id,
                         "home_goals": raw.home_goals, "away_goals": raw.away_goals,
-                        "first_seen_utc": now.isoformat(), "source": SOURCE,
+                        "first_seen_utc": now.isoformat(), "source": source,
                     },
                     sort_keys=True,
                 )

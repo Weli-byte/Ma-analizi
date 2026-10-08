@@ -133,5 +133,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] Phase O commercial readiness (ADR 0036): provider_evaluation.md, product.md, Dockerfile, backup script, deployment.md.
       Every source still RESEARCH_ONLY; commercial launch gated on written provider terms (owner).
 - [x] Follow-ups 2026-10-08: ADR 0037 re-pin, 0038 openfootball (public domain results), 0039 bet suggestions, slim API image, `docs/research_report.md`.
+- [x] Match intelligence (ADR 0041): `src/markets/` scores/goals/corners/cards, `python -m src.markets.run`, API + dashboard.
 - [ ] S19 startup MVP (hosting, licences, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

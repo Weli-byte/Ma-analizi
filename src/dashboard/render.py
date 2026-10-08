@@ -141,10 +141,10 @@ def _live(vm) -> list[str]:
         out.append('<p class="mut">no live match recorded</p>')
     for lv in vm["live"]:
         st = lv["state"]
+        score = "UNKNOWN" if not st.get("score") else f"{st['score'][0]}-{st['score'][1]}"
         out.append(
             f"<div class='card'><b>{e(lv['fixture_id'])}</b> minute {f(st.get('minute'))} "
-            f"{tag(lv['minute_status'])} score {f(st.get('home_goals'))}-{f(st.get('away_goals'))}, "
-            f"events {lv['events']}</div>"
+            f"{tag(lv['minute_status'])} score {score}, events {lv['events']}</div>"
         )
         rows = [
             [e(p["model_id"]), f(p["p_home"]), f(p["p_draw"]), f(p["p_away"]), f(p["match_minute"]),

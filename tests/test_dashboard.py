@@ -25,8 +25,10 @@ def make_root(tmp_path: Path, with_run: bool = True) -> Path:
         (run / "snapshot.json").write_text(
             json.dumps(
                 {
-                    "fixture_id": "fdorg-560593", "home_team_id": "ENG_arsenal",
-                    "away_team_id": "ENG_leeds_united", "league_id": "EPL",
+                    "fixture_id": "fdorg-560593",
+                    "home_team_id": "ENG_arsenal",
+                    "away_team_id": "ENG_leeds_united",
+                    "league_id": "EPL",
                     "kickoff_utc": "2026-10-10T11:30:00+00:00",
                 }  # fmt: skip
             ),
@@ -52,7 +54,9 @@ def test_real_forecast_run_shows_full_traceability(tmp_path):
     assert preds and all(p["model_class"] == "LLM_REAL" for p in preds)
     for p in preds:
         assert abs(sum(p["p"]) - 1) < 1e-6
-        assert all(p[k] for k in ("prediction_id", "data_version", "feature_version", "generated_at", "provider"))
+        assert all(
+            p[k] for k in ("prediction_id", "data_version", "feature_version", "generated_at", "provider")
+        )
     html = render_html(vm)
     for p in preds:
         assert p["prediction_id"] in html and p["data_version"] in html and p["model_id"] in html
@@ -78,3 +82,43 @@ def test_cli_writes_the_dashboard(tmp_path, capsys):
     assert main(["--root", str(root)]) == 0
     out = root / "artifacts" / "dashboard" / "index.html"
     assert out.exists() and "Football forecasting dashboard" in out.read_text(encoding="utf-8")
+
+
+def test_real_committed_benchmark_feeds_models_calibration_and_history(tmp_path):
+    root = make_root(tmp_path, with_run=False)
+    run = root / "artifacts" / "llm_runs" / "benchmark_historical_dv-test_20261002T083510Z"
+    shutil.copytree(ROOT / "reports" / "benchmarks" / "llm_historical_20matches_20261002", run)
+    vm = build_viewmodel(root, NOW)
+    mo = vm["models"]
+    assert mo["available"] and mo["n_per_model"] == 20 and len(mo["models"]) == 3
+    assert set(mo["reliability"]) == {m["model_id"] for m in mo["models"]}
+    html = render_html(vm)
+    assert "memorized" in html and "Calibration" in html and "Historical performance" in html
+    assert "<svg" in html and "winner" in html  # reliability plots; no-winner statement
+
+
+def test_real_exact_odds_are_listed_with_their_timestamp_quality(tmp_path):
+    from src.odds.store import OddsStore
+    from src.odds.theoddsapi import parse_event
+
+    sample = json.loads(
+        (ROOT / "tests" / "fixtures" / "real_provider_captures" / "theoddsapi_event.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    ev = parse_event(sample["event"], datetime.fromisoformat(sample["captured_at_utc"]), "sha")
+    root = make_root(tmp_path, with_run=False)
+    store = OddsStore(root, ev["fixture_id"], "odds_remote")
+    store.write_meta(
+        {
+            "home_id": "ENG_arsenal",
+            "away_id": "ENG_leeds_united",
+            "league": "EPL",
+            "kickoff_utc": ev["kickoff_utc"].isoformat(),
+        }  # fmt: skip
+    )
+    store.add(ev["quotes"])
+    vm = build_viewmodel(root, NOW)
+    rows = vm["matches"][0]["odds"]["the-odds-api"]
+    assert len(rows) == 3 and all(r["quality"] == "exact" and len(r["odds"]) == 3 for r in rows)
+    assert "exact" in render_html(vm)

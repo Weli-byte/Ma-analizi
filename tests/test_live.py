@@ -215,3 +215,21 @@ def test_live_and_prematch_records_cannot_be_mixed():
     tampered["p_home"], tampered["p_draw"] = 0.5, 0.2
     with pytest.raises(ValueError):
         LivePredictionRecord.from_json(json.dumps(tampered))
+
+
+def test_dashboard_shows_the_replayed_real_match_with_labelled_minute_and_unknown_never_zero(tmp_path):
+    import shutil
+
+    from src.dashboard.render import render_html
+    from src.dashboard.viewmodel import build_viewmodel
+
+    shutil.copytree(Path(__file__).resolve().parents[1] / "configs", tmp_path / "configs")
+    m = OLDB[PEN]
+    store = LiveStore(tmp_path, f"oldb-{m['matchID']}")
+    tick(store, m, 10)
+    tick(store, m, 41)
+    (lv,) = build_viewmodel(tmp_path, kickoff(m) + timedelta(hours=1))["live"]
+    assert lv["minute_status"] in ("INFERRED", "OBSERVED") and lv["events"] == 2
+    assert lv["state"]["score"] == [2, 0] and len(lv["forecasts"]) == 2
+    html = render_html(build_viewmodel(tmp_path, kickoff(m) + timedelta(hours=1)))
+    assert "score 2-0" in html and "NOT_CALIBRATED" in html and "dv-000000000000" in html

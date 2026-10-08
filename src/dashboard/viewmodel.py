@@ -127,21 +127,19 @@ def matches_and_predictions(root: Path, now: datetime) -> tuple[list[dict], list
             store = OddsStore(root, meta_path.parent.name, base)
             meta = store.meta()
             m = match(meta["home_id"], meta["away_id"], meta["kickoff_utc"], meta.get("league"))
-            snaps = snapshots(store.quotes())
-            complete = [(k, v) for k, v in snaps.items() if len(v) == 3]
-            if not complete:
-                continue
-            (book, observed), q = max(complete, key=lambda kv: kv[0][1])
-            source = next(iter(q.values())).source
-            m["odds"].setdefault(source, []).append(
-                {
-                    "bookmaker": book,
-                    "observed_at": observed.isoformat(),
-                    "odds": [q[s].decimal_odds for s in ("H", "D", "A")],
-                    "quality": next(iter(q.values())).timestamp_quality,
-                    "latency_s": next(iter(q.values())).source_latency_s,
-                }  # fmt: skip
-            )
+            for (book, observed), q in snapshots(store.quotes()).items():
+                if len(q) != 3:  # an incomplete H/D/A set is not shown as odds
+                    continue
+                first = next(iter(q.values()))
+                m["odds"].setdefault(first.source, []).append(
+                    {
+                        "bookmaker": book,
+                        "observed_at": observed.isoformat(),
+                        "odds": [q[s].decimal_odds for s in ("H", "D", "A")],
+                        "quality": first.timestamp_quality,
+                        "latency_s": first.source_latency_s,
+                    }
+                )
     for m in matches.values():  # keep the freshest snapshot per source and bookmaker
         for src, rows in m["odds"].items():
             best: dict[str, dict] = {}
@@ -232,9 +230,9 @@ def live_matches(root: Path) -> list[dict]:
                 "fixture_id": d.name,
                 "state": last,
                 "events": len(_jsonl(d / "events.jsonl")),
-                "minute_status": "OBSERVED"
-                if last.get("minute_source") == "reported"
-                else ("INFERRED" if last.get("minute") is not None else "UNKNOWN"),
+                "minute_status": {"reported": "OBSERVED", None: "UNKNOWN"}.get(
+                    last.get("minute_source"), "INFERRED"
+                ),
                 "forecasts": [
                     {
                         k: p[k]

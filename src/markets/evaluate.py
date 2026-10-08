@@ -53,7 +53,8 @@ def evaluate(root: Path = ROOT) -> dict:
     ev = load_config("evaluation", cdir)
     ref = resolve_dataset(root / load_config("data", cdir).processed_dir)
     seasons = [*ev.train_seasons, *ev.validation_seasons]
-    assert not set(seasons) & set(ev.final_test_seasons)
+    if set(seasons) & set(ev.final_test_seasons):
+        raise ValueError("final-test seasons must never be loaded for evaluation")
     ms = load_stat_matches(ref, seasons)
     val = [m for m in ms if m.season in ev.validation_seasons]
     t0 = min(m.kickoff_utc for m in val)
@@ -164,7 +165,7 @@ def evaluate(root: Path = ROOT) -> dict:
             return float(np.mean([-np.log(max(((1 - w) * p + w * q)[o], EPS)) for _, p, q, o in sub]))
 
         calib = [r for r in mkt if r[0] == first]
-        report = [r for r in mkt if r[0] != first]
+        report = [r for r in mkt if r[0] != first] or calib  # a single validation season: report where chosen
         best = float(min(grid, key=lambda w: ll(w, calib)))
         blend = {
             "chosen_on": first, "weight_market": best, "reported_on": sorted({r[0] for r in report}),

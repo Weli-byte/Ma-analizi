@@ -138,3 +138,41 @@ def test_artifact_is_immutable_hashed_and_served_by_the_api_and_dashboard(world,
     assert c.get("/v1/tips?min_probability=0.2", headers={"X-API-Key": "k"}).status_code == 422
     html = render_html(build_viewmodel(tmp_path, now))
     assert "Match intelligence" in html and "Most likely score" in html
+
+
+def test_evaluate_runs_on_the_fixture_without_touching_final_test_seasons(world):
+    from src.markets.evaluate import evaluate, main, to_markdown
+
+    rep = evaluate(world["root"])
+    assert rep["final_test_seasons_loaded"] is False and rep["n_matches"] > 300
+    names = {r["market"] for r in rep["results"]}
+    assert any("correct score" in n for n in names) and any("corners" in n for n in names)
+    assert all(
+        r["verdict"] in ("model better", "baseline better", "no clear difference") for r in rep["results"]
+    )
+    md = to_markdown(rep)
+    assert "final-test seasons NOT loaded" in md and "no market is declared a winner" in md
+    assert main(["--root", str(world["root"])]) == 0
+    assert (world["root"] / "artifacts" / "markets" / "evaluation" / "evaluation.json").exists()
+
+
+def test_latest_exact_odds_reads_only_complete_exact_sets(tmp_path):
+    from datetime import datetime
+
+    from src.markets.run import latest_exact_odds
+    from src.odds.store import OddsStore
+    from src.odds.theoddsapi import parse_event
+
+    cap = json.loads(
+        (REPO_ROOT / "tests/fixtures/real_provider_captures/theoddsapi_event.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    ev = parse_event(cap["event"], datetime.fromisoformat(cap["captured_at_utc"]), "sha")
+    store = OddsStore(tmp_path, ev["fixture_id"], "odds_remote")
+    store.write_meta({"home_id": "ENG_arsenal", "away_id": "ENG_leeds_united", "league": "EPL", "kickoff_utc": ev["kickoff_utc"].isoformat()})  # fmt: skip
+    store.add(ev["quotes"])
+    day = ev["kickoff_utc"].date().isoformat()
+    got = latest_exact_odds(tmp_path, "ENG_arsenal", "ENG_leeds_united", day)
+    assert got["quality"] == "exact" and len(got["odds"]) == 3 and got["bookmaker"]
+    assert latest_exact_odds(tmp_path, "ENG_arsenal", "ENG_chelsea", day) is None

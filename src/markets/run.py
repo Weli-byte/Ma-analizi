@@ -118,6 +118,35 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
     return written
 
 
+def sync_remote(root: Path, branch: str = "markets-data") -> str:
+    """Copy artifacts the cloud workflow committed to `branch` into artifacts/markets (add-only: artifacts
+    are immutable, an existing local file is never replaced)."""
+    import subprocess
+
+    def git(*args: str) -> bytes:
+        return subprocess.run(
+            ["git", "-C", str(root), *args], capture_output=True, check=True, timeout=120
+        ).stdout
+
+    try:
+        git("fetch", "--quiet", "origin", branch)
+        names = (
+            git("ls-tree", "-r", "--name-only", f"origin/{branch}", "--", "artifacts/markets")
+            .decode()
+            .split()
+        )
+    except subprocess.CalledProcessError as e:
+        return f"sync-remote: branch {branch!r} not available yet ({e.stderr.decode(errors='replace')[:100].strip()})"
+    n = 0
+    for name in names:
+        dest = Path(root) / name
+        if not dest.exists():
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            dest.write_bytes(git("show", f"origin/{branch}:{name}"))
+            n += 1
+    return f"sync-remote: {len(names)} files on origin/{branch}, {n} new"
+
+
 def main(argv=None) -> int:
     configure_output()
     load_dotenv()
@@ -126,8 +155,15 @@ def main(argv=None) -> int:
     ap.add_argument("--league", default="all", choices=["all", *sorted(LEAGUES)])
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--sync-remote", action="store_true", help="only copy what the cloud workflow committed")
+    ap.add_argument("--no-sync", action="store_true", help="do not pull cloud artifacts before running")
     a = ap.parse_args(argv)
     heartbeat("markets")
+    if a.sync_remote:
+        print(sync_remote(Path(a.root)))
+        return 0
+    if not a.no_sync:
+        print(sync_remote(Path(a.root)))  # cloud artifacts first (best effort, add-only)
     leagues = sorted(LEAGUES) if a.league == "all" else [a.league]
     out = run(Path(a.root), leagues, a.n, a.force)
     for w in out:

@@ -128,5 +128,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       PC off 2026-10-02..06, dataset stale (primary source unreachable), see ADR 0032.
 - [x] S17 dashboard (`src/dashboard/`, `tests/test_dashboard.py`, `docs/dashboard.md`, ADR 0034) — static,
       read-only HTML from real artifacts; unknown stays UNKNOWN; no bet advice.
-- [ ] S18 API · S19 startup MVP.
+- [x] S18 API (`src/api/`, `tests/test_api.py`, `docs/api.md`, ADR 0035) — FastAPI /v1, API-key auth (fail closed),
+      rate limit, pagination, error schema, OpenAPI; RESEARCH_ONLY.
+- [ ] S19 startup MVP.
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

@@ -4,6 +4,10 @@ alembic==1.20.0 \
     --hash=sha256:77eb101048d95f982c0353e9233404889dcd7a6fc244c107836c0e2fc9cf7d9d \
     --hash=sha256:db505480647bc60386c5369402f4a57a506b7539c9e9ef5e270d45cbbe4939bf
     # via optuna
+annotated-doc==0.0.5 \
+    --hash=sha256:117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101 \
+    --hash=sha256:c7e58ce09192557605d8bbd92836d7e1d520ac9580096042c0bfd197efacf1bb
+    # via fastapi
 annotated-types==0.8.0 \
     --hash=sha256:13b2beaad985e05e2d6407ee4c4f35590b11f8d693a258a561055cac8f64cab7 \
     --hash=sha256:f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0
@@ -22,6 +26,7 @@ anyio==4.15.1 \
     #   httpx
     #   httpx2
     #   openai
+    #   starlette
 certifi==2026.7.22 \
     --hash=sha256:62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775 \
     --hash=sha256:741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55
@@ -305,6 +310,10 @@ charset-normalizer==3.5.2 \
     --hash=sha256:fd1fbe0f116b6e55da77aca2c6ddcddcfac2186cbf78bdebf40fc156efca389d \
     --hash=sha256:fe9753dfee015c570d73df76f899f18444d41388bffcde097deba51c4fadbb9f
     # via requests
+click==8.5.0 \
+    --hash=sha256:255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360 \
+    --hash=sha256:ba0d2089de75ea0310e2dde03160e6ca10009947fb95a182f9b54021bb272e34
+    # via uvicorn
 cloudpickle==3.1.2 \
     --hash=sha256:7fda9eb655c9c230dab534f1983763de5835249750e85fbcef43aaa30a9a2414 \
     --hash=sha256:9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a
@@ -553,6 +562,10 @@ duckdb==1.5.6 \
     --hash=sha256:ebcbd09cd8578ab1093393e9b16289cda0e8f1791ac595bf00eb5bad75c3cf00 \
     --hash=sha256:f14551eef9180fc72869e2d9a2896410a8826169e22495e98a825abaa0eac1a7
     # via football-forecasting (pyproject.toml)
+fastapi==0.142.4 \
+    --hash=sha256:7fe2e254a0a948b88f432b02b8f627463285248233bba0998ed9640191e2ff57 \
+    --hash=sha256:8a651aa071a9f92c8217cca1d0b044bf9c326f336578be0a728a1a1f22ec52d2
+    # via football-forecasting (pyproject.toml)
 google-auth==2.61.0 \
     --hash=sha256:37f0815967322e8c32b12bf422531e8b637cafdaae0acbb9141117cfe6a96f23 \
     --hash=sha256:ca60266a37475ae68b63bac007272f46094b3d571abe92aded329b6cfb568025
@@ -571,6 +584,7 @@ h11==0.16.0 \
     # via
     #   httpcore
     #   httpcore2
+    #   uvicorn
 httpcore==1.0.9 \
     --hash=sha256:2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55 \
     --hash=sha256:6e34463af53fd2ab5d807f399a9b45ea31c3dfa2276f15a2c3f00afff6e176e8
@@ -583,6 +597,7 @@ httpx==0.28.1 \
     --hash=sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc \
     --hash=sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad
     # via
+    #   football-forecasting (pyproject.toml)
     #   google-genai
     #   groq
 httpx2==2.13.1 \
@@ -1067,6 +1082,10 @@ openai==3.26.1 \
     --hash=sha256:4b64060155596aece83aa81d270f326ee081b83da70a0d4b50091a0c60e9151c \
     --hash=sha256:6a05a4615c678922aa16a1a560cfbe059cb20d5b7ab9753d0bf38b41fce1c67a
     # via football-forecasting (pyproject.toml)
+opentelemetry-api==1.45.1 \
+    --hash=sha256:aa38ed19bcc084ba42782a73255b3582283eced7ad6dddbd6695189e69adfb75 \
+    --hash=sha256:b31553efa588ae44bc306f863c785c5333a9ecc091248c6ee68b4b6c87fdedfb
+    # via fastapi
 optuna==5.0.0 \
     --hash=sha256:358bb878b7b1e20e90dc944ac4261796dd3d5c2b7860aa960a08fc10e0b5beff \
     --hash=sha256:5fff892ae6baf4948c810c5b8635ec67e08efb0709b41cb73b14e30391d44720
@@ -1162,6 +1181,7 @@ pydantic==2.13.5 \
     # via
     #   football-forecasting (pyproject.toml)
     #   anthropic
+    #   fastapi
     #   google-genai
     #   groq
     #   openai
@@ -1700,6 +1720,10 @@ sqlalchemy==2.1.4 \
     # via
     #   alembic
     #   optuna
+starlette==1.7.0 \
+    --hash=sha256:67f8e99895493dd2911a03f11314af6ceebeae4e704bb9f43dfc6a9db151c93e \
+    --hash=sha256:c79f74ea63cff761804fbbfb182f1e0b440c2d07b164d24700c5a1bab5d6ff5d
+    # via fastapi
 tenacity==9.1.4 \
     --hash=sha256:6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55 \
     --hash=sha256:adb31d4c263f2bd041081ab33b498309a57c77f9acf2db65aadf0898179cf93a
@@ -1727,19 +1751,24 @@ typing-extensions==4.16.0 \
     #   alembic
     #   anthropic
     #   anyio
+    #   fastapi
     #   google-genai
     #   groq
     #   httpx2
     #   openai
+    #   opentelemetry-api
     #   pydantic
     #   pydantic-core
     #   shap
     #   sqlalchemy
+    #   starlette
     #   typing-inspection
 typing-inspection==0.4.4 \
     --hash=sha256:547274fa6b0a561ccf549cc9524b999a578e737d015d8709d021f9d0d13bea47 \
     --hash=sha256:65b8397ba37ccbce054456aaccddfc91e6e3083c92824df348d96ca832f3f147
-    # via pydantic
+    # via
+    #   fastapi
+    #   pydantic
 tzdata==2026.5 \
     --hash=sha256:8cc73c0a0bfca7dbfa59235d60b2eff82231dee33f53d206db1acd9173cfc0a7 \
     --hash=sha256:b683bd1b6659ddcd810ff02ad09ba821d4bf1065072805063eb35c49617905ac
@@ -1750,6 +1779,10 @@ urllib3==2.8.0 \
     --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3 \
     --hash=sha256:63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63
     # via requests
+uvicorn==0.54.0 \
+    --hash=sha256:505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf \
+    --hash=sha256:a2e33cbfaa0306f8e6b0c13e0cb89d7d7a2da3e62b90c66e18c33d9807b28620
+    # via football-forecasting (pyproject.toml)
 websockets==16.1.1 \
     --hash=sha256:01fbdcbac298efe19360b94bc0039c8f746f0220ba570f327577bfee81059175 \
     --hash=sha256:024193f8551a2b0eafbdd160911012c4e6c228c28430c84433253299a9e42d6a \

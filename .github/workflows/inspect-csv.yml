@@ -7,8 +7,13 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
       - run: |
-          curl -sS -o E0_2122.csv https://www.football-data.co.uk/mmz4281/2122/E0.csv
-          sha256sum E0_2122.csv; wc -l E0_2122.csv
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+          python -m src.data.download
+          sha256sum data/raw/football_data/E0_2122.csv; cat data/provenance/*E0_2122* 2>/dev/null | head -30; ls data/provenance | head
       - uses: actions/upload-artifact@v4
-        with: {name: e0_2122, path: E0_2122.csv}
+        with: {name: raw, path: "data/raw/football_data/\ndata/provenance/"}

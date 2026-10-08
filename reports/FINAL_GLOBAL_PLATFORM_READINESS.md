@@ -35,11 +35,23 @@ CI_ON_MAIN:               green for the last push (ci run 37802234561); nightly-
 - S19 research report: `docs/research_report.md`.
 - Dataset freshness: STALE -> WARNING (newest 2026-09-20; upstream itself ends there).
 
+## Update 2026-10-09 (match intelligence)
+- `src/markets/` (ADR 0041): correct scores, 1X2, double chance, handicap, goals O/U, BTTS, team totals, corners,
+  yellow cards, shots on target, ranked tips; API `/v1/fixtures/{id}/intelligence`, `/v1/tips`; dashboard section.
+- Out-of-sample (2022-24, 1520 matches, final test not loaded): clear skill over baselines for correct score,
+  1X2, over/under 2.5, corners and shots on target 8.5-10.5; NO clear skill for BTTS, yellow cards, shots on
+  target 7.5. The de-vigged market still beats the model on 1X2 (0.9253 vs 0.9505), so the headline 1X2 is the
+  market whenever exact odds exist.
+- Cloud generation (ADR 0042): `markets-cloud.yml` ran green (run 37848656607): 119 results ingested, 20
+  artifacts published to `markets-data`, PC synced them with `python -m src.markets.run --sync-remote`.
+
 ## Still open
-1. Data licences for football-data.co.uk / football-data.org / API-Football / The Odds API remain unverified
-   (vendor pages blocked automated fetch); commercial launch still gated.
-2. No S14 real in-play payload, announced ESPN lineup or settled paper bet observed yet.
-3. Scheduling needs the PC on (only the odds collector is in the cloud).
+1. Data licences for football-data.co.uk / football-data.org / API-Football / The Odds API unverified; commercial
+   launch gated. openfootball (public domain) is the only source with an explicit commercial grant.
+2. S13 stage locks and S14 live ticks still depend on the PC being on (they need 2-10 minute timing); only odds
+   and match intelligence run in the cloud.
+3. No S14 real in-play payload, announced ESPN lineup or settled paper bet observed yet (needs real time).
 4. API rate limiter is in-process; no TLS/hosting.
 5. Anthropic not configured (no key).
-6. Local PC cannot reach football-data.co.uk; fresh CSVs come from the cloud (CI) only.
+6. No odds for corners/cards/correct scores in the exact feed: those markets are probabilities and tips, not
+   value claims.

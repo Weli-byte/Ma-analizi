@@ -1,0 +1,128 @@
+{
+ "captured_at_utc": "2026-10-08T07:17:55.449592+00:00",
+ "event": {
+  "away_team": "Leeds United",
+  "bookmakers": [
+   {
+    "key": "williamhill",
+    "last_update": "2026-10-08T07:17:08Z",
+    "markets": [
+     {
+      "key": "h2h",
+      "last_update": "2026-10-08T07:17:07Z",
+      "outcomes": [
+       {
+        "name": "Arsenal",
+        "price": 1.36
+       },
+       {
+        "name": "Leeds United",
+        "price": 7.5
+       },
+       {
+        "name": "Draw",
+        "price": 4.8
+       }
+      ]
+     }
+    ],
+    "title": "William Hill"
+   },
+   {
+    "key": "betfair_ex_uk",
+    "last_update": "2026-10-08T07:17:38Z",
+    "markets": [
+     {
+      "key": "h2h",
+      "last_update": "2026-10-08T07:17:38Z",
+      "outcomes": [
+       {
+        "name": "Arsenal",
+        "price": 1.41
+       },
+       {
+        "name": "Leeds United",
+        "price": 9.4
+       },
+       {
+        "name": "Draw",
+        "price": 5.4
+       }
+      ]
+     },
+     {
+      "key": "h2h_lay",
+      "last_update": "2026-10-08T07:17:38Z",
+      "outcomes": [
+       {
+        "name": "Arsenal",
+        "price": 1.42
+       },
+       {
+        "name": "Leeds United",
+        "price": 9.6
+       },
+       {
+        "name": "Draw",
+        "price": 5.5
+       }
+      ]
+     }
+    ],
+    "title": "Betfair"
+   },
+   {
+    "key": "betfair_ex_eu",
+    "last_update": "2026-10-08T07:17:24Z",
+    "markets": [
+     {
+      "key": "h2h",
+      "last_update": "2026-10-08T07:17:23Z",
+      "outcomes": [
+       {
+        "name": "Arsenal",
+        "price": 1.41
+       },
+       {
+        "name": "Leeds United",
+        "price": 9.4
+       },
+       {
+        "name": "Draw",
+        "price": 5.4
+       }
+      ]
+     },
+     {
+      "key": "h2h_lay",
+      "last_update": "2026-10-08T07:17:23Z",
+      "outcomes": [
+       {
+        "name": "Arsenal",
+        "price": 1.42
+       },
+       {
+        "name": "Leeds United",
+        "price": 9.6
+       },
+       {
+        "name": "Draw",
+        "price": 5.5
+       }
+      ]
+     }
+    ],
+    "title": "Betfair"
+   }
+  ],
+  "commence_time": "2026-10-10T11:30:00Z",
+  "home_team": "Arsenal",
+  "id": "b870dcfba5e5920d3f1551a3aa1ea435",
+  "sport_key": "soccer_epl",
+  "sport_title": "EPL"
+ },
+ "label": "REAL_PROVIDER_CAPTURE",
+ "note": "one event, three bookmakers, values unmodified; free-plan terms unverified (test sample only)",
+ "sha256_of_event": "4064167dbbb680a8495e471db2ab1ae5e1ce2a36a5d11323210011199873b27b",
+ "source": "https://api.the-odds-api.com/v4/sports/soccer_epl/odds/?regions=uk,eu&markets=h2h&oddsFormat=decimal&dateFormat=iso"
+}

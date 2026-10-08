@@ -22,6 +22,7 @@ from src.odds.store import OddsStore
 from src.odds.value import closing_reference, value_row
 from src.schemas import PredictionRecord
 
+REPO_ROOT = Path(__file__).resolve().parents[1]
 CAP = Path(__file__).parent / "fixtures" / "real_provider_captures"
 CAPTURE = json.loads((CAP / "espn_eng1_scoreboard.json").read_text(encoding="utf-8"))
 OBSERVED = datetime.fromisoformat(CAPTURE["captured_at_utc"])
@@ -278,7 +279,9 @@ def test_value_report_with_exact_quotes_joins_forecasts_and_records_paper_bets(t
     assert len(lines) == len(PREDS) and all("edge=" in x and "latency=12.0s" in x for x in lines)
     assert PaperLedger(root).bets() == []  # report only: nothing recorded without --paper
     (root / "configs" / "odds.yaml").write_text(
-        "min_edge: 0.0\nmin_ev: 0.0\nstake_units: 1.0\nleagues: [PL]\n", encoding="utf-8"
+        "min_edge: 0.0\nmin_ev: 0.0\nstake_units: 1.0\nleagues: [PL]\n"
+        "odds_api_reserve_credits: 0\nexact_horizon_hours: 26\n",
+        encoding="utf-8",
     )
     expected = 0
     for p in PREDS:  # independent expectation: best-EV selection with edge >= 0 and EV >= 0
@@ -313,8 +316,11 @@ def test_odds_cli_value_and_settle_run_offline_over_stored_data(tmp_path, capsys
     assert odds_run.main(["--root", str(root), "value"]) == 2  # reported, not a traceback
 
 
-def test_exact_odds_source_is_reported_not_configured_without_a_key():
+def test_exact_odds_source_is_verified_and_collection_says_so_without_a_key(monkeypatch):
     from src.ingestion.interfaces import Capability, Support
+    from src.odds.run import collect_exact
     from src.odds.theoddsapi import META
 
-    assert META.capabilities[Capability.ODDS] == Support.NOT_CONFIGURED and META.verified_on is None
+    assert META.capabilities[Capability.ODDS] == Support.SUPPORTED and META.verified_on == "2026-10-08"
+    monkeypatch.delenv("THE_ODDS_API_KEY", raising=False)
+    assert "NOT_CONFIGURED" in collect_exact(REPO_ROOT, "PL")[0]

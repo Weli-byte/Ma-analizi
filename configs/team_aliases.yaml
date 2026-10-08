@@ -1163,3 +1163,57 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
     team; owner to re-confirm)
   confidence: 0.95
+- source: the-odds-api
+  raw_name: Alavés
+  team_id: ESP_deportivo_alaves
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: the-odds-api
+  raw_name: Bournemouth
+  team_id: ENG_afc_bournemouth
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: the-odds-api
+  raw_name: Brighton and Hove Albion
+  team_id: ENG_brighton_hove_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: the-odds-api
+  raw_name: CA Osasuna
+  team_id: ESP_osasuna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: the-odds-api
+  raw_name: Elche CF
+  team_id: ESP_elche
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: the-odds-api
+  raw_name: Real Racing Club de Santander
+  team_id: ESP_racing_santander
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
+    the canonical team; owner to re-confirm)
+  confidence: 0.95

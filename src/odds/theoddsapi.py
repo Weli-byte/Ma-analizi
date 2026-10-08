@@ -1,15 +1,16 @@
-"""The Odds API adapter -- the route to EXACT odds (ADR 0030): its v4 `h2h` market carries the
-provider's own `last_update` for the quote, so `source_latency_s` can be MEASURED.
+"""The Odds API adapter -- the source of EXACT odds (ADR 0030): its v4 `h2h` market carries the
+provider's own `last_update` for the quote, so `source_latency_s` is MEASURED.
 
-STATUS: NOT_CONFIGURED / UNVERIFIED. No key exists on this machine, so no real response has ever
-been seen: the field names below follow the provider's v4 documentation and have NOT been checked
-against a real payload (`verified_on=None`). It becomes operational only after
-`pytest -m live tests/integration/test_theoddsapi_live.py` receives and parses a real response.
-Until then `collect` reports NOT_CONFIGURED and every odds-based edge/EV/CLV stays unavailable.
+STATUS: VERIFIED against a REAL response on 2026-10-08 (GitHub Actions run of `scripts/probe_theoddsapi.py`
+and `tests/integration/test_theoddsapi_live.py`): sport keys `soccer_epl` / `soccer_spain_la_liga` exist,
+events carry `home_team`, `away_team`, `commence_time`, `bookmakers[].markets[].last_update`,
+`outcomes[{name, price}]` with the draw named "Draw". The free plan reported 500 credits; one league call
+(`regions=uk,eu`, one market) cost 2. The API host is UNREACHABLE from some ISPs (TLS interference seen
+from Turkey: `WRONG_VERSION_NUMBER`), so collection runs in the cloud (`.github/workflows/odds-exact.yml`).
 
-Key handling: the provider accepts the key ONLY as the `apiKey` query parameter (documented). It is
-never logged or put in an exception: errors are scrubbed. Free-tier credit limits are not stated in
-the docs we could read; the `x-requests-remaining` header is recorded per call instead of assumed.
+Key handling: the provider accepts the key ONLY as the `apiKey` query parameter. It is never logged or
+put in an exception: errors are scrubbed. Credits remaining come from the `x-requests-remaining` header.
+Free-plan terms (redistribution) are not verified.
 """
 
 import hashlib
@@ -36,7 +37,7 @@ META = ProviderMeta(
         Capability.LINEUPS: Support.NOT_SUPPORTED,
         Capability.INJURIES: Support.NOT_SUPPORTED,
         Capability.EVENTS: Support.NOT_SUPPORTED,
-        Capability.ODDS: Support.NOT_CONFIGURED,  # needs THE_ODDS_API_KEY; unverified until a real response
+        Capability.ODDS: Support.SUPPORTED,  # needs THE_ODDS_API_KEY; verified on a real response 2026-10-08
         Capability.STATISTICS: Support.NOT_SUPPORTED,
         Capability.XG: Support.NOT_SUPPORTED,
     },
@@ -47,7 +48,7 @@ META = ProviderMeta(
     license="free plan terms not verified (commercial redistribution not assumed)",
     license_status="UNVERIFIED",
     provenance=f"{BASE}/sports/{{sport}}/odds",
-    verified_on=None,
+    verified_on="2026-10-08",
 )
 
 
@@ -83,7 +84,9 @@ def parse_event(event: dict, received_at: datetime, raw_sha256: str = "") -> dic
                     raise ValueError(f"unexpected h2h outcome {out['name']!r} for {home} v {away}")
                 quotes.append(
                     OddsQuote(
-                        source=SOURCE, bookmaker=book["title"], fixture_id=fixture_id, selection=sel,
+                        # provider keys are unique; titles are not (two feeds are titled "Betfair")
+                        source=SOURCE, bookmaker=f"{book['title']} ({book['key']})",
+                        fixture_id=fixture_id, selection=sel,
                         decimal_odds=float(out["price"]), snapshot_type="pre_match", observed_at=received_at,
                         provider_timestamp=provider_ts if exact else None,
                         timestamp_quality="exact" if exact else "approximate",

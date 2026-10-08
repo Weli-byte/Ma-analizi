@@ -2,9 +2,9 @@ name: live-ai
 # REAL provider API calls (OpenAI, Gemini, Groq; Anthropic joins when its key exists). No mocks.
 # Runs weekly and on demand -- NOT on every push (each run spends a fraction of a cent and must
 # not make normal CI depend on third-party uptime). Needs repository secrets:
-#   OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, FOOTBALL_DATA_ORG_API_KEY
-#   (Settings > Secrets and variables > Actions). Anthropic and The Odds API tests are deselected until
-#   those keys exist (they FAIL as NOT_CONFIGURED when run without a key).
+#   OPENAI_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, FOOTBALL_DATA_ORG_API_KEY, THE_ODDS_API_KEY
+#   (Settings > Secrets and variables > Actions). The Anthropic test is deselected until
+#   its key exists (they FAIL as NOT_CONFIGURED when run without a key).
 # A missing secret FAILS the job (NOT_CONFIGURED), it is never reported as a pass.
 on:
   schedule:
@@ -19,6 +19,7 @@ jobs:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
+      THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,7 +32,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install --require-hashes -r requirements.lock
           pip install --no-deps -e .
+      - name: The Odds API real response shape (key never printed)
+        run: python scripts/probe_theoddsapi.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: odds-api-sample
+          path: odds_api_sample.json
+          retention-days: 3
       - name: Live smoke (one real call per enabled provider)
         run: python -m src.llm.live_smoke
       - name: Live integration tests (real calls, real error paths, real rate limit)
-        run: pytest -m live tests/integration --deselect tests/integration/test_anthropic_live.py --deselect tests/integration/test_theoddsapi_live.py
+        run: pytest -m live tests/integration --deselect tests/integration/test_anthropic_live.py

@@ -7,3 +7,6 @@ stake_units: 1.0    # paper stake, in abstract units
 leagues: ["PL", "PD"]   # ESPN collection codes (src/odds/espn.py LEAGUE_CODES)
 odds_api_reserve_credits: 25   # The Odds API free plan: 500 credits/month, 2 per league call
 exact_horizon_hours: 26         # collect exact odds only for fixtures kicking off within this horizon
+# bookmaker KEYS to request (max 10 = a single credit per call, instead of every bookmaker of the uk/eu
+# regions: 2 credits and ~120 quotes per event). pinnacle is the sharp reference.
+odds_api_bookmakers: [pinnacle, betfair_ex_uk, williamhill, ladbrokes_uk, skybet, unibet_uk, betway, coral]

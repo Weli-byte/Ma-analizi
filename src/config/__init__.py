@@ -263,6 +263,7 @@ class OddsConfig(_Cfg):
     leagues: list[str] = Field(min_length=1)
     odds_api_reserve_credits: int = Field(ge=0)  # never spend the last credits of the month
     exact_horizon_hours: int = Field(gt=0)  # only fixtures kicking off within this horizon are considered
+    odds_api_bookmakers: list[str] = Field(min_length=1, max_length=10)  # <=10 keys: 1 credit per call
 
 
 class _FreshnessDays(_Cfg):

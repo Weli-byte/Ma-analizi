@@ -174,3 +174,14 @@ def test_existing_store_prefers_local_and_returns_none_when_absent(tmp_path):
     assert existing_store(tmp_path, "oddsapi-1").dir.parent.name == "odds_remote"
     OddsStore(tmp_path, "oddsapi-1", "odds").write_meta({"x": 2})
     assert existing_store(tmp_path, "oddsapi-1").dir.parent.name == "odds"
+
+
+def test_request_url_uses_the_bookmaker_list_for_one_credit_and_puts_the_key_last():
+    from src.odds.theoddsapi import TheOddsApiFeed
+
+    url = TheOddsApiFeed("KEY123", ["pinnacle", "williamhill"]).url("PL")
+    assert "bookmakers=pinnacle%2Cwilliamhill" in url and "regions" not in url
+    assert url.endswith("apiKey=KEY123") and url.count("KEY123") == 1 and "/soccer_epl/" in url
+    assert "regions=uk%2Ceu" in TheOddsApiFeed("KEY123").url(
+        "PD"
+    ) and "soccer_spain_la_liga" in TheOddsApiFeed("k").url("PD")

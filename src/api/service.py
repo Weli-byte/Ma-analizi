@@ -6,7 +6,9 @@ from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
 
+from src.config import config_dir_for, load_config
 from src.dashboard.viewmodel import matches_and_predictions, models_and_calibration
+from src.odds.picks import make_picks
 from src.odds.store import OddsStore
 from src.odds.value import value_row
 
@@ -163,3 +165,23 @@ class ForecastService:
                     }  # fmt: skip
                 )
         return {"paper_only": True, "disclaimer": "Research output, not betting advice.", "rows": rows}
+
+    def value_picks(self, min_edge: float | None = None, min_ev: float | None = None) -> dict:
+        """Bet suggestions (ADR 0039): exact-odds value rows that reach the thresholds, with a capped
+        fractional-Kelly stake hint. Research output, not a guarantee."""
+        cfg = load_config("odds", config_dir_for(self.root))
+        picks = make_picks(
+            self.value_research()["rows"],
+            cfg.min_edge if min_edge is None else min_edge,
+            cfg.min_ev if min_ev is None else min_ev,
+            cfg.kelly_fraction, cfg.max_stake_pct,
+        )  # fmt: skip
+        return {
+            "thresholds": {"min_edge": cfg.min_edge if min_edge is None else min_edge,
+                           "min_ev": cfg.min_ev if min_ev is None else min_ev},
+            "n": len(picks), "picks": picks,
+            "note": (
+                "Only fixtures with complete exact-timestamp odds can appear here. "
+                "No pick does not mean no bet is good; it means none is supported by the data."
+            ),
+        }  # fmt: skip

@@ -172,3 +172,15 @@ def test_openapi_documents_every_v1_route(root):
     for path in ("/v1/fixtures", "/v1/fixtures/{fixture_id}", "/v1/fixtures/{fixture_id}/predictions",
                  "/v1/models", "/v1/benchmarks", "/v1/teams/{team_id}/forecast", "/v1/value-research"):  # fmt: skip
         assert path in spec["paths"]
+
+
+def test_value_picks_follow_thresholds_and_carry_caveats(root):
+    c = client(root)
+    loose = c.get("/v1/value-picks?min_edge=0&min_ev=0", headers=H).json()["data"]
+    strict = c.get("/v1/value-picks?min_edge=1&min_ev=5", headers=H).json()["data"]
+    assert strict["n"] == 0 and loose["n"] == len(loose["picks"])
+    for p in loose["picks"]:
+        assert p["edge"] >= 0 and p["ev_per_unit"] >= 0 and 0 <= p["stake_hint_pct_of_bankroll"] <= 2.0
+        assert p["confidence"] in ("LOW", "MEDIUM") and p["caveats"] and p["selection"] in ("H", "D", "A")
+        assert 1 <= p["models_agreeing"] <= p["models_evaluated"]
+    assert c.get("/v1/value-picks?min_edge=2", headers=H).status_code == 422

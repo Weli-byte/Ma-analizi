@@ -1,4 +1,4 @@
-# S15 value analytics (ADR 0030). PAPER ONLY: nothing places a real bet.
+# S15 value analytics (ADR 0030) + bet suggestions (ADR 0039). The system never places a bet; the owner decides.
 # A paper bet needs an ELIGIBLE value row (all three 1X2 quotes timestamp_quality=exact, observed
 # after the forecast and before kickoff) with edge and EV at or above these thresholds.
 min_edge: 0.05      # model probability minus de-vigged market probability
@@ -10,3 +10,5 @@ exact_horizon_hours: 26         # collect exact odds only for fixtures kicking o
 # bookmaker KEYS to request (max 10 = a single credit per call, instead of every bookmaker of the uk/eu
 # regions: 2 credits and ~120 quotes per event). pinnacle is the sharp reference.
 odds_api_bookmakers: [pinnacle, betfair_ex_uk, williamhill, ladbrokes_uk, skybet, unibet_uk, betway, coral]
+kelly_fraction: 0.25   # suggestions: quarter Kelly (full Kelly is far too aggressive with uncertain probabilities)
+max_stake_pct: 2.0     # suggestions: stake hint never above this percent of bankroll

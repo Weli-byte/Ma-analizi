@@ -264,6 +264,8 @@ class OddsConfig(_Cfg):
     odds_api_reserve_credits: int = Field(ge=0)  # never spend the last credits of the month
     exact_horizon_hours: int = Field(gt=0)  # only fixtures kicking off within this horizon are considered
     odds_api_bookmakers: list[str] = Field(min_length=1, max_length=10)  # <=10 keys: 1 credit per call
+    kelly_fraction: float = Field(gt=0, le=1)  # bet suggestions (ADR 0039): fraction of full Kelly
+    max_stake_pct: float = Field(gt=0, le=100)  # cap of the stake hint, percent of bankroll
 
 
 class _FreshnessDays(_Cfg):

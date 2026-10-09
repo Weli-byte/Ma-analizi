@@ -137,5 +137,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0044: product path history/fixtures from openfootball (public domain); football-data.co.uk research only.
 - [x] ADR 0045 private data repo (Ma-analizi2, deploy key); ADR 0046 Bundesliga/Serie A/Ligue 1 + Süper Lig (source-limited).
 - [x] ADR 0047: exact odds for BL1/SA/FL1/TR (TR once per 12 h).
-- [ ] S19 startup MVP (hosting, Anthropic remain).
+- [x] ADR 0048: live track record (`python -m src.markets.track`, `/v1/track-record`); corners/cards/shots source decision; docs/always_on.md.
+- [ ] S19 startup MVP (hosting, Highlightly key for count markets, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

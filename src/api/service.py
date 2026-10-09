@@ -256,3 +256,11 @@ class ForecastService:
                          "generated_at": body["generated_at"], **t}
                     )  # fmt: skip
         return sorted(out, key=lambda t: -t["probability"])
+
+    def track_record(self) -> dict:
+        import json
+
+        path = self.root / "artifacts" / "markets" / "track_record.json"
+        if not path.exists():
+            return {"available": False, "reason": "no track record yet (python -m src.markets.track)"}
+        return {"available": True, **json.loads(path.read_text(encoding="utf-8"))}

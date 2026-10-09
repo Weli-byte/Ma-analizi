@@ -116,6 +116,7 @@ def _upcoming(vm) -> list[str]:
             "<br>".join(
                 f"{e(src)} {tag(r['quality'])} {e(r['bookmaker'])}: {' / '.join(f'{o:.2f}' for o in r['odds'])}"
                 for src, rs in m["odds"].items()
+                if src == "the-odds-api"  # ESPN/DraftKings prices have no display grant (ADR 0043)
                 for r in rs
             )
             or "UNKNOWN"
@@ -169,6 +170,24 @@ def _intel(vm) -> list[str]:
             + f"<br><span class='mut'>data quality flags: {e(flags)}; {e(i['model_version'])}, "
             f"<code>{e(i['data_version'])}</code>, cutoff {e(i['information_cutoff'])}</span></div>"
         )
+    return out
+
+
+def _track(vm) -> list[str]:
+    t = vm["track"]
+    out = ["<h2>Track record (published forecasts vs real results)</h2>"]
+    if not t["available"]:
+        return [*out, f"<p class='mut'>{e(t['reason'])}</p>"]
+    h = t["headline_1x2"]
+    out.append(
+        f"<div class='card'>{t['matches_scored']} matches scored. <b>{e(t['reliability_note'])}</b><br>"
+        f"1X2 log loss {f(h['log_loss'])} (league base rate {f(h['log_loss_league_base_rate'])}, model only "
+        f"{f(h['log_loss_model_only'])}); top-pick accuracy {f(h['top_pick_accuracy'])}; over/under 2.5 log loss "
+        f"{f(t['over_under_2_5_log_loss'])}; BTTS {f(t['btts_log_loss'])}; correct-score hit rate "
+        f"{f(t['correct_score_hit_rate'])}.</div>"
+    )
+    rows = [[e(k), f(v["hit"]), f(v["n"]), f(v["rate"])] for k, v in t["tips_by_lean"].items()]
+    out.append(table(["tip lean", "came true", "tips judged", "rate"], rows))
     return out
 
 
@@ -334,6 +353,7 @@ def render_html(vm: dict) -> str:
         )
     )
     out += _intel(vm)
+    out += _track(vm)
     out += _picks(vm)
     out += _live(vm)
     out += _models(vm["models"])

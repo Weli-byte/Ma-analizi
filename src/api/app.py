@@ -174,6 +174,10 @@ def create_app(
              upcoming_only: bool = True, limit: int = Limit, offset: int = Offset):  # fmt: skip
         return paged(service.tips(min_probability, upcoming_only), limit, offset, request)
 
+    @app.get("/v1/track-record", tags=["research"], dependencies=[Depends(auth)])
+    def track_record(request: Request):
+        return envelope(service.track_record(), request)
+
     @app.get("/v1/models", tags=["models"], dependencies=[Depends(auth)])
     def models(request: Request, limit: int = Limit, offset: int = Offset):
         return paged(service.models(), limit, offset, request)

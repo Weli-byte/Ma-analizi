@@ -99,6 +99,12 @@ the `odds-data` branch of the PUBLIC repository, which is a downloadable raw-dat
 private repository (see ADR 0043) before launch. The terms cover this provider only; ESPN/DraftKings prices
 have no such grant and must not be served.
 
+## Product path vs research path (ADR 0044, 2026-10-09)
+football-data.co.uk is NOT usable for the application (owner decision). The product path (match intelligence, API,
+dashboard) now uses openfootball (public domain) for history and fixtures and The Odds API for exact odds. The
+research benchmarks (S4-S11) still read the co.uk CSVs and stay RESEARCH_ONLY. Corners / cards / shots markets are
+research-only because no licence-clean source with those columns was found.
+
 ## Consequences
 - Benchmark/research results built on any of these sources may be published as methodology and aggregate
   metrics; do not redistribute the raw or normalized data.

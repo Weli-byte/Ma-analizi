@@ -67,6 +67,7 @@ def latest_artifact(root: Path, key: str) -> Path | None:
 def write_artifact(
     root: Path, mm, cfg_hash: str, now: datetime, key: str, provider_fixture_id: str, league: str,
     home_id: str, away_id: str, kickoff: datetime, data_version: str, feature_version: str, odds: dict | None,
+    source_note: dict | None = None,
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
     intel = intelligence(mm, home_id, away_id, league, tuple(odds["odds"]) if odds else None)
@@ -75,7 +76,7 @@ def write_artifact(
         "home_id": home_id, "away_id": away_id, "kickoff_utc": kickoff.isoformat(),
         "information_cutoff": now.isoformat(), "data_version": data_version,
         "feature_version": feature_version, "model_version": MODEL_VERSION, "config_hash": cfg_hash,
-        "market_source": odds, "intelligence": intel,
+        "market_source": odds, "history": source_note, "intelligence": intel,
     }  # fmt: skip
     body["content_hash"] = hashlib.sha256(canonical_json(body).encode()).hexdigest()
     body["generated_at"] = now.isoformat()
@@ -92,30 +93,69 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
     cdir = config_dir_for(root)
     cfg = load_config("markets", cdir)
     now = now or datetime.now(UTC).replace(microsecond=0)
+    cfg_hash = hashlib.sha256(canonical_json(cfg.model_dump()).encode()).hexdigest()[:12]
+    written = []
+    if cfg.history_source == "openfootball":
+        from src.data.teams import TeamDirectory
+
+        from .of_source import load_world
+
+        world = load_world(root, TeamDirectory.load(cdir / "team_aliases.yaml"), cfg, now)
+        mm = fit_markets(world.history, now, cfg)
+        wanted = {LEAGUES[c][0] for c in leagues}
+        counts: dict[str, int] = {}
+        todo = []
+        for league, f in world.upcoming:
+            if league in wanted and counts.get(league, 0) < n:
+                counts[league] = counts.get(league, 0) + 1
+                todo.append((league, f))
+        directory = TeamDirectory.load(cdir / "team_aliases.yaml")
+        for league, f in todo:
+            country = {"EPL": "ENG", "LALIGA": "ESP"}[league]
+            h = directory.resolve("openfootball", f.home_team_raw_name, country, f.kickoff_utc.date())
+            a = directory.resolve("openfootball", f.away_team_raw_name, country, f.kickoff_utc.date())
+            if h.team_id is None or a.team_id is None:
+                continue  # never auto-registered
+            key = fixture_key(h.team_id, a.team_id, f.kickoff_utc)
+            if _fresh(root, key, now, cfg.refresh_hours) and not force:
+                continue
+            odds = latest_exact_odds(root, h.team_id, a.team_id, f.kickoff_utc.date().isoformat())
+            path = write_artifact(
+                root, mm, cfg_hash, now, key, f"of-{f.provider_fixture_id}", league, h.team_id, a.team_id,
+                f.kickoff_utc, world.data_version, "none (rate model)", odds,
+                {"history_source": "openfootball (public domain)", "stale_files": world.stale_files,
+                 "unresolved_history_rows": world.unresolved, "rows_without_score": world.skipped_no_score},
+            )  # fmt: skip
+            if path is not None:
+                written.append({"fixture_key": key, "path": str(path)})
+        return written
+
     ref = resolve_dataset(root / load_config("data", cdir).processed_dir)
     matches = merge(load_stat_matches(ref), ingested_stat_matches(root))
     mm = fit_markets(matches, now, cfg)
-    cfg_hash = hashlib.sha256(canonical_json(cfg.model_dump()).encode()).hexdigest()[:12]
-    written = []
     for code in leagues:
         bundle = load_upcoming_rows(root, code, None, n)
         for row in bundle.rows:
             key = fixture_key(row.home_id, row.away_id, row.kickoff_utc)
-            prev = latest_artifact(root, key)
-            if prev and not force:
-                age = now - datetime.fromisoformat(
-                    json.loads(prev.read_text(encoding="utf-8"))["generated_at"]
-                )
-                if age < timedelta(hours=cfg.refresh_hours):
-                    continue
+            if _fresh(root, key, now, cfg.refresh_hours) and not force:
+                continue
             odds = latest_exact_odds(root, row.home_id, row.away_id, row.kickoff_utc.date().isoformat())
             path = write_artifact(
                 root, mm, cfg_hash, now, key, row.fixture_id, row.league_id, row.home_id, row.away_id,
                 row.kickoff_utc, bundle.data_version, bundle.feature_version, odds,
+                {"history_source": "football-data.co.uk (RESEARCH ONLY)"},
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
     return written
+
+
+def _fresh(root: Path, key: str, now: datetime, hours: float) -> bool:
+    prev = latest_artifact(root, key)
+    if not prev:
+        return False
+    age = now - datetime.fromisoformat(json.loads(prev.read_text(encoding="utf-8"))["generated_at"])
+    return age < timedelta(hours=hours)
 
 
 def sync_remote(root: Path, branch: str = "markets-data") -> str:

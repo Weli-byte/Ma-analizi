@@ -8,3 +8,6 @@ GET /v1/fixtures/{id}/intelligence   GET /v1/tips?min_probability=0.6
 Per fixture: 1X2, double chance, draw-no-bet, handicap, top correct scores, goals O/U 0.5-4.5, BTTS, team
 totals, clean sheets, corners / yellow cards / shots on target (expected + O/U lines), ranked tips, data-quality
 flags. Read ADR 0041 for what is and is not better than a naive baseline.
+
+Source (ADR 0044): by default history and fixtures come from openfootball (public domain), so corners / cards / shots
+on target are NOT produced; set `history_source: football-data` (research only) to get them.

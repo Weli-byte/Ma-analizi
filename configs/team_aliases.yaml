@@ -1521,3 +1521,187 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
   confidence: 0.9
+- source: openfootball
+  raw_name: Burnley FC
+  team_id: ENG_burnley
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Southampton FC
+  team_id: ENG_southampton
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.88, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: West Ham United FC
+  team_id: ENG_west_ham_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.909, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: West Bromwich Albion FC
+  team_id: ENG_west_bromwich_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.93, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Leicester City FC
+  team_id: ENG_leicester_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.903, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sheffield United FC
+  team_id: ENG_sheffield_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.914, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Wolverhampton Wanderers FC
+  team_id: ENG_wolverhampton_wanderers
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.939, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Norwich City FC
+  team_id: ENG_norwich_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.889, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Luton Town FC
+  team_id: ENG_luton_town
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.87, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RCD Mallorca
+  team_id: ESP_mallorca
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SD Eibar
+  team_id: ESP_eibar
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.769, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CD Leganés
+  team_id: ESP_leganes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Granada CF
+  team_id: ESP_granada
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CD Alavés
+  team_id: ESP_deportivo_alaves
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.64, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Espanyol Barcelona
+  team_id: ESP_espanyol
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.837, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Cádiz CF
+  team_id: ESP_cadiz
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.769, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Real Valladolid CF
+  team_id: ESP_real_valladolid
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.909, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SD Huesca
+  team_id: ESP_huesca
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Girona FC
+  team_id: ESP_girona
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: UD Almería
+  team_id: ESP_almeria
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: UD Las Palmas
+  team_id: ESP_las_palmas
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.87, historical club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Watford FC
+  team_id: ENG_watford
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (obvious short club name, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Celta
+  team_id: ESP_celta_vigo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (obvious short club name, checked by hand; owner to re-confirm)
+  confidence: 0.9

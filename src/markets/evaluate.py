@@ -51,11 +51,26 @@ def evaluate(root: Path = ROOT) -> dict:
     cdir = config_dir_for(root)
     cfg = load_config("markets", cdir)
     ev = load_config("evaluation", cdir)
-    ref = resolve_dataset(root / load_config("data", cdir).processed_dir)
+    ref = None
+    if load_config("markets", cdir).history_source != "openfootball":
+        ref = resolve_dataset(root / load_config("data", cdir).processed_dir)
     seasons = [*ev.train_seasons, *ev.validation_seasons]
     if set(seasons) & set(ev.final_test_seasons):
         raise ValueError("final-test seasons must never be loaded for evaluation")
-    ms = load_stat_matches(ref, seasons)
+    if cfg.history_source == "openfootball":
+        from src.data.teams import TeamDirectory
+
+        from .of_source import load_world
+
+        last = max(int(x[:4]) for x in ev.validation_seasons)
+        world = load_world(
+            root, TeamDirectory.load(cdir / "team_aliases.yaml"), cfg, end_year=last
+        )  # final-test seasons are not even downloaded
+        ms = [m for m in world.history if m.season in seasons]
+        ref_version = world.data_version
+    else:
+        ms = load_stat_matches(ref, seasons)
+        ref_version = ref.data_version
     val = [m for m in ms if m.season in ev.validation_seasons]
     t0 = min(m.kickoff_utc for m in val)
     t_end = max(m.kickoff_utc for m in val)
@@ -174,7 +189,7 @@ def evaluate(root: Path = ROOT) -> dict:
             "curve_on_calibration": {f"{w:.2f}": ll(float(w), calib) for w in grid[::4]},
         }  # fmt: skip
     return {
-        "data_version": ref.data_version, "validation_seasons": ev.validation_seasons,
+        "data_version": ref_version, "history_source": cfg.history_source, "validation_seasons": ev.validation_seasons,
         "final_test_seasons_loaded": False, "n_matches": len(rows), "refit_block_days": cfg.refit_block_days,
         "market_1x2_log_loss_reference": float(np.mean(A["r_ll_mkt"])) if len(A["r_ll_mkt"]) else None,
         "results": results, "blend": blend,

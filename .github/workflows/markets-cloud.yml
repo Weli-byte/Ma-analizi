@@ -1,9 +1,8 @@
 name: markets-cloud
-# Match intelligence without the owner's PC (ADR 0041/0042): downloads the official CSVs from GitHub's
-# network (the owner's ISP blocks football-data.co.uk), rebuilds the dataset, ingests recent results,
-# pulls the exact odds from the odds-data branch and writes immutable intelligence artifacts for the next
+# Match intelligence without the owner's PC (ADR 0041/0042/0044): history and fixtures come from openfootball
+# (public domain), the exact odds from the odds-data branch; writes immutable intelligence artifacts for the next
 # fixtures. Artifacts go to the `markets-data` branch; the PC pulls them with
-# `python -m src.markets.run --sync-remote`. Needs secret FOOTBALL_DATA_ORG_API_KEY.
+# `python -m src.markets.run --sync-remote`. No API key is needed.
 on:
   schedule:
     - cron: "23 */4 * * *"
@@ -17,8 +16,6 @@ jobs:
   markets:
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    env:
-      FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,14 +30,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install --require-hashes -r requirements.lock
           pip install --no-deps -e .
-      - name: "Dataset (official CSVs, research mode because the running season changes daily)"
-        run: |
-          python -m src.data.download
-          python -m src.data.pipeline --mode research
-      - name: Recent results and exact odds from the data branch
-        run: |
-          python -c "from pathlib import Path; from src.mlops.report import collect_results; print('new results:', collect_results(Path('.')))"
-          python -m src.odds.run sync-remote
+      - name: Exact odds from the data branch (history and fixtures come from openfootball, public domain)
+        run: python -m src.odds.run sync-remote
       - name: Check out the markets data branch (create it on the first run)
         run: |
           if git ls-remote --exit-code --heads origin markets-data >/dev/null 2>&1; then
@@ -56,7 +47,7 @@ jobs:
         run: |
           mkdir -p markets-data-wt/artifacts
           cp -r artifacts/markets markets-data-wt/artifacts/
-          rm -rf markets-data-wt/artifacts/markets/evaluation
+          rm -rf markets-data-wt/artifacts/markets/evaluation markets-data-wt/artifacts/markets/_cache
           cd markets-data-wt
           git config user.name "markets bot"
           git config user.email "markets-bot@users.noreply.github.com"

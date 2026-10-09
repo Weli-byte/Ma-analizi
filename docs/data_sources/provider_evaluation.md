@@ -6,7 +6,7 @@ written permission.
 
 | Provider | Used for | Verified (2026-10-08) | NOT verified | Commercial status |
 |---|---|---|---|---|
-| football-data.co.uk | historical results + closing odds CSV | no reuse terms found (see licensing.md) | permission | RESEARCH_ONLY |
+| football-data.co.uk | historical results + closing odds CSV | no reuse terms found (see licensing.md) | permission | RESEARCH_ONLY; REMOVED from the product path (ADR 0044) |
 | football-data.org | fixtures, results, live status | pricing page: Free 10 calls/min (12 competitions); paid tiers EUR 12 (livescores), 29, 49, 99, 199 /month; Odds add-on EUR 15, Statistics add-on EUR 15. The pricing page says nothing on commercial use or redistribution and points to the operator by email. `/terms` returns 404. | licence terms for any tier | **CONDITIONAL** after reading the full terms 2026-10-09 (licensing.md): no commercial ban; attribution + single-app key + delete-on-cancel; ask the operator to confirm in one line |
 | API-Football (api-sports) | current injuries (free plan, [yesterday, tomorrow]) | real calls: Free plan 100 req/day, 10/min; seasons 2022-2024 only. The terms and pricing pages returned HTTP 403 to automated fetch | terms, paid-plan commercial rights | **NO PUBLICATION LICENCE** (terms read 2026-10-09): internal use only, no player-level data in public outputs; see licensing.md |
 | The Odds API | exact-timestamp 1X2 odds | real calls: per-market `last_update` present, credits header; the site could not be fetched (TLS error from the fetch tool; the PC network also blocks it, so collection runs on GitHub Actions) | plan prices, redistribution terms | **COMMERCIAL USE PERMITTED for derived products**; no raw redistribution (terms read 2026-10-09) |

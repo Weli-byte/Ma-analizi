@@ -201,6 +201,9 @@ def settle(root: Path, now: datetime | None = None) -> list[str]:
 CREDITS_FILE = "_credits.json"
 
 
+FDORG_SCHEDULED = {"PL", "PD", "BL1", "SA", "FL1"}  # leagues whose due windows come from football-data.org
+
+
 def collect_exact(
     root: Path, league: str, data_root: Path | None = None, now: datetime | None = None, force: bool = False
 ) -> list[str]:
@@ -218,7 +221,15 @@ def collect_exact(
     now = now or datetime.now(UTC)
     store_root = Path(data_root or root)
     credits_path = store_root / "artifacts" / "odds" / CREDITS_FILE
-    if not force:
+    marker = store_root / "artifacts" / "odds" / f"_last_call_{league}.json"
+    if not force and league not in FDORG_SCHEDULED:
+        # no free fixture schedule for this league: one call per interval, the fixtures come from the response
+        if marker.exists():
+            last = datetime.fromisoformat(json.loads(marker.read_text(encoding="utf-8"))["at"])
+            if now - last < timedelta(hours=cfg.odds_only_interval_hours):
+                wait = f"{cfg.odds_only_interval_hours}h interval"
+                return [f"{league}: last call {last.isoformat()}, {wait} (no credit spent)"]
+    elif not force:
         fd_key = load_config("ingestion", cdir).api_key("football-data-org")
         if not fd_key:
             return ["football-data-org: NOT_CONFIGURED: cannot tell which fixtures are due"]
@@ -239,6 +250,8 @@ def collect_exact(
             return [f"{league}: SKIPPED, {remaining} credits left < reserve {cfg.odds_api_reserve_credits}"]
     feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
     lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    marker.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
     credits_path.parent.mkdir(parents=True, exist_ok=True)
     credits_path.write_text(
         json.dumps({"remaining": feed.requests_remaining, "updated_at": now.isoformat()}), encoding="utf-8"
@@ -299,7 +312,7 @@ def main(argv: list[str] | None = None) -> int:
             leagues = [a.league] if a.league else load_config("odds", config_dir_for(root)).leagues
             lines = [line for lg in leagues for line in collect(root, lg)]
         elif a.cmd == "collect-exact":
-            leagues = [a.league] if a.league else load_config("odds", config_dir_for(root)).leagues
+            leagues = [a.league] if a.league else load_config("odds", config_dir_for(root)).exact_leagues
             lines = [
                 line
                 for lg in leagues

@@ -12,3 +12,5 @@ exact_horizon_hours: 26         # collect exact odds only for fixtures kicking o
 odds_api_bookmakers: [pinnacle, betfair_ex_uk, williamhill, ladbrokes_uk, skybet, unibet_uk, betway, coral]
 kelly_fraction: 0.25   # suggestions: quarter Kelly (full Kelly is far too aggressive with uncertain probabilities)
 max_stake_pct: 2.0     # suggestions: stake hint never above this percent of bankroll
+exact_leagues: [PL, PD, BL1, SA, FL1, TR]   # The Odds API (cloud). TR has no free fixture schedule: see odds_only_interval_hours
+odds_only_interval_hours: 12   # TR: one call per 12 h (about 60 credits/month) instead of fixture windows

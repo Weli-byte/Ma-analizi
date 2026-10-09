@@ -28,7 +28,14 @@ from .quotes import MAX_CLOCK_SKEW_S, OddsQuote
 BASE = "https://api.the-odds-api.com/v4"
 SOURCE = "the-odds-api"
 KEY_ENV = "THE_ODDS_API_KEY"
-SPORT_KEYS = {"PL": "soccer_epl", "PD": "soccer_spain_la_liga"}  # confirm against /v4/sports on first call
+SPORT_KEYS = {  # all confirmed against the real /v4/sports response on 2026-10-09
+    "PL": "soccer_epl",
+    "PD": "soccer_spain_la_liga",
+    "BL1": "soccer_germany_bundesliga",
+    "SA": "soccer_italy_serie_a",
+    "FL1": "soccer_france_ligue_one",
+    "TR": "soccer_turkey_super_league",
+}
 
 META = ProviderMeta(
     name=SOURCE,

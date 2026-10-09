@@ -91,6 +91,21 @@ def write_artifact(
     return path
 
 
+def fixtures_from_odds_stores(root: Path, league: str, now: datetime) -> list[dict]:
+    """Upcoming fixtures of `league` known from stored odds events (meta.json), newest-soonest first."""
+    seen: dict[str, dict] = {}
+    for base in ("odds", "odds_remote"):
+        for meta_path in (root / "artifacts" / base).glob("*/meta.json"):
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+            ko = datetime.fromisoformat(meta["kickoff_utc"])
+            if meta.get("league") == league and ko > now:
+                seen[meta["fixture_id"]] = {
+                    "fixture_id": meta["fixture_id"], "home_id": meta["home_id"],
+                    "away_id": meta["away_id"], "kickoff_utc": ko,
+                }  # fmt: skip
+    return sorted(seen.values(), key=lambda x: x["kickoff_utc"])
+
+
 def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | None = None) -> list[dict]:
     cdir = config_dir_for(root)
     cfg = load_config("markets", cdir)
@@ -130,6 +145,24 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
+        # leagues the open source has no upcoming fixtures for (e.g. Super Lig): the fixtures known from the
+        # odds stores (The Odds API events) are the schedule; clubs there are already resolved
+        for league in sorted(wanted - set(counts)):
+            for fx in fixtures_from_odds_stores(root, league, now)[:n]:
+                key = fixture_key(fx["home_id"], fx["away_id"], fx["kickoff_utc"])
+                if _fresh(root, key, now, cfg.refresh_hours) and not force:
+                    continue
+                odds = latest_exact_odds(
+                    root, fx["home_id"], fx["away_id"], fx["kickoff_utc"].date().isoformat()
+                )
+                path = write_artifact(
+                    root, mm, cfg_hash, now, key, fx["fixture_id"], league, fx["home_id"], fx["away_id"],
+                    fx["kickoff_utc"], world.data_version, "none (rate model)", odds,
+                    {"history_source": "openfootball (public domain)", "fixtures_from": "The Odds API events",
+                     "missing_season_files": world.missing_files},
+                )  # fmt: skip
+                if path is not None:
+                    written.append({"fixture_key": key, "path": str(path)})
         return written
 
     ref = resolve_dataset(root / load_config("data", cdir).processed_dir)

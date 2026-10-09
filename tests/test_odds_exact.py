@@ -11,6 +11,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from src.config import load_config
 from src.odds.paper import PaperLedger
 from src.odds.run import collect_exact, sync_remote
 from src.odds.schedule import WINDOWS_MIN, due_window
@@ -194,3 +195,41 @@ def test_data_repo_url_defaults_to_the_private_repo_and_can_be_overridden(monkey
     assert data_repo_url() == DEFAULT_URL and "Ma-analizi2" in DEFAULT_URL
     monkeypatch.setenv("DATA_REPO_URL", "git@data-repo:x/y.git")
     assert data_repo_url() == "git@data-repo:x/y.git"
+
+
+def test_leagues_without_a_fixture_schedule_are_collected_at_most_once_per_interval(tmp_path, monkeypatch):
+    """TR (Super Lig) has no free fixture schedule: a recent call marker means NO request and NO credit."""
+    import shutil
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    monkeypatch.setenv("THE_ODDS_API_KEY", "never-used-no-request-is-made")
+    marker = tmp_path / "artifacts" / "odds" / "_last_call_TR.json"
+    marker.parent.mkdir(parents=True)
+    now = datetime(2026, 10, 9, 12, tzinfo=UTC)
+    marker.write_text(json.dumps({"at": (now - timedelta(hours=1)).isoformat()}), encoding="utf-8")
+
+    out = collect_exact(tmp_path, "TR", now=now)
+    assert "no credit spent" in out[0] and "TR" in out[0]
+
+
+def test_exact_leagues_cover_the_new_leagues_with_real_sport_keys():
+    from src.odds.espn import LEAGUE_CODES
+    from src.odds.theoddsapi import SPORT_KEYS
+
+    cfg = load_config("odds")
+    assert set(cfg.exact_leagues) == {"PL", "PD", "BL1", "SA", "FL1", "TR"}
+    assert all(lg in SPORT_KEYS and lg in LEAGUE_CODES for lg in cfg.exact_leagues)
+    assert SPORT_KEYS["TR"] == "soccer_turkey_super_league"
+
+
+def test_fixtures_from_odds_stores_feed_leagues_without_a_schedule(tmp_path):
+    from src.markets.run import fixtures_from_odds_stores
+
+    ev = parsed()
+    store = OddsStore(tmp_path, ev["fixture_id"], "odds_remote")
+    store.write_meta({"fixture_id": ev["fixture_id"], "league": "SUPERLIG", "home_id": "TUR_galatasaray", "away_id": "TUR_fenerbahce", "kickoff_utc": ev["kickoff_utc"].isoformat()})  # fmt: skip
+    before = ev["kickoff_utc"] - timedelta(days=1)
+    got = fixtures_from_odds_stores(tmp_path, "SUPERLIG", before)
+    assert [g["home_id"] for g in got] == ["TUR_galatasaray"]
+    assert fixtures_from_odds_stores(tmp_path, "SUPERLIG", ev["kickoff_utc"] + timedelta(days=1)) == []
+    assert fixtures_from_odds_stores(tmp_path, "EPL", before) == []

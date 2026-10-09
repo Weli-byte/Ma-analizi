@@ -466,6 +466,9 @@ teams:
 - team_id: TUR_alanyaspor
   canonical_name: Alanyaspor
   country: TUR
+- team_id: TUR_amed_sk
+  canonical_name: Amed SK
+  country: TUR
 - team_id: TUR_antalyaspor
   canonical_name: Antalyaspor
   country: TUR
@@ -477,6 +480,9 @@ teams:
   country: TUR
 - team_id: TUR_caykur_rizespor
   canonical_name: Çaykur Rizespor
+  country: TUR
+- team_id: TUR_corum_fk
+  canonical_name: Çorum FK
   country: TUR
 - team_id: TUR_denizlispor
   canonical_name: Denizlispor
@@ -3270,6 +3276,51 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: the-odds-api
+  raw_name: 1. FC Köln
+  team_id: GER_1_fc_koln
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: AC Milan
+  team_id: ITA_ac_milan
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: AS Monaco
+  team_id: FRA_as_monaco
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: AS Roma
+  team_id: ITA_as_roma
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Alanyaspor
+  team_id: TUR_alanyaspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
   raw_name: Alavés
   team_id: ESP_deportivo_alaves
   valid_from: null
@@ -3279,6 +3330,114 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: the-odds-api
+  raw_name: Amed SK
+  team_id: TUR_amed_sk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Angers
+  team_id: FRA_angers
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Atalanta BC
+  team_id: ITA_atalanta
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Augsburg
+  team_id: GER_fc_augsburg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Auxerre
+  team_id: FRA_auxerre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Basaksehir
+  team_id: TUR_istanbul_basaksehir
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Bayer Leverkusen
+  team_id: GER_bayer_leverkusen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Bayern Munich
+  team_id: GER_bayern_munich
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Besiktas JK
+  team_id: TUR_besiktas
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Bologna
+  team_id: ITA_bologna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Borussia Dortmund
+  team_id: GER_borussia_dortmund
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Borussia Monchengladbach
+  team_id: GER_borussia_monchengladbach
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
   raw_name: Bournemouth
   team_id: ENG_afc_bournemouth
   valid_from: null
@@ -3287,6 +3446,15 @@ aliases:
   approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
     the canonical team; owner to re-confirm)
   confidence: 0.95
+- source: the-odds-api
+  raw_name: Brest
+  team_id: FRA_brest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
 - source: the-odds-api
   raw_name: Brighton and Hove Albion
   team_id: ENG_brighton_hove_albion
@@ -3306,6 +3474,33 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: the-odds-api
+  raw_name: Cagliari
+  team_id: ITA_cagliari
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Como
+  team_id: ITA_como
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Eintracht Frankfurt
+  team_id: GER_eintracht_frankfurt
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
   raw_name: Elche CF
   team_id: ESP_elche
   valid_from: null
@@ -3315,6 +3510,312 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: the-odds-api
+  raw_name: Elversberg
+  team_id: GER_elversberg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Erzurum BB
+  team_id: TUR_erzurumspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Eyüpspor
+  team_id: TUR_eyupspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: FC Schalke 04
+  team_id: GER_schalke_04
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: FSV Mainz 05
+  team_id: GER_mainz_05
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Fenerbahce
+  team_id: TUR_fenerbahce
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Fiorentina
+  team_id: ITA_fiorentina
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Frosinone
+  team_id: ITA_frosinone
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Galatasaray
+  team_id: TUR_galatasaray
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Gazişehir Gaziantep
+  team_id: TUR_gaziantep_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Genclerbirligi SK
+  team_id: TUR_genclerbirligi
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Genoa
+  team_id: ITA_genoa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Goztepe
+  team_id: TUR_goztepe
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Hamburger SV
+  team_id: GER_hamburger_sv
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Inter Milan
+  team_id: ITA_inter
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Juventus
+  team_id: ITA_juventus
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Kasimpasa SK
+  team_id: TUR_kasmpasa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Kocaelispor
+  team_id: TUR_kocaelispor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Lazio
+  team_id: ITA_lazio
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Le Havre
+  team_id: FRA_le_havre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Le Mans FC
+  team_id: FRA_le_mans
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Lecce
+  team_id: ITA_lecce
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Lille
+  team_id: FRA_lille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Lorient
+  team_id: FRA_lorient
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Lyon
+  team_id: FRA_lyon
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Marseille
+  team_id: FRA_marseille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Monza
+  team_id: ITA_monza
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Napoli
+  team_id: ITA_napoli
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Nice
+  team_id: FRA_nice
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Paris FC
+  team_id: FRA_paris_fc
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Paris Saint Germain
+  team_id: FRA_paris_saint_germain
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Parma
+  team_id: ITA_parma
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: RB Leipzig
+  team_id: GER_rb_leipzig
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: RC Lens
+  team_id: FRA_lens
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
   raw_name: Real Racing Club de Santander
   team_id: ESP_racing_santander
   valid_from: null
@@ -3323,3 +3824,174 @@ aliases:
   approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
     the canonical team; owner to re-confirm)
   confidence: 0.95
+- source: the-odds-api
+  raw_name: Rennes
+  team_id: FRA_rennes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: SC Freiburg
+  team_id: GER_sc_freiburg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: SC Paderborn
+  team_id: GER_paderborn
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Samsunspor
+  team_id: TUR_samsunspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Sassuolo
+  team_id: ITA_sassuolo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Strasbourg
+  team_id: FRA_strasbourg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: TSG Hoffenheim
+  team_id: GER_hoffenheim
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Torino
+  team_id: ITA_torino
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Torku Konyaspor
+  team_id: TUR_konyaspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Toulouse
+  team_id: FRA_toulouse
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Trabzonspor
+  team_id: TUR_trabzonspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Troyes
+  team_id: FRA_troyes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Udinese
+  team_id: ITA_udinese
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Union Berlin
+  team_id: GER_union_berlin
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Venezia
+  team_id: ITA_venezia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: VfB Stuttgart
+  team_id: GER_vfb_stuttgart
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Werder Bremen
+  team_id: GER_werder_bremen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Çaykur Rizespor
+  team_id: TUR_caykur_rizespor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Çorum FK
+  team_id: TUR_corum_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
+    and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9

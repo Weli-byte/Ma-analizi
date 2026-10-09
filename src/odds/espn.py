@@ -23,7 +23,15 @@ from .quotes import OddsQuote, american_to_decimal
 
 BASE = "https://site.api.espn.com/apis/site/v2/sports/soccer"
 SOURCE = "espn"
-LEAGUE_CODES = {"PL": ("eng.1", "EPL", "ENG"), "PD": ("esp.1", "LALIGA", "ESP")}
+LEAGUE_CODES = {
+    "PL": ("eng.1", "EPL", "ENG"),
+    "PD": ("esp.1", "LALIGA", "ESP"),
+    # the codes below are used by The Odds API collection only (ESPN's own slugs for them were not verified)
+    "BL1": ("ger.1", "BUNDESLIGA", "GER"),
+    "SA": ("ita.1", "SERIEA", "ITA"),
+    "FL1": ("fra.1", "LIGUE1", "FRA"),
+    "TR": ("tur.1", "SUPERLIG", "TUR"),
+}
 SIDES = (("home", "H"), ("draw", "D"), ("away", "A"))
 
 META = ProviderMeta(

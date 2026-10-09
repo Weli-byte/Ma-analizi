@@ -355,6 +355,9 @@ class MarketsConfig(_Cfg):
     over_under_lines: dict[str, list[float]]
     market_blend_weight: float = Field(ge=0, le=1)
     refresh_hours: float = Field(gt=0)
+    history_source: Literal["openfootball", "football-data"]  # ADR 0044
+    history_start_year: int = Field(ge=2010)  # first season (start year) loaded from openfootball
+    result_lag_hours: float = Field(gt=0)  # openfootball has no result time: kickoff + lag (INFERRED)
 
 
 _MODELS = {

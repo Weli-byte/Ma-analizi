@@ -29,7 +29,11 @@ from src.markets.run import fixture_key, write_artifact  # noqa: E402
 def world(tmp_path_factory):
     root = tmp_path_factory.mktemp("mk") / "proj"
     shutil.copytree(FIXTURE_ROOT, root, ignore=shutil.ignore_patterns("artifacts", "__pycache__"))
-    shutil.copy(REPO_ROOT / "configs" / "markets.yaml", config_dir_for(root) / "markets.yaml")
+    cfg_text = (REPO_ROOT / "configs" / "markets.yaml").read_text(encoding="utf-8")
+    # the fixture world is the research CSV dataset (it carries corners/cards/shots)
+    (config_dir_for(root) / "markets.yaml").write_text(
+        cfg_text.replace("history_source: openfootball", "history_source: football-data"), encoding="utf-8"
+    )
     run_pipeline(root, "research", as_of=AS_OF)
     cfg = load_config("markets", config_dir_for(root))
     ref = resolve_dataset(root / load_config("data", config_dir_for(root)).processed_dir)
@@ -176,3 +180,49 @@ def test_latest_exact_odds_reads_only_complete_exact_sets(tmp_path):
     got = latest_exact_odds(tmp_path, "ENG_arsenal", "ENG_leeds_united", day)
     assert got["quality"] == "exact" and len(got["odds"]) == 3 and got["bookmaker"]
     assert latest_exact_odds(tmp_path, "ENG_arsenal", "ENG_chelsea", day) is None
+
+
+def test_openfootball_world_loads_history_upcoming_and_falls_back_to_the_cache(tmp_path, monkeypatch):
+    """Real captured openfootball response served over a real loopback socket (ADR 0044)."""
+    import threading
+    from datetime import datetime
+    from functools import partial
+    from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+
+    from src.data.teams import TeamDirectory
+    from src.markets.of_source import load_world
+
+    web = tmp_path / "web" / "2026-27"
+    web.mkdir(parents=True)
+    shutil.copy(
+        REPO_ROOT / "tests/fixtures/real_provider_captures/openfootball_en1_2026_trimmed.json",
+        web / "en.1.json",
+    )
+    (web / "es.1.json").write_text('{"name": "empty", "matches": []}', encoding="utf-8")
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=str(web.parent)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    monkeypatch.setenv("OPENFOOTBALL_BASE_URL", f"http://127.0.0.1:{srv.server_address[1]}")
+    cfg = load_config("markets").model_copy(update={"history_start_year": 2026})
+    directory = TeamDirectory.load(REPO_ROOT / "configs" / "team_aliases.yaml")
+    now = datetime(2026, 10, 8, 12, tzinfo=UTC)
+    w = load_world(tmp_path, directory, cfg, now)
+    assert len(w.history) == 7 and len(w.upcoming) == 2 and w.stale_files == [] and w.unresolved == 0
+    m = w.history[0]
+    assert m.available_at - m.kickoff_utc == timedelta(hours=cfg.result_lag_hours)  # inferred, labelled
+    assert all(v is None for v in m.home_stats.values())  # no corners/cards in the public-domain source
+    assert (
+        w.data_version.startswith("dv-of-")
+        and load_world(tmp_path, directory, cfg, now).data_version == w.data_version
+    )
+    srv.shutdown()
+    monkeypatch.setenv("OPENFOOTBALL_BASE_URL", "http://127.0.0.1:9")
+    stale = load_world(tmp_path, directory, cfg, now)  # server gone: the cache is used and reported
+    assert len(stale.history) == 7 and len(stale.stale_files) == 2 and stale.data_version == w.data_version
+    shutil.rmtree(tmp_path / "artifacts")
+    with pytest.raises(Exception, match="unreachable and no cache"):
+        load_world(tmp_path, directory, cfg, now)
+
+
+def test_default_config_uses_the_licence_clean_source():
+    cfg = load_config("markets")
+    assert cfg.history_source == "openfootball" and cfg.result_lag_hours > 0

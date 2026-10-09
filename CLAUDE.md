@@ -134,5 +134,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       Every source still RESEARCH_ONLY; commercial launch gated on written provider terms (owner).
 - [x] Follow-ups 2026-10-08: ADR 0037 re-pin, 0038 openfootball (public domain results), 0039 bet suggestions, slim API image, `docs/research_report.md`.
 - [x] Match intelligence (ADR 0041): `src/markets/` scores/goals/corners/cards, `python -m src.markets.run`, API + dashboard.
-- [ ] S19 startup MVP (hosting, licences, Anthropic remain).
+- [x] ADR 0044: product path history/fixtures from openfootball (public domain); football-data.co.uk research only.
+- [ ] S19 startup MVP (hosting, private data repo for odds, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

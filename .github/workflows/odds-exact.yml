@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     env:
+      DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
     steps:
@@ -37,11 +38,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install --require-hashes -r requirements.lock
           pip install --no-deps -e .
+      - name: Private data repo access (repository-scoped deploy key)
+        env:
+          DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/data_key && chmod 600 ~/.ssh/data_key
+          curl -fsS https://api.github.com/meta | python -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<'EOF'
+          Host data-repo
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/data_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+          EOF
+          git remote add data git@data-repo:Weli-byte/Ma-analizi2.git
       - name: Check out the data branch (create it on the first run)
         run: |
-          if git ls-remote --exit-code --heads origin odds-data >/dev/null 2>&1; then
-            git fetch origin odds-data
-            git worktree add -B odds-data odds-data-wt origin/odds-data
+          if git ls-remote --exit-code --heads data odds-data >/dev/null 2>&1; then
+            git fetch data odds-data
+            git worktree add -B odds-data odds-data-wt data/odds-data
           else
             git worktree add --detach odds-data-wt
             cd odds-data-wt && git checkout --orphan odds-data && git rm -rf . -q
@@ -56,5 +73,5 @@ jobs:
           git add -A artifacts
           if git diff --cached --quiet; then echo "nothing new"; else
             git commit -q -m "odds: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push origin HEAD:odds-data
+            git push data HEAD:odds-data
           fi

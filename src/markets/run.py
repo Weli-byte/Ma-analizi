@@ -16,6 +16,7 @@ from pathlib import Path
 from src.cli_utils import configure_output, load_dotenv
 from src.config import config_dir_for, load_config
 from src.data.dataset import resolve_dataset
+from src.data_repo import data_repo_url
 from src.llm.forecast import LEAGUES, load_upcoming_rows
 from src.mlops.oplog import heartbeat
 from src.odds.store import OddsStore
@@ -169,12 +170,8 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
         ).stdout
 
     try:
-        git("fetch", "--quiet", "origin", branch)
-        names = (
-            git("ls-tree", "-r", "--name-only", f"origin/{branch}", "--", "artifacts/markets")
-            .decode()
-            .split()
-        )
+        git("fetch", "--quiet", data_repo_url(), branch)
+        names = git("ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/markets").decode().split()
     except subprocess.CalledProcessError as e:
         return f"sync-remote: branch {branch!r} not available yet ({e.stderr.decode(errors='replace')[:100].strip()})"
     n = 0
@@ -182,9 +179,9 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
         dest = Path(root) / name
         if not dest.exists():
             dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(git("show", f"origin/{branch}:{name}"))
+            dest.write_bytes(git("show", f"FETCH_HEAD:{name}"))
             n += 1
-    return f"sync-remote: {len(names)} files on origin/{branch}, {n} new"
+    return f"sync-remote: {len(names)} files on the data repo branch {branch}, {n} new"
 
 
 def main(argv=None) -> int:

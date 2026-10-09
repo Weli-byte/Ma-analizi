@@ -18,6 +18,7 @@ from pathlib import Path
 from src.cli_utils import configure_output, load_dotenv
 from src.config import config_dir_for, load_config
 from src.data.teams import TeamDirectory
+from src.data_repo import data_repo_url
 from src.mlops.oplog import heartbeat
 from src.schemas import PredictionRecord
 
@@ -257,23 +258,21 @@ def sync_remote(root: Path, branch: str = "odds-data") -> list[str]:
         ).stdout
 
     try:
-        git("fetch", "--quiet", "origin", branch)
-        names = (
-            git("ls-tree", "-r", "--name-only", f"origin/{branch}", "--", "artifacts/odds").decode().split()
-        )
+        git("fetch", "--quiet", data_repo_url(), branch)
+        names = git("ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/odds").decode().split()
     except subprocess.CalledProcessError as e:
         why = e.stderr.decode(errors="replace")[:100].strip()
         return [f"sync-remote: branch {branch!r} not available yet ({why})"]
     n = 0
     for name in names:
         rel = name.removeprefix("artifacts/odds/")
-        data = git("show", f"origin/{branch}:{name}")
+        data = git("show", f"FETCH_HEAD:{name}")
         dest = Path(root) / "artifacts" / "odds_remote" / rel
         if not dest.exists() or dest.read_bytes() != data:
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes(data)
             n += 1
-    return [f"sync-remote: {len(names)} files on origin/{branch}, {n} updated"]
+    return [f"sync-remote: {len(names)} files on the data repo branch {branch}, {n} updated"]
 
 
 def main(argv: list[str] | None = None) -> int:

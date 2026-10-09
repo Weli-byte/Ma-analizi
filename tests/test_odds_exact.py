@@ -142,7 +142,7 @@ def _git(cwd: Path, *args: str) -> None:
     subprocess.run(["git", "-C", str(cwd), *args], check=True, capture_output=True, timeout=60)
 
 
-def test_sync_remote_copies_the_cloud_branch_into_the_read_only_remote_store(tmp_path):
+def test_sync_remote_copies_the_cloud_branch_into_the_read_only_remote_store(tmp_path, monkeypatch):
     origin = tmp_path / "origin"
     origin.mkdir()
     _git(origin, "init", "-q", "-b", "odds-data")
@@ -158,9 +158,9 @@ def test_sync_remote_copies_the_cloud_branch_into_the_read_only_remote_store(tmp
     work = tmp_path / "work"
     work.mkdir()
     _git(work, "init", "-q", "-b", "main")
-    _git(work, "remote", "add", "origin", str(origin))
+    monkeypatch.setenv("DATA_REPO_URL", str(origin))  # the private data repo (here: a real local git repo)
     out = sync_remote(work)
-    assert "files on origin/odds-data" in out[0] and "updated" in out[0]
+    assert "files on the data repo branch odds-data" in out[0] and "updated" in out[0]
     remote = existing_store(work, "oddsapi-abc")
     assert remote is not None and remote.dir.parent.name == "odds_remote"
     assert {q.quote_id for q in remote.quotes()} == {q.quote_id for q in parsed()["quotes"]}
@@ -185,3 +185,12 @@ def test_request_url_uses_the_bookmaker_list_for_one_credit_and_puts_the_key_las
     assert "regions=uk%2Ceu" in TheOddsApiFeed("KEY123").url(
         "PD"
     ) and "soccer_spain_la_liga" in TheOddsApiFeed("k").url("PD")
+
+
+def test_data_repo_url_defaults_to_the_private_repo_and_can_be_overridden(monkeypatch):
+    from src.data_repo import DEFAULT_URL, data_repo_url
+
+    monkeypatch.delenv("DATA_REPO_URL", raising=False)
+    assert data_repo_url() == DEFAULT_URL and "Ma-analizi2" in DEFAULT_URL
+    monkeypatch.setenv("DATA_REPO_URL", "git@data-repo:x/y.git")
+    assert data_repo_url() == "git@data-repo:x/y.git"

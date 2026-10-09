@@ -8,6 +8,7 @@ from pathlib import Path
 
 from src.config import config_dir_for, load_config
 from src.dashboard.viewmodel import matches_and_predictions, models_and_calibration
+from src.odds.math import devig as _devig
 from src.odds.picks import make_picks
 from src.odds.store import OddsStore
 from src.odds.value import value_row
@@ -26,6 +27,25 @@ class _Pred:
     p_away: float
 
 
+def _market_summary(odds: dict) -> dict:
+    """DERIVED values only (de-vigged implied probabilities). The raw bookmaker prices are not served by the
+    public API: The Odds API terms forbid redistributing its data as a raw data feed/own API (ADR 0043)."""
+    out = {}
+    for src, rows in odds.items():
+        out[src] = [
+            {
+                "bookmaker": r["bookmaker"],
+                "observed_at": r["observed_at"],
+                "quality": r["quality"],
+                "implied_probs_devig": dict(
+                    zip(("home", "draw", "away"), _devig(r["odds"]).tolist(), strict=True)
+                ),
+            }  # fmt: skip
+            for r in rows
+        ]
+    return out
+
+
 def _public_fixture(m: dict) -> dict:
     return {
         "fixture_id": fixture_id_of(m), "league": m["league"], "kickoff_utc": m["kickoff_utc"],
@@ -33,7 +53,7 @@ def _public_fixture(m: dict) -> dict:
         "away": {"team_id": m["away_id"], "name": m["away"]},
         "upcoming": m["upcoming"], "stages_locked": sorted(m["stages"]),
         "availability": {"injuries": m["injuries"], "lineups": m["lineups"]},
-        "odds": m["odds"],
+        "market": _market_summary(m["odds"]),
     }  # fmt: skip
 
 
@@ -126,6 +146,12 @@ class ForecastService:
         }  # fmt: skip
 
     def value_research(self) -> dict:
+        """Public view: derived values only (no raw price triples)."""
+        full = self._value_rows()
+        full["rows"] = [{k: v for k, v in r.items() if k != "odds"} for r in full["rows"]]
+        return full
+
+    def _value_rows(self) -> dict:
         """PAPER-ONLY research rows. Only complete EXACT-timestamp quote sets produce edge/EV (ADR 0030)."""
         matches, preds, _ = self._load()
         rows = []
@@ -171,7 +197,7 @@ class ForecastService:
         fractional-Kelly stake hint. Research output, not a guarantee."""
         cfg = load_config("odds", config_dir_for(self.root))
         picks = make_picks(
-            self.value_research()["rows"],
+            self._value_rows()["rows"],
             cfg.min_edge if min_edge is None else min_edge,
             cfg.min_ev if min_ev is None else min_ev,
             cfg.kelly_fraction, cfg.max_stake_pct,

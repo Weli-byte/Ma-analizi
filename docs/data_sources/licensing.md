@@ -81,6 +81,24 @@ the licensing duty onto the user. Consequences in this project: API-Football dat
 STATUS labels (OBSERVED/UNKNOWN), never the injury lists. Do not add player-level API-Football data to any public
 output. For a bet-related product, rights-holder licences may be needed regardless of the data vendor.
 
+## The Odds API — terms READ 2026-10-09 (last updated 2026-08-31, text supplied by the owner)
+
+| Topic | What the terms say |
+|---|---|
+| commercial use | **Expressly encouraged**: "use of our data in websites, mobile apps, dashboards, analytical tools ... including commercial use, provided our data is not the primary product being sold or redistributed." |
+| permitted | storing and keeping data indefinitely; displaying it in a UI/site/app (also commercial); research papers; calculating and displaying derived values; **training statistical and machine-learning models**. |
+| prohibited | reselling, repackaging or redistributing the data as a standalone data product: own API, data feed, downloadable files or any format that serves as a raw data source for others. |
+| attribution | Not required. |
+| advice / liability | Information only, no wagering advice, as-is; verify with the operator before acting. |
+| responsible gambling | If used to promote bookmakers/gambling, display messaging such as "Gamble Responsibly. 18+"; compliance with local advertising rules is the user's sole responsibility. |
+
+**Classification: COMMERCIAL USE PERMITTED (derived products), raw redistribution FORBIDDEN.** Consequences (ADR 0043):
+the public API no longer serves raw bookmaker prices (only de-vigged implied probabilities and the single price
+of a suggestion); the dashboard may display prices (allowed). OPEN: the cloud collector commits the raw quotes to
+the `odds-data` branch of the PUBLIC repository, which is a downloadable raw-data file set. Move that store to a
+private repository (see ADR 0043) before launch. The terms cover this provider only; ESPN/DraftKings prices
+have no such grant and must not be served.
+
 ## Consequences
 - Benchmark/research results built on any of these sources may be published as methodology and aggregate
   metrics; do not redistribute the raw or normalized data.

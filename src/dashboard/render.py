@@ -343,6 +343,6 @@ def render_html(vm: dict) -> str:
         "<meta name='viewport' content='width=device-width,initial-scale=1'><title>Forecast dashboard</title>"
         f"<style>{CSS}</style></head><body>{''.join(out)}"
         "<footer class='mut' style='margin-top:32px'>Football data provided by the Football-Data.org API. "
-        "Results and fixtures also from openfootball (public domain). Model estimates, not guarantees. 18+.</footer>"
+        "Results and fixtures also from openfootball (public domain). Model estimates, not guarantees. Gamble Responsibly. 18+.</footer>"
         "</body></html>"
     )

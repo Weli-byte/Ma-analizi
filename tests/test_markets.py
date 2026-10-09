@@ -5,7 +5,7 @@ after it. Nothing is simulated."""
 import json
 import shutil
 import sys
-from datetime import UTC, timedelta
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 import numpy as np
@@ -198,7 +198,11 @@ def test_openfootball_world_loads_history_upcoming_and_falls_back_to_the_cache(t
         REPO_ROOT / "tests/fixtures/real_provider_captures/openfootball_en1_2026_trimmed.json",
         web / "en.1.json",
     )
-    (web / "es.1.json").write_text('{"name": "empty", "matches": []}', encoding="utf-8")
+    from src.ingestion.openfootball import FILES
+
+    for code, _, _ in FILES.values():
+        if code != "en.1":
+            (web / f"{code}.json").write_text('{"name": "empty", "matches": []}', encoding="utf-8")
     srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=str(web.parent)))
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     monkeypatch.setenv("OPENFOOTBALL_BASE_URL", f"http://127.0.0.1:{srv.server_address[1]}")
@@ -217,7 +221,11 @@ def test_openfootball_world_loads_history_upcoming_and_falls_back_to_the_cache(t
     srv.shutdown()
     monkeypatch.setenv("OPENFOOTBALL_BASE_URL", "http://127.0.0.1:9")
     stale = load_world(tmp_path, directory, cfg, now)  # server gone: the cache is used and reported
-    assert len(stale.history) == 7 and len(stale.stale_files) == 2 and stale.data_version == w.data_version
+    assert (
+        len(stale.history) == 7
+        and len(stale.stale_files) == len(FILES)
+        and stale.data_version == w.data_version
+    )
     shutil.rmtree(tmp_path / "artifacts")
     with pytest.raises(Exception, match="unreachable and no cache"):
         load_world(tmp_path, directory, cfg, now)
@@ -226,3 +234,40 @@ def test_openfootball_world_loads_history_upcoming_and_falls_back_to_the_cache(t
 def test_default_config_uses_the_licence_clean_source():
     cfg = load_config("markets")
     assert cfg.history_source == "openfootball" and cfg.result_lag_hours > 0
+
+
+def test_a_missing_season_file_is_a_reported_gap_not_a_failure(tmp_path, monkeypatch):
+    """Real behaviour of the source: openfootball publishes no tr.1 file for 2021-24 (HTTP 404)."""
+    import threading
+    from functools import partial
+    from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+
+    from src.data.teams import TeamDirectory
+    from src.markets.of_source import load_world
+
+    web = tmp_path / "web"
+    (web / "2026-27").mkdir(parents=True)  # nothing inside: every file is a 404
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=str(web)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    monkeypatch.setenv("OPENFOOTBALL_BASE_URL", f"http://127.0.0.1:{srv.server_address[1]}")
+    cfg = load_config("markets").model_copy(update={"history_start_year": 2026})
+    w = load_world(
+        tmp_path,
+        TeamDirectory.load(REPO_ROOT / "configs" / "team_aliases.yaml"),
+        cfg,
+        datetime(2026, 10, 8, tzinfo=UTC),
+    )
+    srv.shutdown()
+    assert w.history == [] and w.upcoming == [] and len(w.missing_files) == 6 and w.stale_files == []
+
+
+def test_every_configured_league_has_clubs_and_aliases():
+    from src.data.teams import TeamDirectory
+    from src.ingestion.openfootball import FILES
+
+    d = TeamDirectory.load(REPO_ROOT / "configs" / "team_aliases.yaml")
+    assert d.validate() == []
+    for league, (_, _, country) in FILES.items():
+        clubs = [t for t in d.teams if t.startswith(country + "_")]
+        assert len(clubs) >= 18, league
+        assert any(a.source == "openfootball" and d.teams[a.team_id]["country"] == country for a in d.aliases)

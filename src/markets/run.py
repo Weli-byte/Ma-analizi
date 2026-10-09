@@ -17,6 +17,7 @@ from src.cli_utils import configure_output, load_dotenv
 from src.config import config_dir_for, load_config
 from src.data.dataset import resolve_dataset
 from src.data_repo import data_repo_url
+from src.ingestion.openfootball import FILES
 from src.llm.forecast import LEAGUES, load_upcoming_rows
 from src.mlops.oplog import heartbeat
 from src.odds.store import OddsStore
@@ -103,7 +104,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
 
         world = load_world(root, TeamDirectory.load(cdir / "team_aliases.yaml"), cfg, now)
         mm = fit_markets(world.history, now, cfg)
-        wanted = {LEAGUES[c][0] for c in leagues}
+        wanted = {LEAGUES[c][0] if c in LEAGUES else c for c in leagues}
         counts: dict[str, int] = {}
         todo = []
         for league, f in world.upcoming:
@@ -112,7 +113,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                 todo.append((league, f))
         directory = TeamDirectory.load(cdir / "team_aliases.yaml")
         for league, f in todo:
-            country = {"EPL": "ENG", "LALIGA": "ESP"}[league]
+            country = FILES[league][2]
             h = directory.resolve("openfootball", f.home_team_raw_name, country, f.kickoff_utc.date())
             a = directory.resolve("openfootball", f.away_team_raw_name, country, f.kickoff_utc.date())
             if h.team_id is None or a.team_id is None:
@@ -189,7 +190,7 @@ def main(argv=None) -> int:
     load_dotenv()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", default=str(ROOT))
-    ap.add_argument("--league", default="all", choices=["all", *sorted(LEAGUES)])
+    ap.add_argument("--league", default="all", choices=["all", *sorted(LEAGUES), *sorted(FILES)])
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--sync-remote", action="store_true", help="only copy what the cloud workflow committed")
@@ -201,7 +202,9 @@ def main(argv=None) -> int:
         return 0
     if not a.no_sync:
         print(sync_remote(Path(a.root)))  # cloud artifacts first (best effort, add-only)
-    leagues = sorted(LEAGUES) if a.league == "all" else [a.league]
+    cfg = load_config("markets", config_dir_for(Path(a.root)))
+    everything = sorted(FILES) if cfg.history_source == "openfootball" else sorted(LEAGUES)
+    leagues = everything if a.league == "all" else [a.league]
     out = run(Path(a.root), leagues, a.n, a.force)
     for w in out:
         print(json.dumps(w))

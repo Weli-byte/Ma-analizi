@@ -196,6 +196,348 @@ teams:
 - team_id: ESP_villarreal
   canonical_name: Villarreal
   country: ESP
+- team_id: FRA_ac_ajaccio
+  canonical_name: AC Ajaccio
+  country: FRA
+- team_id: FRA_amiens
+  canonical_name: Amiens
+  country: FRA
+- team_id: FRA_angers
+  canonical_name: Angers
+  country: FRA
+- team_id: FRA_as_monaco
+  canonical_name: AS Monaco
+  country: FRA
+- team_id: FRA_auxerre
+  canonical_name: Auxerre
+  country: FRA
+- team_id: FRA_bordeaux
+  canonical_name: Bordeaux
+  country: FRA
+- team_id: FRA_brest
+  canonical_name: Brest
+  country: FRA
+- team_id: FRA_clermont_foot
+  canonical_name: Clermont Foot
+  country: FRA
+- team_id: FRA_dijon
+  canonical_name: Dijon
+  country: FRA
+- team_id: FRA_le_havre
+  canonical_name: Le Havre
+  country: FRA
+- team_id: FRA_le_mans
+  canonical_name: Le Mans
+  country: FRA
+- team_id: FRA_lens
+  canonical_name: Lens
+  country: FRA
+- team_id: FRA_lille
+  canonical_name: Lille
+  country: FRA
+- team_id: FRA_lorient
+  canonical_name: Lorient
+  country: FRA
+- team_id: FRA_lyon
+  canonical_name: Lyon
+  country: FRA
+- team_id: FRA_marseille
+  canonical_name: Marseille
+  country: FRA
+- team_id: FRA_metz
+  canonical_name: Metz
+  country: FRA
+- team_id: FRA_montpellier
+  canonical_name: Montpellier
+  country: FRA
+- team_id: FRA_nantes
+  canonical_name: Nantes
+  country: FRA
+- team_id: FRA_nice
+  canonical_name: Nice
+  country: FRA
+- team_id: FRA_nimes
+  canonical_name: Nîmes
+  country: FRA
+- team_id: FRA_paris_fc
+  canonical_name: Paris FC
+  country: FRA
+- team_id: FRA_paris_saint_germain
+  canonical_name: Paris Saint-Germain
+  country: FRA
+- team_id: FRA_reims
+  canonical_name: Reims
+  country: FRA
+- team_id: FRA_rennes
+  canonical_name: Rennes
+  country: FRA
+- team_id: FRA_saint_etienne
+  canonical_name: Saint-Étienne
+  country: FRA
+- team_id: FRA_strasbourg
+  canonical_name: Strasbourg
+  country: FRA
+- team_id: FRA_toulouse
+  canonical_name: Toulouse
+  country: FRA
+- team_id: FRA_troyes
+  canonical_name: Troyes
+  country: FRA
+- team_id: GER_1_fc_koln
+  canonical_name: 1. FC Köln
+  country: GER
+- team_id: GER_arminia_bielefeld
+  canonical_name: Arminia Bielefeld
+  country: GER
+- team_id: GER_bayer_leverkusen
+  canonical_name: Bayer Leverkusen
+  country: GER
+- team_id: GER_bayern_munich
+  canonical_name: Bayern Munich
+  country: GER
+- team_id: GER_borussia_dortmund
+  canonical_name: Borussia Dortmund
+  country: GER
+- team_id: GER_borussia_monchengladbach
+  canonical_name: Borussia Mönchengladbach
+  country: GER
+- team_id: GER_darmstadt
+  canonical_name: Darmstadt
+  country: GER
+- team_id: GER_eintracht_frankfurt
+  canonical_name: Eintracht Frankfurt
+  country: GER
+- team_id: GER_elversberg
+  canonical_name: Elversberg
+  country: GER
+- team_id: GER_fc_augsburg
+  canonical_name: FC Augsburg
+  country: GER
+- team_id: GER_fortuna_dusseldorf
+  canonical_name: Fortuna Düsseldorf
+  country: GER
+- team_id: GER_greuther_furth
+  canonical_name: Greuther Fürth
+  country: GER
+- team_id: GER_hamburger_sv
+  canonical_name: Hamburger SV
+  country: GER
+- team_id: GER_heidenheim
+  canonical_name: Heidenheim
+  country: GER
+- team_id: GER_hertha_bsc
+  canonical_name: Hertha BSC
+  country: GER
+- team_id: GER_hoffenheim
+  canonical_name: Hoffenheim
+  country: GER
+- team_id: GER_holstein_kiel
+  canonical_name: Holstein Kiel
+  country: GER
+- team_id: GER_mainz_05
+  canonical_name: Mainz 05
+  country: GER
+- team_id: GER_paderborn
+  canonical_name: Paderborn
+  country: GER
+- team_id: GER_rb_leipzig
+  canonical_name: RB Leipzig
+  country: GER
+- team_id: GER_sc_freiburg
+  canonical_name: SC Freiburg
+  country: GER
+- team_id: GER_schalke_04
+  canonical_name: Schalke 04
+  country: GER
+- team_id: GER_st_pauli
+  canonical_name: St. Pauli
+  country: GER
+- team_id: GER_union_berlin
+  canonical_name: Union Berlin
+  country: GER
+- team_id: GER_vfb_stuttgart
+  canonical_name: VfB Stuttgart
+  country: GER
+- team_id: GER_vfl_bochum
+  canonical_name: VfL Bochum
+  country: GER
+- team_id: GER_vfl_wolfsburg
+  canonical_name: VfL Wolfsburg
+  country: GER
+- team_id: GER_werder_bremen
+  canonical_name: Werder Bremen
+  country: GER
+- team_id: ITA_ac_milan
+  canonical_name: AC Milan
+  country: ITA
+- team_id: ITA_as_roma
+  canonical_name: AS Roma
+  country: ITA
+- team_id: ITA_atalanta
+  canonical_name: Atalanta
+  country: ITA
+- team_id: ITA_benevento
+  canonical_name: Benevento
+  country: ITA
+- team_id: ITA_bologna
+  canonical_name: Bologna
+  country: ITA
+- team_id: ITA_brescia
+  canonical_name: Brescia
+  country: ITA
+- team_id: ITA_cagliari
+  canonical_name: Cagliari
+  country: ITA
+- team_id: ITA_como
+  canonical_name: Como
+  country: ITA
+- team_id: ITA_cremonese
+  canonical_name: Cremonese
+  country: ITA
+- team_id: ITA_crotone
+  canonical_name: Crotone
+  country: ITA
+- team_id: ITA_empoli
+  canonical_name: Empoli
+  country: ITA
+- team_id: ITA_fiorentina
+  canonical_name: Fiorentina
+  country: ITA
+- team_id: ITA_frosinone
+  canonical_name: Frosinone
+  country: ITA
+- team_id: ITA_genoa
+  canonical_name: Genoa
+  country: ITA
+- team_id: ITA_hellas_verona
+  canonical_name: Hellas Verona
+  country: ITA
+- team_id: ITA_inter
+  canonical_name: Inter
+  country: ITA
+- team_id: ITA_juventus
+  canonical_name: Juventus
+  country: ITA
+- team_id: ITA_lazio
+  canonical_name: Lazio
+  country: ITA
+- team_id: ITA_lecce
+  canonical_name: Lecce
+  country: ITA
+- team_id: ITA_monza
+  canonical_name: Monza
+  country: ITA
+- team_id: ITA_napoli
+  canonical_name: Napoli
+  country: ITA
+- team_id: ITA_parma
+  canonical_name: Parma
+  country: ITA
+- team_id: ITA_pisa
+  canonical_name: Pisa
+  country: ITA
+- team_id: ITA_salernitana
+  canonical_name: Salernitana
+  country: ITA
+- team_id: ITA_sampdoria
+  canonical_name: Sampdoria
+  country: ITA
+- team_id: ITA_sassuolo
+  canonical_name: Sassuolo
+  country: ITA
+- team_id: ITA_spal
+  canonical_name: SPAL
+  country: ITA
+- team_id: ITA_spezia
+  canonical_name: Spezia
+  country: ITA
+- team_id: ITA_torino
+  canonical_name: Torino
+  country: ITA
+- team_id: ITA_udinese
+  canonical_name: Udinese
+  country: ITA
+- team_id: ITA_venezia
+  canonical_name: Venezia
+  country: ITA
+- team_id: TUR_adana_demirspor
+  canonical_name: Adana Demirspor
+  country: TUR
+- team_id: TUR_alanyaspor
+  canonical_name: Alanyaspor
+  country: TUR
+- team_id: TUR_antalyaspor
+  canonical_name: Antalyaspor
+  country: TUR
+- team_id: TUR_besiktas
+  canonical_name: Beşiktaş
+  country: TUR
+- team_id: TUR_bodrum_fk
+  canonical_name: Bodrum FK
+  country: TUR
+- team_id: TUR_caykur_rizespor
+  canonical_name: Çaykur Rizespor
+  country: TUR
+- team_id: TUR_denizlispor
+  canonical_name: Denizlispor
+  country: TUR
+- team_id: TUR_erzurumspor
+  canonical_name: Erzurumspor
+  country: TUR
+- team_id: TUR_eyupspor
+  canonical_name: Eyüpspor
+  country: TUR
+- team_id: TUR_fatih_karagumruk
+  canonical_name: Fatih Karagümrük
+  country: TUR
+- team_id: TUR_fenerbahce
+  canonical_name: Fenerbahçe
+  country: TUR
+- team_id: TUR_galatasaray
+  canonical_name: Galatasaray
+  country: TUR
+- team_id: TUR_gaziantep_fk
+  canonical_name: Gaziantep FK
+  country: TUR
+- team_id: TUR_genclerbirligi
+  canonical_name: Gençlerbirliği
+  country: TUR
+- team_id: TUR_goztepe
+  canonical_name: Göztepe
+  country: TUR
+- team_id: TUR_hatayspor
+  canonical_name: Hatayspor
+  country: TUR
+- team_id: TUR_istanbul_basaksehir
+  canonical_name: İstanbul Başakşehir
+  country: TUR
+- team_id: TUR_kasmpasa
+  canonical_name: Kasımpaşa
+  country: TUR
+- team_id: TUR_kayserispor
+  canonical_name: Kayserispor
+  country: TUR
+- team_id: TUR_kocaelispor
+  canonical_name: Kocaelispor
+  country: TUR
+- team_id: TUR_konyaspor
+  canonical_name: Konyaspor
+  country: TUR
+- team_id: TUR_mke_ankaragucu
+  canonical_name: MKE Ankaragücü
+  country: TUR
+- team_id: TUR_samsunspor
+  canonical_name: Samsunspor
+  country: TUR
+- team_id: TUR_sivasspor
+  canonical_name: Sivasspor
+  country: TUR
+- team_id: TUR_trabzonspor
+  canonical_name: Trabzonspor
+  country: TUR
+- team_id: TUR_yeni_malatyaspor
+  canonical_name: Yeni Malatyaspor
+  country: TUR
 aliases:
 - source: espn
   raw_name: Alavés
@@ -1163,6 +1505,1770 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
     team; owner to re-confirm)
   confidence: 0.95
+- source: openfootball
+  raw_name: 1. FC Heidenheim 1846
+  team_id: GER_heidenheim
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: 1. FC Köln
+  team_id: GER_1_fc_koln
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: 1. FC Union Berlin
+  team_id: GER_union_berlin
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: 1. FSV Mainz 05
+  team_id: GER_mainz_05
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: 1899 Hoffenheim
+  team_id: GER_hoffenheim
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AC Ajaccio
+  team_id: FRA_ac_ajaccio
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AC Milan
+  team_id: ITA_ac_milan
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AC Monza
+  team_id: ITA_monza
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AC Pisa 1909
+  team_id: ITA_pisa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: ACF Fiorentina
+  team_id: ITA_fiorentina
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AJ Auxerre
+  team_id: FRA_auxerre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AS Monaco
+  team_id: FRA_as_monaco
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AS Monaco FC
+  team_id: FRA_as_monaco
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AS Roma
+  team_id: ITA_as_roma
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AS Saint-Étienne
+  team_id: FRA_saint_etienne
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Adana Demirspor
+  team_id: TUR_adana_demirspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Alanyaspor
+  team_id: TUR_alanyaspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Amiens SC
+  team_id: FRA_amiens
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Angers SCO
+  team_id: FRA_angers
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Antalyaspor
+  team_id: TUR_antalyaspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Arminia Bielefeld
+  team_id: GER_arminia_bielefeld
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Arsenal FC
+  team_id: ENG_arsenal
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Aston Villa FC
+  team_id: ENG_aston_villa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Atalanta
+  team_id: ITA_atalanta
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Atalanta BC
+  team_id: ITA_atalanta
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Athletic Club
+  team_id: ESP_athletic_bilbao
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: BB Erzurumspor
+  team_id: TUR_erzurumspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bayer 04 Leverkusen
+  team_id: GER_bayer_leverkusen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bayer Leverkusen
+  team_id: GER_bayer_leverkusen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bayern München
+  team_id: GER_bayern_munich
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Benevento Calcio
+  team_id: ITA_benevento
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Beşiktaş
+  team_id: TUR_besiktas
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bodrum FK
+  team_id: TUR_bodrum_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bologna FC
+  team_id: ITA_bologna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bologna FC 1909
+  team_id: ITA_bologna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Bor. Mönchengladbach
+  team_id: GER_borussia_monchengladbach
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Borussia Dortmund
+  team_id: GER_borussia_dortmund
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Borussia Mönchengladbach
+  team_id: GER_borussia_monchengladbach
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Brentford FC
+  team_id: ENG_brentford
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Brescia Calcio
+  team_id: ITA_brescia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Brighton & Hove Albion FC
+  team_id: ENG_brighton_hove_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Burnley FC
+  team_id: ENG_burnley
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CA Osasuna
+  team_id: ESP_osasuna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CD Alavés
+  team_id: ESP_deportivo_alaves
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.64, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CD Leganés
+  team_id: ESP_leganes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Cagliari Calcio
+  team_id: ITA_cagliari
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Chelsea FC
+  team_id: ENG_chelsea
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Clermont Foot 63
+  team_id: FRA_clermont_foot
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Club Atlético de Madrid
+  team_id: ESP_atletico_madrid
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Como 1907
+  team_id: ITA_como
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Coventry City FC
+  team_id: ENG_coventry_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Crystal Palace FC
+  team_id: ENG_crystal_palace
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Cádiz CF
+  team_id: ESP_cadiz
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.769, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Denizlispor
+  team_id: TUR_denizlispor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Dijon FCO
+  team_id: FRA_dijon
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: ES Troyes AC
+  team_id: FRA_troyes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: ESTAC Troyes
+  team_id: FRA_troyes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Eintracht Frankfurt
+  team_id: GER_eintracht_frankfurt
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Elche CF
+  team_id: ESP_elche
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Empoli FC
+  team_id: ITA_empoli
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Espanyol Barcelona
+  team_id: ESP_espanyol
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.837, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Everton FC
+  team_id: ENG_everton
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Eyüpspor
+  team_id: TUR_eyupspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Augsburg
+  team_id: GER_fc_augsburg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Barcelona
+  team_id: ESP_barcelona
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Bayern München
+  team_id: GER_bayern_munich
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Crotone
+  team_id: ITA_crotone
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Internazionale Milano
+  team_id: ITA_inter
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Lorient
+  team_id: FRA_lorient
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Metz
+  team_id: FRA_metz
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Nantes
+  team_id: FRA_nantes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Schalke 04
+  team_id: GER_schalke_04
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC St. Pauli 1910
+  team_id: GER_st_pauli
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Fatih Karagümrük
+  team_id: TUR_fatih_karagumruk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Fenerbahçe
+  team_id: TUR_fenerbahce
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Fortuna Düsseldorf
+  team_id: GER_fortuna_dusseldorf
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Frosinone Calcio
+  team_id: ITA_frosinone
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Fulham FC
+  team_id: ENG_fulham
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Galatasaray
+  team_id: TUR_galatasaray
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Gaziantep FK
+  team_id: TUR_gaziantep_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Gazişehir Gaziantep FK
+  team_id: TUR_gaziantep_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Genoa CFC
+  team_id: ITA_genoa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Gençlerbirliği
+  team_id: TUR_genclerbirligi
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Getafe CF
+  team_id: ESP_getafe
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Girona FC
+  team_id: ESP_girona
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Girondins Bordeaux
+  team_id: FRA_bordeaux
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Granada CF
+  team_id: ESP_granada
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Göztepe
+  team_id: TUR_goztepe
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hamburger SV
+  team_id: GER_hamburger_sv
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hatayspor
+  team_id: TUR_hatayspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hellas Verona
+  team_id: ITA_hellas_verona
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hellas Verona FC
+  team_id: ITA_hellas_verona
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hertha BSC
+  team_id: GER_hertha_bsc
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Holstein Kiel
+  team_id: GER_holstein_kiel
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hull City AFC
+  team_id: ENG_hull_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Inter
+  team_id: ITA_inter
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Ipswich Town FC
+  team_id: ENG_ipswich_town
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Juventus
+  team_id: ITA_juventus
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Juventus FC
+  team_id: ITA_juventus
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Kasımpaşa SK
+  team_id: TUR_kasmpasa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Kayserispor
+  team_id: TUR_kayserispor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Kocaelispor
+  team_id: TUR_kocaelispor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Konyaspor
+  team_id: TUR_konyaspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Lazio Roma
+  team_id: ITA_lazio
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Le Havre AC
+  team_id: FRA_le_havre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Le Mans FC
+  team_id: FRA_le_mans
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Leeds United FC
+  team_id: ENG_leeds_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Leicester City FC
+  team_id: ENG_leicester_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.903, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Levante UD
+  team_id: ESP_levante
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Lille OSC
+  team_id: FRA_lille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Liverpool FC
+  team_id: ENG_liverpool
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Luton Town FC
+  team_id: ENG_luton_town
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.87, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: MKE Ankaragücü
+  team_id: TUR_mke_ankaragucu
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Manchester City FC
+  team_id: ENG_manchester_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Manchester United FC
+  team_id: ENG_manchester_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Montpellier HSC
+  team_id: FRA_montpellier
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Málaga CF
+  team_id: ESP_malaga
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Newcastle United FC
+  team_id: ENG_newcastle_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Norwich City FC
+  team_id: ENG_norwich_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.889, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Nottingham Forest FC
+  team_id: ENG_nottingham_forest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Nîmes Olympique
+  team_id: FRA_nimes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: OGC Nice
+  team_id: FRA_nice
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Olympique Lyonnais
+  team_id: FRA_lyon
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Olympique Marseille
+  team_id: FRA_marseille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Olympique de Marseille
+  team_id: FRA_marseille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Paris FC
+  team_id: FRA_paris_fc
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Paris Saint-Germain
+  team_id: FRA_paris_saint_germain
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Paris Saint-Germain FC
+  team_id: FRA_paris_saint_germain
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Parma Calcio 1913
+  team_id: ITA_parma
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RB Leipzig
+  team_id: GER_rb_leipzig
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Celta
+  team_id: ESP_celta_vigo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (obvious short club name, checked by hand;
+    owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Celta de Vigo
+  team_id: ESP_celta_vigo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Deportivo La Coruña
+  team_id: ESP_deportivo_la_coruna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Lens
+  team_id: FRA_lens
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Strasbourg
+  team_id: FRA_strasbourg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RC Strasbourg Alsace
+  team_id: FRA_strasbourg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RCD Espanyol de Barcelona
+  team_id: ESP_espanyol
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RCD Mallorca
+  team_id: ESP_mallorca
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Racing Club de Lens
+  team_id: FRA_lens
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Rayo Vallecano de Madrid
+  team_id: ESP_rayo_vallecano
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Real Betis Balompié
+  team_id: ESP_real_betis
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Real Madrid CF
+  team_id: ESP_real_madrid
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Real Racing Club de Santander
+  team_id: ESP_racing_santander
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Real Sociedad de Fútbol
+  team_id: ESP_real_sociedad
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Real Valladolid CF
+  team_id: ESP_real_valladolid
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.909, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SC Freiburg
+  team_id: GER_sc_freiburg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SC Paderborn 07
+  team_id: GER_paderborn
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SD Eibar
+  team_id: ESP_eibar
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.769, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SD Huesca
+  team_id: ESP_huesca
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SPAL 2013 Ferrara
+  team_id: ITA_spal
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SS Lazio
+  team_id: ITA_lazio
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SSC Napoli
+  team_id: ITA_napoli
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SV 07 Elversberg
+  team_id: GER_elversberg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SV Darmstadt 98
+  team_id: GER_darmstadt
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SV Werder Bremen
+  team_id: GER_werder_bremen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sampdoria
+  team_id: ITA_sampdoria
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Samsunspor
+  team_id: TUR_samsunspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sassuolo Calcio
+  team_id: ITA_sassuolo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sevilla FC
+  team_id: ESP_sevilla
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sheffield United FC
+  team_id: ENG_sheffield_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.914, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sivasspor
+  team_id: TUR_sivasspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Southampton FC
+  team_id: ENG_southampton
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.88, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SpVgg Greuther Fürth 1903
+  team_id: GER_greuther_furth
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Spezia Calcio
+  team_id: ITA_spezia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Stade Brestois 29
+  team_id: FRA_brest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Stade Rennais
+  team_id: FRA_rennes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Stade Rennais FC 1901
+  team_id: FRA_rennes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Stade de Reims
+  team_id: FRA_reims
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sunderland AFC
+  team_id: ENG_sunderland
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: TSG 1899 Hoffenheim
+  team_id: GER_hoffenheim
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Torino FC
+  team_id: ITA_torino
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Tottenham Hotspur FC
+  team_id: ENG_tottenham_hotspur
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Toulouse FC
+  team_id: FRA_toulouse
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Trabzonspor
+  team_id: TUR_trabzonspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: UC Sampdoria
+  team_id: ITA_sampdoria
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: UD Almería
+  team_id: ESP_almeria
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: UD Las Palmas
+  team_id: ESP_las_palmas
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.87, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: US Cremonese
+  team_id: ITA_cremonese
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: US Lecce
+  team_id: ITA_lecce
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: US Salernitana 1919
+  team_id: ITA_salernitana
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: US Sassuolo Calcio
+  team_id: ITA_sassuolo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Udinese Calcio
+  team_id: ITA_udinese
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Valencia CF
+  team_id: ESP_valencia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Venezia FC
+  team_id: ITA_venezia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: VfB Stuttgart
+  team_id: GER_vfb_stuttgart
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: VfL Bochum 1848
+  team_id: GER_vfl_bochum
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: VfL Wolfsburg
+  team_id: GER_vfl_wolfsburg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Villarreal CF
+  team_id: ESP_villarreal
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
+    source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Watford FC
+  team_id: ENG_watford
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (obvious short club name, checked by hand;
+    owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Werder Bremen
+  team_id: GER_werder_bremen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: West Bromwich Albion FC
+  team_id: ENG_west_bromwich_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.93, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: West Ham United FC
+  team_id: ENG_west_ham_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.909, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Wolverhampton Wanderers FC
+  team_id: ENG_wolverhampton_wanderers
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.939, historical
+    club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Yeni Malatyaspor
+  team_id: TUR_yeni_malatyaspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Çaykur Rizespor
+  team_id: TUR_caykur_rizespor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: İstanbul Başakşehir
+  team_id: TUR_istanbul_basaksehir
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
+    files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
 - source: the-odds-api
   raw_name: Alavés
   team_id: ESP_deportivo_alaves
@@ -1217,491 +3323,3 @@ aliases:
   approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
     the canonical team; owner to re-confirm)
   confidence: 0.95
-- source: openfootball
-  raw_name: Arsenal FC
-  team_id: ENG_arsenal
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Aston Villa FC
-  team_id: ENG_aston_villa
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Brentford FC
-  team_id: ENG_brentford
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Brighton & Hove Albion FC
-  team_id: ENG_brighton_hove_albion
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Chelsea FC
-  team_id: ENG_chelsea
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Coventry City FC
-  team_id: ENG_coventry_city
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Crystal Palace FC
-  team_id: ENG_crystal_palace
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Everton FC
-  team_id: ENG_everton
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Fulham FC
-  team_id: ENG_fulham
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Hull City AFC
-  team_id: ENG_hull_city
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Ipswich Town FC
-  team_id: ENG_ipswich_town
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Leeds United FC
-  team_id: ENG_leeds_united
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Liverpool FC
-  team_id: ENG_liverpool
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Manchester City FC
-  team_id: ENG_manchester_city
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Manchester United FC
-  team_id: ENG_manchester_united
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Newcastle United FC
-  team_id: ENG_newcastle_united
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Nottingham Forest FC
-  team_id: ENG_nottingham_forest
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Sunderland AFC
-  team_id: ENG_sunderland
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Tottenham Hotspur FC
-  team_id: ENG_tottenham_hotspur
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Athletic Club
-  team_id: ESP_athletic_bilbao
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: CA Osasuna
-  team_id: ESP_osasuna
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Club Atlético de Madrid
-  team_id: ESP_atletico_madrid
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Elche CF
-  team_id: ESP_elche
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: FC Barcelona
-  team_id: ESP_barcelona
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Getafe CF
-  team_id: ESP_getafe
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Levante UD
-  team_id: ESP_levante
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Málaga CF
-  team_id: ESP_malaga
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: RC Celta de Vigo
-  team_id: ESP_celta_vigo
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: RC Deportivo La Coruña
-  team_id: ESP_deportivo_la_coruna
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: RCD Espanyol de Barcelona
-  team_id: ESP_espanyol
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Rayo Vallecano de Madrid
-  team_id: ESP_rayo_vallecano
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Real Betis Balompié
-  team_id: ESP_real_betis
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Real Madrid CF
-  team_id: ESP_real_madrid
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Real Racing Club de Santander
-  team_id: ESP_racing_santander
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Real Sociedad de Fútbol
-  team_id: ESP_real_sociedad
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Sevilla FC
-  team_id: ESP_sevilla
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Valencia CF
-  team_id: ESP_valencia
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Villarreal CF
-  team_id: ESP_villarreal
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-08 (same raw name already approved for another source; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Burnley FC
-  team_id: ENG_burnley
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Southampton FC
-  team_id: ENG_southampton
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.88, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: West Ham United FC
-  team_id: ENG_west_ham_united
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.909, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: West Bromwich Albion FC
-  team_id: ENG_west_bromwich_albion
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.93, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Leicester City FC
-  team_id: ENG_leicester_city
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.903, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Sheffield United FC
-  team_id: ENG_sheffield_united
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.914, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Wolverhampton Wanderers FC
-  team_id: ENG_wolverhampton_wanderers
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.939, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Norwich City FC
-  team_id: ENG_norwich_city
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.889, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Luton Town FC
-  team_id: ENG_luton_town
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.87, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: RCD Mallorca
-  team_id: ESP_mallorca
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: SD Eibar
-  team_id: ESP_eibar
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.769, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: CD Leganés
-  team_id: ESP_leganes
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Granada CF
-  team_id: ESP_granada
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: CD Alavés
-  team_id: ESP_deportivo_alaves
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.64, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Espanyol Barcelona
-  team_id: ESP_espanyol
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.837, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Cádiz CF
-  team_id: ESP_cadiz
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.769, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Real Valladolid CF
-  team_id: ESP_real_valladolid
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.909, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: SD Huesca
-  team_id: ESP_huesca
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Girona FC
-  team_id: ESP_girona
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: UD Almería
-  team_id: ESP_almeria
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: UD Las Palmas
-  team_id: ESP_las_palmas
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (closest canonical name 0.87, historical club checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: Watford FC
-  team_id: ENG_watford
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (obvious short club name, checked by hand; owner to re-confirm)
-  confidence: 0.9
-- source: openfootball
-  raw_name: RC Celta
-  team_id: ESP_celta_vigo
-  valid_from: null
-  valid_to: null
-  provenance: fuzzy_approved
-  approved_by: claude-assistant 2026-10-09 (obvious short club name, checked by hand; owner to re-confirm)
-  confidence: 0.9

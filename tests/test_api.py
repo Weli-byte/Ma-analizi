@@ -95,7 +95,10 @@ def test_fixtures_contract_and_pagination(root):
         and f["home"]["name"] == "Arsenal"
         and f["availability"]["lineups"] == "UNKNOWN"
     )
-    assert f["odds"]["the-odds-api"][0]["quality"] == "exact"
+    assert "odds" not in f  # raw prices are never served (The Odds API terms, ADR 0043)
+    m = f["market"]["the-odds-api"][0]
+    assert m["quality"] == "exact" and abs(sum(m["implied_probs_devig"].values()) - 1) < 1e-9
+    assert '"odds"' not in json.dumps(f) and "decimal" not in json.dumps(f["market"])
     assert c.get("/v1/fixtures?offset=1", headers=H).json()["data"] == []
     assert c.get("/v1/fixtures?league=LALIGA", headers=H).json()["page"]["total"] == 0
     bad = c.get("/v1/fixtures?limit=0", headers=H)
@@ -189,3 +192,8 @@ def test_value_picks_follow_thresholds_and_carry_caveats(root):
 def test_every_response_carries_the_required_football_data_org_attribution(root):
     r = client(root).get("/v1/health").json()
     assert "Football data provided by the Football-Data.org API" in r["meta"]["attribution"]
+
+
+def test_value_research_serves_derived_values_not_raw_prices(root):
+    rows = client(root).get("/v1/value-research", headers=H).json()["data"]["rows"]
+    assert rows and all("odds" not in r for r in rows)

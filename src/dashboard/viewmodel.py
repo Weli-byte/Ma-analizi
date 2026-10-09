@@ -316,6 +316,12 @@ def intel_section(root: Path, now: datetime) -> list[dict]:
     return sorted(out, key=lambda x: x["kickoff_utc"])
 
 
+def track_section(root: Path, now: datetime) -> dict:
+    from src.api.service import ForecastService
+
+    return ForecastService(root, lambda: now).track_record()
+
+
 def build_viewmodel(root: Path, now: datetime) -> dict:
     root = Path(root)
     matches, preds, updates = matches_and_predictions(root, now)
@@ -327,6 +333,7 @@ def build_viewmodel(root: Path, now: datetime) -> dict:
         "models": models_and_calibration(root),
         "picks": value_picks_section(root, now),
         "intel": intel_section(root, now),
+        "track": track_section(root, now),
         "live": live_matches(root),
         "ops": ops_sections(root, now),
     }

@@ -22,6 +22,14 @@ written permission.
 - FBref/Understat/Transfermarkt/WhoScored: scraping against ToS. Not used.
 No free source with an explicit commercial grant exists for odds, injuries or lineups; those stay research-only or need a paid contract.
 
+## Match statistics (corners, cards, shots) candidates, searched 2026-10-09
+| Source | Verified | Status |
+|---|---|---|
+| Highlightly | terms 6.1: storing and using the data in your apps/products is allowed; no proxying; PRO USD 9.49/month, 7,500 req/day; Basic free 100 req/day under different terms | BEST CANDIDATE, needs a key to verify responses and history |
+| TheStatsAPI | USD 50/month, 7-day trial, commercial products allowed | fallback |
+| football-data.org Statistics add-on | EUR 15/month; terms silent on commercial use | conditional |
+| DataHub copy of football-data.co.uk | labelled PDDL by a re-publisher | not used |
+
 ## What a commercial launch needs (owner decisions, in this order)
 1. Fixtures + results: openfootball covers this for free. Live scores, injuries, lineups: one paid, contract-backed provider whose written terms allow display and derived
    forecasts (candidates to ask: football-data.org paid tiers, API-Football paid, Sportmonks, Opta/StatsBomb).

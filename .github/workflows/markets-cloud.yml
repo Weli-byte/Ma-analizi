@@ -59,8 +59,14 @@ jobs:
             git worktree add --detach markets-data-wt
             cd markets-data-wt && git checkout --orphan markets-data && git rm -rf . -q
           fi
+      - name: Restore the artifacts published earlier (the track record needs them)
+        run: |
+          mkdir -p artifacts
+          cp -r markets-data-wt/artifacts/markets artifacts/ 2>/dev/null || true
       - name: Intelligence for the next fixtures
         run: python -m src.markets.run --no-sync --force
+      - name: Track record (published forecasts vs real results)
+        run: python -m src.markets.track
       - name: Publish artifacts
         run: |
           mkdir -p markets-data-wt/artifacts

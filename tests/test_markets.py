@@ -271,3 +271,52 @@ def test_every_configured_league_has_clubs_and_aliases():
         clubs = [t for t in d.teams if t.startswith(country + "_")]
         assert len(clubs) >= 18, league
         assert any(a.source == "openfootball" and d.teams[a.team_id]["country"] == country for a in d.aliases)
+
+
+def test_track_record_scores_only_forecasts_made_before_kickoff(world, tmp_path):
+    """Real fixture matches: artifacts written before kickoff are scored against the real results; one written
+    after kickoff and one for an unfinished match are ignored."""
+    from src.markets.track import track_record
+
+    cfg, ms, cut = world["cfg"], world["ms"], world["cut"]
+    mm = fit_markets(ms, cut, cfg)
+    nxt = [m for m in ms if m.kickoff_utc > cut][:40]
+    for m in nxt:
+        key = fixture_key(m.home_id, m.away_id, m.kickoff_utc)
+        write_artifact(tmp_path, mm, "cfg", cut, key, "x", m.league, m.home_id, m.away_id, m.kickoff_utc, "dv-x", "none", None)  # fmt: skip
+    late = nxt[0]  # a second artifact generated after its kickoff must not replace the pre-kickoff one
+    write_artifact(tmp_path, mm, "cfg", late.kickoff_utc + timedelta(hours=5), fixture_key(late.home_id, late.away_id, late.kickoff_utc), "x", late.league, late.home_id, late.away_id, late.kickoff_utc, "dv-x", "none", None)  # fmt: skip
+    rep = track_record(tmp_path, ms, now=ms[-1].kickoff_utc + timedelta(days=1))
+    assert rep["matches_scored"] == len(nxt) and rep["reliability_note"].startswith("noise")
+    h = rep["headline_1x2"]
+    assert 0 < h["log_loss"] < 2 and 0 <= h["top_pick_accuracy"] <= 1 and h["n_with_exact_market"] == 0
+    assert sum(v["n"] for v in rep["tips_by_lean"].values()) > 0
+    assert all(0 <= v["rate"] <= 1 for v in rep["tips_by_lean"].values() if v["n"])
+    # nothing is scored before the matches have been played
+    early = track_record(tmp_path, ms, now=cut)
+    assert early["matches_scored"] == 0
+
+
+def test_track_record_is_served_by_api_and_dashboard(world, tmp_path):
+    from fastapi.testclient import TestClient
+
+    from src.api.app import create_app
+    from src.dashboard.render import render_html
+    from src.dashboard.viewmodel import build_viewmodel
+    from src.markets.track import track_record
+
+    shutil.copytree(REPO_ROOT / "configs", tmp_path / "configs")
+    cfg, ms, cut = world["cfg"], world["ms"], world["cut"]
+    mm = fit_markets(ms, cut, cfg)
+    for m in [x for x in ms if x.kickoff_utc > cut][:20]:
+        write_artifact(tmp_path, mm, "cfg", cut, fixture_key(m.home_id, m.away_id, m.kickoff_utc), "x", m.league, m.home_id, m.away_id, m.kickoff_utc, "dv-x", "none", None)  # fmt: skip
+    now = ms[-1].kickoff_utc + timedelta(days=1)
+    (tmp_path / "artifacts" / "markets" / "track_record.json").write_text(json.dumps(track_record(tmp_path, ms, now=now), default=float), encoding="utf-8")  # fmt: skip
+    c = TestClient(create_app(tmp_path, keys=["k"], now_fn=lambda: now))
+    d = c.get("/v1/track-record", headers={"X-API-Key": "k"}).json()["data"]
+    assert d["available"] and d["matches_scored"] == 20
+    assert "Track record" in render_html(build_viewmodel(tmp_path, now))
+    empty = TestClient(create_app(tmp_path / "nowhere", keys=["k"])).get(
+        "/v1/track-record", headers={"X-API-Key": "k"}
+    )
+    assert empty.json()["data"]["available"] is False

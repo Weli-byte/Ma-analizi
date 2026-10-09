@@ -13,3 +13,10 @@ Status: accepted · 2026-10-09
   history from the incomplete openfootball files (ADR 0046). Süper Lig forecasts are therefore lower quality: only
   2019-21 and 2024-26 seasons exist in the history, and the two promoted clubs get neutral strength and a data-quality
   flag.
+
+## Amendment 2026-10-09 — GitHub cron is throttled
+Measured: the `*/10` schedule of odds-exact.yml ran at 14:55, 20:26, 00:32, 06:38 and 13:43 UTC, i.e. about every 6
+hours, so the t-90m / t-30m windows are usually missed. While the owner's PC is on, `scripts/odds_tick.ps1` now
+dispatches the workflow every tick (`gh workflow run`, free for a public repo, no credit unless a window is open).
+Without an always-on trigger the closing-line quotes are collected only by chance. A private main repository would
+also consume the 2000 free Actions minutes/month quickly with 10-minute runs.

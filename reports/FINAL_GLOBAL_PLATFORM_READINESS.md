@@ -45,13 +45,23 @@ CI_ON_MAIN:               green for the last push (ci run 37802234561); nightly-
 - Cloud generation (ADR 0042): `markets-cloud.yml` ran green (run 37848656607): 119 results ingested, 20
   artifacts published to `markets-data`, PC synced them with `python -m src.markets.run --sync-remote`.
 
+## Update 2026-10-09 (data, leagues, private repo)
+- Product path is licence-clean: openfootball (public domain) for history and fixtures, The Odds API for exact odds
+  (terms read: commercial use permitted, raw redistribution forbidden), football-data.org attribution shown.
+  football-data.co.uk is research only (owner decision). API-Football: no publication licence, internal only.
+- Raw and derived cloud data now live in the PRIVATE repo Ma-analizi2 (deploy key, ADR 0045); the public raw-data
+  branches were deleted.
+- Leagues: Premier League, La Liga, Bundesliga, Serie A, Ligue 1, Süper Lig (ADR 0046/0047): 59 fixtures with
+  forecasts in the last cloud run. Five-league out-of-sample (3578 matches): correct score, 1X2, over/under 2.5 and
+  BTTS all clearly better than baselines. Süper Lig is lower quality: openfootball has no 2021-24 or 2026-27 files, so
+  its fixtures come from The Odds API events and promoted clubs have neutral strength (flagged).
+- Measured limit: GitHub's `*/10` cron runs about every 6 hours; the PC triggers the odds workflow while it is on.
+
 ## Still open
-1. Data licences for football-data.co.uk / football-data.org / API-Football / The Odds API unverified; commercial
-   launch gated. openfootball (public domain) is the only source with an explicit commercial grant.
-2. S13 stage locks and S14 live ticks still depend on the PC being on (they need 2-10 minute timing); only odds
-   and match intelligence run in the cloud.
-3. No S14 real in-play payload, announced ESPN lineup or settled paper bet observed yet (needs real time).
-4. API rate limiter is in-process; no TLS/hosting.
-5. Anthropic not configured (no key).
-6. No odds for corners/cards/correct scores in the exact feed: those markets are probabilities and tips, not
-   value claims.
+1. Anthropic: no API key.
+2. S13 stage locks and S14 live ticks are PC-driven (2-10 minute timing; GitHub cron is too coarse).
+3. Real in-play payload, announced ESPN lineup and settled paper bets still need real elapsed time.
+4. Hosting, TLS, shared rate limiter; legal review of the betting content in the owner's jurisdiction.
+5. Owner re-confirmation of the `fuzzy_approved` aliases in configs/team_aliases.yaml.
+6. Corners / cards / shots on target exist only on the research source (football-data.co.uk): not in the product.
+7. Research benchmarks (S4-S11) still read football-data.co.uk (research only).

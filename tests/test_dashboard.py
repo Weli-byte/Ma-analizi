@@ -122,3 +122,8 @@ def test_real_exact_odds_are_listed_with_their_timestamp_quality(tmp_path):
     rows = vm["matches"][0]["odds"]["the-odds-api"]
     assert len(rows) == 3 and all(r["quality"] == "exact" and len(r["odds"]) == 3 for r in rows)
     assert "exact" in render_html(vm)
+
+
+def test_dashboard_footer_has_the_required_attribution(tmp_path):
+    html = render_html(build_viewmodel(make_root(tmp_path), NOW))
+    assert "Football data provided by the Football-Data.org API" in html

@@ -16,6 +16,8 @@ jobs:
   markets:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    env:
+      DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
     steps:
       - uses: actions/checkout@v4
         with:
@@ -30,13 +32,29 @@ jobs:
           python -m pip install --upgrade pip
           pip install --require-hashes -r requirements.lock
           pip install --no-deps -e .
+      - name: Private data repo access (repository-scoped deploy key)
+        env:
+          DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/data_key && chmod 600 ~/.ssh/data_key
+          curl -fsS https://api.github.com/meta | python -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<'EOF'
+          Host data-repo
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/data_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+          EOF
+          git remote add data git@data-repo:Weli-byte/Ma-analizi2.git
       - name: Exact odds from the data branch (history and fixtures come from openfootball, public domain)
         run: python -m src.odds.run sync-remote
       - name: Check out the markets data branch (create it on the first run)
         run: |
-          if git ls-remote --exit-code --heads origin markets-data >/dev/null 2>&1; then
-            git fetch origin markets-data
-            git worktree add -B markets-data markets-data-wt origin/markets-data
+          if git ls-remote --exit-code --heads data markets-data >/dev/null 2>&1; then
+            git fetch data markets-data
+            git worktree add -B markets-data markets-data-wt data/markets-data
           else
             git worktree add --detach markets-data-wt
             cd markets-data-wt && git checkout --orphan markets-data && git rm -rf . -q
@@ -54,5 +72,5 @@ jobs:
           git add -A artifacts
           if git diff --cached --quiet; then echo "nothing new"; else
             git commit -q -m "markets: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push origin HEAD:markets-data
+            git push data HEAD:markets-data
           fi

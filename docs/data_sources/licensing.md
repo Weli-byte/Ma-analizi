@@ -41,6 +41,28 @@ ayarla"); the owner still needs to register for a free API key
 (https://www.football-data.org/client/register) and set it as `FOOTBALL_DATA_ORG_API_KEY`
 before `configs/ingestion.yaml`'s `football-data-org` entry can be enabled.
 
+## football-data.org — terms READ 2026-10-09 (full "General Terms and Conditions", last updated 2018-06-01)
+
+Text supplied by the owner (the `/terms` URL returned 404 to the automated fetch). Not legal advice.
+
+| Topic | What the terms say |
+|---|---|
+| commercial use | **Not prohibited and not expressly granted.** The service is "a free API ... (with upgrade options) to the world wide development community"; tiers are only distinguished by competitions, data level and call limits. |
+| AI / model training | Not mentioned (so not prohibited). |
+| attribution (art. 7) | **Required**: "Football data provided by the Football-Data.org API" in the app/website. Implemented: dashboard footer and `meta.attribution` of every API response. |
+| one key, one application (2.3) | A key applies to a single application (one domain for web). Do not share the key across products. |
+| after cancelling (9.1) | The football data (fixtures, results, tables, squads) may no longer be referenced on your site or service. Plan for deletion if the subscription ends. |
+| logos (9.2) | Team logos belong to their owners; consent is the user's job. This project shows no logos. |
+| credentials (6.1) | Keys must not be in open-source repositories. Keys live in `.env` / GitHub secrets only. |
+| fair use (3) | Excessive use can be cancelled without notice. |
+| contact | info@football-data.org, billing@football-data.org |
+
+**Classification: CONDITIONAL** (no commercial restriction found; conditions above). The remaining risk is that
+silence is not a grant: ask info@football-data.org one line ("commercial product, free/paid tier, derived
+forecasts and displayed fixtures/results: any objection?") and keep the reply. Raw captured responses from this
+source exist as test fixtures in the public repository (`tests/fixtures/real_provider_captures/fdorg_*.json`);
+review whether that is acceptable (see art. 9.1).
+
 ## Consequences
 - Benchmark/research results built on any of these sources may be published as methodology and aggregate
   metrics; do not redistribute the raw or normalized data.

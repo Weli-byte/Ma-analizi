@@ -320,7 +320,7 @@ def _usage(ops) -> list[str]:
 def render_html(vm: dict) -> str:
     out = [
         "<h1>Football forecasting dashboard</h1>"
-        f"<p class='mut'>generated {e(vm['generated_at'])} - paper only, no betting advice, research data</p>"
+        f"<p class='mut'>generated {e(vm['generated_at'])} - model estimates, not guarantees, research data</p>"
     ]
     out += _freshness(vm["ops"])
     out += _upcoming(vm)
@@ -341,5 +341,8 @@ def render_html(vm: dict) -> str:
     return (
         "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
         "<meta name='viewport' content='width=device-width,initial-scale=1'><title>Forecast dashboard</title>"
-        f"<style>{CSS}</style></head><body>{''.join(out)}</body></html>"
+        f"<style>{CSS}</style></head><body>{''.join(out)}"
+        "<footer class='mut' style='margin-top:32px'>Football data provided by the Football-Data.org API. "
+        "Results and fixtures also from openfootball (public domain). Model estimates, not guarantees. 18+.</footer>"
+        "</body></html>"
     )

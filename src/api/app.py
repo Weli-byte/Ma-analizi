@@ -26,6 +26,8 @@ from .service import ForecastService
 
 API_VERSION = "v1"
 LICENSE_STATUS = "RESEARCH_ONLY"
+# football-data.org terms, article 7: this attribution must be shown in the app or website.
+ATTRIBUTION = ["Football data provided by the Football-Data.org API"]
 
 
 class RateLimiter:
@@ -120,6 +122,7 @@ def create_app(
         meta = {
             "api_version": API_VERSION, "generated_at": now_fn().isoformat(),
             "request_id": request.state.request_id, "license_status": LICENSE_STATUS,
+            "attribution": ATTRIBUTION,
         }  # fmt: skip
         out = {"data": data, "meta": meta}
         if page:

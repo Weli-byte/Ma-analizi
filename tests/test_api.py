@@ -184,3 +184,8 @@ def test_value_picks_follow_thresholds_and_carry_caveats(root):
         assert p["confidence"] in ("LOW", "MEDIUM") and p["caveats"] and p["selection"] in ("H", "D", "A")
         assert 1 <= p["models_agreeing"] <= p["models_evaluated"]
     assert c.get("/v1/value-picks?min_edge=2", headers=H).status_code == 422
+
+
+def test_every_response_carries_the_required_football_data_org_attribution(root):
+    r = client(root).get("/v1/health").json()
+    assert "Football data provided by the Football-Data.org API" in r["meta"]["attribution"]

@@ -216,3 +216,19 @@ def test_dashboard_lists_locked_stage_predictions_and_deltas(real_project):
     assert {p["model_id"] for p in stage_preds} >= {"elo", "poisson", "historical_prior"}
     assert all(p["model_class"] != "unknown" for p in stage_preds) and vm["updates"]
     assert "t-90m" in render_html(vm)
+
+
+def test_public_service_output_never_carries_player_level_injury_data(real_project):
+    """API-Football terms give no publication licence (licensing.md): only STATUS labels may be public."""
+    import json as _json
+    from datetime import UTC as _UTC
+
+    from src.api.service import ForecastService
+
+    rp = real_project
+    k = rp["fixture"].kickoff_utc
+    store = StageStore(rp["root"])
+    stage_run(rp, SnapshotStage.T_24H, cutoff_for_stage(k, SnapshotStage.T_24H) + timedelta(minutes=1), store)
+    svc = ForecastService(rp["root"], lambda: (k - timedelta(days=2)).astimezone(_UTC))
+    blob = _json.dumps(svc.fixtures(False, None))
+    assert '"players"' not in blob and '"availability_pct"' not in blob and '"injuries": "' in blob

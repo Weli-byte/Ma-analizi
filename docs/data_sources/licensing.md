@@ -63,6 +63,24 @@ forecasts and displayed fixtures/results: any objection?") and keep the reply. R
 source exist as test fixtures in the public repository (`tests/fixtures/real_provider_captures/fdorg_*.json`);
 review whether that is acceptable (see art. 9.1).
 
+## API-Football (api-sports) — terms READ 2026-10-09 (text supplied by the owner, Turkish translation of the ToS)
+
+| Topic | What the terms say |
+|---|---|
+| licence to publish | **None.** "We do not provide a licence for the use and publication of the data in user-created applications, websites or other products. Any licence or permission for publication must be requested by the user from the competent authorities." |
+| third-party IP | Some data may be subject to IP / commercial restrictions of leagues, federations or organisers; verifying and obtaining authorisations is the USER's responsibility; "we do not grant any commercial rights over such competitions". |
+| betting | Use for betting platforms, TV, fantasy sports or mass media "may require additional licences from the relevant rights holders". |
+| logos / images | Identification only; no ownership; use may need the owners' consent. |
+| accuracy | As-is, no warranty; wrong/missing data is no ground for a refund. |
+| rate limits | Not respecting per-minute limits is a material breach (automatic suspension without notice). |
+| free plan | Activated at sign-up; the provider may change or withdraw it at any time. |
+
+**Classification: NO PUBLICATION LICENCE (RESEARCH_ONLY).** The terms do not allow publishing the data; they push
+the licensing duty onto the user. Consequences in this project: API-Football data is used internally only
+(injury status in stage snapshots and LLM prompts). Public outputs (dashboard, API) show only availability
+STATUS labels (OBSERVED/UNKNOWN), never the injury lists. Do not add player-level API-Football data to any public
+output. For a bet-related product, rights-holder licences may be needed regardless of the data vendor.
+
 ## Consequences
 - Benchmark/research results built on any of these sources may be published as methodology and aggregate
   metrics; do not redistribute the raw or normalized data.

@@ -27,6 +27,7 @@ class OpenFootballWorld:
     unresolved: int
     stale_files: list[str]
     skipped_no_score: int
+    missing_files: list[str]  # season files the source does not publish (HTTP 404)
 
 
 def _cache_path(root: Path, league: str, year: int) -> Path:
@@ -45,6 +46,7 @@ def _fetch(
     root: Path, provider: OpenFootballProvider, league: str, year: int
 ) -> tuple[list[RawFixture], bytes, bool]:
     """(fixtures, raw bytes, stale). Refreshes the cache on success; falls back to it on a network error."""
+    import urllib.error
     import urllib.request
 
     from src.ingestion.endpoints import endpoint
@@ -58,6 +60,14 @@ def _fetch(
         cache.parent.mkdir(parents=True, exist_ok=True)
         cache.write_bytes(raw)
         stale = False
+    except urllib.error.HTTPError as e:
+        if e.code == 404:  # the source does not publish this season file: a gap, not a failure
+            return [], b"", False
+        if not cache.exists():
+            raise ProviderError(
+                f"openfootball {league} {season_dir(year)}: HTTP {e.code} and no cache"
+            ) from None
+        raw, stale = cache.read_bytes(), True
     except Exception:  # noqa: BLE001 - any network failure: use the cache if there is one
         if not cache.exists():
             raise ProviderError(
@@ -80,11 +90,14 @@ def load_world(
     provider = OpenFootballProvider()
     last_year = end_year if end_year is not None else (now.year if now.month >= 7 else now.year - 1)
     empty = dict.fromkeys(STATS)
-    history, upcoming, blobs, stale = [], [], [], []
+    history, upcoming, blobs, stale, missing = [], [], [], [], []
     unresolved = skipped = 0
     for league, (_, _, country) in FILES.items():
         for year in range(cfg.history_start_year, last_year + 1):
             fx, raw, was_stale = _fetch(root, provider, league, year)
+            if not raw:
+                missing.append(f"{league} {season_dir(year)}")
+                continue
             blobs.append(hashlib.sha256(raw).hexdigest())
             if was_stale:
                 stale.append(f"{league} {season_dir(year)}")
@@ -119,4 +132,4 @@ def load_world(
     history.sort(key=lambda m: m.kickoff_utc)
     upcoming.sort(key=lambda x: x[1].kickoff_utc)
     dv = "dv-of-" + hashlib.sha256("".join(sorted(blobs)).encode()).hexdigest()[:12]
-    return OpenFootballWorld(history, upcoming, dv, unresolved, stale, skipped)
+    return OpenFootballWorld(history, upcoming, dv, unresolved, stale, skipped, missing)

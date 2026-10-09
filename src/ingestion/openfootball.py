@@ -24,7 +24,18 @@ from .provider import ProviderError, RawFixture
 
 BASE = "https://raw.githubusercontent.com/openfootball/football.json/master"
 SOURCE = "openfootball"
-FILES = {"EPL": ("en.1", "Europe/London", "ENG"), "LALIGA": ("es.1", "Europe/Madrid", "ESP")}
+FILES = {
+    "EPL": ("en.1", "Europe/London", "ENG"),
+    "LALIGA": ("es.1", "Europe/Madrid", "ESP"),
+    "BUNDESLIGA": ("de.1", "Europe/Berlin", "GER"),
+    "SERIEA": ("it.1", "Europe/Rome", "ITA"),
+    "LIGUE1": ("fr.1", "Europe/Paris", "FRA"),
+    "SUPERLIG": (
+        "tr.1",
+        "Europe/Istanbul",
+        "TUR",
+    ),  # openfootball has gaps for this league (2021-24, 2026-27)
+}
 
 
 def season_dir(season_start_year: int) -> str:

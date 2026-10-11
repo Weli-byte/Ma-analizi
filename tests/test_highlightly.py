@@ -196,3 +196,23 @@ def test_alias_tool_accepts_only_clear_same_country_matches_and_lists_the_rest(t
 
     shutil.copytree(ROOT / "configs", tmp_path / "configs")
     assert main(["--root", str(tmp_path)]) == 0
+
+
+def test_alias_review_page_embeds_local_logos_and_escapes_names(tmp_path):
+    import shutil
+
+    from src.markets.alias_review_page import build
+    from src.markets.stats_store import _row, save
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    page = json.loads((CAP / "matches_page.json").read_text(encoding="utf-8"))
+    m = page["data"][1]  # Manchester United v Tottenham (real)
+    save(tmp_path, "EPL", 2026, {m["id"]: _row(m, "EPL", 2026)})
+    logos = tmp_path / "logos"
+    logos.mkdir()
+    (logos / "40781.png").write_bytes(
+        b"\x89PNG\r\n\x1a\n-test-bytes-"
+    )  # Tottenham's real Highlightly team id
+    html = build(tmp_path, logos)
+    assert "data:image/png;base64," in html and "Alias review" in html and "<script>alert" not in html
+    assert "dogru kulup" in html  # the correction inputs exist

@@ -216,3 +216,84 @@ def test_alias_review_page_embeds_local_logos_and_escapes_names(tmp_path):
     html = build(tmp_path, logos)
     assert "data:image/png;base64," in html and "Alias review" in html and "<script>alert" not in html
     assert "dogru kulup" in html  # the correction inputs exist
+
+
+def test_logo_downloader_fetches_present_ones_and_reports_failures(tmp_path, monkeypatch, capsys):
+    """Mechanics only: a loopback server serves one logo file; the other team id is a 404 and is reported."""
+    from functools import partial
+    from http.server import SimpleHTTPRequestHandler
+
+    from src.markets.alias_logos import logo_url, main, team_ids
+    from src.markets.stats_store import _row, save
+
+    web = tmp_path / "web"
+    web.mkdir()
+    (web / "40781.png").write_bytes(b"\x89PNG-bytes")
+    srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=str(web)))
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    monkeypatch.setenv("HIGHLIGHTLY_LOGO_BASE_URL", f"http://127.0.0.1:{srv.server_address[1]}")
+    page = json.loads((CAP / "matches_page.json").read_text(encoding="utf-8"))
+    m = page["data"][1]  # Manchester United (28867) v Tottenham (40781), real ids
+    save(tmp_path, "EPL", 2026, {m["id"]: _row(m, "EPL", 2026)})
+    from src.markets.stats_store import store_dir
+
+    assert team_ids(store_dir(tmp_path)) == {28867, 40781}
+    assert main(["--stats", str(store_dir(tmp_path)), "--out", str(tmp_path / "logos")]) == 0
+    out = json.loads(capsys.readouterr().out.strip().splitlines()[-1])
+    assert out["downloaded_or_present"] == 1 and out["n_failed"] == 1
+    assert (tmp_path / "logos" / "40781.png").read_bytes() == b"\x89PNG-bytes"
+    srv.shutdown()
+    monkeypatch.setenv("HIGHLIGHTLY_LOGO_BASE_URL", "https://evil.example")
+    with pytest.raises(ValueError):
+        logo_url(1)  # never redirected to a non-loopback host
+
+
+def test_review_page_syncs_logos_from_the_data_repo_and_writes_the_page(tmp_path, monkeypatch, capsys):
+    import shutil
+    import subprocess
+
+    from src.markets.alias_review_page import main, sync_logos
+
+    def git(cwd, *args):
+        subprocess.run(["git", "-C", str(cwd), *args], check=True, capture_output=True)
+
+    data = tmp_path / "data"
+    (data / "logos").mkdir(parents=True)
+    git(data, "init", "-q", "-b", "review-assets")
+    git(data, "config", "user.email", "t@example.com")
+    git(data, "config", "user.name", "t")
+    (data / "logos" / "40781.png").write_bytes(b"\x89PNG-bytes")
+    git(data, "add", "-A")
+    git(data, "commit", "-q", "-m", "logos")
+    root = tmp_path / "root"
+    root.mkdir()
+    git(root, "init", "-q")
+    shutil.copytree(ROOT / "configs", root / "configs")
+    monkeypatch.setenv("DATA_REPO_URL", str(data))
+    assert "1 logos synced" in sync_logos(root)
+    assert (root / "artifacts" / "logos" / "40781.png").exists()
+    assert main(["--root", str(root)]) == 0 and (root / "artifacts" / "alias_review.html").exists()
+    monkeypatch.setenv("DATA_REPO_URL", str(tmp_path / "nowhere"))
+    assert "no logos" in sync_logos(root)
+
+
+def test_alias_tool_apply_writes_only_the_clear_matches(tmp_path):
+    import shutil
+
+    from src.config import config_dir_for
+    from src.markets.alias_tool import main
+    from src.markets.stats_store import _row, save
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    path = config_dir_for(tmp_path) / "team_aliases.yaml"
+    d = TeamDirectory.load(path)
+    d.aliases = [a for a in d.aliases if a.source != "highlightly"]
+    d.dump(path)
+    page = json.loads((CAP / "matches_page.json").read_text(encoding="utf-8"))
+    m = page["data"][1]  # real Manchester United v Tottenham
+    save(tmp_path, "EPL", 2026, {m["id"]: _row(m, "EPL", 2026)})
+    assert main(["--root", str(tmp_path), "--apply"]) == 0
+    after = TeamDirectory.load(path)
+    added = [a for a in after.aliases if a.source == "highlightly"]
+    assert [(a.raw_name, a.team_id) for a in added] == [("Tottenham", "ENG_tottenham_hotspur")]
+    assert added[0].provenance == "fuzzy_approved" and "owner to re-confirm" in added[0].approved_by

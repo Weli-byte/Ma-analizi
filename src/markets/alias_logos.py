@@ -7,10 +7,18 @@ repository and never published. A logo that cannot be downloaded is skipped and 
 
 import argparse
 import json
+import os
 import urllib.request
 from pathlib import Path
 
-LOGO = "https://highlightly.net/soccer/images/teams/{}.png"
+LOGO = "https://highlightly.net/soccer/images/teams"
+
+
+def logo_url(tid: int) -> str:
+    base = os.environ.get("HIGHLIGHTLY_LOGO_BASE_URL")  # tests: a loopback server only
+    if base and not base.startswith(("http://127.0.0.1", "http://localhost")):
+        raise ValueError("HIGHLIGHTLY_LOGO_BASE_URL may only point to a loopback address")
+    return f"{base or LOGO}/{tid}.png"
 
 
 def team_ids(stats_dir: Path) -> set[int]:
@@ -37,7 +45,7 @@ def main(argv=None) -> int:
             ok += 1
             continue
         try:
-            with urllib.request.urlopen(LOGO.format(tid), timeout=20) as r:  # noqa: S310 - fixed https host
+            with urllib.request.urlopen(logo_url(tid), timeout=20) as r:  # noqa: S310 - fixed https host
                 dest.write_bytes(r.read())
             ok += 1
         except Exception as e:  # noqa: BLE001 - report and continue

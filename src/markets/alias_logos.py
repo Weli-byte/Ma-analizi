@@ -45,11 +45,12 @@ def main(argv=None) -> int:
             ok += 1
             continue
         try:
-            with urllib.request.urlopen(logo_url(tid), timeout=20) as r:  # noqa: S310 - fixed https host
+            req = urllib.request.Request(logo_url(tid), headers={"User-Agent": "Mozilla/5.0 (alias review)"})
+            with urllib.request.urlopen(req, timeout=20) as r:  # noqa: S310 - fixed https host
                 dest.write_bytes(r.read())
             ok += 1
         except Exception as e:  # noqa: BLE001 - report and continue
-            failed.append((tid, type(e).__name__))
+            failed.append((tid, getattr(e, "code", type(e).__name__)))  # HTTP status when there is one
     print(json.dumps({"downloaded_or_present": ok, "failed": failed[:20], "n_failed": len(failed)}))
     return 0
 

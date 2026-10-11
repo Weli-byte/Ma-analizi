@@ -1,0 +1,54 @@
+name: probe-highlightly
+# One-off: print the real shape of Highlightly responses (never the key). Removed after use.
+on:
+  push:
+    branches: [feat/highlightly]
+    paths: [".github/workflows/probe-highlightly.yml"]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      HIGHLIGHTLY_API_KEY: ${{ secrets.HIGHLIGHTLY_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python - <<'PY'
+          import json, os, urllib.error, urllib.parse, urllib.request
+          key = os.environ["HIGHLIGHTLY_API_KEY"]
+          BASE = "https://soccer.highlightly.net"
+          def get(path, **p):
+              url = BASE + path + ("?" + urllib.parse.urlencode(p) if p else "")
+              last = None
+              for hdr in ("x-rapidapi-key", "x-api-key"):
+                  req = urllib.request.Request(url, headers={hdr: key})
+                  try:
+                      with urllib.request.urlopen(req, timeout=30) as r:
+                          body = json.loads(r.read().decode())
+                          rl = {k: v for k, v in r.headers.items() if "limit" in k.lower() or "remaining" in k.lower()}
+                          return hdr, r.status, body, rl
+                  except urllib.error.HTTPError as e:
+                      last = (hdr, e.code, e.read().decode()[:200], {})
+                  except Exception as e:
+                      last = (hdr, "ERR", type(e).__name__, {})
+              return last
+          def show(title, res, n=900):
+              print("==", title, "->", res[0], res[1], "| rate headers:", res[3] if len(res) > 3 else "")
+              print((json.dumps(res[2], ensure_ascii=False)[:n]) if not isinstance(res[2], str) else res[2])
+          r = get("/leagues", countryName="England", limit=5)
+          show("leagues England", r)
+          r = get("/matches", date="2026-10-10", countryName="England", limit=5)
+          show("matches 2026-10-10 England", r, 1500)
+          data = r[2].get("data") if isinstance(r[2], dict) else None
+          if data:
+              mid = data[0]["id"]
+              r2 = get("/statistics/" + str(mid))
+              show("statistics of first match " + str(mid), r2, 2500)
+          r3 = get("/matches", date="2026-09-12", countryName="England", limit=3)
+          show("matches 2026-09-12 (finished)", r3, 800)
+          d3 = r3[2].get("data") if isinstance(r3[2], dict) else None
+          if d3:
+              r4 = get("/statistics/" + str(d3[0]["id"]))
+              show("statistics finished match", r4, 2500)
+          r5 = get("/matches", date="2023-10-07", countryName="England", limit=3)
+          show("matches 2023-10-07 (history depth)", r5, 400)
+          PY

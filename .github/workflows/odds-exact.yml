@@ -3,7 +3,7 @@ name: odds-exact
 # because that API host is unreachable from some ISPs (TLS interference seen from Turkey). It spends
 # credits only while a collection window is open for a fixture (src/odds/schedule.py), reserving the last
 # credits of the month. Quotes are committed to the `odds-data` branch; the owner's PC pulls them with
-# `python -m src.odds.run sync-remote`. Needs secrets THE_ODDS_API_KEY and FOOTBALL_DATA_ORG_API_KEY.
+# `python -m src.odds.run sync-remote`. Self-restarting loop (ADR 0049). Needs secrets THE_ODDS_API_KEY and FOOTBALL_DATA_ORG_API_KEY.
 on:
   schedule:
     - cron: "*/10 * * * *"
@@ -13,15 +13,20 @@ on:
         description: "Ignore the collection windows (spends 2 credits per league)"
         type: boolean
         default: false
+      rounds:
+        description: "Collection rounds in this run (10 minutes apart); the next run starts itself afterwards"
+        type: string
+        default: "5"
 concurrency:
   group: odds-exact
   cancel-in-progress: false
 permissions:
   contents: write
+  actions: write
 jobs:
   collect:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 60
     env:
       DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
@@ -63,15 +68,10 @@ jobs:
             git worktree add --detach odds-data-wt
             cd odds-data-wt && git checkout --orphan odds-data && git rm -rf . -q
           fi
-      - name: Collect exact odds when a window is open
-        run: python -m src.odds.run collect-exact --data-root odds-data-wt ${{ inputs.force && '--force' || '' }}
-      - name: Commit and push new quotes
-        run: |
-          cd odds-data-wt
-          git config user.name "odds-exact bot"
-          git config user.email "odds-exact-bot@users.noreply.github.com"
-          git add -A artifacts
-          if git diff --cached --quiet; then echo "nothing new"; else
-            git commit -q -m "odds: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push data HEAD:odds-data
-          fi
+      - name: Collect every 10 minutes for about 50 minutes (credits are spent only inside a window)
+        run: bash scripts/odds_cloud_loop.sh ${{ inputs.rounds || '5' }} 600 ${{ inputs.force && '--force' || '' }}
+      - name: Start the next run (self-restart keeps the cadence; set repository variable ODDS_LOOP=off to stop)
+        if: always() && vars.ODDS_LOOP != 'off' && !inputs.force
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run odds-exact.yml --ref main

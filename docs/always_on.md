@@ -8,7 +8,13 @@ What needs a trigger, and where it runs:
 | Exact odds (The Odds API) | GitHub Actions `odds-exact.yml` | No, but GitHub's own cron runs only about every 6 h |
 | S13 stage locks + LLM, S14 live ticks, paper ledger | Windows tasks on your PC | Yes (research track, not needed to launch) |
 
-## One 15-minute setup removes the PC from the launch path
+## Update 2026-10-11: the odds workflow now restarts itself (ADR 0049) - no setup needed
+Each `odds-exact` run collects every 10 minutes for about 50 minutes and then starts the next run with the
+workflow's own token, so the 10-minute cadence no longer depends on GitHub's throttled cron or on your PC.
+Stop it by setting the repository variable `ODDS_LOOP` to `off` (Settings -> Secrets and variables -> Actions ->
+Variables). The cron-job.org route below is only a backup now.
+
+## Optional backup: external clock
 GitHub's `*/10` cron is throttled, so use a free external clock that calls GitHub's API:
 1. GitHub → Settings → Developer settings → Fine-grained tokens → new token. Repository access: ONLY
    `Weli-byte/Ma-analizi`. Permission: Actions = Read and write (nothing else). Copy it once.

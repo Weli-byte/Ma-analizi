@@ -34,21 +34,20 @@ jobs:
           def show(title, res, n=900):
               print("==", title, "->", res[0], res[1], "| rate headers:", res[3] if len(res) > 3 else "")
               print((json.dumps(res[2], ensure_ascii=False)[:n]) if not isinstance(res[2], str) else res[2])
-          for c, wanted in (("England", "Premier League"), ("Spain", "La Liga"), ("Germany", "Bundesliga"), ("Italy", "Serie A"), ("France", "Ligue 1"), ("Turkey", "Super")):
-              r = get("/leagues", countryName=c, limit=30)
-              ds = r[2].get("data", []) if isinstance(r[2], dict) else []
-              print("LEAGUES", c, [(x["id"], x["name"], sorted(y["season"] for y in x["seasons"])[:1], sorted(y["season"] for y in x["seasons"])[-1:]) for x in ds if wanted.lower().split()[0] in x["name"].lower()][:4], "remaining", r[3].get("x-ratelimit-requests-remaining") if len(r) > 3 else "")
-          r = get("/matches", leagueId=33973, season=2025, limit=100, offset=0)
-          if isinstance(r[2], dict):
-              print("MATCHES keys", list(r[2].keys()), "n", len(r[2].get("data", [])), "pagination", r[2].get("pagination"), "plan", r[2].get("plan"))
-              ms = r[2].get("data", [])
-              print("first/last", ms[0]["date"] if ms else None, ms[-1]["date"] if ms else None)
-          else:
-              print("MATCHES", r)
-          r2 = get("/matches", leagueId=33973, season=2025, limit=100, offset=100)
-          print("PAGE2 n", len(r2[2].get("data", [])) if isinstance(r2[2], dict) else r2)
-          old = get("/statistics/898449140")
-          show("statistics 2023 match", old, 700)
-          old2 = get("/matches", leagueId=33973, season=2019, limit=5)
-          print("2019 season matches", json.dumps(old2[2], ensure_ascii=False)[:300] if isinstance(old2[2], dict) else old2)
+          r = get("/leagues", countryName="Turkey", limit=30)
+          ds = r[2].get("data", []) if isinstance(r[2], dict) else []
+          print("TURKEY", [(x["id"], x["name"], sorted(y["season"] for y in x["seasons"])[0], sorted(y["season"] for y in x["seasons"])[-1]) for x in ds][:12])
+          def wanted(n):
+              return {d["displayName"]: d["value"] for d in n["statistics"] if d["displayName"] in ("Corners", "Yellow cards", "Red cards", "Shots on target", "Shots off target", "Expected Goals")}
+          for season in (2022, 2023, 2024, 2025):
+              r = get("/matches", leagueId=33973, season=season, limit=100, offset=100)
+              ms = r[2].get("data", []) if isinstance(r[2], dict) else []
+              got = 0
+              for m in ms[:4]:
+                  st = get("/statistics/" + str(m["id"]))[2]
+                  ok = isinstance(st, list) and st and st[0]["statistics"]
+                  got += 1 if ok else 0
+                  if ok and m is ms[0]:
+                      print("SAMPLE", season, m["homeTeam"]["name"], m["awayTeam"]["name"], m["state"]["score"]["current"], wanted(st[0]), wanted(st[1]))
+              print("COVERAGE PL", season, "matches with statistics", got, "of", min(4, len(ms)))
           PY

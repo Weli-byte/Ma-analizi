@@ -17,3 +17,7 @@ refresh_hours: 6             # src.markets.run skips fixtures whose latest artif
 history_source: openfootball   # openfootball (public domain, scores only) | football-data (research only: adds corners/cards/shots; ADR 0044)
 history_start_year: 2019      # first season loaded from openfootball (2019 = 2019-20)
 result_lag_hours: 3         # openfootball has no result time: available_at = kickoff + this (INFERRED; same policy as features.yaml, ADR 0006)
+stats_source: highlightly      # corners/cards/shots from Highlightly (verified 2026-10-11); none = goals markets only
+stats_plan: basic              # basic = free plan (100 requests/day, different terms): count markets stay out of published output; pro = paid
+stats_run_budget: 15           # requests per collection run (6 cloud runs/day stay under the free 100/day)
+stats_from_year: 2024          # first season collected (2024 = 2024-25)

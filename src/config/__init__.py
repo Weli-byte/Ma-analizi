@@ -360,6 +360,10 @@ class MarketsConfig(_Cfg):
     history_source: Literal["openfootball", "football-data"]  # ADR 0044
     history_start_year: int = Field(ge=2010)  # first season (start year) loaded from openfootball
     result_lag_hours: float = Field(gt=0)  # openfootball has no result time: kickoff + lag (INFERRED)
+    stats_source: Literal["none", "highlightly"]  # corners/cards/shots source (ADR 0050)
+    stats_plan: Literal["basic", "pro"]  # published count markets need a paid plan (terms 4.1)
+    stats_run_budget: int = Field(ge=1)  # Highlightly requests per collection run
+    stats_from_year: int = Field(ge=2019)  # first season (start year) collected
 
 
 _MODELS = {

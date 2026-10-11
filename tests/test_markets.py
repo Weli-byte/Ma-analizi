@@ -125,9 +125,9 @@ def test_artifact_is_immutable_hashed_and_served_by_the_api_and_dashboard(world,
     now = world["cut"].astimezone(UTC)
     kickoff = now + timedelta(days=1)
     key = fixture_key("ENG_arsenal", "ENG_leeds_united", kickoff)
-    p = write_artifact(tmp_path, mm, "cfg", now, key, "fdorg-1", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "fv2", None)  # fmt: skip
+    p = write_artifact(tmp_path, mm, "cfg", now, key, "fdorg-1", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "fv2", None, count_markets=True)  # fmt: skip
     assert p is not None and json.loads(p.read_text(encoding="utf-8"))["content_hash"]
-    again = write_artifact(tmp_path, mm, "cfg", now, key, "fdorg-1", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "fv2", None)  # fmt: skip
+    again = write_artifact(tmp_path, mm, "cfg", now, key, "fdorg-1", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "fv2", None, count_markets=True)  # fmt: skip
     assert again is None  # never overwritten
     c = TestClient(create_app(tmp_path, keys=["k"], now_fn=lambda: now))
     r = c.get(f"/v1/fixtures/{key}/intelligence", headers={"X-API-Key": "k"})

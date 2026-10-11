@@ -48,6 +48,7 @@ def intelligence(
     league: str,
     market_odds: tuple[float, float, float] | None = None,
     blend_weight: float | None = None,
+    include_counts: bool = True,
 ) -> dict:
     cfg = mm.cfg
     lh, la = mm.goals.lambdas(home, away, league)
@@ -97,7 +98,7 @@ def intelligence(
         "total_goals_most_likely": int(np.argmax(totals)),
     }  # fmt: skip
     counts = {}
-    for stat, table in mm.counts.items():
+    for stat, table in mm.counts.items() if include_counts else []:
         ch, ca = table.lambdas(home, away, league)
         kmax = 60
         pmf = np.convolve(count_pmf(ch, table.alpha, kmax), count_pmf(ca, table.alpha, kmax))

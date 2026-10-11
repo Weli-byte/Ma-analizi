@@ -70,9 +70,12 @@ def write_artifact(
     root: Path, mm, cfg_hash: str, now: datetime, key: str, provider_fixture_id: str, league: str,
     home_id: str, away_id: str, kickoff: datetime, data_version: str, feature_version: str, odds: dict | None,
     source_note: dict | None = None,
+    count_markets: bool = False,
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
-    intel = intelligence(mm, home_id, away_id, league, tuple(odds["odds"]) if odds else None)
+    intel = intelligence(
+        mm, home_id, away_id, league, tuple(odds["odds"]) if odds else None, include_counts=count_markets
+    )
     body = {
         "fixture_key": key, "provider_fixture_id": provider_fixture_id, "league": league,
         "home_id": home_id, "away_id": away_id, "kickoff_utc": kickoff.isoformat(),
@@ -117,8 +120,15 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
 
         from .of_source import load_world
 
-        world = load_world(root, TeamDirectory.load(cdir / "team_aliases.yaml"), cfg, now)
-        mm = fit_markets(world.history, now, cfg)
+        directory = TeamDirectory.load(cdir / "team_aliases.yaml")
+        world = load_world(root, directory, cfg, now)
+        history, stats_report = world.history, None
+        if cfg.stats_source == "highlightly":
+            from .stats_overlay import attach_stats
+
+            history, stats_report = attach_stats(world.history, root, directory, cfg)
+        mm = fit_markets(history, now, cfg)
+        count_markets = cfg.stats_plan == "pro"  # the free plan's terms differ (clause 4.1): research only
         wanted = {LEAGUES[c][0] if c in LEAGUES else c for c in leagues}
         counts: dict[str, int] = {}
         todo = []
@@ -126,7 +136,6 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
             if league in wanted and counts.get(league, 0) < n:
                 counts[league] = counts.get(league, 0) + 1
                 todo.append((league, f))
-        directory = TeamDirectory.load(cdir / "team_aliases.yaml")
         for league, f in todo:
             country = FILES[league][2]
             h = directory.resolve("openfootball", f.home_team_raw_name, country, f.kickoff_utc.date())
@@ -141,7 +150,9 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                 root, mm, cfg_hash, now, key, f"of-{f.provider_fixture_id}", league, h.team_id, a.team_id,
                 f.kickoff_utc, world.data_version, "none (rate model)", odds,
                 {"history_source": "openfootball (public domain)", "stale_files": world.stale_files,
-                 "unresolved_history_rows": world.unresolved, "rows_without_score": world.skipped_no_score},
+                 "unresolved_history_rows": world.unresolved, "rows_without_score": world.skipped_no_score,
+                 "statistics": stats_report},
+                count_markets,
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
@@ -159,7 +170,8 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                     root, mm, cfg_hash, now, key, fx["fixture_id"], league, fx["home_id"], fx["away_id"],
                     fx["kickoff_utc"], world.data_version, "none (rate model)", odds,
                     {"history_source": "openfootball (public domain)", "fixtures_from": "The Odds API events",
-                     "missing_season_files": world.missing_files},
+                     "missing_season_files": world.missing_files, "statistics": stats_report},
+                    count_markets,
                 )  # fmt: skip
                 if path is not None:
                     written.append({"fixture_key": key, "path": str(path)})

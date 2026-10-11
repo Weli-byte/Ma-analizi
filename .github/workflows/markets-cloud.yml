@@ -18,6 +18,7 @@ jobs:
     timeout-minutes: 20
     env:
       DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
+      HIGHLIGHTLY_API_KEY: ${{ secrets.HIGHLIGHTLY_API_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,6 +65,9 @@ jobs:
         run: |
           mkdir -p artifacts
           cp -r markets-data-wt/artifacts/markets artifacts/ 2>/dev/null || true
+          cp -r markets-data-wt/artifacts/stats artifacts/ 2>/dev/null || true
+      - name: Match statistics (Highlightly, within the daily request budget)
+        run: python -m src.markets.stats_collect
       - name: Intelligence for the next fixtures
         run: python -m src.markets.run --no-sync --force
       - name: Track record (published forecasts vs real results)
@@ -72,6 +76,7 @@ jobs:
         run: |
           mkdir -p markets-data-wt/artifacts
           cp -r artifacts/markets markets-data-wt/artifacts/
+          cp -r artifacts/stats markets-data-wt/artifacts/ 2>/dev/null || true
           rm -rf markets-data-wt/artifacts/markets/evaluation markets-data-wt/artifacts/markets/_cache
           cd markets-data-wt
           git config user.name "markets bot"

@@ -10,3 +10,10 @@ runs). The concurrency group keeps runs sequential, and the old cron stays as a 
 Kill switch: repository variable `ODDS_LOOP=off`. Cost: free for a public repository (Actions minutes are unlimited
 there); if the repository is made private this loop would consume the 2000 free minutes in about two days and must be
 stopped first. A manual `force` run does not restart the chain.
+
+## Amendment 2026-10-11 — first live test found two problems
+1. The unauthenticated `curl https://api.github.com/meta` (host-key pinning) returned HTTP 403 (shared runner IPs are
+   rate limited). It is now authenticated with the workflow token and retried (also in markets-cloud.yml).
+2. With `if: always()` a persistent setup failure made the chain restart itself in a fast failing loop. The restart now
+   runs only when the run succeeded (`success()`); the cron remains the backup. The kill switch (`ODDS_LOOP=off`) was
+   set during the incident and is cleared once the fix is verified.

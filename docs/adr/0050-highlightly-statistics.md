@@ -24,3 +24,10 @@ per day, `plan.message` "All data available with current plan".
 Buy PRO (USD 9.49/month, 7,500 requests/day) on highlightly.net, set `stats_plan: pro` and a larger
 `stats_run_budget` in `configs/markets.yaml`; the backfill of 2024-25 onward then completes within days, not months.
 Note: the free plan alone backfills at about 40-50 matches per day.
+
+## Amendment 2026-10-11 — club names
+`python -m src.markets.alias_tool [--apply]` maps Highlightly club names (from the store) to our clubs: only a clear
+closest club of the same country is accepted, the rest is listed. The first run mapped 21 names automatically and 7 by hand
+(Brighton, Leeds, Alavés, Brest, Gaziantep, Rizespor, Yeni Çorumspor = Çorum FK); 0 unresolved afterwards. With the
+mapping, the overlay joined 250 store matches to the openfootball history and added 87 (Süper Lig 2026-27 results), so
+the Süper Lig history now runs to 2026-10-11 (1223 matches). Re-run the tool after each new season is collected.

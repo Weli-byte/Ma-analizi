@@ -175,3 +175,24 @@ def test_stats_collect_cli_runs_against_the_real_capture_server(server, tmp_path
     assert main(["--root", str(tmp_path), "--league", "EPL", "--budget", "6", "--from-year", "2026"]) == 0
     out = json.loads(capsys.readouterr().out.strip().splitlines()[-1])
     assert out["listing_calls"] == 1 and out["statistics_calls"] == 1 and out["remaining_quota"] == 88
+
+
+def test_alias_tool_accepts_only_clear_same_country_matches_and_lists_the_rest(tmp_path):
+    """Real names from the captured match page; the store row is written exactly as the collector writes it."""
+    from src.markets.alias_tool import main, propose, store_names
+    from src.markets.stats_store import save
+
+    page = json.loads((CAP / "matches_page.json").read_text(encoding="utf-8"))
+    from src.markets.stats_store import _row
+
+    m = page["data"][1]  # Manchester United v Tottenham (real)
+    save(tmp_path, "EPL", 2026, {m["id"]: _row(m, "EPL", 2026)})
+    d = TeamDirectory.load(ROOT / "configs" / "team_aliases.yaml")
+    d.aliases = [a for a in d.aliases if a.source != "highlightly"]  # as before the mapping existed
+    accepted, manual = propose(d, store_names(tmp_path))
+    assert [(x[2], x[3]) for x in accepted] == [("Tottenham", "ENG_tottenham_hotspur")] and manual == []
+    # the shipped aliases already cover it: nothing is proposed and the tool exits cleanly
+    import shutil
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    assert main(["--root", str(tmp_path)]) == 0

@@ -1511,6 +1511,251 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (FPL short club name checked against canonical
     team; owner to re-confirm)
   confidence: 0.95
+- source: highlightly
+  raw_name: 1899 Hoffenheim
+  team_id: GER_hoffenheim
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Alavés
+  team_id: ESP_deportivo_alaves
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Amed
+  team_id: TUR_amed_sk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Athletic Club
+  team_id: ESP_athletic_bilbao
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Bournemouth
+  team_id: ENG_afc_bournemouth
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Brighton
+  team_id: ENG_brighton_hove_albion
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Celta de Vigo
+  team_id: ESP_celta_vigo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Coventry
+  team_id: ENG_coventry_city
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Erzurum BB
+  team_id: TUR_erzurumspor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Estac Troyes
+  team_id: FRA_troyes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: FC Koln
+  team_id: GER_1_fc_koln
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: FC Schalke 04
+  team_id: GER_schalke_04
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: FSV Mainz 05
+  team_id: GER_mainz_05
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Gazişehir Gaziantep
+  team_id: TUR_gaziantep_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Ipswich
+  team_id: ENG_ipswich_town
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Kocaelispor FK
+  team_id: TUR_kocaelispor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: LE Havre AC
+  team_id: FRA_le_havre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Leeds
+  team_id: ENG_leeds_united
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Monaco
+  team_id: FRA_as_monaco
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Paris Saint Germain
+  team_id: FRA_paris_saint_germain
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Rennes FC
+  team_id: FRA_rennes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Rizespor
+  team_id: TUR_caykur_rizespor
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: SC Paderborn 07
+  team_id: GER_paderborn
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: SV Elversberg
+  team_id: GER_elversberg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Sevilla FC
+  team_id: ESP_sevilla
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Stade Brestois 29
+  team_id: FRA_brest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Tottenham
+  team_id: ENG_tottenham_hotspur
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant (closest club of the same country in the Highlightly
+    store; owner to re-confirm)
+  confidence: 0.9
+- source: highlightly
+  raw_name: Yeni Çorumspor
+  team_id: TUR_corum_fk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-11 (same club, checked by hand; owner to re-confirm)
+  confidence: 0.9
 - source: openfootball
   raw_name: 1. FC Heidenheim 1846
   team_id: GER_heidenheim

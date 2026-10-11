@@ -46,10 +46,11 @@ jobs:
       - name: Private data repo access (repository-scoped deploy key)
         env:
           DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p ~/.ssh && chmod 700 ~/.ssh
           echo "$DEPLOY_KEY" > ~/.ssh/data_key && chmod 600 ~/.ssh/data_key
-          curl -fsS https://api.github.com/meta | python -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/meta | python -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
           cat >> ~/.ssh/config <<'EOF'
           Host data-repo
             HostName github.com
@@ -71,7 +72,7 @@ jobs:
       - name: Collect every 10 minutes for about 50 minutes (credits are spent only inside a window)
         run: bash scripts/odds_cloud_loop.sh ${{ inputs.rounds || '5' }} 600 ${{ inputs.force && '--force' || '' }}
       - name: Start the next run (self-restart keeps the cadence; set repository variable ODDS_LOOP=off to stop)
-        if: always() && vars.ODDS_LOOP != 'off' && !inputs.force
+        if: success() && vars.ODDS_LOOP != 'off' && !inputs.force
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh workflow run odds-exact.yml --ref main

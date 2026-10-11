@@ -1,0 +1,44 @@
+name: alias-logos
+# One-off helper: download the club logos of the Highlightly store into the PRIVATE data repo (branch review-assets)
+# so the owner can review aliases with logos on a network that cannot reach highlightly.net. Never published.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  logos:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Private data repo access (repository-scoped deploy key)
+        env:
+          DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/data_key && chmod 600 ~/.ssh/data_key
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/meta | python3 -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<'EOF'
+          Host data-repo
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/data_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+          EOF
+          git remote add data git@data-repo:Weli-byte/Ma-analizi2.git
+      - name: Get the store and download the logos
+        run: |
+          git fetch data markets-data
+          git worktree add stats-wt data/markets-data
+          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos
+      - name: Publish the logos to the private review-assets branch
+        run: |
+          git worktree add --detach assets-wt
+          cd assets-wt && git checkout --orphan review-assets && git rm -rf . -q
+          mkdir -p logos && cp ../logos/*.png logos/
+          git config user.name "alias-logos bot"
+          git config user.email "alias-logos-bot@users.noreply.github.com"
+          git add -A logos && git commit -q -m "logos for the alias review"
+          git push --force data HEAD:review-assets

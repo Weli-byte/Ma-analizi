@@ -31,3 +31,10 @@ closest club of the same country is accepted, the rest is listed. The first run 
 (Brighton, Leeds, Alavés, Brest, Gaziantep, Rizespor, Yeni Çorumspor = Çorum FK); 0 unresolved afterwards. With the
 mapping, the overlay joined 250 store matches to the openfootball history and added 87 (Süper Lig 2026-27 results), so
 the Süper Lig history now runs to 2026-10-11 (1223 matches). Re-run the tool after each new season is collected.
+
+## Amendment 2026-10-11 — alias review with logos
+`python -m src.markets.alias_review_page --open` writes a LOCAL page (artifacts/alias_review.html) listing every
+`fuzzy_approved` alias under its club with the club logo, tick boxes and a copy button. The owner's network cannot reach
+highlightly.net, so the one-off workflow `alias-logos.yml` downloads the logos on a runner into the private data repo
+(branch `review-assets`) and the page embeds them. Logos are club trademarks, used for this review only (terms 6.3) and
+never published.

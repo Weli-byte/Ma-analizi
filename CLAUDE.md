@@ -140,5 +140,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0048: live track record (`python -m src.markets.track`, `/v1/track-record`); corners/cards/shots source decision; docs/always_on.md.
 - [x] ADR 0049: self-restarting odds loop (no PC, no external clock).
 - [x] ADR 0050: Highlightly corners/cards/shots (verified; published only with `stats_plan: pro`).
-- [ ] S19 startup MVP (hosting, Highlightly PRO, Anthropic remain).
+- [x] ADR 0051: public web UI (`src/web/`, Turkish, served by the API app).
+- [ ] S19 startup MVP (hosting, accounts/Free-Pro, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

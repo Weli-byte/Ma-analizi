@@ -7,13 +7,15 @@ import struct
 import unicodedata
 import zlib
 from functools import lru_cache
+from urllib.parse import urlparse
 
 from fastapi import FastAPI, Request
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
 
 from src.dashboard.viewmodel import intel_section
 
-from . import auth, pages, session
+from . import auth, pages, phone, session
+from .i18n import LANG_COOKIE, translate_html
 from .logos import LogoIndex
 from .store import UserStore
 
@@ -55,6 +57,14 @@ MANIFEST = {
     ],
 }  # fmt: skip
 SW = "self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',()=>{});"
+
+
+async def _form(request: Request) -> dict[str, str]:
+    """application/x-www-form-urlencoded body as a dict (no python-multipart dependency)."""
+    from urllib.parse import parse_qs
+
+    raw = (await request.body())[:4096].decode("utf-8", "ignore")
+    return {k: v[0] for k, v in parse_qs(raw).items()}
 
 
 def register(app: FastAPI, service, root, now_fn) -> None:
@@ -142,6 +152,109 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def logout():
         r = RedirectResponse("/giris", 303)
         r.delete_cookie(session.COOKIE)
+        return r
+
+    # ---------------------------------------------------------------------------------- phone sign-in
+    sms_per_number, sms_per_client = phone.Throttle(3, 600), phone.Throttle(10, 3600)
+    off = "Telefonla giriş henüz etkin değil (SMS sağlayıcısı ayarlanmadı). Misafir olarak devam edebilirsin."
+
+    @app.get("/giris/telefon", response_class=HTMLResponse, include_in_schema=False)
+    def phone_form():
+        if not phone.configured():
+            return HTMLResponse(pages.phone_page("number", error=off), 503)
+        return pages.phone_page("number")
+
+    @app.post("/giris/telefon/kod", response_class=HTMLResponse, include_in_schema=False)
+    async def phone_send(request: Request):
+        if not phone.configured():
+            return HTMLResponse(pages.phone_page("number", error=off), 503)
+        form = await _form(request)
+        e164 = phone.normalize(str(form.get("phone", "")))
+        client = request.client.host if request.client else "?"
+        if e164 is None:
+            return HTMLResponse(
+                pages.phone_page("number", error="Geçerli bir telefon numarası yaz (ör. +90 5xx xxx xx xx)."),
+                400,
+            )
+        if not (sms_per_number.allow(e164) and sms_per_client.allow(client)):
+            return HTMLResponse(
+                pages.phone_page("number", error="Çok fazla deneme. Biraz sonra tekrar dene."), 429
+            )
+        if not phone.send_code(e164):
+            return HTMLResponse(
+                pages.phone_page("number", error="Kod gönderilemedi. Numarayı kontrol edip tekrar dene."), 502
+            )
+        r = HTMLResponse(pages.phone_page("code", masked="····" + e164[-4:]))
+        r.set_cookie(
+            "mt_phone",
+            session.sign(session.User("phone-pending", e164)),
+            max_age=600,
+            httponly=True,
+            samesite="lax",
+        )
+        return r
+
+    @app.post("/giris/telefon/dogrula", include_in_schema=False)
+    async def phone_verify(request: Request):
+        pending = session.verify(request.cookies.get("mt_phone"))
+        form = await _form(request)
+        if pending is None or pending.provider != "phone-pending":
+            return RedirectResponse("/giris/telefon", 303)
+        tail = "····" + pending.name[-4:]
+        if not sms_per_number.allow("check:" + pending.name):
+            return HTMLResponse(pages.phone_page("code", masked=tail, error="Çok fazla deneme."), 429)
+        if not phone.check_code(pending.name, str(form.get("code", "")).strip()):
+            return HTMLResponse(
+                pages.phone_page("code", masked=tail, error="Kod yanlış ya da süresi dolmuş."), 400
+            )
+        user = phone.user_for(pending.name)
+        store.touch(user.uid, user.provider, user.name, None)
+        r = start(user)
+        r.delete_cookie("mt_phone")
+        return r
+
+    # ------------------------------------------------------------------------------------------ language
+    @app.middleware("http")
+    async def secure_cookies(request: Request, call_next):
+        """Behind HTTPS (directly or through a proxy that sets X-Forwarded-Proto) every cookie we set is marked Secure."""
+        resp = await call_next(request)
+        if request.url.scheme == "https" or request.headers.get("x-forwarded-proto") == "https":
+            resp.raw_headers = [
+                (k, v + b"; Secure" if k.lower() == b"set-cookie" and b"secure" not in v.lower() else v)
+                for k, v in resp.raw_headers
+            ]
+        return resp
+
+    @app.middleware("http")
+    async def english_ui(request: Request, call_next):
+        resp = await call_next(request)
+        if (
+            request.cookies.get(LANG_COOKIE) == "en"
+            and not request.url.path.startswith("/v1")
+            and resp.headers.get("content-type", "").startswith("text/html")
+        ):
+            body = b"".join([chunk async for chunk in resp.body_iterator])
+            html = translate_html(body.decode("utf-8")).encode("utf-8")
+            out = Response(html, status_code=resp.status_code, media_type="text/html")
+            out.raw_headers = [
+                (k, v) for k, v in resp.raw_headers if k.lower() not in (b"content-length", b"content-type")
+            ] + [
+                (b"content-length", str(len(html)).encode()),
+                (b"content-type", b"text/html; charset=utf-8"),
+            ]
+            return out
+        return resp
+
+    @app.get("/dil/{lang}", include_in_schema=False)
+    def set_language(request: Request, lang: str):
+        back = urlparse(request.headers.get("referer", "")).path or "/"
+        r = RedirectResponse(
+            back
+            if back.startswith("/") and not back.startswith("//") and not back.startswith("/dil/")
+            else "/",
+            303,
+        )
+        r.set_cookie(LANG_COOKIE, "en" if lang == "en" else "tr", max_age=365 * 24 * 3600, samesite="lax")
         return r
 
     # ----------------------------------------------------------------------------------------- pages

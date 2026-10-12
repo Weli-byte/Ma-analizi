@@ -141,5 +141,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0049: self-restarting odds loop (no PC, no external clock).
 - [x] ADR 0050: Highlightly corners/cards/shots (verified; published only with `stats_plan: pro`).
 - [x] ADR 0051/0052: web UI in `src/web/` - Turkish, mobile-app style (green/white), login first (guest works; Google/Apple/phone need credentials), per-league screens, logos only with FORECAST_UI_LOGOS=1.
-- [ ] S19 startup MVP (hosting, accounts/Free-Pro, Highlightly PRO, Anthropic remain).
+- [x] ADR 0053: favourites + user store, search, form/goal charts, `/sunum`.
+- [ ] S19 startup MVP (hosting, English UI, phone login, Free/Pro, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

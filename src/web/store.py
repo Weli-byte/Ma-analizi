@@ -5,6 +5,7 @@ and the favourite clubs. No password, no phone number, no token. A guest id is a
 cookie. NOTE: on a host with an ephemeral disk the file is lost on restart (favourites reset)."""
 
 import sqlite3
+from contextlib import closing, contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -23,9 +24,12 @@ class UserStore:
         with self._db() as db:
             db.executescript(SCHEMA)
 
-    def _db(self) -> sqlite3.Connection:
-        db = sqlite3.connect(self.path, timeout=10)
-        return db
+    @contextmanager
+    def _db(self):
+        """A committed-and-CLOSED connection per call (no leaked file handles)."""
+        with closing(sqlite3.connect(self.path, timeout=10)) as db:
+            with db:  # commit or roll back
+                yield db
 
     def touch(self, uid: str, provider: str, name: str, email: str | None) -> None:
         now = datetime.now(UTC).isoformat()

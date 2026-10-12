@@ -121,3 +121,64 @@ def test_logo_index_maps_clubs_through_the_store_and_the_name_search(tmp_path, m
         idx.team("ENG_manchester_united").name == "28867.png" and idx.team("ENG_burnley").name == "38228.png"
     )
     assert idx.team("ENG_arsenal") is None  # never listed: no logo, the page shows initials
+
+
+def test_user_store_keeps_favourites_per_user_and_deletes_everything(tmp_path):
+    from src.web.store import UserStore
+
+    st = UserStore(tmp_path)
+    st.touch("guest:a", "guest", "Misafir", None)
+    st.touch("google:1", "google", "Veli", "v@example.com")
+    assert st.toggle("guest:a", "ENG_arsenal") is True and st.toggle("guest:a", "ESP_barcelona") is True
+    assert st.favorites("guest:a") == ["ENG_arsenal", "ESP_barcelona"] and st.favorites("google:1") == []
+    assert st.toggle("guest:a", "ENG_arsenal") is False and st.favorites("guest:a") == ["ESP_barcelona"]
+    st.touch("google:1", "google", "Veli K", "v@example.com")  # a second sign-in updates, never duplicates
+    st.delete_user("guest:a")
+    assert st.favorites("guest:a") == []
+
+
+def test_favourites_search_account_deletion_and_summary_routes(tmp_path):
+    import shutil
+    from pathlib import Path
+
+    from fastapi.testclient import TestClient
+
+    from src.api.app import create_app
+
+    root = Path(__file__).resolve().parents[1]
+    shutil.copytree(root / "configs", tmp_path / "configs")
+    c = TestClient(create_app(tmp_path, keys=[]), follow_redirects=False)
+    assert c.get("/favoriler").status_code == 303 and c.post("/favori/ENG_arsenal").status_code == 303
+    assert c.get("/ara?q=x").status_code == 303 and c.post("/hesabi-sil").status_code == 303
+    assert "Proje özeti" in c.get("/sunum").text  # the summary is public
+    c.post("/giris/misafir")
+    assert "Henüz favori takımın yok" in c.get("/favoriler").text
+    r = c.post("/favori/ENG_arsenal?next=/mac/x")
+    assert r.status_code == 303 and r.headers["location"] == "/mac/x"
+    assert (
+        c.post("/favori/ENG_arsenal?next=//evil.example").headers["location"] == "/favoriler"
+    )  # no open redirect
+    c.post("/favori/ENG_arsenal")  # the second toggle above removed it: add it again
+    assert "Arsenal" in c.get("/favoriler").text
+    assert c.post("/favori/x").status_code == 303  # an id without an underscore is ignored
+    assert "bulunamadı" in c.get("/ara?q=zzzz").text and "Bir takım adı yaz" in c.get("/ara").text
+    assert c.get("/ara?q=" + "a" * 100).status_code == 200
+    r = c.post("/hesabi-sil")
+    assert r.status_code == 303 and r.headers["location"] == "/giris"
+    assert c.get("/profil").status_code in (200, 303)
+
+
+def test_form_and_goal_charts_render_and_missing_data_is_skipped():
+    from src.web import pages
+
+    form = {
+        "home": [{"date": "2026-10-04", "opponent": "Leeds", "home": True, "score": "2-0", "result": "W"}],
+        "away": [],
+    }
+    html = pages.form_section({"home": "Arsenal", "away": "Leeds", "form": form})
+    assert "Son 5 maç" in html and "Leeds" in html and "veri yok" in html and ">G<" in html
+    assert pages.form_section({"home": "A", "away": "B", "form": None}) == ""
+    assert "Toplam gol dağılımı" in pages.goals_chart(
+        {"total_goals_distribution": [0.1, 0.2, 0.3, 0.2, 0.1, 0.05, 0.03, 0.02]}
+    )
+    assert pages.goals_chart({}) == ""

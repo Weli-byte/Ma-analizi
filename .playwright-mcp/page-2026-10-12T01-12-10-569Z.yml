@@ -1,0 +1,315 @@
+- generic [ref=f4e2]:
+  - generic [ref=f4e3]:
+    - link "‹" [ref=f4e4] [cursor=pointer]:
+      - /url: /ligler
+    - generic [ref=f4e5]: S
+    - heading "Serie A" [level=1] [ref=f4e6]
+  - generic [ref=f4e7]:
+    - link "Bu hafta" [ref=f4e8] [cursor=pointer]:
+      - /url: /lig/SERIEA?hafta=bu
+    - link "Gelecek hafta" [ref=f4e9] [cursor=pointer]:
+      - /url: /lig/SERIEA?hafta=gelecek
+    - link "Hepsi" [ref=f4e10] [cursor=pointer]:
+      - /url: /lig/SERIEA?hafta=hepsi
+  - generic [ref=f4e11]: Pazartesi, 12 Eki
+  - link "19:30 12 Eki A Atalanta V Venezia 1 63 X 22 2 15 Atalanta kazanır ya da berabere %85 Atalanta kazanır %63 En olası skor 2-0" [ref=f4e12] [cursor=pointer]:
+    - /url: /mac/ITA_atalanta__ITA_venezia__2026-10-12
+    - generic [ref=f4e13]:
+      - generic [ref=f4e14]:
+        - generic [ref=f4e15]:
+          - generic [ref=f4e16]: 19:30
+          - text: 12 Eki
+        - generic [ref=f4e17]:
+          - generic [ref=f4e18]:
+            - generic [ref=f4e19]: A
+            - text: Atalanta
+          - generic [ref=f4e20]:
+            - generic [ref=f4e21]: V
+            - text: Venezia
+        - generic [ref=f4e22]:
+          - generic [ref=f4e23]:
+            - generic [ref=f4e24]: "1"
+            - text: "63"
+          - generic [ref=f4e25]:
+            - generic [ref=f4e26]: X
+            - text: "22"
+          - generic [ref=f4e27]:
+            - generic [ref=f4e28]: "2"
+            - text: "15"
+      - generic [ref=f4e29]:
+        - generic [ref=f4e30]: Atalanta kazanır ya da berabere %85
+        - generic [ref=f4e31]: Atalanta kazanır %63
+      - generic [ref=f4e32]: En olası skor 2-0
+  - link "21:45 12 Eki T Torino U Udinese 1 41 X 30 2 29 Torino kazanır ya da berabere %71 2.5 alt (en fazla 2 gol) %55 En olası skor 1-1" [ref=f4e33] [cursor=pointer]:
+    - /url: /mac/ITA_torino__ITA_udinese__2026-10-12
+    - generic [ref=f4e34]:
+      - generic [ref=f4e35]:
+        - generic [ref=f4e36]:
+          - generic [ref=f4e37]: 21:45
+          - text: 12 Eki
+        - generic [ref=f4e38]:
+          - generic [ref=f4e39]:
+            - generic [ref=f4e40]: T
+            - text: Torino
+          - generic [ref=f4e41]:
+            - generic [ref=f4e42]: U
+            - text: Udinese
+        - generic [ref=f4e43]:
+          - generic [ref=f4e44]:
+            - generic [ref=f4e45]: "1"
+            - text: "41"
+          - generic [ref=f4e46]:
+            - generic [ref=f4e47]: X
+            - text: "30"
+          - generic [ref=f4e48]:
+            - generic [ref=f4e49]: "2"
+            - text: "29"
+      - generic [ref=f4e50]:
+        - generic [ref=f4e51]: Torino kazanır ya da berabere %71
+        - generic [ref=f4e52]: 2.5 alt (en fazla 2 gol) %55
+      - generic [ref=f4e53]: En olası skor 1-1
+  - generic [ref=f4e54]: Cuma, 16 Eki
+  - link "21:45 16 Eki F Frosinone S Sassuolo 1 39 X 27 2 34 Beraberlik olmaz %73 İki takım da gol atar %61 En olası skor 1-1" [ref=f4e55] [cursor=pointer]:
+    - /url: /mac/ITA_frosinone__ITA_sassuolo__2026-10-16
+    - generic [ref=f4e56]:
+      - generic [ref=f4e57]:
+        - generic [ref=f4e58]:
+          - generic [ref=f4e59]: 21:45
+          - text: 16 Eki
+        - generic [ref=f4e60]:
+          - generic [ref=f4e61]:
+            - generic [ref=f4e62]: F
+            - text: Frosinone
+          - generic [ref=f4e63]:
+            - generic [ref=f4e64]: S
+            - text: Sassuolo
+        - generic [ref=f4e65]:
+          - generic [ref=f4e66]:
+            - generic [ref=f4e67]: "1"
+            - text: "39"
+          - generic [ref=f4e68]:
+            - generic [ref=f4e69]: X
+            - text: "27"
+          - generic [ref=f4e70]:
+            - generic [ref=f4e71]: "2"
+            - text: "34"
+      - generic [ref=f4e72]:
+        - generic [ref=f4e73]: Beraberlik olmaz %73
+        - generic [ref=f4e74]: İki takım da gol atar %61
+      - generic [ref=f4e75]: En olası skor 1-1
+  - generic [ref=f4e76]: Cumartesi, 17 Eki
+  - link "16:00 17 Eki V Venezia N Napoli 1 21 X 23 2 56 Napoli kazanır ya da berabere %79 Napoli kazanır %56 En olası skor 0-1" [ref=f4e77] [cursor=pointer]:
+    - /url: /mac/ITA_venezia__ITA_napoli__2026-10-17
+    - generic [ref=f4e78]:
+      - generic [ref=f4e79]:
+        - generic [ref=f4e80]:
+          - generic [ref=f4e81]: 16:00
+          - text: 17 Eki
+        - generic [ref=f4e82]:
+          - generic [ref=f4e83]:
+            - generic [ref=f4e84]: V
+            - text: Venezia
+          - generic [ref=f4e85]:
+            - generic [ref=f4e86]: "N"
+            - text: Napoli
+        - generic [ref=f4e87]:
+          - generic [ref=f4e88]:
+            - generic [ref=f4e89]: "1"
+            - text: "21"
+          - generic [ref=f4e90]:
+            - generic [ref=f4e91]: X
+            - text: "23"
+          - generic [ref=f4e92]:
+            - generic [ref=f4e93]: "2"
+            - text: "56"
+      - generic [ref=f4e94]:
+        - generic [ref=f4e95]: Napoli kazanır ya da berabere %79
+        - generic [ref=f4e96]: Napoli kazanır %56
+      - generic [ref=f4e97]: En olası skor 0-1
+  - link "19:00 17 Eki B Bologna I Inter 1 17 X 24 2 59 Inter kazanır ya da berabere %83 Inter kazanır %59 En olası skor 1-1" [ref=f4e98] [cursor=pointer]:
+    - /url: /mac/ITA_bologna__ITA_inter__2026-10-17
+    - generic [ref=f4e99]:
+      - generic [ref=f4e100]:
+        - generic [ref=f4e101]:
+          - generic [ref=f4e102]: 19:00
+          - text: 17 Eki
+        - generic [ref=f4e103]:
+          - generic [ref=f4e104]:
+            - generic [ref=f4e105]: B
+            - text: Bologna
+          - generic [ref=f4e106]:
+            - generic [ref=f4e107]: I
+            - text: Inter
+        - generic [ref=f4e108]:
+          - generic [ref=f4e109]:
+            - generic [ref=f4e110]: "1"
+            - text: "17"
+          - generic [ref=f4e111]:
+            - generic [ref=f4e112]: X
+            - text: "24"
+          - generic [ref=f4e113]:
+            - generic [ref=f4e114]: "2"
+            - text: "59"
+      - generic [ref=f4e115]:
+        - generic [ref=f4e116]: Inter kazanır ya da berabere %83
+        - generic [ref=f4e117]: Inter kazanır %59
+      - generic [ref=f4e118]: En olası skor 1-1
+  - link "21:45 17 Eki AR AS Roma G Genoa 1 71 X 18 2 11 AS Roma kazanır ya da berabere %89 AS Roma kazanır %71 En olası skor 1-0" [ref=f4e119] [cursor=pointer]:
+    - /url: /mac/ITA_as_roma__ITA_genoa__2026-10-17
+    - generic [ref=f4e120]:
+      - generic [ref=f4e121]:
+        - generic [ref=f4e122]:
+          - generic [ref=f4e123]: 21:45
+          - text: 17 Eki
+        - generic [ref=f4e124]:
+          - generic [ref=f4e125]:
+            - generic [ref=f4e126]: AR
+            - text: AS Roma
+          - generic [ref=f4e127]:
+            - generic [ref=f4e128]: G
+            - text: Genoa
+        - generic [ref=f4e129]:
+          - generic [ref=f4e130]:
+            - generic [ref=f4e131]: "1"
+            - text: "71"
+          - generic [ref=f4e132]:
+            - generic [ref=f4e133]: X
+            - text: "18"
+          - generic [ref=f4e134]:
+            - generic [ref=f4e135]: "2"
+            - text: "11"
+      - generic [ref=f4e136]:
+        - generic [ref=f4e137]: AS Roma kazanır ya da berabere %89
+        - generic [ref=f4e138]: AS Roma kazanır %71
+      - generic [ref=f4e139]: En olası skor 1-0
+  - generic [ref=f4e140]: Pazar, 18 Eki
+  - link "13:30 18 Eki U Udinese L Lecce 1 51 X 27 2 22 Udinese kazanır ya da berabere %78 2.5 alt (en fazla 2 gol) %61 En olası skor 1-0" [ref=f4e141] [cursor=pointer]:
+    - /url: /mac/ITA_udinese__ITA_lecce__2026-10-18
+    - generic [ref=f4e142]:
+      - generic [ref=f4e143]:
+        - generic [ref=f4e144]:
+          - generic [ref=f4e145]: 13:30
+          - text: 18 Eki
+        - generic [ref=f4e146]:
+          - generic [ref=f4e147]:
+            - generic [ref=f4e148]: U
+            - text: Udinese
+          - generic [ref=f4e149]:
+            - generic [ref=f4e150]: L
+            - text: Lecce
+        - generic [ref=f4e151]:
+          - generic [ref=f4e152]:
+            - generic [ref=f4e153]: "1"
+            - text: "51"
+          - generic [ref=f4e154]:
+            - generic [ref=f4e155]: X
+            - text: "27"
+          - generic [ref=f4e156]:
+            - generic [ref=f4e157]: "2"
+            - text: "22"
+      - generic [ref=f4e158]:
+        - generic [ref=f4e159]: Udinese kazanır ya da berabere %78
+        - generic [ref=f4e160]: 2.5 alt (en fazla 2 gol) %61
+      - generic [ref=f4e161]: En olası skor 1-0
+  - link "16:00 18 Eki F Fiorentina C Como 1 27 X 25 2 48 Beraberlik olmaz %75 İki takım da gol atar %53 En olası skor 1-1" [ref=f4e162] [cursor=pointer]:
+    - /url: /mac/ITA_fiorentina__ITA_como__2026-10-18
+    - generic [ref=f4e163]:
+      - generic [ref=f4e164]:
+        - generic [ref=f4e165]:
+          - generic [ref=f4e166]: 16:00
+          - text: 18 Eki
+        - generic [ref=f4e167]:
+          - generic [ref=f4e168]:
+            - generic [ref=f4e169]: F
+            - text: Fiorentina
+          - generic [ref=f4e170]:
+            - generic [ref=f4e171]: C
+            - text: Como
+        - generic [ref=f4e172]:
+          - generic [ref=f4e173]:
+            - generic [ref=f4e174]: "1"
+            - text: "27"
+          - generic [ref=f4e175]:
+            - generic [ref=f4e176]: X
+            - text: "25"
+          - generic [ref=f4e177]:
+            - generic [ref=f4e178]: "2"
+            - text: "48"
+      - generic [ref=f4e179]:
+        - generic [ref=f4e180]: Beraberlik olmaz %75
+        - generic [ref=f4e181]: İki takım da gol atar %53
+      - generic [ref=f4e182]: En olası skor 1-1
+  - link "19:00 18 Eki AM AC Milan A Atalanta 1 52 X 26 2 23 AC Milan kazanır ya da berabere %77 İki takım da gol atar %54 En olası skor 1-1" [ref=f4e183] [cursor=pointer]:
+    - /url: /mac/ITA_ac_milan__ITA_atalanta__2026-10-18
+    - generic [ref=f4e184]:
+      - generic [ref=f4e185]:
+        - generic [ref=f4e186]:
+          - generic [ref=f4e187]: 19:00
+          - text: 18 Eki
+        - generic [ref=f4e188]:
+          - generic [ref=f4e189]:
+            - generic [ref=f4e190]: AM
+            - text: AC Milan
+          - generic [ref=f4e191]:
+            - generic [ref=f4e192]: A
+            - text: Atalanta
+        - generic [ref=f4e193]:
+          - generic [ref=f4e194]:
+            - generic [ref=f4e195]: "1"
+            - text: "52"
+          - generic [ref=f4e196]:
+            - generic [ref=f4e197]: X
+            - text: "26"
+          - generic [ref=f4e198]:
+            - generic [ref=f4e199]: "2"
+            - text: "23"
+      - generic [ref=f4e200]:
+        - generic [ref=f4e201]: AC Milan kazanır ya da berabere %77
+        - generic [ref=f4e202]: İki takım da gol atar %54
+      - generic [ref=f4e203]: En olası skor 1-1
+  - link "21:45 18 Eki J Juventus L Lazio 1 58 X 24 2 18 Juventus kazanır ya da berabere %82 2.5 alt (en fazla 2 gol) %59 En olası skor 1-0" [ref=f4e204] [cursor=pointer]:
+    - /url: /mac/ITA_juventus__ITA_lazio__2026-10-18
+    - generic [ref=f4e205]:
+      - generic [ref=f4e206]:
+        - generic [ref=f4e207]:
+          - generic [ref=f4e208]: 21:45
+          - text: 18 Eki
+        - generic [ref=f4e209]:
+          - generic [ref=f4e210]:
+            - generic [ref=f4e211]: J
+            - text: Juventus
+          - generic [ref=f4e212]:
+            - generic [ref=f4e213]: L
+            - text: Lazio
+        - generic [ref=f4e214]:
+          - generic [ref=f4e215]:
+            - generic [ref=f4e216]: "1"
+            - text: "58"
+          - generic [ref=f4e217]:
+            - generic [ref=f4e218]: X
+            - text: "24"
+          - generic [ref=f4e219]:
+            - generic [ref=f4e220]: "2"
+            - text: "18"
+      - generic [ref=f4e221]:
+        - generic [ref=f4e222]: Juventus kazanır ya da berabere %82
+        - generic [ref=f4e223]: 2.5 alt (en fazla 2 gol) %59
+      - generic [ref=f4e224]: En olası skor 1-0
+  - generic [ref=f4e225]: Football data provided by the Football-Data.org API. Sonuç ve fikstür verisi ayrıca openfootball'dan (kamu malı), oran verisi The Odds API'den. Tahminler istatistiksel modellerin tahminidir, kazanç garantisi değildir. Bu uygulama bahis oynatmaz. Gamble Responsibly. 18+
+  - navigation [ref=f4e226]:
+    - link "🏠 Ana sayfa" [ref=f4e227] [cursor=pointer]:
+      - /url: /
+      - generic [ref=f4e228]: 🏠
+      - text: Ana sayfa
+    - link "🏆 Ligler" [ref=f4e229] [cursor=pointer]:
+      - /url: /ligler
+      - generic [ref=f4e230]: 🏆
+      - text: Ligler
+    - link "💡 Tavsiyeler" [ref=f4e231] [cursor=pointer]:
+      - /url: /tavsiyeler
+      - generic [ref=f4e232]: 💡
+      - text: Tavsiyeler
+    - link "👤 Profil" [ref=f4e233] [cursor=pointer]:
+      - /url: /profil
+      - generic [ref=f4e234]: 👤
+      - text: Profil

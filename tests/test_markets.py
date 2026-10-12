@@ -322,11 +322,14 @@ def test_track_record_is_served_by_api_and_dashboard(world, tmp_path):
     assert empty.json()["data"]["available"] is False
 
 
-def test_web_ui_serves_turkish_pages_from_artifacts_without_raw_prices_or_logos(world, tmp_path):
+def test_web_app_needs_a_session_and_serves_turkish_pages_without_raw_prices_or_logos(
+    world, tmp_path, monkeypatch
+):
     from fastapi.testclient import TestClient
 
     from src.api.app import create_app
 
+    monkeypatch.delenv("FORECAST_UI_LOGOS", raising=False)  # logos are a local-demo switch, off by default
     shutil.copytree(REPO_ROOT / "configs", tmp_path / "configs")
     mm = fit_markets(world["ms"], world["cut"], world["cfg"])
     now = world["cut"].astimezone(UTC)
@@ -339,20 +342,89 @@ def test_web_ui_serves_turkish_pages_from_artifacts_without_raw_prices_or_logos(
         "quality": "exact",
     }
     write_artifact(tmp_path, mm, "cfg", now, key, "x", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "none", odds)  # fmt: skip
-    c = TestClient(create_app(tmp_path, keys=[], now_fn=lambda: now))  # the UI needs no API key
+    c = TestClient(create_app(tmp_path, keys=[], now_fn=lambda: now), follow_redirects=False)
+    for path in (
+        "/",
+        "/ligler",
+        "/lig/EPL",
+        f"/mac/{key}",
+        "/tavsiyeler",
+        "/profil",
+        "/basari-kaydi",
+        "/hakkinda",
+    ):
+        r = c.get(path)
+        assert r.status_code == 303 and r.headers["location"] == "/giris", path  # no session: login first
+    login = c.get("/giris")
+    assert (
+        login.status_code == 200
+        and "Google ile devam et" in login.text
+        and "Apple ile devam et" in login.text
+    )
+    assert "Telefon numarası ile devam et" in login.text and "Misafir olarak devam et" in login.text
+    assert c.post("/giris/misafir").status_code == 303
+    c = TestClient(c.app)  # a fresh client that follows redirects
+    c.post("/giris/misafir")
     home = c.get("/")
     assert (
-        home.status_code == 200 and "Yaklaşan maçlar" in home.text and "Arsenal - Leeds United" in home.text
+        home.status_code == 200 and "Merhaba Misafir" in home.text and "Gamble Responsibly. 18+" in home.text
     )
-    assert f"/mac/{key}" in home.text and "Gamble Responsibly. 18+" in home.text
     assert "Football data provided by the Football-Data.org API" in home.text
-    assert "Arsenal" in c.get("/?lig=EPL").text and "Arsenal" not in c.get("/?lig=SUPERLIG").text
+    league = c.get("/lig/EPL?hafta=hepsi")
+    assert (
+        f"/mac/{key}" in league.text
+        and "Arsenal" in league.text
+        and any(
+            d in league.text
+            for d in ("Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar")
+        )
+    )
+    assert f"/mac/{key}" not in c.get("/lig/SUPERLIG").text and c.get("/lig/NOPE").status_code == 404
     page = c.get(f"/mac/{key}")
     assert page.status_code == 200 and "Sonuç olasılıkları" in page.text and "En olası skorlar" in page.text
     assert "piyasa oranlarından" in page.text  # the exact odds drove the headline
-    assert "Pinnacle" not in page.text and "<img" not in page.text  # no bookmaker prices/names, no club logos
+    assert (
+        "Pinnacle" not in page.text and "<img" not in page.text
+    )  # no bookmaker prices/names, no logos by default
     assert c.get("/mac/nope").status_code == 404 and "Bulunamadı" in c.get("/mac/nope").text
-    for path in ("/tavsiyeler", "/basari-kaydi", "/hakkinda"):
-        assert c.get(path).status_code == 200
-    assert "Henüz kayıt yok" in c.get("/basari-kaydi").text  # no track_record.json yet: said plainly
+    assert "Henüz sonuçlanmış maç yok" in c.get("/basari-kaydi").text
+    assert (
+        c.get("/manifest.webmanifest").json()["display"] == "standalone"
+        and c.get("/sw.js").status_code == 200
+    )
+    assert (
+        c.get("/icon-192.png").content.startswith(bytes([137, 80, 78, 71]))
+        and c.get("/icon-100.png").status_code == 404
+    )
+    assert c.post("/cikis").url.path == "/giris" and c.get("/").url.path == "/giris"
     assert c.get("/v1/fixtures").status_code == 503  # the API itself still fails closed without keys
+
+
+def test_track_and_profile_pages_render_real_numbers_and_the_signed_in_user(world, tmp_path):
+    from src.markets.track import track_record
+    from src.web import pages
+    from src.web.session import User
+
+    cfg, ms, cut = world["cfg"], world["ms"], world["cut"]
+    mm = fit_markets(ms, cut, cfg)
+    for m in [x for x in ms if x.kickoff_utc > cut][:25]:
+        write_artifact(tmp_path, mm, "cfg", cut, fixture_key(m.home_id, m.away_id, m.kickoff_utc), "x", m.league, m.home_id, m.away_id, m.kickoff_utc, "dv-x", "none", None)  # fmt: skip
+    rep = {"available": True, **track_record(tmp_path, ms, now=ms[-1].kickoff_utc + timedelta(days=1))}
+    html = pages.track_page(rep)
+    assert (
+        "25 maç değerlendirildi" in html
+        and "Log kaybı" in html
+        and "gürültü" in html.lower()
+        or "noise" in html.lower()
+    )
+    assert "Henüz sonuçlanmış maç yok" in pages.track_page({"available": False})
+    prof = pages.profile_page(User("google", "Veli <b>", "v@example.com"))
+    assert (
+        "Google hesabı" in prof
+        and "v@example.com" in prof
+        and "&lt;b&gt;" in prof
+        and "<b>" not in prof.split("Veli")[1][:20]
+    )
+    assert "Çıkış yap" in prof and "Ana ekrana ekle" in prof
+    tips = pages.tips_page([{"fixture_id": "f", "kickoff_utc": "2026-10-12T16:00:00+00:00", "market": "match_result", "pick": "Home win", "probability": 0.71, "lean": "strong lean"}], {"f": ("Arsenal", "Leeds")})  # fmt: skip
+    assert "Arsenal kazanır" in tips and "%71" in tips and "Güçlü eğilim" in tips

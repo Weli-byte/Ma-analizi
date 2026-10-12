@@ -405,7 +405,7 @@ def track_page(t: dict) -> str:
             for k, v in t["tips_by_lean"].items()
         )
         body = (
-            f"<div class='card warn'><b>{t['matches_scored']} maç değerlendirildi.</b> {e(t['reliability_note'])}. 100 maçtan azsa bu sayılar rastlantıdan ayırt edilemez.</div>"
+            f"<div class='card warn'><b>{t['matches_scored']} maç değerlendirildi.</b> {'Henüz çok az maç var: sonuçlar gürültü sayılır' if t['reliability_note'].startswith('noise') else 'İlk okuma için yeterli, ama kayıt hâlâ kısa'}. 100 maçtan azsa bu sayılar rastlantıdan ayırt edilemez.</div>"
             f"<div class='card'><table><tr><th>Ölçü</th><th>Değer</th></tr><tr><td>Log kaybı (düşük iyi)</td><td>{h['log_loss']:.3f}</td></tr>"
             f"<tr><td>Lig taban oranı ile kıyas</td><td>{h['log_loss_league_base_rate']:.3f}</td></tr>"
             f"<tr><td>İlk seçimin tutma oranı</td><td>{pct(h['top_pick_accuracy'])}</td></tr><tr><td>Doğru skoru bilme</td><td>{pct(t['correct_score_hit_rate'])}</td></tr></table></div>"

@@ -34,12 +34,15 @@ jobs:
         run: |
           git fetch data markets-data
           git worktree add stats-wt data/markets-data
-          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos --search scripts/data/missing_logo_clubs.json
+          # keep the logos and search results of earlier passes (the daily request quota is small)
+          git fetch data review-assets 2>/dev/null && git archive FETCH_HEAD logos | tar -x || true
+          mkdir -p logos
+          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos --search scripts/data/missing_logo_clubs.json --max-requests 40
       - name: Publish the logos to the private review-assets branch
         run: |
           git worktree add --detach assets-wt
           cd assets-wt && git checkout --orphan review-assets && git rm -rf . -q
-          mkdir -p logos && cp ../logos/*.png logos/
+          mkdir -p logos && cp ../logos/*.png logos/ && cp ../logos/_search.json logos/ 2>/dev/null || true
           git config user.name "alias-logos bot"
           git config user.email "alias-logos-bot@users.noreply.github.com"
           git add -A logos && git commit -q -m "logos for the alias review"

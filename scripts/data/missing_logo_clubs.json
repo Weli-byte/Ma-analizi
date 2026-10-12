@@ -1,0 +1,312 @@
+[
+ {
+  "team_id": "ENG_burnley",
+  "name": "Burnley",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_leicester_city",
+  "name": "Leicester City",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_luton_town",
+  "name": "Luton Town",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_norwich_city",
+  "name": "Norwich City",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_sheffield_united",
+  "name": "Sheffield United",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_southampton",
+  "name": "Southampton",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_watford",
+  "name": "Watford",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_west_bromwich_albion",
+  "name": "West Bromwich Albion",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_west_ham_united",
+  "name": "West Ham United",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ENG_wolverhampton_wanderers",
+  "name": "Wolverhampton Wanderers",
+  "country": "ENG"
+ },
+ {
+  "team_id": "ESP_almeria",
+  "name": "Almeria",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_cadiz",
+  "name": "Cadiz",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_eibar",
+  "name": "Eibar",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_girona",
+  "name": "Girona",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_granada",
+  "name": "Granada",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_huesca",
+  "name": "Huesca",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_las_palmas",
+  "name": "Las Palmas",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_leganes",
+  "name": "Leganes",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_mallorca",
+  "name": "Mallorca",
+  "country": "ESP"
+ },
+ {
+  "team_id": "ESP_real_valladolid",
+  "name": "Real Valladolid",
+  "country": "ESP"
+ },
+ {
+  "team_id": "FRA_ac_ajaccio",
+  "name": "AC Ajaccio",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_amiens",
+  "name": "Amiens",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_bordeaux",
+  "name": "Bordeaux",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_clermont_foot",
+  "name": "Clermont Foot",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_dijon",
+  "name": "Dijon",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_metz",
+  "name": "Metz",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_montpellier",
+  "name": "Montpellier",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_nantes",
+  "name": "Nantes",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_nimes",
+  "name": "Nîmes",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_reims",
+  "name": "Reims",
+  "country": "FRA"
+ },
+ {
+  "team_id": "FRA_saint_etienne",
+  "name": "Saint-Étienne",
+  "country": "FRA"
+ },
+ {
+  "team_id": "GER_arminia_bielefeld",
+  "name": "Arminia Bielefeld",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_darmstadt",
+  "name": "Darmstadt",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_fortuna_dusseldorf",
+  "name": "Fortuna Düsseldorf",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_greuther_furth",
+  "name": "Greuther Fürth",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_heidenheim",
+  "name": "Heidenheim",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_hertha_bsc",
+  "name": "Hertha BSC",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_holstein_kiel",
+  "name": "Holstein Kiel",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_st_pauli",
+  "name": "St. Pauli",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_vfl_bochum",
+  "name": "VfL Bochum",
+  "country": "GER"
+ },
+ {
+  "team_id": "GER_vfl_wolfsburg",
+  "name": "VfL Wolfsburg",
+  "country": "GER"
+ },
+ {
+  "team_id": "ITA_benevento",
+  "name": "Benevento",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_brescia",
+  "name": "Brescia",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_cremonese",
+  "name": "Cremonese",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_crotone",
+  "name": "Crotone",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_empoli",
+  "name": "Empoli",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_hellas_verona",
+  "name": "Hellas Verona",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_pisa",
+  "name": "Pisa",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_salernitana",
+  "name": "Salernitana",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_sampdoria",
+  "name": "Sampdoria",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_spal",
+  "name": "SPAL",
+  "country": "ITA"
+ },
+ {
+  "team_id": "ITA_spezia",
+  "name": "Spezia",
+  "country": "ITA"
+ },
+ {
+  "team_id": "TUR_adana_demirspor",
+  "name": "Adana Demirspor",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_antalyaspor",
+  "name": "Antalyaspor",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_bodrum_fk",
+  "name": "Bodrum FK",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_denizlispor",
+  "name": "Denizlispor",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_fatih_karagumruk",
+  "name": "Fatih Karagümrük",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_hatayspor",
+  "name": "Hatayspor",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_kayserispor",
+  "name": "Kayserispor",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_mke_ankaragucu",
+  "name": "MKE Ankaragücü",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_sivasspor",
+  "name": "Sivasspor",
+  "country": "TUR"
+ },
+ {
+  "team_id": "TUR_yeni_malatyaspor",
+  "name": "Yeni Malatyaspor",
+  "country": "TUR"
+ }
+]

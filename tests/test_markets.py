@@ -320,3 +320,39 @@ def test_track_record_is_served_by_api_and_dashboard(world, tmp_path):
         "/v1/track-record", headers={"X-API-Key": "k"}
     )
     assert empty.json()["data"]["available"] is False
+
+
+def test_web_ui_serves_turkish_pages_from_artifacts_without_raw_prices_or_logos(world, tmp_path):
+    from fastapi.testclient import TestClient
+
+    from src.api.app import create_app
+
+    shutil.copytree(REPO_ROOT / "configs", tmp_path / "configs")
+    mm = fit_markets(world["ms"], world["cut"], world["cfg"])
+    now = world["cut"].astimezone(UTC)
+    kickoff = now + timedelta(days=1)
+    key = fixture_key("ENG_arsenal", "ENG_leeds_united", kickoff)
+    odds = {
+        "bookmaker": "Pinnacle (pinnacle)",
+        "observed_at": now.isoformat(),
+        "odds": [1.9, 3.6, 4.4],
+        "quality": "exact",
+    }
+    write_artifact(tmp_path, mm, "cfg", now, key, "x", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "none", odds)  # fmt: skip
+    c = TestClient(create_app(tmp_path, keys=[], now_fn=lambda: now))  # the UI needs no API key
+    home = c.get("/")
+    assert (
+        home.status_code == 200 and "Yaklaşan maçlar" in home.text and "Arsenal - Leeds United" in home.text
+    )
+    assert f"/mac/{key}" in home.text and "Gamble Responsibly. 18+" in home.text
+    assert "Football data provided by the Football-Data.org API" in home.text
+    assert "Arsenal" in c.get("/?lig=EPL").text and "Arsenal" not in c.get("/?lig=SUPERLIG").text
+    page = c.get(f"/mac/{key}")
+    assert page.status_code == 200 and "Sonuç olasılıkları" in page.text and "En olası skorlar" in page.text
+    assert "piyasa oranlarından" in page.text  # the exact odds drove the headline
+    assert "Pinnacle" not in page.text and "<img" not in page.text  # no bookmaker prices/names, no club logos
+    assert c.get("/mac/nope").status_code == 404 and "Bulunamadı" in c.get("/mac/nope").text
+    for path in ("/tavsiyeler", "/basari-kaydi", "/hakkinda"):
+        assert c.get(path).status_code == 200
+    assert "Henüz kayıt yok" in c.get("/basari-kaydi").text  # no track_record.json yet: said plainly
+    assert c.get("/v1/fixtures").status_code == 503  # the API itself still fails closed without keys

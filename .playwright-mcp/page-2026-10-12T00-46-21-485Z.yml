@@ -1,0 +1,1104 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e4]:
+      - generic [ref=e5]: ⚽ Maç Tahmin
+      - link "Maçlar" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - link "Tavsiyeler" [ref=e7] [cursor=pointer]:
+        - /url: /tavsiyeler
+      - link "Başarı kaydı" [ref=e8] [cursor=pointer]:
+        - /url: /basari-kaydi
+      - link "Yöntem ve sınırlar" [ref=e9] [cursor=pointer]:
+        - /url: /hakkinda
+  - main [ref=e10]:
+    - heading "Yaklaşan maçlar" [level=1] [ref=e11]
+    - paragraph [ref=e12]: Altı lig için sonuç, skor ve gol tahminleri. Bir maça tıklayınca ayrıntıları görürsün.
+    - generic [ref=e13]:
+      - link "Hepsi" [ref=e14] [cursor=pointer]:
+        - /url: /
+      - link "Premier Lig" [ref=e15] [cursor=pointer]:
+        - /url: /?lig=EPL
+      - link "La Liga" [ref=e16] [cursor=pointer]:
+        - /url: /?lig=LALIGA
+      - link "Bundesliga" [ref=e17] [cursor=pointer]:
+        - /url: /?lig=BUNDESLIGA
+      - link "Serie A" [ref=e18] [cursor=pointer]:
+        - /url: /?lig=SERIEA
+      - link "Ligue 1" [ref=e19] [cursor=pointer]:
+        - /url: /?lig=LIGUE1
+      - link "Süper Lig" [ref=e20] [cursor=pointer]:
+        - /url: /?lig=SUPERLIG
+    - 'link "Atalanta - Venezia Serie A · 12 Eki 19:30 (TSİ) Atalanta %63, beraberlik %22, Venezia %15 Atalanta %63 Beraberlik %22 Venezia %15 En olası skor: 2-0 2.5 üst: %55 · İki takım da gol atar: %46 Atalanta kazanır ya da berabere %85 Atalanta kazanır %63 2.5 üst (3+ gol) %55" [ref=e21] [cursor=pointer]':
+      - /url: /mac/ITA_atalanta__ITA_venezia__2026-10-12
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - generic [ref=e24]: Atalanta - Venezia
+          - generic [ref=e25]: Serie A · 12 Eki 19:30 (TSİ)
+        - img "Atalanta %63, beraberlik %22, Venezia %15" [ref=e26]
+        - generic [ref=e30]:
+          - generic [ref=e31]: Atalanta %63
+          - generic [ref=e32]: Beraberlik %22
+          - generic [ref=e33]: Venezia %15
+        - generic [ref=e34]:
+          - generic [ref=e35]: "En olası skor: 2-0"
+          - generic [ref=e36]: "2.5 üst: %55 · İki takım da gol atar: %46"
+        - generic [ref=e37]:
+          - generic [ref=e38]: Atalanta kazanır ya da berabere %85
+          - generic [ref=e39]: Atalanta kazanır %63
+          - generic [ref=e40]: 2.5 üst (3+ gol) %55
+    - 'link "Eyüpspor - Göztepe Süper Lig · 12 Eki 20:00 (TSİ) Eyüpspor %25, beraberlik %26, Göztepe %50 Eyüpspor %25 Beraberlik %26 Göztepe %50 En olası skor: 1-1 2.5 üst: %48 · İki takım da gol atar: %53 Göztepe kazanır ya da berabere %75 İki takım da gol atar %53 2.5 alt (en fazla 2 gol) %52" [ref=e41] [cursor=pointer]':
+      - /url: /mac/TUR_eyupspor__TUR_goztepe__2026-10-12
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]: Eyüpspor - Göztepe
+          - generic [ref=e45]: Süper Lig · 12 Eki 20:00 (TSİ)
+        - img "Eyüpspor %25, beraberlik %26, Göztepe %50" [ref=e46]
+        - generic [ref=e50]:
+          - generic [ref=e51]: Eyüpspor %25
+          - generic [ref=e52]: Beraberlik %26
+          - generic [ref=e53]: Göztepe %50
+        - generic [ref=e54]:
+          - generic [ref=e55]: "En olası skor: 1-1"
+          - generic [ref=e56]: "2.5 üst: %48 · İki takım da gol atar: %53"
+        - generic [ref=e57]:
+          - generic [ref=e58]: Göztepe kazanır ya da berabere %75
+          - generic [ref=e59]: İki takım da gol atar %53
+          - generic [ref=e60]: 2.5 alt (en fazla 2 gol) %52
+    - 'link "Torino - Udinese Serie A · 12 Eki 21:45 (TSİ) Torino %41, beraberlik %30, Udinese %29 Torino %41 Beraberlik %30 Udinese %29 En olası skor: 1-1 2.5 üst: %45 · İki takım da gol atar: %51 Torino kazanır ya da berabere %71 2.5 alt (en fazla 2 gol) %55 İki takım da gol atar %51" [ref=e61] [cursor=pointer]':
+      - /url: /mac/ITA_torino__ITA_udinese__2026-10-12
+      - generic [ref=e62]:
+        - generic [ref=e63]:
+          - generic [ref=e64]: Torino - Udinese
+          - generic [ref=e65]: Serie A · 12 Eki 21:45 (TSİ)
+        - img "Torino %41, beraberlik %30, Udinese %29" [ref=e66]
+        - generic [ref=e70]:
+          - generic [ref=e71]: Torino %41
+          - generic [ref=e72]: Beraberlik %30
+          - generic [ref=e73]: Udinese %29
+        - generic [ref=e74]:
+          - generic [ref=e75]: "En olası skor: 1-1"
+          - generic [ref=e76]: "2.5 üst: %45 · İki takım da gol atar: %51"
+        - generic [ref=e77]:
+          - generic [ref=e78]: Torino kazanır ya da berabere %71
+          - generic [ref=e79]: 2.5 alt (en fazla 2 gol) %55
+          - generic [ref=e80]: İki takım da gol atar %51
+    - 'link "Coventry City - Newcastle United Premier Lig · 12 Eki 22:00 (TSİ) Coventry City %30, beraberlik %27, Newcastle United %43 Coventry City %30 Beraberlik %27 Newcastle United %43 En olası skor: 1-1 2.5 üst: %51 · İki takım da gol atar: %53 Beraberlik olmaz %73 İki takım da gol atar %53 2.5 üst (3+ gol) %51 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e81] [cursor=pointer]':
+      - /url: /mac/ENG_coventry_city__ENG_newcastle_united__2026-10-12
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - generic [ref=e84]: Coventry City - Newcastle United
+          - generic [ref=e85]: Premier Lig · 12 Eki 22:00 (TSİ)
+        - img "Coventry City %30, beraberlik %27, Newcastle United %43" [ref=e86]
+        - generic [ref=e90]:
+          - generic [ref=e91]: Coventry City %30
+          - generic [ref=e92]: Beraberlik %27
+          - generic [ref=e93]: Newcastle United %43
+        - generic [ref=e94]:
+          - generic [ref=e95]: "En olası skor: 1-1"
+          - generic [ref=e96]: "2.5 üst: %51 · İki takım da gol atar: %53"
+        - generic [ref=e97]:
+          - generic [ref=e98]: Beraberlik olmaz %73
+          - generic [ref=e99]: İki takım da gol atar %53
+          - generic [ref=e100]: 2.5 üst (3+ gol) %51
+        - generic [ref=e101]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Levante - Sevilla La Liga · 12 Eki 22:00 (TSİ) Levante %37, beraberlik %29, Sevilla %34 Levante %37 Beraberlik %29 Sevilla %34 En olası skor: 1-1 2.5 üst: %54 · İki takım da gol atar: %58 Beraberlik olmaz %71 İki takım da gol atar %58 2.5 üst (3+ gol) %54" [ref=e102] [cursor=pointer]':
+      - /url: /mac/ESP_levante__ESP_sevilla__2026-10-12
+      - generic [ref=e103]:
+        - generic [ref=e104]:
+          - generic [ref=e105]: Levante - Sevilla
+          - generic [ref=e106]: La Liga · 12 Eki 22:00 (TSİ)
+        - img "Levante %37, beraberlik %29, Sevilla %34" [ref=e107]
+        - generic [ref=e111]:
+          - generic [ref=e112]: Levante %37
+          - generic [ref=e113]: Beraberlik %29
+          - generic [ref=e114]: Sevilla %34
+        - generic [ref=e115]:
+          - generic [ref=e116]: "En olası skor: 1-1"
+          - generic [ref=e117]: "2.5 üst: %54 · İki takım da gol atar: %58"
+        - generic [ref=e118]:
+          - generic [ref=e119]: Beraberlik olmaz %71
+          - generic [ref=e120]: İki takım da gol atar %58
+          - generic [ref=e121]: 2.5 üst (3+ gol) %54
+    - 'link "Çorum FK - Çaykur Rizespor Süper Lig · 16 Eki 20:00 (TSİ) Çorum FK %55, beraberlik %21, Çaykur Rizespor %24 Çorum FK %55 Beraberlik %21 Çaykur Rizespor %24 En olası skor: 2-1 2.5 üst: %70 · İki takım da gol atar: %68 Beraberlik olmaz %79 2.5 üst (3+ gol) %70 İki takım da gol atar %68 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e122] [cursor=pointer]':
+      - /url: /mac/TUR_corum_fk__TUR_caykur_rizespor__2026-10-16
+      - generic [ref=e123]:
+        - generic [ref=e124]:
+          - generic [ref=e125]: Çorum FK - Çaykur Rizespor
+          - generic [ref=e126]: Süper Lig · 16 Eki 20:00 (TSİ)
+        - img "Çorum FK %55, beraberlik %21, Çaykur Rizespor %24" [ref=e127]
+        - generic [ref=e131]:
+          - generic [ref=e132]: Çorum FK %55
+          - generic [ref=e133]: Beraberlik %21
+          - generic [ref=e134]: Çaykur Rizespor %24
+        - generic [ref=e135]:
+          - generic [ref=e136]: "En olası skor: 2-1"
+          - generic [ref=e137]: "2.5 üst: %70 · İki takım da gol atar: %68"
+        - generic [ref=e138]:
+          - generic [ref=e139]: Beraberlik olmaz %79
+          - generic [ref=e140]: 2.5 üst (3+ gol) %70
+          - generic [ref=e141]: İki takım da gol atar %68
+        - generic [ref=e142]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Eintracht Frankfurt - 1. FC Köln Bundesliga · 16 Eki 21:30 (TSİ) Eintracht Frankfurt %51, beraberlik %23, 1. FC Köln %27 Eintracht Frankfurt %51 Beraberlik %23 1. FC Köln %27 En olası skor: 1-1 2.5 üst: %68 · İki takım da gol atar: %66 Beraberlik olmaz %77 2.5 üst (3+ gol) %68 İki takım da gol atar %66" [ref=e143] [cursor=pointer]':
+      - /url: /mac/GER_eintracht_frankfurt__GER_1_fc_koln__2026-10-16
+      - generic [ref=e144]:
+        - generic [ref=e145]:
+          - generic [ref=e146]: Eintracht Frankfurt - 1. FC Köln
+          - generic [ref=e147]: Bundesliga · 16 Eki 21:30 (TSİ)
+        - img "Eintracht Frankfurt %51, beraberlik %23, 1. FC Köln %27" [ref=e148]
+        - generic [ref=e152]:
+          - generic [ref=e153]: Eintracht Frankfurt %51
+          - generic [ref=e154]: Beraberlik %23
+          - generic [ref=e155]: 1. FC Köln %27
+        - generic [ref=e156]:
+          - generic [ref=e157]: "En olası skor: 1-1"
+          - generic [ref=e158]: "2.5 üst: %68 · İki takım da gol atar: %66"
+        - generic [ref=e159]:
+          - generic [ref=e160]: Beraberlik olmaz %77
+          - generic [ref=e161]: 2.5 üst (3+ gol) %68
+          - generic [ref=e162]: İki takım da gol atar %66
+    - 'link "Le Mans - Toulouse Ligue 1 · 16 Eki 21:45 (TSİ) Le Mans %33, beraberlik %28, Toulouse %40 Le Mans %33 Beraberlik %28 Toulouse %40 En olası skor: 1-1 2.5 üst: %61 · İki takım da gol atar: %63 Beraberlik olmaz %72 İki takım da gol atar %63 2.5 üst (3+ gol) %61 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e163] [cursor=pointer]':
+      - /url: /mac/FRA_le_mans__FRA_toulouse__2026-10-16
+      - generic [ref=e164]:
+        - generic [ref=e165]:
+          - generic [ref=e166]: Le Mans - Toulouse
+          - generic [ref=e167]: Ligue 1 · 16 Eki 21:45 (TSİ)
+        - img "Le Mans %33, beraberlik %28, Toulouse %40" [ref=e168]
+        - generic [ref=e172]:
+          - generic [ref=e173]: Le Mans %33
+          - generic [ref=e174]: Beraberlik %28
+          - generic [ref=e175]: Toulouse %40
+        - generic [ref=e176]:
+          - generic [ref=e177]: "En olası skor: 1-1"
+          - generic [ref=e178]: "2.5 üst: %61 · İki takım da gol atar: %63"
+        - generic [ref=e179]:
+          - generic [ref=e180]: Beraberlik olmaz %72
+          - generic [ref=e181]: İki takım da gol atar %63
+          - generic [ref=e182]: 2.5 üst (3+ gol) %61
+        - generic [ref=e183]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Frosinone - Sassuolo Serie A · 16 Eki 21:45 (TSİ) Frosinone %39, beraberlik %27, Sassuolo %34 Frosinone %39 Beraberlik %27 Sassuolo %34 En olası skor: 1-1 2.5 üst: %58 · İki takım da gol atar: %61 Beraberlik olmaz %73 İki takım da gol atar %61 2.5 üst (3+ gol) %58" [ref=e184] [cursor=pointer]':
+      - /url: /mac/ITA_frosinone__ITA_sassuolo__2026-10-16
+      - generic [ref=e185]:
+        - generic [ref=e186]:
+          - generic [ref=e187]: Frosinone - Sassuolo
+          - generic [ref=e188]: Serie A · 16 Eki 21:45 (TSİ)
+        - img "Frosinone %39, beraberlik %27, Sassuolo %34" [ref=e189]
+        - generic [ref=e193]:
+          - generic [ref=e194]: Frosinone %39
+          - generic [ref=e195]: Beraberlik %27
+          - generic [ref=e196]: Sassuolo %34
+        - generic [ref=e197]:
+          - generic [ref=e198]: "En olası skor: 1-1"
+          - generic [ref=e199]: "2.5 üst: %58 · İki takım da gol atar: %61"
+        - generic [ref=e200]:
+          - generic [ref=e201]: Beraberlik olmaz %73
+          - generic [ref=e202]: İki takım da gol atar %61
+          - generic [ref=e203]: 2.5 üst (3+ gol) %58
+    - 'link "Deportivo La Coruna - Levante La Liga · 16 Eki 22:00 (TSİ) Deportivo La Coruna %44, beraberlik %27, Levante %28 Deportivo La Coruna %44 Beraberlik %27 Levante %28 En olası skor: 1-1 2.5 üst: %56 · İki takım da gol atar: %57 Beraberlik olmaz %73 İki takım da gol atar %57 2.5 üst (3+ gol) %56 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e204] [cursor=pointer]':
+      - /url: /mac/ESP_deportivo_la_coruna__ESP_levante__2026-10-16
+      - generic [ref=e205]:
+        - generic [ref=e206]:
+          - generic [ref=e207]: Deportivo La Coruna - Levante
+          - generic [ref=e208]: La Liga · 16 Eki 22:00 (TSİ)
+        - img "Deportivo La Coruna %44, beraberlik %27, Levante %28" [ref=e209]
+        - generic [ref=e213]:
+          - generic [ref=e214]: Deportivo La Coruna %44
+          - generic [ref=e215]: Beraberlik %27
+          - generic [ref=e216]: Levante %28
+        - generic [ref=e217]:
+          - generic [ref=e218]: "En olası skor: 1-1"
+          - generic [ref=e219]: "2.5 üst: %56 · İki takım da gol atar: %57"
+        - generic [ref=e220]:
+          - generic [ref=e221]: Beraberlik olmaz %73
+          - generic [ref=e222]: İki takım da gol atar %57
+          - generic [ref=e223]: 2.5 üst (3+ gol) %56
+        - generic [ref=e224]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Erzurumspor - Eyüpspor Süper Lig · 17 Eki 13:30 (TSİ) Erzurumspor %38, beraberlik %31, Eyüpspor %31 Erzurumspor %38 Beraberlik %31 Eyüpspor %31 En olası skor: 1-1 2.5 üst: %36 · İki takım da gol atar: %43 Erzurumspor kazanır ya da berabere %69 2.5 alt (en fazla 2 gol) %64 İki takım da gol atmaz %57 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e225] [cursor=pointer]':
+      - /url: /mac/TUR_erzurumspor__TUR_eyupspor__2026-10-17
+      - generic [ref=e226]:
+        - generic [ref=e227]:
+          - generic [ref=e228]: Erzurumspor - Eyüpspor
+          - generic [ref=e229]: Süper Lig · 17 Eki 13:30 (TSİ)
+        - img "Erzurumspor %38, beraberlik %31, Eyüpspor %31" [ref=e230]
+        - generic [ref=e234]:
+          - generic [ref=e235]: Erzurumspor %38
+          - generic [ref=e236]: Beraberlik %31
+          - generic [ref=e237]: Eyüpspor %31
+        - generic [ref=e238]:
+          - generic [ref=e239]: "En olası skor: 1-1"
+          - generic [ref=e240]: "2.5 üst: %36 · İki takım da gol atar: %43"
+        - generic [ref=e241]:
+          - generic [ref=e242]: Erzurumspor kazanır ya da berabere %69
+          - generic [ref=e243]: 2.5 alt (en fazla 2 gol) %64
+          - generic [ref=e244]: İki takım da gol atmaz %57
+        - generic [ref=e245]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Everton - Chelsea Premier Lig · 17 Eki 14:30 (TSİ) Everton %29, beraberlik %26, Chelsea %45 Everton %29 Beraberlik %26 Chelsea %45 En olası skor: 1-1 2.5 üst: %48 · İki takım da gol atar: %54 Beraberlik olmaz %74 İki takım da gol atar %54 2.5 alt (en fazla 2 gol) %52" [ref=e246] [cursor=pointer]':
+      - /url: /mac/ENG_everton__ENG_chelsea__2026-10-17
+      - generic [ref=e247]:
+        - generic [ref=e248]:
+          - generic [ref=e249]: Everton - Chelsea
+          - generic [ref=e250]: Premier Lig · 17 Eki 14:30 (TSİ)
+        - img "Everton %29, beraberlik %26, Chelsea %45" [ref=e251]
+        - generic [ref=e255]:
+          - generic [ref=e256]: Everton %29
+          - generic [ref=e257]: Beraberlik %26
+          - generic [ref=e258]: Chelsea %45
+        - generic [ref=e259]:
+          - generic [ref=e260]: "En olası skor: 1-1"
+          - generic [ref=e261]: "2.5 üst: %48 · İki takım da gol atar: %54"
+        - generic [ref=e262]:
+          - generic [ref=e263]: Beraberlik olmaz %74
+          - generic [ref=e264]: İki takım da gol atar %54
+          - generic [ref=e265]: 2.5 alt (en fazla 2 gol) %52
+    - 'link "Espanyol - Atletico Madrid La Liga · 17 Eki 15:00 (TSİ) Espanyol %22, beraberlik %25, Atletico Madrid %53 Espanyol %22 Beraberlik %25 Atletico Madrid %53 En olası skor: 1-1 2.5 üst: %50 · İki takım da gol atar: %53 Atletico Madrid kazanır ya da berabere %78 İki takım da gol atar %53 Atletico Madrid kazanır %53" [ref=e266] [cursor=pointer]':
+      - /url: /mac/ESP_espanyol__ESP_atletico_madrid__2026-10-17
+      - generic [ref=e267]:
+        - generic [ref=e268]:
+          - generic [ref=e269]: Espanyol - Atletico Madrid
+          - generic [ref=e270]: La Liga · 17 Eki 15:00 (TSİ)
+        - img "Espanyol %22, beraberlik %25, Atletico Madrid %53" [ref=e271]
+        - generic [ref=e275]:
+          - generic [ref=e276]: Espanyol %22
+          - generic [ref=e277]: Beraberlik %25
+          - generic [ref=e278]: Atletico Madrid %53
+        - generic [ref=e279]:
+          - generic [ref=e280]: "En olası skor: 1-1"
+          - generic [ref=e281]: "2.5 üst: %50 · İki takım da gol atar: %53"
+        - generic [ref=e282]:
+          - generic [ref=e283]: Atletico Madrid kazanır ya da berabere %78
+          - generic [ref=e284]: İki takım da gol atar %53
+          - generic [ref=e285]: Atletico Madrid kazanır %53
+    - 'link "Venezia - Napoli Serie A · 17 Eki 16:00 (TSİ) Venezia %21, beraberlik %23, Napoli %56 Venezia %21 Beraberlik %23 Napoli %56 En olası skor: 0-1 2.5 üst: %49 · İki takım da gol atar: %45 Napoli kazanır ya da berabere %79 Napoli kazanır %56 İki takım da gol atmaz %55" [ref=e286] [cursor=pointer]':
+      - /url: /mac/ITA_venezia__ITA_napoli__2026-10-17
+      - generic [ref=e287]:
+        - generic [ref=e288]:
+          - generic [ref=e289]: Venezia - Napoli
+          - generic [ref=e290]: Serie A · 17 Eki 16:00 (TSİ)
+        - img "Venezia %21, beraberlik %23, Napoli %56" [ref=e291]
+        - generic [ref=e295]:
+          - generic [ref=e296]: Venezia %21
+          - generic [ref=e297]: Beraberlik %23
+          - generic [ref=e298]: Napoli %56
+        - generic [ref=e299]:
+          - generic [ref=e300]: "En olası skor: 0-1"
+          - generic [ref=e301]: "2.5 üst: %49 · İki takım da gol atar: %45"
+        - generic [ref=e302]:
+          - generic [ref=e303]: Napoli kazanır ya da berabere %79
+          - generic [ref=e304]: Napoli kazanır %56
+          - generic [ref=e305]: İki takım da gol atmaz %55
+    - 'link "Amed SK - Konyaspor Süper Lig · 17 Eki 16:00 (TSİ) Amed SK %47, beraberlik %27, Konyaspor %26 Amed SK %47 Beraberlik %27 Konyaspor %26 En olası skor: 1-1 2.5 üst: %63 · İki takım da gol atar: %58 Amed SK kazanır ya da berabere %74 2.5 üst (3+ gol) %63 İki takım da gol atar %58 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e306] [cursor=pointer]':
+      - /url: /mac/TUR_amed_sk__TUR_konyaspor__2026-10-17
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - generic [ref=e309]: Amed SK - Konyaspor
+          - generic [ref=e310]: Süper Lig · 17 Eki 16:00 (TSİ)
+        - img "Amed SK %47, beraberlik %27, Konyaspor %26" [ref=e311]
+        - generic [ref=e315]:
+          - generic [ref=e316]: Amed SK %47
+          - generic [ref=e317]: Beraberlik %27
+          - generic [ref=e318]: Konyaspor %26
+        - generic [ref=e319]:
+          - generic [ref=e320]: "En olası skor: 1-1"
+          - generic [ref=e321]: "2.5 üst: %63 · İki takım da gol atar: %58"
+        - generic [ref=e322]:
+          - generic [ref=e323]: Amed SK kazanır ya da berabere %74
+          - generic [ref=e324]: 2.5 üst (3+ gol) %63
+          - generic [ref=e325]: İki takım da gol atar %58
+        - generic [ref=e326]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Gençlerbirliği - Galatasaray Süper Lig · 17 Eki 16:00 (TSİ) Gençlerbirliği %13, beraberlik %18, Galatasaray %69 Gençlerbirliği %13 Beraberlik %18 Galatasaray %69 En olası skor: 0-2 2.5 üst: %59 · İki takım da gol atar: %55 Galatasaray kazanır ya da berabere %87 Galatasaray kazanır %69 2.5 üst (3+ gol) %59" [ref=e327] [cursor=pointer]':
+      - /url: /mac/TUR_genclerbirligi__TUR_galatasaray__2026-10-17
+      - generic [ref=e328]:
+        - generic [ref=e329]:
+          - generic [ref=e330]: Gençlerbirliği - Galatasaray
+          - generic [ref=e331]: Süper Lig · 17 Eki 16:00 (TSİ)
+        - img "Gençlerbirliği %13, beraberlik %18, Galatasaray %69" [ref=e332]
+        - generic [ref=e336]:
+          - generic [ref=e337]: Gençlerbirliği %13
+          - generic [ref=e338]: Beraberlik %18
+          - generic [ref=e339]: Galatasaray %69
+        - generic [ref=e340]:
+          - generic [ref=e341]: "En olası skor: 0-2"
+          - generic [ref=e342]: "2.5 üst: %59 · İki takım da gol atar: %55"
+        - generic [ref=e343]:
+          - generic [ref=e344]: Galatasaray kazanır ya da berabere %87
+          - generic [ref=e345]: Galatasaray kazanır %69
+          - generic [ref=e346]: 2.5 üst (3+ gol) %59
+    - 'link "Elversberg - FC Augsburg Bundesliga · 17 Eki 16:30 (TSİ) Elversberg %38, beraberlik %26, FC Augsburg %36 Elversberg %38 Beraberlik %26 FC Augsburg %36 En olası skor: 1-1 2.5 üst: %58 · İki takım da gol atar: %59 Beraberlik olmaz %74 İki takım da gol atar %59 2.5 üst (3+ gol) %58 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e347] [cursor=pointer]':
+      - /url: /mac/GER_elversberg__GER_fc_augsburg__2026-10-17
+      - generic [ref=e348]:
+        - generic [ref=e349]:
+          - generic [ref=e350]: Elversberg - FC Augsburg
+          - generic [ref=e351]: Bundesliga · 17 Eki 16:30 (TSİ)
+        - img "Elversberg %38, beraberlik %26, FC Augsburg %36" [ref=e352]
+        - generic [ref=e356]:
+          - generic [ref=e357]: Elversberg %38
+          - generic [ref=e358]: Beraberlik %26
+          - generic [ref=e359]: FC Augsburg %36
+        - generic [ref=e360]:
+          - generic [ref=e361]: "En olası skor: 1-1"
+          - generic [ref=e362]: "2.5 üst: %58 · İki takım da gol atar: %59"
+        - generic [ref=e363]:
+          - generic [ref=e364]: Beraberlik olmaz %74
+          - generic [ref=e365]: İki takım da gol atar %59
+          - generic [ref=e366]: 2.5 üst (3+ gol) %58
+        - generic [ref=e367]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Hamburger SV - VfB Stuttgart Bundesliga · 17 Eki 16:30 (TSİ) Hamburger SV %23, beraberlik %25, VfB Stuttgart %52 Hamburger SV %23 Beraberlik %25 VfB Stuttgart %52 En olası skor: 1-1 2.5 üst: %61 · İki takım da gol atar: %62 VfB Stuttgart kazanır ya da berabere %77 İki takım da gol atar %62 2.5 üst (3+ gol) %61" [ref=e368] [cursor=pointer]':
+      - /url: /mac/GER_hamburger_sv__GER_vfb_stuttgart__2026-10-17
+      - generic [ref=e369]:
+        - generic [ref=e370]:
+          - generic [ref=e371]: Hamburger SV - VfB Stuttgart
+          - generic [ref=e372]: Bundesliga · 17 Eki 16:30 (TSİ)
+        - img "Hamburger SV %23, beraberlik %25, VfB Stuttgart %52" [ref=e373]
+        - generic [ref=e377]:
+          - generic [ref=e378]: Hamburger SV %23
+          - generic [ref=e379]: Beraberlik %25
+          - generic [ref=e380]: VfB Stuttgart %52
+        - generic [ref=e381]:
+          - generic [ref=e382]: "En olası skor: 1-1"
+          - generic [ref=e383]: "2.5 üst: %61 · İki takım da gol atar: %62"
+        - generic [ref=e384]:
+          - generic [ref=e385]: VfB Stuttgart kazanır ya da berabere %77
+          - generic [ref=e386]: İki takım da gol atar %62
+          - generic [ref=e387]: 2.5 üst (3+ gol) %61
+    - 'link "Schalke 04 - Mainz 05 Bundesliga · 17 Eki 16:30 (TSİ) Schalke 04 %33, beraberlik %27, Mainz 05 %40 Schalke 04 %33 Beraberlik %27 Mainz 05 %40 En olası skor: 1-1 2.5 üst: %47 · İki takım da gol atar: %52 Beraberlik olmaz %73 2.5 alt (en fazla 2 gol) %53 İki takım da gol atar %52" [ref=e388] [cursor=pointer]':
+      - /url: /mac/GER_schalke_04__GER_mainz_05__2026-10-17
+      - generic [ref=e389]:
+        - generic [ref=e390]:
+          - generic [ref=e391]: Schalke 04 - Mainz 05
+          - generic [ref=e392]: Bundesliga · 17 Eki 16:30 (TSİ)
+        - img "Schalke 04 %33, beraberlik %27, Mainz 05 %40" [ref=e393]
+        - generic [ref=e397]:
+          - generic [ref=e398]: Schalke 04 %33
+          - generic [ref=e399]: Beraberlik %27
+          - generic [ref=e400]: Mainz 05 %40
+        - generic [ref=e401]:
+          - generic [ref=e402]: "En olası skor: 1-1"
+          - generic [ref=e403]: "2.5 üst: %47 · İki takım da gol atar: %52"
+        - generic [ref=e404]:
+          - generic [ref=e405]: Beraberlik olmaz %73
+          - generic [ref=e406]: 2.5 alt (en fazla 2 gol) %53
+          - generic [ref=e407]: İki takım da gol atar %52
+    - 'link "Union Berlin - Borussia Dortmund Bundesliga · 17 Eki 16:30 (TSİ) Union Berlin %20, beraberlik %22, Borussia Dortmund %57 Union Berlin %20 Beraberlik %22 Borussia Dortmund %57 En olası skor: 1-1 2.5 üst: %57 · İki takım da gol atar: %56 Borussia Dortmund kazanır ya da berabere %80 Borussia Dortmund kazanır %57 2.5 üst (3+ gol) %57" [ref=e408] [cursor=pointer]':
+      - /url: /mac/GER_union_berlin__GER_borussia_dortmund__2026-10-17
+      - generic [ref=e409]:
+        - generic [ref=e410]:
+          - generic [ref=e411]: Union Berlin - Borussia Dortmund
+          - generic [ref=e412]: Bundesliga · 17 Eki 16:30 (TSİ)
+        - img "Union Berlin %20, beraberlik %22, Borussia Dortmund %57" [ref=e413]
+        - generic [ref=e417]:
+          - generic [ref=e418]: Union Berlin %20
+          - generic [ref=e419]: Beraberlik %22
+          - generic [ref=e420]: Borussia Dortmund %57
+        - generic [ref=e421]:
+          - generic [ref=e422]: "En olası skor: 1-1"
+          - generic [ref=e423]: "2.5 üst: %57 · İki takım da gol atar: %56"
+        - generic [ref=e424]:
+          - generic [ref=e425]: Borussia Dortmund kazanır ya da berabere %80
+          - generic [ref=e426]: Borussia Dortmund kazanır %57
+          - generic [ref=e427]: 2.5 üst (3+ gol) %57
+    - 'link "Werder Bremen - Paderborn Bundesliga · 17 Eki 16:30 (TSİ) Werder Bremen %54, beraberlik %23, Paderborn %24 Werder Bremen %54 Beraberlik %23 Paderborn %24 En olası skor: 1-0 2.5 üst: %41 · İki takım da gol atar: %47 Beraberlik olmaz %77 2.5 alt (en fazla 2 gol) %59 Werder Bremen kazanır %54 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e428] [cursor=pointer]':
+      - /url: /mac/GER_werder_bremen__GER_paderborn__2026-10-17
+      - generic [ref=e429]:
+        - generic [ref=e430]:
+          - generic [ref=e431]: Werder Bremen - Paderborn
+          - generic [ref=e432]: Bundesliga · 17 Eki 16:30 (TSİ)
+        - img "Werder Bremen %54, beraberlik %23, Paderborn %24" [ref=e433]
+        - generic [ref=e437]:
+          - generic [ref=e438]: Werder Bremen %54
+          - generic [ref=e439]: Beraberlik %23
+          - generic [ref=e440]: Paderborn %24
+        - generic [ref=e441]:
+          - generic [ref=e442]: "En olası skor: 1-0"
+          - generic [ref=e443]: "2.5 üst: %41 · İki takım da gol atar: %47"
+        - generic [ref=e444]:
+          - generic [ref=e445]: Beraberlik olmaz %77
+          - generic [ref=e446]: 2.5 alt (en fazla 2 gol) %59
+          - generic [ref=e447]: Werder Bremen kazanır %54
+        - generic [ref=e448]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Brentford - Liverpool Premier Lig · 17 Eki 17:00 (TSİ) Brentford %39, beraberlik %26, Liverpool %35 Brentford %39 Beraberlik %26 Liverpool %35 En olası skor: 1-1 2.5 üst: %60 · İki takım da gol atar: %62 Beraberlik olmaz %74 İki takım da gol atar %62 2.5 üst (3+ gol) %60" [ref=e449] [cursor=pointer]':
+      - /url: /mac/ENG_brentford__ENG_liverpool__2026-10-17
+      - generic [ref=e450]:
+        - generic [ref=e451]:
+          - generic [ref=e452]: Brentford - Liverpool
+          - generic [ref=e453]: Premier Lig · 17 Eki 17:00 (TSİ)
+        - img "Brentford %39, beraberlik %26, Liverpool %35" [ref=e454]
+        - generic [ref=e458]:
+          - generic [ref=e459]: Brentford %39
+          - generic [ref=e460]: Beraberlik %26
+          - generic [ref=e461]: Liverpool %35
+        - generic [ref=e462]:
+          - generic [ref=e463]: "En olası skor: 1-1"
+          - generic [ref=e464]: "2.5 üst: %60 · İki takım da gol atar: %62"
+        - generic [ref=e465]:
+          - generic [ref=e466]: Beraberlik olmaz %74
+          - generic [ref=e467]: İki takım da gol atar %62
+          - generic [ref=e468]: 2.5 üst (3+ gol) %60
+    - 'link "Fulham - Hull City Premier Lig · 17 Eki 17:00 (TSİ) Fulham %57, beraberlik %23, Hull City %19 Fulham %57 Beraberlik %23 Hull City %19 En olası skor: 1-0 2.5 üst: %41 · İki takım da gol atar: %48 Fulham kazanır ya da berabere %81 2.5 alt (en fazla 2 gol) %59 Fulham kazanır %57 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e469] [cursor=pointer]':
+      - /url: /mac/ENG_fulham__ENG_hull_city__2026-10-17
+      - generic [ref=e470]:
+        - generic [ref=e471]:
+          - generic [ref=e472]: Fulham - Hull City
+          - generic [ref=e473]: Premier Lig · 17 Eki 17:00 (TSİ)
+        - img "Fulham %57, beraberlik %23, Hull City %19" [ref=e474]
+        - generic [ref=e478]:
+          - generic [ref=e479]: Fulham %57
+          - generic [ref=e480]: Beraberlik %23
+          - generic [ref=e481]: Hull City %19
+        - generic [ref=e482]:
+          - generic [ref=e483]: "En olası skor: 1-0"
+          - generic [ref=e484]: "2.5 üst: %41 · İki takım da gol atar: %48"
+        - generic [ref=e485]:
+          - generic [ref=e486]: Fulham kazanır ya da berabere %81
+          - generic [ref=e487]: 2.5 alt (en fazla 2 gol) %59
+          - generic [ref=e488]: Fulham kazanır %57
+        - generic [ref=e489]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Manchester City - Ipswich Town Premier Lig · 17 Eki 17:00 (TSİ) Manchester City %77, beraberlik %13, Ipswich Town %9 Manchester City %77 Beraberlik %13 Ipswich Town %9 En olası skor: 3-0 2.5 üst: %74 · İki takım da gol atar: %52 Manchester City kazanır ya da berabere %91 Manchester City kazanır %78 2.5 üst (3+ gol) %74" [ref=e490] [cursor=pointer]':
+      - /url: /mac/ENG_manchester_city__ENG_ipswich_town__2026-10-17
+      - generic [ref=e491]:
+        - generic [ref=e492]:
+          - generic [ref=e493]: Manchester City - Ipswich Town
+          - generic [ref=e494]: Premier Lig · 17 Eki 17:00 (TSİ)
+        - img "Manchester City %77, beraberlik %13, Ipswich Town %9" [ref=e495]
+        - generic [ref=e499]:
+          - generic [ref=e500]: Manchester City %77
+          - generic [ref=e501]: Beraberlik %13
+          - generic [ref=e502]: Ipswich Town %9
+        - generic [ref=e503]:
+          - generic [ref=e504]: "En olası skor: 3-0"
+          - generic [ref=e505]: "2.5 üst: %74 · İki takım da gol atar: %52"
+        - generic [ref=e506]:
+          - generic [ref=e507]: Manchester City kazanır ya da berabere %91
+          - generic [ref=e508]: Manchester City kazanır %78
+          - generic [ref=e509]: 2.5 üst (3+ gol) %74
+    - 'link "Villarreal - Elche La Liga · 17 Eki 17:15 (TSİ) Villarreal %65, beraberlik %19, Elche %15 Villarreal %65 Beraberlik %19 Elche %15 En olası skor: 2-1 2.5 üst: %68 · İki takım da gol atar: %62 Villarreal kazanır ya da berabere %85 2.5 üst (3+ gol) %68 Villarreal kazanır %65" [ref=e510] [cursor=pointer]':
+      - /url: /mac/ESP_villarreal__ESP_elche__2026-10-17
+      - generic [ref=e511]:
+        - generic [ref=e512]:
+          - generic [ref=e513]: Villarreal - Elche
+          - generic [ref=e514]: La Liga · 17 Eki 17:15 (TSİ)
+        - img "Villarreal %65, beraberlik %19, Elche %15" [ref=e515]
+        - generic [ref=e519]:
+          - generic [ref=e520]: Villarreal %65
+          - generic [ref=e521]: Beraberlik %19
+          - generic [ref=e522]: Elche %15
+        - generic [ref=e523]:
+          - generic [ref=e524]: "En olası skor: 2-1"
+          - generic [ref=e525]: "2.5 üst: %68 · İki takım da gol atar: %62"
+        - generic [ref=e526]:
+          - generic [ref=e527]: Villarreal kazanır ya da berabere %85
+          - generic [ref=e528]: 2.5 üst (3+ gol) %68
+          - generic [ref=e529]: Villarreal kazanır %65
+    - 'link "Strasbourg - Paris Saint-Germain Ligue 1 · 17 Eki 18:15 (TSİ) Strasbourg %15, beraberlik %17, Paris Saint-Germain %68 Strasbourg %15 Beraberlik %17 Paris Saint-Germain %68 En olası skor: 1-2 2.5 üst: %64 · İki takım da gol atar: %63 Paris Saint-Germain kazanır ya da berabere %85 Paris Saint-Germain kazanır %68 2.5 üst (3+ gol) %64" [ref=e530] [cursor=pointer]':
+      - /url: /mac/FRA_strasbourg__FRA_paris_saint_germain__2026-10-17
+      - generic [ref=e531]:
+        - generic [ref=e532]:
+          - generic [ref=e533]: Strasbourg - Paris Saint-Germain
+          - generic [ref=e534]: Ligue 1 · 17 Eki 18:15 (TSİ)
+        - img "Strasbourg %15, beraberlik %17, Paris Saint-Germain %68" [ref=e535]
+        - generic [ref=e539]:
+          - generic [ref=e540]: Strasbourg %15
+          - generic [ref=e541]: Beraberlik %17
+          - generic [ref=e542]: Paris Saint-Germain %68
+        - generic [ref=e543]:
+          - generic [ref=e544]: "En olası skor: 1-2"
+          - generic [ref=e545]: "2.5 üst: %64 · İki takım da gol atar: %63"
+        - generic [ref=e546]:
+          - generic [ref=e547]: Paris Saint-Germain kazanır ya da berabere %85
+          - generic [ref=e548]: Paris Saint-Germain kazanır %68
+          - generic [ref=e549]: 2.5 üst (3+ gol) %64
+    - 'link "Bologna - Inter Serie A · 17 Eki 19:00 (TSİ) Bologna %17, beraberlik %24, Inter %59 Bologna %17 Beraberlik %24 Inter %59 En olası skor: 1-1 2.5 üst: %58 · İki takım da gol atar: %57 Inter kazanır ya da berabere %83 Inter kazanır %59 2.5 üst (3+ gol) %58" [ref=e550] [cursor=pointer]':
+      - /url: /mac/ITA_bologna__ITA_inter__2026-10-17
+      - generic [ref=e551]:
+        - generic [ref=e552]:
+          - generic [ref=e553]: Bologna - Inter
+          - generic [ref=e554]: Serie A · 17 Eki 19:00 (TSİ)
+        - img "Bologna %17, beraberlik %24, Inter %59" [ref=e555]
+        - generic [ref=e559]:
+          - generic [ref=e560]: Bologna %17
+          - generic [ref=e561]: Beraberlik %24
+          - generic [ref=e562]: Inter %59
+        - generic [ref=e563]:
+          - generic [ref=e564]: "En olası skor: 1-1"
+          - generic [ref=e565]: "2.5 üst: %58 · İki takım da gol atar: %57"
+        - generic [ref=e566]:
+          - generic [ref=e567]: Inter kazanır ya da berabere %83
+          - generic [ref=e568]: Inter kazanır %59
+          - generic [ref=e569]: 2.5 üst (3+ gol) %58
+    - 'link "Fenerbahçe - Alanyaspor Süper Lig · 17 Eki 19:00 (TSİ) Fenerbahçe %71, beraberlik %18, Alanyaspor %11 Fenerbahçe %71 Beraberlik %18 Alanyaspor %11 En olası skor: 2-0 2.5 üst: %61 · İki takım da gol atar: %54 Fenerbahçe kazanır ya da berabere %89 Fenerbahçe kazanır %71 2.5 üst (3+ gol) %61" [ref=e570] [cursor=pointer]':
+      - /url: /mac/TUR_fenerbahce__TUR_alanyaspor__2026-10-17
+      - generic [ref=e571]:
+        - generic [ref=e572]:
+          - generic [ref=e573]: Fenerbahçe - Alanyaspor
+          - generic [ref=e574]: Süper Lig · 17 Eki 19:00 (TSİ)
+        - img "Fenerbahçe %71, beraberlik %18, Alanyaspor %11" [ref=e575]
+        - generic [ref=e579]:
+          - generic [ref=e580]: Fenerbahçe %71
+          - generic [ref=e581]: Beraberlik %18
+          - generic [ref=e582]: Alanyaspor %11
+        - generic [ref=e583]:
+          - generic [ref=e584]: "En olası skor: 2-0"
+          - generic [ref=e585]: "2.5 üst: %61 · İki takım da gol atar: %54"
+        - generic [ref=e586]:
+          - generic [ref=e587]: Fenerbahçe kazanır ya da berabere %89
+          - generic [ref=e588]: Fenerbahçe kazanır %71
+          - generic [ref=e589]: 2.5 üst (3+ gol) %61
+    - 'link "Newcastle United - Aston Villa Premier Lig · 17 Eki 19:30 (TSİ) Newcastle United %45, beraberlik %25, Aston Villa %30 Newcastle United %45 Beraberlik %25 Aston Villa %30 En olası skor: 1-1 2.5 üst: %60 · İki takım da gol atar: %62 Beraberlik olmaz %75 İki takım da gol atar %62 2.5 üst (3+ gol) %60" [ref=e590] [cursor=pointer]':
+      - /url: /mac/ENG_newcastle_united__ENG_aston_villa__2026-10-17
+      - generic [ref=e591]:
+        - generic [ref=e592]:
+          - generic [ref=e593]: Newcastle United - Aston Villa
+          - generic [ref=e594]: Premier Lig · 17 Eki 19:30 (TSİ)
+        - img "Newcastle United %45, beraberlik %25, Aston Villa %30" [ref=e595]
+        - generic [ref=e599]:
+          - generic [ref=e600]: Newcastle United %45
+          - generic [ref=e601]: Beraberlik %25
+          - generic [ref=e602]: Aston Villa %30
+        - generic [ref=e603]:
+          - generic [ref=e604]: "En olası skor: 1-1"
+          - generic [ref=e605]: "2.5 üst: %60 · İki takım da gol atar: %62"
+        - generic [ref=e606]:
+          - generic [ref=e607]: Beraberlik olmaz %75
+          - generic [ref=e608]: İki takım da gol atar %62
+          - generic [ref=e609]: 2.5 üst (3+ gol) %60
+    - 'link "Real Betis - Barcelona La Liga · 17 Eki 19:30 (TSİ) Real Betis %16, beraberlik %17, Barcelona %68 Real Betis %16 Beraberlik %17 Barcelona %68 En olası skor: 1-2 2.5 üst: %63 · İki takım da gol atar: %63 Barcelona kazanır ya da berabere %84 Barcelona kazanır %68 2.5 üst (3+ gol) %63" [ref=e610] [cursor=pointer]':
+      - /url: /mac/ESP_real_betis__ESP_barcelona__2026-10-17
+      - generic [ref=e611]:
+        - generic [ref=e612]:
+          - generic [ref=e613]: Real Betis - Barcelona
+          - generic [ref=e614]: La Liga · 17 Eki 19:30 (TSİ)
+        - img "Real Betis %16, beraberlik %17, Barcelona %68" [ref=e615]
+        - generic [ref=e619]:
+          - generic [ref=e620]: Real Betis %16
+          - generic [ref=e621]: Beraberlik %17
+          - generic [ref=e622]: Barcelona %68
+        - generic [ref=e623]:
+          - generic [ref=e624]: "En olası skor: 1-2"
+          - generic [ref=e625]: "2.5 üst: %63 · İki takım da gol atar: %63"
+        - generic [ref=e626]:
+          - generic [ref=e627]: Barcelona kazanır ya da berabere %84
+          - generic [ref=e628]: Barcelona kazanır %68
+          - generic [ref=e629]: 2.5 üst (3+ gol) %63
+    - 'link "Bayern Munich - RB Leipzig Bundesliga · 17 Eki 19:30 (TSİ) Bayern Munich %76, beraberlik %13, RB Leipzig %11 Bayern Munich %76 Beraberlik %13 RB Leipzig %11 En olası skor: 2-1 2.5 üst: %76 · İki takım da gol atar: %67 Bayern Munich kazanır ya da berabere %89 2.5 üst (3+ gol) %76 Bayern Munich kazanır %76" [ref=e630] [cursor=pointer]':
+      - /url: /mac/GER_bayern_munich__GER_rb_leipzig__2026-10-17
+      - generic [ref=e631]:
+        - generic [ref=e632]:
+          - generic [ref=e633]: Bayern Munich - RB Leipzig
+          - generic [ref=e634]: Bundesliga · 17 Eki 19:30 (TSİ)
+        - img "Bayern Munich %76, beraberlik %13, RB Leipzig %11" [ref=e635]
+        - generic [ref=e639]:
+          - generic [ref=e640]: Bayern Munich %76
+          - generic [ref=e641]: Beraberlik %13
+          - generic [ref=e642]: RB Leipzig %11
+        - generic [ref=e643]:
+          - generic [ref=e644]: "En olası skor: 2-1"
+          - generic [ref=e645]: "2.5 üst: %76 · İki takım da gol atar: %67"
+        - generic [ref=e646]:
+          - generic [ref=e647]: Bayern Munich kazanır ya da berabere %89
+          - generic [ref=e648]: 2.5 üst (3+ gol) %76
+          - generic [ref=e649]: Bayern Munich kazanır %76
+    - 'link "Lille - Brest Ligue 1 · 17 Eki 21:45 (TSİ) Lille %56, beraberlik %24, Brest %20 Lille %56 Beraberlik %24 Brest %20 En olası skor: 1-1 2.5 üst: %51 · İki takım da gol atar: %52 Lille kazanır ya da berabere %80 Lille kazanır %56 İki takım da gol atar %52" [ref=e650] [cursor=pointer]':
+      - /url: /mac/FRA_lille__FRA_brest__2026-10-17
+      - generic [ref=e651]:
+        - generic [ref=e652]:
+          - generic [ref=e653]: Lille - Brest
+          - generic [ref=e654]: Ligue 1 · 17 Eki 21:45 (TSİ)
+        - img "Lille %56, beraberlik %24, Brest %20" [ref=e655]
+        - generic [ref=e659]:
+          - generic [ref=e660]: Lille %56
+          - generic [ref=e661]: Beraberlik %24
+          - generic [ref=e662]: Brest %20
+        - generic [ref=e663]:
+          - generic [ref=e664]: "En olası skor: 1-1"
+          - generic [ref=e665]: "2.5 üst: %51 · İki takım da gol atar: %52"
+        - generic [ref=e666]:
+          - generic [ref=e667]: Lille kazanır ya da berabere %80
+          - generic [ref=e668]: Lille kazanır %56
+          - generic [ref=e669]: İki takım da gol atar %52
+    - 'link "Troyes - Lens Ligue 1 · 17 Eki 21:45 (TSİ) Troyes %24, beraberlik %24, Lens %52 Troyes %24 Beraberlik %24 Lens %52 En olası skor: 1-1 2.5 üst: %57 · İki takım da gol atar: %55 Lens kazanır ya da berabere %76 2.5 üst (3+ gol) %57 İki takım da gol atar %55" [ref=e670] [cursor=pointer]':
+      - /url: /mac/FRA_troyes__FRA_lens__2026-10-17
+      - generic [ref=e671]:
+        - generic [ref=e672]:
+          - generic [ref=e673]: Troyes - Lens
+          - generic [ref=e674]: Ligue 1 · 17 Eki 21:45 (TSİ)
+        - img "Troyes %24, beraberlik %24, Lens %52" [ref=e675]
+        - generic [ref=e679]:
+          - generic [ref=e680]: Troyes %24
+          - generic [ref=e681]: Beraberlik %24
+          - generic [ref=e682]: Lens %52
+        - generic [ref=e683]:
+          - generic [ref=e684]: "En olası skor: 1-1"
+          - generic [ref=e685]: "2.5 üst: %57 · İki takım da gol atar: %55"
+        - generic [ref=e686]:
+          - generic [ref=e687]: Lens kazanır ya da berabere %76
+          - generic [ref=e688]: 2.5 üst (3+ gol) %57
+          - generic [ref=e689]: İki takım da gol atar %55
+    - 'link "AS Roma - Genoa Serie A · 17 Eki 21:45 (TSİ) AS Roma %71, beraberlik %18, Genoa %11 AS Roma %71 Beraberlik %18 Genoa %11 En olası skor: 1-0 2.5 üst: %47 · İki takım da gol atar: %44 AS Roma kazanır ya da berabere %89 AS Roma kazanır %71 İki takım da gol atmaz %56" [ref=e690] [cursor=pointer]':
+      - /url: /mac/ITA_as_roma__ITA_genoa__2026-10-17
+      - generic [ref=e691]:
+        - generic [ref=e692]:
+          - generic [ref=e693]: AS Roma - Genoa
+          - generic [ref=e694]: Serie A · 17 Eki 21:45 (TSİ)
+        - img "AS Roma %71, beraberlik %18, Genoa %11" [ref=e695]
+        - generic [ref=e699]:
+          - generic [ref=e700]: AS Roma %71
+          - generic [ref=e701]: Beraberlik %18
+          - generic [ref=e702]: Genoa %11
+        - generic [ref=e703]:
+          - generic [ref=e704]: "En olası skor: 1-0"
+          - generic [ref=e705]: "2.5 üst: %47 · İki takım da gol atar: %44"
+        - generic [ref=e706]:
+          - generic [ref=e707]: AS Roma kazanır ya da berabere %89
+          - generic [ref=e708]: AS Roma kazanır %71
+          - generic [ref=e709]: İki takım da gol atmaz %56
+    - 'link "Valencia - Athletic Bilbao La Liga · 17 Eki 22:00 (TSİ) Valencia %26, beraberlik %28, Athletic Bilbao %46 Valencia %26 Beraberlik %28 Athletic Bilbao %46 En olası skor: 0-1 2.5 üst: %40 · İki takım da gol atar: %47 Athletic Bilbao kazanır ya da berabere %74 2.5 alt (en fazla 2 gol) %60 İki takım da gol atmaz %53" [ref=e710] [cursor=pointer]':
+      - /url: /mac/ESP_valencia__ESP_athletic_bilbao__2026-10-17
+      - generic [ref=e711]:
+        - generic [ref=e712]:
+          - generic [ref=e713]: Valencia - Athletic Bilbao
+          - generic [ref=e714]: La Liga · 17 Eki 22:00 (TSİ)
+        - img "Valencia %26, beraberlik %28, Athletic Bilbao %46" [ref=e715]
+        - generic [ref=e719]:
+          - generic [ref=e720]: Valencia %26
+          - generic [ref=e721]: Beraberlik %28
+          - generic [ref=e722]: Athletic Bilbao %46
+        - generic [ref=e723]:
+          - generic [ref=e724]: "En olası skor: 0-1"
+          - generic [ref=e725]: "2.5 üst: %40 · İki takım da gol atar: %47"
+        - generic [ref=e726]:
+          - generic [ref=e727]: Athletic Bilbao kazanır ya da berabere %74
+          - generic [ref=e728]: 2.5 alt (en fazla 2 gol) %60
+          - generic [ref=e729]: İki takım da gol atmaz %53
+    - 'link "Udinese - Lecce Serie A · 18 Eki 13:30 (TSİ) Udinese %51, beraberlik %27, Lecce %22 Udinese %51 Beraberlik %27 Lecce %22 En olası skor: 1-0 2.5 üst: %39 · İki takım da gol atar: %44 Udinese kazanır ya da berabere %78 2.5 alt (en fazla 2 gol) %61 İki takım da gol atmaz %56" [ref=e730] [cursor=pointer]':
+      - /url: /mac/ITA_udinese__ITA_lecce__2026-10-18
+      - generic [ref=e731]:
+        - generic [ref=e732]:
+          - generic [ref=e733]: Udinese - Lecce
+          - generic [ref=e734]: Serie A · 18 Eki 13:30 (TSİ)
+        - img "Udinese %51, beraberlik %27, Lecce %22" [ref=e735]
+        - generic [ref=e739]:
+          - generic [ref=e740]: Udinese %51
+          - generic [ref=e741]: Beraberlik %27
+          - generic [ref=e742]: Lecce %22
+        - generic [ref=e743]:
+          - generic [ref=e744]: "En olası skor: 1-0"
+          - generic [ref=e745]: "2.5 üst: %39 · İki takım da gol atar: %44"
+        - generic [ref=e746]:
+          - generic [ref=e747]: Udinese kazanır ya da berabere %78
+          - generic [ref=e748]: 2.5 alt (en fazla 2 gol) %61
+          - generic [ref=e749]: İki takım da gol atmaz %56
+    - 'link "Kasımpaşa - Samsunspor Süper Lig · 18 Eki 13:30 (TSİ) Kasımpaşa %37, beraberlik %27, Samsunspor %36 Kasımpaşa %37 Beraberlik %27 Samsunspor %36 En olası skor: 1-1 2.5 üst: %50 · İki takım da gol atar: %55 Beraberlik olmaz %73 İki takım da gol atar %55 2.5 üst (3+ gol) %50" [ref=e750] [cursor=pointer]':
+      - /url: /mac/TUR_kasmpasa__TUR_samsunspor__2026-10-18
+      - generic [ref=e751]:
+        - generic [ref=e752]:
+          - generic [ref=e753]: Kasımpaşa - Samsunspor
+          - generic [ref=e754]: Süper Lig · 18 Eki 13:30 (TSİ)
+        - img "Kasımpaşa %37, beraberlik %27, Samsunspor %36" [ref=e755]
+        - generic [ref=e759]:
+          - generic [ref=e760]: Kasımpaşa %37
+          - generic [ref=e761]: Beraberlik %27
+          - generic [ref=e762]: Samsunspor %36
+        - generic [ref=e763]:
+          - generic [ref=e764]: "En olası skor: 1-1"
+          - generic [ref=e765]: "2.5 üst: %50 · İki takım da gol atar: %55"
+        - generic [ref=e766]:
+          - generic [ref=e767]: Beraberlik olmaz %73
+          - generic [ref=e768]: İki takım da gol atar %55
+          - generic [ref=e769]: 2.5 üst (3+ gol) %50
+    - 'link "Osasuna - Racing Santander La Liga · 18 Eki 15:00 (TSİ) Osasuna %50, beraberlik %28, Racing Santander %22 Osasuna %50 Beraberlik %28 Racing Santander %22 En olası skor: 1-1 2.5 üst: %67 · İki takım da gol atar: %65 Osasuna kazanır ya da berabere %78 2.5 üst (3+ gol) %67 İki takım da gol atar %65 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e770] [cursor=pointer]':
+      - /url: /mac/ESP_osasuna__ESP_racing_santander__2026-10-18
+      - generic [ref=e771]:
+        - generic [ref=e772]:
+          - generic [ref=e773]: Osasuna - Racing Santander
+          - generic [ref=e774]: La Liga · 18 Eki 15:00 (TSİ)
+        - img "Osasuna %50, beraberlik %28, Racing Santander %22" [ref=e775]
+        - generic [ref=e779]:
+          - generic [ref=e780]: Osasuna %50
+          - generic [ref=e781]: Beraberlik %28
+          - generic [ref=e782]: Racing Santander %22
+        - generic [ref=e783]:
+          - generic [ref=e784]: "En olası skor: 1-1"
+          - generic [ref=e785]: "2.5 üst: %67 · İki takım da gol atar: %65"
+        - generic [ref=e786]:
+          - generic [ref=e787]: Osasuna kazanır ya da berabere %78
+          - generic [ref=e788]: 2.5 üst (3+ gol) %67
+          - generic [ref=e789]: İki takım da gol atar %65
+        - generic [ref=e790]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "AFC Bournemouth - Sunderland Premier Lig · 18 Eki 16:00 (TSİ) AFC Bournemouth %47, beraberlik %27, Sunderland %26 AFC Bournemouth %47 Beraberlik %27 Sunderland %26 En olası skor: 1-1 2.5 üst: %49 · İki takım da gol atar: %53 AFC Bournemouth kazanır ya da berabere %74 İki takım da gol atar %53 2.5 alt (en fazla 2 gol) %51" [ref=e791] [cursor=pointer]':
+      - /url: /mac/ENG_afc_bournemouth__ENG_sunderland__2026-10-18
+      - generic [ref=e792]:
+        - generic [ref=e793]:
+          - generic [ref=e794]: AFC Bournemouth - Sunderland
+          - generic [ref=e795]: Premier Lig · 18 Eki 16:00 (TSİ)
+        - img "AFC Bournemouth %47, beraberlik %27, Sunderland %26" [ref=e796]
+        - generic [ref=e800]:
+          - generic [ref=e801]: AFC Bournemouth %47
+          - generic [ref=e802]: Beraberlik %27
+          - generic [ref=e803]: Sunderland %26
+        - generic [ref=e804]:
+          - generic [ref=e805]: "En olası skor: 1-1"
+          - generic [ref=e806]: "2.5 üst: %49 · İki takım da gol atar: %53"
+        - generic [ref=e807]:
+          - generic [ref=e808]: AFC Bournemouth kazanır ya da berabere %74
+          - generic [ref=e809]: İki takım da gol atar %53
+          - generic [ref=e810]: 2.5 alt (en fazla 2 gol) %51
+    - 'link "Brighton & Hove Albion - Crystal Palace Premier Lig · 18 Eki 16:00 (TSİ) Brighton & Hove Albion %60, beraberlik %21, Crystal Palace %18 Brighton & Hove Albion %60 Beraberlik %21 Crystal Palace %18 En olası skor: 1-0 2.5 üst: %54 · İki takım da gol atar: %55 Brighton & Hove Albion kazanır ya da berabere %82 Brighton & Hove Albion kazanır %60 İki takım da gol atar %55" [ref=e811] [cursor=pointer]':
+      - /url: /mac/ENG_brighton_hove_albion__ENG_crystal_palace__2026-10-18
+      - generic [ref=e812]:
+        - generic [ref=e813]:
+          - generic [ref=e814]: Brighton & Hove Albion - Crystal Palace
+          - generic [ref=e815]: Premier Lig · 18 Eki 16:00 (TSİ)
+        - img "Brighton & Hove Albion %60, beraberlik %21, Crystal Palace %18" [ref=e816]
+        - generic [ref=e820]:
+          - generic [ref=e821]: Brighton & Hove Albion %60
+          - generic [ref=e822]: Beraberlik %21
+          - generic [ref=e823]: Crystal Palace %18
+        - generic [ref=e824]:
+          - generic [ref=e825]: "En olası skor: 1-0"
+          - generic [ref=e826]: "2.5 üst: %54 · İki takım da gol atar: %55"
+        - generic [ref=e827]:
+          - generic [ref=e828]: Brighton & Hove Albion kazanır ya da berabere %82
+          - generic [ref=e829]: Brighton & Hove Albion kazanır %60
+          - generic [ref=e830]: İki takım da gol atar %55
+    - 'link "Leeds United - Manchester United Premier Lig · 18 Eki 16:00 (TSİ) Leeds United %37, beraberlik %27, Manchester United %36 Leeds United %37 Beraberlik %27 Manchester United %36 En olası skor: 1-1 2.5 üst: %53 · İki takım da gol atar: %58 Beraberlik olmaz %73 İki takım da gol atar %58 2.5 üst (3+ gol) %53" [ref=e831] [cursor=pointer]':
+      - /url: /mac/ENG_leeds_united__ENG_manchester_united__2026-10-18
+      - generic [ref=e832]:
+        - generic [ref=e833]:
+          - generic [ref=e834]: Leeds United - Manchester United
+          - generic [ref=e835]: Premier Lig · 18 Eki 16:00 (TSİ)
+        - img "Leeds United %37, beraberlik %27, Manchester United %36" [ref=e836]
+        - generic [ref=e840]:
+          - generic [ref=e841]: Leeds United %37
+          - generic [ref=e842]: Beraberlik %27
+          - generic [ref=e843]: Manchester United %36
+        - generic [ref=e844]:
+          - generic [ref=e845]: "En olası skor: 1-1"
+          - generic [ref=e846]: "2.5 üst: %53 · İki takım da gol atar: %58"
+        - generic [ref=e847]:
+          - generic [ref=e848]: Beraberlik olmaz %73
+          - generic [ref=e849]: İki takım da gol atar %58
+          - generic [ref=e850]: 2.5 üst (3+ gol) %53
+    - 'link "Angers - Marseille Ligue 1 · 18 Eki 16:00 (TSİ) Angers %30, beraberlik %25, Marseille %45 Angers %30 Beraberlik %25 Marseille %45 En olası skor: 1-1 2.5 üst: %51 · İki takım da gol atar: %53 Beraberlik olmaz %75 İki takım da gol atar %53 2.5 üst (3+ gol) %51" [ref=e851] [cursor=pointer]':
+      - /url: /mac/FRA_angers__FRA_marseille__2026-10-18
+      - generic [ref=e852]:
+        - generic [ref=e853]:
+          - generic [ref=e854]: Angers - Marseille
+          - generic [ref=e855]: Ligue 1 · 18 Eki 16:00 (TSİ)
+        - img "Angers %30, beraberlik %25, Marseille %45" [ref=e856]
+        - generic [ref=e860]:
+          - generic [ref=e861]: Angers %30
+          - generic [ref=e862]: Beraberlik %25
+          - generic [ref=e863]: Marseille %45
+        - generic [ref=e864]:
+          - generic [ref=e865]: "En olası skor: 1-1"
+          - generic [ref=e866]: "2.5 üst: %51 · İki takım da gol atar: %53"
+        - generic [ref=e867]:
+          - generic [ref=e868]: Beraberlik olmaz %75
+          - generic [ref=e869]: İki takım da gol atar %53
+          - generic [ref=e870]: 2.5 üst (3+ gol) %51
+    - 'link "Fiorentina - Como Serie A · 18 Eki 16:00 (TSİ) Fiorentina %27, beraberlik %25, Como %48 Fiorentina %27 Beraberlik %25 Como %48 En olası skor: 1-1 2.5 üst: %48 · İki takım da gol atar: %53 Beraberlik olmaz %75 İki takım da gol atar %53 2.5 alt (en fazla 2 gol) %52" [ref=e871] [cursor=pointer]':
+      - /url: /mac/ITA_fiorentina__ITA_como__2026-10-18
+      - generic [ref=e872]:
+        - generic [ref=e873]:
+          - generic [ref=e874]: Fiorentina - Como
+          - generic [ref=e875]: Serie A · 18 Eki 16:00 (TSİ)
+        - img "Fiorentina %27, beraberlik %25, Como %48" [ref=e876]
+        - generic [ref=e880]:
+          - generic [ref=e881]: Fiorentina %27
+          - generic [ref=e882]: Beraberlik %25
+          - generic [ref=e883]: Como %48
+        - generic [ref=e884]:
+          - generic [ref=e885]: "En olası skor: 1-1"
+          - generic [ref=e886]: "2.5 üst: %48 · İki takım da gol atar: %53"
+        - generic [ref=e887]:
+          - generic [ref=e888]: Beraberlik olmaz %75
+          - generic [ref=e889]: İki takım da gol atar %53
+          - generic [ref=e890]: 2.5 alt (en fazla 2 gol) %52
+    - 'link "Kocaelispor - Göztepe Süper Lig · 18 Eki 16:00 (TSİ) Kocaelispor %44, beraberlik %28, Göztepe %28 Kocaelispor %44 Beraberlik %28 Göztepe %28 En olası skor: 1-1 2.5 üst: %44 · İki takım da gol atar: %50 Kocaelispor kazanır ya da berabere %72 2.5 alt (en fazla 2 gol) %56 İki takım da gol atmaz %50" [ref=e891] [cursor=pointer]':
+      - /url: /mac/TUR_kocaelispor__TUR_goztepe__2026-10-18
+      - generic [ref=e892]:
+        - generic [ref=e893]:
+          - generic [ref=e894]: Kocaelispor - Göztepe
+          - generic [ref=e895]: Süper Lig · 18 Eki 16:00 (TSİ)
+        - img "Kocaelispor %44, beraberlik %28, Göztepe %28" [ref=e896]
+        - generic [ref=e900]:
+          - generic [ref=e901]: Kocaelispor %44
+          - generic [ref=e902]: Beraberlik %28
+          - generic [ref=e903]: Göztepe %28
+        - generic [ref=e904]:
+          - generic [ref=e905]: "En olası skor: 1-1"
+          - generic [ref=e906]: "2.5 üst: %44 · İki takım da gol atar: %50"
+        - generic [ref=e907]:
+          - generic [ref=e908]: Kocaelispor kazanır ya da berabere %72
+          - generic [ref=e909]: 2.5 alt (en fazla 2 gol) %56
+          - generic [ref=e910]: İki takım da gol atmaz %50
+    - 'link "Bayer Leverkusen - SC Freiburg Bundesliga · 18 Eki 16:30 (TSİ) Bayer Leverkusen %57, beraberlik %21, SC Freiburg %21 Bayer Leverkusen %57 Beraberlik %21 SC Freiburg %21 En olası skor: 1-1 2.5 üst: %66 · İki takım da gol atar: %62 Bayer Leverkusen kazanır ya da berabere %79 2.5 üst (3+ gol) %66 İki takım da gol atar %62" [ref=e911] [cursor=pointer]':
+      - /url: /mac/GER_bayer_leverkusen__GER_sc_freiburg__2026-10-18
+      - generic [ref=e912]:
+        - generic [ref=e913]:
+          - generic [ref=e914]: Bayer Leverkusen - SC Freiburg
+          - generic [ref=e915]: Bundesliga · 18 Eki 16:30 (TSİ)
+        - img "Bayer Leverkusen %57, beraberlik %21, SC Freiburg %21" [ref=e916]
+        - generic [ref=e920]:
+          - generic [ref=e921]: Bayer Leverkusen %57
+          - generic [ref=e922]: Beraberlik %21
+          - generic [ref=e923]: SC Freiburg %21
+        - generic [ref=e924]:
+          - generic [ref=e925]: "En olası skor: 1-1"
+          - generic [ref=e926]: "2.5 üst: %66 · İki takım da gol atar: %62"
+        - generic [ref=e927]:
+          - generic [ref=e928]: Bayer Leverkusen kazanır ya da berabere %79
+          - generic [ref=e929]: 2.5 üst (3+ gol) %66
+          - generic [ref=e930]: İki takım da gol atar %62
+    - 'link "Celta Vigo - Deportivo Alaves La Liga · 18 Eki 17:15 (TSİ) Celta Vigo %47, beraberlik %28, Deportivo Alaves %25 Celta Vigo %47 Beraberlik %28 Deportivo Alaves %25 En olası skor: 1-1 2.5 üst: %46 · İki takım da gol atar: %50 Celta Vigo kazanır ya da berabere %75 2.5 alt (en fazla 2 gol) %54 İki takım da gol atmaz %50" [ref=e931] [cursor=pointer]':
+      - /url: /mac/ESP_celta_vigo__ESP_deportivo_alaves__2026-10-18
+      - generic [ref=e932]:
+        - generic [ref=e933]:
+          - generic [ref=e934]: Celta Vigo - Deportivo Alaves
+          - generic [ref=e935]: La Liga · 18 Eki 17:15 (TSİ)
+        - img "Celta Vigo %47, beraberlik %28, Deportivo Alaves %25" [ref=e936]
+        - generic [ref=e940]:
+          - generic [ref=e941]: Celta Vigo %47
+          - generic [ref=e942]: Beraberlik %28
+          - generic [ref=e943]: Deportivo Alaves %25
+        - generic [ref=e944]:
+          - generic [ref=e945]: "En olası skor: 1-1"
+          - generic [ref=e946]: "2.5 üst: %46 · İki takım da gol atar: %50"
+        - generic [ref=e947]:
+          - generic [ref=e948]: Celta Vigo kazanır ya da berabere %75
+          - generic [ref=e949]: 2.5 alt (en fazla 2 gol) %54
+          - generic [ref=e950]: İki takım da gol atmaz %50
+    - 'link "Le Havre - Auxerre Ligue 1 · 18 Eki 18:15 (TSİ) Le Havre %38, beraberlik %28, Auxerre %33 Le Havre %38 Beraberlik %28 Auxerre %33 En olası skor: 1-1 2.5 üst: %41 · İki takım da gol atar: %48 Beraberlik olmaz %72 2.5 alt (en fazla 2 gol) %59 İki takım da gol atmaz %52" [ref=e951] [cursor=pointer]':
+      - /url: /mac/FRA_le_havre__FRA_auxerre__2026-10-18
+      - generic [ref=e952]:
+        - generic [ref=e953]:
+          - generic [ref=e954]: Le Havre - Auxerre
+          - generic [ref=e955]: Ligue 1 · 18 Eki 18:15 (TSİ)
+        - img "Le Havre %38, beraberlik %28, Auxerre %33" [ref=e956]
+        - generic [ref=e960]:
+          - generic [ref=e961]: Le Havre %38
+          - generic [ref=e962]: Beraberlik %28
+          - generic [ref=e963]: Auxerre %33
+        - generic [ref=e964]:
+          - generic [ref=e965]: "En olası skor: 1-1"
+          - generic [ref=e966]: "2.5 üst: %41 · İki takım da gol atar: %48"
+        - generic [ref=e967]:
+          - generic [ref=e968]: Beraberlik olmaz %72
+          - generic [ref=e969]: 2.5 alt (en fazla 2 gol) %59
+          - generic [ref=e970]: İki takım da gol atmaz %52
+    - 'link "Lorient - AS Monaco Ligue 1 · 18 Eki 18:15 (TSİ) Lorient %25, beraberlik %28, AS Monaco %46 Lorient %25 Beraberlik %28 AS Monaco %46 En olası skor: 1-1 2.5 üst: %59 · İki takım da gol atar: %61 AS Monaco kazanır ya da berabere %75 İki takım da gol atar %61 2.5 üst (3+ gol) %59" [ref=e971] [cursor=pointer]':
+      - /url: /mac/FRA_lorient__FRA_as_monaco__2026-10-18
+      - generic [ref=e972]:
+        - generic [ref=e973]:
+          - generic [ref=e974]: Lorient - AS Monaco
+          - generic [ref=e975]: Ligue 1 · 18 Eki 18:15 (TSİ)
+        - img "Lorient %25, beraberlik %28, AS Monaco %46" [ref=e976]
+        - generic [ref=e980]:
+          - generic [ref=e981]: Lorient %25
+          - generic [ref=e982]: Beraberlik %28
+          - generic [ref=e983]: AS Monaco %46
+        - generic [ref=e984]:
+          - generic [ref=e985]: "En olası skor: 1-1"
+          - generic [ref=e986]: "2.5 üst: %59 · İki takım da gol atar: %61"
+        - generic [ref=e987]:
+          - generic [ref=e988]: AS Monaco kazanır ya da berabere %75
+          - generic [ref=e989]: İki takım da gol atar %61
+          - generic [ref=e990]: 2.5 üst (3+ gol) %59
+    - 'link "Paris FC - Rennes Ligue 1 · 18 Eki 18:15 (TSİ) Paris FC %41, beraberlik %30, Rennes %30 Paris FC %41 Beraberlik %30 Rennes %30 En olası skor: 1-1 2.5 üst: %55 · İki takım da gol atar: %59 Beraberlik olmaz %70 İki takım da gol atar %59 2.5 üst (3+ gol) %55" [ref=e991] [cursor=pointer]':
+      - /url: /mac/FRA_paris_fc__FRA_rennes__2026-10-18
+      - generic [ref=e992]:
+        - generic [ref=e993]:
+          - generic [ref=e994]: Paris FC - Rennes
+          - generic [ref=e995]: Ligue 1 · 18 Eki 18:15 (TSİ)
+        - img "Paris FC %41, beraberlik %30, Rennes %30" [ref=e996]
+        - generic [ref=e1000]:
+          - generic [ref=e1001]: Paris FC %41
+          - generic [ref=e1002]: Beraberlik %30
+          - generic [ref=e1003]: Rennes %30
+        - generic [ref=e1004]:
+          - generic [ref=e1005]: "En olası skor: 1-1"
+          - generic [ref=e1006]: "2.5 üst: %55 · İki takım da gol atar: %59"
+        - generic [ref=e1007]:
+          - generic [ref=e1008]: Beraberlik olmaz %70
+          - generic [ref=e1009]: İki takım da gol atar %59
+          - generic [ref=e1010]: 2.5 üst (3+ gol) %55
+    - 'link "Nottingham Forest - Arsenal Premier Lig · 18 Eki 18:30 (TSİ) Nottingham Forest %15, beraberlik %25, Arsenal %61 Nottingham Forest %15 Beraberlik %25 Arsenal %61 En olası skor: 0-1 2.5 üst: %45 · İki takım da gol atar: %48 Arsenal kazanır ya da berabere %85 Arsenal kazanır %61 2.5 alt (en fazla 2 gol) %55" [ref=e1011] [cursor=pointer]':
+      - /url: /mac/ENG_nottingham_forest__ENG_arsenal__2026-10-18
+      - generic [ref=e1012]:
+        - generic [ref=e1013]:
+          - generic [ref=e1014]: Nottingham Forest - Arsenal
+          - generic [ref=e1015]: Premier Lig · 18 Eki 18:30 (TSİ)
+        - img "Nottingham Forest %15, beraberlik %25, Arsenal %61" [ref=e1016]
+        - generic [ref=e1020]:
+          - generic [ref=e1021]: Nottingham Forest %15
+          - generic [ref=e1022]: Beraberlik %25
+          - generic [ref=e1023]: Arsenal %61
+        - generic [ref=e1024]:
+          - generic [ref=e1025]: "En olası skor: 0-1"
+          - generic [ref=e1026]: "2.5 üst: %45 · İki takım da gol atar: %48"
+        - generic [ref=e1027]:
+          - generic [ref=e1028]: Arsenal kazanır ya da berabere %85
+          - generic [ref=e1029]: Arsenal kazanır %61
+          - generic [ref=e1030]: 2.5 alt (en fazla 2 gol) %55
+    - 'link "Borussia Mönchengladbach - Hoffenheim Bundesliga · 18 Eki 18:30 (TSİ) Borussia Mönchengladbach %29, beraberlik %23, Hoffenheim %48 Borussia Mönchengladbach %29 Beraberlik %23 Hoffenheim %48 En olası skor: 1-2 2.5 üst: %69 · İki takım da gol atar: %69 Beraberlik olmaz %77 İki takım da gol atar %69 2.5 üst (3+ gol) %69" [ref=e1031] [cursor=pointer]':
+      - /url: /mac/GER_borussia_monchengladbach__GER_hoffenheim__2026-10-18
+      - generic [ref=e1032]:
+        - generic [ref=e1033]:
+          - generic [ref=e1034]: Borussia Mönchengladbach - Hoffenheim
+          - generic [ref=e1035]: Bundesliga · 18 Eki 18:30 (TSİ)
+        - img "Borussia Mönchengladbach %29, beraberlik %23, Hoffenheim %48" [ref=e1036]
+        - generic [ref=e1040]:
+          - generic [ref=e1041]: Borussia Mönchengladbach %29
+          - generic [ref=e1042]: Beraberlik %23
+          - generic [ref=e1043]: Hoffenheim %48
+        - generic [ref=e1044]:
+          - generic [ref=e1045]: "En olası skor: 1-2"
+          - generic [ref=e1046]: "2.5 üst: %69 · İki takım da gol atar: %69"
+        - generic [ref=e1047]:
+          - generic [ref=e1048]: Beraberlik olmaz %77
+          - generic [ref=e1049]: İki takım da gol atar %69
+          - generic [ref=e1050]: 2.5 üst (3+ gol) %69
+    - 'link "AC Milan - Atalanta Serie A · 18 Eki 19:00 (TSİ) AC Milan %52, beraberlik %26, Atalanta %23 AC Milan %52 Beraberlik %26 Atalanta %23 En olası skor: 1-1 2.5 üst: %49 · İki takım da gol atar: %54 AC Milan kazanır ya da berabere %77 İki takım da gol atar %54 AC Milan kazanır %52" [ref=e1051] [cursor=pointer]':
+      - /url: /mac/ITA_ac_milan__ITA_atalanta__2026-10-18
+      - generic [ref=e1052]:
+        - generic [ref=e1053]:
+          - generic [ref=e1054]: AC Milan - Atalanta
+          - generic [ref=e1055]: Serie A · 18 Eki 19:00 (TSİ)
+        - img "AC Milan %52, beraberlik %26, Atalanta %23" [ref=e1056]
+        - generic [ref=e1060]:
+          - generic [ref=e1061]: AC Milan %52
+          - generic [ref=e1062]: Beraberlik %26
+          - generic [ref=e1063]: Atalanta %23
+        - generic [ref=e1064]:
+          - generic [ref=e1065]: "En olası skor: 1-1"
+          - generic [ref=e1066]: "2.5 üst: %49 · İki takım da gol atar: %54"
+        - generic [ref=e1067]:
+          - generic [ref=e1068]: AC Milan kazanır ya da berabere %77
+          - generic [ref=e1069]: İki takım da gol atar %54
+          - generic [ref=e1070]: AC Milan kazanır %52
+    - 'link "İstanbul Başakşehir - Gaziantep FK Süper Lig · 18 Eki 19:00 (TSİ) İstanbul Başakşehir %56, beraberlik %23, Gaziantep FK %21 İstanbul Başakşehir %56 Beraberlik %23 Gaziantep FK %21 En olası skor: 1-0 2.5 üst: %51 · İki takım da gol atar: %55 İstanbul Başakşehir kazanır ya da berabere %79 İstanbul Başakşehir kazanır %56 İki takım da gol atar %55" [ref=e1071] [cursor=pointer]':
+      - /url: /mac/TUR_istanbul_basaksehir__TUR_gaziantep_fk__2026-10-18
+      - generic [ref=e1072]:
+        - generic [ref=e1073]:
+          - generic [ref=e1074]: İstanbul Başakşehir - Gaziantep FK
+          - generic [ref=e1075]: Süper Lig · 18 Eki 19:00 (TSİ)
+        - img "İstanbul Başakşehir %56, beraberlik %23, Gaziantep FK %21" [ref=e1076]
+        - generic [ref=e1080]:
+          - generic [ref=e1081]: İstanbul Başakşehir %56
+          - generic [ref=e1082]: Beraberlik %23
+          - generic [ref=e1083]: Gaziantep FK %21
+        - generic [ref=e1084]:
+          - generic [ref=e1085]: "En olası skor: 1-0"
+          - generic [ref=e1086]: "2.5 üst: %51 · İki takım da gol atar: %55"
+        - generic [ref=e1087]:
+          - generic [ref=e1088]: İstanbul Başakşehir kazanır ya da berabere %79
+          - generic [ref=e1089]: İstanbul Başakşehir kazanır %56
+          - generic [ref=e1090]: İki takım da gol atar %55
+    - 'link "Malaga - Real Sociedad La Liga · 18 Eki 19:30 (TSİ) Malaga %29, beraberlik %27, Real Sociedad %44 Malaga %29 Beraberlik %27 Real Sociedad %44 En olası skor: 1-1 2.5 üst: %41 · İki takım da gol atar: %47 Beraberlik olmaz %73 2.5 alt (en fazla 2 gol) %59 İki takım da gol atmaz %53 ⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir." [ref=e1091] [cursor=pointer]':
+      - /url: /mac/ESP_malaga__ESP_real_sociedad__2026-10-18
+      - generic [ref=e1092]:
+        - generic [ref=e1093]:
+          - generic [ref=e1094]: Malaga - Real Sociedad
+          - generic [ref=e1095]: La Liga · 18 Eki 19:30 (TSİ)
+        - img "Malaga %29, beraberlik %27, Real Sociedad %44" [ref=e1096]
+        - generic [ref=e1100]:
+          - generic [ref=e1101]: Malaga %29
+          - generic [ref=e1102]: Beraberlik %27
+          - generic [ref=e1103]: Real Sociedad %44
+        - generic [ref=e1104]:
+          - generic [ref=e1105]: "En olası skor: 1-1"
+          - generic [ref=e1106]: "2.5 üst: %41 · İki takım da gol atar: %47"
+        - generic [ref=e1107]:
+          - generic [ref=e1108]: Beraberlik olmaz %73
+          - generic [ref=e1109]: 2.5 alt (en fazla 2 gol) %59
+          - generic [ref=e1110]: İki takım da gol atmaz %53
+        - generic [ref=e1111]: "⚠ Bu takımların geçmiş verisi az: tahmin daha az güvenilir."
+    - 'link "Lyon - Nice Ligue 1 · 18 Eki 21:45 (TSİ) Lyon %56, beraberlik %23, Nice %21 Lyon %56 Beraberlik %23 Nice %21 En olası skor: 1-1 2.5 üst: %53 · İki takım da gol atar: %54 Lyon kazanır ya da berabere %79 Lyon kazanır %56 İki takım da gol atar %54" [ref=e1112] [cursor=pointer]':
+      - /url: /mac/FRA_lyon__FRA_nice__2026-10-18
+      - generic [ref=e1113]:
+        - generic [ref=e1114]:
+          - generic [ref=e1115]: Lyon - Nice
+          - generic [ref=e1116]: Ligue 1 · 18 Eki 21:45 (TSİ)
+        - img "Lyon %56, beraberlik %23, Nice %21" [ref=e1117]
+        - generic [ref=e1121]:
+          - generic [ref=e1122]: Lyon %56
+          - generic [ref=e1123]: Beraberlik %23
+          - generic [ref=e1124]: Nice %21
+        - generic [ref=e1125]:
+          - generic [ref=e1126]: "En olası skor: 1-1"
+          - generic [ref=e1127]: "2.5 üst: %53 · İki takım da gol atar: %54"
+        - generic [ref=e1128]:
+          - generic [ref=e1129]: Lyon kazanır ya da berabere %79
+          - generic [ref=e1130]: Lyon kazanır %56
+          - generic [ref=e1131]: İki takım da gol atar %54
+    - 'link "Juventus - Lazio Serie A · 18 Eki 21:45 (TSİ) Juventus %58, beraberlik %24, Lazio %18 Juventus %58 Beraberlik %24 Lazio %18 En olası skor: 1-0 2.5 üst: %41 · İki takım da gol atar: %46 Juventus kazanır ya da berabere %82 2.5 alt (en fazla 2 gol) %59 Juventus kazanır %58" [ref=e1132] [cursor=pointer]':
+      - /url: /mac/ITA_juventus__ITA_lazio__2026-10-18
+      - generic [ref=e1133]:
+        - generic [ref=e1134]:
+          - generic [ref=e1135]: Juventus - Lazio
+          - generic [ref=e1136]: Serie A · 18 Eki 21:45 (TSİ)
+        - img "Juventus %58, beraberlik %24, Lazio %18" [ref=e1137]
+        - generic [ref=e1141]:
+          - generic [ref=e1142]: Juventus %58
+          - generic [ref=e1143]: Beraberlik %24
+          - generic [ref=e1144]: Lazio %18
+        - generic [ref=e1145]:
+          - generic [ref=e1146]: "En olası skor: 1-0"
+          - generic [ref=e1147]: "2.5 üst: %41 · İki takım da gol atar: %46"
+        - generic [ref=e1148]:
+          - generic [ref=e1149]: Juventus kazanır ya da berabere %82
+          - generic [ref=e1150]: 2.5 alt (en fazla 2 gol) %59
+          - generic [ref=e1151]: Juventus kazanır %58
+    - 'link "Real Madrid - Sevilla La Liga · 18 Eki 22:00 (TSİ) Real Madrid %76, beraberlik %14, Sevilla %9 Real Madrid %76 Beraberlik %14 Sevilla %9 En olası skor: 2-0 2.5 üst: %62 · İki takım da gol atar: %50 Real Madrid kazanır ya da berabere %91 Real Madrid kazanır %76 2.5 üst (3+ gol) %62" [ref=e1152] [cursor=pointer]':
+      - /url: /mac/ESP_real_madrid__ESP_sevilla__2026-10-18
+      - generic [ref=e1153]:
+        - generic [ref=e1154]:
+          - generic [ref=e1155]: Real Madrid - Sevilla
+          - generic [ref=e1156]: La Liga · 18 Eki 22:00 (TSİ)
+        - img "Real Madrid %76, beraberlik %14, Sevilla %9" [ref=e1157]
+        - generic [ref=e1161]:
+          - generic [ref=e1162]: Real Madrid %76
+          - generic [ref=e1163]: Beraberlik %14
+          - generic [ref=e1164]: Sevilla %9
+        - generic [ref=e1165]:
+          - generic [ref=e1166]: "En olası skor: 2-0"
+          - generic [ref=e1167]: "2.5 üst: %62 · İki takım da gol atar: %50"
+        - generic [ref=e1168]:
+          - generic [ref=e1169]: Real Madrid kazanır ya da berabere %91
+          - generic [ref=e1170]: Real Madrid kazanır %76
+          - generic [ref=e1171]: 2.5 üst (3+ gol) %62
+    - 'link "VfB Stuttgart - Borussia Mönchengladbach Bundesliga · 23 Eki 21:30 (TSİ) VfB Stuttgart %62, beraberlik %20, Borussia Mönchengladbach %18 VfB Stuttgart %62 Beraberlik %20 Borussia Mönchengladbach %18 En olası skor: 2-1 2.5 üst: %69 · İki takım da gol atar: %64 VfB Stuttgart kazanır ya da berabere %82 2.5 üst (3+ gol) %69 İki takım da gol atar %64" [ref=e1172] [cursor=pointer]':
+      - /url: /mac/GER_vfb_stuttgart__GER_borussia_monchengladbach__2026-10-23
+      - generic [ref=e1173]:
+        - generic [ref=e1174]:
+          - generic [ref=e1175]: VfB Stuttgart - Borussia Mönchengladbach
+          - generic [ref=e1176]: Bundesliga · 23 Eki 21:30 (TSİ)
+        - img "VfB Stuttgart %62, beraberlik %20, Borussia Mönchengladbach %18" [ref=e1177]
+        - generic [ref=e1181]:
+          - generic [ref=e1182]: VfB Stuttgart %62
+          - generic [ref=e1183]: Beraberlik %20
+          - generic [ref=e1184]: Borussia Mönchengladbach %18
+        - generic [ref=e1185]:
+          - generic [ref=e1186]: "En olası skor: 2-1"
+          - generic [ref=e1187]: "2.5 üst: %69 · İki takım da gol atar: %64"
+        - generic [ref=e1188]:
+          - generic [ref=e1189]: VfB Stuttgart kazanır ya da berabere %82
+          - generic [ref=e1190]: 2.5 üst (3+ gol) %69
+          - generic [ref=e1191]: İki takım da gol atar %64
+    - 'link "Brest - Nice Ligue 1 · 23 Eki 21:45 (TSİ) Brest %45, beraberlik %26, Nice %29 Brest %45 Beraberlik %26 Nice %29 En olası skor: 1-1 2.5 üst: %52 · İki takım da gol atar: %56 Beraberlik olmaz %74 İki takım da gol atar %56 2.5 üst (3+ gol) %52" [ref=e1192] [cursor=pointer]':
+      - /url: /mac/FRA_brest__FRA_nice__2026-10-23
+      - generic [ref=e1193]:
+        - generic [ref=e1194]:
+          - generic [ref=e1195]: Brest - Nice
+          - generic [ref=e1196]: Ligue 1 · 23 Eki 21:45 (TSİ)
+        - img "Brest %45, beraberlik %26, Nice %29" [ref=e1197]
+        - generic [ref=e1201]:
+          - generic [ref=e1202]: Brest %45
+          - generic [ref=e1203]: Beraberlik %26
+          - generic [ref=e1204]: Nice %29
+        - generic [ref=e1205]:
+          - generic [ref=e1206]: "En olası skor: 1-1"
+          - generic [ref=e1207]: "2.5 üst: %52 · İki takım da gol atar: %56"
+        - generic [ref=e1208]:
+          - generic [ref=e1209]: Beraberlik olmaz %74
+          - generic [ref=e1210]: İki takım da gol atar %56
+          - generic [ref=e1211]: 2.5 üst (3+ gol) %52
+    - generic [ref=e1212]: Football data provided by the Football-Data.org API. Sonuç ve fikstür verisi ayrıca openfootball'dan (kamu malı). Oran verisi The Odds API. Tahminler istatistiksel modellerin tahminidir, kazanç garantisi değildir. Gamble Responsibly. 18+ Kaybetmeyi göze alamayacağın parayla oynama.

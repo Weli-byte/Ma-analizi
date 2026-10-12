@@ -26,12 +26,12 @@ LOGO = "https://highlightly.net/soccer/images/teams/{}.png"
 
 CSS = """
 body{font:15px/1.4 system-ui,sans-serif;margin:0 auto;max-width:980px;padding:16px;background:#fff;color:#1a1a1a}
-@media(prefers-color-scheme:dark){body{background:#0d1117;color:#e6edf3}.club{background:#161b22;border-color:#30363d}}
 .club{display:flex;gap:14px;border:1px solid #d9dce1;border-radius:8px;padding:10px 12px;margin:8px 0;background:#f6f7f9}
 .logo{width:56px;height:56px;object-fit:contain;flex:none}.ph{width:56px;height:56px;flex:none;border:1px dashed #888;
 border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#888;text-align:center}
 .club h3{margin:0 0 4px;font-size:16px}.alias{display:flex;gap:8px;align-items:center;font-size:14px;padding:1px 0}
 .src{color:#888;font-size:12px;min-width:120px}input[type=text]{font:inherit;padding:1px 4px;width:200px}
+@media(prefers-color-scheme:dark){body{background:#0d1117;color:#e6edf3}.club{background:#161b22;border-color:#30363d}input[type=text]{background:#0d1117;color:#e6edf3;border:1px solid #30363d}}
 #bar{position:sticky;top:0;background:inherit;padding:8px 0;border-bottom:1px solid #888}
 button{font:inherit;padding:4px 10px;cursor:pointer}textarea{width:100%;height:120px;margin-top:6px}
 """

@@ -67,6 +67,7 @@ def create_app(
     per_minute: int | None = None,
     now_fn=None,
     clock=None,
+    ui: bool = True,
 ) -> FastAPI:
     now_fn = now_fn or (lambda: datetime.now(UTC))
     if keys is None:
@@ -202,4 +203,8 @@ def create_app(
                     min_ev: float | None = Query(None, ge=0, le=5)):  # fmt: skip
         return envelope(service.value_picks(min_edge, min_ev), request)
 
+    if ui:
+        from src.web.routes import register
+
+        register(app, service, Path(root), now_fn)
     return app

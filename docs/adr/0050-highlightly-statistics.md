@@ -38,3 +38,9 @@ the Süper Lig history now runs to 2026-10-11 (1223 matches). Re-run the tool af
 highlightly.net, so the one-off workflow `alias-logos.yml` downloads the logos on a runner into the private data repo
 (branch `review-assets`) and the page embeds them. Logos are club trademarks, used for this review only (terms 6.3) and
 never published.
+
+## Amendment 2026-10-12 — logo search and the daily quota
+`/teams?name=` (verified) finds the clubs the store has never seen. The free quota is 100 requests/day for everything
+(collector included), so `alias-logos.yml` also runs daily at 00:20 UTC and skips clubs it already found (results are kept in
+`_search.json` on the private `review-assets` branch). Remove the schedule once every club has its logo. Clubs the API does
+not know under any tried spelling (Norwich City and Wolverhampton Wanderers at the time of writing) are listed, not guessed.

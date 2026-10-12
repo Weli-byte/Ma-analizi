@@ -3,6 +3,8 @@ name: alias-logos
 # so the owner can review aliases with logos on a network that cannot reach highlightly.net. Never published.
 on:
   workflow_dispatch: {}
+  schedule:
+    - cron: "20 0 * * *"  # just after Highlightly's daily quota reset (00:00 UTC); finished clubs cost no request
 permissions:
   contents: read
 jobs:
@@ -37,7 +39,7 @@ jobs:
           # keep the logos and search results of earlier passes (the daily request quota is small)
           git fetch data review-assets 2>/dev/null && git archive FETCH_HEAD logos | tar -x || true
           mkdir -p logos
-          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos --search scripts/data/missing_logo_clubs.json --max-requests 40
+          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos --search scripts/data/missing_logo_clubs.json --max-requests 60
       - name: Publish the logos to the private review-assets branch
         run: |
           git worktree add --detach assets-wt

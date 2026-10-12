@@ -78,7 +78,7 @@ NAV_ITEMS = [
     ("/profil", "👤", "Profil", "profile"),
 ]
 FOOT = (
-    "<div class='foot'>Football data provided by the Football-Data.org API. Sonuç ve fikstür verisi ayrıca openfootball'dan "
+    "<div class='foot'><a href='/dil/tr'>Türkçe</a> · <a href='/dil/en'>English</a><br>Football data provided by the Football-Data.org API. Sonuç ve fikstür verisi ayrıca openfootball'dan "
     "(kamu malı), oran verisi The Odds API'den. Tahminler istatistiksel modellerin tahminidir, kazanç garantisi değildir. "
     "Bu uygulama bahis oynatmaz. <b>Gamble Responsibly. 18+</b></div>"
 )
@@ -226,6 +226,7 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
         "phone:'Telefonla giriş henüz etkin değil (SMS sağlayıcısı gerekir).'};"
         "function pick(p){const m=document.getElementById('msg');"
         "if(p==='google'&&ST.google&&window.google){google.accounts.id.prompt();return;}"
+        "if(p==='phone'&&ST.phone){location.href='/giris/telefon';return;}"
         "m.style.display='block';m.textContent=WHY[p]+' Şimdilik misafir olarak devam edebilirsin.';}"
         "function onGoogle(r){fetch('/giris/google',{method:'POST',headers:{'Content-Type':'application/json'},"
         "body:JSON.stringify({credential:r.credential})}).then(x=>x.ok?location.href='/':alert('Google girişi doğrulanamadı'));}"
@@ -574,3 +575,21 @@ def sunum_page() -> str:
         "gerçek veri kaynakları lisans şartlarına göre incelenmiştir.</p></div>",
         "profile", back="/profil",
     )  # fmt: skip
+
+
+def phone_page(step: str, masked: str = "", error: str = "") -> str:
+    err = f"<div class='card warn'>{e(error)}</div>" if error else ""
+    box = "width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);font:inherit"
+    if step == "code":
+        form = (
+            f"<div class='card'><p>{e(masked)} numarasına bir SMS kodu gönderdik.</p><form method='post' action='/giris/telefon/dogrula'>"
+            f"<input name='code' inputmode='numeric' autocomplete='one-time-code' placeholder='Kod' style='{box}'>"
+            "<button class='btn' style='background:var(--g);color:#fff;margin-top:10px'>Doğrula</button></form></div>"
+        )
+    else:
+        form = (
+            "<div class='card'><p>Telefon numaranı yaz: sana tek kullanımlık bir SMS kodu göndereceğiz. Numaran saklanmaz.</p>"
+            f"<form method='post' action='/giris/telefon/kod'><input name='phone' inputmode='tel' placeholder='+90 5xx xxx xx xx' style='{box}'>"
+            "<button class='btn' style='background:var(--g);color:#fff;margin-top:10px'>Kod gönder</button></form></div>"
+        )
+    return page("Telefonla giriş", err + form, "profile", back="/giris")

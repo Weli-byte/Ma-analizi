@@ -27,7 +27,9 @@ def google_client_id() -> str | None:
 
 
 def provider_status() -> dict[str, bool]:
-    return {"google": bool(google_client_id()), "apple": False, "phone": False}
+    from . import phone
+
+    return {"google": bool(google_client_id()), "apple": False, "phone": phone.configured()}
 
 
 def validate_google_claims(claims: dict, client_id: str, now: float | None = None) -> User | None:

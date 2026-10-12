@@ -23,12 +23,10 @@ API = "https://soccer.highlightly.net"
 UA = {"User-Agent": "Mozilla/5.0 (alias review)"}
 # spellings Highlightly may use; tried in order after the canonical name (each try costs one request)
 VARIANTS = {
-    "Wolverhampton Wanderers": ["Wolves"],
     "West Bromwich Albion": ["West Brom"],
     "West Ham United": ["West Ham"],
     "Hellas Verona": ["Verona"],
     "Saint-Étienne": ["Saint Etienne", "St Etienne", "AS Saint-Etienne"],
-    "Greuther Fürth": ["Greuther Furth", "SpVgg Greuther Furth"],
     "St. Pauli": ["FC St. Pauli", "St Pauli"],
     "Darmstadt": ["Darmstadt 98", "SV Darmstadt 98"],
     "Heidenheim": ["1. FC Heidenheim", "FC Heidenheim"],
@@ -47,6 +45,11 @@ VARIANTS = {
     "Fatih Karagümrük": ["Fatih Karagumruk", "Karagumruk"],
     "MKE Ankaragücü": ["MKE Ankaragucu", "Ankaragucu"],
     "Hertha BSC": ["Hertha Berlin", "Hertha"],
+    "Norwich City": ["Norwich City FC", "Norwich"],
+    "Wolverhampton Wanderers": ["Wolves", "Wolverhampton", "Wolverhampton Wanderers FC"],
+    "AC Ajaccio": ["Ajaccio", "AC Ajaccio Corsica"],
+    "Montpellier": ["Montpellier HSC", "Montpellier Herault"],
+    "Greuther Fürth": ["Greuther Furth", "SpVgg Greuther Furth", "Fürth", "Furth"],
 }
 
 
@@ -138,15 +141,27 @@ def main(argv=None) -> int:
     if a.search:
         key = os.environ["HIGHLIGHTLY_API_KEY"]
         budget = [a.max_requests]
-        found, notes = {}, {}
+        prev = out / "_search.json"  # a second pass keeps what the first one found
+        found = json.loads(prev.read_text(encoding="utf-8")) if prev.exists() else {}
+        notes = {}
         for club in json.loads(Path(a.search).read_text(encoding="utf-8")):
-            match, status = search_club(club["name"], lambda q: _api_get(key, q), budget)
+            if club["team_id"] in found and (out / f"{found[club['team_id']]['id']}.png").exists():
+                continue
+            try:
+                match, status = search_club(club["name"], lambda q: _api_get(key, q), budget)
+            except Exception as e:  # noqa: BLE001 - e.g. HTTP 429 when the daily quota is used up: stop, report
+                notes[club["team_id"]] = f"api error {getattr(e, 'code', type(e).__name__)}: stopped"
+                break
             if match and _download(match["id"], out, failed):
                 found[club["team_id"]] = match
             else:
-                notes[club["team_id"]] = status
+                notes[club["team_id"]] = (
+                    status if not match else f"found as {match['name']} but the logo download failed"
+                )
         (out / "_search.json").write_text(json.dumps(found, ensure_ascii=False, indent=1), encoding="utf-8")
-        summary.update(found=len(found), not_found=notes, requests_left=budget[0])
+        summary.update(
+            found=len(found), not_found=notes, requests_left=budget[0], download_failures=failed[:20]
+        )
     print(json.dumps(summary, ensure_ascii=False))
     return 0
 

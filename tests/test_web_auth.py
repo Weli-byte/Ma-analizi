@@ -29,7 +29,7 @@ GOOD = {"aud": "cid", "iss": "https://accounts.google.com", "sub": "123", "email
 
 
 def test_google_claims_are_validated_strictly():
-    assert auth.validate_google_claims(GOOD, "cid") == User("google", "Veli", "v@example.com")
+    assert auth.validate_google_claims(GOOD, "cid") == User("google", "Veli", "v@example.com", "google:123")
     for bad in (
         {**GOOD, "aud": "other"}, {**GOOD, "iss": "evil.example"}, {**GOOD, "exp": "1"},
         {**GOOD, "email_verified": "false"}, {**GOOD, "sub": ""},

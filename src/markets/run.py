@@ -66,11 +66,32 @@ def latest_artifact(root: Path, key: str) -> Path | None:
     return files[-1] if files else None
 
 
+def recent_form(history, team_id: str, now: datetime, names: dict[str, str], n: int = 5) -> list[dict]:
+    """The team's last `n` finished matches (result known at `now`), newest first: opponent, venue, score, W/D/L."""
+    rows = [m for m in history if team_id in (m.home_id, m.away_id) and m.available_at <= now]
+    out = []
+    for m in sorted(rows, key=lambda m: m.kickoff_utc, reverse=True)[:n]:
+        home = m.home_id == team_id
+        gf, ga = (m.home_goals, m.away_goals) if home else (m.away_goals, m.home_goals)
+        opp = m.away_id if home else m.home_id
+        out.append(
+            {
+                "date": m.kickoff_utc.date().isoformat(),
+                "opponent": names.get(opp, opp),
+                "home": home,
+                "score": f"{gf}-{ga}",
+                "result": "W" if gf > ga else "D" if gf == ga else "L",
+            }  # fmt: skip
+        )
+    return out
+
+
 def write_artifact(
     root: Path, mm, cfg_hash: str, now: datetime, key: str, provider_fixture_id: str, league: str,
     home_id: str, away_id: str, kickoff: datetime, data_version: str, feature_version: str, odds: dict | None,
     source_note: dict | None = None,
     count_markets: bool = False,
+    form: dict | None = None,
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
     intel = intelligence(
@@ -81,7 +102,7 @@ def write_artifact(
         "home_id": home_id, "away_id": away_id, "kickoff_utc": kickoff.isoformat(),
         "information_cutoff": now.isoformat(), "data_version": data_version,
         "feature_version": feature_version, "model_version": MODEL_VERSION, "config_hash": cfg_hash,
-        "market_source": odds, "history": source_note, "intelligence": intel,
+        "market_source": odds, "history": source_note, "form": form, "intelligence": intel,
     }  # fmt: skip
     body["content_hash"] = hashlib.sha256(canonical_json(body).encode()).hexdigest()
     body["generated_at"] = now.isoformat()
@@ -128,6 +149,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
 
             history, stats_report = attach_stats(world.history, root, directory, cfg)
         mm = fit_markets(history, now, cfg)
+        names = {t: v["canonical_name"] for t, v in directory.teams.items()}
         count_markets = cfg.stats_plan == "pro"  # the free plan's terms differ (clause 4.1): research only
         wanted = {LEAGUES[c][0] if c in LEAGUES else c for c in leagues}
         counts: dict[str, int] = {}
@@ -153,6 +175,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                  "unresolved_history_rows": world.unresolved, "rows_without_score": world.skipped_no_score,
                  "statistics": stats_report},
                 count_markets,
+                {"home": recent_form(history, h.team_id, now, names), "away": recent_form(history, a.team_id, now, names)},
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
@@ -172,6 +195,10 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                     {"history_source": "openfootball (public domain)", "fixtures_from": "The Odds API events",
                      "missing_season_files": world.missing_files, "statistics": stats_report},
                     count_markets,
+                    {
+                        "home": recent_form(history, fx["home_id"], now, names),
+                        "away": recent_form(history, fx["away_id"], now, names),
+                    },
                 )  # fmt: skip
                 if path is not None:
                     written.append({"fixture_key": key, "path": str(path)})

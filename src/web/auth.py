@@ -43,6 +43,7 @@ def validate_google_claims(claims: dict, client_id: str, now: float | None = Non
         "google",
         claims.get("name") or claims.get("email", "Google kullanıcısı").split("@")[0],
         claims.get("email"),
+        f"google:{claims['sub']}",
     )
 
 

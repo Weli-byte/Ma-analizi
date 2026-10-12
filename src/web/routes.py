@@ -2,7 +2,9 @@
 signed-in); the data shown is derived values only. `/v1/*` keeps its own API-key rules."""
 
 import json
+import secrets
 import struct
+import unicodedata
 import zlib
 from functools import lru_cache
 
@@ -13,6 +15,7 @@ from src.dashboard.viewmodel import intel_section
 
 from . import auth, pages, session
 from .logos import LogoIndex
+from .store import UserStore
 
 
 @lru_cache(maxsize=4)
@@ -56,6 +59,7 @@ SW = "self.addEventListener('install',e=>self.skipWaiting());self.addEventListen
 
 def register(app: FastAPI, service, root, now_fn) -> None:
     logos = LogoIndex(root)
+    store = UserStore(root)
 
     def upcoming() -> list[dict]:
         return intel_section(root, now_fn())
@@ -114,7 +118,9 @@ def register(app: FastAPI, service, root, now_fn) -> None:
 
     @app.post("/giris/misafir", include_in_schema=False)
     def guest():
-        return start(session.User("guest", "Misafir"))
+        user = session.User("guest", "Misafir", None, f"guest:{secrets.token_hex(8)}")
+        store.touch(user.uid, user.provider, user.name, user.email)
+        return start(user)
 
     @app.post("/giris/google", include_in_schema=False)
     async def google(request: Request):
@@ -125,6 +131,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
         user = auth.verify_google(token)
         if user is None:
             return JSONResponse({"error": "invalid google credential"}, 401)
+        store.touch(user.uid, user.provider, user.name, user.email)
         r = JSONResponse({"ok": True})
         r.set_cookie(
             session.COOKIE, session.sign(user), max_age=session.MAX_AGE, httponly=True, samesite="lax"
@@ -141,7 +148,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     @app.get("/", response_class=HTMLResponse, include_in_schema=False)
     def home(request: Request):
         u, redirect = guarded(request)
-        return redirect or pages.home_page(u.name, upcoming(), now_fn(), logos)
+        return redirect or pages.home_page(u.name, upcoming(), now_fn(), logos, store.favorites(u.uid))
 
     @app.get("/ligler", response_class=HTMLResponse, include_in_schema=False)
     def leagues(request: Request):
@@ -161,7 +168,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
 
     @app.get("/mac/{fixture_id}", response_class=HTMLResponse, include_in_schema=False)
     def match(request: Request, fixture_id: str):
-        _, redirect = guarded(request)
+        u, redirect = guarded(request)
         if redirect:
             return redirect
         found = next((i for i in upcoming() if i["fixture_id"] == fixture_id), None)
@@ -171,7 +178,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
                 404,
             )
         picks = [p for p in service.value_picks()["picks"] if p["fixture_id"] == fixture_id]
-        return pages.match_page(found, picks, logos)
+        return pages.match_page(found, picks, logos, store.favorites(u.uid))
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)
     def tips(request: Request):
@@ -193,3 +200,65 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def about(request: Request):
         _, redirect = guarded(request)
         return redirect or pages.about_page()
+
+    # --------------------------------------------------------------- favourites, search, account, summary
+    def team_names() -> dict[str, str]:
+        out: dict[str, str] = {}
+        for i in upcoming():
+            out[i["home_team_id"]], out[i["away_team_id"]] = i["home"], i["away"]
+        return out
+
+    @app.get("/favoriler", response_class=HTMLResponse, include_in_schema=False)
+    def favorites(request: Request):
+        u, redirect = guarded(request)
+        if redirect:
+            return redirect
+        favs = store.favorites(u.uid)
+        names = team_names()
+        mine = [i for i in upcoming() if i["home_team_id"] in favs or i["away_team_id"] in favs]
+        return pages.favorites_page(
+            mine, [(t, names.get(t, t.split("_", 1)[-1].replace("_", " ").title())) for t in favs], logos
+        )
+
+    @app.post("/favori/{team_id}", include_in_schema=False)
+    def toggle_favorite(request: Request, team_id: str, next: str = "/favoriler"):
+        u, redirect = guarded(request)
+        if redirect:
+            return redirect
+        if team_id.count("_") >= 1 and len(team_id) < 80:
+            store.toggle(u.uid, team_id)
+        return RedirectResponse(
+            next if next.startswith("/") and not next.startswith("//") else "/favoriler", 303
+        )
+
+    @app.get("/ara", response_class=HTMLResponse, include_in_schema=False)
+    def search(request: Request, q: str = ""):
+        _, redirect = guarded(request)
+        if redirect:
+            return redirect
+        key = _norm(q)
+        hits = (
+            [i for i in upcoming() if key and (key in _norm(i["home"]) or key in _norm(i["away"]))]
+            if len(q) <= 60
+            else []
+        )
+        return pages.search_page(q[:60], hits, logos)
+
+    @app.post("/hesabi-sil", include_in_schema=False)
+    def delete_account(request: Request):
+        u, redirect = guarded(request)
+        if redirect:
+            return redirect
+        store.delete_user(u.uid)
+        r = RedirectResponse("/giris", 303)
+        r.delete_cookie(session.COOKIE)
+        return r
+
+    @app.get("/sunum", response_class=HTMLResponse, include_in_schema=False)
+    def summary():
+        return pages.sunum_page()  # public: easy to show to someone without signing in
+
+
+def _norm(text: str) -> str:
+    t = unicodedata.normalize("NFKD", text.casefold().replace("ı", "i")).encode("ascii", "ignore").decode()
+    return "".join(c for c in t if c.isalnum() or c == " ").strip()

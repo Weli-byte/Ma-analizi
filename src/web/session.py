@@ -21,6 +21,7 @@ class User:
     provider: str  # guest | google | apple | phone
     name: str
     email: str | None = None
+    uid: str = ""  # stable id: random for guests, provider:subject for signed-in users
 
 
 def _secret() -> bytes:
@@ -39,7 +40,13 @@ def _unb64(s: str) -> bytes:
 def sign(user: User, now: float | None = None) -> str:
     payload = _b64(
         json.dumps(
-            {"p": user.provider, "n": user.name, "e": user.email, "x": int((now or time.time()) + MAX_AGE)}
+            {
+                "p": user.provider,
+                "n": user.name,
+                "e": user.email,
+                "u": user.uid,
+                "x": int((now or time.time()) + MAX_AGE),
+            }
         ).encode()
     )
     return f"{payload}.{_b64(hmac.new(_secret(), payload.encode(), hashlib.sha256).digest())}"
@@ -59,4 +66,4 @@ def verify(token: str | None, now: float | None = None) -> User | None:
         return None
     if d.get("x", 0) < (now or time.time()):
         return None
-    return User(d["p"], d["n"], d.get("e"))
+    return User(d["p"], d["n"], d.get("e"), d.get("u", ""))

@@ -428,3 +428,16 @@ def test_track_and_profile_pages_render_real_numbers_and_the_signed_in_user(worl
     assert "Çıkış yap" in prof and "Ana ekrana ekle" in prof
     tips = pages.tips_page([{"fixture_id": "f", "kickoff_utc": "2026-10-12T16:00:00+00:00", "market": "match_result", "pick": "Home win", "probability": 0.71, "lean": "strong lean"}], {"f": ("Arsenal", "Leeds")})  # fmt: skip
     assert "Arsenal kazanır" in tips and "%71" in tips and "Güçlü eğilim" in tips
+
+
+def test_recent_form_lists_the_last_matches_known_at_the_time_newest_first(world):
+    from src.markets.run import recent_form
+
+    ms, cut = world["ms"], world["cut"]
+    team = ms[-1].home_id
+    form = recent_form(ms, team, cut, {team: "Takım"}, n=5)
+    assert 0 < len(form) <= 5 and [f["date"] for f in form] == sorted((f["date"] for f in form), reverse=True)
+    assert all(f["result"] in "WDL" and "-" in f["score"] for f in form)
+    later = recent_form(ms, team, ms[-1].available_at, {}, n=5)
+    assert later[0]["date"] >= form[0]["date"]  # a later cut-off can only add newer matches
+    assert recent_form(ms, "ENG_nobody", cut, {}) == []

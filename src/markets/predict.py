@@ -96,6 +96,7 @@ def intelligence(
         "home_over_1_5": float(goals_h[2:].sum()), "away_over_1_5": float(goals_a[2:].sum()),
         "home_clean_sheet": float(goals_a[0]), "away_clean_sheet": float(goals_h[0]),
         "total_goals_most_likely": int(np.argmax(totals)),
+        "total_goals_distribution": [round(float(x), 4) for x in [*totals[:7], totals[7:].sum()]],  # 0..6 and 7+
     }  # fmt: skip
     counts = {}
     for stat, table in mm.counts.items() if include_counts else []:

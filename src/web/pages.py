@@ -73,6 +73,7 @@ nav.bottom a.on{color:var(--g);font-weight:700}
 NAV_ITEMS = [
     ("/", "🏠", "Ana sayfa", "home"),
     ("/ligler", "🏆", "Ligler", "leagues"),
+    ("/favoriler", "⭐", "Favoriler", "fav"),
     ("/tavsiyeler", "💡", "Tavsiyeler", "tips"),
     ("/profil", "👤", "Profil", "profile"),
 ]
@@ -233,7 +234,9 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
     )
 
 
-def home_page(user_name: str, upcoming: list[dict], now: datetime, logos) -> str:
+def home_page(
+    user_name: str, upcoming: list[dict], now: datetime, logos, fav_ids: list[str] | None = None
+) -> str:
     rng = week_range(now, "bu")
     week = [i for i in upcoming if rng[0] <= local(i["kickoff_utc"]) < rng[1]]
     chips = "".join(
@@ -254,7 +257,19 @@ def home_page(user_name: str, upcoming: list[dict], now: datetime, logos) -> str
         )
         or "<div class='row mut'>Şu an güçlü eğilimli tavsiye yok.</div>"
     )
-    hero = f"<div class='hero'><b>Merhaba {e(user_name)} 👋</b><p>Bu hafta {len(week)} maç için tahminimiz var.</p></div>"
+    fav_ids = fav_ids or []
+    mine = [i for i in week if i["home_team_id"] in fav_ids or i["away_team_id"] in fav_ids]
+    bell = (
+        f"<a href='/favoriler'><div class='card' style='background:var(--gl)'>🔔 <b>Favori takımlarının bu hafta {len(mine)} maçı var.</b> "
+        "<span class='mut'>Görmek için dokun.</span></div></a>"
+        if mine
+        else "<div class='card mut'>⭐ Bir maça girip takımın yanındaki yıldıza dokunarak favori takım ekleyebilirsin; maçları burada haber veririz.</div>"
+    )
+    hero = (
+        f"<div class='hero'><b>Merhaba {e(user_name)} 👋</b><p>Bu hafta {len(week)} maç için tahminimiz var.</p>"
+        "<form method='get' action='/ara' style='margin-top:12px'><input name='q' placeholder='Takım ara (ör. Galatasaray)' "
+        "style='width:100%;padding:11px 14px;border-radius:12px;border:0;font:inherit'></form></div>" + bell
+    )
     body = (
         f"<div class='sec'><h2>Ligler <a href='/ligler'>Hepsi</a></h2></div><div class='chips'>{chips}</div>"
         f"<div class='sec'><h2>Bugünün maçları</h2></div>"
@@ -304,7 +319,7 @@ def league_page(key: str, matches: list[dict], which: str, now: datetime, logos)
     )
 
 
-def match_page(i: dict, picks: list[dict], logos) -> str:
+def match_page(i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
     hp = res["headline_probs"]
@@ -316,8 +331,8 @@ def match_page(i: dict, picks: list[dict], logos) -> str:
     hero = (
         f"<div class='hero'><div class='mut' style='color:#e6f6ed'>{e(LEAGUES[i['league']][0])} · {e(kickoff_tr(i['kickoff_utc']))}</div>"
         f"<div style='display:flex;justify-content:space-around;align-items:center;margin-top:10px;text-align:center'>"
-        f"<div>{team_badge(i, 'home', logos, False)}<div><b>{e(home)}</b></div></div><b style='font-size:20px'>VS</b>"
-        f"<div>{team_badge(i, 'away', logos, False)}<div><b>{e(away)}</b></div></div></div></div>"
+        f"<div>{team_badge(i, 'home', logos, False)}<div><b>{e(home)}</b> {star(i['home_team_id'], fav_ids, i['fixture_id'])}</div></div><b style='font-size:20px'>VS</b>"
+        f"<div>{team_badge(i, 'away', logos, False)}<div><b>{e(away)}</b> {star(i['away_team_id'], fav_ids, i['fixture_id'])}</div></div></div></div>"
     )
     hero = hero.replace("<div class='hero'>", "<div class='hero'><a href='/' style='font-size:22px'>‹</a>", 1)
     compare = ""
@@ -370,6 +385,7 @@ def match_page(i: dict, picks: list[dict], logos) -> str:
         f"<div class='sec'><h2>Goller</h2></div><div class='card'><p>Beklenen gol: {e(home)} <b>{g['expected']['home']:.2f}</b> - {e(away)} <b>{g['expected']['away']:.2f}</b></p>"
         f"<table><tr><th>Çizgi</th><th>Üst</th><th>Alt</th></tr>{ou}</table>"
         f"<p class='mut'>İki takım da gol atar: {pct(g['btts_yes'])} · {e(home)} kalesini gole kapatır: {pct(g['home_clean_sheet'])} · {e(away)}: {pct(g['away_clean_sheet'])}</p></div>"
+        f"{form_section(i)}{goals_chart(g)}"
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"
         "<p class='note'>Eğilim = ihtimal ne kadar yüksek. %65+ güçlü eğilim, %55+ eğilim, altı belirsiz. Garanti değil.</p></div>"
         f"<div class='sec'><h2>Bahis önerisi (araştırma amaçlı)</h2></div>{value}"
@@ -440,6 +456,9 @@ def profile_page(user) -> str:
         f"<div class='mut'>{e(kind)}{(' · ' + e(user.email)) if user.email else ''}</div></div></div></div>"
         "<div class='card pad0'><a href='/basari-kaydi'><div class='row'>Başarı kaydı <span>›</span></div></a>"
         "<a href='/hakkinda'><div class='row'>Yöntem ve sınırlar <span>›</span></div></a>"
+        "<a href='/sunum'><div class='row'>Proje özeti <span>›</span></div></a>"
+        "<form method='post' action='/hesabi-sil' onsubmit=\"return confirm('Hesabına bağlı tüm veriler (favoriler) silinecek. Emin misin?')\">"
+        "<button class='row' style='width:100%;background:none;border:0;font:inherit;color:#c62828;text-align:left;cursor:pointer'>Verilerimi sil</button></form>"
         "<form method='post' action='/cikis'><button class='row' style='width:100%;background:none;border:0;font:inherit;color:#c62828;text-align:left;cursor:pointer'>Çıkış yap</button></form></div>"
         "<div class='card mut'>Telefonuna eklemek için tarayıcı menüsünden <b>Ana ekrana ekle</b> seçeneğini kullan: uygulama gibi açılır.</div>"
     )
@@ -451,3 +470,107 @@ def not_found(msg: str) -> str:
         "Bulunamadı",
         f"<div class='card'><p>{e(msg)}</p><p><a href='/'><b>‹ Ana sayfaya dön</b></a></p></div>",
     )
+
+
+def star(team_id: str, fav_ids: list[str] | None, fixture_id: str) -> str:
+    on = team_id in (fav_ids or [])
+    return (
+        f"<form method='post' action='/favori/{e(team_id)}?next=/mac/{e(fixture_id)}' style='display:inline'>"
+        f"<button style='background:none;border:0;font-size:20px;cursor:pointer;color:#ffd54f' title='Favori'>{'★' if on else '☆'}</button></form>"
+    )
+
+
+def form_section(i: dict) -> str:
+    form = i.get("form")
+    if not form or not (form.get("home") or form.get("away")):
+        return ""
+    col = {"W": "var(--g)", "D": "#9aa7a0", "L": "#c62828"}
+    lab = {"W": "G", "D": "B", "L": "M"}
+
+    def chips(rows: list[dict]) -> str:
+        return (
+            "".join(
+                f"<span title='{e(r['date'])} {e(r['opponent'])} {e(r['score'])}' style='display:inline-flex;width:30px;height:30px;border-radius:50%;"
+                f"align-items:center;justify-content:center;color:#fff;font-weight:700;background:{col[r['result']]};margin-right:5px'>{lab[r['result']]}</span>"
+                for r in reversed(rows)  # oldest to newest, left to right
+            )
+            or "<span class='mut'>veri yok</span>"
+        )
+
+    def last(rows: list[dict]) -> str:
+        return "".join(
+            f"<div class='mut'>{'(E)' if r['home'] else '(D)'} {e(r['opponent'])} {e(r['score'])}</div>"
+            for r in rows[:3]
+        )
+
+    return (
+        "<div class='sec'><h2>Son 5 maç (G galibiyet, B beraberlik, M mağlubiyet)</h2></div><div class='card'>"
+        f"<p><b>{e(i['home'])}</b><br>{chips(form['home'])}</p>{last(form['home'])}"
+        f"<p style='margin-top:12px'><b>{e(i['away'])}</b><br>{chips(form['away'])}</p>{last(form['away'])}</div>"
+    )
+
+
+def goals_chart(g: dict) -> str:
+    dist = g.get("total_goals_distribution")
+    if not dist:
+        return ""
+    mx = max(dist)
+    rows = "".join(
+        f"<div class='sc'><b>{'7+' if k == 7 else k}</b><div style='width:{v / mx * 60:.0f}%'></div><span>{pct(v)}</span></div>"
+        for k, v in enumerate(dist)
+    )
+    return f"<div class='sec'><h2>Toplam gol dağılımı</h2></div><div class='card'>{rows}<p class='note'>Maçta toplam kaç gol olacağının ihtimali.</p></div>"
+
+
+def favorites_page(matches: list[dict], fav_names: list[tuple[str, str]], logos) -> str:
+    chips = (
+        "".join(f"<span class='pill'>⭐ {e(n)}</span>" for _, n in fav_names)
+        or "<span class='mut'>Henüz favori takımın yok. Bir maç sayfasında takımın yanındaki ☆ işaretine dokun.</span>"
+    )
+    body = f"<div class='card'><b>Favori takımlarım</b><div class='chips' style='padding:8px 0 0;flex-wrap:wrap'>{chips}</div></div>"
+    if fav_names:
+        body += "<div class='sec'><h2>Yaklaşan maçları</h2></div>" + (
+            "".join(match_row(i, logos) for i in matches)
+            or "<div class='card mut'>Favori takımlarının yaklaşan maçı yok.</div>"
+        )
+    return page("Favoriler", body, "fav")
+
+
+def search_page(q: str, results: list[dict], logos) -> str:
+    form = (
+        f"<form method='get' action='/ara' style='padding:12px 14px'><input name='q' value='{e(q)}' placeholder='Takım ara' autofocus "
+        "style='width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line);font:inherit'></form>"
+    )
+    if not q.strip():
+        return page(
+            "Ara",
+            form + "<div class='card mut'>Bir takım adı yaz: yaklaşan maçlarını gösteririz.</div>",
+            "home",
+            back="/",
+        )
+    body = (
+        "".join(match_row(i, logos) for i in results)
+        or f"<div class='card mut'>“{e(q)}” için yaklaşan maç bulunamadı.</div>"
+    )
+    return page("Ara", form + body, "home", back="/")
+
+
+def sunum_page() -> str:
+    return page(
+        "Proje özeti",
+        "<div class='card'><b>Bu proje ne yapar?</b><p>Altı ligin (Premier Lig, La Liga, Bundesliga, Serie A, Ligue 1, Süper Lig) yaklaşan maçları için "
+        "sonuç, skor, gol ve karşılıklı gol tahmini üretir. Bahis oynatmaz; olasılık bilgisi verir.</p></div>"
+        "<div class='card'><b>Hangi verilerle?</b><ul><li>Maç sonuçları ve fikstür: openfootball (kamu malı) ve football-data.org.</li>"
+        "<li>Bahis oranları (olasılığa çevrilir): The Odds API.</li><li>Korner/kart/şut istatistikleri: Highlightly (şimdilik araştırma amaçlı).</li></ul></div>"
+        "<div class='card'><b>Nasıl çalışır?</b><p>Her takımın saldırı ve savunma gücü geçmiş maçlardan öğrenilir; yakın maçlar daha ağırlıklıdır. "
+        "Buradan skor dağılımı çıkarılır, ondan da sonuç, alt/üst gol ve karşılıklı gol ihtimalleri hesaplanır. Bu tahminler maçtan önce kilitlenir ve "
+        "maç bitince gerçek sonuçla karşılaştırılır (Başarı kaydı).</p></div>"
+        "<div class='card'><b>Ne kadar doğru?</b><p>Gelecekten bilgi sızmasın diye testler yalnızca zamana göre yapıldı (rastgele ayırma yok). 2022-24 sezonlarında "
+        "3578 maçta: skor, sonuç, 2.5 alt/üst ve karşılıklı gol tahminleri basit ölçütlerden net biçimde iyi. Önemli dürüst bulgu: "
+        "<b>hiçbir model bahis piyasasının kendi olasılıklarını geçemedi</b>; bu yüzden sonuç tahmininde güvenilir oran varsa piyasa kullanılır.</p></div>"
+        "<div class='card warn'><b>Sınırlar</b><ul><li>Kadro ve sakatlık bilgisi tahmine girmiyor.</li><li>Süper Lig verisi daha eksik.</li>"
+        "<li>Başarı kaydı kısa: anlamlı olması için en az 100 maç gerekir.</li><li>Garanti verilmez; 18+.</li></ul></div>"
+        "<div class='card'><b>Mühendislik</b><p>Her tahmin içerik özetli ve değişmez dosyadır; testler her değişiklikte otomatik koşar; "
+        "gerçek veri kaynakları lisans şartlarına göre incelenmiştir.</p></div>",
+        "profile", back="/profil",
+    )  # fmt: skip

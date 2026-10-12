@@ -19,6 +19,15 @@ import urllib.request
 from pathlib import Path
 
 LOGO = "https://highlightly.net/soccer/images/teams"
+LEAGUE_LOGO = "https://highlightly.net/soccer/images/leagues"
+LEAGUE_IDS = (
+    33973,
+    119924,
+    67162,
+    115669,
+    52695,
+    173537,
+)  # EPL, La Liga, Bundesliga, Serie A, Ligue 1, Super Lig
 API = "https://soccer.highlightly.net"
 UA = {"User-Agent": "Mozilla/5.0 (alias review)"}
 # spellings Highlightly may use; tried in order after the canonical name (each try costs one request)
@@ -128,6 +137,11 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--stats", help="Highlightly store directory (logos of every team id in it)")
     ap.add_argument("--search", help="JSON list of {team_id, name, country} to look up by name")
+    ap.add_argument(
+        "--leagues",
+        action="store_true",
+        help="also download the six league logos (static host, no API quota)",
+    )
     ap.add_argument("--max-requests", type=int, default=70)
     ap.add_argument("--out", required=True)
     a = ap.parse_args(argv)
@@ -137,6 +151,17 @@ def main(argv=None) -> int:
     if a.stats:
         for tid in sorted(team_ids(Path(a.stats))):
             ok += _download(tid, out, failed)
+    if a.leagues:
+        for lid in LEAGUE_IDS:
+            dest = out / f"league_{lid}.png"
+            if not dest.exists():
+                try:
+                    req = urllib.request.Request(f"{LEAGUE_LOGO}/{lid}.png", headers=UA)
+                    with urllib.request.urlopen(req, timeout=20) as r:  # noqa: S310 - fixed https host
+                        dest.write_bytes(r.read())
+                except Exception as e:  # noqa: BLE001 - report and continue
+                    failed.append((f"league_{lid}", getattr(e, "code", type(e).__name__)))
+            ok += dest.exists()
     summary = {"downloaded_or_present": ok, "failed": failed[:20], "n_failed": len(failed)}
     if a.search:
         key = os.environ["HIGHLIGHTLY_API_KEY"]

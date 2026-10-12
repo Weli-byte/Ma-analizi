@@ -98,6 +98,11 @@ def hl_ids(root: Path, directory: TeamDirectory) -> dict[str, set[int]]:
 def build(root: Path, logo_dir: Path | None = None) -> str:
     d = TeamDirectory.load(config_dir_for(root) / "team_aliases.yaml")
     logos = hl_ids(root, d)
+    found = {}
+    if (
+        logo_dir and (logo_dir / "_search.json").exists()
+    ):  # clubs found by name search (relegated / older clubs)
+        found = json.loads((logo_dir / "_search.json").read_text(encoding="utf-8"))
     by_club: dict[str, list] = defaultdict(list)
     for a in d.aliases:
         if a.provenance == "fuzzy_approved":
@@ -117,7 +122,8 @@ def build(root: Path, logo_dir: Path | None = None) -> str:
         parts.append(f"<h2>{e(country)}</h2>")
         for tid in sorted(countries[country], key=lambda t: d.teams[t]["canonical_name"]):
             name = d.teams[tid]["canonical_name"]
-            ids = sorted(logos.get(tid, ()))
+            ids = sorted(logos.get(tid, ())) or ([found[tid]["id"]] if tid in found else [])
+            caption = f" <small>Highlightly adi: {e(found[tid]['name'])}</small>" if tid in found else ""
             local = next(
                 (logo_dir / f"{i}.png" for i in ids if logo_dir and (logo_dir / f"{i}.png").exists()), None
             )
@@ -139,7 +145,7 @@ def build(root: Path, logo_dir: Path | None = None) -> str:
                 for a in sorted(by_club[tid], key=lambda x: (x.source, x.raw_name))
             )
             parts.append(
-                f"<div class='club'>{img}<div><h3>{e(name)} <small>({e(tid)})</small></h3>{rows}</div></div>"
+                f"<div class='club'>{img}<div><h3>{e(name)} <small>({e(tid)})</small>{caption}</h3>{rows}</div></div>"
             )
     return f"<!doctype html><html lang='tr'><head><meta charset='utf-8'><title>Alias review</title><style>{CSS}</style></head><body>{''.join(parts)}<script>{JS}</script></body></html>"
 

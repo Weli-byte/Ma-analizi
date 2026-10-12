@@ -9,6 +9,8 @@ jobs:
   logos:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      HIGHLIGHTLY_API_KEY: ${{ secrets.HIGHLIGHTLY_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - name: Private data repo access (repository-scoped deploy key)
@@ -28,11 +30,11 @@ jobs:
             StrictHostKeyChecking yes
           EOF
           git remote add data git@data-repo:Weli-byte/Ma-analizi2.git
-      - name: Get the store and download the logos
+      - name: Get the store, download its logos and look up the clubs it has never seen
         run: |
           git fetch data markets-data
           git worktree add stats-wt data/markets-data
-          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos
+          python3 src/markets/alias_logos.py --stats stats-wt/artifacts/stats/highlightly --out logos --search scripts/data/missing_logo_clubs.json
       - name: Publish the logos to the private review-assets branch
         run: |
           git worktree add --detach assets-wt

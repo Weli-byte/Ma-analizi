@@ -297,3 +297,46 @@ def test_alias_tool_apply_writes_only_the_clear_matches(tmp_path):
     added = [a for a in after.aliases if a.source == "highlightly"]
     assert [(a.raw_name, a.team_id) for a in added] == [("Tottenham", "ENG_tottenham_hotspur")]
     assert added[0].provenance == "fuzzy_approved" and "owner to re-confirm" in added[0].approved_by
+
+
+def test_club_search_picks_exact_names_variants_and_never_guesses_when_ambiguous():
+    from src.markets.alias_logos import search_club, spellings
+
+    burnley = [
+        {"id": 38228, "name": "Burnley", "logo": "https://highlightly.net/soccer/images/teams/38228.png"}
+    ]  # real
+    calls: list[str] = []
+
+    def get(q):
+        calls.append(q)
+        return {"Burnley": burnley, "Wolves": [{"id": 1, "name": "Wolves", "logo": ""}]}.get(q, [])
+
+    assert search_club("Burnley", get, [5]) == ({"id": 38228, "name": "Burnley", "query": "Burnley"}, "found")
+    m, st = search_club(
+        "Wolverhampton Wanderers", get, [5]
+    )  # the canonical spelling is empty, the variant hits
+    assert m["id"] == 1 and st == "found" and calls[-2:] == ["Wolverhampton Wanderers", "Wolves"]
+    assert search_club("Unknown FC", get, [5]) == (None, "not found")
+    assert search_club(
+        "Burnley Women",
+        lambda q: [{"id": 1, "name": "A", "logo": ""}, {"id": 2, "name": "B", "logo": ""}],
+        [5],
+    )[1].startswith("ambiguous")
+    assert search_club("Unknown FC", get, [0])[1] == "budget exhausted"
+    assert spellings("Leicester City") == ["Leicester City", "Leicester"]
+
+
+def test_review_page_shows_found_by_search_logos_with_a_caption(tmp_path):
+    import shutil
+
+    from src.markets.alias_review_page import build
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    logos = tmp_path / "logos"
+    logos.mkdir()
+    (logos / "38228.png").write_bytes(b"\x89PNG-bytes")
+    (logos / "_search.json").write_text(
+        json.dumps({"ENG_burnley": {"id": 38228, "name": "Burnley", "query": "Burnley"}}), encoding="utf-8"
+    )
+    html = build(tmp_path, logos)
+    assert "Highlightly adi: Burnley" in html and "data:image/png;base64," in html

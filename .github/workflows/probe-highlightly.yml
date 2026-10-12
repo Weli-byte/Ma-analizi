@@ -1,0 +1,31 @@
+name: probe-highlightly
+# One-off: does Highlightly have a team search? (never prints the key). Removed after use.
+on:
+  push:
+    branches: [feat/more-logos]
+    paths: [".github/workflows/probe-highlightly.yml"]
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    env:
+      HIGHLIGHTLY_API_KEY: ${{ secrets.HIGHLIGHTLY_API_KEY }}
+    steps:
+      - run: |
+          python3 - <<'PY'
+          import json, os, urllib.error, urllib.parse, urllib.request
+          key = os.environ["HIGHLIGHTLY_API_KEY"]
+          def get(path, **p):
+              url = "https://soccer.highlightly.net" + path + ("?" + urllib.parse.urlencode(p) if p else "")
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url, headers={"x-rapidapi-key": key}), timeout=30) as r:
+                      return r.status, json.loads(r.read().decode()), r.headers.get("x-ratelimit-requests-remaining")
+              except urllib.error.HTTPError as e:
+                  return e.code, e.read().decode()[:300], None
+          for params in ({"name": "Burnley"}, {"name": "Burnley", "countryName": "England"}, {"displayName": "Burnley"}):
+              st, body, rem = get("/teams", **params)
+              print("TEAMS", params, st, "remaining", rem)
+              if isinstance(body, dict):
+                  print(json.dumps({k: (v if k != "data" else [{kk: x.get(kk) for kk in ("id", "name", "logo")} for x in v][:6]) for k, v in body.items()}, ensure_ascii=False)[:900])
+              else:
+                  print(str(body)[:300])
+          PY

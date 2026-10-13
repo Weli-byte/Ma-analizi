@@ -254,10 +254,8 @@ def home_page(
     rng = week_range(now, "bu")
     week = [i for i in upcoming if rng[0] <= local(i["kickoff_utc"]) < rng[1]]
     chips = "".join(
-        f"<a class='chip' href='/lig/{k}'>{league_badge(k, logos)}{e(LEAGUES[k][0])}</a>"
-        for k in LEAGUES
-        if any(i["league"] == k for i in upcoming)
-    )
+        f"<a class='chip' href='/lig/{k}'>{league_badge(k, logos)}{e(LEAGUES[k][0])}</a>" for k in LEAGUES
+    )  # every league is listed, also one with no predicted match yet (its page says so)
     today = [i for i in upcoming if local(i["kickoff_utc"]).date() == now.astimezone(TR).date()][:6]
     best = sorted(
         (t for i in upcoming for t in [{**x, "i": i} for x in i["tips"] if x["lean"] == "strong lean"]),

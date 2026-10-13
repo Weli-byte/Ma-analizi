@@ -335,3 +335,27 @@ def test_space_bundle_has_the_image_recipe_and_no_secrets_or_local_data(tmp_path
     assert (
         "DATA_REPO_DEPLOY_KEY" in start and "GITHUB_ED25519" in start and "StrictHostKeyChecking yes" in start
     )
+
+
+def test_login_uses_googles_own_button_only_when_a_client_id_is_configured(tmp_path, monkeypatch):
+    import shutil
+    from pathlib import Path
+
+    from fastapi.testclient import TestClient
+
+    from src.api.app import create_app
+
+    root = Path(__file__).resolve().parents[1]
+    shutil.copytree(root / "configs", tmp_path / "configs")
+    monkeypatch.delenv("GOOGLE_CLIENT_ID", raising=False)
+    c = TestClient(create_app(tmp_path, keys=[]))
+    off = c.get("/giris").text
+    assert "g_id_signin" not in off and "pick('google')" in off and c.get("/favicon.ico").status_code == 200
+    monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid.apps.googleusercontent.com")
+    on = c.get("/giris").text
+    assert (
+        "g_id_signin" in on
+        and "data-ux_mode='popup'" in on
+        and "data-client_id='cid.apps.googleusercontent.com'" in on
+    )
+    assert "accounts.google.com/gsi/client" in on and "Google girişi doğrulanamadı (sunucu" in on

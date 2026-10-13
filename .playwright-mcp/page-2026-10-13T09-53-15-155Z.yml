@@ -1,0 +1,13 @@
+- generic [ref=f1e3]:
+  - generic [ref=f1e4]: ⚽
+  - heading "Maç Tahmin" [level=1] [ref=f1e5]
+  - paragraph [ref=f1e6]: Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig, tek uygulama.
+  - generic [ref=f1e8]:
+    - button "Google ile devam edin. Yeni sekmede açılır" [ref=f1e10] [cursor=pointer]:
+      - generic [ref=f1e12]: Google ile devam edin
+    - iframe
+  - button "Apple ile devam et" [ref=f1e22] [cursor=pointer]
+  - button "Telefon numarası ile devam et" [ref=f1e23] [cursor=pointer]
+  - generic [ref=f1e24]:
+    - button "Misafir olarak devam et" [ref=f1e25] [cursor=pointer]
+    - paragraph [ref=f1e26]: Devam ederek 18 yaşından büyük olduğunu onaylarsın. Bu uygulama bahis oynatmaz; yalnızca olasılık bilgisi verir. Kazanç garantisi yoktur.

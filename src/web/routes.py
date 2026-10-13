@@ -103,6 +103,10 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def sw():
         return Response(SW, media_type="application/javascript")
 
+    @app.get("/favicon.ico", include_in_schema=False)
+    def favicon():
+        return Response(icon_png(192), media_type="image/png")
+
     @app.get("/icon-{size}.png", include_in_schema=False)
     def icon(size: int):
         if size not in (192, 512):

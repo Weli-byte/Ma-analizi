@@ -17,6 +17,9 @@ LEAGUES = {
     "SERIEA": ("Serie A", "SA", "#1565c0"),
     "LIGUE1": ("Ligue 1", "L1", "#00695c"),
     "SUPERLIG": ("Süper Lig", "SL", "#b71c1c"),
+    "UCL": ("Şampiyonlar Ligi", "ŞL", "#0d2a6b"),
+    "UEL": ("Avrupa Ligi", "AL", "#e8710a"),
+    "UECL": ("Konferans Ligi", "KL", "#2e7d32"),
 }
 MONTHS = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"]
 DAYS = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]
@@ -221,7 +224,7 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
     return (
         f"<!doctype html><html lang='tr'><head>{HEAD}<title>Giriş - Maç Tahmin</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
         "<div class='login'><div style='font-size:46px'>⚽</div><h1>Maç Tahmin</h1>"
-        "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig, tek uygulama.</p>"
+        "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"
         "<button class='btn b-k' onclick=\"pick('apple')\"> Apple ile devam et</button>"
         "<button class='btn b-o' onclick=\"pick('phone')\">Telefon numarası ile devam et</button>"

@@ -80,6 +80,8 @@ def hl_ids(root: Path, directory: TeamDirectory) -> dict[str, set[int]]:
             if not line.strip():
                 continue
             r = json.loads(line)
+            if r["league"] in ("UCL", "UEL", "UECL"):
+                continue  # cups: clubs of many countries, no Highlightly mapping needed
             country = {
                 "EPL": "ENG",
                 "LALIGA": "ESP",

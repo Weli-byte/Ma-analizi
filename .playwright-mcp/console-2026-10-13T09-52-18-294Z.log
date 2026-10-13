@@ -1,8 +1,0 @@
-[     523ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ http://localhost:8080/giris:0
-[     532ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:8080/favicon.ico:0
-[   34800ms] [ERROR] Not signed in with the identity provider. @ http://localhost:8080/giris:0
-[   35369ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with AbortError: signal is aborted without reason @ https://accounts.google.com/gsi/client:87
-[   35369ms] [ERROR] Not signed in with the identity provider. @ http://localhost:8080/giris:0
-[   35560ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with AbortError: signal is aborted without reason @ https://accounts.google.com/gsi/client:87
-[   35560ms] [ERROR] Not signed in with the identity provider. @ http://localhost:8080/giris:0
-[   43173ms] [ERROR] [GSI_LOGGER]: FedCM get() rejects with NetworkError: Error retrieving a token. @ https://accounts.google.com/gsi/client:87

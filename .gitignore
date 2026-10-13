@@ -21,3 +21,5 @@ tests/fixtures/real_smoke/root/data/features/
 
 logs/
 dist/
+
+.playwright-mcp/

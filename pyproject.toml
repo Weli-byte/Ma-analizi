@@ -54,6 +54,7 @@ extend-exclude = [".venv", "notebooks"]
 "src/markets/*" = ["E501"]  # wide dict literals
 "src/web/*" = ["E501"]  # HTML templates
 "src/ingestion/highlightly.py" = ["E501"]  # long verified-facts docstring
+"src/ingestion/openfootball_cups.py" = ["E501"]  # long verified-facts docstring
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

@@ -18,6 +18,7 @@ from src.config import config_dir_for, load_config
 from src.data.dataset import resolve_dataset
 from src.data_repo import data_repo_url
 from src.ingestion.openfootball import FILES
+from src.ingestion.openfootball_cups import COMPETITIONS as CUPS
 from src.llm.forecast import LEAGUES, load_upcoming_rows
 from src.mlops.oplog import heartbeat
 from src.odds.store import OddsStore
@@ -262,7 +263,9 @@ def main(argv=None) -> int:
     load_dotenv()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--root", default=str(ROOT))
-    ap.add_argument("--league", default="all", choices=["all", *sorted(LEAGUES), *sorted(FILES)])
+    ap.add_argument(
+        "--league", default="all", choices=["all", *sorted(LEAGUES), *sorted(FILES), *sorted(CUPS)]
+    )
     ap.add_argument("--n", type=int, default=10)
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--sync-remote", action="store_true", help="only copy what the cloud workflow committed")
@@ -275,7 +278,7 @@ def main(argv=None) -> int:
     if not a.no_sync:
         print(sync_remote(Path(a.root)))  # cloud artifacts first (best effort, add-only)
     cfg = load_config("markets", config_dir_for(Path(a.root)))
-    everything = sorted(FILES) if cfg.history_source == "openfootball" else sorted(LEAGUES)
+    everything = [*sorted(FILES), *sorted(CUPS)] if cfg.history_source == "openfootball" else sorted(LEAGUES)
     leagues = everything if a.league == "all" else [a.league]
     out = run(Path(a.root), leagues, a.n, a.force)
     for w in out:

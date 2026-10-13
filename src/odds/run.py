@@ -251,11 +251,21 @@ def collect_exact(
         ]
         if not due:
             return [f"{league}: no collection window open (no credit spent)"]
+    feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
+    if league in CUPS and not force:
+        # cups: the free events list decides; a credit is spent only when a match is inside the horizon
+        try:
+            horizon = now + timedelta(hours=cfg.exact_horizon_hours)
+            soon = [k for k in feed.kickoffs(league) if now < k <= horizon]
+        except RuntimeError as e:
+            return [f"{league}: events list failed ({e}); no credit spent"]
+        if not soon:
+            hrs = cfg.exact_horizon_hours
+            return [f"{league}: no match within {hrs} h (free events check, no credit spent)"]
     if credits_path.exists():
         remaining = json.loads(credits_path.read_text(encoding="utf-8")).get("remaining")
         if remaining is not None and int(remaining) < cfg.odds_api_reserve_credits:
             return [f"{league}: SKIPPED, {remaining} credits left < reserve {cfg.odds_api_reserve_credits}"]
-    feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
     try:
         lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
     except RuntimeError as e:

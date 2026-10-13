@@ -13,7 +13,7 @@ from pathlib import Path
 
 from src.config import MarketsConfig
 from src.data.teams import TeamDirectory
-from src.ingestion.openfootball import FILES, OpenFootballProvider, season_dir
+from src.ingestion.openfootball import ALL_FILES, FILES, OpenFootballProvider, season_dir
 from src.ingestion.provider import ProviderError, RawFixture
 
 from .data import STATS, StatMatch
@@ -38,7 +38,7 @@ def _cache_path(root: Path, league: str, year: int) -> Path:
         / "_cache"
         / "openfootball"
         / season_dir(year)
-        / f"{FILES[league][0]}.json"
+        / f"{ALL_FILES[league][0]}.json"
     )
 
 
@@ -54,7 +54,7 @@ def _fetch(
     from src.mlops.oplog import logged_urlopen
 
     cache = _cache_path(root, league, year)
-    url = f"{endpoint('OPENFOOTBALL_BASE_URL', BASE)}/{season_dir(year)}/{FILES[league][0]}.json"
+    url = f"{endpoint('OPENFOOTBALL_BASE_URL', BASE)}/{season_dir(year)}/{ALL_FILES[league][0]}.json"
     try:
         raw = logged_urlopen("openfootball", "fixtures", urllib.request.Request(url), provider.timeout)
         cache.parent.mkdir(parents=True, exist_ok=True)
@@ -90,7 +90,15 @@ def cup_matches(
     fails; a season the repository does not have is skipped silently (documented gaps)."""
     import urllib.error
 
-    from src.ingestion.openfootball_cups import COMPETITIONS, FIRST_SEASON, LAST_SEASON, SOURCE, fetch, parse
+    from src.ingestion.openfootball_cups import (
+        COMPETITIONS,
+        FIRST_SEASON,
+        LAST_SEASON,
+        SOURCE,
+        fetch,
+        is_neutral_stage,
+        parse,
+    )
 
     empty = dict.fromkeys(STATS)
     out: list[StatMatch] = []
@@ -135,6 +143,7 @@ def cup_matches(
                         empty,
                         empty,
                         None,
+                        is_neutral_stage(comp, m.season, m.stage),
                     )  # fmt: skip
                 )
     return out, unresolved
@@ -155,7 +164,7 @@ def load_world(
     empty = dict.fromkeys(STATS)
     history, upcoming, blobs, stale, missing = [], [], [], [], []
     unresolved = skipped = 0
-    for league, (_, _, country) in FILES.items():
+    for league, (_, _, country) in ALL_FILES.items():
         for year in range(cfg.history_start_year, last_year + 1):
             fx, raw, was_stale = _fetch(root, provider, league, year)
             if not raw:
@@ -166,6 +175,8 @@ def load_world(
                 stale.append(f"{league} {season_dir(year)}")
             for f in fx:
                 if f.status_raw == "SCHEDULED":
+                    if league not in FILES:
+                        continue  # history-only league: no fixtures are forecast
                     if f.kickoff_utc > now:
                         upcoming.append((league, f))
                     else:

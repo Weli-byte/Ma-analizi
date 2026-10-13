@@ -10,11 +10,23 @@ teams:
 - team_id: ARM_pyunik_fc
   canonical_name: Pyunik FC
   country: ARM
+- team_id: AUT_austria_lustenau
+  canonical_name: Austria Lustenau
+  country: AUT
 - team_id: AUT_austria_wien
   canonical_name: Austria Wien
   country: AUT
+- team_id: AUT_fc_admira_wacker
+  canonical_name: FC Admira Wacker
+  country: AUT
+- team_id: AUT_fc_blau_wei_linz
+  canonical_name: FC Blau Weiß Linz
+  country: AUT
 - team_id: AUT_fc_red_bull_salzburg
   canonical_name: FC Red Bull Salzburg
+  country: AUT
+- team_id: AUT_grazer_ak
+  canonical_name: Grazer AK
   country: AUT
 - team_id: AUT_lask
   canonical_name: LASK
@@ -22,14 +34,35 @@ teams:
 - team_id: AUT_rapid_wien
   canonical_name: Rapid Wien
   country: AUT
+- team_id: AUT_scr_altach
+  canonical_name: SCR Altach
+  country: AUT
+- team_id: AUT_sk_austria_klagenfurt
+  canonical_name: SK Austria Klagenfurt
+  country: AUT
 - team_id: AUT_sk_sturm_graz
   canonical_name: SK Sturm Graz
+  country: AUT
+- team_id: AUT_skn_st_polten
+  canonical_name: SKN St. Pölten
   country: AUT
 - team_id: AUT_sturm_graz
   canonical_name: Sturm Graz
   country: AUT
+- team_id: AUT_sv_mattersburg
+  canonical_name: SV Mattersburg
+  country: AUT
+- team_id: AUT_sv_ried
+  canonical_name: SV Ried
+  country: AUT
+- team_id: AUT_tsv_hartberg
+  canonical_name: TSV Hartberg
+  country: AUT
 - team_id: AUT_wolfsberger_ac
   canonical_name: Wolfsberger AC
+  country: AUT
+- team_id: AUT_wsg_tirol
+  canonical_name: WSG Tirol
   country: AUT
 - team_id: AZE_qarabag_agdam_fk
   canonical_name: Qarabağ Ağdam FK
@@ -43,14 +76,44 @@ teams:
 - team_id: BEL_club_brugge_kv
   canonical_name: Club Brugge KV
   country: BEL
+- team_id: BEL_fcv_dender_eh
+  canonical_name: FCV Dender EH
+  country: BEL
+- team_id: BEL_k_beerschot_va
+  canonical_name: K Beerschot VA
+  country: BEL
 - team_id: BEL_kaa_gent
   canonical_name: KAA Gent
+  country: BEL
+- team_id: BEL_kas_eupen
+  canonical_name: KAS Eupen
   country: BEL
 - team_id: BEL_krc_genk
   canonical_name: KRC Genk
   country: BEL
+- team_id: BEL_kv_kortrijk
+  canonical_name: KV Kortrijk
+  country: BEL
+- team_id: BEL_kv_mechelen
+  canonical_name: KV Mechelen
+  country: BEL
+- team_id: BEL_kv_oostende
+  canonical_name: KV Oostende
+  country: BEL
+- team_id: BEL_kvc_westerlo
+  canonical_name: KVC Westerlo
+  country: BEL
+- team_id: BEL_oud_heverlee_leuven
+  canonical_name: Oud-Heverlee Leuven
+  country: BEL
+- team_id: BEL_raal_la_louviere
+  canonical_name: RAAL La Louviére
+  country: BEL
 - team_id: BEL_royal_antwerp_fc
   canonical_name: Royal Antwerp FC
+  country: BEL
+- team_id: BEL_royal_excel_mouscron
+  canonical_name: Royal Excel Mouscron
   country: BEL
 - team_id: BEL_royale_union_saint_gilloise
   canonical_name: Royale Union Saint-Gilloise
@@ -58,11 +121,23 @@ teams:
 - team_id: BEL_rsc_anderlecht
   canonical_name: RSC Anderlecht
   country: BEL
+- team_id: BEL_sint_truidense_vv
+  canonical_name: Sint-Truidense VV
+  country: BEL
+- team_id: BEL_sporting_charleroi
+  canonical_name: Sporting Charleroi
+  country: BEL
 - team_id: BEL_standard_liege
   canonical_name: Standard Liège
   country: BEL
+- team_id: BEL_sv_zulte_waregem
+  canonical_name: SV Zulte Waregem
+  country: BEL
 - team_id: BEL_union_saint_gilloise
   canonical_name: Union Saint-Gilloise
+  country: BEL
+- team_id: BEL_waasland_beveren
+  canonical_name: Waasland-Beveren
   country: BEL
 - team_id: BIH_borac_banja_luka
   canonical_name: Borac Banja Luka
@@ -529,8 +604,38 @@ teams:
 - team_id: GIB_lincoln_red_imps
   canonical_name: Lincoln Red Imps
   country: GIB
+- team_id: GRE_ae_kifisias
+  canonical_name: AE Kifisias
+  country: GRE
+- team_id: GRE_ae_larissa
+  canonical_name: AE Lárissa
+  country: GRE
 - team_id: GRE_aek_athen
   canonical_name: AEK Athen
+  country: GRE
+- team_id: GRE_apollon_smyrnis
+  canonical_name: Apollon Smyrnis
+  country: GRE
+- team_id: GRE_aris_saloniki
+  canonical_name: Aris Saloniki
+  country: GRE
+- team_id: GRE_asteras_tripolis
+  canonical_name: Asteras Tripolis
+  country: GRE
+- team_id: GRE_atromitos
+  canonical_name: Atromitos
+  country: GRE
+- team_id: GRE_gs_kallithea
+  canonical_name: GS Kallithea
+  country: GRE
+- team_id: GRE_lamia
+  canonical_name: Lamia
+  country: GRE
+- team_id: GRE_levadiakos
+  canonical_name: Levadiakos
+  country: GRE
+- team_id: GRE_ofi_heraklion
+  canonical_name: OFI Heraklion
   country: GRE
 - team_id: GRE_olympiakos_piraeus
   canonical_name: Olympiakos Piraeus
@@ -541,8 +646,26 @@ teams:
 - team_id: GRE_panathinaikos
   canonical_name: Panathinaikos
   country: GRE
+- team_id: GRE_panetolikos
+  canonical_name: Panetolikos
+  country: GRE
+- team_id: GRE_panionios_gss
+  canonical_name: Panionios GSS
+  country: GRE
+- team_id: GRE_panserraikos
+  canonical_name: Panserraikos
+  country: GRE
 - team_id: GRE_paok_saloniki
   canonical_name: PAOK Saloniki
+  country: GRE
+- team_id: GRE_pas_giannina
+  canonical_name: PAS Giannina
+  country: GRE
+- team_id: GRE_volos_nfc
+  canonical_name: Volos NFC
+  country: GRE
+- team_id: GRE_xanthi_fc
+  canonical_name: Xanthi FC
   country: GRE
 - team_id: HUN_ferencvarosi_tc
   canonical_name: Ferencvárosi TC
@@ -688,14 +811,38 @@ teams:
 - team_id: MDA_fc_sheriff
   canonical_name: FC Sheriff
   country: MDA
+- team_id: NED_ado_den_haag
+  canonical_name: ADO Den Haag
+  country: NED
 - team_id: NED_afc_ajax
   canonical_name: AFC Ajax
+  country: NED
+- team_id: NED_almere_city_fc
+  canonical_name: Almere City FC
+  country: NED
+- team_id: NED_az
+  canonical_name: AZ
   country: NED
 - team_id: NED_az_alkmaar
   canonical_name: AZ Alkmaar
   country: NED
+- team_id: NED_fc_emmen
+  canonical_name: FC Emmen
+  country: NED
+- team_id: NED_fc_groningen
+  canonical_name: FC Groningen
+  country: NED
 - team_id: NED_fc_twente
   canonical_name: FC Twente
+  country: NED
+- team_id: NED_fc_twente_65
+  canonical_name: FC Twente '65
+  country: NED
+- team_id: NED_fc_utrecht
+  canonical_name: FC Utrecht
+  country: NED
+- team_id: NED_fc_volendam
+  canonical_name: FC Volendam
   country: NED
 - team_id: NED_feyenoord
   canonical_name: Feyenoord
@@ -703,14 +850,65 @@ teams:
 - team_id: NED_feyenoord_rotterdam
   canonical_name: Feyenoord Rotterdam
   country: NED
+- team_id: NED_fortuna_sittard
+  canonical_name: Fortuna Sittard
+  country: NED
+- team_id: NED_go_ahead_eagles
+  canonical_name: Go Ahead Eagles
+  country: NED
+- team_id: NED_heracles_almelo
+  canonical_name: Heracles Almelo
+  country: NED
+- team_id: NED_nac_breda
+  canonical_name: NAC Breda
+  country: NED
+- team_id: NED_nec
+  canonical_name: NEC
+  country: NED
+- team_id: NED_nec_nijmegen
+  canonical_name: NEC Nijmegen
+  country: NED
+- team_id: NED_pec_zwolle
+  canonical_name: PEC Zwolle
+  country: NED
 - team_id: NED_psv
   canonical_name: PSV
   country: NED
 - team_id: NED_psv_eindhoven
   canonical_name: PSV Eindhoven
   country: NED
+- team_id: NED_rkc_waalwijk
+  canonical_name: RKC Waalwijk
+  country: NED
+- team_id: NED_sbv_excelsior
+  canonical_name: SBV Excelsior
+  country: NED
+- team_id: NED_sbv_vitesse
+  canonical_name: SBV Vitesse
+  country: NED
+- team_id: NED_sc_cambuur
+  canonical_name: SC Cambuur
+  country: NED
+- team_id: NED_sc_heerenveen
+  canonical_name: SC Heerenveen
+  country: NED
+- team_id: NED_sparta_rotterdam
+  canonical_name: Sparta Rotterdam
+  country: NED
+- team_id: NED_telstar_1963
+  canonical_name: Telstar 1963
+  country: NED
 - team_id: NED_vitesse
   canonical_name: Vitesse
+  country: NED
+- team_id: NED_vvv_venlo
+  canonical_name: VVV-Venlo
+  country: NED
+- team_id: NED_willem_ii
+  canonical_name: Willem II
+  country: NED
+- team_id: NED_willem_ii_tilburg
+  canonical_name: Willem II Tilburg
   country: NED
 - team_id: NIR_larne_fc
   canonical_name: Larne FC
@@ -733,8 +931,83 @@ teams:
 - team_id: POL_rakow_czestochowa
   canonical_name: Raków Częstochowa
   country: POL
+- team_id: POR_avs
+  canonical_name: AVS
+  country: POR
+- team_id: POR_belenenses_sad
+  canonical_name: Belenenses SAD
+  country: POR
+- team_id: POR_boavista
+  canonical_name: Boavista
+  country: POR
+- team_id: POR_boavista_fc
+  canonical_name: Boavista FC
+  country: POR
+- team_id: POR_casa_pia_ac
+  canonical_name: Casa Pia AC
+  country: POR
+- team_id: POR_cd_aves
+  canonical_name: CD Aves
+  country: POR
+- team_id: POR_cd_nacional
+  canonical_name: CD Nacional
+  country: POR
+- team_id: POR_cd_santa_clara
+  canonical_name: CD Santa Clara
+  country: POR
+- team_id: POR_cd_tondela
+  canonical_name: CD Tondela
+  country: POR
+- team_id: POR_cf_estrela_da_amadora
+  canonical_name: CF Estrela da Amadora
+  country: POR
+- team_id: POR_cs_maritimo
+  canonical_name: CS Marítimo
+  country: POR
+- team_id: POR_fc_alverca
+  canonical_name: FC Alverca
+  country: POR
+- team_id: POR_fc_arouca
+  canonical_name: FC Arouca
+  country: POR
+- team_id: POR_fc_famalicao
+  canonical_name: FC Famalicão
+  country: POR
 - team_id: POR_fc_porto
   canonical_name: FC Porto
+  country: POR
+- team_id: POR_fc_vizela
+  canonical_name: FC Vizela
+  country: POR
+- team_id: POR_gd_chaves
+  canonical_name: GD Chaves
+  country: POR
+- team_id: POR_gd_estoril
+  canonical_name: GD Estoril
+  country: POR
+- team_id: POR_gd_estoril_praia
+  canonical_name: GD Estoril Praia
+  country: POR
+- team_id: POR_gil_vicente
+  canonical_name: Gil Vicente
+  country: POR
+- team_id: POR_gil_vicente_fc
+  canonical_name: Gil Vicente FC
+  country: POR
+- team_id: POR_moreirense_fc
+  canonical_name: Moreirense FC
+  country: POR
+- team_id: POR_pacos_de_ferreira
+  canonical_name: Paços de Ferreira
+  country: POR
+- team_id: POR_portimonense_sc
+  canonical_name: Portimonense SC
+  country: POR
+- team_id: POR_rio_ave_fc
+  canonical_name: Rio Ave FC
+  country: POR
+- team_id: POR_sc_farense
+  canonical_name: SC Farense
   country: POR
 - team_id: POR_sl_benfica
   canonical_name: SL Benfica
@@ -750,6 +1023,9 @@ teams:
   country: POR
 - team_id: POR_vitoria_guimaraes
   canonical_name: Vitória Guimarães
+  country: POR
+- team_id: POR_vitoria_setubal
+  canonical_name: Vitória Setúbal
   country: POR
 - team_id: ROU_cfr_cluj
   canonical_name: CFR Cluj
@@ -778,11 +1054,44 @@ teams:
 - team_id: SCO_celtic_fc
   canonical_name: Celtic FC
   country: SCO
+- team_id: SCO_dundee_fc
+  canonical_name: Dundee FC
+  country: SCO
+- team_id: SCO_dundee_united
+  canonical_name: Dundee United
+  country: SCO
+- team_id: SCO_falkirk_fc
+  canonical_name: Falkirk FC
+  country: SCO
+- team_id: SCO_hamilton_academical
+  canonical_name: Hamilton Academical
+  country: SCO
 - team_id: SCO_heart_of_midlothian
   canonical_name: Heart of Midlothian
   country: SCO
+- team_id: SCO_hibernian_fc
+  canonical_name: Hibernian FC
+  country: SCO
+- team_id: SCO_kilmarnock_fc
+  canonical_name: Kilmarnock FC
+  country: SCO
+- team_id: SCO_livingston_fc
+  canonical_name: Livingston FC
+  country: SCO
+- team_id: SCO_motherwell_fc
+  canonical_name: Motherwell FC
+  country: SCO
 - team_id: SCO_rangers_fc
   canonical_name: Rangers FC
+  country: SCO
+- team_id: SCO_ross_county_fc
+  canonical_name: Ross County FC
+  country: SCO
+- team_id: SCO_st_johnstone_fc
+  canonical_name: St. Johnstone FC
+  country: SCO
+- team_id: SCO_st_mirren_fc
+  canonical_name: St. Mirren FC
   country: SCO
 - team_id: SRB_fk_crvena_zvezda
   canonical_name: FK Crvena Zvezda
@@ -2249,6 +2558,33 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: ADO Den Haag
+  team_id: NED_ado_den_haag
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AE Kifisias
+  team_id: GRE_ae_kifisias
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AE Lárissa
+  team_id: GRE_ae_larissa
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: AJ Auxerre
   team_id: FRA_auxerre
   valid_from: null
@@ -2294,6 +2630,24 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: AVS
+  team_id: POR_avs
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: AZ
+  team_id: NED_az
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Adana Demirspor
   team_id: TUR_adana_demirspor
   valid_from: null
@@ -2310,6 +2664,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Almere City FC
+  team_id: NED_almere_city_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Amiens SC
@@ -2339,6 +2702,24 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Apollon Smyrnis
+  team_id: GRE_apollon_smyrnis
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Aris Saloniki
+  team_id: GRE_aris_saloniki
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Arminia Bielefeld
   team_id: GER_arminia_bielefeld
   valid_from: null
@@ -2355,6 +2736,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
     source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Asteras Tripolis
+  team_id: GRE_asteras_tripolis
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Aston Villa FC
@@ -2393,6 +2783,24 @@ aliases:
     source; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Atromitos
+  team_id: GRE_atromitos
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Austria Lustenau
+  team_id: AUT_austria_lustenau
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: BB Erzurumspor
   team_id: TUR_erzurumspor
   valid_from: null
@@ -2429,6 +2837,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Belenenses SAD
+  team_id: POR_belenenses_sad
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Benevento Calcio
   team_id: ITA_benevento
   valid_from: null
@@ -2445,6 +2862,24 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Boavista
+  team_id: POR_boavista
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Boavista FC
+  team_id: POR_boavista_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Bodrum FK
@@ -2555,6 +2990,15 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: CD Aves
+  team_id: POR_cd_aves
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: CD Leganés
   team_id: ESP_leganes
   valid_from: null
@@ -2564,6 +3008,51 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: CD Nacional
+  team_id: POR_cd_nacional
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CD Santa Clara
+  team_id: POR_cd_santa_clara
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CD Tondela
+  team_id: POR_cd_tondela
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CF Estrela da Amadora
+  team_id: POR_cf_estrela_da_amadora
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: CS Marítimo
+  team_id: POR_cs_maritimo
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Cagliari Calcio
   team_id: ITA_cagliari
   valid_from: null
@@ -2571,6 +3060,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Casa Pia AC
+  team_id: POR_casa_pia_ac
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Chelsea FC
@@ -2654,6 +3152,24 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Dundee FC
+  team_id: SCO_dundee_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Dundee United
+  team_id: SCO_dundee_united
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: ES Troyes AC
   team_id: FRA_troyes
   valid_from: null
@@ -2726,6 +3242,33 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: FC Admira Wacker
+  team_id: AUT_fc_admira_wacker
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Alverca
+  team_id: POR_fc_alverca
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Arouca
+  team_id: POR_fc_arouca
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: FC Augsburg
   team_id: GER_fc_augsburg
   valid_from: null
@@ -2753,6 +3296,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: FC Blau Weiß Linz
+  team_id: AUT_fc_blau_wei_linz
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: FC Crotone
   team_id: ITA_crotone
   valid_from: null
@@ -2760,6 +3312,33 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Emmen
+  team_id: NED_fc_emmen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Famalicão
+  team_id: POR_fc_famalicao
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Groningen
+  team_id: NED_fc_groningen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: FC Internazionale Milano
@@ -2816,6 +3395,60 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: FC Twente '65
+  team_id: NED_fc_twente_65
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Utrecht
+  team_id: NED_fc_utrecht
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Vizela
+  team_id: POR_fc_vizela
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FC Volendam
+  team_id: NED_fc_volendam
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: FCV Dender EH
+  team_id: BEL_fcv_dender_eh
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Falkirk FC
+  team_id: SCO_falkirk_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Fatih Karagümrük
   team_id: TUR_fatih_karagumruk
   valid_from: null
@@ -2843,6 +3476,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Fortuna Sittard
+  team_id: NED_fortuna_sittard
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Frosinone Calcio
   team_id: ITA_frosinone
   valid_from: null
@@ -2859,6 +3501,42 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
     source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: GD Chaves
+  team_id: POR_gd_chaves
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: GD Estoril
+  team_id: POR_gd_estoril
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: GD Estoril Praia
+  team_id: POR_gd_estoril_praia
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: GS Kallithea
+  team_id: GRE_gs_kallithea
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Galatasaray
@@ -2915,6 +3593,24 @@ aliases:
     source; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Gil Vicente
+  team_id: POR_gil_vicente
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Gil Vicente FC
+  team_id: POR_gil_vicente_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Girona FC
   team_id: ESP_girona
   valid_from: null
@@ -2933,6 +3629,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Go Ahead Eagles
+  team_id: NED_go_ahead_eagles
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Granada CF
   team_id: ESP_granada
   valid_from: null
@@ -2940,6 +3645,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (closest canonical name 0.824, historical
     club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Grazer AK
+  team_id: AUT_grazer_ak
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Göztepe
@@ -2958,6 +3672,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hamilton Academical
+  team_id: SCO_hamilton_academical
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Hatayspor
@@ -2987,6 +3710,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Heracles Almelo
+  team_id: NED_heracles_almelo
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Hertha BSC
   team_id: GER_hertha_bsc
   valid_from: null
@@ -2994,6 +3726,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Hibernian FC
+  team_id: SCO_hibernian_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Holstein Kiel
@@ -3050,6 +3791,60 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: K Beerschot VA
+  team_id: BEL_k_beerschot_va
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: KAS Eupen
+  team_id: BEL_kas_eupen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: KV Kortrijk
+  team_id: BEL_kv_kortrijk
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: KV Mechelen
+  team_id: BEL_kv_mechelen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: KV Oostende
+  team_id: BEL_kv_oostende
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: KVC Westerlo
+  team_id: BEL_kvc_westerlo
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Kasımpaşa SK
   team_id: TUR_kasmpasa
   valid_from: null
@@ -3068,6 +3863,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Kilmarnock FC
+  team_id: SCO_kilmarnock_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Kocaelispor
   team_id: TUR_kocaelispor
   valid_from: null
@@ -3084,6 +3888,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Lamia
+  team_id: GRE_lamia
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Lazio Roma
@@ -3131,6 +3944,15 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Levadiakos
+  team_id: GRE_levadiakos
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Levante UD
   team_id: ESP_levante
   valid_from: null
@@ -3156,6 +3978,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
     source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Livingston FC
+  team_id: SCO_livingston_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Luton Town FC
@@ -3203,6 +4034,24 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Moreirense FC
+  team_id: POR_moreirense_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Motherwell FC
+  team_id: SCO_motherwell_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Málaga CF
   team_id: ESP_malaga
   valid_from: null
@@ -3210,6 +4059,33 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-08 (same raw name already approved for another
     source; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: NAC Breda
+  team_id: NED_nac_breda
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: NEC
+  team_id: NED_nec
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: NEC Nijmegen
+  team_id: NED_nec_nijmegen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Newcastle United FC
@@ -3248,6 +4124,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: OFI Heraklion
+  team_id: GRE_ofi_heraklion
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: OGC Nice
   team_id: FRA_nice
   valid_from: null
@@ -3282,6 +4167,60 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Oud-Heverlee Leuven
+  team_id: BEL_oud_heverlee_leuven
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: PAS Giannina
+  team_id: GRE_pas_giannina
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: PEC Zwolle
+  team_id: NED_pec_zwolle
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Panetolikos
+  team_id: GRE_panetolikos
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Panionios GSS
+  team_id: GRE_panionios_gss
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Panserraikos
+  team_id: GRE_panserraikos
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Paris FC
@@ -3320,6 +4259,33 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Paços de Ferreira
+  team_id: POR_pacos_de_ferreira
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Portimonense SC
+  team_id: POR_portimonense_sc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RAAL La Louviére
+  team_id: BEL_raal_la_louviere
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: RB Leipzig
   team_id: GER_rb_leipzig
   valid_from: null
@@ -3327,6 +4293,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: RB Salzburg
+  team_id: AUT_fc_red_bull_salzburg
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: RC Celta
@@ -3401,6 +4376,15 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: RKC Waalwijk
+  team_id: NED_rkc_waalwijk
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Racing Club de Lens
   team_id: FRA_lens
   valid_from: null
@@ -3464,6 +4448,69 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Rio Ave FC
+  team_id: POR_rio_ave_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Ross County FC
+  team_id: SCO_ross_county_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Royal Excel Mouscron
+  team_id: BEL_royal_excel_mouscron
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SBV Excelsior
+  team_id: NED_sbv_excelsior
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SBV Vitesse
+  team_id: NED_sbv_vitesse
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SC Cambuur
+  team_id: NED_sc_cambuur
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SC Farense
+  team_id: POR_sc_farense
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: SC Freiburg
   team_id: GER_sc_freiburg
   valid_from: null
@@ -3473,6 +4520,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: SC Heerenveen
+  team_id: NED_sc_heerenveen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: SC Paderborn 07
   team_id: GER_paderborn
   valid_from: null
@@ -3480,6 +4536,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SCR Altach
+  team_id: AUT_scr_altach
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: SD Eibar
@@ -3498,6 +4563,24 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (closest canonical name 0.8, historical
     club checked by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SK Austria Klagenfurt
+  team_id: AUT_sk_austria_klagenfurt
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SKN St. Pölten
+  team_id: AUT_skn_st_polten
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: SPAL 2013 Ferrara
@@ -3545,6 +4628,24 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: SV Mattersburg
+  team_id: AUT_sv_mattersburg
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SV Ried
+  team_id: AUT_sv_ried
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: SV Werder Bremen
   team_id: GER_werder_bremen
   valid_from: null
@@ -3552,6 +4653,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: SV Zulte Waregem
+  team_id: BEL_sv_zulte_waregem
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Sampdoria
@@ -3599,6 +4709,15 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Sint-Truidense VV
+  team_id: BEL_sint_truidense_vv
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Sivasspor
   team_id: TUR_sivasspor
   valid_from: null
@@ -3626,6 +4745,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Sparta Rotterdam
+  team_id: NED_sparta_rotterdam
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Spezia Calcio
   team_id: ITA_spezia
   valid_from: null
@@ -3633,6 +4761,51 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sporting CP
+  team_id: POR_sporting_clube_de_portugal
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sporting Charleroi
+  team_id: BEL_sporting_charleroi
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Sporting Clube de Braga
+  team_id: POR_sporting_braga
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: St. Johnstone FC
+  team_id: SCO_st_johnstone_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: St. Mirren FC
+  team_id: SCO_st_mirren_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Stade Brestois 29
@@ -3687,6 +4860,24 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: TSV Hartberg
+  team_id: AUT_tsv_hartberg
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Telstar 1963
+  team_id: NED_telstar_1963
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Torino FC
@@ -3797,6 +4988,15 @@ aliases:
     files; name variants merged by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: VVV-Venlo
+  team_id: NED_vvv_venlo
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Valencia CF
   team_id: ESP_valencia
   valid_from: null
@@ -3851,6 +5051,42 @@ aliases:
     source; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Vitória Setúbal
+  team_id: POR_vitoria_setubal
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Volos NFC
+  team_id: GRE_volos_nfc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: WSG Tirol
+  team_id: AUT_wsg_tirol
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Waasland-Beveren
+  team_id: BEL_waasland_beveren
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Watford FC
   team_id: ENG_watford
   valid_from: null
@@ -3887,6 +5123,24 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Willem II
+  team_id: NED_willem_ii
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: Willem II Tilburg
+  team_id: NED_willem_ii_tilburg
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Wolverhampton Wanderers FC
   team_id: ENG_wolverhampton_wanderers
   valid_from: null
@@ -3896,6 +5150,15 @@ aliases:
     club checked by hand; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
+  raw_name: Xanthi FC
+  team_id: GRE_xanthi_fc
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
   raw_name: Yeni Malatyaspor
   team_id: TUR_yeni_malatyaspor
   valid_from: null
@@ -3903,6 +5166,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (club created from the openfootball season
     files; name variants merged by hand; owner to re-confirm)
+  confidence: 0.9
+- source: openfootball
+  raw_name: sc Heerenveen
+  team_id: NED_sc_heerenveen
+  valid_from: null
+  valid_to: null
+  provenance: cup_import
+  approved_by: claude-assistant 2026-10-13 (club of the openfootball cup files; created
+    or linked automatically; owner to re-confirm)
   confidence: 0.9
 - source: openfootball
   raw_name: Çaykur Rizespor

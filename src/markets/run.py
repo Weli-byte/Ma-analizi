@@ -19,6 +19,7 @@ from src.data.dataset import resolve_dataset
 from src.data_repo import data_repo_url
 from src.ingestion.openfootball import FILES
 from src.ingestion.openfootball_cups import COMPETITIONS as CUPS
+from src.ingestion.openfootball_cups import is_final_date
 from src.llm.forecast import LEAGUES, load_upcoming_rows
 from src.mlops.oplog import heartbeat
 from src.odds.store import OddsStore
@@ -93,11 +94,14 @@ def write_artifact(
     source_note: dict | None = None,
     count_markets: bool = False,
     form: dict | None = None,
+    neutral: bool = False,  # cup final at one neutral venue: no home advantage
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
     intel = intelligence(
-        mm, home_id, away_id, league, tuple(odds["odds"]) if odds else None, include_counts=count_markets
-    )
+        mm, home_id, away_id, league, tuple(odds["odds"]) if odds else None, include_counts=count_markets,
+        neutral=neutral,
+    )  # fmt: skip
+    intel["neutral_venue"] = neutral
     body = {
         "fixture_key": key, "provider_fixture_id": provider_fixture_id, "league": league,
         "home_id": home_id, "away_id": away_id, "kickoff_utc": kickoff.isoformat(),
@@ -183,7 +187,9 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
         # leagues the open source has no upcoming fixtures for (e.g. Super Lig): the fixtures known from the
         # odds stores (The Odds API events) are the schedule; clubs there are already resolved
         for league in sorted(wanted - set(counts)):
-            for fx in fixtures_from_odds_stores(root, league, now)[:n]:
+            known = fixtures_from_odds_stores(root, league, now)
+            for fx in known[:n]:
+                neutral = is_final_date(league, fx["kickoff_utc"], [x["kickoff_utc"] for x in known])
                 key = fixture_key(fx["home_id"], fx["away_id"], fx["kickoff_utc"])
                 if _fresh(root, key, now, cfg.refresh_hours) and not force:
                     continue
@@ -200,6 +206,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                         "home": recent_form(history, fx["home_id"], now, names),
                         "away": recent_form(history, fx["away_id"], now, names),
                     },
+                    neutral,
                 )  # fmt: skip
                 if path is not None:
                     written.append({"fixture_key": key, "path": str(path)})

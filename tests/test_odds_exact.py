@@ -245,6 +245,28 @@ def test_cup_call_failure_is_a_line_not_a_crash(tmp_path, monkeypatch):
     def boom(*a, **k):
         raise RuntimeError("the-odds-api request failed: HTTPError: HTTP Error 404")
 
+    now = datetime(2026, 10, 14, tzinfo=UTC)
     monkeypatch.setattr(odds_run, "_collect_feed", boom)
-    out = odds_run.collect_exact(tmp_path, "UCL", tmp_path, now=datetime(2026, 10, 14, tzinfo=UTC))
+    monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: [now + timedelta(hours=5)])
+    out = odds_run.collect_exact(tmp_path, "UCL", tmp_path, now=now)
     assert "UCL" in out[0] and "failed" in out[0]
+
+
+def test_cup_credit_is_spent_only_when_a_match_is_inside_the_horizon(tmp_path, monkeypatch):
+    from src.odds import run as odds_run
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "k")
+    __import__("shutil").copytree(ROOT / "configs", tmp_path / "configs")
+    now = datetime(2026, 10, 14, tzinfo=UTC)
+    paid = []
+    monkeypatch.setattr(odds_run, "_collect_feed", lambda *a, **k: paid.append(1) or [])
+    monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: [now + timedelta(days=5)])
+    out = odds_run.collect_exact(tmp_path, "UEL", tmp_path, now=now)
+    assert "no credit spent" in out[0] and paid == []
+    monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: (_ for _ in ()).throw(RuntimeError("x")))  # fmt: skip
+    assert (
+        "events list failed" in odds_run.collect_exact(tmp_path, "UEL", tmp_path, now=now)[0] and paid == []
+    )
+    monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: [now + timedelta(hours=3)])
+    odds_run.collect_exact(tmp_path, "UEL", tmp_path, now=now)
+    assert paid == [1]

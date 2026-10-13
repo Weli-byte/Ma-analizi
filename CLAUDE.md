@@ -144,5 +144,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0053: favourites + user store, search, form/goal charts, `/sunum`.
 - [x] ADR 0054: English UI, phone sign-in (Twilio, unverified live), secure cookies, Space bundle + docs/hosting.md.
 - [x] ADR 0055: UEFA Champions/Europa/Conference League (`src/ingestion/openfootball_cups.py`, `src/markets/cup_clubs.py`); history CC0, fixtures/odds via The Odds API (sport keys unconfirmed).
+- [x] ADR 0056: cups phase 2 - history-only domestic leagues (AT/BE/GR/NL/PT/SCO), UEFA-style priors (`src/markets/coefficients.py`, weights chosen by `eval_priors` on validation seasons), neutral-venue finals, free events check before paid cup odds calls, weekly `probe-cups.yml`, `club_duplicates` (owner-approved merges only).
 - [ ] S19 startup MVP (deploy to a host, Google client id, SMS account, Free/Pro, Apple sign-in, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

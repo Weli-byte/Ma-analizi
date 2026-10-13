@@ -28,6 +28,7 @@ class StatMatch:
     home_stats: dict  # stat -> int | None
     away_stats: dict
     closing_avg: tuple[float, float, float] | None  # market-implied reference (H, D, A decimal odds)
+    neutral: bool = False  # played at a neutral venue (cup finals): no home advantage
 
 
 def load_stat_matches(ref: DatasetRef, seasons: list[str] | None = None) -> list[StatMatch]:

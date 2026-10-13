@@ -198,9 +198,9 @@ def test_openfootball_world_loads_history_upcoming_and_falls_back_to_the_cache(t
         REPO_ROOT / "tests/fixtures/real_provider_captures/openfootball_en1_2026_trimmed.json",
         web / "en.1.json",
     )
-    from src.ingestion.openfootball import FILES
+    from src.ingestion.openfootball import ALL_FILES
 
-    for code, _, _ in FILES.values():
+    for code, _, _ in ALL_FILES.values():
         if code != "en.1":
             (web / f"{code}.json").write_text('{"name": "empty", "matches": []}', encoding="utf-8")
     srv = ThreadingHTTPServer(("127.0.0.1", 0), partial(SimpleHTTPRequestHandler, directory=str(web.parent)))
@@ -223,7 +223,7 @@ def test_openfootball_world_loads_history_upcoming_and_falls_back_to_the_cache(t
     stale = load_world(tmp_path, directory, cfg, now)  # server gone: the cache is used and reported
     assert (
         len(stale.history) == 7
-        and len(stale.stale_files) == len(FILES)
+        and len(stale.stale_files) == len(ALL_FILES)
         and stale.data_version == w.data_version
     )
     shutil.rmtree(tmp_path / "artifacts")
@@ -258,7 +258,7 @@ def test_a_missing_season_file_is_a_reported_gap_not_a_failure(tmp_path, monkeyp
         datetime(2026, 10, 8, tzinfo=UTC),
     )
     srv.shutdown()
-    assert w.history == [] and w.upcoming == [] and len(w.missing_files) == 6 and w.stale_files == []
+    assert w.history == [] and w.upcoming == [] and len(w.missing_files) == 12 and w.stale_files == []
 
 
 def test_every_configured_league_has_clubs_and_aliases():

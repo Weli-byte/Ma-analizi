@@ -1,7 +1,11 @@
 name: probe-cups
-# One-off: confirms the European-cup sport keys and club names against the real The Odds API (no credits, ADR 0055).
+# Weekly (and on demand): checks the European-cup sport keys and club names against the real The Odds API (no
+# credits, ADR 0055/0056). Clubs it cannot resolve are listed as MISS in the run summary so an alias can be added
+# before a forecast is missed.
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "30 5 * * 1"
 permissions:
   contents: read
 jobs:
@@ -21,4 +25,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install --require-hashes -r requirements.lock
           pip install --no-deps -e .
-      - run: python -m src.odds.probe_cups
+      - name: Probe and summarise the unresolved clubs
+        run: |
+          python -m src.odds.probe_cups | tee probe.txt
+          { echo "## Unresolved cup clubs (add a the-odds-api alias for each)"; echo '```'; grep -E "MISS|NOT LISTED|failed" probe.txt || echo "none"; echo '```'; } >> "$GITHUB_STEP_SUMMARY"

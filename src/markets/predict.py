@@ -49,9 +49,10 @@ def intelligence(
     market_odds: tuple[float, float, float] | None = None,
     blend_weight: float | None = None,
     include_counts: bool = True,
+    neutral: bool = False,
 ) -> dict:
     cfg = mm.cfg
-    lh, la = mm.goals.lambdas(home, away, league)
+    lh, la = mm.goals.lambdas(home, away, league, neutral)
     mat = scoreline_matrix(lh, la, mm.rho, cfg.max_goals)
     n = mat.shape[0]
     i, j = np.indices(mat.shape)
@@ -100,7 +101,7 @@ def intelligence(
     }  # fmt: skip
     counts = {}
     for stat, table in mm.counts.items() if include_counts else []:
-        ch, ca = table.lambdas(home, away, league)
+        ch, ca = table.lambdas(home, away, league, neutral)
         kmax = 60
         pmf = np.convolve(count_pmf(ch, table.alpha, kmax), count_pmf(ca, table.alpha, kmax))
         counts[stat] = {

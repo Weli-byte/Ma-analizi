@@ -7400,6 +7400,15 @@ aliases:
     and matched to the club by hand; owner to re-confirm)
   confidence: 0.9
 - source: the-odds-api
+  raw_name: OFI Crete
+  team_id: GRE_ofi_heraklion
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant 2026-10-13 (seen in the real The Odds API cup event
+    list; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
   raw_name: PFC CSKA Sofia
   team_id: BUL_cska_sofia
   valid_from: null
@@ -7542,6 +7551,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-09 (name read from the real The Odds API response
     and matched to the club by hand; owner to re-confirm)
+  confidence: 0.9
+- source: the-odds-api
+  raw_name: Sint Truiden
+  team_id: BEL_sint_truidense_vv
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant 2026-10-13 (seen in the real The Odds API cup event
+    list; owner to re-confirm)
   confidence: 0.9
 - source: the-odds-api
   raw_name: Sparta Prague

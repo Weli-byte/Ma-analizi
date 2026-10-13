@@ -365,6 +365,8 @@ class MarketsConfig(_Cfg):
     stats_plan: Literal["basic", "pro"]  # published count markets need a paid plan (terms 4.1)
     stats_run_budget: int = Field(ge=1)  # Highlightly requests per collection run
     stats_from_year: int = Field(ge=2019)  # first season (start year) collected
+    uefa_prior_country: float = Field(ge=0, le=1)  # ADR 0056: weight of the league-difficulty prior
+    uefa_prior_club: float = Field(ge=0, le=1)  # ADR 0056: weight of the club-ranking prior
 
 
 _MODELS = {

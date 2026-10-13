@@ -135,6 +135,20 @@ class TheOddsApiFeed:
         params["apiKey"] = self.api_key  # last: the only place the key appears is this query parameter
         return f"{BASE}/sports/{SPORT_KEYS[league]}/odds/?{urllib.parse.urlencode(params)}"
 
+    def kickoffs(self, league: str) -> list[datetime]:
+        """Kick-off times of the league's upcoming events. `/sports/{key}/events` uses NO quota credits
+        (provider documentation), so it can decide whether a paid odds call is worth it."""
+        params = urllib.parse.urlencode({"apiKey": self.api_key, "dateFormat": "iso"})
+        url = f"{BASE}/sports/{SPORT_KEYS[league]}/events?{params}"
+        try:
+            with urllib.request.urlopen(url, timeout=self.timeout) as r:  # noqa: S310 - fixed https host
+                raw = r.read()
+        except (urllib.error.URLError, TimeoutError) as e:
+            raise RuntimeError(
+                f"the-odds-api events request failed: {scrub(f'{type(e).__name__}: {e}', self.api_key)}"
+            ) from None
+        return [_ts(e["commence_time"]) for e in json.loads(raw.decode("utf-8"))]
+
     def fetch(self, league: str, received_at: datetime | None = None) -> list[dict]:
         url = self.url(league)
         try:

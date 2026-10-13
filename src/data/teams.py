@@ -193,7 +193,7 @@ class TeamDirectory:
         return Resolution(None, "unresolved", suggestions)
 
     def resolve_any_country(
-        self, sources: tuple[str, ...], raw_name: str, day: date | None = None
+        self, sources: tuple[str, ...], raw_name: str, day: date | None = None, country: str | None = None
     ) -> Resolution:
         """Club lookup when the competition mixes countries (European cups). A name must match EXACTLY one
         club after normalisation (canonical names and the aliases of `sources`), else a name with the usual
@@ -204,9 +204,12 @@ class TeamDirectory:
             return Resolution(None, "unresolved")
         exact: dict[str, set[str]] = {}
         for t in self.teams.values():
-            exact.setdefault(normalize_name(t["canonical_name"]), set()).add(t["team_id"])
+            if country is None or t["country"] == country:
+                exact.setdefault(normalize_name(t["canonical_name"]), set()).add(t["team_id"])
         for a in self.aliases:
             if a.source in sources and a.team_id in self.teams and a.active_on(day):
+                if country is not None and self.teams[a.team_id]["country"] != country:
+                    continue
                 exact.setdefault(normalize_name(a.raw_name), set()).add(a.team_id)
         if len(exact.get(norm, ())) == 1:
             return Resolution(next(iter(exact[norm])), "any_country_exact")

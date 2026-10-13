@@ -124,6 +124,29 @@ def parse(text: str, competition: str, start_year: int) -> list[CupMatch]:
     return out
 
 
+def is_neutral_stage(competition: str, season: str, stage: str) -> bool:
+    """A match played at ONE neutral venue: the final of every cup, and the single-leg quarter-finals and
+    semi-finals of the 2019-20 Champions League (the Lisbon "Final 8"). Other neutral venues (the 2020-21 COVID
+    relocations) are not marked: the files do not say where a match was played."""
+    last = stage.split(",")[-1].strip()
+    if last == "Final":
+        return True
+    return competition == "UCL" and season == "2019-20" and last in ("Quarterfinals", "Semifinals")
+
+
+def is_final_date(competition: str, kickoff, others) -> bool:
+    """Forecasting side: fixtures come from the odds provider without a stage. A cup match from 15 May to the end of
+    June with NO other match of the same competition within four days is the final (semi-final second legs are
+    played in pairs on one night and end by 18 May; the single finals of 2021-2026 stand alone, verified on the files)."""
+    from datetime import timedelta
+
+    if competition not in COMPETITIONS or not (
+        (kickoff.month == 5 and kickoff.day >= 15) or kickoff.month == 6
+    ):
+        return False
+    return all(abs(o - kickoff) > timedelta(days=4) for o in others if o != kickoff)
+
+
 def season_url(competition: str, start_year: int) -> str:
     return f"{endpoint('OPENFOOTBALL_CUPS_BASE_URL', BASE)}/{start_year}-{str(start_year + 1)[2:]}/{COMPETITIONS[competition]}.txt"
 

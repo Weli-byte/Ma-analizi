@@ -16,6 +16,7 @@ from scipy.stats import nbinom, poisson
 
 from src.config import MarketsConfig
 
+from .coefficients import uefa_priors
 from .data import StatMatch
 
 MODEL_VERSION = "markets-1.0.0"
@@ -31,8 +32,11 @@ class RateTable:
     n_rows: int
     team_matches: dict[str, float] = field(default_factory=dict)  # decayed match weight per team
 
-    def lambdas(self, home: str, away: str, league: str) -> tuple[float, float]:
+    def lambdas(self, home: str, away: str, league: str, neutral: bool = False) -> tuple[float, float]:
         a, d = self.attack, self.defence
+        if neutral:  # no home advantage: both sides use the league's average of the home and away level
+            mid = (self.mu_home[league] + self.mu_away[league]) / 2
+            return mid * a.get(home, 1.0) * d.get(away, 1.0), mid * a.get(away, 1.0) * d.get(home, 1.0)
         return (
             self.mu_home[league] * a.get(home, 1.0) * d.get(away, 1.0),
             self.mu_away[league] * a.get(away, 1.0) * d.get(home, 1.0),
@@ -52,6 +56,8 @@ def fit_rates(
     leagues: list[str],
     w: np.ndarray,
     cfg: MarketsConfig,
+    neutral: np.ndarray | None = None,
+    prior: dict[str, float] | None = None,
 ) -> RateTable:
     teams = sorted({*homes, *aways})
     idx = {t: i for i, t in enumerate(teams)}
@@ -62,24 +68,33 @@ def fit_rates(
     li = np.array([lg.index(x) for x in leagues])
     att = np.ones(n)
     dfn = np.ones(n)
+    neu = np.zeros(len(hy), bool) if neutral is None else neutral
+    g = np.array([(prior or {}).get(t, 0.0) for t in teams])
+    s_att, s_def = np.exp(g), np.exp(-g)  # what a team with no data is shrunk toward (1 = the average team)
     mu_h = np.array([np.average(hy[li == i], weights=w[li == i]) for i in range(len(lg))])
     mu_a = np.array([np.average(ay[li == i], weights=w[li == i]) for i in range(len(lg))])
     base = float((np.average(hy, weights=w) + np.average(ay, weights=w)) / 2)
     k = cfg.shrink_pseudo_matches * base
     for _ in range(cfg.ipf_iterations):
+        mid = (mu_h + mu_a) / 2
+        ph = np.where(
+            neu, mid[li], mu_h[li]
+        )  # per-row level of the home / away side (neutral venue: the midpoint)
+        pa = np.where(neu, mid[li], mu_a[li])
         num = np.bincount(h, w * hy, n) + np.bincount(a, w * ay, n)
-        den = np.bincount(h, w * mu_h[li] * dfn[a], n) + np.bincount(a, w * mu_a[li] * dfn[h], n)
-        att = (num + k) / (den + k)
+        den = np.bincount(h, w * ph * dfn[a], n) + np.bincount(a, w * pa * dfn[h], n)
+        att = (num + k * s_att) / (den + k)
         numd = np.bincount(a, w * hy, n) + np.bincount(h, w * ay, n)
-        dend = np.bincount(a, w * mu_h[li] * att[h], n) + np.bincount(h, w * mu_a[li] * att[a], n)
-        dfn = (numd + k) / (dend + k)
+        dend = np.bincount(a, w * ph * att[h], n) + np.bincount(h, w * pa * att[a], n)
+        dfn = (numd + k * s_def) / (dend + k)
         att, dfn = att / att.mean(), dfn / dfn.mean()
         for i in range(len(lg)):
-            m = li == i
+            m = (li == i) & ~neu  # the home / away levels are estimated from non-neutral matches only
             mu_h[i] = np.sum(w[m] * hy[m]) / np.sum(w[m] * att[h[m]] * dfn[a[m]])
             mu_a[i] = np.sum(w[m] * ay[m]) / np.sum(w[m] * att[a[m]] * dfn[h[m]])
-    lam_h = mu_h[li] * att[h] * dfn[a]
-    lam_a = mu_a[li] * att[a] * dfn[h]
+    mid = (mu_h + mu_a) / 2
+    lam_h = np.where(neu, mid[li], mu_h[li]) * att[h] * dfn[a]
+    lam_a = np.where(neu, mid[li], mu_a[li]) * att[a] * dfn[h]
     y = np.concatenate([hy, ay])
     lam = np.concatenate([lam_h, lam_a])
     ww = np.concatenate([w, w])
@@ -130,7 +145,7 @@ def scoreline_matrix(lh: float, la: float, rho: float, max_goals: int) -> np.nda
 
 def fit_rho(table: RateTable, ms: list[StatMatch], w: np.ndarray, max_goals: int) -> float:
     """Maximise the weighted log-likelihood of the observed scorelines over rho."""
-    lams = [table.lambdas(m.home_id, m.away_id, m.league) for m in ms]
+    lams = [table.lambdas(m.home_id, m.away_id, m.league, m.neutral) for m in ms]
     cells = [(min(m.home_goals, max_goals), min(m.away_goals, max_goals)) for m in ms]
 
     def nll(rho: float) -> float:
@@ -159,6 +174,8 @@ def fit_markets(matches: list[StatMatch], as_of: datetime, cfg: MarketsConfig) -
         raise ValueError(f"only {len(ms)} matches available before {as_of.isoformat()}")
     w = decay_weights([m.kickoff_utc for m in ms], as_of, cfg.half_life_days)
     homes, aways, lgs = [m.home_id for m in ms], [m.away_id for m in ms], [m.league for m in ms]
+    neutral = np.array([m.neutral for m in ms], bool)
+    prior = uefa_priors(ms, as_of, cfg.uefa_prior_country, cfg.uefa_prior_club)
     goals = fit_rates(
         np.array([m.home_goals for m in ms], float),
         np.array([m.away_goals for m in ms], float),
@@ -167,6 +184,8 @@ def fit_markets(matches: list[StatMatch], as_of: datetime, cfg: MarketsConfig) -
         lgs,
         w,
         cfg,
+        neutral,
+        prior,
     )
     goals.alpha = 0.0  # goals are Poisson (the Dixon-Coles term handles low scores)
     rho = fit_rho(goals, ms, w, cfg.max_goals)
@@ -183,5 +202,7 @@ def fit_markets(matches: list[StatMatch], as_of: datetime, cfg: MarketsConfig) -
             [m.league for m in sub],
             decay_weights([m.kickoff_utc for m in sub], as_of, cfg.half_life_days),
             cfg,
+            np.array([m.neutral for m in sub], bool),
+            prior,
         )
     return MarketModels(goals, rho, counts, as_of, len(ms), cfg)

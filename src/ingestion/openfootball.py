@@ -36,6 +36,17 @@ FILES = {
         "TUR",
     ),  # openfootball has gaps for this league (2021-24, 2026-27)
 }
+# Domestic leagues of the clubs that play the European cups. HISTORY ONLY (ADR 0056): their results rate the
+# clubs, no forecast is made for them. Same repository and public-domain terms; verified 2026-10-13.
+HISTORY_ONLY = {
+    "AUT1": ("at.1", "Europe/Vienna", "AUT"),
+    "BEL1": ("be.1", "Europe/Brussels", "BEL"),
+    "GRE1": ("gr.1", "Europe/Athens", "GRE"),
+    "NED1": ("nl.1", "Europe/Amsterdam", "NED"),
+    "POR1": ("pt.1", "Europe/Lisbon", "POR"),
+    "SCO1": ("sco.1", "Europe/London", "SCO"),
+}
+ALL_FILES = {**FILES, **HISTORY_ONLY}
 
 
 def season_dir(season_start_year: int) -> str:
@@ -49,7 +60,7 @@ def _slug(s: str) -> str:
 def parse(raw: bytes, repo_league: str, season: str) -> list[RawFixture]:
     """Pure parser. A match with a full-time score is FT, otherwise SCHEDULED (never a guessed score)."""
     data = json.loads(raw.decode("utf-8-sig"))
-    tz = FILES[repo_league][1]
+    tz = ALL_FILES[repo_league][1]
     out = []
     for m in data["matches"]:
         day = date.fromisoformat(m["date"])
@@ -89,7 +100,7 @@ class OpenFootballProvider:
         self.timeout = timeout
 
     def list_fixtures(self, repo_league: str, season_start_year: int) -> list[RawFixture]:
-        code = FILES[repo_league][0]
+        code = ALL_FILES[repo_league][0]
         url = f"{endpoint('OPENFOOTBALL_BASE_URL', BASE)}/{season_dir(season_start_year)}/{code}.json"
         try:
             raw = logged_urlopen(SOURCE, "fixtures", urllib.request.Request(url), self.timeout)

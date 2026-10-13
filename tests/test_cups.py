@@ -67,3 +67,80 @@ def test_resolve_any_country_exact_loose_and_ambiguous():
     # the same spelling for two clubs is never guessed
     d.teams["SCO_arsenal"] = {"team_id": "SCO_arsenal", "canonical_name": "Arsenal FC", "country": "SCO"}
     assert d.resolve_any_country(srcs, "Arsenal FC").team_id is None
+
+
+def test_cup_history_loads_from_real_excerpt_and_uses_cache_on_network_failure(tmp_path, monkeypatch):
+    from src.config import load_config
+    from src.markets import of_source
+
+    raw = (FIX / "cl_2025-26_excerpt.txt").read_bytes()
+    d = TeamDirectory({}, [], {}, {})
+    for text in parse(raw.decode("utf-8"), "UCL", 2025):
+        for name, cc in ((text.home, text.home_cc), (text.away, text.away_cc)):
+            tid = f"{cc}_{slugify(name)}"
+            d.teams[tid] = {"team_id": tid, "canonical_name": name, "country": cc}
+            d.aliases.append(Alias(SOURCE, name, tid))
+    cfg = load_config("markets")
+    now = datetime(2026, 10, 13, tzinfo=UTC)
+    monkeypatch.setattr("src.ingestion.openfootball_cups.fetch", lambda comp, year: raw if comp == "UCL" and year == 2025 else (_ for _ in ()).throw(OSError("off")))  # fmt: skip
+    blobs, stale = [], []
+    hist, unresolved = of_source.cup_matches(tmp_path, d, cfg, 2025, now, blobs, stale)
+    assert unresolved == 0 and len(hist) >= 10 and {m.league for m in hist} == {"UCL"}
+    assert (
+        hist[0].home_goals == 0
+        and hist[0].away_goals == 2
+        and hist[0].fixture_id.startswith("cup-UCL-2025-26-")
+    )
+    assert len(blobs) == 1 and stale == []
+    # network down: the cache written above is used and reported as stale
+    monkeypatch.setattr("src.ingestion.openfootball_cups.fetch", lambda comp, year: (_ for _ in ()).throw(OSError("off")))  # fmt: skip
+    blobs2, stale2 = [], []
+    hist2, _ = of_source.cup_matches(tmp_path, d, cfg, 2025, now, blobs2, stale2)
+    assert len(hist2) == len(hist) and stale2 == ["UCL 2025"]
+    # an unknown club is counted, never registered
+    hist3, unresolved3 = of_source.cup_matches(
+        tmp_path, TeamDirectory({}, [], {}, {}), cfg, 2025, now, [], []
+    )
+    assert hist3 == [] and unresolved3 > 0
+
+
+def test_cup_clubs_cli_dry_run_and_apply(tmp_path, monkeypatch):
+    import shutil
+
+    from src.markets import cup_clubs
+
+    shutil.copytree(Path(__file__).resolve().parents[1] / "configs", tmp_path / "configs")
+    monkeypatch.setattr(
+        cup_clubs, "cup_names", lambda: {("Arsenal FC", "ENG"): 3, ("Zzz Testklubben", "NOR"): 3}
+    )
+    assert cup_clubs.main(["--root", str(tmp_path)]) == 0
+    assert cup_clubs.main(["--root", str(tmp_path), "--apply"]) == 0
+    d = TeamDirectory.load(tmp_path / "configs" / "team_aliases.yaml")
+    assert d.resolve(SOURCE, "Zzz Testklubben", "NOR").team_id == "NOR_zzz_testklubben"
+    assert cup_clubs.main(["--root", str(tmp_path), "--apply"]) == 0  # idempotent
+    assert len([a for a in d.aliases if a.source == SOURCE and a.raw_name == "Zzz Testklubben"]) == 1
+
+
+def test_cup_events_resolve_without_a_country_in_the_odds_collection(tmp_path, monkeypatch):
+    import shutil
+
+    from src.odds import run as odds_run
+
+    shutil.copytree(Path(__file__).resolve().parents[1] / "configs", tmp_path / "configs")
+    d = TeamDirectory.load(tmp_path / "configs" / "team_aliases.yaml")
+    for tid, name, cc in (("POR_a", "Alpha FC", "POR"), ("NED_b", "Beta SC", "NED")):
+        d.teams[tid] = {"team_id": tid, "canonical_name": name, "country": cc}
+    d.dump(tmp_path / "configs" / "team_aliases.yaml")
+    kick = datetime(2026, 11, 3, 20, tzinfo=UTC)
+
+    class Feed:
+        def fetch(self, league, now):
+            ev = {"status": "STATUS_SCHEDULED", "kickoff_utc": kick, "fixture_id": "oddsapi-x", "quotes": []}
+            return [
+                {**ev, "home_name": "Alpha", "away_name": "Beta"},
+                {**ev, "fixture_id": "oddsapi-y", "home_name": "Alpha", "away_name": "Nobody"},
+            ]
+
+    lines = odds_run._collect_feed(tmp_path, "UCL", Feed(), "the-odds-api", datetime(2026, 11, 1, tzinfo=UTC))
+    assert any("oddsapi-x" in x and "SKIPPED" not in x for x in lines)
+    assert any("oddsapi-y" in x and "SKIPPED unresolved" in x for x in lines)

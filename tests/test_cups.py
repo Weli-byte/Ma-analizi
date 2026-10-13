@@ -168,3 +168,18 @@ def test_probe_cups_reports_listed_keys_and_resolution(monkeypatch, capsys):
     assert "MISS 'Nobody Town'" in out and "events call failed" in out
     monkeypatch.delenv("THE_ODDS_API_KEY")
     assert probe_cups.main() == 2
+
+
+def test_home_lists_every_league_chip_even_without_matches():
+    from src.web import pages
+
+    class NoLogos:
+        def league_url(self, key):
+            return None
+
+        def team_url(self, tid):
+            return None
+
+    html = pages.home_page("Test", [], datetime.now(UTC), NoLogos())
+    for key in ("UCL", "UEL", "UECL", "EPL", "SUPERLIG"):
+        assert f"/lig/{key}'" in html

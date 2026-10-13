@@ -144,3 +144,27 @@ def test_cup_events_resolve_without_a_country_in_the_odds_collection(tmp_path, m
     lines = odds_run._collect_feed(tmp_path, "UCL", Feed(), "the-odds-api", datetime(2026, 11, 1, tzinfo=UTC))
     assert any("oddsapi-x" in x and "SKIPPED" not in x for x in lines)
     assert any("oddsapi-y" in x and "SKIPPED unresolved" in x for x in lines)
+
+
+def test_probe_cups_reports_listed_keys_and_resolution(monkeypatch, capsys):
+    from datetime import timedelta
+
+    from src.odds import probe_cups
+
+    soon = (datetime.now(UTC) + timedelta(days=2)).isoformat().replace("+00:00", "Z")
+
+    def fake_get(path, key):
+        if path == "/sports/":
+            return [{"key": "soccer_uefa_champs_league", "title": "UEFA Champions League"}]
+        if "champs" in path:
+            return [{"commence_time": soon, "home_team": "Arsenal", "away_team": "Nobody Town"}]
+        raise OSError("boom")
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "k")
+    monkeypatch.setattr(probe_cups, "_get", fake_get)
+    assert probe_cups.main() == 0
+    out = capsys.readouterr().out
+    assert "UCL key soccer_uefa_champs_league: LISTED" in out and "OK   'Arsenal'" in out
+    assert "MISS 'Nobody Town'" in out and "events call failed" in out
+    monkeypatch.delenv("THE_ODDS_API_KEY")
+    assert probe_cups.main() == 2

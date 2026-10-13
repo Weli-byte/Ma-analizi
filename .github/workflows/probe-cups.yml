@@ -2,6 +2,8 @@ name: probe-cups
 # One-off: confirms the European-cup sport keys and club names against the real The Odds API (no credits, ADR 0055).
 on:
   workflow_dispatch:
+  push:
+    branches: [fix/cup-probe]
 permissions:
   contents: read
 jobs:

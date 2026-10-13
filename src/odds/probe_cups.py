@@ -1,8 +1,8 @@
-"""`python -m src.odds.probe_cups`: confirm the European-cup sport keys and club names against the REAL The Odds API.
+"""`python -m src.odds.probe_cups`: confirm the European-cup sport keys and club names on the REAL The Odds API.
 
-`/v4/sports` and `/v4/sports/{key}/events` do not use quota credits (documented by the provider). Prints the cup sport
-keys the provider lists, then for each configured cup key the event team names and whether our club directory resolves
-them (ADR 0055). Meant for the cloud runner: the API host is unreachable from some ISPs.
+`/v4/sports` and `/v4/sports/{key}/events` use no quota credits (documented by the provider). Prints the cup sport
+keys the provider lists, then per configured cup key the event team names and whether our club directory
+resolves them (ADR 0055). Meant for the cloud runner: the API host is unreachable from some ISPs.
 """
 
 import json

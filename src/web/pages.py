@@ -201,10 +201,20 @@ def match_row(i: dict, logos, tags: bool = True) -> str:
     )
 
 
+def google_button(client_id: str | None) -> str:
+    """Google's own button when a client id is configured (a popup that always opens); otherwise our button, which says why it is off."""
+    if client_id:
+        return (
+            "<div class='g_id_signin' data-type='standard' data-shape='pill' data-theme='outline' data-text='continue_with' "
+            "data-size='large' data-width='340' data-locale='tr' style='margin:10px 0'></div>"
+        )
+    return "<button class='btn b-w' onclick=\"pick('google')\">Google ile devam et</button>"
+
+
 def login_page(status: dict[str, bool], client_id: str | None) -> str:
     gsi = (
         "<script src='https://accounts.google.com/gsi/client' async></script>"
-        f"<div id='g_id_onload' data-client_id='{e(client_id)}' data-callback='onGoogle' data-auto_prompt='false'></div>"
+        f"<div id='g_id_onload' data-client_id='{e(client_id)}' data-callback='onGoogle' data-auto_prompt='false' data-ux_mode='popup'></div>"
         if client_id
         else ""
     )
@@ -212,7 +222,7 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
         f"<!doctype html><html lang='tr'><head>{HEAD}<title>Giriş - Maç Tahmin</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
         "<div class='login'><div style='font-size:46px'>⚽</div><h1>Maç Tahmin</h1>"
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig, tek uygulama.</p>"
-        f"{gsi}<button class='btn b-w' onclick=\"pick('google')\">Google ile devam et</button>"
+        f"{gsi}{google_button(client_id)}"
         "<button class='btn b-k' onclick=\"pick('apple')\"> Apple ile devam et</button>"
         "<button class='btn b-o' onclick=\"pick('phone')\">Telefon numarası ile devam et</button>"
         "<div id='msg' class='msg'></div>"
@@ -229,7 +239,7 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
         "if(p==='phone'&&ST.phone){location.href='/giris/telefon';return;}"
         "m.style.display='block';m.textContent=WHY[p]+' Şimdilik misafir olarak devam edebilirsin.';}"
         "function onGoogle(r){fetch('/giris/google',{method:'POST',headers:{'Content-Type':'application/json'},"
-        "body:JSON.stringify({credential:r.credential})}).then(x=>x.ok?location.href='/':alert('Google girişi doğrulanamadı'));}"
+        "body:JSON.stringify({credential:r.credential})}).then(x=>{if(x.ok){location.href='/';}else{const m=document.getElementById('msg');m.style.display='block';m.textContent='Google girişi doğrulanamadı (sunucu '+x.status+'). Hesabın test kullanıcıları listesinde mi, istemci kimliği doğru mu kontrol et.';}});}"
         "</script>"
         "</body></html>"
     )

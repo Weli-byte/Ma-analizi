@@ -217,7 +217,7 @@ def test_exact_leagues_cover_the_new_leagues_with_real_sport_keys():
     from src.odds.theoddsapi import SPORT_KEYS
 
     cfg = load_config("odds")
-    assert set(cfg.exact_leagues) == {"PL", "PD", "BL1", "SA", "FL1", "TR"}
+    assert set(cfg.exact_leagues) == {"PL", "PD", "BL1", "SA", "FL1", "TR", "UCL", "UEL", "UECL"}
     assert all(lg in SPORT_KEYS and lg in LEAGUE_CODES for lg in cfg.exact_leagues)
     assert SPORT_KEYS["TR"] == "soccer_turkey_super_league"
 
@@ -233,3 +233,18 @@ def test_fixtures_from_odds_stores_feed_leagues_without_a_schedule(tmp_path):
     assert [g["home_id"] for g in got] == ["TUR_galatasaray"]
     assert fixtures_from_odds_stores(tmp_path, "SUPERLIG", ev["kickoff_utc"] + timedelta(days=1)) == []
     assert fixtures_from_odds_stores(tmp_path, "EPL", before) == []
+
+
+def test_cup_call_failure_is_a_line_not_a_crash(tmp_path, monkeypatch):
+    """A cup whose sport key is not confirmed (HTTP error) must not abort the other leagues of the run."""
+    from src.odds import run as odds_run
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "k")
+    __import__("shutil").copytree(ROOT / "configs", tmp_path / "configs")
+
+    def boom(*a, **k):
+        raise RuntimeError("the-odds-api request failed: HTTPError: HTTP Error 404")
+
+    monkeypatch.setattr(odds_run, "_collect_feed", boom)
+    out = odds_run.collect_exact(tmp_path, "UCL", tmp_path, now=datetime(2026, 10, 14, tzinfo=UTC))
+    assert "UCL" in out[0] and "failed" in out[0]

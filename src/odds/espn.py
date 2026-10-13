@@ -31,6 +31,10 @@ LEAGUE_CODES = {
     "SA": ("ita.1", "SERIEA", "ITA"),
     "FL1": ("fra.1", "LIGUE1", "FRA"),
     "TR": ("tur.1", "SUPERLIG", "TUR"),
+    # European cups: the country "*" means clubs of any country (resolved without a country filter).
+    "UCL": ("uefa.champions", "UCL", "*"),
+    "UEL": ("uefa.europa", "UEL", "*"),
+    "UECL": ("uefa.europa.conf", "UECL", "*"),
 }
 SIDES = (("home", "H"), ("draw", "D"), ("away", "A"))
 

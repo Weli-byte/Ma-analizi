@@ -192,6 +192,44 @@ class TeamDirectory:
         }
         return Resolution(None, "unresolved", suggestions)
 
+    def resolve_any_country(
+        self, sources: tuple[str, ...], raw_name: str, day: date | None = None
+    ) -> Resolution:
+        """Club lookup when the competition mixes countries (European cups). A name must match EXACTLY one
+        club after normalisation (canonical names and the aliases of `sources`), else a name with the usual
+        club-form words removed ("FC", "SK", ...) must match exactly one club; ambiguity or no match is
+        unresolved (never guessed, never registered)."""
+        norm = normalize_name(raw_name)
+        if not norm:
+            return Resolution(None, "unresolved")
+        exact: dict[str, set[str]] = {}
+        for t in self.teams.values():
+            exact.setdefault(normalize_name(t["canonical_name"]), set()).add(t["team_id"])
+        for a in self.aliases:
+            if a.source in sources and a.team_id in self.teams and a.active_on(day):
+                exact.setdefault(normalize_name(a.raw_name), set()).add(a.team_id)
+        if len(exact.get(norm, ())) == 1:
+            return Resolution(next(iter(exact[norm])), "any_country_exact")
+        if norm in exact:
+            return Resolution(None, "unresolved")  # same spelling for two clubs
+        loose: dict[str, set[str]] = {}
+        for name, ids in exact.items():
+            loose.setdefault(_loose(name), set()).update(ids)
+        ids = loose.get(_loose(norm), set())
+        if len(ids) == 1 and _loose(norm):
+            return Resolution(next(iter(ids)), "any_country_loose")
+        return Resolution(None, "unresolved")
+
+
+CLUB_FORM_WORDS = {
+    "fc", "cf", "sc", "sk", "ac", "as", "afc", "fk", "bk", "if", "sv", "ssc", "cd", "ud", "sl", "rc", "us",
+    "ks", "nk", "gnk", "hnk", "kv", "kaa", "krc", "rsc", "tsg", "vfb", "vfl", "fsv", "ca", "club", "de",
+}  # fmt: skip
+
+
+def _loose(norm: str) -> str:
+    return " ".join(w for w in norm.split() if w not in CLUB_FORM_WORDS)
+
 
 def _d(v) -> date | None:
     if v is None or v == "":

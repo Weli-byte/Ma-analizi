@@ -58,8 +58,13 @@ def _collect_feed(
         if ev["status"] != "STATUS_SCHEDULED" or ev["kickoff_utc"] <= now:
             continue
         day = ev["kickoff_utc"].date()
-        h = directory.resolve(source, ev["home_name"], country, day)
-        a = directory.resolve(source, ev["away_name"], country, day)
+        if country == "*":  # European cups: clubs of any country
+            srcs = (source, "openfootball-cups", "openfootball")
+            h = directory.resolve_any_country(srcs, ev["home_name"], day)
+            a = directory.resolve_any_country(srcs, ev["away_name"], day)
+        else:
+            h = directory.resolve(source, ev["home_name"], country, day)
+            a = directory.resolve(source, ev["away_name"], country, day)
         if h.team_id is None or a.team_id is None:
             lines.append(
                 f"{ev['fixture_id']} SKIPPED unresolved team(s): {ev['home_name']} / {ev['away_name']}"
@@ -201,6 +206,7 @@ def settle(root: Path, now: datetime | None = None) -> list[str]:
 CREDITS_FILE = "_credits.json"
 
 
+CUPS = {"UCL", "UEL", "UECL"}  # European cups: no free schedule either, one call per cup_interval_hours
 FDORG_SCHEDULED = {"PL", "PD", "BL1", "SA", "FL1"}  # leagues whose due windows come from football-data.org
 
 
@@ -226,8 +232,9 @@ def collect_exact(
         # no free fixture schedule for this league: one call per interval, the fixtures come from the response
         if marker.exists():
             last = datetime.fromisoformat(json.loads(marker.read_text(encoding="utf-8"))["at"])
-            if now - last < timedelta(hours=cfg.odds_only_interval_hours):
-                wait = f"{cfg.odds_only_interval_hours}h interval"
+            hours = cfg.cup_interval_hours if league in CUPS else cfg.odds_only_interval_hours
+            if now - last < timedelta(hours=hours):
+                wait = f"{hours}h interval"
                 return [f"{league}: last call {last.isoformat()}, {wait} (no credit spent)"]
     elif not force:
         fd_key = load_config("ingestion", cdir).api_key("football-data-org")
@@ -249,7 +256,14 @@ def collect_exact(
         if remaining is not None and int(remaining) < cfg.odds_api_reserve_credits:
             return [f"{league}: SKIPPED, {remaining} credits left < reserve {cfg.odds_api_reserve_credits}"]
     feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
-    lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
+    try:
+        lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
+    except RuntimeError as e:
+        if league not in CUPS:
+            raise
+        return [
+            f"{league}: the-odds-api call failed ({e}); sport key not confirmed yet, other leagues unaffected"
+        ]
     marker.parent.mkdir(parents=True, exist_ok=True)
     marker.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
     credits_path.parent.mkdir(parents=True, exist_ok=True)

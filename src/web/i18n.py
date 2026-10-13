@@ -23,7 +23,7 @@ PHRASES: dict[str, str] = {
     "Giriş": "Sign in",
     "Hepsi": "All",
     # login
-    "Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig, tek uygulama.": "Match result, score and goal predictions computed from real data. Six leagues, one app.",
+    "Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.": "Match result, score and goal predictions computed from real data. Six leagues and the European cups, one app.",
     "Google ile devam et": "Continue with Google",
     "Apple ile devam et": "Continue with Apple",
     "Telefon numarası ile devam et": "Continue with phone number",
@@ -57,6 +57,9 @@ PHRASES: dict[str, str] = {
     "Pazar": "Sunday",
     "Premier Lig": "Premier League",
     "Süper Lig": "Super Lig",
+    "Şampiyonlar Ligi": "Champions League",
+    "Avrupa Ligi": "Europa League",
+    "Konferans Ligi": "Conference League",
     "(TSİ)": "(Turkey time)",
     # tips and picks
     " kazanır ya da berabere": " to win or draw",

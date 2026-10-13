@@ -35,6 +35,12 @@ SPORT_KEYS = {  # all confirmed against the real /v4/sports response on 2026-10-
     "SA": "soccer_italy_serie_a",
     "FL1": "soccer_france_ligue_one",
     "TR": "soccer_turkey_super_league",
+    # European cups (ADR 0055). These keys follow The Odds API naming but are NOT yet confirmed against a real
+    # /v4/sports response (that host is unreachable from the dev PC); an unknown key makes the cup call fail
+    # with a clear line and spends no credit.
+    "UCL": "soccer_uefa_champs_league",
+    "UEL": "soccer_uefa_europa_league",
+    "UECL": "soccer_uefa_europa_conference_league",
 }
 
 META = ProviderMeta(

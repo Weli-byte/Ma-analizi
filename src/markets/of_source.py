@@ -77,6 +77,69 @@ def _fetch(
     return parse(raw, league, season_dir(year)), raw, stale
 
 
+def cup_matches(
+    root: Path,
+    directory: TeamDirectory,
+    cfg: MarketsConfig,
+    last_year: int,
+    now: datetime,
+    blobs: list,
+    stale: list,
+) -> tuple[list[StatMatch], int]:
+    """FINISHED European-cup matches (90-minute scores) as history. A cached copy is used when the network
+    fails; a season the repository does not have is skipped silently (documented gaps)."""
+    import urllib.error
+
+    from src.ingestion.openfootball_cups import COMPETITIONS, FIRST_SEASON, LAST_SEASON, SOURCE, fetch, parse
+
+    empty = dict.fromkeys(STATS)
+    out: list[StatMatch] = []
+    unresolved = 0
+    for comp in COMPETITIONS:
+        for year in range(
+            max(cfg.history_start_year, FIRST_SEASON[comp]), min(last_year, LAST_SEASON[comp]) + 1
+        ):
+            cache = root / "artifacts" / "markets" / "_cache" / "openfootball_cups" / f"{comp}_{year}.txt"
+            was_stale = False
+            try:
+                raw = fetch(comp, year)
+                cache.parent.mkdir(parents=True, exist_ok=True)
+                cache.write_bytes(raw)
+            except (urllib.error.URLError, TimeoutError, OSError):
+                if not cache.exists():
+                    continue
+                raw, was_stale = cache.read_bytes(), True
+            blobs.append(hashlib.sha256(raw).hexdigest())
+            if was_stale:
+                stale.append(f"{comp} {year}")
+            for m in parse(raw.decode("utf-8"), comp, year):
+                if m.goals is None or m.kickoff_utc > now:
+                    continue
+                day = m.kickoff_utc.date()
+                h = directory.resolve(SOURCE, m.home, m.home_cc, day)
+                a = directory.resolve(SOURCE, m.away, m.away_cc, day)
+                if h.team_id is None or a.team_id is None:
+                    unresolved += 1
+                    continue
+                out.append(
+                    StatMatch(
+                        f"cup-{comp}-{m.season}-{h.team_id}-{a.team_id}-{day.isoformat()}",
+                        m.season,
+                        comp,
+                        m.kickoff_utc,
+                        m.kickoff_utc + timedelta(hours=cfg.result_lag_hours),
+                        h.team_id,
+                        a.team_id,
+                        m.goals[0],
+                        m.goals[1],
+                        empty,
+                        empty,
+                        None,
+                    )  # fmt: skip
+                )
+    return out, unresolved
+
+
 def load_world(
     root: Path,
     directory: TeamDirectory,
@@ -129,6 +192,9 @@ def load_world(
                         None,
                     )  # fmt: skip
                 )
+    cup_history, cup_unresolved = cup_matches(root, directory, cfg, last_year, now, blobs, stale)
+    history.extend(cup_history)
+    unresolved += cup_unresolved
     history.sort(key=lambda m: m.kickoff_utc)
     upcoming.sort(key=lambda x: x[1].kickoff_utc)
     dv = "dv-of-" + hashlib.sha256("".join(sorted(blobs)).encode()).hexdigest()[:12]

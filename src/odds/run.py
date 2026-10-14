@@ -9,6 +9,7 @@ numbers. Forecasts come from the locked S13 stage predictions (artifacts/snapsho
 """
 
 import argparse
+import hashlib
 import json
 import os
 import sys
@@ -211,16 +212,69 @@ QUOTA_FILE = "_quota_exhausted.json"
 QUOTA_PAUSE_HOURS = 6  # after a 401 "quota reached" the odds provider is not called again for this long
 
 
-def quota_exhausted(root: Path, now: datetime) -> str | None:
-    """When a call last failed with "usage quota reached" (recent only), else None.
-    Looks in the live store and in the synced copy of the cloud collector's store."""
+def odds_keys() -> list[str]:
+    """The Odds API keys in order: THE_ODDS_API_KEY, then THE_ODDS_API_KEY_2 (2nd free account, ADR 0059)."""
+    return [k for k in (os.environ.get(KEY_ENV), os.environ.get(KEY_ENV + "_2")) if k]
+
+
+def key_id(key: str) -> str:
+    return hashlib.sha256(key.encode()).hexdigest()[:8]  # files name a key by this, never by the key itself
+
+
+def key_paused(root: Path, key: str, now: datetime, first: bool = True) -> str | None:
+    """When this key last hit "usage quota reached" (recent only), else None. The first key also honours the
+    single-key file written before two keys existed."""
+    names = [f"_quota_exhausted_{key_id(key)}.json"] + ([QUOTA_FILE] if first else [])
     for base in ("odds", "odds_remote"):
-        p = Path(root) / "artifacts" / base / QUOTA_FILE
-        if p.exists():
-            at = json.loads(p.read_text(encoding="utf-8"))["at"]
-            if now - datetime.fromisoformat(at) < timedelta(hours=QUOTA_PAUSE_HOURS):
-                return at
+        for name in names:
+            p = Path(root) / "artifacts" / base / name
+            if p.exists():
+                at = json.loads(p.read_text(encoding="utf-8"))["at"]
+                if now - datetime.fromisoformat(at) < timedelta(hours=QUOTA_PAUSE_HOURS):
+                    return at
     return None
+
+
+def key_remaining(root: Path, key: str, first: bool = True) -> int | None:
+    names = [f"_credits_{key_id(key)}.json"] + ([CREDITS_FILE] if first else [])
+    for name in names:
+        p = Path(root) / "artifacts" / "odds" / name
+        if p.exists():
+            v = json.loads(p.read_text(encoding="utf-8")).get("remaining")
+            return None if v is None else int(v)
+    return None
+
+
+def active_key(root: Path, now: datetime, reserve: int = 0) -> str | None:
+    """The first key not paused that has at least `reserve` credits (unknown counts as enough)."""
+    for i, k in enumerate(odds_keys()):
+        if key_paused(root, k, now, i == 0):
+            continue
+        left = key_remaining(root, k, i == 0)
+        if left is None or left >= reserve:
+            return k
+    return None
+
+
+def mark_quota(root: Path, key: str, now: datetime) -> None:
+    p = Path(root) / "artifacts" / "odds" / f"_quota_exhausted_{key_id(key)}.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
+
+
+def quota_exhausted(root: Path, now: datetime) -> str | None:
+    """Non-None while EVERY configured key is paused after a quota 401 (no key: the old single file)."""
+    keys = odds_keys()
+    if not keys:
+        for base in ("odds", "odds_remote"):
+            p = Path(root) / "artifacts" / base / QUOTA_FILE
+            if p.exists():
+                at = json.loads(p.read_text(encoding="utf-8"))["at"]
+                if now - datetime.fromisoformat(at) < timedelta(hours=QUOTA_PAUSE_HOURS):
+                    return at
+        return None
+    paused = [key_paused(root, k, now, i == 0) for i, k in enumerate(keys)]
+    return max(paused) if all(paused) else None
 
 
 def is_quota_error(e: Exception) -> bool:
@@ -241,8 +295,7 @@ def collect_exact(
     from src.ingestion.football_data_org import FootballDataOrgProvider
     from src.llm.forecast import current_season
 
-    key = os.environ.get(KEY_ENV)
-    if not key:
+    if not odds_keys():
         return [f"{ODDSAPI_SOURCE}: NOT_CONFIGURED (${KEY_ENV} not set)"]
     cdir = config_dir_for(root)
     cfg = load_config("odds", cdir)
@@ -250,11 +303,14 @@ def collect_exact(
     store_root = Path(data_root or root)
     paused = quota_exhausted(store_root, now)
     if paused and not force:
+        return [f"{league}: the-odds-api quota reached at {paused}; paused {QUOTA_PAUSE_HOURS} h (no call)"]
+    key = active_key(store_root, now, cfg.odds_api_reserve_credits)  # the reserve holds even with --force
+    if key is None:
         return [
-            f"{league}: the-odds-api quota reached at {paused}; paused {QUOTA_PAUSE_HOURS} h (no call)"
+            f"{league}: SKIPPED, every key is below the reserve of {cfg.odds_api_reserve_credits} credits"
         ]
-    quota_path = store_root / "artifacts" / "odds" / QUOTA_FILE
-    credits_path = store_root / "artifacts" / "odds" / CREDITS_FILE
+    credits_path = store_root / "artifacts" / "odds" / f"_credits_{key_id(key)}.json"
+
     marker = store_root / "artifacts" / "odds" / f"_last_call_{league}.json"
     if not force and league not in FDORG_SCHEDULED:
         # no free fixture schedule for this league: one call per interval, the fixtures come from the response
@@ -281,8 +337,7 @@ def collect_exact(
             return [f"{league}: no collection window open (no credit spent)"]
     feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
     left = None
-    if credits_path.exists():
-        left = json.loads(credits_path.read_text(encoding="utf-8")).get("remaining")
+    left = key_remaining(store_root, key, key == odds_keys()[0])
     if league in CUPS and not force and left is not None and int(left) < cfg.cup_min_credits:
         # the domestic leagues come first: cups run only while the credits stay above this level
         return [f"{league}: SKIPPED, {left} credits left < cup minimum {cfg.cup_min_credits}"]
@@ -293,25 +348,17 @@ def collect_exact(
             soon = [k for k in feed.kickoffs(league) if now < k <= horizon]
         except RuntimeError as e:
             if is_quota_error(e):
-                quota_path.parent.mkdir(parents=True, exist_ok=True)
-                quota_path.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
+                mark_quota(store_root, key, now)
             return [f"{league}: events list failed ({e}); no credit spent"]
         if not soon:
             hrs = cfg.exact_horizon_hours
             return [f"{league}: no match within {hrs} h (free events check, no credit spent)"]
-    if credits_path.exists():
-        remaining = json.loads(credits_path.read_text(encoding="utf-8")).get("remaining")
-        if remaining is not None and int(remaining) < cfg.odds_api_reserve_credits:
-            return [f"{league}: SKIPPED, {remaining} credits left < reserve {cfg.odds_api_reserve_credits}"]
     try:
         lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
     except RuntimeError as e:
         if is_quota_error(e):
-            quota_path.parent.mkdir(parents=True, exist_ok=True)
-            quota_path.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
-            return [
-                f"{league}: QUOTA REACHED (the-odds-api 401); paused {QUOTA_PAUSE_HOURS} h"
-            ]
+            mark_quota(store_root, key, now)
+            return [f"{league}: QUOTA REACHED (the-odds-api 401); paused {QUOTA_PAUSE_HOURS} h"]
         if league not in CUPS:
             raise
         return [
@@ -320,9 +367,13 @@ def collect_exact(
     marker.parent.mkdir(parents=True, exist_ok=True)
     marker.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
     credits_path.parent.mkdir(parents=True, exist_ok=True)
-    credits_path.write_text(
-        json.dumps({"remaining": feed.requests_remaining, "updated_at": now.isoformat()}), encoding="utf-8"
+    body = json.dumps(
+        {"remaining": feed.requests_remaining, "updated_at": now.isoformat(), "key": key_id(key)}
     )
+    credits_path.write_text(body, encoding="utf-8")
+    (store_root / "artifacts" / "odds" / CREDITS_FILE).write_text(
+        body, encoding="utf-8"
+    )  # the last call, any key
     lines.append(f"{league}: credits remaining {feed.requests_remaining}")
     return lines
 

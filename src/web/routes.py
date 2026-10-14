@@ -317,7 +317,13 @@ def register(app: FastAPI, service, root, now_fn) -> None:
         injuries = latest_for(
             root, found["home_team_id"], found["away_team_id"], datetime.fromisoformat(found["kickoff_utc"])
         )
-        return pages.match_page(found, picks, logos, store.favorites(u.uid), injuries)
+        from src.dashboard.viewmodel import _names
+        from src.markets.people import people_for
+
+        people = people_for(
+            root, found["home_team_id"], found["away_team_id"], datetime.fromisoformat(found["kickoff_utc"])
+        )
+        return pages.match_page(found, picks, logos, store.favorites(u.uid), injuries, people, _names(root))
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)
     def tips(request: Request):

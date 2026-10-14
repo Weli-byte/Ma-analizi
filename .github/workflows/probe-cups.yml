@@ -14,6 +14,7 @@ jobs:
     timeout-minutes: 10
     env:
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+      THE_ODDS_API_KEY_2: ${{ secrets.THE_ODDS_API_KEY_2 }}  # optional second free account (ADR 0059)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

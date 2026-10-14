@@ -318,7 +318,7 @@ def test_odds_scores_request_uses_the_scores_endpoint_and_never_leaks_the_key(mo
 
 def test_live_results_cli_prints_the_outcome(monkeypatch, capsys):
     monkeypatch.setattr(live_results, "configure_output", lambda: None)
-    monkeypatch.setattr(live_results, "collect", lambda root, **kw: ["EPL: ok"])
+    monkeypatch.setattr(live_results, "collect", lambda *a, **kw: ["EPL: ok"])
     assert live_results.main() == 0 and "EPL: ok" in capsys.readouterr().out
 
 

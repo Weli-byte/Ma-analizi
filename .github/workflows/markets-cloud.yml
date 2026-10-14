@@ -22,6 +22,7 @@ jobs:
       API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+      THE_ODDS_API_KEY_2: ${{ secrets.THE_ODDS_API_KEY_2 }}  # optional second free account (ADR 0059)
     steps:
       - uses: actions/checkout@v4
         with:

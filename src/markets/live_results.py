@@ -95,6 +95,8 @@ def merge(store: dict, rows: list[dict], now: datetime) -> int:
         if key not in store["matches"]:
             store["matches"][key] = {**r, "first_seen": now.isoformat()}
             added += 1
+        elif r.get("referee") and not store["matches"][key].get("referee"):
+            store["matches"][key]["referee"] = r["referee"]  # added later; the result itself never changes
     return added
 
 
@@ -118,10 +120,49 @@ def from_football_data(
             {
                 "league": league, "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(),
                 "home_goals": goals[0], "away_goals": goals[1], "source": "football-data.org",
-                "score_basis": "90 minutes",
+                "score_basis": "90 minutes", "referee": referee_of(m),
             }
         )  # fmt: skip
     return rows, unresolved
+
+
+def referee_of(m: dict) -> dict | None:
+    ref = next((r for r in m.get("referees") or [] if r.get("type") == "REFEREE"), None)
+    return {"name": ref["name"], "nationality": ref.get("nationality")} if ref and ref.get("name") else None
+
+
+def upcoming_from_football_data(
+    league: str, payload: dict, directory: TeamDirectory, now: datetime
+) -> list[dict]:
+    """Scheduled matches (the fixture list when the odds provider is unavailable) with the referee once appointed."""
+    out = []
+    for m in payload.get("matches", []):
+        if m.get("status") not in ("SCHEDULED", "TIMED"):
+            continue
+        ko = datetime.fromisoformat(m["utcDate"].replace("Z", "+00:00")).astimezone(UTC)
+        if ko <= now:
+            continue
+        h = _resolve(directory, league, m["homeTeam"]["name"], ko.date())
+        a = _resolve(directory, league, m["awayTeam"]["name"], ko.date())
+        if h is None or a is None:
+            continue
+        out.append({"fixture_id": f"fd-{m['id']}", "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(), "referee": referee_of(m)})  # fmt: skip
+    return sorted(out, key=lambda x: x["kickoff_utc"])
+
+
+def scorers_from_football_data(league: str, payload: dict, directory: TeamDirectory) -> list[dict]:
+    """The competition's top scorers (goals, assists, penalties, matches) with the club resolved to our id."""
+    out = []
+    for s in payload.get("scorers", []):
+        team = _resolve(directory, league, (s.get("team") or {}).get("name", ""), None)
+        out.append(
+            {
+                "player": s["player"]["name"], "team_id": team, "team_name": (s.get("team") or {}).get("name"),
+                "goals": s.get("goals") or 0, "assists": s.get("assists"), "penalties": s.get("penalties"),
+                "played": s.get("playedMatches"), "position": s["player"].get("section"),
+            }
+        )  # fmt: skip
+    return out
 
 
 def from_odds_scores(
@@ -197,6 +238,17 @@ def odds_scores(key: str, league: str) -> list[dict]:
         ) from None  # never carries the key
 
 
+def fd_call(path: str, key: str, params: dict) -> dict:
+    """One football-data.org call; after a 429 (10 calls/minute on the free tier) wait a minute and try once more."""
+    from src.ingestion.provider import RateLimitedError
+
+    try:
+        return _get(path, key, params=params)
+    except RateLimitedError:
+        time.sleep(61)
+        return _get(path, key, params=params)
+
+
 def collect(
     root: Path, now: datetime | None = None, fd_key: str | None = None, odds_key: str | None = None
 ) -> list[str]:
@@ -207,7 +259,7 @@ def collect(
         season = int(season_label(now)[:4])
         for league, code in FD_CODES.items():
             try:
-                payload = _get(f"/competitions/{code}/matches", fd_key, params={"season": season})
+                payload = fd_call(f"/competitions/{code}/matches", fd_key, {"season": season})
             except Exception as e:  # noqa: BLE001 - one competition failing must not stop the others
                 lines.append(f"{league}: football-data.org FAILED ({type(e).__name__})")
                 continue
@@ -215,6 +267,15 @@ def collect(
             store = load_store(root, league)
             store["season"] = season_label(now)
             added = merge(store, rows, now)
+            store["upcoming"] = upcoming_from_football_data(league, payload, directory, now)
+            store["upcoming_observed_at"] = now.isoformat()
+            time.sleep(6.5)  # the free tier allows 10 calls per minute
+            try:
+                sc = fd_call(f"/competitions/{code}/scorers", fd_key, {"season": season, "limit": 60})
+                store["scorers"] = scorers_from_football_data(league, sc, directory)
+                store["scorers_observed_at"] = now.isoformat()
+            except Exception as e:  # noqa: BLE001 - the scorers list is optional information
+                lines.append(f"{league}: scorers FAILED ({type(e).__name__})")
             save_store(root, league, store)
             lines.append(f"{league}: {len(rows)} finished, {added} new, {unresolved} club(s) unresolved")
             time.sleep(6.5)  # the free tier allows 10 calls per minute
@@ -222,9 +283,9 @@ def collect(
         lines.append("football-data.org: NOT_CONFIGURED (FOOTBALL_DATA_ORG_API_KEY not set)")
     if odds_key:
         for league in ODDS_ONLY:
-            from src.odds.run import quota_exhausted
+            from src.odds.run import key_paused, mark_quota, quota_exhausted
 
-            if quota_exhausted(root, now):
+            if quota_exhausted(root, now) or key_paused(root, odds_key, now):
                 lines.append(f"{league}: odds provider quota reached recently: scores call skipped")
                 continue
             need = pending_fixtures(root, league, now)
@@ -234,6 +295,8 @@ def collect(
             try:
                 events = odds_scores(odds_key, league)
             except RuntimeError as e:
+                if "401" in str(e):
+                    mark_quota(root, odds_key, now)  # the next run uses the second key, if there is one
                 lines.append(f"{league}: {e}")
                 continue
             rows, unresolved = from_odds_scores(league, events, directory, now)
@@ -252,7 +315,13 @@ def collect(
 def main(argv=None) -> int:
     configure_output()
     load_dotenv()
-    print("\n".join(collect(ROOT, fd_key=os.environ.get("FOOTBALL_DATA_ORG_API_KEY"), odds_key=os.environ.get("THE_ODDS_API_KEY"))))  # fmt: skip
+    from src.odds.run import active_key
+
+    now = datetime.now(UTC)
+    odds_key = active_key(ROOT, now)
+    print(
+        "\n".join(collect(ROOT, now, fd_key=os.environ.get("FOOTBALL_DATA_ORG_API_KEY"), odds_key=odds_key))
+    )
     return 0
 
 

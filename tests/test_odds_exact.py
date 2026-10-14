@@ -311,3 +311,38 @@ def test_cups_wait_while_the_credits_are_low_and_a_401_on_the_events_list_also_p
     monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: (_ for _ in ()).throw(RuntimeError("events request failed: HTTPError: HTTP Error 401")))  # fmt: skip
     assert "events list failed" in odds_run.collect_exact(tmp_path, "UCL", tmp_path, now=now)[0]
     assert odds_run.quota_exhausted(tmp_path, now) is not None
+
+
+def test_a_second_free_key_takes_over_when_the_first_is_used_up(tmp_path, monkeypatch):
+    from src.odds import run as odds_run
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "first-key")
+    monkeypatch.setenv("THE_ODDS_API_KEY_2", "second-key")
+    __import__("shutil").copytree(ROOT / "configs", tmp_path / "configs")
+    now = datetime(2026, 10, 14, 12, tzinfo=UTC)
+    used = []
+
+    def feed_call(root, league, feed, source, now_, store_root):
+        used.append(feed.api_key)
+        if feed.api_key == "first-key":
+            raise RuntimeError("the-odds-api request failed: HTTPError: HTTP Error 401: Unauthorized")
+        feed.requests_remaining = "499"
+        return []
+
+    monkeypatch.setattr(odds_run, "_collect_feed", feed_call)
+    assert "QUOTA REACHED" in odds_run.collect_exact(tmp_path, "TR", tmp_path, now=now, force=True)[0]
+    assert odds_run.quota_exhausted(tmp_path, now) is None  # the second key is still fresh
+    lines = odds_run.collect_exact(tmp_path, "TR", tmp_path, now=now, force=True)
+    assert used == ["first-key", "second-key"] and "credits remaining 499" in lines[-1]
+    assert odds_run.key_remaining(tmp_path, "second-key", first=False) == 499
+    assert "first-key" not in "".join(
+        p.name for p in (tmp_path / "artifacts" / "odds").iterdir()
+    )  # files carry a hash
+    # the second key below the reserve: nothing left to use
+    (tmp_path / "artifacts" / "odds" / f"_credits_{odds_run.key_id('second-key')}.json").write_text(json.dumps({"remaining": "3"}), encoding="utf-8")  # fmt: skip
+    assert (
+        "every key is below the reserve"
+        in odds_run.collect_exact(tmp_path, "TR", tmp_path, now=now, force=True)[0]
+    )
+    odds_run.mark_quota(tmp_path, "second-key", now)
+    assert odds_run.quota_exhausted(tmp_path, now) is not None and odds_run.active_key(tmp_path, now) is None

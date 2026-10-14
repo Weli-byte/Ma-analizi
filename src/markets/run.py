@@ -139,6 +139,28 @@ def fixtures_from_odds_stores(root: Path, league: str, now: datetime) -> list[di
     return sorted(seen.values(), key=lambda x: x["kickoff_utc"])
 
 
+def fixtures_with_fallback(root: Path, league: str, now: datetime) -> list[dict]:
+    """Odds-store fixtures, completed with football-data.org's schedule (ADR 0059) so a league it covers (the Champions
+    League) still gets forecasts when the odds provider is unavailable; the odds-store entry wins on a duplicate."""
+    from .live_results import load_store
+
+    seen = {
+        (f["home_id"], f["away_id"], f["kickoff_utc"].date()): f
+        for f in fixtures_from_odds_stores(root, league, now)
+    }
+    for f in load_store(root, league).get("upcoming", []):
+        ko = datetime.fromisoformat(f["kickoff_utc"])
+        key = (f["home_id"], f["away_id"], ko.date())
+        if ko > now and key not in seen:
+            seen[key] = {
+                "fixture_id": f["fixture_id"],
+                "home_id": f["home_id"],
+                "away_id": f["away_id"],
+                "kickoff_utc": ko,
+            }
+    return sorted(seen.values(), key=lambda x: x["kickoff_utc"])
+
+
 def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | None = None) -> list[dict]:
     cdir = config_dir_for(root)
     cfg = load_config("markets", cdir)
@@ -192,7 +214,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
         # leagues the open source has no upcoming fixtures for (e.g. Super Lig): the fixtures known from the
         # odds stores (The Odds API events) are the schedule; clubs there are already resolved
         for league in sorted(wanted - set(counts)):
-            known = fixtures_from_odds_stores(root, league, now)
+            known = fixtures_with_fallback(root, league, now)
             for fx in known[:n]:
                 neutral = is_final_date(league, fx["kickoff_utc"], [x["kickoff_utc"] for x in known])
                 key = fixture_key(fx["home_id"], fx["away_id"], fx["kickoff_utc"])
@@ -204,7 +226,8 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                 path = write_artifact(
                     root, mm, cfg_hash, now, key, fx["fixture_id"], league, fx["home_id"], fx["away_id"],
                     fx["kickoff_utc"], world.data_version, "none (rate model)", odds,
-                    {"history_source": "openfootball (public domain)", "fixtures_from": "The Odds API events",
+                    {"history_source": "openfootball (public domain)",
+                     "fixtures_from": "football-data.org schedule" if fx["fixture_id"].startswith("fd-") else "The Odds API events",
                      "missing_season_files": world.missing_files, "statistics": stats_report},
                     count_markets,
                     {

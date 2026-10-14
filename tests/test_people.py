@@ -200,3 +200,18 @@ def test_crests_are_collected_downloaded_from_the_crest_host_only_and_served(tmp
     assert alias_logos.spellings("FK Bodø/Glimt")[-1] == "FK Bodo/Glimt" and "Porto" in alias_logos.spellings(
         "FC Porto"
     )
+
+
+def test_logo_files_are_served_sandboxed_so_an_svg_cannot_run_script(tmp_path, monkeypatch):
+    from fastapi.testclient import TestClient
+
+    from src.api.app import create_app
+
+    (tmp_path / "artifacts" / "crests").mkdir(parents=True)
+    (tmp_path / "artifacts" / "crests" / "ENG_arsenal.svg").write_text("<svg xmlns='http://www.w3.org/2000/svg'><script>alert(1)</script></svg>", encoding="utf-8")  # fmt: skip
+    monkeypatch.setenv("FORECAST_UI_LOGOS", "1")
+    r = TestClient(create_app(tmp_path, keys=[])).get("/logo/team/ENG_arsenal")
+    assert r.status_code == 200 and r.headers["content-type"].startswith("image/svg+xml")
+    assert (
+        "sandbox" in r.headers["content-security-policy"] and r.headers["x-content-type-options"] == "nosniff"
+    )

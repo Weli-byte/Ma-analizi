@@ -602,8 +602,70 @@ def table_tab(i: dict) -> str:
     )
 
 
+def referee_tab(people: dict | None, names: dict[str, str] | None = None) -> str:
+    names = names or {}
+    ref = (people or {}).get("referee")
+    if not ref:
+        return (
+            "<div class='card mut'>Hakem henüz açıklanmadı ya da bu lig için kaynağımızda hakem bilgisi yok "
+            "(hakem bilgisi Premier Lig, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Portekiz ligi ve Şampiyonlar Ligi için var).</div>"
+        )
+    st = people.get("referee_stats") or {"matches": 0}
+    head = f"<div class='card'><b>{e(ref['name'])}</b><div class='mut'>{e(ref.get('nationality') or '')}</div></div>"
+    if not st["matches"]:
+        return head + "<div class='card mut'>Bu sezon elimizdeki maçlarda bu hakemin yönettiği maç yok.</div>"
+    recent = "".join(
+        f"<div class='mrow'><span class='d'>{e(short_date(r['date']))}</span><span style='flex:1'>{e(names.get(r['home_id'], r['home_id']))} - {e(names.get(r['away_id'], r['away_id']))}</span><span class='sc2'>{e(r['score'])}</span></div>"
+        for r in st["recent"]
+    )
+    return (
+        head + "<div class='sec'><h2>Bu sezon yönettiği maçlar</h2></div><div class='card'><table>"
+        f"<tr><td>Maç</td><td><b>{st['matches']}</b></td></tr>"
+        f"<tr><td>Maç başı gol</td><td><b>{st['avg_goals']:.2f}</b></td></tr>"
+        f"<tr><td>Ev sahibi / beraberlik / deplasman</td><td>{pct(st['home_win'])} / {pct(st['draw'])} / {pct(st['away_win'])}</td></tr>"
+        f"<tr><td>2.5 üst</td><td>{pct(st['over_2_5'])}</td></tr></table>"
+        f"<p class='note'>Az maçta bu oranlar tesadüf olabilir; tahmine girmez. Kart verisi kaynağımızda yok.</p></div>"
+        + (
+            f"<div class='sec'><h2>Son yönettikleri</h2></div><div class='card'>{recent}</div>"
+            if recent
+            else ""
+        )
+    )
+
+
+def players_tab(i: dict, people: dict | None) -> str:
+    sc = (people or {}).get("scorers") or {}
+    out = []
+    for side in ("home", "away"):
+        rows = sc.get(side) or []
+        if not rows:
+            body = "<span class='mut'>Bu takım için gol krallığı verisi yok (yalnızca Premier Lig, La Liga, Bundesliga, Serie A, Ligue 1, Eredivisie, Portekiz ligi ve Şampiyonlar Ligi; listede yalnızca ilk 60 oyuncu var).</span>"
+        else:
+            body = (
+                "<table><tr><th>Oyuncu</th><th>Gol</th><th>Asist</th><th>Pen.</th><th>Maç</th></tr>"
+                + "".join(
+                    f"<tr><td>{e(r['player'])}<div class='mut' style='font-size:11px'>{e(comp_name(r['competition']))}</div></td>"
+                    f"<td><b>{r['goals']}</b></td><td>{'-' if r['assists'] is None else r['assists']}</td>"
+                    f"<td>{'-' if r['penalties'] is None else r['penalties']}</td><td>{'-' if r['played'] is None else r['played']}</td></tr>"
+                    for r in rows
+                )
+                + "</table>"
+            )
+        out.append(f"<div class='sec'><h2>{e(i[side])} · golcüler</h2></div><div class='card'>{body}</div>")
+    return (
+        "".join(out)
+        + "<div class='card mut'>Kaynak: football-data.org (ücretsiz). Bilgi amaçlıdır, tahmine girmez.</div>"
+    )
+
+
 def match_page(
-    i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None, injuries: dict | None = None
+    i: dict,
+    picks: list[dict],
+    logos,
+    fav_ids: list[str] | None = None,
+    injuries: dict | None = None,
+    people: dict | None = None,
+    names: dict[str, str] | None = None,
 ) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
@@ -686,6 +748,8 @@ def match_page(
         ("market", "Marketler"),
         ("form", "Form ve maçlar"),
         ("puan", "Puan"),
+        ("hakem", "Hakem"),
+        ("oyuncu", "Oyuncular"),
         ("eksik", "Eksikler"),
         ("oneri", "Tavsiye"),
         ("veri", "Veri"),
@@ -702,6 +766,8 @@ def match_page(
         "market": markets_tab(i),
         "form": form_tab(i),
         "puan": table_tab(i),
+        "hakem": referee_tab(people, names),
+        "oyuncu": players_tab(i, people),
         "eksik": injuries_card(i, injuries),
         "oneri": advice,
         "veri": quality,

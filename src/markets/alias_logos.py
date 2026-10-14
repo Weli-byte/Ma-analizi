@@ -84,11 +84,23 @@ def _norm(s: str) -> str:
     return "".join(c for c in s if c.isalnum())
 
 
+FORM_WORDS = {"fc", "cf", "sc", "sk", "ac", "afc", "fk", "bk", "sl", "kaa", "krc", "rsc", "kv", "nk", "gnk", "hnk", "pae", "ssc", "ks", "sv"}  # fmt: skip
+
+
 def spellings(name: str) -> list[str]:
     out = [name, *VARIANTS.get(name, [])]
     for tail in (" City", " Town"):  # "Leicester City" -> "Leicester"
         if name.endswith(tail):
             out.append(name[: -len(tail)])
+    # cup clubs: without club-form words ("FC Porto" -> "Porto", "SL Benfica" -> "Benfica", "KAA Gent" -> "Gent")
+    words = name.replace("/", " / ").split()
+    core = [w for w in words if w.lower().strip(".") not in FORM_WORDS]
+    if core and core != words:
+        out.append(" ".join(core).replace(" / ", "/"))
+    folded = name.translate(str.maketrans({"ø": "o", "Ø": "O", "æ": "ae", "ł": "l", "ß": "ss", "đ": "d"}))
+    ascii_name = unicodedata.normalize("NFKD", folded).encode("ascii", "ignore").decode()
+    if ascii_name != name:  # "Lech Poznań" -> "Lech Poznan"
+        out.append(ascii_name)
     seen, uniq = set(), []
     for s in out:
         if s not in seen:

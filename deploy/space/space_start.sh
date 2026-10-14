@@ -21,7 +21,7 @@ setup_ssh() {
 sync_data() {
   rm -rf /tmp/data && mkdir /tmp/data && cd /tmp/data && git init -q \
     && git fetch -q --depth 1 git@data-repo:Weli-byte/Ma-analizi2.git markets-data \
-    && mkdir -p /app/artifacts && ( git archive FETCH_HEAD artifacts/markets artifacts/injuries 2>/dev/null || git archive FETCH_HEAD artifacts/markets ) | tar -x -C /app \
+    && mkdir -p /app/artifacts && for part in artifacts/markets artifacts/injuries artifacts/results; do (git archive FETCH_HEAD "$part" 2>/dev/null | tar -x -C /app) || true; done \
     && echo "data synced $(date -u +%FT%TZ)"
   cd /app
 }

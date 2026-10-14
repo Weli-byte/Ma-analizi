@@ -30,6 +30,7 @@ jobs:
     env:
       DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+      THE_ODDS_API_KEY_2: ${{ secrets.THE_ODDS_API_KEY_2 }}  # optional second free account (ADR 0059)
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
     steps:
       - uses: actions/checkout@v4

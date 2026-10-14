@@ -73,6 +73,19 @@ def image_type(f: Path) -> str:
     return "image/svg+xml" if f.suffix == ".svg" else "image/png"
 
 
+# A third-party SVG opened directly on our origin could run script: never let it (sandboxed, no sniffing).
+IMAGE_HEADERS = {
+    "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+    "X-Content-Type-Options": "nosniff",
+}
+
+
+def image_response(f: Path | None) -> Response:
+    return (
+        FileResponse(f, media_type=image_type(f), headers=IMAGE_HEADERS) if f else Response(status_code=404)
+    )
+
+
 def register(app: FastAPI, service, root, now_fn) -> None:
     logos = LogoIndex(root)
     store = UserStore(root)
@@ -122,12 +135,12 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     @app.get("/logo/team/{team_id}", include_in_schema=False)
     def team_logo(team_id: str):
         f = logos.team(team_id)
-        return FileResponse(f, media_type=image_type(f)) if f else Response(status_code=404)
+        return image_response(f)
 
     @app.get("/logo/league/{key}", include_in_schema=False)
     def league_logo(key: str):
         f = logos.league(key)
-        return FileResponse(f, media_type=image_type(f)) if f else Response(status_code=404)
+        return image_response(f)
 
     # ------------------------------------------------------------------------------------------ sign-in
     @app.get("/giris", response_class=HTMLResponse, include_in_schema=False)

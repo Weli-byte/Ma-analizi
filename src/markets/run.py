@@ -252,7 +252,9 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
 
     try:
         git("fetch", "--quiet", data_repo_url(), branch)
-        names = git("ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/markets").decode().split()
+        names = git(
+            "ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/markets", "artifacts/injuries"
+        ).decode().split()
     except subprocess.CalledProcessError as e:
         return f"sync-remote: branch {branch!r} not available yet ({e.stderr.decode(errors='replace')[:100].strip()})"
     n = 0

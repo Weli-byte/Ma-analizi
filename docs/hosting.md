@@ -22,3 +22,20 @@ a real product (see ADR 0054).
 - Raw bookmaker prices are never shown (data terms). Keep it that way.
 - Football-Data.org attribution and "Gamble Responsibly. 18+" are already in every page.
 - Check the legal side of betting content in your country first (ADR 0036 / docs/data_sources/provider_evaluation.md).
+
+# Option 2: Vercel (a snapshot deployment)
+
+Vercel runs the app as a serverless function, so this is a SNAPSHOT of today's forecasts, good for showing the project;
+it does not refresh itself and favourites live in `/tmp` (lost when the function restarts). For a live, self-refreshing site
+use the Space above.
+
+1. `python -m src.markets.run --sync-remote` (pulls the newest forecasts and injuries from the private data repo).
+2. `python scripts/make_vercel_bundle.py` writes `dist/vercel/` (code, configs, the newest forecast per fixture, no secret).
+3. In `dist/vercel`: `npx vercel --prod` (log in with the free account once). In the Vercel project settings add the environment
+   variables `FORECAST_SESSION_SECRET` (a long random string), `GOOGLE_CLIENT_ID` and, only if logos are wanted,
+   `FORECAST_UI_LOGOS=1` (the logo images are not in the bundle, so leave it off).
+4. Add the Vercel address to the Google client's "Authorised JavaScript origins" (Google Cloud console).
+5. To refresh the data, repeat steps 1-3.
+Privacy and terms pages: `/gizlilik` and `/kosullar` are public (needed for the Google consent screen); they are DRAFTS and
+need a lawyer's review before a public launch.
+A persistent user database: set `FORECAST_USER_DB` to a path on a disk that survives restarts (a host's volume).

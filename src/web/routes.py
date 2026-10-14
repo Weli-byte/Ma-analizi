@@ -6,6 +6,7 @@ import secrets
 import struct
 import unicodedata
 import zlib
+from datetime import datetime
 from functools import lru_cache
 from urllib.parse import urlparse
 
@@ -128,7 +129,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def login(request: Request):
         if user_of(request):
             return RedirectResponse("/", 303)
-        return pages.login_page(auth.provider_status(), auth.google_client_id())
+        return pages.login_page(auth.provider_status(), auth.google_client_id(), auth.apple_client_id())
 
     @app.post("/giris/misafir", include_in_schema=False)
     def guest():
@@ -145,6 +146,22 @@ def register(app: FastAPI, service, root, now_fn) -> None:
         user = auth.verify_google(token)
         if user is None:
             return JSONResponse({"error": "invalid google credential"}, 401)
+        store.touch(user.uid, user.provider, user.name, user.email)
+        r = JSONResponse({"ok": True})
+        r.set_cookie(
+            session.COOKIE, session.sign(user), max_age=session.MAX_AGE, httponly=True, samesite="lax"
+        )
+        return r
+
+    @app.post("/giris/apple", include_in_schema=False)
+    async def apple(request: Request):
+        try:
+            token = (await request.json()).get("id_token", "")
+        except ValueError:
+            token = ""
+        user = auth.verify_apple(token)
+        if user is None:
+            return JSONResponse({"error": "invalid apple credential"}, 401)
         store.touch(user.uid, user.provider, user.name, user.email)
         r = JSONResponse({"ok": True})
         r.set_cookie(
@@ -295,7 +312,12 @@ def register(app: FastAPI, service, root, now_fn) -> None:
                 404,
             )
         picks = [p for p in service.value_picks()["picks"] if p["fixture_id"] == fixture_id]
-        return pages.match_page(found, picks, logos, store.favorites(u.uid))
+        from src.markets.injuries import latest_for
+
+        injuries = latest_for(
+            root, found["home_team_id"], found["away_team_id"], datetime.fromisoformat(found["kickoff_utc"])
+        )
+        return pages.match_page(found, picks, logos, store.favorites(u.uid), injuries)
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)
     def tips(request: Request):
@@ -312,6 +334,14 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def track(request: Request):
         _, redirect = guarded(request)
         return redirect or pages.track_page(service.track_record())
+
+    @app.get("/gizlilik", response_class=HTMLResponse, include_in_schema=False)
+    def privacy():  # public on purpose: an OAuth consent screen needs a reachable policy URL
+        return pages.legal_page("privacy")
+
+    @app.get("/kosullar", response_class=HTMLResponse, include_in_schema=False)
+    def terms():
+        return pages.legal_page("terms")
 
     @app.get("/hakkinda", response_class=HTMLResponse, include_in_schema=False)
     def about(request: Request):

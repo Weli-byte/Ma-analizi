@@ -383,6 +383,7 @@ def test_web_app_needs_a_session_and_serves_turkish_pages_without_raw_prices_or_
     page = c.get(f"/mac/{key}")
     assert page.status_code == 200 and "Sonuç olasılıkları" in page.text and "En olası skorlar" in page.text
     assert "piyasa oranlarından" in page.text  # the exact odds drove the headline
+    assert "Eksikler (bilgi amaçlı)" in page.text and "henüz alınmadı" in page.text  # injuries card, nothing observed
     assert (
         "Pinnacle" not in page.text and "<img" not in page.text
     )  # no bookmaker prices/names, no logos by default

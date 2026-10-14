@@ -214,13 +214,18 @@ def google_button(client_id: str | None) -> str:
     return "<button class='btn b-w' onclick=\"pick('google')\">Google ile devam et</button>"
 
 
-def login_page(status: dict[str, bool], client_id: str | None) -> str:
+def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | None = None) -> str:
     gsi = (
         "<script src='https://accounts.google.com/gsi/client' async></script>"
         f"<div id='g_id_onload' data-client_id='{e(client_id)}' data-callback='onGoogle' data-auto_prompt='false' data-ux_mode='popup'></div>"
         if client_id
         else ""
     )
+    if apple_id:
+        gsi += (
+            "<script src='https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js'></script>"
+            f"<meta name='apple-client' content='{e(apple_id)}'>"
+        )
     return (
         f"<!doctype html><html lang='tr'><head>{HEAD}<title>Giriş - Maç Tahmin</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
         "<div class='login'><div style='font-size:46px'>⚽</div><h1>Maç Tahmin</h1>"
@@ -231,7 +236,8 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
         "<div id='msg' class='msg'></div>"
         "<form class='guest' method='post' action='/giris/misafir'><button type='submit'>Misafir olarak devam et</button>"
         "<p style='font-size:12px;opacity:.85;margin-top:14px'>Devam ederek 18 yaşından büyük olduğunu onaylarsın. "
-        "Bu uygulama bahis oynatmaz; yalnızca olasılık bilgisi verir. Kazanç garantisi yoktur.</p></form></div></div>"
+        "Bu uygulama bahis oynatmaz; yalnızca olasılık bilgisi verir. Kazanç garantisi yoktur.</p>"
+        "<p style='font-size:12px;margin-top:6px'><a href='/gizlilik'>Gizlilik</a> · <a href='/kosullar'>Koşullar</a></p></form></div></div>"
         "<script>"
         f"const ST={str(status).lower()};"
         "const WHY={google:'Google ile giriş henüz etkin değil (Google istemci kimliği ayarlanmadı).',"
@@ -240,6 +246,11 @@ def login_page(status: dict[str, bool], client_id: str | None) -> str:
         "function pick(p){const m=document.getElementById('msg');"
         "if(p==='google'&&ST.google&&window.google){google.accounts.id.prompt();return;}"
         "if(p==='phone'&&ST.phone){location.href='/giris/telefon';return;}"
+        "if(p==='apple'&&ST.apple&&window.AppleID){AppleID.auth.init({clientId:document.querySelector('meta[name=apple-client]').content,"
+        "scope:'name email',redirectURI:location.origin+'/giris',usePopup:true});"
+        "AppleID.auth.signIn().then(r=>fetch('/giris/apple',{method:'POST',headers:{'Content-Type':'application/json'},"
+        "body:JSON.stringify({id_token:r.authorization.id_token})}).then(x=>{if(x.ok){location.href='/';}else{m.style.display='block';"
+        "m.textContent='Apple girişi doğrulanamadı.';}})).catch(()=>{});return;}"
         "m.style.display='block';m.textContent=WHY[p]+' Şimdilik misafir olarak devam edebilirsin.';}"
         "function onGoogle(r){fetch('/giris/google',{method:'POST',headers:{'Content-Type':'application/json'},"
         "body:JSON.stringify({credential:r.credential})}).then(x=>{if(x.ok){location.href='/';}else{const m=document.getElementById('msg');m.style.display='block';m.textContent='Google girişi doğrulanamadı (sunucu '+x.status+'). Hesabın test kullanıcıları listesinde mi, istemci kimliği doğru mu kontrol et.';}});}"
@@ -331,7 +342,38 @@ def league_page(key: str, matches: list[dict], which: str, now: datetime, logos)
     )
 
 
-def match_page(i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None) -> str:
+def injuries_card(i: dict, injuries: dict | None) -> str:
+    """Absent players as INFORMATION (never in the probabilities). No observation is said plainly, not as 'nobody'."""
+    from src.markets.injuries import WEB_LABEL
+
+    head = "<div class='sec'><h2>Eksikler (bilgi amaçlı)</h2></div>"
+    if injuries is None:
+        return head + "<div class='card mut'>Bu maç için eksik oyuncu bilgisi henüz alınmadı (kaynak yalnızca maça en çok bir gün kala veri veriyor).</div>"
+
+    def side(name: str, rows: list[dict]) -> str:
+        if not rows:
+            return f"<p><b>{e(name)}</b><br><span class='mut'>Kaynakta kayıtlı eksik yok.</span></p>"
+        items = "".join(
+            f"<li>{e(r['player'])} · {e(WEB_LABEL.get(r['status'], r['status']))}"
+            f"{' · ' + e(r['reason']) if r.get('reason') else ''}</li>"
+            for r in rows
+        )
+        return f"<p><b>{e(name)}</b></p><ul style='margin:0 0 8px;padding-left:18px'>{items}</ul>"
+
+    return (
+        head
+        + "<div class='card'>"
+        + side(i["home"], injuries["home"])
+        + side(i["away"], injuries["away"])
+        + "<p class='note'>Kaynak: API-Football (ücretsiz plan), alınma zamanı "
+        + f"<b>{e(injuries['observed_at'][:16].replace('T', ' '))}</b>"
+        + " UTC. Bu liste tahmin olasılıklarına girmez; eksiksiz olmayabilir.</p></div>"
+    )
+
+
+def match_page(
+    i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None, injuries: dict | None = None
+) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
     hp = res["headline_probs"]
@@ -401,8 +443,9 @@ def match_page(i: dict, picks: list[dict], logos, fav_ids: list[str] | None = No
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"
         "<p class='note'>Eğilim = ihtimal ne kadar yüksek. %65+ güçlü eğilim, %55+ eğilim, altı belirsiz. Garanti değil.</p></div>"
         f"<div class='sec'><h2>Bahis önerisi (araştırma amaçlı)</h2></div>{value}"
+        f"{injuries_card(i, injuries)}"
         f"<div class='sec'><h2>Veri kalitesi</h2></div><div class='card'><ul style='margin:0;padding-left:18px'>{flags}</ul>"
-        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez.</p></div>"
+        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yukarıda yalnızca bilgi olarak gösterilir).</p></div>"
     )
     return page(f"{home} - {away}", body, "leagues", hero=hero)
 
@@ -459,6 +502,29 @@ def about_page() -> str:
     )  # fmt: skip
 
 
+LEGAL = {'privacy': ('Gizlilik politikası', [('p', 'Bu uygulama futbol maçları için istatistiksel olasılık bilgisi verir. Mümkün olduğunca az kişisel veri işler.'), ('h', 'Hangi verileri işliyoruz?'), ('li', 'Misafir girişi: hiçbir kişisel veri alınmaz; yalnızca tarayıcında imzalı bir oturum çerezi tutulur.'), ('li', "Google ile giriş: Google'ın verdiği hesap kimliği, adın ve e-posta adresin. Şifren bize hiç ulaşmaz."), ('li', 'Telefon ile giriş: numaran saklanmaz; yalnızca tek yönlü bir özet (hash) ve numaranın son 4 hanesi tutulur.'), ('li', 'Favori takımların ve maçların, hesabına bağlı olarak sunucudaki veritabanında saklanır.'), ('h', 'Ne yapmıyoruz?'), ('li', 'Reklam göstermiyoruz, seni takip etmiyoruz, verini satmıyoruz veya üçüncü taraflarla pazarlama için paylaşmıyoruz.'), ('li', 'Analitik veya izleme çerezi kullanmıyoruz; tek çerez oturum (ve dil tercihi) çerezidir.'), ('h', 'Verilerini silme'), ('p', 'Profil sayfasındaki "Verilerimi sil" düğmesi hesabına bağlı tüm verileri (favoriler dahil) siler.'), ('h', 'Bu belge hakkında'), ('p', 'Bu metin bir taslaktır ve hukuki danışmanlık değildir; yayına almadan önce bir hukukçu tarafından gözden geçirilmelidir.')]), 'terms': ('Kullanım koşulları', [('p', 'Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursun.'), ('h', 'Bilgi amaçlıdır'), ('li', 'Gösterilen tahminler istatistiksel modellerin olasılık hesaplarıdır; kazanç garantisi vermez ve yatırım veya bahis tavsiyesi değildir.'), ('li', 'Uygulama bahis oynatmaz, bahis aracılığı yapmaz ve para kabul etmez.'), ('li', 'Geçmiş testlerde hiçbir model piyasa oranlarını geçemedi; "bahis önerisi" bölümü yalnızca araştırma amaçlıdır.'), ('h', 'Yaş sınırı ve sorumlu oyun'), ('li', 'Uygulama 18 yaş ve üzeri içindir. Bahis oynamak bağımlılık yapabilir; kaybetmeyi göze alamayacağın parayla oynama.'), ('li', 'Bulunduğun ülkede bahis yasaksa veya kısıtlıysa o kurallara uymak sana aittir.'), ('h', 'Veri ve doğruluk'), ('li', 'Veriler üçüncü taraf kaynaklardan gelir ve eksik veya geç olabilir; kadro, sakatlık ve hava durumu tahmine girmez.'), ('li', 'Hizmet olduğu gibi sunulur; kesintisiz veya hatasız çalışacağı garanti edilmez.'), ('h', 'Bu belge hakkında'), ('p', 'Bu metin bir taslaktır ve hukuki danışmanlık değildir; yayına almadan önce bir hukukçu tarafından gözden geçirilmelidir.')])}
+
+
+def legal_page(kind: str) -> str:
+    """Public privacy / terms pages (a Google consent screen needs reachable URLs). DRAFTS, not legal advice."""
+    title, blocks = LEGAL[kind]
+    out, items = [], []
+
+    def flush():
+        if items:
+            out.append("<ul>" + "".join(items) + "</ul>")
+            items.clear()
+
+    for tag, text in blocks:
+        if tag == "li":
+            items.append(f"<li>{e(text)}</li>")
+            continue
+        flush()
+        out.append(f"<b>{e(text)}</b>" if tag == "h" else f"<p>{e(text)}</p>")
+    flush()
+    return page(title, "<div class='card'>" + "".join(out) + "</div>", "profile", back="/giris")
+
+
 def profile_page(user) -> str:
     kind = {"guest": "Misafir", "google": "Google hesabı", "apple": "Apple hesabı", "phone": "Telefon"}.get(
         user.provider, user.provider
@@ -469,6 +535,8 @@ def profile_page(user) -> str:
         "<div class='card pad0'><a href='/basari-kaydi'><div class='row'>Başarı kaydı <span>›</span></div></a>"
         "<a href='/hakkinda'><div class='row'>Yöntem ve sınırlar <span>›</span></div></a>"
         "<a href='/sunum'><div class='row'>Proje özeti <span>›</span></div></a>"
+        "<a href='/gizlilik'><div class='row'>Gizlilik politikası <span>›</span></div></a>"
+        "<a href='/kosullar'><div class='row'>Kullanım koşulları <span>›</span></div></a>"
         "<form method='post' action='/hesabi-sil' onsubmit=\"return confirm('Hesabına bağlı tüm veriler (favoriler) silinecek. Emin misin?')\">"
         "<button class='row' style='width:100%;background:none;border:0;font:inherit;color:#c62828;text-align:left;cursor:pointer'>Verilerimi sil</button></form>"
         "<form method='post' action='/cikis'><button class='row' style='width:100%;background:none;border:0;font:inherit;color:#c62828;text-align:left;cursor:pointer'>Çıkış yap</button></form></div>"

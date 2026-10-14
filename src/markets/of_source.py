@@ -7,6 +7,7 @@ run says so (`stale_files`). The `data_version` is derived from the exact bytes 
 """
 
 import hashlib
+import json
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from pathlib import Path
@@ -149,6 +150,41 @@ def cup_matches(
     return out, unresolved
 
 
+def live_matches(root: Path, known: set, cfg: MarketsConfig, now: datetime, blobs: list) -> list[StatMatch]:
+    """Results collected by `live_results` that the open source does not have (yet). A match already in the history (the
+    open source caught up) is skipped. A result becomes available when WE first saw it (never before kickoff + lag)."""
+    empty = dict.fromkeys(STATS)
+    out = []
+    for path in sorted((Path(root) / "artifacts" / "results").glob("*.json")):
+        raw = path.read_bytes()
+        blobs.append(hashlib.sha256(raw).hexdigest())
+        store = json.loads(raw.decode("utf-8"))
+        for r in store["matches"].values():
+            ko = datetime.fromisoformat(r["kickoff_utc"])
+            key = (r["home_id"], r["away_id"], ko.date())
+            if key in known or ko > now:
+                continue
+            known.add(key)
+            avail = max(datetime.fromisoformat(r["first_seen"]), ko + timedelta(hours=cfg.result_lag_hours))
+            out.append(
+                StatMatch(
+                    f"live-{r['league']}-{ko.date().isoformat()}-{r['home_id']}-{r['away_id']}",
+                    store.get("season", ""),
+                    r["league"],
+                    ko,
+                    avail,
+                    r["home_id"],
+                    r["away_id"],
+                    r["home_goals"],
+                    r["away_goals"],
+                    empty,
+                    empty,
+                    None,
+                )
+            )
+    return out
+
+
 def load_world(
     root: Path,
     directory: TeamDirectory,
@@ -206,6 +242,14 @@ def load_world(
     cup_history, cup_unresolved = cup_matches(root, directory, cfg, last_year, now, blobs, stale)
     history.extend(cup_history)
     unresolved += cup_unresolved
+    if (
+        end_year is None
+    ):  # an evaluation (end_year set) never sees live results: the final-test seasons stay locked
+        history.extend(
+            live_matches(
+                root, {(m.home_id, m.away_id, m.kickoff_utc.date()) for m in history}, cfg, now, blobs
+            )
+        )
     history.sort(key=lambda m: m.kickoff_utc)
     upcoming.sort(key=lambda x: x[1].kickoff_utc)
     dv = "dv-of-" + hashlib.sha256("".join(sorted(blobs)).encode()).hexdigest()[:12]

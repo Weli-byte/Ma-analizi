@@ -243,3 +243,104 @@ def test_track_page_lists_every_scored_match_with_hits_and_baselines():
     assert "ev sahibi kazanır" in html and "Tüm değerlendirilen maçlar" in html
     many = {**t, "matches": [{**one, "key": str(i)} for i in range(40)]}
     assert "Kalan 10 maçı gör" in pages.track_page(many)
+
+
+def test_collect_runs_every_source_reports_failures_and_spends_credits_only_when_needed(
+    tmp_path, monkeypatch
+):
+    import shutil
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    calls = {"fd": [], "odds": []}
+    fd_payload = {"matches": [{"status": "FINISHED", "utcDate": "2026-10-10T14:00:00Z", "homeTeam": {"name": "Arsenal FC"}, "awayTeam": {"name": "Chelsea FC"}, "score": {"duration": "REGULAR", "fullTime": {"home": 2, "away": 1}}}]}  # fmt: skip
+
+    def fake_get(path, key, params=None):
+        calls["fd"].append(path)
+        if "/DED/" in path:
+            raise RuntimeError("boom")
+        return fd_payload
+
+    monkeypatch.setattr(live_results, "_get", fake_get)
+    monkeypatch.setattr(live_results.time, "sleep", lambda s: None)
+    monkeypatch.setattr(live_results, "odds_scores", lambda key, league: calls["odds"].append(league) or [])
+    lines = live_results.collect(tmp_path, NOW, fd_key="k", odds_key="o")
+    assert any(x.startswith("EPL: 1 finished, 1 new") for x in lines)
+    assert any("NED1: football-data.org FAILED" in x for x in lines)
+    assert all("no fixture waiting" in x for x in lines if x.startswith(("SUPERLIG", "UEL", "UECL")))
+    assert calls["odds"] == []  # nothing is waiting: no credit
+    # a stored fixture that kicked off 3 hours ago and has no result triggers exactly one scores call for its league
+    meta = tmp_path / "artifacts" / "odds" / "oddsapi-x"
+    meta.mkdir(parents=True)
+    (meta / "meta.json").write_text(json.dumps({"fixture_id": "oddsapi-x", "league": "UEL", "home_id": "ENG_arsenal", "away_id": "ENG_chelsea", "kickoff_utc": (NOW - timedelta(hours=3)).isoformat()}), encoding="utf-8")  # fmt: skip
+    assert live_results.pending_fixtures(tmp_path, "UEL", NOW) == 1
+    live_results.collect(tmp_path, NOW, fd_key=None, odds_key="o")
+    assert calls["odds"] == ["UEL"]
+    none = live_results.collect(tmp_path, NOW, fd_key=None, odds_key=None)
+    assert any("football-data.org: NOT_CONFIGURED" in x for x in none) and any(
+        "scores: NOT_CONFIGURED" in x for x in none
+    )
+    failing = {"n": 0}
+
+    def boom(key, league):
+        failing["n"] += 1
+        raise RuntimeError("the-odds-api scores failed: URLError")
+
+    monkeypatch.setattr(live_results, "odds_scores", boom)
+    assert any("scores failed" in x for x in live_results.collect(tmp_path, NOW, fd_key=None, odds_key="o"))
+    stored = live_results.load_store(tmp_path, "EPL")
+    assert stored["season"] == "2026-27" and len(stored["matches"]) == 1
+
+
+def test_odds_scores_request_uses_the_scores_endpoint_and_never_leaks_the_key(monkeypatch):
+    seen = []
+
+    class R:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return b"[]"
+
+    monkeypatch.setattr(live_results.urllib.request, "urlopen", lambda url, timeout: seen.append(url) or R())
+    assert live_results.odds_scores("SECRETKEY", "SUPERLIG") == []
+    assert "/sports/soccer_turkey_super_league/scores/" in seen[0] and "daysFrom=3" in seen[0]
+    monkeypatch.setattr(live_results.urllib.request, "urlopen", lambda url, timeout: (_ for _ in ()).throw(live_results.urllib.error.URLError("SECRETKEY")))  # fmt: skip
+    try:
+        live_results.odds_scores("SECRETKEY", "UEL")
+    except RuntimeError as e:
+        assert "SECRETKEY" not in str(e)
+    else:
+        raise AssertionError("must raise")
+
+
+def test_live_results_cli_prints_the_outcome(monkeypatch, capsys):
+    monkeypatch.setattr(live_results, "configure_output", lambda: None)
+    monkeypatch.setattr(live_results, "collect", lambda root, **kw: ["EPL: ok"])
+    assert live_results.main() == 0 and "EPL: ok" in capsys.readouterr().out
+
+
+def test_track_record_lists_scored_matches_with_hit_flags(tmp_path):
+    from src.markets.track import track_record
+
+    base = tmp_path / "artifacts" / "markets" / "ENG_arsenal__ENG_chelsea__2026-10-10"
+    base.mkdir(parents=True)
+    probs = {"home": 0.6, "draw": 0.2, "away": 0.2}
+    intel = {
+        "result": {"headline_probs": probs, "model_probs": probs, "market_probs_devig": None},
+        "goals": {"over_under": [{"line": 2.5, "over": 0.6, "under": 0.4}], "btts_yes": 0.4},
+        "most_likely_score": "2-0", "tips": [{"market": "match_result", "pick": "Home win", "lean": "lean", "probability": 0.6}],
+    }  # fmt: skip
+    art = {"league": "EPL", "information_cutoff": "2026-10-09T10:00:00+00:00", "generated_at": "2026-10-09T10:00:00+00:00", "intelligence": intel}  # fmt: skip
+    (base / "intel-1.json").write_text(json.dumps(art), encoding="utf-8")
+    ko = datetime(2026, 10, 10, 14, tzinfo=UTC)
+    played = StatMatch("r", "2026-27", "EPL", ko, ko + timedelta(hours=3), "ENG_arsenal", "ENG_chelsea", 2, 0, EMPTY, EMPTY, None)  # fmt: skip
+    rep = track_record(tmp_path, [played], NOW, names=NAMES)
+    m = rep["matches"][0]
+    assert (
+        rep["matches_scored"] == 1 and m["home"] == "Arsenal" and m["pick"] == "H" and m["pick_hit"] is True
+    )
+    assert m["score_hit"] is True and m["ou_pick"] == "Üst" and m["ou_hit"] is False and m["btts_hit"] is True
+    assert rep["hit_rates"]["1x2"]["hits"] == 1 and rep["naive_hit_rates"]["1x2_always_home"] == 1.0

@@ -59,6 +59,11 @@ def build(out: Path, root: Path = ROOT) -> list[str]:
     injuries = root / "artifacts" / "injuries"
     if injuries.exists():
         _newest_per_dir(injuries, out / "artifacts" / "injuries", "inj-*.json")
+    results = root / "artifacts" / "results"  # referees, top scorers (ADR 0059)
+    if results.exists():
+        (out / "artifacts" / "results").mkdir(parents=True, exist_ok=True)
+        for p in results.glob("*.json"):
+            shutil.copy(p, out / "artifacts" / "results" / p.name)
     return sorted(p.relative_to(out).as_posix() for p in out.rglob("*") if p.is_file())
 
 

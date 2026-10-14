@@ -101,3 +101,12 @@ jobs:
             git commit -q -m "markets: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
             git push data HEAD:markets-data
           fi
+      - name: Redeploy the Vercel site with the fresh data (only when VERCEL_TOKEN is set; ADR 0060)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then echo "VERCEL_TOKEN not set: no redeploy"; exit 0; fi
+          python scripts/make_vercel_bundle.py --out dist/mac-tahmin
+          cd dist/mac-tahmin
+          npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN" > ../vercel_url.txt
+          echo "deployed: $(cat ../vercel_url.txt)"

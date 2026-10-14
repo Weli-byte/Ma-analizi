@@ -174,3 +174,23 @@ def test_apple_keys_are_cached_and_a_failure_gives_the_stale_copy(monkeypatch):
     assert len(calls) == 1  # cached for an hour
     monkeypatch.setattr(auth.urllib.request, "urlopen", lambda url, timeout: (_ for _ in ()).throw(auth.urllib.error.URLError("x")))  # fmt: skip
     assert auth.apple_keys(9999.0) == [{"kid": "a"}]  # unreachable: the stale copy, never an exception
+
+
+def test_vercel_bundle_carries_the_results_store_and_the_cloud_job_redeploys_it(tmp_path):
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("mvb", ROOT / "scripts" / "make_vercel_bundle.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    fake = tmp_path / "p"
+    (fake / "artifacts" / "results").mkdir(parents=True)
+    (fake / "artifacts" / "results" / "EPL.json").write_text("{}", encoding="utf-8")
+    for d in ("src", "configs"):
+        (fake / d).mkdir()
+        (fake / d / "x").write_text("", encoding="utf-8")
+    (fake / "requirements-api.lock").write_text("a==1\n", encoding="utf-8")
+    assert "artifacts/results/EPL.json" in mod.build(tmp_path / "out", fake)
+    wf = (ROOT / ".github" / "workflows" / "markets-cloud.yml").read_text(encoding="utf-8")
+    assert (
+        "VERCEL_TOKEN" in wf and "vercel@latest deploy --prod" in wf and "exit 0" in wf
+    )  # skipped without the token

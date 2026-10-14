@@ -19,7 +19,7 @@ import os
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
 os.environ.setdefault("FORECAST_USER_DB", "/tmp/users.sqlite")  # the deployment disk is read-only except /tmp
 
@@ -27,7 +27,6 @@ from src.api.app import create_app  # noqa: E402
 
 app = create_app(ROOT)
 '''
-VERCEL_JSON = '{\n  "rewrites": [{ "source": "/(.*)", "destination": "/api/index" }]\n}\n'
 
 
 def _newest_per_dir(src: Path, dst: Path, pattern: str) -> int:
@@ -44,9 +43,8 @@ def _newest_per_dir(src: Path, dst: Path, pattern: str) -> int:
 def build(out: Path, root: Path = ROOT) -> list[str]:
     if out.exists():
         shutil.rmtree(out)
-    (out / "api").mkdir(parents=True)
-    (out / "api" / "index.py").write_text(INDEX, encoding="utf-8")
-    (out / "vercel.json").write_text(VERCEL_JSON, encoding="utf-8")
+    out.mkdir(parents=True)
+    (out / "index.py").write_text(INDEX, encoding="utf-8")  # Vercel finds `app` here
     shutil.copy(root / "requirements-api.lock", out / "requirements.txt")
     shutil.copytree(root / "src", out / "src", ignore=SKIP)
     shutil.copytree(root / "configs", out / "configs", ignore=SKIP)

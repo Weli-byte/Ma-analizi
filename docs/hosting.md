@@ -41,7 +41,7 @@ need a lawyer's review before a public launch.
 A persistent user database: set `FORECAST_USER_DB` to a path on a disk that survives restarts (a host's volume).
 
 ## Vercel with automatic refresh (ADR 0060)
-The `markets-cloud` job (every 4 hours) ends with a step that rebuilds `dist/mac-tahmin` from the fresh data and deploys it with
+The `markets-cloud` job (every 4 hours) ends with a step that rebuilds `dist/mac-tahmin` (entry point `index.py`, no rewrites: the FastAPI runtime routes every path) from the fresh data and deploys it with
 `vercel deploy --prod`. It runs only when the repository secret `VERCEL_TOKEN` exists (a token from vercel.com/account/tokens).
 The first deployment creates the project (named after the folder, `mac-tahmin`); add its environment variables once in the project
 settings (`FORECAST_SESSION_SECRET`, `GOOGLE_CLIENT_ID`). The site then updates itself about every 4 hours (the free plan allows

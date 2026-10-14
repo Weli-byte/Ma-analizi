@@ -62,18 +62,15 @@ def test_vercel_bundle_has_the_entry_point_the_newest_data_and_no_secrets(tmp_pa
     (fake / "configs" / "c.yaml").write_text("", encoding="utf-8")
     (fake / "requirements-api.lock").write_text("fastapi==1\n", encoding="utf-8")
     files = mod.build(tmp_path / "out", fake)
-    assert "api/index.py" in files and "vercel.json" in files and "requirements.txt" in files
+    assert "index.py" in files and "vercel.json" not in files and "requirements.txt" in files
     assert "artifacts/markets/A__B__2026-10-14/intel-2.json" in files  # only the newest forecast of a fixture
     assert "artifacts/markets/A__B__2026-10-14/intel-1.json" not in files
     assert (
         "artifacts/injuries/2026-10-14/inj-1.json" in files and "artifacts/markets/track_record.json" in files
     )
     assert not any(f.startswith(".env") or "users.sqlite" in f for f in files)
-    assert (
-        json.loads((tmp_path / "out" / "vercel.json").read_text())["rewrites"][0]["destination"]
-        == "/api/index"
-    )
-    assert "/tmp/users.sqlite" in (tmp_path / "out" / "api" / "index.py").read_text()
+    entry = (tmp_path / "out" / "index.py").read_text()
+    assert "/tmp/users.sqlite" in entry and "app = create_app(ROOT)" in entry
     assert mod.main(["--out", str(tmp_path / "real")]) == 0
 
 

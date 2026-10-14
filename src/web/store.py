@@ -4,6 +4,7 @@ Holds only what the app needs: a user id, provider, display name, optional e-mai
 and the favourite clubs. No password, no phone number, no token. A guest id is a random value kept in the session
 cookie. NOTE: on a host with an ephemeral disk the file is lost on restart (favourites reset)."""
 
+import os
 import sqlite3
 from contextlib import closing, contextmanager
 from datetime import UTC, datetime
@@ -19,7 +20,9 @@ CREATE TABLE IF NOT EXISTS favorites(uid TEXT NOT NULL, team_id TEXT NOT NULL, a
 
 class UserStore:
     def __init__(self, root: Path):
-        self.path = Path(root) / "artifacts" / "users.sqlite"
+        # FORECAST_USER_DB: a path on a persistent disk (a host's volume); default = inside the project
+        override = os.environ.get("FORECAST_USER_DB")
+        self.path = Path(override) if override else Path(root) / "artifacts" / "users.sqlite"
         self.path.parent.mkdir(parents=True, exist_ok=True)
         with self._db() as db:
             db.executescript(SCHEMA)

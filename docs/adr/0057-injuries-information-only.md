@@ -25,3 +25,17 @@ synced to the PC by `python -m src.markets.run --sync-remote`, rendered by `page
 
 ## Not done
 Market values (no licensed live source, ADR 0056) and any effect of absences on the forecast.
+
+## S19 preparation done in the same step (code only; the owner-side steps stay open)
+- `/gizlilik` and `/kosullar`: public privacy and terms pages (Turkish + English), linked from the login screen and the profile.
+  DRAFTS, not legal advice: a lawyer must review them before a public launch (and a betting-content check is still open).
+- `FORECAST_USER_DB`: the user database can live on a persistent volume (default stays `artifacts/users.sqlite`).
+- `scripts/make_vercel_bundle.py` + `docs/hosting.md` (Option 2): a snapshot deployment for Vercel. The Space start script now
+  also syncs the injuries.
+- Sign in with Apple: `auth.validate_apple_token` verifies Apple's RS256 identity token (pure-Python RSASSA-PKCS1-v1_5, no new
+  dependency) against Apple's published keys (cached 1 h): signature, issuer, audience, expiry. Tested only with a locally generated
+  key pair; NOT verified against the real Apple service, which needs `APPLE_CLIENT_ID` (a Services ID of a paid Apple Developer
+  account). The button stays off until the variable is set. The Apple script cannot be pinned with an integrity hash (Apple serves a
+  versioned file and publishes no hash); the same holds for Google's script.
+- Not coded on purpose: payments and the Free/Pro split (decisions + accounts first), real push notifications (needs VAPID keys and a
+  push library; a design decision), SMS provider.

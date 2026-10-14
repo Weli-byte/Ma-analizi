@@ -331,7 +331,38 @@ def league_page(key: str, matches: list[dict], which: str, now: datetime, logos)
     )
 
 
-def match_page(i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None) -> str:
+def injuries_card(i: dict, injuries: dict | None) -> str:
+    """Absent players as INFORMATION (never in the probabilities). No observation is said plainly, not as 'nobody'."""
+    from src.markets.injuries import WEB_LABEL
+
+    head = "<div class='sec'><h2>Eksikler (bilgi amaçlı)</h2></div>"
+    if injuries is None:
+        return head + "<div class='card mut'>Bu maç için eksik oyuncu bilgisi henüz alınmadı (kaynak yalnızca maça en çok bir gün kala veri veriyor).</div>"
+
+    def side(name: str, rows: list[dict]) -> str:
+        if not rows:
+            return f"<p><b>{e(name)}</b><br><span class='mut'>Kaynakta kayıtlı eksik yok.</span></p>"
+        items = "".join(
+            f"<li>{e(r['player'])} · {e(WEB_LABEL.get(r['status'], r['status']))}"
+            f"{' · ' + e(r['reason']) if r.get('reason') else ''}</li>"
+            for r in rows
+        )
+        return f"<p><b>{e(name)}</b></p><ul style='margin:0 0 8px;padding-left:18px'>{items}</ul>"
+
+    return (
+        head
+        + "<div class='card'>"
+        + side(i["home"], injuries["home"])
+        + side(i["away"], injuries["away"])
+        + "<p class='note'>Kaynak: API-Football (ücretsiz plan), alınma zamanı "
+        + f"<b>{e(injuries['observed_at'][:16].replace('T', ' '))}</b>"
+        + " UTC. Bu liste tahmin olasılıklarına girmez; eksiksiz olmayabilir.</p></div>"
+    )
+
+
+def match_page(
+    i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None, injuries: dict | None = None
+) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
     hp = res["headline_probs"]
@@ -401,8 +432,9 @@ def match_page(i: dict, picks: list[dict], logos, fav_ids: list[str] | None = No
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"
         "<p class='note'>Eğilim = ihtimal ne kadar yüksek. %65+ güçlü eğilim, %55+ eğilim, altı belirsiz. Garanti değil.</p></div>"
         f"<div class='sec'><h2>Bahis önerisi (araştırma amaçlı)</h2></div>{value}"
+        f"{injuries_card(i, injuries)}"
         f"<div class='sec'><h2>Veri kalitesi</h2></div><div class='card'><ul style='margin:0;padding-left:18px'>{flags}</ul>"
-        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez.</p></div>"
+        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yukarıda yalnızca bilgi olarak gösterilir).</p></div>"
     )
     return page(f"{home} - {away}", body, "leagues", hero=hero)
 

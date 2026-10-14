@@ -6,6 +6,7 @@ import secrets
 import struct
 import unicodedata
 import zlib
+from datetime import datetime
 from functools import lru_cache
 from urllib.parse import urlparse
 
@@ -295,7 +296,12 @@ def register(app: FastAPI, service, root, now_fn) -> None:
                 404,
             )
         picks = [p for p in service.value_picks()["picks"] if p["fixture_id"] == fixture_id]
-        return pages.match_page(found, picks, logos, store.favorites(u.uid))
+        from src.markets.injuries import latest_for
+
+        injuries = latest_for(
+            root, found["home_team_id"], found["away_team_id"], datetime.fromisoformat(found["kickoff_utc"])
+        )
+        return pages.match_page(found, picks, logos, store.favorites(u.uid), injuries)
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)
     def tips(request: Request):

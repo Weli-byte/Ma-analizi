@@ -19,6 +19,7 @@ jobs:
     env:
       DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
       HIGHLIGHTLY_API_KEY: ${{ secrets.HIGHLIGHTLY_API_KEY }}
+      API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -66,8 +67,11 @@ jobs:
           mkdir -p artifacts
           cp -r markets-data-wt/artifacts/markets artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/stats artifacts/ 2>/dev/null || true
+          cp -r markets-data-wt/artifacts/injuries artifacts/ 2>/dev/null || true
       - name: Match statistics (Highlightly, within the daily request budget)
         run: python -m src.markets.stats_collect
+      - name: Injuries and suspensions (information only, never in a probability; ADR 0057)
+        run: python -m src.markets.injuries
       - name: Intelligence for the next fixtures
         run: python -m src.markets.run --no-sync --force
       - name: Track record (published forecasts vs real results)
@@ -77,6 +81,8 @@ jobs:
           mkdir -p markets-data-wt/artifacts
           cp -r artifacts/markets markets-data-wt/artifacts/
           cp -r artifacts/stats markets-data-wt/artifacts/ 2>/dev/null || true
+          rm -rf markets-data-wt/artifacts/injuries && cp -r artifacts/injuries markets-data-wt/artifacts/ 2>/dev/null || true
+          find markets-data-wt/artifacts/injuries -mindepth 1 -maxdepth 1 -type d -mtime +3 -exec rm -rf {} + 2>/dev/null || true
           rm -rf markets-data-wt/artifacts/markets/evaluation markets-data-wt/artifacts/markets/_cache
           cd markets-data-wt
           git config user.name "markets bot"

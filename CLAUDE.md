@@ -147,5 +147,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0056: cups phase 2 - history-only domestic leagues (AT/BE/GR/NL/PT/SCO), UEFA-style priors (`src/markets/coefficients.py`, weights chosen by `eval_priors` on validation seasons), neutral-venue finals, free events check before paid cup odds calls, weekly `probe-cups.yml`, `club_duplicates` (owner-approved merges only).
 - [x] ADR 0057: injuries/suspensions from API-Football free plan shown as information only ("Eksikler" card, `src/markets/injuries.py`); never in a probability. Duplicate clubs merged on the owner's approval (`club_duplicates`).
 - [x] ADR 0057 (S19 prep): public privacy/terms drafts, `FORECAST_USER_DB`, Vercel snapshot bundle, Apple sign-in code (unverified live, needs `APPLE_CLIENT_ID`).
+- [x] ADR 0058: tabbed match page (Misli-style categories), live results store (`src/markets/live_results.py`, football-data.org + Odds API scores), track-record match listing with hit rates.
 - [ ] S19 startup MVP (deploy to a host, Google client id, SMS account, Free/Pro, Apple sign-in, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

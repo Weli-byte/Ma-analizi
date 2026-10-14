@@ -1918,6 +1918,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: LASK Linz
+  team_id: AUT_lask
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant 2026-10-14 (seen in the football-data.org match list;
+    owner to re-confirm)
+  confidence: 0.9
+- source: football-data-org
   raw_name: Leeds United FC
   team_id: ENG_leeds_united
   valid_from: null
@@ -1988,6 +1997,15 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
   confidence: 0.95
+- source: football-data-org
+  raw_name: PAE AEK
+  team_id: GRE_aek_athen
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant 2026-10-14 (seen in the football-data.org match list;
+    owner to re-confirm)
+  confidence: 0.9
 - source: football-data-org
   raw_name: RC Celta de Vigo
   team_id: ESP_celta_vigo
@@ -2061,6 +2079,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: SC Cambuur-Leeuwarden
+  team_id: NED_sc_cambuur
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant 2026-10-14 (seen in the football-data.org match list;
+    owner to re-confirm)
+  confidence: 0.9
+- source: football-data-org
   raw_name: Sevilla FC
   team_id: ESP_sevilla
   valid_from: null
@@ -2105,6 +2132,15 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
   confidence: 0.95
+- source: football-data-org
+  raw_name: Vitória SC
+  team_id: POR_vitoria_guimaraes
+  valid_from: null
+  valid_to: null
+  provenance: manual
+  approved_by: claude-assistant 2026-10-14 (seen in the football-data.org match list;
+    owner to re-confirm)
+  confidence: 0.9
 - source: fpl
   raw_name: Bournemouth
   team_id: ENG_afc_bournemouth

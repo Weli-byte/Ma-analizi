@@ -229,7 +229,8 @@ class ForecastService:
             "generated_at": body["generated_at"], "information_cutoff": body["information_cutoff"],
             "data_version": body["data_version"], "feature_version": body["feature_version"],
             "model_version": body["model_version"], "content_hash": body["content_hash"],
-            "market_source": body["market_source"], "form": body.get("form"), **body["intelligence"],
+            "market_source": body["market_source"], "form": body.get("form"), "details": body.get("details"),
+            **body["intelligence"],
         }  # fmt: skip
 
     def intelligence(self, fixture_id: str) -> dict | None:

@@ -61,6 +61,22 @@ table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;p
 .warn{border-left:4px solid var(--warn)}.note{font-size:12.5px;color:var(--mut)}
 .sc{display:flex;align-items:center;gap:8px;margin:4px 0}.sc b{min-width:40px}.sc div{height:10px;background:var(--g);border-radius:5px}
 .ok{color:var(--gd);font-weight:600}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:10px 14px;position:sticky;top:0;background:var(--bg);z-index:5;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;border-radius:18px;padding:8px 14px;background:var(--card);color:var(--fg);font:600 13px system-ui;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.tabs button.on{background:var(--g);color:#fff}
+.tab{display:none}.tab.on{display:block}
+details.cat{background:var(--card);border-radius:14px;margin:10px 14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.06)}
+details.cat summary{padding:13px 14px;font-weight:700;cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details.cat summary::-webkit-details-marker{display:none}details.cat summary::after{content:'▾';color:var(--mut)}
+details.cat[open] summary::after{content:'▴'}
+.cells{display:grid;gap:6px;padding:0 12px 12px}.c2{grid-template-columns:repeat(2,1fr)}.c3{grid-template-columns:repeat(3,1fr)}
+.cell{background:var(--gl);border-radius:9px;padding:8px 4px;text-align:center;font-size:12.5px}.cell b{display:block;font-size:17px;margin-top:2px}
+.cell.sel{background:var(--g);color:#fff}
+.more summary{cursor:pointer;color:var(--g);font-weight:600;font-size:13px;padding:8px 0;list-style:none}.more summary::-webkit-details-marker{display:none}
+.res{display:inline-flex;width:24px;height:24px;border-radius:50%;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13.5px}.mrow:last-child{border:0}
+.mrow .d{color:var(--mut);font-size:12px;min-width:52px}.mrow .sc2{font-weight:700;min-width:44px;text-align:center}
+tr.me td{background:var(--gl);font-weight:700}
 nav.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:var(--card);border-top:1px solid var(--line);display:flex;z-index:9}
 nav.bottom a{flex:1;text-align:center;padding:8px 0 10px;font-size:11px;color:var(--mut)}nav.bottom a b{display:block;font-size:20px;line-height:1.2}
 nav.bottom a.on{color:var(--g);font-weight:700}
@@ -348,7 +364,10 @@ def injuries_card(i: dict, injuries: dict | None) -> str:
 
     head = "<div class='sec'><h2>Eksikler (bilgi amaçlı)</h2></div>"
     if injuries is None:
-        return head + "<div class='card mut'>Bu maç için eksik oyuncu bilgisi henüz alınmadı (kaynak yalnızca maça en çok bir gün kala veri veriyor).</div>"
+        return (
+            head
+            + "<div class='card mut'>Bu maç için eksik oyuncu bilgisi henüz alınmadı (kaynak yalnızca maça en çok bir gün kala veri veriyor).</div>"
+        )
 
     def side(name: str, rows: list[dict]) -> str:
         if not rows:
@@ -371,6 +390,218 @@ def injuries_card(i: dict, injuries: dict | None) -> str:
     )
 
 
+COMP_EXTRA = {
+    "AUT1": "Avusturya Bundesliga",
+    "BEL1": "Belçika Pro Lig",
+    "GRE1": "Yunanistan Süper Ligi",
+    "NED1": "Eredivisie",
+    "POR1": "Portekiz Primeira Liga",
+    "SCO1": "İskoçya Premiership",
+}
+TAB_SCRIPT = (
+    "<script>document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){"
+    "document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on')});"
+    "document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on')});"
+    "b.classList.add('on');document.getElementById('t-'+b.dataset.t).classList.add('on');"
+    "window.scrollTo({top:0,behavior:'smooth'});});});</script>"
+)
+
+
+def short_date(iso: str) -> str:
+    y, m, d = iso.split("-")
+    return f"{d}.{m}.{y[2:]}"
+
+
+def stale_note(rows: list[dict], generated_at: str) -> str:
+    """A team whose newest match is old has no current data in our sources: say so instead of hiding it."""
+    if not rows:
+        return ""
+    newest = datetime.fromisoformat(rows[0]["date"]).date()
+    now = datetime.fromisoformat(generated_at).date()
+    if (now - newest).days <= 21:
+        return ""
+    return f"<p class='note'>Bu takımın en son maçı {e(short_date(rows[0]['date']))}: güncel ligi için kaynak verimizde sonuç yok, bu yüzden gücü eski verilerden tahmin edildi.</p>"
+
+
+def comp_name(key: str) -> str:
+    return LEAGUES[key][0] if key in LEAGUES else COMP_EXTRA.get(key, key)
+
+
+def cell(label: str, p: float | None, top: bool = False) -> str:
+    return f"<div class='cell{' sel' if top else ''}'>{e(label)}<b>{pct(p)}</b></div>"
+
+
+def category(title: str, inner: str, open_: bool = False) -> str:
+    return f"<details class='cat'{' open' if open_ else ''}><summary>{e(title)}</summary>{inner}</details>"
+
+
+def markets_tab(i: dict) -> str:
+    home, away = i["home"], i["away"]
+    res, g = i["result"], i["goals"]
+    hp, dc = res["headline_probs"], res["double_chance"]
+    topk = max(hp, key=hp.get)
+    out = [
+        category(
+            "Maç sonucu",
+            "<div class='cells c3'>"
+            + cell(f"{home} (1)", hp["home"], topk == "home")
+            + cell("Beraberlik (X)", hp["draw"], topk == "draw")
+            + cell(f"{away} (2)", hp["away"], topk == "away")
+            + "</div>",
+            True,
+        ),
+        category(
+            "Çifte şans",
+            "<div class='cells c3'>"
+            + cell("1X", dc["1X"])
+            + cell("12", dc["12"])
+            + cell("X2", dc["X2"])
+            + "</div>",
+        ),
+        category(
+            "Beraberlikte iade",
+            "<div class='cells c2'>"
+            + cell(home, res["draw_no_bet"]["home"])
+            + cell(away, res["draw_no_bet"]["away"])
+            + "</div><p class='note' style='padding:0 14px 12px;margin:0'>Beraberlik olursa bahis iade sayılır: yalnızca iki sonuç hesaplanır.</p>",
+        ),
+        category(
+            "Handikap (-1)",
+            "<div class='cells c2'>"
+            + cell(f"{home} (-1)", res["handicap_home_minus_1"])
+            + cell(f"{away} (-1)", res["handicap_away_minus_1"])
+            + "</div><p class='note' style='padding:0 14px 12px;margin:0'>Takımın en az 2 farkla kazanma ihtimali.</p>",
+        ),
+    ]
+    ou_rows = "".join(
+        f"<div class='cells c2' style='padding-bottom:0'>{cell(f'{x["line"]} Üst', x['over'])}{cell(f'{x["line"]} Alt', x['under'])}</div>"
+        for x in g["over_under"]
+    )
+    out.append(category("Toplam gol alt/üst", ou_rows + "<div style='height:12px'></div>", True))
+    out.append(
+        category(
+            "Karşılıklı gol",
+            "<div class='cells c2'>" + cell("Var", g["btts_yes"]) + cell("Yok", g["btts_no"]) + "</div>",
+        )
+    )
+    out.append(
+        category(
+            "Takım golleri",
+            "<div class='cells c2'>"
+            + cell(f"{home} 1.5 üst", g["home_over_1_5"])
+            + cell(f"{away} 1.5 üst", g["away_over_1_5"])
+            + cell(f"{home} gol yemez", g["home_clean_sheet"])
+            + cell(f"{away} gol yemez", g["away_clean_sheet"])
+            + "</div>",
+        )
+    )
+    top = i["scorelines"][:8]
+    mx = max(x["p"] for x in top)
+    scores = "".join(
+        f"<div class='sc'><b>{e(x['score'])}</b><div style='width:{x['p'] / mx * 60:.0f}%'></div><span>{pct(x['p'])}</span></div>"
+        for x in top
+    )
+    out.append(
+        category(
+            "Skor",
+            f"<div style='padding:0 14px 12px'>{scores}<p class='note'>Skor tahmini zordur: en olası skorun bile ihtimali genelde %10-15 civarında.</p></div>",
+        )
+    )
+    dist = g.get("total_goals_distribution")
+    if dist:
+        mxd = max(dist)
+        rows = "".join(
+            f"<div class='sc'><b>{'7+' if k == 7 else k}</b><div style='width:{v / mxd * 60:.0f}%'></div><span>{pct(v)}</span></div>"
+            for k, v in enumerate(dist)
+        )
+        out.append(category("Toplam gol sayısı", f"<div style='padding:0 14px 12px'>{rows}</div>"))
+    names = {"corners": "Korner", "yellow_cards": "Sarı kart", "shots_on_target": "İsabetli şut"}
+    for stat, c in (i.get("counts") or {}).items():
+        lines = "".join(
+            f"<div class='cells c2' style='padding-bottom:0'>{cell(f'{x["line"]} Üst', x['over'])}{cell(f'{x["line"]} Alt', x['under'])}</div>"
+            for x in c["over_under"]
+        )
+        out.append(
+            category(
+                names.get(stat, stat),
+                f"<p class='note' style='padding:0 14px'>Beklenen toplam: <b>{c['expected']['total']:.1f}</b></p>{lines}<div style='height:12px'></div>",
+            )
+        )
+    return "".join(out)
+
+
+RES_COLOR = {"W": "var(--g)", "D": "#9aa7a0", "L": "#c62828"}
+RES_LABEL = {"W": "G", "D": "B", "L": "M"}
+
+
+def match_rows(rows: list[dict], team_first: bool = True) -> str:
+    return "".join(
+        f"<div class='mrow'><span class='d'>{e(short_date(r['date']))}<br><small>{e(comp_name(r['competition']))}</small></span>"
+        f"<span style='flex:1'>{'(E)' if r['home'] else '(D)'} {e(r['opponent'])}</span>"
+        f"<span class='sc2'>{e(r['score'])}</span><span class='res' style='background:{RES_COLOR[r['result']]}'>{RES_LABEL[r['result']]}</span></div>"
+        for r in rows
+    )
+
+
+def form_tab(i: dict) -> str:
+    d = i.get("details")
+    if not d:
+        return "<div class='card mut'>Bu tahmin ayrıntı istatistikleri eklenmeden önce üretildi; bir sonraki yenilemede görünür.</div>"
+    home, away = i["home"], i["away"]
+    out = []
+    for name, rows in ((home, d["recent"]["home"]), (away, d["recent"]["away"])):
+        chips = (
+            "".join(
+                f"<span class='res' style='background:{RES_COLOR[r['result']]};margin-right:4px'>{RES_LABEL[r['result']]}</span>"
+                for r in reversed(rows[:5])
+            )
+            or "<span class='mut'>veri yok</span>"
+        )
+        first, rest = match_rows(rows[:3]), match_rows(rows[3:])
+        more = f"<details class='more'><summary>Tümünü gör</summary>{rest}</details>" if rest else ""
+        out.append(
+            f"<div class='sec'><h2>{e(name)} · son maçlar</h2></div><div class='card'><p style='margin:0 0 8px'>{chips}</p>"
+            f"{first or '<span class=mut>Maç verisi yok.</span>'}{more}{stale_note(rows, i['generated_at'])}</div>"
+        )
+    h2h = d["h2h"]
+    if h2h:
+        rows = "".join(
+            f"<div class='mrow'><span class='d'>{e(short_date(r['date']))}<br><small>{e(comp_name(r['competition']))}</small></span>"
+            f"<span style='flex:1;text-align:right'>{e(r['home'])}</span><span class='sc2'>{e(r['score'])}</span>"
+            f"<span style='flex:1'>{e(r['away'])}</span></div>"
+            for r in h2h
+        )
+        out.append(f"<div class='sec'><h2>Aralarındaki maçlar</h2></div><div class='card'>{rows}</div>")
+    else:
+        out.append(
+            "<div class='sec'><h2>Aralarındaki maçlar</h2></div><div class='card mut'>Bu iki takımın veri setimizde ortak maçı yok (2019'dan beri).</div>"
+        )
+    return "".join(out)
+
+
+def table_tab(i: dict) -> str:
+    d = i.get("details") or {}
+    t = d.get("table")
+    if not t:
+        why = (
+            "Bu maç bir Avrupa kupası maçı: güncel sezon puan tablosu için kaynak veride kupa sonuçları henüz yok."
+            if i["league"] in ("UCL", "UEL", "UECL")
+            else "Bu lig için puan tablosu verisi yok."
+        )
+        return f"<div class='card mut'>{e(why)}</div>"
+    ids = {i["home_team_id"], i["away_team_id"]}
+    rows = "".join(
+        f"<tr class='{'me' if r['team_id'] in ids else ''}'><td>{r['pos']}</td><td>{e(r['team'])}</td><td>{r['p']}</td>"
+        f"<td>{r['w']}-{r['d']}-{r['l']}</td><td>{r['gd']:+d}</td><td><b>{r['pts']}</b></td></tr>"
+        for r in t["rows"]
+    )
+    return (
+        f"<div class='sec'><h2>{e(comp_name(i['league']))} {e(t['season'])}</h2></div><div class='card'><table>"
+        "<tr><th>#</th><th>Takım</th><th>O</th><th>G-B-M</th><th>Av</th><th>P</th></tr>"
+        f"{rows}</table><p class='note'>Tablo, elimizdeki sonuçlardan hesaplandı; resmi tablodan farklı olabilir (eksik maç, puan silme).</p></div>"
+    )
+
+
 def match_page(
     i: dict, picks: list[dict], logos, fav_ids: list[str] | None = None, injuries: dict | None = None
 ) -> str:
@@ -383,29 +614,30 @@ def match_page(
         else "Bu olasılıklar <b>istatistiksel modelden</b> geliyor (bu maç için güvenilir oran verisi yok)."
     )
     hero = (
-        f"<div class='hero'><div class='mut' style='color:#e6f6ed'>{e(LEAGUES[i['league']][0])} · {e(kickoff_tr(i['kickoff_utc']))}</div>"
+        f"<div class='hero'><div class='mut' style='color:#e6f6ed'>{e(comp_name(i['league']))} · {e(kickoff_tr(i['kickoff_utc']))}</div>"
         f"<div style='display:flex;justify-content:space-around;align-items:center;margin-top:10px;text-align:center'>"
         f"<div>{team_badge(i, 'home', logos, False)}<div><b>{e(home)}</b> {star(i['home_team_id'], fav_ids, i['fixture_id'])}</div></div><b style='font-size:20px'>VS</b>"
         f"<div>{team_badge(i, 'away', logos, False)}<div><b>{e(away)}</b> {star(i['away_team_id'], fav_ids, i['fixture_id'])}</div></div></div></div>"
     )
     hero = hero.replace("<div class='hero'>", "<div class='hero'><a href='/' style='font-size:22px'>‹</a>", 1)
+    neutral = (
+        "<div class='card mut'>Final tek bir tarafsız sahada oynanır: ev sahibi avantajı hesaba katılmadı.</div>"
+        if i.get("neutral_venue")
+        else ""
+    )
     compare = ""
     if res["market_probs_devig"]:
         m, md = res["market_probs_devig"], res["model_probs"]
         compare = (
-            f"<div class='sec'><h2>Model ve piyasa</h2></div><div class='card'><table><tr><th></th><th>1</th><th>X</th><th>2</th></tr>"
+            "<div class='sec'><h2>Model ve piyasa</h2></div><div class='card'><table><tr><th></th><th>1</th><th>X</th><th>2</th></tr>"
             f"<tr><td>Piyasa (komisyonsuz)</td><td>{pct(m['home'])}</td><td>{pct(m['draw'])}</td><td>{pct(m['away'])}</td></tr>"
             f"<tr><td>Model</td><td>{pct(md['home'])}</td><td>{pct(md['draw'])}</td><td>{pct(md['away'])}</td></tr></table></div>"
         )
     top = i["scorelines"][:6]
-    mx = max(s["p"] for s in top)
+    mx = max(x["p"] for x in top)
     scores = "".join(
-        f"<div class='sc'><b>{e(s['score'])}</b><div style='width:{s['p'] / mx * 60:.0f}%'></div><span>{pct(s['p'])}</span></div>"
-        for s in top
-    )
-    ou = "".join(
-        f"<tr><td>{x['line']}</td><td>{pct(x['over'])}</td><td>{pct(x['under'])}</td></tr>"
-        for x in g["over_under"]
+        f"<div class='sc'><b>{e(x['score'])}</b><div style='width:{x['p'] / mx * 60:.0f}%'></div><span>{pct(x['p'])}</span></div>"
+        for x in top
     )
     tips = "".join(
         f"<tr><td>{e(tr_pick(t['market'], t['pick'], home, away))}</td><td>{pct(t['probability'])}</td><td class='{'ok' if t['lean'] != 'toss-up' else ''}'>{e(LEAN.get(t['lean'], t['lean']))}</td></tr>"
@@ -414,8 +646,8 @@ def match_page(
     if picks:
         sel = {"H": f"{home} kazanır", "D": "Beraberlik", "A": f"{away} kazanır"}
         rows = "".join(
-            f"<tr><td>{e(sel[p['selection']])}</td><td>{pct(p['mean_model_prob'])}</td><td>{pct(p['market_prob_devig'])}</td><td>{p['ev_per_unit']:+.2f}</td><td>%{p['stake_hint_pct_of_bankroll']:.1f}</td></tr>"
-            for p in picks
+            f"<tr><td>{e(sel[x['selection']])}</td><td>{pct(x['mean_model_prob'])}</td><td>{pct(x['market_prob_devig'])}</td><td>{x['ev_per_unit']:+.2f}</td><td>%{x['stake_hint_pct_of_bankroll']:.1f}</td></tr>"
+            for x in picks
         )
         value = (
             "<div class='card warn'><table><tr><th>Seçim</th><th>Model</th><th>Piyasa</th><th>Değer</th><th>Stake ipucu</th></tr>"
@@ -429,23 +661,58 @@ def match_page(
         "".join(f"<li>{e(f)}</li>" for f in i["data_quality"]["flags"])
         or "<li>Belirgin bir veri sorunu yok.</li>"
     )
-    body = (
-        f"<div class='sec'><h2>Sonuç olasılıkları</h2></div><div class='card'>"
+    summary = (
+        "<div class='sec'><h2>Sonuç olasılıkları</h2></div><div class='card'>"
         f"<div class='bar'><i style='width:{hp['home'] * 100:.1f}%;background:var(--g)'></i><i style='width:{hp['draw'] * 100:.1f}%;background:#9aa7a0'></i><i style='width:{hp['away'] * 100:.1f}%;background:#e3813a'></i></div>"
         f"<div style='display:flex;justify-content:space-between'><span>{e(home)} <b>{pct(hp['home'])}</b></span><span>Beraberlik <b>{pct(hp['draw'])}</b></span><span>{e(away)} <b>{pct(hp['away'])}</b></span></div>"
         f"<p class='note'>{basis}</p><p class='mut'>Çifte şans: 1X {pct(res['double_chance']['1X'])} · 12 {pct(res['double_chance']['12'])} · X2 {pct(res['double_chance']['X2'])}</p></div>"
+        + neutral
         + compare
         + f"<div class='sec'><h2>En olası skorlar</h2></div><div class='card'>{scores}<p class='note'>Skor tahmini zordur: en olası skorun bile ihtimali genelde %10-15 civarında.</p></div>"
         f"<div class='sec'><h2>Goller</h2></div><div class='card'><p>Beklenen gol: {e(home)} <b>{g['expected']['home']:.2f}</b> - {e(away)} <b>{g['expected']['away']:.2f}</b></p>"
-        f"<table><tr><th>Çizgi</th><th>Üst</th><th>Alt</th></tr>{ou}</table>"
-        f"<p class='mut'>İki takım da gol atar: {pct(g['btts_yes'])} · {e(home)} kalesini gole kapatır: {pct(g['home_clean_sheet'])} · {e(away)}: {pct(g['away_clean_sheet'])}</p></div>"
-        f"{form_section(i)}{goals_chart(g)}"
+        f"<p class='mut'>İki takım da gol atar: {pct(g['btts_yes'])} · 2.5 üst: {pct(next(x['over'] for x in g['over_under'] if x['line'] == 2.5))}</p></div>"
+    )
+    advice = (
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"
         "<p class='note'>Eğilim = ihtimal ne kadar yüksek. %65+ güçlü eğilim, %55+ eğilim, altı belirsiz. Garanti değil.</p></div>"
         f"<div class='sec'><h2>Bahis önerisi (araştırma amaçlı)</h2></div>{value}"
-        f"{injuries_card(i, injuries)}"
+    )
+    quality = (
         f"<div class='sec'><h2>Veri kalitesi</h2></div><div class='card'><ul style='margin:0;padding-left:18px'>{flags}</ul>"
-        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yukarıda yalnızca bilgi olarak gösterilir).</p></div>"
+        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yalnızca bilgi olarak gösterilir).</p></div>"
+    )
+    tabs = (
+        ("ozet", "Özet"),
+        ("market", "Marketler"),
+        ("form", "Form ve maçlar"),
+        ("puan", "Puan"),
+        ("eksik", "Eksikler"),
+        ("oneri", "Tavsiye"),
+        ("veri", "Veri"),
+    )
+    bar = (
+        "<div class='tabs'>"
+        + "".join(
+            f"<button data-t='{k}' class='{'on' if k == 'ozet' else ''}'>{lab}</button>" for k, lab in tabs
+        )
+        + "</div>"
+    )
+    contents = {
+        "ozet": summary,
+        "market": markets_tab(i),
+        "form": form_tab(i),
+        "puan": table_tab(i),
+        "eksik": injuries_card(i, injuries),
+        "oneri": advice,
+        "veri": quality,
+    }
+    body = (
+        bar
+        + "".join(
+            f"<section id='t-{k}' class='tab{' on' if k == 'ozet' else ''}'>{contents[k]}</section>"
+            for k, _ in tabs
+        )
+        + TAB_SCRIPT
     )
     return page(f"{home} - {away}", body, "leagues", hero=hero)
 
@@ -466,25 +733,86 @@ def tips_page(rows: list[dict], names: dict[str, tuple[str, str]]) -> str:
     )
 
 
+def _mark(ok: bool) -> str:
+    return (
+        "<span style='color:var(--g);font-weight:700'>✓</span>"
+        if ok
+        else "<span style='color:#c62828;font-weight:700'>✗</span>"
+    )
+
+
+def track_match(m: dict) -> str:
+    side = {"H": "1", "D": "X", "A": "2"}
+    return (
+        "<div class='card' style='margin:8px 14px'>"
+        f"<div class='mut' style='font-size:12px'>{e(m['date'])} · {e(comp_name(m['league']))}</div>"
+        f"<div style='display:flex;justify-content:space-between;gap:8px;align-items:center'><b>{e(m['home'])} - {e(m['away'])}</b>"
+        f"<b style='font-size:18px'>{e(m['score'])}</b></div>"
+        "<div style='display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;font-size:13px'>"
+        f"<span>Sonuç {side[m['pick']]} ({pct(m['pick_prob'])}) {_mark(m['pick_hit'])}</span>"
+        f"<span>Skor {e(m['score_pick'])} {_mark(m['score_hit'])}</span>"
+        f"<span>2.5 {e(m['ou_pick'])} {_mark(m['ou_hit'])}</span>"
+        f"<span>KG {e(m['btts_pick'])} {_mark(m['btts_hit'])}</span></div></div>"
+    )
+
+
 def track_page(t: dict) -> str:
     if not t["available"] or not t["matches_scored"]:
         body = "<div class='card warn'>Henüz sonuçlanmış maç yok. İlk sonuçlar tur bittiğinde burada görünecek.</div>"
     else:
         h = t["headline_1x2"]
+        hr = t.get("hit_rates") or {}
+        naive = t.get("naive_hit_rates") or {}
+
+        def hit_row(label: str, key: str, note: str = "") -> str:
+            v = hr.get(key)
+            if not v or not v["n"]:
+                return ""
+            lo, hi = v["ci95"]
+            return (
+                f"<tr><td>{e(label)}</td><td>{v['hits']}/{v['n']}</td><td><b>{pct(v['rate'])}</b></td>"
+                f"<td class='mut'>{pct(lo)} - {pct(hi)}</td></tr>"
+            )
+
+        rows = (
+            hit_row("Maç sonucu (1X2)", "1x2")
+            + hit_row("2.5 alt/üst", "over_under_2_5")
+            + hit_row("Karşılıklı gol", "btts")
+            + hit_row("Doğru skor", "correct_score")
+        )
+        base = ""
+        if naive.get("1x2_always_home") is not None:
+            base = (
+                f"<p class='note'>Karşılaştırma: her maça \"ev sahibi kazanır\" deseydik {pct(naive['1x2_always_home'])}, "
+                f'her maça "2.5 üst" deseydik {pct(naive["over_2_5_always_over"])} tutardı. '
+                "Aralık, %95 güven aralığıdır: az maçta çok geniş çıkar.</p>"
+            )
         tips = "".join(
             f"<tr><td>{e(LEAN.get(k, k))}</td><td>{v['hit']}/{v['n']}</td><td>{pct(v['rate'])}</td></tr>"
             for k, v in t["tips_by_lean"].items()
         )
+        few = (
+            "Henüz çok az maç var: sonuçlar gürültü sayılır."
+            if t["reliability_note"].startswith("noise")
+            else "İlk okuma için yeterli maç var; kayıt hâlâ kısa."
+        )
+        listing = t.get("matches") or []
+        shown, rest = listing[:30], listing[30:]
+        lst = "".join(track_match(m) for m in shown)
+        if rest:
+            lst += f"<details class='more' style='margin:0 14px'><summary>Kalan {len(rest)} maçı gör</summary>{''.join(track_match(m) for m in rest)}</details>"
         body = (
-            f"<div class='card warn'><b>{t['matches_scored']} maç değerlendirildi.</b> {'Henüz çok az maç var: sonuçlar gürültü sayılır' if t['reliability_note'].startswith('noise') else 'İlk okuma için yeterli, ama kayıt hâlâ kısa'}. 100 maçtan azsa bu sayılar rastlantıdan ayırt edilemez.</div>"
+            f"<div class='card warn'><b>{t['matches_scored']} maç değerlendirildi.</b> {few}</div>"
+            "<div class='sec'><h2>İsabet oranı</h2></div>"
+            f"<div class='card'><table><tr><th>Tahmin</th><th>Tuttu</th><th>Oran</th><th>Aralık</th></tr>{rows}</table>{base}</div>"
             f"<div class='card'><table><tr><th>Ölçü</th><th>Değer</th></tr><tr><td>Log kaybı (düşük iyi)</td><td>{h['log_loss']:.3f}</td></tr>"
-            f"<tr><td>Lig taban oranı ile kıyas</td><td>{h['log_loss_league_base_rate']:.3f}</td></tr>"
-            f"<tr><td>İlk seçimin tutma oranı</td><td>{pct(h['top_pick_accuracy'])}</td></tr><tr><td>Doğru skoru bilme</td><td>{pct(t['correct_score_hit_rate'])}</td></tr></table></div>"
-            f"<div class='card'><table><tr><th>Eğilim</th><th>Tuttu</th><th>Oran</th></tr>{tips}</table></div>"
+            f"<tr><td>Lig taban oranı ile kıyas</td><td>{h['log_loss_league_base_rate']:.3f}</td></tr></table></div>"
+            f"<div class='sec'><h2>Eğilime göre</h2></div><div class='card'><table><tr><th>Eğilim</th><th>Tuttu</th><th>Oran</th></tr>{tips}</table></div>"
+            f"<div class='sec'><h2>Tüm değerlendirilen maçlar</h2></div>{lst}"
         )
     return page(
         "Başarı kaydı",
-        "<div class='card mut'>Yayınlanan tahminler maçtan önce kilitlenir; maç bitince gerçek sonuçla karşılaştırılır.</div>"
+        "<div class='card mut'>Yayınlanan tahminler maçtan önce kilitlenir; maç bitince gerçek sonuçla karşılaştırılır. Listede yalnızca tahminin maçtan önce üretildiği maçlar vardır.</div>"
         + body,
         "profile",
         back="/profil",
@@ -502,7 +830,80 @@ def about_page() -> str:
     )  # fmt: skip
 
 
-LEGAL = {'privacy': ('Gizlilik politikası', [('p', 'Bu uygulama futbol maçları için istatistiksel olasılık bilgisi verir. Mümkün olduğunca az kişisel veri işler.'), ('h', 'Hangi verileri işliyoruz?'), ('li', 'Misafir girişi: hiçbir kişisel veri alınmaz; yalnızca tarayıcında imzalı bir oturum çerezi tutulur.'), ('li', "Google ile giriş: Google'ın verdiği hesap kimliği, adın ve e-posta adresin. Şifren bize hiç ulaşmaz."), ('li', 'Telefon ile giriş: numaran saklanmaz; yalnızca tek yönlü bir özet (hash) ve numaranın son 4 hanesi tutulur.'), ('li', 'Favori takımların ve maçların, hesabına bağlı olarak sunucudaki veritabanında saklanır.'), ('h', 'Ne yapmıyoruz?'), ('li', 'Reklam göstermiyoruz, seni takip etmiyoruz, verini satmıyoruz veya üçüncü taraflarla pazarlama için paylaşmıyoruz.'), ('li', 'Analitik veya izleme çerezi kullanmıyoruz; tek çerez oturum (ve dil tercihi) çerezidir.'), ('h', 'Verilerini silme'), ('p', 'Profil sayfasındaki "Verilerimi sil" düğmesi hesabına bağlı tüm verileri (favoriler dahil) siler.'), ('h', 'Bu belge hakkında'), ('p', 'Bu metin bir taslaktır ve hukuki danışmanlık değildir; yayına almadan önce bir hukukçu tarafından gözden geçirilmelidir.')]), 'terms': ('Kullanım koşulları', [('p', 'Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursun.'), ('h', 'Bilgi amaçlıdır'), ('li', 'Gösterilen tahminler istatistiksel modellerin olasılık hesaplarıdır; kazanç garantisi vermez ve yatırım veya bahis tavsiyesi değildir.'), ('li', 'Uygulama bahis oynatmaz, bahis aracılığı yapmaz ve para kabul etmez.'), ('li', 'Geçmiş testlerde hiçbir model piyasa oranlarını geçemedi; "bahis önerisi" bölümü yalnızca araştırma amaçlıdır.'), ('h', 'Yaş sınırı ve sorumlu oyun'), ('li', 'Uygulama 18 yaş ve üzeri içindir. Bahis oynamak bağımlılık yapabilir; kaybetmeyi göze alamayacağın parayla oynama.'), ('li', 'Bulunduğun ülkede bahis yasaksa veya kısıtlıysa o kurallara uymak sana aittir.'), ('h', 'Veri ve doğruluk'), ('li', 'Veriler üçüncü taraf kaynaklardan gelir ve eksik veya geç olabilir; kadro, sakatlık ve hava durumu tahmine girmez.'), ('li', 'Hizmet olduğu gibi sunulur; kesintisiz veya hatasız çalışacağı garanti edilmez.'), ('h', 'Bu belge hakkında'), ('p', 'Bu metin bir taslaktır ve hukuki danışmanlık değildir; yayına almadan önce bir hukukçu tarafından gözden geçirilmelidir.')])}
+LEGAL = {
+    "privacy": (
+        "Gizlilik politikası",
+        [
+            (
+                "p",
+                "Bu uygulama futbol maçları için istatistiksel olasılık bilgisi verir. Mümkün olduğunca az kişisel veri işler.",
+            ),
+            ("h", "Hangi verileri işliyoruz?"),
+            (
+                "li",
+                "Misafir girişi: hiçbir kişisel veri alınmaz; yalnızca tarayıcında imzalı bir oturum çerezi tutulur.",
+            ),
+            (
+                "li",
+                "Google ile giriş: Google'ın verdiği hesap kimliği, adın ve e-posta adresin. Şifren bize hiç ulaşmaz.",
+            ),
+            (
+                "li",
+                "Telefon ile giriş: numaran saklanmaz; yalnızca tek yönlü bir özet (hash) ve numaranın son 4 hanesi tutulur.",
+            ),
+            ("li", "Favori takımların ve maçların, hesabına bağlı olarak sunucudaki veritabanında saklanır."),
+            ("h", "Ne yapmıyoruz?"),
+            (
+                "li",
+                "Reklam göstermiyoruz, seni takip etmiyoruz, verini satmıyoruz veya üçüncü taraflarla pazarlama için paylaşmıyoruz.",
+            ),
+            ("li", "Analitik veya izleme çerezi kullanmıyoruz; tek çerez oturum (ve dil tercihi) çerezidir."),
+            ("h", "Verilerini silme"),
+            (
+                "p",
+                'Profil sayfasındaki "Verilerimi sil" düğmesi hesabına bağlı tüm verileri (favoriler dahil) siler.',
+            ),
+            ("h", "Bu belge hakkında"),
+            (
+                "p",
+                "Bu metin bir taslaktır ve hukuki danışmanlık değildir; yayına almadan önce bir hukukçu tarafından gözden geçirilmelidir.",
+            ),
+        ],
+    ),
+    "terms": (
+        "Kullanım koşulları",
+        [
+            ("p", "Bu uygulamayı kullanarak aşağıdaki koşulları kabul etmiş olursun."),
+            ("h", "Bilgi amaçlıdır"),
+            (
+                "li",
+                "Gösterilen tahminler istatistiksel modellerin olasılık hesaplarıdır; kazanç garantisi vermez ve yatırım veya bahis tavsiyesi değildir.",
+            ),
+            ("li", "Uygulama bahis oynatmaz, bahis aracılığı yapmaz ve para kabul etmez."),
+            (
+                "li",
+                'Geçmiş testlerde hiçbir model piyasa oranlarını geçemedi; "bahis önerisi" bölümü yalnızca araştırma amaçlıdır.',
+            ),
+            ("h", "Yaş sınırı ve sorumlu oyun"),
+            (
+                "li",
+                "Uygulama 18 yaş ve üzeri içindir. Bahis oynamak bağımlılık yapabilir; kaybetmeyi göze alamayacağın parayla oynama.",
+            ),
+            ("li", "Bulunduğun ülkede bahis yasaksa veya kısıtlıysa o kurallara uymak sana aittir."),
+            ("h", "Veri ve doğruluk"),
+            (
+                "li",
+                "Veriler üçüncü taraf kaynaklardan gelir ve eksik veya geç olabilir; kadro, sakatlık ve hava durumu tahmine girmez.",
+            ),
+            ("li", "Hizmet olduğu gibi sunulur; kesintisiz veya hatasız çalışacağı garanti edilmez."),
+            ("h", "Bu belge hakkında"),
+            (
+                "p",
+                "Bu metin bir taslaktır ve hukuki danışmanlık değildir; yayına almadan önce bir hukukçu tarafından gözden geçirilmelidir.",
+            ),
+        ],
+    ),
+}
 
 
 def legal_page(kind: str) -> str:

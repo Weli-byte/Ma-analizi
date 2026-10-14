@@ -27,6 +27,7 @@ from src.odds.value import snapshots
 from src.versioning import canonical_json
 
 from .data import ingested_stat_matches, load_stat_matches, merge
+from .details import build_details
 from .model import MODEL_VERSION, fit_markets
 from .predict import intelligence
 
@@ -95,6 +96,7 @@ def write_artifact(
     count_markets: bool = False,
     form: dict | None = None,
     neutral: bool = False,  # cup final at one neutral venue: no home advantage
+    details: dict | None = None,  # recent matches, head-to-head, league table (ADR 0058)
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
     intel = intelligence(
@@ -109,6 +111,8 @@ def write_artifact(
         "feature_version": feature_version, "model_version": MODEL_VERSION, "config_hash": cfg_hash,
         "market_source": odds, "history": source_note, "form": form, "intelligence": intel,
     }  # fmt: skip
+    if details is not None:
+        body["details"] = details
     body["content_hash"] = hashlib.sha256(canonical_json(body).encode()).hexdigest()
     body["generated_at"] = now.isoformat()
     d = root / "artifacts" / "markets" / key
@@ -181,6 +185,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                  "statistics": stats_report},
                 count_markets,
                 {"home": recent_form(history, h.team_id, now, names), "away": recent_form(history, a.team_id, now, names)},
+                details=build_details(history, h.team_id, a.team_id, league, now, names),
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
@@ -207,6 +212,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                         "away": recent_form(history, fx["away_id"], now, names),
                     },
                     neutral,
+                    build_details(history, fx["home_id"], fx["away_id"], league, now, names),
                 )  # fmt: skip
                 if path is not None:
                     written.append({"fixture_key": key, "path": str(path)})
@@ -253,16 +259,19 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
     try:
         git("fetch", "--quiet", data_repo_url(), branch)
         names = git(
-            "ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/markets", "artifacts/injuries"
+            "ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/markets", "artifacts/injuries",
+            "artifacts/results",
         ).decode().split()
     except subprocess.CalledProcessError as e:
         return f"sync-remote: branch {branch!r} not available yet ({e.stderr.decode(errors='replace')[:100].strip()})"
     n = 0
     for name in names:
         dest = Path(root) / name
-        if not dest.exists():
+        data = git("show", f"FETCH_HEAD:{name}")
+        # forecasts are immutable (add-only); the results store is a growing fact table: take the newer copy
+        if not dest.exists() or (name.startswith("artifacts/results/") and dest.read_bytes() != data):
             dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(git("show", f"FETCH_HEAD:{name}"))
+            dest.write_bytes(data)
             n += 1
     return f"sync-remote: {len(names)} files on the data repo branch {branch}, {n} new"
 

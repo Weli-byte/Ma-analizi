@@ -308,5 +308,1115 @@
   "team_id": "TUR_yeni_malatyaspor",
   "name": "Yeni Malatyaspor",
   "country": "TUR"
+ },
+ {
+  "team_id": "AUT_lask",
+  "name": "LASK",
+  "country": "AUT"
+ },
+ {
+  "team_id": "BEL_union_saint_gilloise",
+  "name": "Union Saint-Gilloise",
+  "country": "BEL"
+ },
+ {
+  "team_id": "CRO_dinamo_zagreb",
+  "name": "Dinamo Zagreb",
+  "country": "CRO"
+ },
+ {
+  "team_id": "BEL_rsc_anderlecht",
+  "name": "RSC Anderlecht",
+  "country": "BEL"
+ },
+ {
+  "team_id": "POR_fc_porto",
+  "name": "FC Porto",
+  "country": "POR"
+ },
+ {
+  "team_id": "GRE_olympiakos_piraeus",
+  "name": "Olympiakos Piraeus",
+  "country": "GRE"
+ },
+ {
+  "team_id": "NED_psv_eindhoven",
+  "name": "PSV Eindhoven",
+  "country": "NED"
+ },
+ {
+  "team_id": "BEL_club_brugge_kv",
+  "name": "Club Brugge KV",
+  "country": "BEL"
+ },
+ {
+  "team_id": "NED_az_alkmaar",
+  "name": "AZ Alkmaar",
+  "country": "NED"
+ },
+ {
+  "team_id": "ISR_hapoel_be_er_sheva",
+  "name": "Hapoel Be'er Sheva",
+  "country": "ISR"
+ },
+ {
+  "team_id": "NED_feyenoord",
+  "name": "Feyenoord",
+  "country": "NED"
+ },
+ {
+  "team_id": "NOR_fk_bod_glimt",
+  "name": "FK Bodø/Glimt",
+  "country": "NOR"
+ },
+ {
+  "team_id": "POL_lech_poznan",
+  "name": "Lech Poznań",
+  "country": "POL"
+ },
+ {
+  "team_id": "POR_sl_benfica",
+  "name": "SL Benfica",
+  "country": "POR"
+ },
+ {
+  "team_id": "SCO_celtic_fc",
+  "name": "Celtic FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "ARM_fc_alashkert",
+  "name": "FC Alashkert",
+  "country": "ARM"
+ },
+ {
+  "team_id": "ARM_fc_noah",
+  "name": "FC Noah",
+  "country": "ARM"
+ },
+ {
+  "team_id": "ARM_pyunik_fc",
+  "name": "Pyunik FC",
+  "country": "ARM"
+ },
+ {
+  "team_id": "AUT_austria_wien",
+  "name": "Austria Wien",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_fc_red_bull_salzburg",
+  "name": "FC Red Bull Salzburg",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_rapid_wien",
+  "name": "Rapid Wien",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_sturm_graz",
+  "name": "Sturm Graz",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_wolfsberger_ac",
+  "name": "Wolfsberger AC",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AZE_qarabag_fk",
+  "name": "Qarabağ FK",
+  "country": "AZE"
+ },
+ {
+  "team_id": "BEL_cercle_brugge",
+  "name": "Cercle Brugge",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_kaa_gent",
+  "name": "KAA Gent",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_krc_genk",
+  "name": "KRC Genk",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_royal_antwerp_fc",
+  "name": "Royal Antwerp FC",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_royale_union_saint_gilloise",
+  "name": "Royale Union Saint-Gilloise",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_standard_liege",
+  "name": "Standard Liège",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BIH_borac_banja_luka",
+  "name": "Borac Banja Luka",
+  "country": "BIH"
+ },
+ {
+  "team_id": "BIH_zrinjski_mostar",
+  "name": "Zrinjski Mostar",
+  "country": "BIH"
+ },
+ {
+  "team_id": "BLR_dinamo_minsk",
+  "name": "Dinamo Minsk",
+  "country": "BLR"
+ },
+ {
+  "team_id": "BUL_cska_sofia",
+  "name": "CSKA Sofia",
+  "country": "BUL"
+ },
+ {
+  "team_id": "BUL_pfc_ludogorets_razgrad",
+  "name": "PFC Ludogorets Razgrad",
+  "country": "BUL"
+ },
+ {
+  "team_id": "CRO_hnk_rijeka",
+  "name": "HNK Rijeka",
+  "country": "CRO"
+ },
+ {
+  "team_id": "CYP_aek_larnaca",
+  "name": "AEK Larnaca",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CYP_anorthosis_famagusta",
+  "name": "Anorthosis Famagusta",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CYP_apoel_nikosia",
+  "name": "APOEL Nikosia",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CYP_apollon_limassol",
+  "name": "Apollon Limassol",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CYP_aris_limassol",
+  "name": "Aris Limassol",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CYP_omonia_nikosia",
+  "name": "Omonia Nikosia",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CYP_paphos_fc",
+  "name": "Paphos FC",
+  "country": "CYP"
+ },
+ {
+  "team_id": "CZE_1_fc_slovacko",
+  "name": "1. FC Slovácko",
+  "country": "CZE"
+ },
+ {
+  "team_id": "CZE_ac_sparta_praha",
+  "name": "AC Sparta Praha",
+  "country": "CZE"
+ },
+ {
+  "team_id": "CZE_fk_jablonec",
+  "name": "FK Jablonec",
+  "country": "CZE"
+ },
+ {
+  "team_id": "CZE_fk_mlada_boleslav",
+  "name": "FK Mladá Boleslav",
+  "country": "CZE"
+ },
+ {
+  "team_id": "CZE_slavia_praha",
+  "name": "Slavia Praha",
+  "country": "CZE"
+ },
+ {
+  "team_id": "CZE_slovan_liberec",
+  "name": "Slovan Liberec",
+  "country": "CZE"
+ },
+ {
+  "team_id": "CZE_viktoria_plzen",
+  "name": "Viktoria Plzeň",
+  "country": "CZE"
+ },
+ {
+  "team_id": "DEN_brndby_if",
+  "name": "Brøndby IF",
+  "country": "DEN"
+ },
+ {
+  "team_id": "DEN_fc_kbenhavn",
+  "name": "FC København",
+  "country": "DEN"
+ },
+ {
+  "team_id": "DEN_fc_midtjylland",
+  "name": "FC Midtjylland",
+  "country": "DEN"
+ },
+ {
+  "team_id": "DEN_fc_nordsjlland",
+  "name": "FC Nordsjælland",
+  "country": "DEN"
+ },
+ {
+  "team_id": "DEN_randers_fc",
+  "name": "Randers FC",
+  "country": "DEN"
+ },
+ {
+  "team_id": "DEN_silkeborg_if",
+  "name": "Silkeborg IF",
+  "country": "DEN"
+ },
+ {
+  "team_id": "EST_fc_flora",
+  "name": "FC Flora",
+  "country": "EST"
+ },
+ {
+  "team_id": "FIN_hjk_helsinki",
+  "name": "HJK Helsinki",
+  "country": "FIN"
+ },
+ {
+  "team_id": "FRO_ki_klaksvik",
+  "name": "KÍ Klaksvík",
+  "country": "FRO"
+ },
+ {
+  "team_id": "GIB_lincoln_red_imps",
+  "name": "Lincoln Red Imps",
+  "country": "GIB"
+ },
+ {
+  "team_id": "GRE_aek_athen",
+  "name": "AEK Athen",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_pae_olympiakos_sfp",
+  "name": "PAE Olympiakos SFP",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_panathinaikos",
+  "name": "Panathinaikos",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_paok_saloniki",
+  "name": "PAOK Saloniki",
+  "country": "GRE"
+ },
+ {
+  "team_id": "HUN_ferencvarosi_tc",
+  "name": "Ferencvárosi TC",
+  "country": "HUN"
+ },
+ {
+  "team_id": "IRL_dundalk_fc",
+  "name": "Dundalk FC",
+  "country": "IRL"
+ },
+ {
+  "team_id": "IRL_shamrock_rovers",
+  "name": "Shamrock Rovers",
+  "country": "IRL"
+ },
+ {
+  "team_id": "ISL_breiablik",
+  "name": "Breiðablik",
+  "country": "ISL"
+ },
+ {
+  "team_id": "ISL_vikingur_reykjavik",
+  "name": "Víkingur Reykjavík",
+  "country": "ISL"
+ },
+ {
+  "team_id": "ISR_maccabi_haifa",
+  "name": "Maccabi Haifa",
+  "country": "ISR"
+ },
+ {
+  "team_id": "ISR_maccabi_tel_aviv",
+  "name": "Maccabi Tel Aviv",
+  "country": "ISR"
+ },
+ {
+  "team_id": "KAZ_fk_astana",
+  "name": "FK Astana",
+  "country": "KAZ"
+ },
+ {
+  "team_id": "KAZ_fk_kairat",
+  "name": "FK Kairat",
+  "country": "KAZ"
+ },
+ {
+  "team_id": "KOS_kf_ballkani",
+  "name": "KF Ballkani",
+  "country": "KOS"
+ },
+ {
+  "team_id": "LIE_fc_vaduz",
+  "name": "FC Vaduz",
+  "country": "LIE"
+ },
+ {
+  "team_id": "LTU_fk_zalgiris",
+  "name": "FK Žalgiris",
+  "country": "LTU"
+ },
+ {
+  "team_id": "LVA_fk_rfs",
+  "name": "FK RFS",
+  "country": "LVA"
+ },
+ {
+  "team_id": "MCO_as_monaco_fc",
+  "name": "AS Monaco FC",
+  "country": "MCO"
+ },
+ {
+  "team_id": "MDA_cs_petrocub",
+  "name": "CS Petrocub",
+  "country": "MDA"
+ },
+ {
+  "team_id": "MDA_fc_sheriff",
+  "name": "FC Sheriff",
+  "country": "MDA"
+ },
+ {
+  "team_id": "NED_afc_ajax",
+  "name": "AFC Ajax",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_fc_twente",
+  "name": "FC Twente",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_vitesse",
+  "name": "Vitesse",
+  "country": "NED"
+ },
+ {
+  "team_id": "NIR_larne_fc",
+  "name": "Larne FC",
+  "country": "NIR"
+ },
+ {
+  "team_id": "NOR_molde_fk",
+  "name": "Molde FK",
+  "country": "NOR"
+ },
+ {
+  "team_id": "POL_jagiellonia_biaystok",
+  "name": "Jagiellonia Białystok",
+  "country": "POL"
+ },
+ {
+  "team_id": "POL_legia_warszawa",
+  "name": "Legia Warszawa",
+  "country": "POL"
+ },
+ {
+  "team_id": "POL_rakow_czestochowa",
+  "name": "Raków Częstochowa",
+  "country": "POL"
+ },
+ {
+  "team_id": "POR_sport_lisboa_e_benfica",
+  "name": "Sport Lisboa e Benfica",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_sporting_braga",
+  "name": "Sporting Braga",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_sporting_clube_de_portugal",
+  "name": "Sporting Clube de Portugal",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_vitoria_guimaraes",
+  "name": "Vitória Guimarães",
+  "country": "POR"
+ },
+ {
+  "team_id": "ROU_cfr_cluj",
+  "name": "CFR Cluj",
+  "country": "ROU"
+ },
+ {
+  "team_id": "ROU_fcsb",
+  "name": "FCSB",
+  "country": "ROU"
+ },
+ {
+  "team_id": "RUS_cska_moskva",
+  "name": "CSKA Moskva",
+  "country": "RUS"
+ },
+ {
+  "team_id": "RUS_fk_krasnodar",
+  "name": "FK Krasnodar",
+  "country": "RUS"
+ },
+ {
+  "team_id": "RUS_lokomotiv_moskva",
+  "name": "Lokomotiv Moskva",
+  "country": "RUS"
+ },
+ {
+  "team_id": "RUS_spartak_moskva",
+  "name": "Spartak Moskva",
+  "country": "RUS"
+ },
+ {
+  "team_id": "RUS_zenit_st_petersburg",
+  "name": "Zenit St. Petersburg",
+  "country": "RUS"
+ },
+ {
+  "team_id": "SCO_aberdeen_fc",
+  "name": "Aberdeen FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_heart_of_midlothian",
+  "name": "Heart of Midlothian",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_rangers_fc",
+  "name": "Rangers FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SRB_fk_crvena_zvezda",
+  "name": "FK Crvena Zvezda",
+  "country": "SRB"
+ },
+ {
+  "team_id": "SRB_fk_cukaricki",
+  "name": "FK Čukarički",
+  "country": "SRB"
+ },
+ {
+  "team_id": "SRB_partizan",
+  "name": "Partizan",
+  "country": "SRB"
+ },
+ {
+  "team_id": "SRB_tsc_backa_topola",
+  "name": "TSC Bačka Topola",
+  "country": "SRB"
+ },
+ {
+  "team_id": "SUI_bsc_young_boys",
+  "name": "BSC Young Boys",
+  "country": "SUI"
+ },
+ {
+  "team_id": "SUI_fc_basel_1893",
+  "name": "FC Basel 1893",
+  "country": "SUI"
+ },
+ {
+  "team_id": "SUI_fc_lugano",
+  "name": "FC Lugano",
+  "country": "SUI"
+ },
+ {
+  "team_id": "SUI_fc_st_gallen",
+  "name": "FC St. Gallen",
+  "country": "SUI"
+ },
+ {
+  "team_id": "SUI_fc_zurich",
+  "name": "FC Zürich",
+  "country": "SUI"
+ },
+ {
+  "team_id": "SUI_servette_fc",
+  "name": "Servette FC",
+  "country": "SUI"
+ },
+ {
+  "team_id": "SVK_slovan_bratislava",
+  "name": "Slovan Bratislava",
+  "country": "SVK"
+ },
+ {
+  "team_id": "SVK_spartak_trnava",
+  "name": "Spartak Trnava",
+  "country": "SVK"
+ },
+ {
+  "team_id": "SVN_nk_celje",
+  "name": "NK Celje",
+  "country": "SVN"
+ },
+ {
+  "team_id": "SVN_ns_mura",
+  "name": "NŠ Mura",
+  "country": "SVN"
+ },
+ {
+  "team_id": "SVN_olimpija_ljubljana",
+  "name": "Olimpija Ljubljana",
+  "country": "SVN"
+ },
+ {
+  "team_id": "SWE_bk_hacken",
+  "name": "BK Häcken",
+  "country": "SWE"
+ },
+ {
+  "team_id": "SWE_djurgardens_if",
+  "name": "Djurgårdens IF",
+  "country": "SWE"
+ },
+ {
+  "team_id": "SWE_if_elfsborg",
+  "name": "IF Elfsborg",
+  "country": "SWE"
+ },
+ {
+  "team_id": "SWE_malmo_ff",
+  "name": "Malmö FF",
+  "country": "SWE"
+ },
+ {
+  "team_id": "UKR_dinamo_kiev",
+  "name": "Dinamo Kiev",
+  "country": "UKR"
+ },
+ {
+  "team_id": "UKR_shakhtar_donetsk",
+  "name": "Shakhtar Donetsk",
+  "country": "UKR"
+ },
+ {
+  "team_id": "UKR_sk_dnipro_1",
+  "name": "SK Dnipro-1",
+  "country": "UKR"
+ },
+ {
+  "team_id": "UKR_zorya_lugansk",
+  "name": "Zorya Lugansk",
+  "country": "UKR"
+ },
+ {
+  "team_id": "WAL_the_new_saints",
+  "name": "The New Saints",
+  "country": "WAL"
+ },
+ {
+  "team_id": "AUT_austria_lustenau",
+  "name": "Austria Lustenau",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_fc_admira_wacker",
+  "name": "FC Admira Wacker",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_fc_blau_wei_linz",
+  "name": "FC Blau Weiß Linz",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_grazer_ak",
+  "name": "Grazer AK",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_scr_altach",
+  "name": "SCR Altach",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_sk_austria_klagenfurt",
+  "name": "SK Austria Klagenfurt",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_skn_st_polten",
+  "name": "SKN St. Pölten",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_sv_mattersburg",
+  "name": "SV Mattersburg",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_sv_ried",
+  "name": "SV Ried",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_tsv_hartberg",
+  "name": "TSV Hartberg",
+  "country": "AUT"
+ },
+ {
+  "team_id": "AUT_wsg_tirol",
+  "name": "WSG Tirol",
+  "country": "AUT"
+ },
+ {
+  "team_id": "BEL_fcv_dender_eh",
+  "name": "FCV Dender EH",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_k_beerschot_va",
+  "name": "K Beerschot VA",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_kas_eupen",
+  "name": "KAS Eupen",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_kv_kortrijk",
+  "name": "KV Kortrijk",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_kv_mechelen",
+  "name": "KV Mechelen",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_kv_oostende",
+  "name": "KV Oostende",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_kvc_westerlo",
+  "name": "KVC Westerlo",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_oud_heverlee_leuven",
+  "name": "Oud-Heverlee Leuven",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_raal_la_louviere",
+  "name": "RAAL La Louviére",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_royal_excel_mouscron",
+  "name": "Royal Excel Mouscron",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_sint_truidense_vv",
+  "name": "Sint-Truidense VV",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_sporting_charleroi",
+  "name": "Sporting Charleroi",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_sv_zulte_waregem",
+  "name": "SV Zulte Waregem",
+  "country": "BEL"
+ },
+ {
+  "team_id": "BEL_waasland_beveren",
+  "name": "Waasland-Beveren",
+  "country": "BEL"
+ },
+ {
+  "team_id": "GRE_ae_kifisias",
+  "name": "AE Kifisias",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_ae_larissa",
+  "name": "AE Lárissa",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_apollon_smyrnis",
+  "name": "Apollon Smyrnis",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_aris_saloniki",
+  "name": "Aris Saloniki",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_asteras_tripolis",
+  "name": "Asteras Tripolis",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_atromitos",
+  "name": "Atromitos",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_gs_kallithea",
+  "name": "GS Kallithea",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_lamia",
+  "name": "Lamia",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_levadiakos",
+  "name": "Levadiakos",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_ofi_heraklion",
+  "name": "OFI Heraklion",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_panetolikos",
+  "name": "Panetolikos",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_panionios_gss",
+  "name": "Panionios GSS",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_panserraikos",
+  "name": "Panserraikos",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_pas_giannina",
+  "name": "PAS Giannina",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_volos_nfc",
+  "name": "Volos NFC",
+  "country": "GRE"
+ },
+ {
+  "team_id": "GRE_xanthi_fc",
+  "name": "Xanthi FC",
+  "country": "GRE"
+ },
+ {
+  "team_id": "NED_ado_den_haag",
+  "name": "ADO Den Haag",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_almere_city_fc",
+  "name": "Almere City FC",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_fc_emmen",
+  "name": "FC Emmen",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_fc_groningen",
+  "name": "FC Groningen",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_fc_utrecht",
+  "name": "FC Utrecht",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_fc_volendam",
+  "name": "FC Volendam",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_fortuna_sittard",
+  "name": "Fortuna Sittard",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_go_ahead_eagles",
+  "name": "Go Ahead Eagles",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_heracles_almelo",
+  "name": "Heracles Almelo",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_nac_breda",
+  "name": "NAC Breda",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_nec",
+  "name": "NEC",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_pec_zwolle",
+  "name": "PEC Zwolle",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_rkc_waalwijk",
+  "name": "RKC Waalwijk",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_sbv_excelsior",
+  "name": "SBV Excelsior",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_sbv_vitesse",
+  "name": "SBV Vitesse",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_sc_cambuur",
+  "name": "SC Cambuur",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_sc_heerenveen",
+  "name": "SC Heerenveen",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_sparta_rotterdam",
+  "name": "Sparta Rotterdam",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_telstar_1963",
+  "name": "Telstar 1963",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_vvv_venlo",
+  "name": "VVV-Venlo",
+  "country": "NED"
+ },
+ {
+  "team_id": "NED_willem_ii",
+  "name": "Willem II",
+  "country": "NED"
+ },
+ {
+  "team_id": "POR_avs",
+  "name": "AVS",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_belenenses_sad",
+  "name": "Belenenses SAD",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_boavista",
+  "name": "Boavista",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_casa_pia_ac",
+  "name": "Casa Pia AC",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_cd_aves",
+  "name": "CD Aves",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_cd_nacional",
+  "name": "CD Nacional",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_cd_santa_clara",
+  "name": "CD Santa Clara",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_cd_tondela",
+  "name": "CD Tondela",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_cf_estrela_da_amadora",
+  "name": "CF Estrela da Amadora",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_cs_maritimo",
+  "name": "CS Marítimo",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_fc_alverca",
+  "name": "FC Alverca",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_fc_arouca",
+  "name": "FC Arouca",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_fc_famalicao",
+  "name": "FC Famalicão",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_fc_vizela",
+  "name": "FC Vizela",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_gd_chaves",
+  "name": "GD Chaves",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_gd_estoril_praia",
+  "name": "GD Estoril Praia",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_gil_vicente",
+  "name": "Gil Vicente",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_moreirense_fc",
+  "name": "Moreirense FC",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_pacos_de_ferreira",
+  "name": "Paços de Ferreira",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_portimonense_sc",
+  "name": "Portimonense SC",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_rio_ave_fc",
+  "name": "Rio Ave FC",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_sc_farense",
+  "name": "SC Farense",
+  "country": "POR"
+ },
+ {
+  "team_id": "POR_vitoria_setubal",
+  "name": "Vitória Setúbal",
+  "country": "POR"
+ },
+ {
+  "team_id": "SCO_dundee_fc",
+  "name": "Dundee FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_dundee_united",
+  "name": "Dundee United",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_falkirk_fc",
+  "name": "Falkirk FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_hamilton_academical",
+  "name": "Hamilton Academical",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_hibernian_fc",
+  "name": "Hibernian FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_kilmarnock_fc",
+  "name": "Kilmarnock FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_livingston_fc",
+  "name": "Livingston FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_motherwell_fc",
+  "name": "Motherwell FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_ross_county_fc",
+  "name": "Ross County FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_st_johnstone_fc",
+  "name": "St. Johnstone FC",
+  "country": "SCO"
+ },
+ {
+  "team_id": "SCO_st_mirren_fc",
+  "name": "St. Mirren FC",
+  "country": "SCO"
  }
 ]

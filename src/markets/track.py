@@ -45,6 +45,22 @@ def _tip_true(tip: dict, m: StatMatch) -> bool | None:
     return None  # corners / cards / shots need statistics the open source does not have
 
 
+def wilson(hits: int, n: int, z: float = 1.96) -> list[float] | None:
+    """95% Wilson interval of a hit rate (None without matches)."""
+    if n == 0:
+        return None
+    p = hits / n
+    den = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / den
+    half = z * ((p * (1 - p) / n + z * z / (4 * n * n)) ** 0.5) / den
+    return [max(0.0, centre - half), min(1.0, centre + half)]
+
+
+def hit_summary(flags: list[bool]) -> dict:
+    n, hits = len(flags), sum(flags)
+    return {"n": n, "hits": hits, "rate": (hits / n) if n else None, "ci95": wilson(hits, n)}
+
+
 def load_artifacts(root: Path) -> dict[str, list[dict]]:
     out: dict[str, list[dict]] = {}
     for d in sorted((root / "artifacts" / "markets").glob("*__*__*")):
@@ -54,7 +70,9 @@ def load_artifacts(root: Path) -> dict[str, list[dict]]:
     return out
 
 
-def track_record(root: Path, results: list[StatMatch], now: datetime | None = None) -> dict:
+def track_record(
+    root: Path, results: list[StatMatch], now: datetime | None = None, names: dict[str, str] | None = None
+) -> dict:
     now = now or datetime.now(UTC)
     by_key = {(m.home_id, m.away_id, m.kickoff_utc.date().isoformat()): m for m in results}
     arts_all = load_artifacts(root)
@@ -67,6 +85,8 @@ def track_record(root: Path, results: list[StatMatch], now: datetime | None = No
     ] or results  # base rate known before any forecast
     base_counts = np.bincount([_outcome(m) for m in prior], minlength=3).astype(float)
     base = base_counts / base_counts.sum()
+    names = names or {}
+    listing = []
     rows, tips = [], {"strong lean": [0, 0], "lean": [0, 0], "toss-up": [0, 0]}
     for key, arts in arts_all.items():
         home, away, day = key.split("__")
@@ -86,6 +106,22 @@ def track_record(root: Path, results: list[StatMatch], now: datetime | None = No
         over = next(x for x in intel["goals"]["over_under"] if x["line"] == 2.5)["over"]
         o = int(m.home_goals + m.away_goals > 2)
         b = int(m.home_goals > 0 and m.away_goals > 0)
+        pick = int(np.argmax(h))
+        side = ("H", "D", "A")
+        listing.append(
+            {
+                "key": key, "date": m.kickoff_utc.date().isoformat(), "league": art["league"],
+                "home": names.get(home, home), "away": names.get(away, away),
+                "score": f"{m.home_goals}-{m.away_goals}", "result": side[out],
+                "pick": side[pick], "pick_prob": float(h[pick]), "pick_hit": pick == out,
+                "market_driven": mkt is not None,
+                "score_pick": intel["most_likely_score"], "score_hit": intel["most_likely_score"] == f"{m.home_goals}-{m.away_goals}",
+                "ou_pick": "Üst" if over >= 0.5 else "Alt", "ou_hit": (over >= 0.5) == bool(o),
+                "btts_pick": "Var" if intel["goals"]["btts_yes"] >= 0.5 else "Yok",
+                "btts_hit": (intel["goals"]["btts_yes"] >= 0.5) == bool(b),
+                "over_actual": bool(o), "generated_at": art["generated_at"],
+            }
+        )  # fmt: skip
         rows.append(
             {
                 "key": key,
@@ -141,6 +177,19 @@ def track_record(root: Path, results: list[StatMatch], now: datetime | None = No
         "tips_by_lean": {
             k: {"hit": v[0], "n": v[1], "rate": (v[0] / v[1]) if v[1] else None} for k, v in tips.items()
         },
+        "hit_rates": {
+            "1x2": hit_summary([x["pick_hit"] for x in listing]),
+            "over_under_2_5": hit_summary([x["ou_hit"] for x in listing]),
+            "btts": hit_summary([x["btts_hit"] for x in listing]),
+            "correct_score": hit_summary([x["score_hit"] for x in listing]),
+            "1x2_market_driven": hit_summary([x["pick_hit"] for x in listing if x["market_driven"]]),
+            "1x2_model_only": hit_summary([x["pick_hit"] for x in listing if not x["market_driven"]]),
+        },
+        "naive_hit_rates": {  # a fixed guess that needs no model, over the same matches
+            "1x2_always_home": hit_summary([x["result"] == "H" for x in listing])["rate"],
+            "over_2_5_always_over": hit_summary([x["over_actual"] for x in listing])["rate"],
+        },
+        "matches": sorted(listing, key=lambda x: (x["date"], x["key"]), reverse=True),
         "by_league": {
             lg: {"n": len(sub), "log_loss": mean("ll", sub)}
             for lg in sorted({r["league"] for r in rows})
@@ -161,7 +210,9 @@ def main(argv=None) -> int:
     root = Path(a.root)
     cdir = config_dir_for(root)
     world = load_world(root, TeamDirectory.load(cdir / "team_aliases.yaml"), load_config("markets", cdir))
-    rep = track_record(root, world.history)
+    directory = TeamDirectory.load(cdir / "team_aliases.yaml")
+    names = {t: v["canonical_name"] for t, v in directory.teams.items()}
+    rep = track_record(root, world.history, names=names)
     out = root / "artifacts" / "markets" / "track_record.json"
     out.write_text(json.dumps(rep, indent=2, default=float), encoding="utf-8")
     print(json.dumps(rep, indent=2, default=float))

@@ -270,3 +270,44 @@ def test_cup_credit_is_spent_only_when_a_match_is_inside_the_horizon(tmp_path, m
     monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: [now + timedelta(hours=3)])
     odds_run.collect_exact(tmp_path, "UEL", tmp_path, now=now)
     assert paid == [1]
+
+
+def test_quota_reached_pauses_the_provider_instead_of_failing_every_round(tmp_path, monkeypatch):
+    from src.odds import run as odds_run
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "k")
+    __import__("shutil").copytree(ROOT / "configs", tmp_path / "configs")
+    now = datetime(2026, 10, 14, 12, tzinfo=UTC)
+    calls = []
+
+    def quota(*a, **k):
+        calls.append(1)
+        raise RuntimeError("the-odds-api request failed: HTTPError: HTTP Error 401: Unauthorized")
+
+    monkeypatch.setattr(odds_run, "_collect_feed", quota)
+    first = odds_run.collect_exact(tmp_path, "TR", tmp_path, now=now, force=True)
+    assert "QUOTA REACHED" in first[0] and len(calls) == 1
+    again = odds_run.collect_exact(tmp_path, "TR", tmp_path, now=now + timedelta(hours=1))
+    assert "paused" in again[0] and len(calls) == 1  # no second call within the pause
+    assert odds_run.quota_exhausted(tmp_path, now + timedelta(hours=1)) is not None
+    assert odds_run.quota_exhausted(tmp_path, now + timedelta(hours=7)) is None  # the pause ends
+    from src.markets import live_results
+
+    lines = live_results.collect(tmp_path, now + timedelta(hours=1), fd_key=None, odds_key="o")
+    assert any("quota reached recently" in x for x in lines if x.startswith("SUPERLIG"))
+
+
+def test_cups_wait_while_the_credits_are_low_and_a_401_on_the_events_list_also_pauses(tmp_path, monkeypatch):
+    from src.odds import run as odds_run
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "k")
+    __import__("shutil").copytree(ROOT / "configs", tmp_path / "configs")
+    now = datetime(2026, 10, 14, 12, tzinfo=UTC)
+    credits = tmp_path / "artifacts" / "odds" / "_credits.json"
+    credits.parent.mkdir(parents=True)
+    credits.write_text(json.dumps({"remaining": "60"}), encoding="utf-8")
+    assert "cup minimum" in odds_run.collect_exact(tmp_path, "UCL", tmp_path, now=now)[0]
+    credits.write_text(json.dumps({"remaining": "300"}), encoding="utf-8")
+    monkeypatch.setattr(odds_run.TheOddsApiFeed, "kickoffs", lambda self, lg: (_ for _ in ()).throw(RuntimeError("events request failed: HTTPError: HTTP Error 401")))  # fmt: skip
+    assert "events list failed" in odds_run.collect_exact(tmp_path, "UCL", tmp_path, now=now)[0]
+    assert odds_run.quota_exhausted(tmp_path, now) is not None

@@ -222,6 +222,11 @@ def collect(
         lines.append("football-data.org: NOT_CONFIGURED (FOOTBALL_DATA_ORG_API_KEY not set)")
     if odds_key:
         for league in ODDS_ONLY:
+            from src.odds.run import quota_exhausted
+
+            if quota_exhausted(root, now):
+                lines.append(f"{league}: odds provider quota reached recently: scores call skipped")
+                continue
             need = pending_fixtures(root, league, now)
             if not need:
                 lines.append(f"{league}: no fixture waiting for a result (no credit spent)")

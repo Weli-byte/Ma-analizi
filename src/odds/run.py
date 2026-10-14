@@ -207,6 +207,28 @@ CREDITS_FILE = "_credits.json"
 
 
 CUPS = {"UCL", "UEL", "UECL"}  # European cups: no free schedule either, one call per cup_interval_hours
+QUOTA_FILE = "_quota_exhausted.json"
+QUOTA_PAUSE_HOURS = 6  # after a 401 "quota reached" the odds provider is not called again for this long
+
+
+def quota_exhausted(root: Path, now: datetime) -> str | None:
+    """When a call last failed with "usage quota reached" (recent only), else None.
+    Looks in the live store and in the synced copy of the cloud collector's store."""
+    for base in ("odds", "odds_remote"):
+        p = Path(root) / "artifacts" / base / QUOTA_FILE
+        if p.exists():
+            at = json.loads(p.read_text(encoding="utf-8"))["at"]
+            if now - datetime.fromisoformat(at) < timedelta(hours=QUOTA_PAUSE_HOURS):
+                return at
+    return None
+
+
+def is_quota_error(e: Exception) -> bool:
+    return "401" in str(
+        e
+    )  # The Odds API answers 401 ("Usage quota has been reached") when the credits are used up
+
+
 FDORG_SCHEDULED = {"PL", "PD", "BL1", "SA", "FL1"}  # leagues whose due windows come from football-data.org
 
 
@@ -226,6 +248,12 @@ def collect_exact(
     cfg = load_config("odds", cdir)
     now = now or datetime.now(UTC)
     store_root = Path(data_root or root)
+    paused = quota_exhausted(store_root, now)
+    if paused and not force:
+        return [
+            f"{league}: the-odds-api quota reached at {paused}; paused {QUOTA_PAUSE_HOURS} h (no call)"
+        ]
+    quota_path = store_root / "artifacts" / "odds" / QUOTA_FILE
     credits_path = store_root / "artifacts" / "odds" / CREDITS_FILE
     marker = store_root / "artifacts" / "odds" / f"_last_call_{league}.json"
     if not force and league not in FDORG_SCHEDULED:
@@ -252,12 +280,21 @@ def collect_exact(
         if not due:
             return [f"{league}: no collection window open (no credit spent)"]
     feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
+    left = None
+    if credits_path.exists():
+        left = json.loads(credits_path.read_text(encoding="utf-8")).get("remaining")
+    if league in CUPS and not force and left is not None and int(left) < cfg.cup_min_credits:
+        # the domestic leagues come first: cups run only while the credits stay above this level
+        return [f"{league}: SKIPPED, {left} credits left < cup minimum {cfg.cup_min_credits}"]
     if league in CUPS and not force:
         # cups: the free events list decides; a credit is spent only when a match is inside the horizon
         try:
             horizon = now + timedelta(hours=cfg.exact_horizon_hours)
             soon = [k for k in feed.kickoffs(league) if now < k <= horizon]
         except RuntimeError as e:
+            if is_quota_error(e):
+                quota_path.parent.mkdir(parents=True, exist_ok=True)
+                quota_path.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
             return [f"{league}: events list failed ({e}); no credit spent"]
         if not soon:
             hrs = cfg.exact_horizon_hours
@@ -269,6 +306,12 @@ def collect_exact(
     try:
         lines = _collect_feed(root, league, feed, ODDSAPI_SOURCE, now, store_root)
     except RuntimeError as e:
+        if is_quota_error(e):
+            quota_path.parent.mkdir(parents=True, exist_ok=True)
+            quota_path.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
+            return [
+                f"{league}: QUOTA REACHED (the-odds-api 401); paused {QUOTA_PAUSE_HOURS} h"
+            ]
         if league not in CUPS:
             raise
         return [

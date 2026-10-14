@@ -159,3 +159,44 @@ def test_referee_and_player_tabs_render_with_and_without_data(tmp_path):
     tab = pages.players_tab(i, p)
     assert "C. Palmer" in tab and "B. Saka" in tab and "football-data.org" in tab
     assert "gol krallığı verisi yok" in pages.players_tab(i, None)
+
+
+def test_crests_are_collected_downloaded_from_the_crest_host_only_and_served(tmp_path, monkeypatch):
+    from src.markets import alias_logos
+    from src.web import logos as web_logos
+
+    payload = {"matches": [{"homeTeam": {"name": "Arsenal FC", "crest": "https://crests.football-data.org/57.png"}, "awayTeam": {"name": "Nobody FC", "crest": "https://crests.football-data.org/1.png"}, "competition": {"emblem": "https://crests.football-data.org/PL.png"}}]}  # fmt: skip
+    crests = live_results.crests_from_football_data("EPL", payload, directory())
+    assert crests == {"ENG_arsenal": "https://crests.football-data.org/57.png"}
+    st = {"league": "EPL", "crests": {**crests, "ENG_chelsea": "https://evil.example/x.png"}, "emblem": "https://crests.football-data.org/PL.png"}  # fmt: skip
+    (tmp_path / "artifacts" / "results").mkdir(parents=True)
+    (tmp_path / "artifacts" / "results" / "EPL.json").write_text(json.dumps(st), encoding="utf-8")
+    fetched = []
+
+    class R:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return b"\x89PNG fake"
+
+    monkeypatch.setattr(
+        live_results.urllib.request, "urlopen", lambda req, timeout: fetched.append(req.full_url) or R()
+    )
+    msg = live_results.download_crests(tmp_path)
+    assert "2 downloaded" in msg and all(u.startswith("https://crests.football-data.org/") for u in fetched)
+    assert (tmp_path / "artifacts" / "crests" / "ENG_arsenal.png").exists()
+    assert not (
+        tmp_path / "artifacts" / "crests" / "ENG_chelsea.png"
+    ).exists()  # another host is never fetched
+    assert "0 downloaded" in live_results.download_crests(tmp_path)  # nothing twice
+    monkeypatch.setenv("FORECAST_UI_LOGOS", "1")
+    idx = web_logos.LogoIndex(tmp_path)
+    assert idx.team("ENG_arsenal").name == "ENG_arsenal.png" and idx.league("EPL").name == "league_EPL.png"
+    assert idx.team_url("ENG_arsenal") == "/logo/team/ENG_arsenal" and idx.league("UEL") is None
+    assert alias_logos.spellings("FK Bodø/Glimt")[-1] == "FK Bodo/Glimt" and "Porto" in alias_logos.spellings(
+        "FC Porto"
+    )

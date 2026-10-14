@@ -8,6 +8,7 @@ import unicodedata
 import zlib
 from datetime import datetime
 from functools import lru_cache
+from pathlib import Path
 from urllib.parse import urlparse
 
 from fastapi import FastAPI, Request
@@ -68,6 +69,10 @@ async def _form(request: Request) -> dict[str, str]:
     return {k: v[0] for k, v in parse_qs(raw).items()}
 
 
+def image_type(f: Path) -> str:
+    return "image/svg+xml" if f.suffix == ".svg" else "image/png"
+
+
 def register(app: FastAPI, service, root, now_fn) -> None:
     logos = LogoIndex(root)
     store = UserStore(root)
@@ -117,12 +122,12 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     @app.get("/logo/team/{team_id}", include_in_schema=False)
     def team_logo(team_id: str):
         f = logos.team(team_id)
-        return FileResponse(f, media_type="image/png") if f else Response(status_code=404)
+        return FileResponse(f, media_type=image_type(f)) if f else Response(status_code=404)
 
     @app.get("/logo/league/{key}", include_in_schema=False)
     def league_logo(key: str):
         f = logos.league(key)
-        return FileResponse(f, media_type="image/png") if f else Response(status_code=404)
+        return FileResponse(f, media_type=image_type(f)) if f else Response(status_code=404)
 
     # ------------------------------------------------------------------------------------------ sign-in
     @app.get("/giris", response_class=HTMLResponse, include_in_schema=False)

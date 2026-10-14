@@ -31,7 +31,11 @@ class LogoIndex:
     def __init__(self, root: Path):
         self.dir = Path(root) / "artifacts" / "logos"
         self.teams: dict[str, Path] = {}
-        if not enabled() or not self.dir.exists():
+        self.crests = Path(root) / "artifacts" / "crests"
+        if not enabled():
+            return
+        if not self.dir.exists():
+            self._add_crests()
             return
         directory = TeamDirectory.load(config_dir_for(root) / "team_aliases.yaml")
         for tid, ids in hl_ids(Path(root), directory).items():
@@ -44,15 +48,28 @@ class LogoIndex:
                 f = self.dir / f"{m['id']}.png"
                 if tid not in self.teams and f.exists():
                     self.teams[tid] = f
+        self._add_crests()
+
+    def _add_crests(self) -> None:
+        """Club crests from football-data.org (ADR 0059) for clubs the Highlightly logos do not cover."""
+        if not self.crests.exists():
+            return
+        for f in sorted(self.crests.iterdir()):
+            if f.suffix in (".png", ".svg") and not f.stem.startswith("league_"):
+                self.teams.setdefault(f.stem, f)
 
     def team(self, team_id: str) -> Path | None:
         return self.teams.get(team_id)
 
     def league(self, key: str) -> Path | None:
-        if not enabled() or key not in LEAGUE_LOGO_IDS:
+        if not enabled():
             return None
-        f = self.dir / f"league_{LEAGUE_LOGO_IDS[key]}.png"
-        return f if f.exists() else None
+        if key in LEAGUE_LOGO_IDS and (self.dir / f"league_{LEAGUE_LOGO_IDS[key]}.png").exists():
+            return self.dir / f"league_{LEAGUE_LOGO_IDS[key]}.png"
+        for ext in ("png", "svg"):  # competition emblem from football-data.org (e.g. the Champions League)
+            if (self.crests / f"league_{key}.{ext}").exists():
+                return self.crests / f"league_{key}.{ext}"
+        return None
 
     def team_url(self, team_id: str) -> str | None:
         return f"/logo/team/{team_id}" if self.team(team_id) else None

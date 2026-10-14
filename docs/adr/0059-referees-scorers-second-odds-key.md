@@ -22,3 +22,10 @@ Date: 2026-10-14. Status: accepted.
   for 6 hours and the next key is used; the reserve applies per key; files name a key by a hash, never by the key. Without any working
   key the odds-driven parts stop (exact odds, value suggestions, Süper Lig / Europa League / Conference League fixtures and results);
   the model forecasts for the other competitions continue.
+
+## Club and competition logos (added the same day)
+The free football-data.org match lists carry each club's crest URL and the competition emblem. They are stored per competition
+and downloaded (only from `crests.football-data.org`) into `artifacts/crests/` on the private data branch; the web app uses them
+for clubs the Highlightly logos do not cover (e.g. LASK, Feyenoord, Porto) and for the Champions League emblem. Europa / Conference
+League clubs outside these competitions still depend on the Highlightly name search, which now also tries the name without
+club-form words ("FC Porto" -> "Porto") and an ASCII spelling. Logos remain trademarks: shown only with `FORECAST_UI_LOGOS=1`.

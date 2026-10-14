@@ -238,6 +238,51 @@ def odds_scores(key: str, league: str) -> list[dict]:
         ) from None  # never carries the key
 
 
+def crests_from_football_data(league: str, payload: dict, directory: TeamDirectory) -> dict[str, str]:
+    """team_id -> crest URL from a football-data.org matches payload (`homeTeam.crest`): the club logos of every
+    competition the free tier covers, without spending another request (ADR 0059)."""
+    out: dict[str, str] = {}
+    for m in payload.get("matches", []):
+        for side in ("homeTeam", "awayTeam"):
+            t = m.get(side) or {}
+            if t.get("crest") and t.get("name"):
+                tid = _resolve(directory, league, t["name"], None)
+                if tid:
+                    out.setdefault(tid, t["crest"])
+    return out
+
+
+CREST_HOSTS = ("https://crests.football-data.org/",)
+
+
+def download_crests(root: Path, limit: int = 120) -> str:
+    """Download the crests listed in the results stores that are not on disk yet (`artifacts/crests/<team_id>.<ext>`).
+    Only the football-data.org crest host is fetched. Logos are trademarks: they stay in the private data repository and
+    are shown only with FORECAST_UI_LOGOS=1 (identification use)."""
+    out = Path(root) / "artifacts" / "crests"
+    out.mkdir(parents=True, exist_ok=True)
+    have = {p.stem for p in out.iterdir()}
+    wanted: dict[str, str] = {}
+    for p in sorted((Path(root) / "artifacts" / "results").glob("*.json")):
+        st = json.loads(p.read_text(encoding="utf-8"))
+        wanted.update({t: u for t, u in st.get("crests", {}).items() if t not in have})
+        if st.get("emblem") and f"league_{st['league']}" not in have:
+            wanted[f"league_{st['league']}"] = st["emblem"]
+    got = failed = 0
+    for name, url in list(wanted.items())[:limit]:
+        ext = url.rsplit(".", 1)[-1].lower()
+        if not url.startswith(CREST_HOSTS) or ext not in ("png", "svg"):
+            continue
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (crest cache)"})
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:  # noqa: S310 - fixed https host, checked above
+                (out / f"{name}.{ext}").write_bytes(r.read())
+            got += 1
+        except (urllib.error.URLError, TimeoutError):
+            failed += 1
+    return f"crests: {got} downloaded, {failed} failed, {max(0, len(wanted) - limit)} left for the next run"
+
+
 def fd_call(path: str, key: str, params: dict) -> dict:
     """One football-data.org call; after a 429 (10 calls/minute on the free tier) wait a minute and try once more."""
     from src.ingestion.provider import RateLimitedError
@@ -268,6 +313,16 @@ def collect(
             store["season"] = season_label(now)
             added = merge(store, rows, now)
             store["upcoming"] = upcoming_from_football_data(league, payload, directory, now)
+            store["crests"] = {
+                **store.get("crests", {}),
+                **crests_from_football_data(league, payload, directory),
+            }
+            emblem = next(
+                (m["competition"].get("emblem") for m in payload.get("matches", []) if m.get("competition")),
+                None,
+            )
+            if emblem:
+                store["emblem"] = emblem
             store["upcoming_observed_at"] = now.isoformat()
             time.sleep(6.5)  # the free tier allows 10 calls per minute
             try:
@@ -279,6 +334,7 @@ def collect(
             save_store(root, league, store)
             lines.append(f"{league}: {len(rows)} finished, {added} new, {unresolved} club(s) unresolved")
             time.sleep(6.5)  # the free tier allows 10 calls per minute
+        lines.append(download_crests(root))
     else:
         lines.append("football-data.org: NOT_CONFIGURED (FOOTBALL_DATA_ORG_API_KEY not set)")
     if odds_key:
@@ -308,7 +364,12 @@ def collect(
                 f"{league}: {need} waiting, {len(rows)} completed, {added} new, {unresolved} unresolved"
             )
     else:
-        lines.append("the-odds-api scores: NOT_CONFIGURED (THE_ODDS_API_KEY not set)")
+        from src.odds.run import odds_keys
+
+        if odds_keys():
+            lines.append("the-odds-api scores: every key is paused (quota reached) - skipped")
+        else:
+            lines.append("the-odds-api scores: NOT_CONFIGURED (THE_ODDS_API_KEY not set)")
     return lines
 
 

@@ -291,6 +291,7 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
                 "artifacts/markets",
                 "artifacts/injuries",
                 "artifacts/results",
+            "artifacts/crests",
             )
             .decode()
             .split()

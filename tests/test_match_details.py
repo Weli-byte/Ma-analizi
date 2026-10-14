@@ -344,3 +344,20 @@ def test_track_record_lists_scored_matches_with_hit_flags(tmp_path):
     )
     assert m["score_hit"] is True and m["ou_pick"] == "Üst" and m["ou_hit"] is False and m["btts_hit"] is True
     assert rep["hit_rates"]["1x2"]["hits"] == 1 and rep["naive_hit_rates"]["1x2_always_home"] == 1.0
+
+
+def test_scores_http_error_names_the_status_not_the_key(monkeypatch):
+    import io
+
+    def boom(url, timeout):
+        raise live_results.urllib.error.HTTPError(
+            url, 422, "x", {}, io.BytesIO(b'{"message": "Unprocessable"}')
+        )
+
+    monkeypatch.setattr(live_results.urllib.request, "urlopen", boom)
+    try:
+        live_results.odds_scores("SECRETKEY", "UEL")
+    except RuntimeError as e:
+        assert "HTTP 422 Unprocessable" in str(e) and "SECRETKEY" not in str(e)
+    else:
+        raise AssertionError("must raise")

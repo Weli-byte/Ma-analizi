@@ -104,9 +104,12 @@ jobs:
       - name: Redeploy the Vercel site with the fresh data (only when VERCEL_TOKEN is set; ADR 0060)
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
           if [ -z "$VERCEL_TOKEN" ]; then echo "VERCEL_TOKEN not set: no redeploy"; exit 0; fi
           python scripts/make_vercel_bundle.py --out dist/mac-tahmin
           cd dist/mac-tahmin
           npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN" > ../vercel_url.txt
+          npx --yes vercel@latest git disconnect --yes --token "$VERCEL_TOKEN" || true   # pushes must not build the repo root
           echo "deployed: $(cat ../vercel_url.txt)"

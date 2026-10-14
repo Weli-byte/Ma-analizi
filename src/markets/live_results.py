@@ -183,6 +183,14 @@ def odds_scores(key: str, league: str) -> list[dict]:
     try:
         with urllib.request.urlopen(url, timeout=30) as r:  # noqa: S310 - fixed https host
             return json.loads(r.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        try:
+            note = json.loads(e.read().decode("utf-8", "replace")).get("message", "")[:120]
+        except ValueError:
+            note = ""
+        raise RuntimeError(
+            f"the-odds-api scores failed: HTTP {e.code} {note}".strip()
+        ) from None  # never the key
     except (urllib.error.URLError, TimeoutError, ValueError) as e:
         raise RuntimeError(
             f"the-odds-api scores failed: {type(e).__name__}"

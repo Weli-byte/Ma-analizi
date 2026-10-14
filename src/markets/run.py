@@ -258,18 +258,31 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
 
     try:
         git("fetch", "--quiet", data_repo_url(), branch)
-        names = git(
-            "ls-tree", "-r", "--name-only", "FETCH_HEAD", "--", "artifacts/markets", "artifacts/injuries",
-            "artifacts/results",
-        ).decode().split()
+        names = (
+            git(
+                "ls-tree",
+                "-r",
+                "--name-only",
+                "FETCH_HEAD",
+                "--",
+                "artifacts/markets",
+                "artifacts/injuries",
+                "artifacts/results",
+            )
+            .decode()
+            .split()
+        )
     except subprocess.CalledProcessError as e:
         return f"sync-remote: branch {branch!r} not available yet ({e.stderr.decode(errors='replace')[:100].strip()})"
     n = 0
     for name in names:
         dest = Path(root) / name
+        # forecasts are immutable (add-only); the results store and the track record are growing fact tables: newer copy wins
+        mutable = name.startswith("artifacts/results/") or name.endswith("/track_record.json")
+        if dest.exists() and not mutable:
+            continue
         data = git("show", f"FETCH_HEAD:{name}")
-        # forecasts are immutable (add-only); the results store is a growing fact table: take the newer copy
-        if not dest.exists() or (name.startswith("artifacts/results/") and dest.read_bytes() != data):
+        if not dest.exists() or dest.read_bytes() != data:
             dest.parent.mkdir(parents=True, exist_ok=True)
             dest.write_bytes(data)
             n += 1

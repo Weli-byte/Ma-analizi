@@ -15,3 +15,4 @@ max_stake_pct: 2.0     # suggestions: stake hint never above this percent of ban
 exact_leagues: [PL, PD, BL1, SA, FL1, TR, UCL, UEL, UECL]   # The Odds API (cloud). TR has no free fixture schedule: see odds_only_interval_hours
 odds_only_interval_hours: 12   # TR: one call per 12 h (about 60 credits/month) instead of fixture windows
 cup_interval_hours: 6    # UCL/UEL/UECL: at most one paid call per 6 h each, and only while a match is inside the horizon (free events check first; ADR 0056)
+cup_min_credits: 100       # the cups only spend credits while at least this many remain; the domestic leagues come first (ADR 0058)

@@ -151,5 +151,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0059: referee + top-scorer tabs (football-data.org free), CL schedule fallback, optional second Odds API key (`THE_ODDS_API_KEY_2`).
 - [x] ADR 0060: live on Vercel (https://mac-tahmin-eight.vercel.app, refreshed by the cloud job), app name Welliddia, owner/contact/KVKK sections on the legal drafts.
 - [x] Google sign-in verified live 2026-10-15 (ADR 0060): client id set, consent screen published; works for a non-test account. Apple, SMS, Highlightly PRO, Anthropic, persistent user DB, Free/Pro remain.
+- [x] ADR 0061: persistent user store on Turso free tier (`src/web/store.py`, `FORECAST_TURSO_URL`/`FORECAST_TURSO_TOKEN`); code + unit tests done, live round trip pending the owner's Turso database.
 - [ ] S19 startup MVP (deploy to a host, Google client id, SMS account, Free/Pro, Apple sign-in, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

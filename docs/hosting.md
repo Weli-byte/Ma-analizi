@@ -46,3 +46,7 @@ The `markets-cloud` job (every 4 hours) ends with a step that rebuilds `dist/mac
 The first deployment creates the project (named after the folder, `mac-tahmin`); add its environment variables once in the project
 settings (`FORECAST_SESSION_SECRET`, `GOOGLE_CLIENT_ID`). The site then updates itself about every 4 hours (the free plan allows
 100 deployments a day; this uses 6). Data is at most about 4 hours old; favourites are kept in /tmp and can reset on a restart.
+
+## Persistent favourites (ADR 0061)
+Set `FORECAST_TURSO_URL` (the `libsql://...` address of a free Turso database) and `FORECAST_TURSO_TOKEN` (a database token) as
+environment variables of the Vercel project. Without them the store is a `/tmp` SQLite file and favourites reset on a restart.

@@ -18,3 +18,9 @@ Live: https://mac-tahmin-eight.vercel.app (verified: login, guest, leagues, matc
 Twilio: United States), retention (until the user deletes it) and the user's rights under KVKK article 11; the terms name the
 service provider and the governing law. Both stay DRAFTS: a lawyer must review them before a public launch; a betting-content
 check in Türkiye is still open.
+
+## Google sign-in verified live (2026-10-15)
+A Google OAuth client (type Web, origin `https://mac-tahmin-eight.vercel.app`, `GOOGLE_CLIENT_ID` set in Vercel and as a repository
+secret) is in use; the consent screen is published ("In production", scopes `openid`, `email`, `profile` only, so no Google
+verification review). Verified by the owner: sign-in with the owner's account, and with a second Google account that is not a test
+user, in a private window, with no "unverified app" warning. Privacy and terms pages are public on the live site.

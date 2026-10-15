@@ -191,3 +191,25 @@ def test_vercel_bundle_carries_the_results_store_and_the_cloud_job_redeploys_it(
     assert (
         "VERCEL_TOKEN" in wf and "vercel@latest deploy --prod" in wf and "exit 0" in wf
     )  # skipped without the token
+
+
+def test_brand_contact_and_kvkk_sections_are_on_the_public_legal_pages(tmp_path):
+    from src.web import brand
+
+    assert brand.APP_NAME == "Welliddia" and brand.OWNER == "Veli Parlak" and brand.COUNTRY == "Türkiye"
+    c = TestClient(create_app(tmp_path, keys=[]), follow_redirects=False)
+    privacy, terms, login = c.get("/gizlilik").text, c.get("/kosullar").text, c.get("/giris").text
+    for page in (privacy, terms):
+        assert "veliparlak84@gmail.com" in page and "Veli Parlak" in page and "Welliddia" in page
+    assert (
+        "6698 sayılı" in privacy
+        and "KVKK" in privacy
+        and "Vercel (ABD)" in privacy
+        and "Veri sorumlusu" in privacy
+    )
+    assert "Türkiye Cumhuriyeti hukukuna" in terms
+    assert privacy.index("Veri sorumlusu") < privacy.index("Bu belge hakkında")  # the draft notice stays last
+    assert "<h1>Welliddia</h1>" in login and "Maç Tahmin" not in login
+    assert c.get("/manifest.webmanifest").json()["name"] == "Welliddia"
+    en = translate_html(privacy)
+    assert "Data controller" in en and "Law No. 6698" in en and "Contact and data deletion requests:" in en

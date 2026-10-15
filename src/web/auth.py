@@ -69,7 +69,9 @@ def verify_google(id_token: str) -> User | None:
 # ------------------------------------------------------------------------------------------------ Sign in with Apple
 APPLE_KEYS = "https://appleid.apple.com/auth/keys"
 APPLE_ISSUER = "https://appleid.apple.com"
-_SHA256_PREFIX = bytes.fromhex("3031300d060960864801650304020105000420")  # DER DigestInfo of SHA-256 (RFC 8017)
+_SHA256_PREFIX = bytes.fromhex(
+    "3031300d060960864801650304020105000420"
+)  # DER DigestInfo of SHA-256 (RFC 8017)
 _keys_cache: dict = {"at": 0.0, "keys": []}
 
 
@@ -105,7 +107,9 @@ def apple_keys(now: float | None = None) -> list[dict]:
     return _keys_cache["keys"]
 
 
-def validate_apple_token(token: str, client_id: str, keys: list[dict], now: float | None = None) -> User | None:
+def validate_apple_token(
+    token: str, client_id: str, keys: list[dict], now: float | None = None
+) -> User | None:
     """Pure check of an Apple identity token; None when anything is wrong."""
     now = now or time.time()
     try:

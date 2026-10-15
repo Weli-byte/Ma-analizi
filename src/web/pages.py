@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 from html import escape as e
 from zoneinfo import ZoneInfo
 
+from .brand import APP_NAME, CONTACT_EMAIL, COUNTRY, OWNER
+
 LEAGUES = {
     "EPL": ("Premier Lig", "PL", "#6a1b9a"),
     "LALIGA": ("La Liga", "LL", "#e65100"),
@@ -119,7 +121,7 @@ def page(title: str, body: str, active: str = "", back: str | None = None, hero:
         else f"<div class='top'>{f'<a class=back href={back!r}>‹</a>' if back else ''}<h1>{e(title)}</h1></div>"
     )
     return (
-        f"<!doctype html><html lang='tr'><head>{HEAD}<title>{e(title)} - Maç Tahmin</title><style>{CSS}</style></head>"
+        f"<!doctype html><html lang='tr'><head>{HEAD}<title>{e(title)} - {e(APP_NAME)}</title><style>{CSS}</style></head>"
         f"<body><div id='app'>{bar}{hero}{body}{FOOT}<nav class='bottom'>{nav}</nav></div>"
         "<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}</script></body></html>"
     )
@@ -243,8 +245,8 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
             f"<meta name='apple-client' content='{e(apple_id)}'>"
         )
     return (
-        f"<!doctype html><html lang='tr'><head>{HEAD}<title>Giriş - Maç Tahmin</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
-        "<div class='login'><div style='font-size:46px'>⚽</div><h1>Maç Tahmin</h1>"
+        f"<!doctype html><html lang='tr'><head>{HEAD}<title>Giriş - {e(APP_NAME)}</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
+        f"<div class='login'><div style='font-size:46px'>⚽</div><h1>{e(APP_NAME)}</h1>"
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"
         "<button class='btn b-k' onclick=\"pick('apple')\"> Apple ile devam et</button>"
@@ -972,9 +974,49 @@ LEGAL = {
 }
 
 
+def legal_blocks(kind: str) -> tuple[str, list[tuple[str, str]]]:
+    """The draft texts plus the sections that carry the owner's identity, contact and the KVKK rights (Türkiye)."""
+    title, base = LEGAL[kind]
+    base = list(base)
+    tail = base[-2:]  # "About this document" heading + the draft notice stay last
+    base = base[:-2]
+    who = f"Veri sorumlusu: {OWNER} ({APP_NAME}). İletişim ve veri silme talepleri: {CONTACT_EMAIL}"
+    if kind == "privacy":
+        extra = [
+            ("h", "Veri sorumlusu"),
+            ("p", who),
+            ("h", "Verilerin nerede işleniyor?"),
+            (
+                "li",
+                "Site Vercel (ABD) üzerinde çalışır ve Google ile giriş Google (ABD) üzerinden yapılır; kişisel verilerin yurt dışındaki bu hizmet sağlayıcılarda işlenebilir.",
+            ),
+            ("li", "Telefonla giriş etkinleştirilirse doğrulama kodu Twilio (ABD) üzerinden gönderilir."),
+            ("h", "Saklama süresi"),
+            (
+                "p",
+                'Hesap verilerin, sen silene kadar saklanır. Profil sayfasındaki "Verilerimi sil" düğmesiyle ya da yukarıdaki e-posta adresine yazarak silebilirsin.',
+            ),
+            ("h", "KVKK kapsamındaki haklarınız"),
+            (
+                "p",
+                "6698 sayılı Kişisel Verilerin Korunması Kanunu'nun 11. maddesi uyarınca; verilerinin işlenip işlenmediğini öğrenme, işlenmişse bilgi isteme, düzeltilmesini veya silinmesini isteme ve verilerinin aktarıldığı üçüncü kişileri bilme haklarına sahipsin. Başvurunu yukarıdaki e-posta adresine yapabilirsin.",
+            ),
+            ("h", "Çocuklar"),
+            ("p", "Uygulama 18 yaşından küçükler için değildir."),
+        ]
+    else:
+        extra = [
+            ("h", "Hizmet sağlayıcı"),
+            ("p", who),
+            ("h", "Uygulanacak hukuk"),
+            ("p", "Bu koşullar Türkiye Cumhuriyeti hukukuna tabidir."),
+        ]
+    return title, base + extra + tail
+
+
 def legal_page(kind: str) -> str:
     """Public privacy / terms pages (a Google consent screen needs reachable URLs). DRAFTS, not legal advice."""
-    title, blocks = LEGAL[kind]
+    title, blocks = legal_blocks(kind)
     out, items = [], []
 
     def flush():
@@ -989,6 +1031,9 @@ def legal_page(kind: str) -> str:
         flush()
         out.append(f"<b>{e(text)}</b>" if tag == "h" else f"<p>{e(text)}</p>")
     flush()
+    out.append(
+        f"<p class='note'>{e(OWNER)} · <a href='mailto:{e(CONTACT_EMAIL)}'>{e(CONTACT_EMAIL)}</a> · {e(COUNTRY)}</p>"
+    )
     return page(title, "<div class='card'>" + "".join(out) + "</div>", "profile", back="/giris")
 
 

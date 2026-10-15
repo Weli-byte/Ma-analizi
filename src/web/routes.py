@@ -17,6 +17,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 from src.dashboard.viewmodel import intel_section
 
 from . import auth, pages, phone, session
+from .brand import APP_NAME
 from .i18n import LANG_COOKIE, translate_html
 from .logos import LogoIndex
 from .store import UserStore
@@ -51,7 +52,7 @@ def icon_png(size: int) -> bytes:
 
 
 MANIFEST = {
-    "name": "Maç Tahmin", "short_name": "Maç Tahmin", "start_url": "/", "display": "standalone",
+    "name": APP_NAME, "short_name": APP_NAME, "start_url": "/", "display": "standalone",
     "background_color": "#00a651", "theme_color": "#00a651", "lang": "tr",
     "icons": [
         {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},

@@ -1,6 +1,6 @@
 # ADR 0061: Persistent user store on Turso (free tier)
 
-Status: accepted (2026-10-15). Verified live: pending the owner's first Turso database (see the live test).
+Status: accepted (2026-10-15). Verified live 2026-10-15 (see Live check).
 
 ## Problem
 On Vercel the user store (favourites, the minimal account record) is a SQLite file in `/tmp` and resets whenever the serverless
@@ -36,3 +36,8 @@ requirement; fail-loud misconfiguration). The real network round trip is `tests/
 ## Consequences
 Free-tier limits (5 GB, 500M rows read and 10M rows written per month) are far above a favourites table. A paid host or a
 commercial launch is a separate decision (ADR 0036).
+
+## Live check (2026-10-15)
+With the owner's Turso database configured in Vercel: guest sign-in, added a favourite club on the live site, redeployed with
+`markets-cloud` (a new deployment, so `/tmp` would be empty), and the same session still listed the favourite. The test account was then
+deleted with the delete-my-data action. `tests/integration/test_turso_live.py` was NOT run (the Turso token is not in the local `.env`).

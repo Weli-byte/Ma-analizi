@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Redirect
 
 from src.dashboard.viewmodel import intel_section
 
-from . import auth, pages, phone, session
+from . import auth, pages, phone, plans, session
 from .brand import APP_NAME
 from .i18n import LANG_COOKIE, translate_html
 from .logos import LogoIndex
@@ -108,6 +108,15 @@ def register(app: FastAPI, service, root, now_fn) -> None:
             secure=False,
         )
         return r
+
+    def plan_of(u) -> str:
+        return plans.effective_plan(u.email, store.plan(u.uid))
+
+    def gate(u, feature: str):
+        """A 403 'Pro' page when plans are enforced and the user's plan is too low; None otherwise."""
+        if plans.allows(plan_of(u), feature):
+            return None
+        return HTMLResponse(pages.upgrade_page(), status_code=403)
 
     def guarded(request: Request):
         """(user, redirect): the redirect goes to the login screen when there is no valid session."""
@@ -346,19 +355,27 @@ def register(app: FastAPI, service, root, now_fn) -> None:
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)
     def tips(request: Request):
-        _, redirect = guarded(request)
+        u, redirect = guarded(request)
+        if redirect:
+            return redirect
+        if blocked := gate(u, "paper_value"):
+            return blocked
         names = {i["fixture_id"]: (i["home"], i["away"]) for i in upcoming()}
-        return redirect or pages.tips_page(service.tips(0.55), names)
+        return pages.tips_page(service.tips(0.55), names)
 
     @app.get("/profil", response_class=HTMLResponse, include_in_schema=False)
     def profile(request: Request):
         u, redirect = guarded(request)
-        return redirect or pages.profile_page(u)
+        return redirect or pages.profile_page(u, plan_of(u))
 
     @app.get("/basari-kaydi", response_class=HTMLResponse, include_in_schema=False)
     def track(request: Request):
-        _, redirect = guarded(request)
-        return redirect or pages.track_page(service.track_record())
+        u, redirect = guarded(request)
+        if redirect:
+            return redirect
+        if blocked := gate(u, "forecast_history"):
+            return blocked
+        return pages.track_page(service.track_record())
 
     @app.get("/gizlilik", response_class=HTMLResponse, include_in_schema=False)
     def privacy():  # public on purpose: an OAuth consent screen needs a reachable policy URL

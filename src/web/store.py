@@ -23,10 +23,11 @@ from typing import Any, NamedTuple
 
 SCHEMA_STATEMENTS = (
     "CREATE TABLE IF NOT EXISTS users(uid TEXT PRIMARY KEY, provider TEXT NOT NULL, name TEXT NOT NULL, email TEXT, "
-    "created_at TEXT NOT NULL, last_seen TEXT NOT NULL)",
+    "created_at TEXT NOT NULL, last_seen TEXT NOT NULL, plan TEXT NOT NULL DEFAULT 'free')",
     "CREATE TABLE IF NOT EXISTS favorites(uid TEXT NOT NULL, team_id TEXT NOT NULL, added_at TEXT NOT NULL, "
     "PRIMARY KEY(uid, team_id))",
 )
+ADD_PLAN_COLUMN = "ALTER TABLE users ADD COLUMN plan TEXT NOT NULL DEFAULT 'free'"
 TIMEOUT_SECONDS = 10
 
 
@@ -179,6 +180,9 @@ class UserStore:
     def _ensure(self) -> None:
         if not self._ready:
             self._backend.run([(sql, ()) for sql in SCHEMA_STATEMENTS])
+            (info,) = self._backend.run([("PRAGMA table_info(users)", ())])
+            if "plan" not in {row[1] for row in info.rows}:  # a table created before ADR 0062
+                self._backend.run([(ADD_PLAN_COLUMN, ())])
             self._ready = True
 
     def _run(self, statements: list[Statement]) -> list[Result]:
@@ -196,6 +200,16 @@ class UserStore:
                 )
             ]
         )
+
+    def plan(self, uid: str) -> str:
+        """The stored plan ('free' for an unknown user); the effective plan also looks at the e-mail list (`plans.py`)."""
+        (res,) = self._run([("SELECT plan FROM users WHERE uid=?", (uid,))])
+        return res.rows[0][0] if res.rows else "free"
+
+    def set_plan(self, uid: str, plan: str) -> None:
+        if plan not in ("free", "pro"):
+            raise ValueError(f"unknown plan: {plan!r}")
+        self._run([("UPDATE users SET plan=? WHERE uid=?", (plan, uid))])
 
     def favorites(self, uid: str) -> list[str]:
         (res,) = self._run([("SELECT team_id FROM favorites WHERE uid=? ORDER BY added_at", (uid,))])

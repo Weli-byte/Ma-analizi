@@ -16,3 +16,5 @@ model comparison. No guaranteed-win or betting-advice language anywhere; value a
 | Custom reports (media/scout/club) | - | - | - | yes |
 
 Gate: none of this ships commercially until `docs/data_sources/provider_evaluation.md` items 1-4 are resolved.
+
+Web gates (ADR 0062): `paper_value` and `forecast_history` need Pro when `FORECAST_PLANS_ENFORCED` is set; off by default.

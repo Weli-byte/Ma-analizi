@@ -1041,13 +1041,23 @@ def legal_page(kind: str) -> str:
     return page(title, "<div class='card'>" + "".join(out) + "</div>", "profile", back="/giris")
 
 
-def profile_page(user) -> str:
+def upgrade_page() -> str:
+    return page(
+        "Pro özellik",
+        "<div class='card'><b>Bu bölüm Pro planına ait.</b>"
+        "<p class='mut'>Pro planı henüz satışa açılmadı. Açıldığında buradan duyurulacak.</p>"
+        "<p><a href='/'><b>‹ Ana sayfaya dön</b></a></p></div>",
+    )
+
+
+def profile_page(user, plan: str = "free") -> str:
     kind = {"guest": "Misafir", "google": "Google hesabı", "apple": "Apple hesabı", "phone": "Telefon"}.get(
         user.provider, user.provider
     )
     body = (
         f"<div class='card'><div style='display:flex;gap:12px;align-items:center'>{badge(user.name, 'var(--g)')}<div><b>{e(user.name)}</b>"
-        f"<div class='mut'>{e(kind)}{(' · ' + e(user.email)) if user.email else ''}</div></div></div></div>"
+        f"<div class='mut'>{e(kind)}{(' · ' + e(user.email)) if user.email else ''}</div>"
+        f"<div class='mut'>Plan: <b>{'Pro' if plan == 'pro' else 'Ücretsiz'}</b></div></div></div></div>"
         "<div class='card pad0'><a href='/basari-kaydi'><div class='row'>Başarı kaydı <span>›</span></div></a>"
         "<a href='/hakkinda'><div class='row'>Yöntem ve sınırlar <span>›</span></div></a>"
         "<a href='/sunum'><div class='row'>Proje özeti <span>›</span></div></a>"

@@ -152,5 +152,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0060: live on Vercel (https://mac-tahmin-eight.vercel.app, refreshed by the cloud job), app name Welliddia, owner/contact/KVKK sections on the legal drafts.
 - [x] Google sign-in verified live 2026-10-15 (ADR 0060): client id set, consent screen published; works for a non-test account. Apple, SMS, Highlightly PRO, Anthropic, persistent user DB, Free/Pro remain.
 - [x] ADR 0061: persistent user store on Turso free tier (`src/web/store.py`, `FORECAST_TURSO_URL`/`FORECAST_TURSO_TOKEN`); verified live 2026-10-15 (favourite survived a redeploy); the local live pytest was not run.
+- [x] ADR 0062: Free/Pro plan infrastructure (`src/web/plans.py`, `users.plan`), gates OFF unless `FORECAST_PLANS_ENFORCED`; no payment, nothing sold.
 - [ ] S19 startup MVP (deploy to a host, Google client id, SMS account, Free/Pro, Apple sign-in, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

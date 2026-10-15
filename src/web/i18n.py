@@ -63,6 +63,7 @@ PHRASES: dict[str, str] = {
     "Verilerin nerede işleniyor?": "Where is your data processed?",
     "Site Vercel (ABD) üzerinde çalışır ve Google ile giriş Google (ABD) üzerinden yapılır; kişisel verilerin yurt dışındaki bu hizmet sağlayıcılarda işlenebilir.": "The site runs on Vercel (USA) and sign-in with Google goes through Google (USA); your personal data may be processed by these service providers abroad.",
     "Telefonla giriş etkinleştirilirse doğrulama kodu Twilio (ABD) üzerinden gönderilir.": "If phone sign-in is enabled, the verification code is sent through Twilio (USA).",
+    "Hesap kaydın ve favorilerin, bulut üzerinde barındırılan Turso (libSQL) veritabanında saklanır; bu hizmet sağlayıcı yurt dışındadır.": "Your account record and favourites are stored in a Turso (libSQL) database hosted in the cloud; this service provider is located abroad.",
     "Saklama süresi": "Retention",
     'Hesap verilerin, sen silene kadar saklanır. Profil sayfasındaki "Verilerimi sil" düğmesiyle ya da yukarıdaki e-posta adresine yazarak silebilirsin.': 'Your account data is kept until you delete it. You can delete it with the "Delete my data" button on the profile page or by writing to the e-mail address above.',
     "KVKK kapsamındaki haklarınız": "Your rights under the KVKK (Turkish data protection law)",

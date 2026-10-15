@@ -991,6 +991,10 @@ def legal_blocks(kind: str) -> tuple[str, list[tuple[str, str]]]:
                 "Site Vercel (ABD) üzerinde çalışır ve Google ile giriş Google (ABD) üzerinden yapılır; kişisel verilerin yurt dışındaki bu hizmet sağlayıcılarda işlenebilir.",
             ),
             ("li", "Telefonla giriş etkinleştirilirse doğrulama kodu Twilio (ABD) üzerinden gönderilir."),
+            (
+                "li",
+                "Hesap kaydın ve favorilerin, bulut üzerinde barındırılan Turso (libSQL) veritabanında saklanır; bu hizmet sağlayıcı yurt dışındadır.",
+            ),
             ("h", "Saklama süresi"),
             (
                 "p",

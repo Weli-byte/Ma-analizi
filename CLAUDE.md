@@ -149,5 +149,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] ADR 0057 (S19 prep): public privacy/terms drafts, `FORECAST_USER_DB`, Vercel snapshot bundle, Apple sign-in code (unverified live, needs `APPLE_CLIENT_ID`).
 - [x] ADR 0058: tabbed match page (Misli-style categories), live results store (`src/markets/live_results.py`, football-data.org + Odds API scores), track-record match listing with hit rates.
 - [x] ADR 0059: referee + top-scorer tabs (football-data.org free), CL schedule fallback, optional second Odds API key (`THE_ODDS_API_KEY_2`).
+- [x] ADR 0060: live on Vercel (https://mac-tahmin-eight.vercel.app, refreshed by the cloud job), app name Welliddia, owner/contact/KVKK sections on the legal drafts.
 - [ ] S19 startup MVP (deploy to a host, Google client id, SMS account, Free/Pro, Apple sign-in, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

@@ -110,7 +110,27 @@ HEAD = (
 )
 
 
-def page(title: str, body: str, active: str = "", back: str | None = None, hero: str = "") -> str:
+DEFAULT_DESC = (
+    "Futbol maçları için istatistiksel olasılık tahminleri ve açık başarı kaydı. "
+    "Bahis oynatmaz, kazanç garantisi vermez. 18+"
+)
+
+
+def meta_tags(title: str, desc: str = DEFAULT_DESC) -> str:
+    """Description and link-preview tags (Open Graph / Twitter card). No image: those need an absolute URL we do not know here."""
+    t, d = e(f"{title} - {APP_NAME}"), e(desc)
+    return (
+        f"<meta name='description' content='{d}'>"
+        f"<meta property='og:type' content='website'><meta property='og:site_name' content='{e(APP_NAME)}'>"
+        f"<meta property='og:title' content='{t}'><meta property='og:description' content='{d}'>"
+        f"<meta name='twitter:card' content='summary'><meta name='twitter:title' content='{t}'>"
+        f"<meta name='twitter:description' content='{d}'>"
+    )
+
+
+def page(
+    title: str, body: str, active: str = "", back: str | None = None, hero: str = "", desc: str = DEFAULT_DESC
+) -> str:
     nav = "".join(
         f"<a href='{h}' class='{'on' if k == active else ''}'><b>{ic}</b>{lab}</a>"
         for h, ic, lab, k in NAV_ITEMS
@@ -121,7 +141,7 @@ def page(title: str, body: str, active: str = "", back: str | None = None, hero:
         else f"<div class='top'>{f'<a class=back href={back!r}>‹</a>' if back else ''}<h1>{e(title)}</h1></div>"
     )
     return (
-        f"<!doctype html><html lang='tr'><head>{HEAD}<title>{e(title)} - {e(APP_NAME)}</title><style>{CSS}</style></head>"
+        f"<!doctype html><html lang='tr'><head>{HEAD}{meta_tags(title, desc)}<title>{e(title)} - {e(APP_NAME)}</title><style>{CSS}</style></head>"
         f"<body><div id='app'>{bar}{hero}{body}{FOOT}<nav class='bottom'>{nav}</nav></div>"
         "<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}</script></body></html>"
     )
@@ -245,7 +265,7 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
             f"<meta name='apple-client' content='{e(apple_id)}'>"
         )
     return (
-        f"<!doctype html><html lang='tr'><head>{HEAD}<title>Giriş - {e(APP_NAME)}</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
+        f"<!doctype html><html lang='tr'><head>{HEAD}{meta_tags("Giriş")}<title>Giriş - {e(APP_NAME)}</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
         f"<div class='login'><div style='font-size:46px'>⚽</div><h1>{e(APP_NAME)}</h1>"
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"
@@ -826,6 +846,33 @@ def track_match(m: dict) -> str:
     )
 
 
+def league_hit_table(listing: list[dict]) -> str:
+    """Hit rates per competition, derived from the scored matches. Small groups are noise and say so."""
+    agg: dict[str, list[int]] = {}
+    for m in listing:
+        a = agg.setdefault(m["league"], [0, 0, 0, 0])
+        a[0] += 1
+        a[1] += bool(m["pick_hit"])
+        a[2] += bool(m["ou_hit"])
+        a[3] += bool(m["btts_hit"])
+    if not agg:
+        return ""
+
+    def cell(hit: int, n: int) -> str:
+        return f"{hit}/{n} ({pct(hit / n)})"
+
+    rows = "".join(
+        f"<tr><td>{e(comp_name(k))}</td><td>{a[0]}</td><td>{cell(a[1], a[0])}</td><td>{cell(a[2], a[0])}</td>"
+        f"<td>{cell(a[3], a[0])}</td></tr>"
+        for k, a in sorted(agg.items(), key=lambda kv: (-kv[1][0], kv[0]))
+    )
+    return (
+        "<div class='sec'><h2>Liglere göre</h2></div><div class='card'><table><tr><th>Lig / kupa</th><th>Maç</th><th>1X2</th>"
+        f"<th>Alt/Üst</th><th>KG</th></tr>{rows}</table>"
+        "<p class='note'>Bir ligde 20'den az maç varsa oran gürültüdür; tek bir ligdeki yüksek oran başarı sayılmaz.</p></div>"
+    )
+
+
 def track_page(t: dict) -> str:
     if not t["available"] or not t["matches_scored"]:
         body = "<div class='card warn'>Henüz sonuçlanmış maç yok. İlk sonuçlar tur bittiğinde burada görünecek.</div>"
@@ -878,6 +925,7 @@ def track_page(t: dict) -> str:
             f"<div class='card'><table><tr><th>Ölçü</th><th>Değer</th></tr><tr><td>Log kaybı (düşük iyi)</td><td>{h['log_loss']:.3f}</td></tr>"
             f"<tr><td>Lig taban oranı ile kıyas</td><td>{h['log_loss_league_base_rate']:.3f}</td></tr></table></div>"
             f"<div class='sec'><h2>Eğilime göre</h2></div><div class='card'><table><tr><th>Eğilim</th><th>Tuttu</th><th>Oran</th></tr>{tips}</table></div>"
+            f"{league_hit_table(listing)}"
             f"<div class='sec'><h2>Tüm değerlendirilen maçlar</h2></div>{lst}"
         )
     return page(

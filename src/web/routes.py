@@ -12,7 +12,14 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from fastapi import FastAPI, Request
-from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse, Response
+from fastapi.responses import (
+    FileResponse,
+    HTMLResponse,
+    JSONResponse,
+    PlainTextResponse,
+    RedirectResponse,
+    Response,
+)
 
 from src.dashboard.viewmodel import intel_section
 
@@ -373,6 +380,30 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def track(request: Request):
         _, redirect = guarded(request)
         return redirect or pages.track_page(service.track_record())
+
+    def site_base(request: Request) -> str:
+        host = request.headers.get("host") or request.url.netloc
+        return f"{'http' if host.startswith(('localhost', '127.0.0.1')) else 'https'}://{host}"
+
+    @app.get("/robots.txt", response_class=PlainTextResponse, include_in_schema=False)
+    def robots(request: Request):
+        """Public pages may be indexed; account, API and signed-in routes may not."""
+        disallow = ("/v1/", "/giris/", "/profil", "/favori", "/favoriler", "/hesabi-sil", "/cikis")
+        lines = [
+            "User-agent: *",
+            *[f"Disallow: {p}" for p in disallow],
+            f"Sitemap: {site_base(request)}/sitemap.xml",
+        ]
+        return "\n".join(lines) + "\n"
+
+    @app.get("/sitemap.xml", include_in_schema=False)
+    def sitemap(request: Request):
+        base = site_base(request)
+        urls = "".join(
+            f"<url><loc>{base}{p}</loc></url>" for p in ("/giris", "/gizlilik", "/kosullar", "/sunum")
+        )
+        xml = f"<?xml version='1.0' encoding='UTF-8'?><urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>{urls}</urlset>"
+        return Response(xml, media_type="application/xml")
 
     @app.get("/gizlilik", response_class=HTMLResponse, include_in_schema=False)
     def privacy():  # public on purpose: an OAuth consent screen needs a reachable policy URL

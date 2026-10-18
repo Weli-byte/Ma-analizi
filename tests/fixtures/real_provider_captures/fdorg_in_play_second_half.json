@@ -1,0 +1,62 @@
+{
+ "captured_at_utc": "2026-10-11T23:28:59.137702+00:00",
+ "match": {
+  "area": {
+   "code": "BRA",
+   "flag": "https://crests.football-data.org/764.svg",
+   "id": 2032,
+   "name": "Brazil"
+  },
+  "awayTeam": {
+   "crest": "https://crests.football-data.org/4364.png",
+   "id": 4364,
+   "name": "Mirassol FC",
+   "shortName": "Mirassol",
+   "tla": "MIR"
+  },
+  "competition": {
+   "code": "BSA",
+   "emblem": "https://crests.football-data.org/bsa.png",
+   "id": 2013,
+   "name": "Campeonato Brasileiro Série A",
+   "type": "LEAGUE"
+  },
+  "group": null,
+  "homeTeam": {
+   "crest": "https://crests.football-data.org/1777.png",
+   "id": 1777,
+   "name": "EC Bahia",
+   "shortName": "Bahia",
+   "tla": "BAH"
+  },
+  "id": 555031,
+  "lastUpdated": "2026-10-11T23:28:03Z",
+  "matchday": 30,
+  "odds": {
+   "msg": "Activate Odds-Package in User-Panel to retrieve odds."
+  },
+  "referees": [],
+  "score": {
+   "duration": "REGULAR",
+   "fullTime": {
+    "away": 0,
+    "home": 1
+   },
+   "halfTime": {
+    "away": 0,
+    "home": 1
+   },
+   "winner": "HOME_TEAM"
+  },
+  "season": {
+   "currentMatchday": 30,
+   "endDate": "2026-12-02",
+   "id": 2474,
+   "startDate": "2026-01-28",
+   "winner": null
+  },
+  "stage": "REGULAR_SEASON",
+  "status": "IN_PLAY",
+  "utcDate": "2026-10-11T22:30:00Z"
+ }
+}

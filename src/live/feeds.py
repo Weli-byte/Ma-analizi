@@ -6,9 +6,10 @@ Verified on REAL data (2026-10-02):
   and running score, `matchIsFinished`, `matchResults`. No current minute, no cards, no
   substitutions, no VAR. Bundesliga / 2. Bundesliga / 3. Liga etc.
 - football-data.org (free tier): `status`, `score.fullTime/halfTime`. No goal list, no cards, no
-  substitutions. NOT yet seen on a real in-play match (none was running at implementation time):
-  the in-play shape (`IN_PLAY`/`PAUSED`, running `fullTime`) follows the v4 docs and is verified
-  at the first real live match.
+  substitutions, no minute. Verified on REAL in-play matches (2026-10-11/12, 45 captures, 748 stored
+  states): `status` IN_PLAY with a running `fullTime`, `halfTime` null until the break, no `minute`
+  or `injuryTime`. Not yet seen: `PAUSED` (half time was reported as IN_PLAY) and the moment of the
+  switch to FINISHED. See ADR 0029 amendment 2026-10-19.
 
 Nothing is assumed: a status the feed does not state is inferred from the clock and labelled
 `inferred_from_clock`; a score the feed does not state is `None`.

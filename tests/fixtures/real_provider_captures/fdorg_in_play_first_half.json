@@ -1,0 +1,62 @@
+{
+ "captured_at_utc": "2026-10-12T22:36:38.401709+00:00",
+ "match": {
+  "area": {
+   "code": "BRA",
+   "flag": "https://crests.football-data.org/764.svg",
+   "id": 2032,
+   "name": "Brazil"
+  },
+  "awayTeam": {
+   "crest": "https://crests.football-data.org/1768.png",
+   "id": 1768,
+   "name": "CA Paranaense",
+   "shortName": "Paranaense",
+   "tla": "CAP"
+  },
+  "competition": {
+   "code": "BSA",
+   "emblem": "https://crests.football-data.org/bsa.png",
+   "id": 2013,
+   "name": "Campeonato Brasileiro Série A",
+   "type": "LEAGUE"
+  },
+  "group": null,
+  "homeTeam": {
+   "crest": "https://crests.football-data.org/1772_large.png",
+   "id": 1772,
+   "name": "Chapecoense AF",
+   "shortName": "Chapecoense",
+   "tla": "CHA"
+  },
+  "id": 555033,
+  "lastUpdated": "2026-10-12T22:35:47Z",
+  "matchday": 30,
+  "odds": {
+   "msg": "Activate Odds-Package in User-Panel to retrieve odds."
+  },
+  "referees": [],
+  "score": {
+   "duration": "REGULAR",
+   "fullTime": {
+    "away": 0,
+    "home": 0
+   },
+   "halfTime": {
+    "away": null,
+    "home": null
+   },
+   "winner": "DRAW"
+  },
+  "season": {
+   "currentMatchday": 30,
+   "endDate": "2026-12-02",
+   "id": 2474,
+   "startDate": "2026-01-28",
+   "winner": null
+  },
+  "stage": "REGULAR_SEASON",
+  "status": "IN_PLAY",
+  "utcDate": "2026-10-12T22:30:00Z"
+ }
+}

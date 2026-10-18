@@ -118,7 +118,7 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
       `FootballSnapshotTick` (every 10 min, `scripts/snapshot_tick.ps1`).
 - [x] S14 live engine (ADR 0029, 2026-10-02): `src/live/` feeds (OpenLigaDB real, football-data.org), events/state,
       in-play Poisson model, separate `LivePredictionRecord` + store; Windows task `FootballLiveTick` (2 min).
-      Real in-play football-data.org payload still unverified (no live match yet). Transfermarkt rejected (ToS).
+      Real in-play football-data.org payload VERIFIED 2026-10-19 on 45 real captures (ADR 0029 amendment; PAUSED never seen). Transfermarkt rejected (ToS).
 - [x] S15 odds/EV/CLV paper (ADR 0030, 2026-10-02): `src/odds/` real DraftKings 1X2 via ESPN (RESEARCH_ONLY), exact-only gate,
       paper ledger; Windows task `FootballOddsTick`. ESPN quotes are `approximate` (no provider timestamp) => no edge/EV/CLV;
       exact odds: The Odds API verified 2026-10-08, collected by the cloud workflow odds-exact.yml (PC network blocked).

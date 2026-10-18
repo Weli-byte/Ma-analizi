@@ -17,4 +17,4 @@ model comparison. No guaranteed-win or betting-advice language anywhere; value a
 
 Gate: none of this ships commercially until `docs/data_sources/provider_evaluation.md` items 1-4 are resolved.
 
-Web gates (ADR 0062): `paper_value` and `forecast_history` need Pro when `FORECAST_PLANS_ENFORCED` is set; off by default.
+Web gates (ADR 0062, package B): the match tabs `Marketler`, `Hakem` and `Oyuncular` need Pro when `FORECAST_PLANS_ENFORCED` is set; off by default. Tips and the track record stay free.

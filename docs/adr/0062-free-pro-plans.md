@@ -1,6 +1,6 @@
 # ADR 0062: Free / Pro plan infrastructure (no payment)
 
-Status: accepted (2026-10-15). Verified live: not yet (the `plan` column migration on the real Turso database runs on first deploy).
+Status: accepted (2026-10-15). Verified live 2026-10-15 (see Live check).
 
 ## Decision
 Build the plan model now, sell nothing. The feature matrix is `docs/product.md`; `src/web/plans.py` holds the web subset
@@ -22,3 +22,8 @@ legal items in ADR 0036 (provider terms, a lawyer-reviewed terms page, consumer-
 ## Tests
 `tests/test_plans.py`: gates off/on, e-mail grant, stored plan survives a sign-in, migration of an old table, 403 and profile plan
 label. The Turso `PRAGMA` migration is unverified against the real service until the next deploy.
+
+## Live check (2026-10-15)
+After the deploy of this change, on the real Turso database: guest sign-in, add favourite and list it, profile shows `Plan: Ücretsiz`
+(the `plan` column exists and is readable, so the `PRAGMA`-based migration worked), `/tavsiyeler` and `/basari-kaydi` answer 200 with gates off.
+The 403 path with `FORECAST_PLANS_ENFORCED` set was tested locally only. The test account was deleted afterwards.

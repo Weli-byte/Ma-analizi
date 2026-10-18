@@ -2,6 +2,7 @@ name: ci
 on:
   push:
   pull_request:
+  workflow_dispatch:
 env:
   # Pin BLAS/OpenMP to 1 thread everywhere in this workflow: multi-threaded reductions (np.sum
   # etc, used heavily by Elo's gradient ascent and Poisson's IPF) are not guaranteed associative,

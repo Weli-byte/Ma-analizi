@@ -11,6 +11,19 @@ KICKOFF = datetime(2024, 1, 20, 15, 0, tzinfo=UTC)
 DV = "dv-0123456789ab"  # a syntactically valid content-derived data version
 
 
+@pytest.fixture(autouse=True)
+def _no_dotenv_in_tests(request, monkeypatch, tmp_path_factory):
+    """Code under test calls `load_dotenv()` (default path: the project's gitignored `.env`). Without this, a developer PC with
+    real keys in `.env` re-creates a variable a test just deleted, so "no key configured" tests pass in CI but fail locally.
+    Live tests (`-m live`) are exempt: they need the real keys."""
+    if request.node.get_closest_marker("live"):
+        return
+    from src.cli_utils import load_dotenv
+
+    nowhere = tmp_path_factory.getbasetemp() / "no-such-dotenv"
+    monkeypatch.setattr(load_dotenv, "__defaults__", (nowhere,))
+
+
 def git(path: Path, *args: str) -> None:
     subprocess.run(["git", *args], cwd=path, check=True, capture_output=True)
 

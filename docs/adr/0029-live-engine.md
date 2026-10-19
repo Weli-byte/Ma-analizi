@@ -42,3 +42,19 @@ Flat scoring intensity (no late-goal surge, stoppage time unknown beyond a 2-min
 timing from football-data.org is only known to the poll interval; OpenLigaDB entries are typed in
 by community editors and may lag the real match. Not yet verified: a real in-play football-data.org
 payload and a full live Bundesliga match through the scheduler (first chance: 2026-10-02 evening).
+
+## Amendment 2026-10-19: real football-data.org in-play payloads
+The scheduler captured 45 real in-play payloads (2026-10-11 to 2026-10-18; `artifacts/live/_captures/`) and 748 states. Facts:
+- Shape matches the v4 docs for what the parser reads: `status` `IN_PLAY` (reported), `score.fullTime` running, `score.halfTime`
+  null until the break, `winner` set while the match is still running (provisional; the parser ignores it).
+- The free tier sends NO `minute` and NO `injuryTime`: every minute is `inferred_from_clock`. Goals come only from score changes
+  (`derived_from_score_change`, minute unknown).
+- Half time was never reported as `PAUSED`: 747 of 748 stored states are IN_PLAY (one FINISHED). The `PAUSED` mapping is
+  therefore still unverified.
+- The feed kept answering IN_PLAY long after a match should have ended: the last IN_PLAY poll came 117 to 131 minutes after
+  kickoff (median 117; a normal match ends about 105 to 110 minutes after kickoff), so the status lags by roughly 10 to 25 minutes
+  or the poll missed the change. `infer_minute` caps the clock at 120 and the engine must not read a late IN_PLAY as "still
+  playing minute 100".
+- First in-play poll came a median 9 minutes after kickoff (poll interval plus feed lag).
+Two real payloads are now test fixtures (`tests/fixtures/real_provider_captures/fdorg_in_play_*.json`, `tests/test_live_real_captures.py`).
+Still open: a real `PAUSED` payload, the FINISHED transition timing, and the real score-versus-final check beyond the stored states.

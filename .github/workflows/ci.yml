@@ -14,9 +14,11 @@ env:
   OPENBLAS_NUM_THREADS: "1"
   MKL_NUM_THREADS: "1"
   NUMEXPR_NUM_THREADS: "1"
+# runs-on is pinned to ubuntu-24.04 in every workflow (not ubuntu-latest): GitHub moves `latest` to Ubuntu 26 from 2026-10-19,
+# and a different image (BLAS, libc, Python builds) can change the golden-chain hashes. Move all workflows together, on purpose.
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
@@ -47,7 +49,7 @@ jobs:
     # Real (not synthetic) EPL data, committed as a small fixed fixture — no network access.
     # This is a fast smoke layer only; the full 2019-2024 benchmark runs on a schedule
     # (nightly-full-benchmark.yml), not on every PR. See docs/ci_real_data_sanity.md.
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,7 +65,7 @@ jobs:
       - name: Real-data sanity (pipeline -> features -> baselines -> walk-forward, x2 for determinism)
         run: python scripts/ci_real_data_sanity.py --mode strict
   lock-up-to-date:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

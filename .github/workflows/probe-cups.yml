@@ -10,7 +10,7 @@ permissions:
   contents: read
 jobs:
   probe:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}

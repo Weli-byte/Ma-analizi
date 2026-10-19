@@ -77,9 +77,9 @@ duckdb==1.5.6 \
     --hash=sha256:ebcbd09cd8578ab1093393e9b16289cda0e8f1791ac595bf00eb5bad75c3cf00 \
     --hash=sha256:f14551eef9180fc72869e2d9a2896410a8826169e22495e98a825abaa0eac1a7
     # via -r requirements-api.in
-fastapi==0.146.0 \
-    --hash=sha256:0eb9985a7d5bb11ce9a962d4b65e0cf1a2e13d6aca2e14da57bc526370e26748 \
-    --hash=sha256:e96047fc353ff43f7fda069c3578a7d94902a762d9aca2e065f7f801abd91a49
+fastapi==0.147.0 \
+    --hash=sha256:c144ac6633b7f498ab98c8f001c7e60c8430df3f9bc6126fe2e0e2e26f790fdd \
+    --hash=sha256:d92fc67613e67c3c63c8d3e9bb8c9b237fda94acd9e9a9acb9daa1ec578e8dcf
     # via -r requirements-api.in
 groq==1.7.0 \
     --hash=sha256:cb1518f823423d4e52445859eb7d2918a927794cec12f8d5e50d9161e3690fc8 \

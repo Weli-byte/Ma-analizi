@@ -365,11 +365,11 @@ def register(app: FastAPI, service, root, now_fn) -> None:
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)
     def tips(request: Request):
-        _, redirect = guarded(request)
+        u, redirect = guarded(request)
         if redirect:
             return redirect
         names = {i["fixture_id"]: (i["home"], i["away"]) for i in upcoming()}
-        return pages.tips_page(service.tips(0.55), names)
+        return pages.tips_page(plans.filter_tips(service.tips(0.55), plan_of(u)), names)
 
     @app.get("/profil", response_class=HTMLResponse, include_in_schema=False)
     def profile(request: Request):

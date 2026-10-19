@@ -58,3 +58,10 @@ The scheduler captured 45 real in-play payloads (2026-10-11 to 2026-10-18; `arti
 - First in-play poll came a median 9 minutes after kickoff (poll interval plus feed lag).
 Two real payloads are now test fixtures (`tests/fixtures/real_provider_captures/fdorg_in_play_*.json`, `tests/test_live_real_captures.py`).
 Still open: a real `PAUSED` payload, the FINISHED transition timing, and the real score-versus-final check beyond the stored states.
+
+### Follow-up 2026-10-19: guard against the stale IN_PLAY status
+`src/live/engine.py` `MAX_CLOCK_MINUTE = 100`: when the minute is inferred from the clock (the free tier sends none) and exceeds 100,
+the tick stores the state but issues NO forecast (`STATE_ONLY`, reason "IN_PLAY is probably stale (match over)"). Before this, a
+poll 125 minutes after kickoff was forecast as "2 minutes left" and published a near-certain result for a match that had ended.
+A reported minute is still trusted. `PAUSED` stays unverified: no real PAUSED payload exists, so the mapping is left as the v4
+docs describe it and nothing was invented. Test: `tests/test_live_real_captures.py`.

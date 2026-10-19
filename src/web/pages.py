@@ -11,6 +11,7 @@ from html import escape as e
 from zoneinfo import ZoneInfo
 
 from .brand import APP_NAME, CONTACT_EMAIL, COUNTRY, OWNER
+from .plans import FREE_TIP_MARKETS
 
 LEAGUES = {
     "EPL": ("Premier Lig", "PL", "#6a1b9a"),
@@ -724,9 +725,15 @@ def match_page(
         f"<div class='sc'><b>{e(x['score'])}</b><div style='width:{x['p'] / mx * 60:.0f}%'></div><span>{pct(x['p'])}</span></div>"
         for x in top
     )
+    shown_tips = [t for t in i["tips"] if "market" not in locked or t["market"] in FREE_TIP_MARKETS]
     tips = "".join(
         f"<tr><td>{e(tr_pick(t['market'], t['pick'], home, away))}</td><td>{pct(t['probability'])}</td><td class='{'ok' if t['lean'] != 'toss-up' else ''}'>{e(LEAN.get(t['lean'], t['lean']))}</td></tr>"
-        for t in i["tips"]
+        for t in shown_tips
+    )
+    goal_odds = (
+        "<p class='mut'>İki takım da gol atar ve 2.5 alt/üst olasılıkları Pro planına ait.</p>"
+        if "market" in locked
+        else f"<p class='mut'>İki takım da gol atar: {pct(g['btts_yes'])} · 2.5 üst: {pct(next(x['over'] for x in g['over_under'] if x['line'] == 2.5))}</p>"
     )
     if picks:
         sel = {"H": f"{home} kazanır", "D": "Beraberlik", "A": f"{away} kazanır"}
@@ -755,7 +762,7 @@ def match_page(
         + compare
         + f"<div class='sec'><h2>En olası skorlar</h2></div><div class='card'>{scores}<p class='note'>Skor tahmini zordur: en olası skorun bile ihtimali genelde %10-15 civarında.</p></div>"
         f"<div class='sec'><h2>Goller</h2></div><div class='card'><p>Beklenen gol: {e(home)} <b>{g['expected']['home']:.2f}</b> - {e(away)} <b>{g['expected']['away']:.2f}</b></p>"
-        f"<p class='mut'>İki takım da gol atar: {pct(g['btts_yes'])} · 2.5 üst: {pct(next(x['over'] for x in g['over_under'] if x['line'] == 2.5))}</p></div>"
+        f"{goal_odds}</div>"
     )
     advice = (
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"

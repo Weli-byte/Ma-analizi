@@ -8,7 +8,7 @@ jobs:
     # last bit between Windows and Linux libm/BLAS, which is enough to change a SHA256 hash
     # even when every metric value matches to 1e-8. Do not generate golden.json locally on
     # Windows and commit it directly; use this workflow (download the artifact, commit it).
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     env:
       # Pin BLAS/OpenMP to 1 thread: multi-threaded reductions (np.sum etc, used heavily by
       # Elo's gradient ascent and Poisson's IPF) are not guaranteed associative, so their thread

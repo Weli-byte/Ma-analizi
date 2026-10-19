@@ -12,7 +12,7 @@ on:
   workflow_dispatch: {}
 jobs:
   live-smoke:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     env:
       OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}

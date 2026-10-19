@@ -27,3 +27,14 @@ label. The Turso `PRAGMA` migration is unverified against the real service until
 After the deploy of this change, on the real Turso database: guest sign-in, add favourite and list it, profile shows `Plan: Ücretsiz`
 (the `plan` column exists and is readable, so the `PRAGMA`-based migration worked), `/tavsiyeler` and `/basari-kaydi` answer 200 with gates off.
 The 403 path with `FORECAST_PLANS_ENFORCED` set was tested locally only. The test account was deleted afterwards.
+
+## Amendment 2026-10-19: package B chosen by the owner
+- Pro: the match-page tabs "Marketler" (over/under, both teams to score, scores, corners, cards), "Hakem" and "Oyuncular".
+  Free: 1X2 forecast, the summary tab, form, table, injuries, tips (`/tavsiyeler`) and the whole track record (`/basari-kaydi`).
+  Reason: the 130-match record (reports/model_comparison_2026-10-19.md) shows no model advantage over the market, so the track
+  record stays open (transparency) and the bet-suggestion page is not sold (the terms say it is not betting advice).
+- The first draft gated `/tavsiyeler` and `/basari-kaydi`; that gate and its 403 page are removed. Locked tabs render a
+  "Pro planına ait" notice instead of their content and their button says "(Pro)".
+- The owner uses Pro for free: the contact address (`brand.CONTACT_EMAIL`) is always Pro when it is the verified Google e-mail.
+- Gates are still OFF (`FORECAST_PLANS_ENFORCED` unset). Turning them on is the owner's call, not before payment exists.
+- Not gated, to be honest about it: the over/under and BTTS numbers also appear in the summary tab and the tips list (free).

@@ -7,7 +7,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from src.api.app import create_app
-from src.web import plans
+from src.web import pages, plans
 from src.web.store import UserStore
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,12 +20,20 @@ def _clean_env(monkeypatch):
 
 
 def test_gates_are_off_by_default_and_on_when_enforced(monkeypatch):
-    assert plans.allows("free", "paper_value") is True  # nothing enforced: everyone sees everything
+    assert plans.allows("free", "goal_markets") is True  # nothing enforced: everyone sees everything
+    assert plans.locked_tabs("free") == set()
     monkeypatch.setenv("FORECAST_PLANS_ENFORCED", "1")
-    assert plans.allows("free", "paper_value") is False
-    assert plans.allows("pro", "paper_value") is True
+    assert plans.allows("free", "goal_markets") is False and plans.allows("pro", "goal_markets") is True
+    assert plans.locked_tabs("free") == {"market", "hakem", "oyuncu"} and plans.locked_tabs("pro") == set()
     with pytest.raises(KeyError):
         plans.allows("pro", "no_such_feature")
+
+
+def test_the_owner_contact_address_is_always_pro():
+    from src.web.brand import CONTACT_EMAIL
+
+    assert plans.effective_plan(CONTACT_EMAIL, "free") == "pro"
+    assert plans.effective_plan(CONTACT_EMAIL.upper(), "free") == "pro"
 
 
 def test_pro_email_list_grants_pro_case_insensitively_and_only_with_an_email(monkeypatch):
@@ -65,6 +73,18 @@ def test_a_users_table_created_before_plans_is_migrated_without_losing_rows(tmp_
     assert UserStore(tmp_path).plan("u1") == "pro"  # a second start does not try to add the column again
 
 
+def test_locked_tabs_show_a_pro_notice_instead_of_their_content():
+    from tests.test_match_details import Logos, _intel
+
+    open_page = pages.match_page(_intel(None), [], Logos())
+    assert "Pro planına ait" not in open_page and "(Pro)" not in open_page
+    shut = pages.match_page(
+        _intel(None), [], Logos(), locked=plans.TAB_FEATURES.keys() & {"market", "hakem", "oyuncu"}
+    )
+    assert shut.count("Bu sekme Pro planına ait.") == 3 and shut.count("(Pro)</button>") == 3
+    assert "<section id='t-ozet'" in shut and "t-form" in shut  # the other tabs are untouched
+
+
 def _client(tmp_path, monkeypatch):
     monkeypatch.setenv("FORECAST_USER_DB", str(tmp_path / "users.sqlite"))
     c = TestClient(create_app(ROOT, keys=[]), follow_redirects=False)
@@ -72,13 +92,9 @@ def _client(tmp_path, monkeypatch):
     return c
 
 
-def test_pages_stay_open_without_enforcement_and_close_for_free_users_with_it(tmp_path, monkeypatch):
+def test_tips_and_track_record_stay_open_even_when_plans_are_enforced(tmp_path, monkeypatch):
     c = _client(tmp_path, monkeypatch)
-    for path in ("/tavsiyeler", "/basari-kaydi"):
-        assert c.get(path).status_code == 200
     monkeypatch.setenv("FORECAST_PLANS_ENFORCED", "1")
-    for path in ("/tavsiyeler", "/basari-kaydi"):
-        r = c.get(path)
-        assert r.status_code == 403 and "Pro planına ait" in r.text
+    for path in ("/tavsiyeler", "/basari-kaydi", "/"):
+        assert c.get(path).status_code == 200
     assert "Plan: <b>Ücretsiz</b>" in c.get("/profil").text
-    assert c.get("/").status_code == 200  # the rest of the app stays open

@@ -688,6 +688,7 @@ def match_page(
     injuries: dict | None = None,
     people: dict | None = None,
     names: dict[str, str] | None = None,
+    locked: set[str] | frozenset[str] = frozenset(),
 ) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
@@ -779,7 +780,8 @@ def match_page(
     bar = (
         "<div class='tabs'>"
         + "".join(
-            f"<button data-t='{k}' class='{'on' if k == 'ozet' else ''}'>{lab}</button>" for k, lab in tabs
+            f"<button data-t='{k}' class='{'on' if k == 'ozet' else ''}'>{lab}{' (Pro)' if k in locked else ''}</button>"
+            for k, lab in tabs
         )
         + "</div>"
     )
@@ -797,7 +799,7 @@ def match_page(
     body = (
         bar
         + "".join(
-            f"<section id='t-{k}' class='tab{' on' if k == 'ozet' else ''}'>{contents[k]}</section>"
+            f"<section id='t-{k}' class='tab{' on' if k == 'ozet' else ''}'>{LOCKED_TAB if k in locked else contents[k]}</section>"
             for k, _ in tabs
         )
         + TAB_SCRIPT
@@ -1089,13 +1091,10 @@ def legal_page(kind: str) -> str:
     return page(title, "<div class='card'>" + "".join(out) + "</div>", "profile", back="/giris")
 
 
-def upgrade_page() -> str:
-    return page(
-        "Pro özellik",
-        "<div class='card'><b>Bu bölüm Pro planına ait.</b>"
-        "<p class='mut'>Pro planı henüz satışa açılmadı. Açıldığında buradan duyurulacak.</p>"
-        "<p><a href='/'><b>‹ Ana sayfaya dön</b></a></p></div>",
-    )
+LOCKED_TAB = (
+    "<div class='card'><b>Bu sekme Pro planına ait.</b>"
+    "<p class='mut'>Pro planı henüz satışa açılmadı. Açıldığında buradan duyurulacak.</p></div>"
+)
 
 
 def profile_page(user, plan: str = "free") -> str:

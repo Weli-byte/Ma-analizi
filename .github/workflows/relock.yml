@@ -1,12 +1,14 @@
 name: relock
-# Upstream releases make `lock-up-to-date` (ci.yml) fail on main every few days. This job regenerates the three lock files with
-# the documented command (CLAUDE.md: --upgrade is required) and opens a PR. It never merges anything.
+# Upstream releases make `lock-up-to-date` (ci.yml) fail on main almost daily (the check compiles from scratch on purpose,
+# CLAUDE.md H-05, so it is not loosened). This job regenerates the lock files with the documented command (--upgrade is required)
+# and keeps ONE rolling PR (branch chore/relock, force-updated) open while main is stale; it closes that PR when main is
+# up to date again. It never merges anything.
 # Needs: repo Settings -> Actions -> General -> "Allow GitHub Actions to create and approve pull requests".
-# A push made with GITHUB_TOKEN does not start `ci` by itself, so the job dispatches ci.yml on the new branch; the check runs
-# attach to the branch's commit and show up in the PR.
+# A push or PR made with GITHUB_TOKEN does not start `ci` by itself, so the job dispatches ci.yml on the branch; the check
+# runs attach to the branch's commit and show up in the PR.
 on:
   schedule:
-    - cron: "0 5 * * 1"
+    - cron: "0 5 * * *"
   workflow_dispatch:
 permissions:
   contents: write
@@ -27,23 +29,36 @@ jobs:
           uv pip compile requirements-api.in --universal --generate-hashes --python-version 3.12 --upgrade -o requirements-api.lock
           cp requirements.lock tests/fixtures/real_smoke/root/requirements.lock
         shell: bash
-      - name: Open a PR when something changed
+      - name: Keep one rolling PR while the locks are stale
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          # the header comment of a lock names the output path; ignore it like the CI check does
-          if diff <(git show HEAD:requirements.lock | grep -v '^#') <(grep -v '^#' requirements.lock) >/dev/null \
-            && diff <(git show HEAD:requirements-api.lock | grep -v '^#') <(grep -v '^#' requirements-api.lock) >/dev/null; then
-            echo "locks already up to date"; exit 0
+          set -euo pipefail
+          branch="chore/relock"
+          # a lock's header comment names the output path; ignore it like the CI check does
+          same() { diff <(git show "$1:$2" | grep -v '^#') <(grep -v '^#' "$2") >/dev/null; }
+          open_pr="$(gh pr list --head "$branch" --state open --json number -q '.[0].number // empty')"
+          if same HEAD requirements.lock && same HEAD requirements-api.lock; then
+            echo "locks already up to date"
+            if [ -n "$open_pr" ]; then
+              gh pr close "$open_pr" --delete-branch --comment "Locks are up to date on main again; closing."
+            fi
+            exit 0
           fi
-          branch="chore/relock-$(date -u +%Y%m%d)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$branch"
+          git fetch origin "$branch" 2>/dev/null || true
+          if git rev-parse --verify -q "origin/$branch" >/dev/null \
+            && same "origin/$branch" requirements.lock && same "origin/$branch" requirements-api.lock; then
+            echo "the rolling PR already carries these locks"; exit 0
+          fi
+          git checkout -B "$branch"
           git add requirements.lock requirements-api.lock tests/fixtures/real_smoke/root/requirements.lock
-          git commit -m "chore: regenerate lock files (weekly relock)"
-          git push origin "$branch"
-          gh pr create --base main --head "$branch" --title "chore: regenerate lock files (weekly relock)" \
-            --body "Automatic: upstream releases made the lock files stale. Check that all ci jobs are green before merging."
+          git commit -m "chore: regenerate lock files (relock)"
+          git push --force origin "$branch"
+          if [ -z "$open_pr" ]; then
+            gh pr create --base main --head "$branch" --title "chore: regenerate lock files (relock)" \
+              --body "Automatic: upstream releases made the lock files stale. This PR is updated in place; merge it when all ci jobs are green."
+          fi
           gh workflow run ci.yml --ref "$branch"
         shell: bash

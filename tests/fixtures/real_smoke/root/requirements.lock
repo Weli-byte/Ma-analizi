@@ -562,9 +562,9 @@ duckdb==1.5.6 \
     --hash=sha256:ebcbd09cd8578ab1093393e9b16289cda0e8f1791ac595bf00eb5bad75c3cf00 \
     --hash=sha256:f14551eef9180fc72869e2d9a2896410a8826169e22495e98a825abaa0eac1a7
     # via football-forecasting (pyproject.toml)
-fastapi==0.147.0 \
-    --hash=sha256:c144ac6633b7f498ab98c8f001c7e60c8430df3f9bc6126fe2e0e2e26f790fdd \
-    --hash=sha256:d92fc67613e67c3c63c8d3e9bb8c9b237fda94acd9e9a9acb9daa1ec578e8dcf
+fastapi==0.148.0 \
+    --hash=sha256:06ee16c50e429daf993a58ecbb5306d284c4c1ee8135380af39a5e1cfa715187 \
+    --hash=sha256:2848088aa482c875c180ef92b7139fec345393d09cdcf258ba4b8555ab068a3b
     # via football-forecasting (pyproject.toml)
 google-auth==2.62.0 \
     --hash=sha256:0bef0ce54bdf9ce226c5d66e4264413bd918141c31bbe49fb52eac882f513d69 \

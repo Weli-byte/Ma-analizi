@@ -62,6 +62,7 @@ PHRASES: dict[str, str] = {
     ". İletişim ve veri silme talepleri:": ". Contact and data deletion requests:",
     "Verilerin nerede işleniyor?": "Where is your data processed?",
     "Site Vercel (ABD) üzerinde çalışır ve Google ile giriş Google (ABD) üzerinden yapılır; kişisel verilerin yurt dışındaki bu hizmet sağlayıcılarda işlenebilir.": "The site runs on Vercel (USA) and sign-in with Google goes through Google (USA); your personal data may be processed by these service providers abroad.",
+    "İki takım da gol atar ve 2.5 alt/üst olasılıkları Pro planına ait.": "Both teams to score and 2.5 over/under probabilities are part of the Pro plan.",
     "Bu sekme Pro planına ait.": "This tab is part of the Pro plan.",
     "Liglere göre": "By competition",
     "Lig / kupa": "League / cup",

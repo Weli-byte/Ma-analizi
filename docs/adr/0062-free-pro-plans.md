@@ -37,4 +37,6 @@ The 403 path with `FORECAST_PLANS_ENFORCED` set was tested locally only. The tes
   "Pro planına ait" notice instead of their content and their button says "(Pro)".
 - The owner uses Pro for free: the contact address (`brand.CONTACT_EMAIL`) is always Pro when it is the verified Google e-mail.
 - Gates are still OFF (`FORECAST_PLANS_ENFORCED` unset). Turning them on is the owner's call, not before payment exists.
-- Not gated, to be honest about it: the over/under and BTTS numbers also appear in the summary tab and the tips list (free).
+- Over/under and BTTS also appear in the summary tab, the match tips table and `/tavsiyeler`: for a free user (gates on) those
+  lines are hidden too (`plans.FREE_TIP_MARKETS`: only `match_result` and `double_chance` tips stay). The track record is NOT
+  filtered: it lists the over/under and BTTS picks and hit rates of past matches, kept open on purpose (transparency).

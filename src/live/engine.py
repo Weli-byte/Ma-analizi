@@ -26,6 +26,10 @@ from .store import LiveStore
 MODEL_ID = "inplay_poisson"
 MODEL_VERSION = "1.0.0"
 FORECASTABLE = (MatchStatus.IN_PLAY, MatchStatus.HALF_TIME)
+# A clock-inferred minute past this is not a match still being played. Real data (ADR 0029, 2026-10-19):
+# the free football-data.org feed kept saying IN_PLAY 117-131 min after kickoff (clock minute 100-116),
+# after the final whistle. A reported minute (paid tier) is trusted; stoppage beyond 100 is rare.
+MAX_CLOCK_MINUTE = 100
 
 
 @dataclass(frozen=True)
@@ -69,6 +73,16 @@ def process_snapshot(
         return TickResult("FINISHED", len(new_events), "result observed; no forecast after full time")
     if state.status not in FORECASTABLE:
         return TickResult("STATE_ONLY", len(new_events), f"status {state.status.value}: not in play")
+    if (
+        state.minute_source == "inferred_from_clock"
+        and state.minute is not None
+        and state.minute > MAX_CLOCK_MINUTE
+    ):
+        return TickResult(
+            "STATE_ONLY",
+            len(new_events),
+            f"clock minute {state.minute} > {MAX_CLOCK_MINUTE}: IN_PLAY is probably stale (match over)",
+        )
     missing = [
         n
         for n, v in (("score", state.score), ("minute", state.minute), ("prematch_rates", rates))

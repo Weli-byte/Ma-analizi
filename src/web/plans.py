@@ -35,6 +35,17 @@ def _pro_emails() -> set[str]:
     return listed | {CONTACT_EMAIL.strip().lower()}
 
 
+# tip markets everyone sees; every other market (over/under, both teams to score, corners, cards ...) is `goal_markets`
+FREE_TIP_MARKETS = frozenset({"match_result", "double_chance"})
+
+
+def filter_tips(tips: list[dict], plan: str) -> list[dict]:
+    """The tips a plan may see: all while the gates are off, otherwise only the free markets."""
+    if allows(plan, "goal_markets"):
+        return tips
+    return [t for t in tips if t["market"] in FREE_TIP_MARKETS]
+
+
 def locked_tabs(plan: str) -> set[str]:
     """Match-page tab keys this plan cannot open (empty while the gates are off)."""
     return {tab for tab, feature in TAB_FEATURES.items() if not allows(plan, feature)}

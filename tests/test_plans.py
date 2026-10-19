@@ -98,3 +98,28 @@ def test_tips_and_track_record_stay_open_even_when_plans_are_enforced(tmp_path, 
     for path in ("/tavsiyeler", "/basari-kaydi", "/"):
         assert c.get(path).status_code == 200
     assert "Plan: <b>Ücretsiz</b>" in c.get("/profil").text
+
+
+def test_free_users_do_not_see_over_under_btts_or_count_tips_when_gates_are_on(monkeypatch):
+    from tests.test_match_details import Logos, _intel
+
+    intel = _intel(None)
+    intel["tips"] = [
+        {"market": "match_result", "pick": "Home win", "probability": 0.5, "lean": "lean"},
+        {"market": "goals_2_5", "pick": "Over 2.5 goals", "probability": 0.55, "lean": "lean"},
+        {"market": "btts", "pick": "Both teams score", "probability": 0.5, "lean": "toss-up"},
+    ]
+    full = pages.match_page(intel, [], Logos())
+    assert "2.5 üst (3+ gol)" in full and "İki takım da gol atar</td>" in full
+    shut = pages.match_page(intel, [], Logos(), locked={"market"})
+    assert "2.5 üst (3+ gol)" not in shut and "İki takım da gol atar</td>" not in shut
+    assert "Pro planına ait" in shut and "Arsenal kazanır" in shut  # the 1X2 tip stays
+    assert "İki takım da gol atar:" not in shut  # the summary's over/under + BTTS line is gone too
+
+
+def test_tips_list_keeps_only_free_markets_for_a_free_user(monkeypatch):
+    tips = [{"market": m} for m in ("match_result", "double_chance", "goals_2_5", "btts", "corners_9_5")]
+    assert plans.filter_tips(tips, "free") == tips  # gates off: everything
+    monkeypatch.setenv("FORECAST_PLANS_ENFORCED", "1")
+    assert [t["market"] for t in plans.filter_tips(tips, "free")] == ["match_result", "double_chance"]
+    assert plans.filter_tips(tips, "pro") == tips

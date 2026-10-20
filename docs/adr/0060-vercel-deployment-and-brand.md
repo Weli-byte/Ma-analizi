@@ -24,3 +24,11 @@ A Google OAuth client (type Web, origin `https://mac-tahmin-eight.vercel.app`, `
 secret) is in use; the consent screen is published ("In production", scopes `openid`, `email`, `profile` only, so no Google
 verification review). Verified by the owner: sign-in with the owner's account, and with a second Google account that is not a test
 user, in a private window, with no "unverified app" warning. Privacy and terms pages are public on the live site.
+
+## Lighthouse audit, mobile, 2026-10-20 (live site)
+Scores before the fixes (Accessibility / Best Practices / SEO): login 96 / 77 / 100, home 87 / 100 / 100, track record 96 / 100 / 100,
+match page 87 / 100 / 100. Performance was not measured (the tool excludes it). Findings and fixes: no `<main>` landmark on any page
+(added); white text on the brand green #00a651 had contrast 3.19 (brand green is now #00843f, 4.8; muted text and the initials badges
+darkened to pass 4.5); the login page loads Google's sign-in script, which sets Google's own third-party cookie (NID), so the
+privacy page no longer says "the only cookie is ours" and names Google's cookies. Not changed: the Google script still loads for every
+visitor of the login page (lazy-loading it on click would risk the sign-in popup that was fixed in #41).

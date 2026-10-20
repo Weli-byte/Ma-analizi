@@ -112,7 +112,7 @@ PHRASES: dict[str, str] = {
     "Favori takımların ve maçların, hesabına bağlı olarak sunucudaki veritabanında saklanır.": "Your favourite teams and matches are stored in the server database, linked to your account.",
     "Ne yapmıyoruz?": "What we do not do",
     "Reklam göstermiyoruz, seni takip etmiyoruz, verini satmıyoruz veya üçüncü taraflarla pazarlama için paylaşmıyoruz.": "We show no ads, do not track you, do not sell your data and do not share it with third parties for marketing.",
-    "Analitik veya izleme çerezi kullanmıyoruz; tek çerez oturum (ve dil tercihi) çerezidir.": "We use no analytics or tracking cookies; the only cookies are the session cookie and the language preference.",
+    "Analitik veya izleme çerezi kullanmıyoruz; kendi çerezlerimiz yalnızca oturum ve dil tercihidir. Giriş sayfası Google ile giriş düğmesini Google'dan yüklediği için Google kendi çerezlerini (örneğin NID) tarayıcına bırakabilir; bunlar Google'ın politikasına tabidir.": "We use no analytics or tracking cookies; our own cookies are only the session and the language preference. Because the sign-in page loads the Sign in with Google button from Google, Google may set its own cookies (for example NID) in your browser; those are governed by Google's policy.",
     "Verilerini silme": "Deleting your data",
     'Profil sayfasındaki "Verilerimi sil" düğmesi hesabına bağlı tüm verileri (favoriler dahil) siler.': 'The "Delete my data" button on the profile page deletes everything linked to your account (including favourites).',
     "Bu belge hakkında": "About this document",

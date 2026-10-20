@@ -12,7 +12,10 @@ def test_cookie_round_trips_and_rejects_tampering_expiry_and_garbage():
     assert session.verify(token, now=1000.0 + session.MAX_AGE + 1) is None  # expired
     payload, sig = token.rsplit(".", 1)
     assert session.verify(payload + "x." + sig, now=1001.0) is None  # payload changed
-    assert session.verify(payload + "." + sig[:-2] + "AA", now=1001.0) is None  # signature changed
+    flipped = ("B" if sig[0] != "B" else "C") + sig[
+        1:
+    ]  # first char: the last base64 chars carry unused bits (flaky ~1/1000)
+    assert session.verify(payload + "." + flipped, now=1001.0) is None  # signature changed
     for bad in (None, "", "nodot", "a.b", "....."):
         assert session.verify(bad) is None
 

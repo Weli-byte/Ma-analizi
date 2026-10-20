@@ -38,6 +38,13 @@ def test_white_text_on_the_brand_green_and_muted_text_meet_wcag_aa():
         assert _contrast(_css_var("fg", "dark"), _css_var(surface, "dark")) >= 4.5
 
 
+def test_green_text_is_readable_on_every_surface_in_both_themes():
+    # --gt is the green used for TEXT (links, tags, "ok" figures, active nav); --g/--gd stay backgrounds under white text
+    for block in ("light", "dark"):
+        for surface in ("bg", "card", "gl"):
+            assert _contrast(_css_var("gt", block), _css_var(surface, block)) >= 4.5, (block, surface)
+
+
 def test_initials_badges_have_enough_contrast_for_every_hue():
     import colorsys
 

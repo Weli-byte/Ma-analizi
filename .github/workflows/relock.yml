@@ -61,21 +61,16 @@ jobs:
             gh pr create --base main --head "$branch" --title "chore: regenerate lock files (relock)" \
               --body "Automatic: upstream releases made the lock files stale. This PR is updated in place; merge it when all ci jobs are green."
           fi
-          # Approve ONLY the parked pull_request run of the commit pushed above, and only when its head repository is this
-          # repository. Selecting by branch name alone would also match a fork's branch called chore/relock and so bypass
-          # the approval gate for fork PRs (found by the security review of this workflow).
+          # Approve ONLY the parked pull_request run of the commit pushed above, from this repository (decision logic and its
+          # tests: scripts/relock_pick_runs.py). Selecting by branch name alone would also match a fork's branch called
+          # chore/relock and bypass the approval gate for fork PRs (found by the security review of this workflow).
           sha="$(git rev-parse HEAD)"
           for attempt in 1 2 3 4 5 6; do
             sleep 10
-            ids="$(gh run list --workflow ci.yml --branch "$branch" --event pull_request --json databaseId,conclusion,headSha               -q ".[] | select(.conclusion == \"action_required\" and .headSha == \"$sha\") | .databaseId")"
+            ids="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?branch=${branch}&event=pull_request&per_page=20"               | python scripts/relock_pick_runs.py "$sha" "${GITHUB_REPOSITORY}")"
             [ -n "$ids" ] && break
           done
           for id in $ids; do
-            repo="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${id}" -q '.head_repository.full_name')"
-            if [ "$repo" = "${GITHUB_REPOSITORY}" ]; then
-              gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/approve" >/dev/null && echo "approved run $id"
-            else
-              echo "NOT approving run $id: head repository is $repo, not ${GITHUB_REPOSITORY}"
-            fi
+            gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/approve" >/dev/null && echo "approved run $id"
           done
         shell: bash

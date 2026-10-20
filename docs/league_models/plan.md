@@ -124,4 +124,4 @@ example scores are illustrative. The 138-match record is an evaluation window, n
 
 ## Repo status of this plan
 See ADR 0063 for the decisions and the per-sprint status; Sprint 1 outputs live in this folder
-(`sprint01_data_audit.md` and the files it lists).
+(`sprint01_data_audit.md` and the files it lists); Sprint 2 outputs: `sprint02_global_benchmark.md` and the `s2_*.json` files (ADR 0064).

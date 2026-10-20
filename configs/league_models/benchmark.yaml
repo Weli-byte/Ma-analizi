@@ -1,0 +1,26 @@
+# Sprint 2 (ADR 0064): global reference benchmark over the licence-clean universe of Sprint 1.
+# Every value is an engineering choice recorded here, never typed into code. Owner decisions of ADR 0063 apply
+# (holdout 2025-26; Süper Lig 2024-25; score-only features).
+protocol_version: lm-s2-v1
+default_stage: t-24h              # snapshot stage whose as-of cutoff every row must satisfy (src/snapshot/stages.py)
+min_train_seasons: 1              # expanding walk-forward: an eval season needs at least this many earlier seasons
+min_train_matches: 500            # fail closed when a fold trains on fewer finished matches than this
+holdout:                          # FROZEN: never read for fitting, tuning, calibration, selection or weights
+  default: ["2025-26"]
+  per_competition:
+    TUR1: ["2024-25"]             # 2025-26 is blocked (source incomplete), so the newest usable season is the holdout
+reserved_seasons: ["2026-27"]     # running season: published through ~2026-09-20 only; kept for prospective checks
+global_benchmark_guard:           # seasons configs/evaluation.yaml locks as FINAL for the research benchmark of EPL and La Liga
+  competitions: [ENG1, ESP1]
+  seasons_from: evaluation_config # read final_test_seasons from configs/evaluation.yaml
+bootstrap:
+  samples: 1000
+  seed: 20261020
+  block: iso_week                 # date-block bootstrap (matchweeks are not published by the sources)
+  alpha: 0.05
+calibration_bins: 10
+over_under_line: 2.5
+reference_model: dixon_coles      # the model every paired delta is measured against (a reference, not a "winner")
+models_1x2: [always_home, historical_prior, elo, poisson, dixon_coles]
+models_over_under: [always_over, always_under, train_over_rate, poisson_totals, dixon_coles_totals]
+models_btts: [always_yes, always_no, train_btts_rate, poisson_goals, dixon_coles_goals]

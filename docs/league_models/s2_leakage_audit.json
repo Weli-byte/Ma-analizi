@@ -1,0 +1,60 @@
+{
+  "checks": [
+    "no fixture is in both train and eval of a fold",
+    "no eval fixture appears in two folds",
+    "no holdout / reserved / global-guard fixture appears in any fold",
+    "every train fixture kicks off before the fold fit cutoff and is available (kickoff + lag) by then",
+    "replay: the previous match of each team is available at the stage cutoff of the next one"
+  ],
+  "folds": [
+    {
+      "eval_rows_with_date_only_kickoff": 1,
+      "eval_season": "2020-21",
+      "frozen_rows_in_fold": 0,
+      "replay_violation_examples": [],
+      "replay_violations": 0,
+      "stage": "t-24h",
+      "train_rows_after_cutoff": 0
+    },
+    {
+      "eval_rows_with_date_only_kickoff": 1,
+      "eval_season": "2021-22",
+      "frozen_rows_in_fold": 0,
+      "replay_violation_examples": [],
+      "replay_violations": 0,
+      "stage": "t-24h",
+      "train_rows_after_cutoff": 0
+    },
+    {
+      "eval_rows_with_date_only_kickoff": 0,
+      "eval_season": "2022-23",
+      "frozen_rows_in_fold": 0,
+      "replay_violation_examples": [],
+      "replay_violations": 0,
+      "stage": "t-24h",
+      "train_rows_after_cutoff": 0
+    },
+    {
+      "eval_rows_with_date_only_kickoff": 0,
+      "eval_season": "2023-24",
+      "frozen_rows_in_fold": 0,
+      "replay_violation_examples": [],
+      "replay_violations": 0,
+      "stage": "t-24h",
+      "train_rows_after_cutoff": 0
+    },
+    {
+      "eval_rows_with_date_only_kickoff": 0,
+      "eval_season": "2024-25",
+      "frozen_rows_in_fold": 0,
+      "replay_violation_examples": [],
+      "replay_violations": 0,
+      "stage": "t-24h",
+      "train_rows_after_cutoff": 0
+    }
+  ],
+  "lag_hours": 3,
+  "result_availability": "INFERRED (kickoff + lag); every row is BACKTEST_LIMITED (Sprint 1)",
+  "stage": "t-24h",
+  "total_replay_violations": 0
+}

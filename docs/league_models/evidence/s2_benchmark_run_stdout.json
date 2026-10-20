@@ -1,0 +1,236 @@
+{
+  "headline": {
+    "1x2": {
+      "always_home": {
+        "accuracy": 0.435119,
+        "brier": 1.129761,
+        "log_loss": 19.510282,
+        "n": 10712
+      },
+      "dixon_coles": {
+        "accuracy": 0.50084,
+        "brier": 0.61015,
+        "log_loss": 1.022959,
+        "n": 10712
+      },
+      "elo": {
+        "accuracy": 0.519417,
+        "brier": 0.595965,
+        "log_loss": 0.999013,
+        "n": 10712
+      },
+      "historical_prior": {
+        "accuracy": 0.430825,
+        "brier": 0.649245,
+        "log_loss": 1.072498,
+        "n": 10712
+      },
+      "poisson": {
+        "accuracy": 0.501214,
+        "brier": 0.610204,
+        "log_loss": 1.022454,
+        "n": 10712
+      }
+    },
+    "btts": {
+      "always_no": {
+        "accuracy": 0.457058,
+        "brier": 0.542942,
+        "log_loss": 18.752569,
+        "n": 10712
+      },
+      "always_yes": {
+        "accuracy": 0.542942,
+        "brier": 0.457058,
+        "log_loss": 15.786207,
+        "n": 10712
+      },
+      "dixon_coles_goals": {
+        "accuracy": 0.52894,
+        "brier": 0.251453,
+        "log_loss": 0.69681,
+        "n": 10712
+      },
+      "poisson_goals": {
+        "accuracy": 0.524459,
+        "brier": 0.25193,
+        "log_loss": 0.697797,
+        "n": 10712
+      },
+      "train_btts_rate": {
+        "accuracy": 0.539815,
+        "brier": 0.247989,
+        "log_loss": 0.689126,
+        "n": 10712
+      }
+    },
+    "over_under": {
+      "always_over": {
+        "accuracy": 0.534727,
+        "brier": 0.465273,
+        "log_loss": 16.069946,
+        "n": 10712
+      },
+      "always_under": {
+        "accuracy": 0.465273,
+        "brier": 0.534727,
+        "log_loss": 18.46883,
+        "n": 10712
+      },
+      "dixon_coles_totals": {
+        "accuracy": 0.54705,
+        "brier": 0.250966,
+        "log_loss": 0.696408,
+        "n": 10712
+      },
+      "poisson_totals": {
+        "accuracy": 0.54705,
+        "brier": 0.250966,
+        "log_loss": 0.696408,
+        "n": 10712
+      },
+      "train_over_rate": {
+        "accuracy": 0.547423,
+        "brier": 0.248312,
+        "log_loss": 0.689809,
+        "n": 10712
+      }
+    }
+  },
+  "plan": {
+    "as_of": "2026-10-20T00:00:00+00:00",
+    "config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+    "dry_run": false,
+    "folds": [
+      {
+        "eval_fixture_ids_sha256": "b820114971612a3f901b3351ce117de6ecce0d1c857ea261dfe11aefe85789e9",
+        "eval_matches": 2576,
+        "eval_season": "2020-21",
+        "fit_cutoff_utc": "2020-08-21T17:00:00+00:00",
+        "inner_validation_season": "2019-20",
+        "train_fixture_ids_sha256": "d2300ef46fdbc7eedfcdd39a4e8a61f2c30e83cdb05a0c82a37b5f210c2fb6ed",
+        "train_matches": 1870,
+        "train_seasons": [
+          "2019-20"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "a26d02786939f54d08e14849d5c5bdadffaae1589a51d08178acbb6eb28bd683",
+        "eval_matches": 2231,
+        "eval_season": "2021-22",
+        "fit_cutoff_utc": "2021-08-06T19:00:00+00:00",
+        "inner_validation_season": "2020-21",
+        "train_fixture_ids_sha256": "044cd19b3004f9279613e1e99ba24ac24fde658366efe170b3686d32feaf83ca",
+        "train_matches": 4447,
+        "train_seasons": [
+          "2019-20",
+          "2020-21"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "5f83b8b386dd63777467b538f13478933ca5445c0e2f924473dac4f82abd6d8a",
+        "eval_matches": 2233,
+        "eval_season": "2022-23",
+        "fit_cutoff_utc": "2022-08-05T18:35:00+00:00",
+        "inner_validation_season": "2021-22",
+        "train_fixture_ids_sha256": "9f07e715e2df80c853f18bf7edd790b80590d962c8ba8daf9c5079b09f448fba",
+        "train_matches": 6678,
+        "train_seasons": [
+          "2019-20",
+          "2020-21",
+          "2021-22"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "89cca3ec25b5753fd4c644fcfb8a9f17935fd1c44fd89a365d4b386a4c353b39",
+        "eval_matches": 2159,
+        "eval_season": "2023-24",
+        "fit_cutoff_utc": "2023-08-11T17:30:00+00:00",
+        "inner_validation_season": "2022-23",
+        "train_fixture_ids_sha256": "c4889d03ebc2a645921ec922643cdf5a2c6be270748fb9f962bac1b32683491c",
+        "train_matches": 8911,
+        "train_seasons": [
+          "2019-20",
+          "2020-21",
+          "2021-22",
+          "2022-23"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "fd6796336a5b6bc75cb11f8fb8155a835f43eef418e618b8eabebccbc5b31b7b",
+        "eval_matches": 1513,
+        "eval_season": "2024-25",
+        "fit_cutoff_utc": "2024-08-16T18:45:00+00:00",
+        "inner_validation_season": "2023-24",
+        "train_fixture_ids_sha256": "aa478927b25e276d1668bb707fb8353da624c0352c9ecff8b56911a5db1525f0",
+        "train_matches": 11070,
+        "train_seasons": [
+          "2019-20",
+          "2020-21",
+          "2021-22",
+          "2022-23",
+          "2023-24"
+        ]
+      }
+    ],
+    "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+    "snapshot_id": "snap-546e70fff7fb",
+    "stage": "t-24h",
+    "targets": [
+      "1x2",
+      "over_under",
+      "btts"
+    ],
+    "universe_counts": {
+      "DEV": 12583,
+      "GUARD": 750,
+      "HOLDOUT": 2278,
+      "RESERVED": 250
+    }
+  },
+  "registry_entry": {
+    "run_id": "lmbench-16f99ad1ee4ebecc",
+    "status": "REGISTERED"
+  },
+  "run_manifest": {
+    "as_of": "2026-10-20T00:00:00+00:00",
+    "config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+    "data_snapshot_sha256": "546e70fff7fb577e20dedb58bf14262c703115ea623904ebe68afe6773b5f484",
+    "dependency_lock_sha256": "4f15a73f3c0a798d84d170df86f2734f3eb95d3f2c8538f720833203f4d7322d",
+    "folds": [
+      "2020-21",
+      "2021-22",
+      "2022-23",
+      "2023-24",
+      "2024-25"
+    ],
+    "git_dirty_at_run": true,
+    "git_sha": "40d1ce22083de409dfcaa5c1178b3ee81927700f",
+    "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+    "matches_scored": 10712,
+    "model_config_sha256": "7fc4ae5ad83aab962927d853ee4e428b9ac8afc6090c05ffb6df3f2ae91d9fc7",
+    "numpy": "2.5.3",
+    "output_hashes": {
+      "baseline_status.json": "44a8babae21f59beafb59258dcd70f497623d78bf8fb3af17bde564f309d4b42",
+      "benchmark_metrics.json": "e9afd36c921377c66e5228caa194b82ab744224359462aae9d698f67294e7948",
+      "claims.json": "4b1d47abe978f8e870302cd1f5edd5414c7e6bd81e8b7772f1f9479c0e31a1c5",
+      "fold_predictions.jsonl": "ac67af2f7eb9b79074600ca0c15f253dd1ee9f33438391e1d97774254e24570d",
+      "global_artifact_audit.json": "1c81f05877ee0bd6820cffec87f5e34f67e549433213a105152637870a4c3e7e",
+      "leakage_audit.json": "e1c61c7e1861be0f70348593df7d82f01140afb851951c55cdb4f1d4a7873e51",
+      "paired_deltas.json": "d2a04036059a7ccdaa390517ca4666c29c845df423a88a4da45f442794aeef3d",
+      "protocol_manifest.json": "5351a1bd1a7278936a2577b41998e82880c800efd46385ff6b7366467a624153",
+      "reliability.json": "dd0f059ced4ab6102cf843153e942d36a31d608cc2207c76c7c123ef84f33ea1"
+    },
+    "platform": "Windows-11-10.0.26300-SP0",
+    "protocol_version": "lm-s2-v1",
+    "python": "3.14.6",
+    "random_seed": {
+      "bootstrap": 20261020,
+      "models": "deterministic (no randomness; BFGS / IPF)"
+    },
+    "reproducibility_note": "timings.json is excluded from the hashes (wall-clock); every other file is deterministic",
+    "snapshot_id": "snap-546e70fff7fb",
+    "stage": "t-24h",
+    "timezone": "UTC"
+  }
+}

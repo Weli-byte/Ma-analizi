@@ -1,0 +1,17 @@
+{
+  "backtest_limited": 16239,
+  "brute_checks": 1204,
+  "checks": 64956,
+  "data_anomalies": 0,
+  "disagreements": 0,
+  "fixtures": 16239,
+  "future_kickoff_in_history": 0,
+  "own_result_leaks": 0,
+  "stages": [
+    "t-24h",
+    "t-90m",
+    "t-30m",
+    "kickoff"
+  ],
+  "violations": 0
+}

@@ -1,0 +1,175 @@
+# Data-source licence manifest for the league-based model programme (Sprint 1, ADR 0063).
+# Every right is explicit: ALLOWED | DENIED | UNKNOWN. UNKNOWN is NEVER permission (it blocks production training).
+# Facts below are copied from the repository's own evidence (docs/data_sources/*.md, ADRs); nothing is newly researched here.
+# NOT LEGAL ADVICE. `plan_status` is the programme's decision, which can be stricter than the raw terms:
+#   PERMITTED    all rights needed for production training and display are ALLOWED
+#   CONDITIONAL  usable only under the stated conditions; some right is UNKNOWN
+#   RESEARCH_ONLY  rights not granted; may inform offline research, never a production model
+#   BLOCKED      plan red line: no collection, no training, no evaluation input for league models
+schema_version: 1
+sources:
+  - provider_id: openfootball_domestic
+    description: "openfootball/football.json, domestic league results and fixtures (scores and dates only)"
+    source_url: https://github.com/openfootball/football.json
+    retrieved_at_utc: "2026-10-08T00:00:00Z"        # date the dedication text was read (docs/adr/0038-openfootball.md)
+    terms_version: "repository statement: data dedicated to the public domain, read 2026-10-08"
+    license_evidence_path: docs/adr/0038-openfootball.md
+    plan_status: PERMITTED
+    commercial_display: ALLOWED
+    commercial_ml: ALLOWED
+    derivative_predictions: ALLOWED
+    indefinite_retention: ALLOWED
+    redistribution: ALLOWED
+    branding: "club names are trademarks; no logos are in the data"
+    attribution: "not required (public domain); crediting the repository is good practice"
+    geographic_restrictions: "none stated"
+    cancellation_effect: "none (no account, no subscription)"
+    legal_review_required: true      # the dedication is by the repository maintainers; third-party rights in fixture lists were not reviewed
+    supplies: [fixtures, results]
+    history_seasons_note: "scores only: no shots, corners, cards, xG, lineups, injuries, odds; gaps exist (e.g. Süper Lig)"
+  - provider_id: openfootball_cups
+    description: "openfootball/champions-league, UEFA club cup results and fixtures (90-minute scores)"
+    source_url: https://github.com/openfootball/champions-league
+    retrieved_at_utc: "2026-10-13T00:00:00Z"
+    terms_version: "repository licence CC0, verified 2026-10-13"
+    license_evidence_path: docs/adr/0055-european-cups.md
+    plan_status: PERMITTED
+    commercial_display: ALLOWED
+    commercial_ml: ALLOWED
+    derivative_predictions: ALLOWED
+    indefinite_retention: ALLOWED
+    redistribution: ALLOWED
+    branding: "club names are trademarks; no logos are in the data"
+    attribution: "not required (CC0)"
+    geographic_restrictions: "none stated"
+    cancellation_effect: "none"
+    legal_review_required: true
+    supplies: [fixtures, results]
+    history_seasons_note: "first season in the repository: UCL 2019-20, UEL 2020-21, UECL 2021-22; last: UCL 2025-26, UEL and UECL 2024-25 (checked 2026-10-13)"
+  - provider_id: football_data_co_uk
+    description: "football-data.co.uk CSV downloads (results, shots, corners, cards, odds)"
+    source_url: https://www.football-data.co.uk/data.php
+    retrieved_at_utc: "2026-10-01T00:00:00Z"
+    terms_version: "no licence or reuse terms found (docs/data_sources/licensing.md)"
+    license_evidence_path: docs/data_sources/licensing.md
+    plan_status: BLOCKED            # plan red line (page 9): BLOCKED for commercial/AI use; also owner decision of ADR 0044
+    commercial_display: UNKNOWN
+    commercial_ml: UNKNOWN
+    derivative_predictions: UNKNOWN
+    indefinite_retention: UNKNOWN
+    redistribution: UNKNOWN
+    branding: "not addressed"
+    attribution: "cite Football-Data.co.uk in research outputs (good practice; no requirement found)"
+    geographic_restrictions: "not addressed"
+    cancellation_effect: "n/a"
+    legal_review_required: true
+    supplies: [results, shots, corners, cards, odds]
+    history_seasons_note: "the local research files stay in the global research benchmark (S4-S11, RESEARCH_ONLY); league models do not read them"
+  - provider_id: football_data_org
+    description: "football-data.org API v4, free tier (fixtures, results, referees, scorers, live scores)"
+    source_url: https://www.football-data.org
+    retrieved_at_utc: "2026-10-09T00:00:00Z"
+    terms_version: "General Terms and Conditions, last updated 2018-06-01, read 2026-10-09 (text supplied by the owner)"
+    license_evidence_path: docs/data_sources/licensing.md
+    plan_status: CONDITIONAL
+    commercial_display: UNKNOWN      # "not prohibited and not expressly granted"
+    commercial_ml: UNKNOWN           # AI/model training not mentioned; the plan asks to confirm separately
+    derivative_predictions: UNKNOWN
+    indefinite_retention: DENIED     # art. 9.1: after cancelling, the data may no longer be referenced
+    redistribution: UNKNOWN
+    branding: "team logos belong to their owners (art. 9.2)"
+    attribution: "REQUIRED (art. 7): 'Football data provided by the Football-Data.org API'"
+    geographic_restrictions: "not addressed"
+    cancellation_effect: "art. 9.1: fixtures, results, tables, squads may no longer be referenced after cancelling"
+    legal_review_required: true
+    supplies: [fixtures, results, live_scores, referees, scorers]
+  - provider_id: api_football
+    description: "API-Football (api-sports), free plan: injuries, lineups"
+    source_url: https://www.api-football.com
+    retrieved_at_utc: "2026-10-09T00:00:00Z"
+    terms_version: "Terms of Service, Turkish translation supplied by the owner, read 2026-10-09"
+    license_evidence_path: docs/data_sources/licensing.md
+    plan_status: RESEARCH_ONLY       # plan: gives no third-party publication right
+    commercial_display: DENIED
+    commercial_ml: UNKNOWN
+    derivative_predictions: UNKNOWN
+    indefinite_retention: UNKNOWN
+    redistribution: DENIED
+    branding: "logos for identification only; use may need the owners' consent"
+    attribution: "not addressed"
+    geographic_restrictions: "some competitions may carry federation/organiser restrictions (user's duty to check)"
+    cancellation_effect: "the free plan may be changed or withdrawn at any time"
+    legal_review_required: true
+    supplies: [injuries, lineups]
+  - provider_id: the_odds_api
+    description: "The Odds API, exact-timestamp bookmaker odds (collected only since 2026-10; no historical archive)"
+    source_url: https://the-odds-api.com
+    retrieved_at_utc: "2026-10-09T00:00:00Z"
+    terms_version: "terms last updated 2026-08-31, text supplied by the owner, read 2026-10-09"
+    license_evidence_path: docs/data_sources/licensing.md
+    plan_status: CONDITIONAL         # permitted for derived products; raw redistribution forbidden (ADR 0043)
+    commercial_display: ALLOWED
+    commercial_ml: ALLOWED           # "training statistical and machine-learning models"
+    derivative_predictions: ALLOWED
+    indefinite_retention: ALLOWED
+    redistribution: DENIED           # no raw feed, own API or downloadable files
+    branding: "not addressed"
+    attribution: "not required"
+    geographic_restrictions: "if used to promote gambling: 'Gamble Responsibly. 18+' and local advertising rules (user's duty)"
+    cancellation_effect: "not addressed"
+    legal_review_required: true
+    supplies: [odds]
+  - provider_id: highlightly
+    description: "Highlightly, match statistics (corners, cards, shots), basic free plan in use"
+    source_url: https://highlightly.net
+    retrieved_at_utc: "2026-10-11T00:00:00Z"
+    terms_version: "terms 6.1 as summarised in docs/data_sources/provider_evaluation.md; the Basic free plan is under different terms"
+    license_evidence_path: docs/data_sources/provider_evaluation.md
+    plan_status: CONDITIONAL
+    commercial_display: UNKNOWN      # allowed on PRO per terms 6.1; the free Basic plan terms were not read
+    commercial_ml: UNKNOWN
+    derivative_predictions: UNKNOWN
+    indefinite_retention: UNKNOWN
+    redistribution: UNKNOWN
+    branding: "not addressed"
+    attribution: "not addressed"
+    geographic_restrictions: "not addressed"
+    cancellation_effect: "not addressed"
+    legal_review_required: true
+    supplies: [corners, cards, shots]
+  - provider_id: fpl_fantasy_premier_league
+    description: "Fantasy Premier League unofficial endpoints, EPL injury news"
+    source_url: https://fantasy.premierleague.com
+    retrieved_at_utc: "2026-10-02T00:00:00Z"
+    terms_version: "none read (undocumented endpoints)"
+    license_evidence_path: docs/adr/0028-availability-providers.md
+    plan_status: RESEARCH_ONLY
+    commercial_display: UNKNOWN
+    commercial_ml: UNKNOWN
+    derivative_predictions: UNKNOWN
+    indefinite_retention: UNKNOWN
+    redistribution: UNKNOWN
+    branding: "not addressed"
+    attribution: "not addressed"
+    geographic_restrictions: "not addressed"
+    cancellation_effect: "n/a"
+    legal_review_required: true
+    supplies: [injuries]
+  - provider_id: espn_scoreboard
+    description: "ESPN public scoreboard, DraftKings 1X2 prices (approximate timestamps)"
+    source_url: https://site.api.espn.com
+    retrieved_at_utc: "2026-10-02T00:00:00Z"
+    terms_version: "none read (terms unverified)"
+    license_evidence_path: docs/adr/0030-odds-value-paper.md
+    plan_status: RESEARCH_ONLY
+    commercial_display: UNKNOWN
+    commercial_ml: UNKNOWN
+    derivative_predictions: UNKNOWN
+    indefinite_retention: UNKNOWN
+    redistribution: UNKNOWN
+    branding: "not addressed"
+    attribution: "not addressed"
+    geographic_restrictions: "not addressed"
+    cancellation_effect: "n/a"
+    legal_review_required: true
+    supplies: [odds]

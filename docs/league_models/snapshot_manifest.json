@@ -1,0 +1,586 @@
+{
+  "as_of": "2026-10-20T00:00:00+00:00",
+  "data_snapshot_sha256": "56982683f64489e6b885eb4add22596fadec2ec2f77c7039147837842cf8a61d",
+  "excluded_not_opened": [
+    {
+      "bytes": 175475,
+      "path": "data/raw/football_data/E0_1920.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 175815,
+      "path": "data/raw/football_data/E0_2021.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 175363,
+      "path": "data/raw/football_data/E0_2122.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 176180,
+      "path": "data/raw/football_data/E0_2223.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 172196,
+      "path": "data/raw/football_data/E0_2324.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 197110,
+      "path": "data/raw/football_data/E0_2425.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 203438,
+      "path": "data/raw/football_data/E0_2526.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 24803,
+      "path": "data/raw/football_data/E0_2627.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 171484,
+      "path": "data/raw/football_data/SP1_1920.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 171721,
+      "path": "data/raw/football_data/SP1_2021.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 172174,
+      "path": "data/raw/football_data/SP1_2122.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 172199,
+      "path": "data/raw/football_data/SP1_2223.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 168164,
+      "path": "data/raw/football_data/SP1_2324.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 192863,
+      "path": "data/raw/football_data/SP1_2425.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 197653,
+      "path": "data/raw/football_data/SP1_2526.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    },
+    {
+      "bytes": 33311,
+      "path": "data/raw/football_data/SP1_2627.csv",
+      "provider_id": "football_data_co_uk",
+      "reason": "plan_status BLOCKED for league models; not opened, not hashed, not counted"
+    }
+  ],
+  "files": [
+    {
+      "bytes": 114817,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2019-20/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2019-20",
+      "sha256": "9e1695f85ce5553f762e809dea357ec0a95838939be89569060a83c4e98a302d"
+    },
+    {
+      "bytes": 115947,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2020-21/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2020-21",
+      "sha256": "21ddf26b48469da530c51ccc4857bf1a534bda3aed08766b55185efb142e9a20"
+    },
+    {
+      "bytes": 115863,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2021-22/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2021-22",
+      "sha256": "fbdfd426fa18fa2f8630b77de87c082734da495ac4668d6d72f29f76b73b9564"
+    },
+    {
+      "bytes": 116149,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2022-23/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2022-23",
+      "sha256": "8d09f0f9846981626cdfec48903e1f21e7c79aabe6f92535c9e092e8e79b808b"
+    },
+    {
+      "bytes": 116669,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2023-24/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2023-24",
+      "sha256": "03e13eafbf78dfe00d7e89dd3bf6643986eb6e8fd86c7664aeb8c5bc0bed88d0"
+    },
+    {
+      "bytes": 110141,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2024-25/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2024-25",
+      "sha256": "c3d18f552d83382cd4b6b21127adbbfe38e7f8618ddc979fb5404f2df07d0a75"
+    },
+    {
+      "bytes": 108493,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2025-26/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2025-26",
+      "sha256": "d6070bdf731546ccf97767f062e8af4bd26dd309dee69f6092025bf9c78f43c1"
+    },
+    {
+      "bytes": 55359,
+      "competition": "ENG1",
+      "path": "artifacts/markets/_cache/openfootball/2026-27/en.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2026-27",
+      "sha256": "bb91f0ab3e8359df163bb9ec98549bfed85e200dd4c32f3bd606b5890d932dd2"
+    },
+    {
+      "bytes": 112137,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2019-20/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2019-20",
+      "sha256": "8ade2e46a80a646159af590cb6bcca6a3739a6eebc168a4902aabeb0d1ce6c0d"
+    },
+    {
+      "bytes": 113635,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2020-21/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2020-21",
+      "sha256": "817a41df564a1790147e97fc417922f6e9354b142b2baf6d376d809da2bd24b6"
+    },
+    {
+      "bytes": 113895,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2021-22/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2021-22",
+      "sha256": "7beb67dd49d7132bf9f7baea540342439b97ed4a7b21ffb90d3231a402c54d02"
+    },
+    {
+      "bytes": 114885,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2022-23/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2022-23",
+      "sha256": "0204c66c919c2cd5cc3d1ba26be4f68592e4e173843162a9e6755182ccf83778"
+    },
+    {
+      "bytes": 114187,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2023-24/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2023-24",
+      "sha256": "e4c1e1a958f224ba3c815c898982ab495b9577315cc58ee7a5e7b532960f738b"
+    },
+    {
+      "bytes": 108296,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2024-25/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2024-25",
+      "sha256": "da5bfa1b3634e1039d9e71aec50bdc847f8761189e3de235a4e730e0dc64ca38"
+    },
+    {
+      "bytes": 108642,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2025-26/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2025-26",
+      "sha256": "b40397d8e62c640138548d57a1a9f76150549213d2a07fcbbb90ed0eabc6ccea"
+    },
+    {
+      "bytes": 50771,
+      "competition": "ESP1",
+      "path": "artifacts/markets/_cache/openfootball/2026-27/es.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2026-27",
+      "sha256": "4b1a9906e3f2b279a1f25497a38f2f58e21ec19ea726b882fa646da7c07bc0e0"
+    },
+    {
+      "bytes": 103330,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2019-20/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2019-20",
+      "sha256": "0c42a7b9ab70c7bd7003bcc7085f3896c95e19965941be2d04976e7bba440205"
+    },
+    {
+      "bytes": 113541,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2020-21/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2020-21",
+      "sha256": "27eceef1ea5b9b3b601074c3bfbb6a80f7e969d73d513f9dba104b688003c4e2"
+    },
+    {
+      "bytes": 113767,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2021-22/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2021-22",
+      "sha256": "8abb493061d32faaf413c403b440c043723d9743a9e69d6472bf5410e2d4e039"
+    },
+    {
+      "bytes": 113237,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2022-23/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2022-23",
+      "sha256": "6301ac1ba1fa0f5b72345759711beac3b3be3c989725cc1c6ef9307ffef692c7"
+    },
+    {
+      "bytes": 92104,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2023-24/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2023-24",
+      "sha256": "fa328cecf4c12232ac77a5d477059eebe16b68b3712ec87800b89efda8ddfb70"
+    },
+    {
+      "bytes": 87793,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2024-25/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2024-25",
+      "sha256": "90e9974afe6597452622387ad218f6b0011a5f91f1b426f05152f5b9c105e355"
+    },
+    {
+      "bytes": 85845,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2025-26/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2025-26",
+      "sha256": "3e9403445dd96f4bb7f740de22d4ea7e3ea7d640777a12eab621ae4d4dbf3bc7"
+    },
+    {
+      "bytes": 39943,
+      "competition": "FRA1",
+      "path": "artifacts/markets/_cache/openfootball/2026-27/fr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2026-27",
+      "sha256": "f875275f835e378fc8c4e7d48c7a2f327e7d426237bd057fe652fd47f30b5a4f"
+    },
+    {
+      "bytes": 92983,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2019-20/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2019-20",
+      "sha256": "76c7f65ef443681515b081e325a38cf0e8b6953b665bbcac20fdf328248e7206"
+    },
+    {
+      "bytes": 93089,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2020-21/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2020-21",
+      "sha256": "74a709c3f800064f26c4d44ec92af9bcd32c6b94ec00ace7cc5b684e8c3c8e74"
+    },
+    {
+      "bytes": 93609,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2021-22/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2021-22",
+      "sha256": "f1b9901cffb6b073f389e730213b5f8efe6a9a73b2f86058794f2d0f1dcc54dc"
+    },
+    {
+      "bytes": 93189,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2022-23/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2022-23",
+      "sha256": "b0c052dc75836dfc6b0d3781d35b828851db7377c9f6ccb39643dbbe1964f3bd"
+    },
+    {
+      "bytes": 93743,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2023-24/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2023-24",
+      "sha256": "d104edde48a5e254545eac3d3ed379a09801e1ebcef5c6480e28bc36fcfa202d"
+    },
+    {
+      "bytes": 88232,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2024-25/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2024-25",
+      "sha256": "f473d6595e6c29ebedc08b09177aed6a6b2ff0fa8378b82f51dea469139f44c3"
+    },
+    {
+      "bytes": 88247,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2025-26/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2025-26",
+      "sha256": "17d0999db6281e6365823acdbce41a4f01dd469eac63e1f897e4e47c02906672"
+    },
+    {
+      "bytes": 40409,
+      "competition": "GER1",
+      "path": "artifacts/markets/_cache/openfootball/2026-27/de.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2026-27",
+      "sha256": "07fab65d4a1de8ce4c8472da9ccf4d1d2b145ecd5abdc5b6d4250a5c119d7681"
+    },
+    {
+      "bytes": 112416,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2019-20/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2019-20",
+      "sha256": "cb3a8dfd4152a0d1dfa0638b25623a963fda47a35910ecb114517d2e20c4a8e2"
+    },
+    {
+      "bytes": 113906,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2020-21/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2020-21",
+      "sha256": "0e00abb3f9d03675c4bdde14b3bde34fed5713727282f82ed095b49e60fbcfea"
+    },
+    {
+      "bytes": 113576,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2021-22/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2021-22",
+      "sha256": "a3e94b23cac768e4191e99312f4d48471c4000c5c2fe766b0325cee935754061"
+    },
+    {
+      "bytes": 113460,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2022-23/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2022-23",
+      "sha256": "d775fdd375af6998233fbfcd5b33d176cb9d016a981682626c5ce2f95b0c2f88"
+    },
+    {
+      "bytes": 113014,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2023-24/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2023-24",
+      "sha256": "47734fc8d2ec34c5529ca814c97d1c86ecddc4a2c8095506d9b12f29cb283308"
+    },
+    {
+      "bytes": 105098,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2024-25/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2024-25",
+      "sha256": "7d9bb936de3ccaeec54d57371512a58a5eeb21277e7d5f0882911a834d22b659"
+    },
+    {
+      "bytes": 105202,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2025-26/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2025-26",
+      "sha256": "28f7773dea86345aeb0cbb4aff2f90231033f7ed855219e70fdd1cf45d4d7e7f"
+    },
+    {
+      "bytes": 47608,
+      "competition": "ITA1",
+      "path": "artifacts/markets/_cache/openfootball/2026-27/it.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2026-27",
+      "sha256": "721a6c220fecb8208287e41401fa2fce652cd23765ce58a39bf98cdaa3d528ad"
+    },
+    {
+      "bytes": 91532,
+      "competition": "TUR1",
+      "path": "artifacts/markets/_cache/openfootball/2019-20/tr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2019-20",
+      "sha256": "c3a614f624716930f46df0f32b535c2de0576a3c6dca8e0c9b817097aadf641e"
+    },
+    {
+      "bytes": 124787,
+      "competition": "TUR1",
+      "path": "artifacts/markets/_cache/openfootball/2020-21/tr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2020-21",
+      "sha256": "d866888f862353a6858321c03159f9b84e880608c716cf8a29700acad1804ec9"
+    },
+    {
+      "bytes": 94975,
+      "competition": "TUR1",
+      "path": "artifacts/markets/_cache/openfootball/2024-25/tr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2024-25",
+      "sha256": "6bfa0c16f87ea59ab79c60873ad3d3c0288e3198e4d6d0f56a2ebcb117e708c4"
+    },
+    {
+      "bytes": 55241,
+      "competition": "TUR1",
+      "path": "artifacts/markets/_cache/openfootball/2025-26/tr.1.json",
+      "provider_id": "openfootball_domestic",
+      "season": "2025-26",
+      "sha256": "31236abf06ccb59fdcdd7105138810157e3312faa29070ec9fbebf6f87c29ea2"
+    },
+    {
+      "bytes": 9967,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2019.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2019-20",
+      "sha256": "e0f6d8990b3110108193eecdcd698dfa48b6f324ffa7532cdc11aea19f7ee419"
+    },
+    {
+      "bytes": 10495,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2020.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2020-21",
+      "sha256": "9d94e40aa2fe2e98cbe5eedcffb7b9223daaaf3acf682411f4965f92a65d666e"
+    },
+    {
+      "bytes": 10428,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2021.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2021-22",
+      "sha256": "36241f4479aa9efda62c62318366bbf36f84cc8719f6387c5747cb5dea7ec519"
+    },
+    {
+      "bytes": 10399,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2022.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2022-23",
+      "sha256": "bf9cd05939b055f12ee9b095bec1c20a0922277bef8940172218548de2e7b93a"
+    },
+    {
+      "bytes": 10428,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2023.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2023-24",
+      "sha256": "5872bee720b32410f28c5272fb7fe7b07aa0f66bcb31ffe157893d75c14c47c5"
+    },
+    {
+      "bytes": 15374,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2024.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2024-25",
+      "sha256": "c2692b22af02c5df4587b69c5f430aebf7d936845b5337aee462ce8e649eb1b5"
+    },
+    {
+      "bytes": 15265,
+      "competition": "UEFA_UCL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UCL_2025.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2025-26",
+      "sha256": "2b1877308587ff1004c21b8e961b9050b8754f968244e0635eb005040fd9d5cb"
+    },
+    {
+      "bytes": 11542,
+      "competition": "UEFA_UECL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UECL_2021.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2021-22",
+      "sha256": "5537cd70cc73898f2c44c1c512be6cd7abfc147df1aa6716a41a2a66dbc4aff1"
+    },
+    {
+      "bytes": 11629,
+      "competition": "UEFA_UECL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UECL_2022.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2022-23",
+      "sha256": "a40da4aab99944bdcd2976f9419ea817badb5dfc8f165d18242945109532b555"
+    },
+    {
+      "bytes": 11715,
+      "competition": "UEFA_UECL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UECL_2023.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2023-24",
+      "sha256": "d7030d077ffe5f4d8ddc6eae3e50b846b9409bd085593fde08342ddbae80f909"
+    },
+    {
+      "bytes": 11947,
+      "competition": "UEFA_UECL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UECL_2024.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2024-25",
+      "sha256": "b2534794b2e8f70ed8734c2fd7baf9dc0f500c0ab9dd4fc575d82815340574d7"
+    },
+    {
+      "bytes": 16559,
+      "competition": "UEFA_UEL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UEL_2020.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2020-21",
+      "sha256": "d494cc0c88c951d92b3839f2e425752a382f2779de251a0df115a1f19b308f21"
+    },
+    {
+      "bytes": 11655,
+      "competition": "UEFA_UEL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UEL_2021.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2021-22",
+      "sha256": "0bd953fd4927f096a8e4162c414b639801d4c5d33b49cba33ac54fcf565bf788"
+    },
+    {
+      "bytes": 11642,
+      "competition": "UEFA_UEL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UEL_2022.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2022-23",
+      "sha256": "e71450d2a60478dbcb253ce4eef1f95c262caafaaa715735f9d838bb2920311a"
+    },
+    {
+      "bytes": 11623,
+      "competition": "UEFA_UEL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UEL_2023.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2023-24",
+      "sha256": "2655fbfb3b636e3584664531463719711e79ea58a17cb27543a9521bfc1c1818"
+    },
+    {
+      "bytes": 14594,
+      "competition": "UEFA_UEL",
+      "path": "artifacts/markets/_cache/openfootball_cups/UEL_2024.txt",
+      "provider_id": "openfootball_cups",
+      "season": "2024-25",
+      "sha256": "4f004729005e45fb26e5a4adff614d5c6081564e504137705cceaa15a9213bd9"
+    }
+  ],
+  "identity_mapping_sha256": "b0c1d15426dbfe0532723c76ff0e7a49273f04152773e44427bb43fea55b7660",
+  "mutability_warning": "the source files are fetched from public GitHub repositories whose current-season files change; this manifest pins the exact bytes (sha256). Archive them before Sprint 2 if exact reproduction matters."
+}

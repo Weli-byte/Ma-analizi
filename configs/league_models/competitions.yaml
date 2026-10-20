@@ -1,0 +1,42 @@
+# Nine competitions of the league-based model programme (docs/league_models/plan.md, ADR 0063).
+# canonical_league_id is the programme's own id; repo_key is the key used everywhere else in this repository.
+# Formats are DECLARED here from general knowledge and are NOT verified against the federations' regulations:
+# every format entry carries status ASSISTANT_DECLARED_UNVERIFIED until the owner (or a source) confirms it.
+history_start_year: 2019        # first season start year considered (same as configs/markets.yaml history_start_year)
+result_lag_hours: 3             # openfootball has no result time: available_at = kickoff + this (INFERRED; ADR 0006)
+competitions:
+  ENG1: {repo_key: EPL, name: Premier League, kind: domestic, country: ENG, source: openfootball, file_code: en.1}
+  ITA1: {repo_key: SERIEA, name: Serie A, kind: domestic, country: ITA, source: openfootball, file_code: it.1}
+  ESP1: {repo_key: LALIGA, name: La Liga, kind: domestic, country: ESP, source: openfootball, file_code: es.1}
+  GER1: {repo_key: BUNDESLIGA, name: Bundesliga, kind: domestic, country: GER, source: openfootball, file_code: de.1}
+  FRA1: {repo_key: LIGUE1, name: Ligue 1, kind: domestic, country: FRA, source: openfootball, file_code: fr.1}
+  TUR1: {repo_key: SUPERLIG, name: Süper Lig, kind: domestic, country: TUR, source: openfootball, file_code: tr.1}
+  UEFA_UCL: {repo_key: UCL, name: UEFA Champions League, kind: uefa, source: openfootball_cups, file_stem: cl}
+  UEFA_UEL: {repo_key: UEL, name: UEFA Europa League, kind: uefa, source: openfootball_cups, file_stem: el}
+  UEFA_UECL: {repo_key: UECL, name: UEFA Conference League, kind: uefa, source: openfootball_cups, file_stem: conf, first_season: 2021}
+# Domestic league sizes by first season (start year) they apply from. null = not known to the assistant.
+domestic_sizes:
+  ENG1: [{from: 2019, n_teams: 20}]
+  ITA1: [{from: 2019, n_teams: 20}]
+  ESP1: [{from: 2019, n_teams: 20}]
+  GER1: [{from: 2019, n_teams: 18}]
+  FRA1: [{from: 2019, n_teams: 20}, {from: 2023, n_teams: 18}]
+  TUR1: [{from: 2019, n_teams: null}]   # the size changed several times in these seasons; not asserted
+# UEFA competition format versions by first season (start year) they apply from.
+uefa_formats:
+  UEFA_UCL:
+    - {from: 2019, id: ucl-groups-32, note: "32-team group stage (2019-20 knockout stage disrupted by the pandemic)"}
+    - {from: 2024, id: ucl-league-36, note: "single 36-team league phase"}
+  UEFA_UEL:
+    - {from: 2019, id: uel-groups-48, note: "48-team group stage (2019-20, 2020-21)"}
+    - {from: 2021, id: uel-groups-32, note: "32-team group stage"}
+    - {from: 2024, id: uel-league-36, note: "single 36-team league phase"}
+  UEFA_UECL:
+    - {from: 2021, id: uecl-groups-32, note: "first season; 32-team group stage"}
+    - {from: 2024, id: uecl-league-36, note: "single 36-team league phase"}
+format_status: ASSISTANT_DECLARED_UNVERIFIED
+# Engineering rules of Sprint 1 (starting rules, not scientific limits; the plan says so too).
+engineering_rules:
+  max_missingness_for_training: 0.05   # a finished season with more than 5% of due fixtures lacking a score is BLOCKED
+  min_kickoff_time_known: 0.50         # below this share of fixtures with a published kick-off time, stage cutoffs are unreliable (flag only)
+  min_identity_coverage: 0.95          # below this share of finished fixtures with both clubs resolved, the season is BLOCKED (unresolved rows are excluded either way)

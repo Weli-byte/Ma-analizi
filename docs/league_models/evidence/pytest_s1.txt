@@ -1,0 +1,10 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0
+rootdir: C:\Users\weli1\Desktop\DÜnya kupasý
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0
+collected 15 items
+
+tests\test_league_models_s1.py ...............                           [100%]
+
+============================= 15 passed in 8.56s ==============================

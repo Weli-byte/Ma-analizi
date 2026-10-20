@@ -31,7 +31,7 @@ TR = ZoneInfo("Europe/Istanbul")
 LEAN = {"strong lean": "Güçlü eğilim", "lean": "Eğilim", "toss-up": "Belirsiz"}
 
 CSS = """
-:root{--g:#00a651;--gd:#007a3d;--gl:#e6f6ed;--bg:#f1f4f2;--card:#fff;--fg:#0e1f15;--mut:#66756c;--line:#e1e8e3;--warn:#d29922}
+:root{--g:#00843f;--gd:#007a3d;--gl:#e6f6ed;--bg:#f1f4f2;--card:#fff;--fg:#0e1f15;--mut:#5b6a61;--line:#e1e8e3;--warn:#d29922}
 @media (prefers-color-scheme:dark){:root{--bg:#0b120e;--card:#14201a;--fg:#e8f1ec;--mut:#8fa297;--line:#243229;--gl:#12301f}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:#cfd8d2;color:var(--fg);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
@@ -156,7 +156,7 @@ def page(
     )
     return (
         f"<!doctype html><html lang='tr'><head>{HEAD}{meta_tags(title, desc)}<title>{e(title)} - {e(APP_NAME)}</title><style>{CSS}</style></head>"
-        f"<body><div id='app'>{bar}{hero}{body}{FOOT}<nav class='bottom'>{nav}</nav></div>"
+        f"<body><div id='app'>{bar}<main>{hero}{body}{FOOT}</main><nav class='bottom'>{nav}</nav></div>"
         "<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js').catch(()=>{});}</script></body></html>"
     )
 
@@ -198,7 +198,7 @@ def badge(name: str, color: str, logo: str | None = None, small: bool = False) -
 
 
 def hue(name: str) -> str:
-    return f"hsl({sum(map(ord, name)) * 37 % 360},45%,40%)"
+    return f"hsl({sum(map(ord, name)) * 37 % 360},45%,30%)"
 
 
 def team_badge(i: dict, side: str, logos, small=True) -> str:
@@ -280,7 +280,7 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
         )
     return (
         f"<!doctype html><html lang='tr'><head>{HEAD}{meta_tags('Giriş')}<title>Giriş - {e(APP_NAME)}</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
-        f"<div class='login'><div style='font-size:46px'>⚽</div><h1>{e(APP_NAME)}</h1>"
+        f"<main class='login'><div style='font-size:46px'>⚽</div><h1>{e(APP_NAME)}</h1>"
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"
         "<button class='btn b-k' onclick=\"pick('apple')\"> Apple ile devam et</button>"
@@ -289,7 +289,7 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
         "<form class='guest' method='post' action='/giris/misafir'><button type='submit'>Misafir olarak devam et</button>"
         "<p style='font-size:12px;opacity:.85;margin-top:14px'>Devam ederek 18 yaşından büyük olduğunu onaylarsın. "
         "Bu uygulama bahis oynatmaz; yalnızca olasılık bilgisi verir. Kazanç garantisi yoktur.</p>"
-        "<p style='font-size:12px;margin-top:6px'><a href='/gizlilik'>Gizlilik</a> · <a href='/kosullar'>Koşullar</a></p></form></div></div>"
+        "<p style='font-size:12px;margin-top:6px'><a href='/gizlilik'>Gizlilik</a> · <a href='/kosullar'>Koşullar</a></p></form></main></div>"
         "<script>"
         f"const ST={str(status).lower()};"
         "const WHY={google:'Google ile giriş henüz etkin değil (Google istemci kimliği ayarlanmadı).',"
@@ -995,7 +995,10 @@ LEGAL = {
                 "li",
                 "Reklam göstermiyoruz, seni takip etmiyoruz, verini satmıyoruz veya üçüncü taraflarla pazarlama için paylaşmıyoruz.",
             ),
-            ("li", "Analitik veya izleme çerezi kullanmıyoruz; tek çerez oturum (ve dil tercihi) çerezidir."),
+            (
+                "li",
+                "Analitik veya izleme çerezi kullanmıyoruz; kendi çerezlerimiz yalnızca oturum ve dil tercihidir. Giriş sayfası Google ile giriş düğmesini Google'dan yüklediği için Google kendi çerezlerini (örneğin NID) tarayıcına bırakabilir; bunlar Google'ın politikasına tabidir.",
+            ),
             ("h", "Verilerini silme"),
             (
                 "p",

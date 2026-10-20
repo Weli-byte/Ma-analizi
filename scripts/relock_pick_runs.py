@@ -1,10 +1,10 @@
 """Which parked CI runs may the relock job approve? (called by .github/workflows/relock.yml; unit-tested)
 
 Input (stdin): the JSON of `GET /repos/{repo}/actions/runs?branch=chore/relock&event=pull_request`.
-Output: the ids of runs that are ALL of: the ci workflow, parked as `action_required`, built from exactly `sha`
-(the commit the job just pushed), and whose head repository is `repo` itself. A fork PR from a branch that happens
-to be called chore/relock has a different head repository and a different commit, so it is never approved
-(it would bypass the fork approval gate).
+Output: ids of runs that are ALL of: the ci workflow, parked as `action_required`, built
+from exactly `sha` (the commit the job just pushed), and whose head repository is `repo`
+itself. A fork PR from a branch that happens to be called chore/relock has another head
+repository and another commit, so it is never approved (it would bypass the approval gate).
 
 Usage: python scripts/relock_pick_runs.py <sha> <owner/repo> < runs.json"""
 

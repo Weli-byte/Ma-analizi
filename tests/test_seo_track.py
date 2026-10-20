@@ -48,3 +48,40 @@ def test_robots_and_sitemap_list_only_public_pages(tmp_path, monkeypatch):
     for path in ("/giris", "/gizlilik", "/kosullar", "/sunum"):
         assert f"<loc>https://example.test{path}</loc>" in site.text
     assert "/profil" not in site.text and "/basari-kaydi" not in site.text
+
+
+def test_link_preview_image_and_url_are_absolute_and_come_from_the_validated_host(tmp_path, monkeypatch):
+    monkeypatch.setenv("FORECAST_USER_DB", str(tmp_path / "u.sqlite"))
+    c = TestClient(create_app(ROOT, keys=[]), follow_redirects=False)
+    for path in ("/giris", "/gizlilik", "/kosullar"):
+        html = c.get(path, headers={"host": "example.test"}).text
+        assert "property='og:image' content='https://example.test/icon-512.png'" in html
+        assert f"property='og:url' content='https://example.test{path}'" in html
+        assert "name='twitter:image' content='https://example.test/icon-512.png'" in html
+    image = c.get("/icon-512.png")
+    assert image.status_code == 200 and image.headers["content-type"] == "image/png"
+    assert image.content[:8] == b"\x89PNG\r\n\x1a\n"
+
+
+def test_a_forged_host_header_adds_no_preview_tags_and_no_sitemap(tmp_path, monkeypatch):
+    from src.web.routes import public_base
+
+    for bad in (
+        None,
+        "",
+        "ex ample.test",
+        "evil.test'><script>",
+        "https://x",
+        "a" * 300,
+        "-bad.test",
+        "bad..test:99999999",
+    ):
+        assert public_base(bad) is None, bad
+    assert public_base("localhost:8000") == "http://localhost:8000"
+    assert public_base("mac-tahmin-eight.vercel.app") == "https://mac-tahmin-eight.vercel.app"
+    monkeypatch.setenv("FORECAST_USER_DB", str(tmp_path / "u.sqlite"))
+    c = TestClient(create_app(ROOT, keys=[]), follow_redirects=False)
+    html = c.get("/giris", headers={"host": "ex ample.test"}).text
+    assert "og:image" not in html and "<meta name='description'" in html
+    assert c.get("/sitemap.xml", headers={"host": "ex ample.test"}).status_code == 400
+    assert "Sitemap:" not in c.get("/robots.txt", headers={"host": "ex ample.test"}).text

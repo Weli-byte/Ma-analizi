@@ -2,6 +2,7 @@
 signed-in); the data shown is derived values only. `/v1/*` keeps its own API-key rules."""
 
 import json
+import re
 import secrets
 import struct
 import unicodedata
@@ -92,6 +93,17 @@ def image_response(f: Path | None) -> Response:
     return (
         FileResponse(f, media_type=image_type(f), headers=IMAGE_HEADERS) if f else Response(status_code=404)
     )
+
+
+_HOST = re.compile(r"^[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?(:\d{1,5})?$")
+
+
+def public_base(host: str | None) -> str | None:
+    """`https://host` (http for localhost) when the Host header looks like a hostname; None for anything else, so a forged
+    header can never put markup or another scheme into the sitemap or the link-preview tags."""
+    if not host or len(host) > 255 or not _HOST.match(host):
+        return None
+    return f"{'http' if host.startswith(('localhost', '127.0.0.1')) else 'https'}://{host}"
 
 
 def register(app: FastAPI, service, root, now_fn) -> None:
@@ -381,24 +393,34 @@ def register(app: FastAPI, service, root, now_fn) -> None:
         _, redirect = guarded(request)
         return redirect or pages.track_page(service.track_record())
 
-    def site_base(request: Request) -> str:
-        host = request.headers.get("host") or request.url.netloc
-        return f"{'http' if host.startswith(('localhost', '127.0.0.1')) else 'https'}://{host}"
+    def site_base(request: Request) -> str | None:
+        return public_base(request.headers.get("host") or request.url.netloc)
+
+    @app.middleware("http")
+    async def remember_request_url(request: Request, call_next):
+        """Lets pages.meta_tags build absolute link-preview URLs without threading the request through every page."""
+        base = site_base(request)
+        token = pages.REQUEST_URL.set((base, request.url.path) if base else None)
+        try:
+            return await call_next(request)
+        finally:
+            pages.REQUEST_URL.reset(token)
 
     @app.get("/robots.txt", response_class=PlainTextResponse, include_in_schema=False)
     def robots(request: Request):
         """Public pages may be indexed; account, API and signed-in routes may not."""
         disallow = ("/v1/", "/giris/", "/profil", "/favori", "/favoriler", "/hesabi-sil", "/cikis")
-        lines = [
-            "User-agent: *",
-            *[f"Disallow: {p}" for p in disallow],
-            f"Sitemap: {site_base(request)}/sitemap.xml",
-        ]
+        base = site_base(request)
+        lines = ["User-agent: *", *[f"Disallow: {p}" for p in disallow]]
+        if base:
+            lines.append(f"Sitemap: {base}/sitemap.xml")
         return "\n".join(lines) + "\n"
 
     @app.get("/sitemap.xml", include_in_schema=False)
     def sitemap(request: Request):
         base = site_base(request)
+        if not base:
+            return Response(status_code=400)
         urls = "".join(
             f"<url><loc>{base}{p}</loc></url>" for p in ("/giris", "/gizlilik", "/kosullar", "/sunum")
         )

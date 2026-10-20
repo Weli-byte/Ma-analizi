@@ -4,8 +4,9 @@ name: relock
 # and keeps ONE rolling PR (branch chore/relock, force-updated) open while main is stale; it closes that PR when main is
 # up to date again. It never merges anything.
 # Needs: repo Settings -> Actions -> General -> "Allow GitHub Actions to create and approve pull requests".
-# A push or PR made with GITHUB_TOKEN does not start `ci` by itself, so the job dispatches ci.yml on the branch; the check
-# runs attach to the branch's commit and show up in the PR.
+# A PR opened or updated by GITHUB_TOKEN gets its `pull_request` ci run parked as "action_required" (a bot is not trusted
+# to run workflows). The job approves that run itself (needs `actions: write`), so the normal checks appear on the PR.
+# (A workflow_dispatch run on the branch passes too, but its results do NOT attach to the PR: tried 2026-10-19.)
 on:
   schedule:
     - cron: "0 5 * * *"
@@ -60,5 +61,11 @@ jobs:
             gh pr create --base main --head "$branch" --title "chore: regenerate lock files (relock)" \
               --body "Automatic: upstream releases made the lock files stale. This PR is updated in place; merge it when all ci jobs are green."
           fi
-          gh workflow run ci.yml --ref "$branch"
+          # approve the parked pull_request run(s) of ci for this branch (they appear a few seconds after the push)
+          for attempt in 1 2 3 4 5 6; do
+            sleep 10
+            ids="$(gh run list --workflow ci.yml --branch "$branch" --event pull_request --json databaseId,conclusion               -q '.[] | select(.conclusion == "action_required") | .databaseId')"
+            [ -n "$ids" ] && break
+          done
+          for id in $ids; do gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/approve" >/dev/null && echo "approved run $id"; done
         shell: bash

@@ -39,7 +39,7 @@ leagues about 2,100 to 2,700 each; Süper Lig 1,064 (three seasons); UEFA 576 to
 1. **Features:** score-only universe (no shots, corners, cards, xG). No paid statistics source for the league programme.
 2. **Holdout:** 2025-26 for every league that has it; Süper Lig 2024-25. Never loaded for training, tuning or selection.
 3. **Source bytes:** the 95 cached source files (about 7 MB) are archived in the private data repository (Ma-analizi2) so exact
-   reproduction is possible. Archiving itself is a Sprint 2 task (not yet executed).
+   reproduction is possible. Done 2026-10-20: branch `league-source-snapshot` of the private data repository (95 files, sha256 `MANIFEST.sha256`, bytes verified from a fresh clone; `scripts/archive_league_sources.py`).
 4. **Süper Lig:** three usable seasons accepted; tier 500 to 1,500 (global + league effect, local model only with out-of-sample superiority).
 5. **Kick-off times:** for date-only fixtures only the t-24h stage is treated as time-safe.
 6. **Running-season lag:** keep the permitted-only rule (openfootball); the CONDITIONAL live-results store does not fill gaps.

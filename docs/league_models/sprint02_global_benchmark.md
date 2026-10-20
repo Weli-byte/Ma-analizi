@@ -245,8 +245,7 @@ By competition: positive-class share and log loss of the constant-rate baseline 
 - **Frozen:** 2,278 holdout fixtures (2025-26; Süper Lig 2024-25) listed by id hash only; 250 reserved (2026-27); 750 guard.
 - **Open risks and blockers for Sprint 3:** unconverged early-fold fits; high unseen-club share; no neutral-venue handling for UEFA finals; Elo within-season
   update advantage; no odds and no match statistics in the licensed universe; kick-off times missing for some fixtures; only one Süper Lig dev fold;
-  UEFA/domestic format versions remain `ASSISTANT_DECLARED_UNVERIFIED`; the Sprint 1 decision to archive the 95 cached source files in the private
-  data repository is still pending (without it exact reproduction depends on the public repositories' unchanged bytes; hashes detect a change, they cannot restore the data).
+  UEFA/domestic format versions remain `ASSISTANT_DECLARED_UNVERIFIED`; the 95 cached source files are archived on branch `league-source-snapshot` of the private data repository (verified by sha256 from a fresh clone), so exact reproduction no longer depends on the public repositories.
 
 ## What was NOT done
 - No GBM, ensemble, calibration, league model, UEFA bridge, odds baseline, shadow or production wiring (later sprints or blocked).

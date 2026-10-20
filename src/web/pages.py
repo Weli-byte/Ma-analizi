@@ -6,6 +6,7 @@ Unknown values are written "bilinmiyor", never 0. Every page carries the require
 """
 
 from collections import defaultdict
+from contextvars import ContextVar
 from datetime import datetime, timedelta
 from html import escape as e
 from zoneinfo import ZoneInfo
@@ -117,11 +118,23 @@ DEFAULT_DESC = (
 )
 
 
+# (base URL, path) of the request being answered, set by a middleware in routes.py; None outside a request
+REQUEST_URL: ContextVar[tuple[str, str] | None] = ContextVar("request_url", default=None)
+
+
 def meta_tags(title: str, desc: str = DEFAULT_DESC) -> str:
-    """Description and link-preview tags (Open Graph / Twitter card). No image: those need an absolute URL we do not know here."""
+    """Description and link-preview tags (Open Graph / Twitter card). The preview image and page URL are absolute, so they
+    are only added while a request is being answered (the base comes from its validated Host header)."""
     t, d = e(f"{title} - {APP_NAME}"), e(desc)
+    where = REQUEST_URL.get()
+    image = (
+        f"<meta property='og:image' content='{e(where[0])}/icon-512.png'><meta property='og:image:alt' content='{e(APP_NAME)}'>"
+        f"<meta property='og:url' content='{e(where[0] + where[1])}'><meta name='twitter:image' content='{e(where[0])}/icon-512.png'>"
+        if where
+        else ""
+    )
     return (
-        f"<meta name='description' content='{d}'>"
+        image + f"<meta name='description' content='{d}'>"
         f"<meta property='og:type' content='website'><meta property='og:site_name' content='{e(APP_NAME)}'>"
         f"<meta property='og:title' content='{t}'><meta property='og:description' content='{d}'>"
         f"<meta name='twitter:card' content='summary'><meta name='twitter:title' content='{t}'>"
@@ -266,7 +279,7 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
             f"<meta name='apple-client' content='{e(apple_id)}'>"
         )
     return (
-        f"<!doctype html><html lang='tr'><head>{HEAD}{meta_tags("Giriş")}<title>Giriş - {e(APP_NAME)}</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
+        f"<!doctype html><html lang='tr'><head>{HEAD}{meta_tags('Giriş')}<title>Giriş - {e(APP_NAME)}</title><style>{CSS}</style></head><body><div id='app' style='padding:0'>"
         f"<div class='login'><div style='font-size:46px'>⚽</div><h1>{e(APP_NAME)}</h1>"
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"

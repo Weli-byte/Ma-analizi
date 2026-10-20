@@ -402,3 +402,119 @@ def test_committed_audit_outputs_are_consistent():
     assert lic["manifest_sha256"] == manifest_hash(
         MANIFEST
     )  # the committed report was made from the current manifest
+
+
+# ------------------------------------------------------------------ cups, universe tiers and the audit command (synthetic)
+CUP_TEXT = """= UEFA Champions League 2024/25
+
+▪ League, Matchday 1
+  Tue Sep 17 2024
+    18:45  Alpha FC (ENG)    v Beta FC (ENG)     2-1 (1-0)
+           Beta FC (ENG)     v Gamma FC (ENG)    3-1
+  Wed Sep 18
+           Alpha FC (ENG)    v Mystery Town (ENG)
+           Gamma FC (ENG)    v Alpha FC (ENG)
+"""
+
+
+def test_cup_rows_use_the_90_minute_score_and_exclude_unknown_clubs_TEST_ONLY():
+    comp = CFG.competitions["UEFA_UCL"]
+    rows, bad = identity.cup_rows(comp, 2024, CUP_TEXT.encode(), _directory(), "TEST_ONLY.txt")
+    assert [(r.canonical_fixture_id, r.status, r.final_score) for r in rows] == [
+        ("ENG_alpha__ENG_beta__2024-09-17", "FINISHED", (2, 1)),
+        ("ENG_beta__ENG_gamma__2024-09-17", "FINISHED", (3, 1)),
+        ("ENG_gamma__ENG_alpha__2024-09-18", "SCHEDULED", None),
+    ]
+    assert rows[0].stage == "League, Matchday 1" and rows[0].kickoff_time_known and rows[1].kickoff_time_known
+    assert not rows[2].kickoff_time_known  # the 18 Sep fixture has no time of its own
+    assert [u.raw_name for u in bad] == ["Mystery Town"] and rows[0].canonical_league_id == "UEFA_UCL"
+
+
+def _season(completed: int, comp_id="ENG1", status="TRAINABLE_COMPLETE", season="2024-25"):
+    return coverage.SeasonCoverage(
+        comp_id, "X", season, "openfootball_domestic", "domestic", "OK", "", None, None,
+        completed_count=completed, training_status=status,
+    )  # fmt: skip
+
+
+def test_universe_tiers_follow_the_plans_volume_table_TEST_ONLY():
+    summary = {
+        s["canonical_league_id"]: s
+        for s in coverage.universe_summary(
+            [
+                _season(300, "TUR1"),
+                _season(1000, "ESP1"),
+                _season(1600, "ENG1"),
+                _season(100, "UEFA_UEL"),
+                _season(380, "ENG1", status="BLOCKED_NO_DATA", season="2021-22"),
+            ]
+        )
+    }
+    assert summary["TUR1"]["plan_volume_tier"].startswith("UNDER_500")
+    assert summary["ESP1"]["plan_volume_tier"].startswith("500_TO_1500")
+    assert summary["ENG1"]["plan_volume_tier"].startswith("OVER_1500")
+    assert summary["ENG1"]["blocked_seasons"] == {"2021-22": "BLOCKED_NO_DATA"}
+    assert summary["ENG1"]["completed_matches_in_trainable_seasons"] == 1600  # a blocked season never counts
+    assert "cross-league bridge" in summary["UEFA_UEL"]["note"]
+
+
+def _audit_root(tmp_path: Path) -> Path:
+    (tmp_path / "configs").mkdir()
+    teams = [
+        {"team_id": t, "canonical_name": n, "country": "ENG"}
+        for t, n in (("ENG_alpha", "Alpha FC"), ("ENG_beta", "Beta FC"))
+    ]
+    import yaml
+
+    (tmp_path / "configs" / "team_aliases.yaml").write_text(
+        yaml.safe_dump({"teams": teams, "aliases": []}), encoding="utf-8"
+    )
+    _cache_file(tmp_path, 2025, "en.1", [("2025-08-16", "15:00", "Alpha FC", "Beta FC", (1, 0))])
+    return tmp_path
+
+
+def test_audit_command_writes_every_output_deterministically_TEST_ONLY(tmp_path, capsys):
+    from src.league_models import audit
+
+    root = _audit_root(tmp_path)
+    argv = ["--root", str(root), "--out", "out", "--as-of", "2026-07-01T00:00:00Z"]
+    assert audit.main(argv) == 0 and not (root / "out").exists()  # without --write nothing is written
+    dry = json.loads(capsys.readouterr().out)
+    assert dry["summary"]["seasons_audited"] == 9 * 8 and dry["summary"]["temporal_audit"]["violations"] == 0
+    assert audit.main(argv + ["--write"]) == 0
+    first = {p.name: p.read_bytes() for p in (root / "out").iterdir()}
+    ident_out = json.loads(first["canonical_identity_summary.json"])
+    assert (
+        ident_out["mapping_file"] == "artifacts/league_models/identity_mapping.jsonl"
+    )  # never an absolute path
+    assert {
+        "league_coverage.csv",
+        "league_coverage.json",
+        "snapshot_manifest.json",
+        "temporal_audit.json",
+    } <= set(first)
+    assert len(first) == 8
+    capsys.readouterr()
+    assert audit.main(argv + ["--write"]) == 0
+    assert {p.name: p.read_bytes() for p in (root / "out").iterdir()} == first  # idempotent, byte for byte
+    again = json.loads(capsys.readouterr().out)["summary"]
+    assert (
+        again["identity_mapping_upsert"]["added"] == 0 and again["identity_mapping_upsert"]["unchanged"] == 1
+    )
+    assert (
+        again["training_status_counts"]["TRAINABLE_COMPLETE"] == 1
+    )  # only the one synthetic Premier League season
+    snap = json.loads((root / "out" / "snapshot_manifest.json").read_text(encoding="utf-8"))
+    assert [f["path"] for f in snap["files"]] == ["artifacts/markets/_cache/openfootball/2025-26/en.1.json"]
+    with pytest.raises(SystemExit):
+        audit.main(["--as-of", "2026-07-01T00:00:00"])  # a naive time is refused
+
+
+def test_license_report_lists_gate_decisions_per_purpose_TEST_ONLY():
+    from src.league_models import audit
+
+    report = audit.license_report(MANIFEST, ROOT)
+    assert report["sources"]["openfootball_domestic"]["gate"]["production_ml"] == "ALLOWED"
+    assert report["sources"]["football_data_co_uk"]["gate"]["research_ml"] == ["plan_status is BLOCKED"]
+    assert report["sources"]["api_football"]["evidence_file_exists"] is True
+    assert report["by_plan_status"]["BLOCKED"] == ["football_data_co_uk"]

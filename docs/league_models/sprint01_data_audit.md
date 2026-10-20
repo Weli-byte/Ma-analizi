@@ -33,7 +33,7 @@ and the real command outputs in [`evidence/`](evidence/).
 | Nine competitions listed, every season's coverage with real counts | DONE | `league_coverage.csv/json` (72 competition-seasons) |
 | Commercial ML and display rights in separate statuses; uncertain rights do not reach production training | DONE | `data_source_license_manifest.json`, test `test_training_gate_is_fail_closed` |
 | Every training row has as_of, available_at and a hash | DONE as a contract plus an audit; the rows themselves are built in Sprint 2/3 | `asof.py` (`TrainingRowLineage`), `temporal_audit.json` |
-| Leakage / duplicate / timezone tests run; CI not regressed | DONE locally (15 new tests); CI result: see the pull request | `evidence/pytest_s1.txt` |
+| Leakage / duplicate / timezone tests run; CI not regressed | DONE locally (19 new tests); CI result: see the pull request | `evidence/pytest_s1.txt` |
 | Trainable seasons separated from blocked seasons | DONE | `training_universe.json`, table below |
 | Immutable data snapshot manifest and baseline-eval fixture list handed to Sprint 2 | DONE (60 source files, sha256 pinned) | `snapshot_manifest.json`, `canonical_identity_summary.json` |
 
@@ -135,7 +135,7 @@ From `quality_report.json`: 18,074 rows, 16,239 finished; score outside 0 to 15:
 with an unknown kick-off time: 1205. Time zones: kick-off times are local clock times without a zone,
 converted to UTC by the league zone (INFERRED); a daylight-saving gap or fold falls back to the date only.
 
-Tests (`tests/test_league_models_s1.py`, 15): fail-closed licence gate (blocked, unknown, missing field, unknown source),
+Tests (`tests/test_league_models_s1.py`, 19): fail-closed licence gate (blocked, unknown, missing field, unknown source),
 observation validation, both time checks, stage matrix, history excludes future results and the fixture itself, impossible
 availability flagged, lineage refuses a leak, identity resolution/exclusion/no merge, collision audit and idempotent upsert,
 season decisions (complete, running with lag, hole, curtailed tail, missing file, not yet existing, blocked licence), blocked CSVs

@@ -56,7 +56,7 @@ def license_report(manifest: dict, root: Path) -> dict:
     }
 
 
-def identity_summary(result: AuditResult, mapping_path: Path, apply: bool) -> dict:
+def identity_summary(result: AuditResult, mapping_file: str) -> dict:
     rows = result.identity_rows
     per_comp = Counter(r.canonical_league_id for r in rows)
     names = Counter((u.canonical_league_id, u.raw_name) for u in result.unresolved)
@@ -69,8 +69,7 @@ def identity_summary(result: AuditResult, mapping_path: Path, apply: bool) -> di
         "unresolved_top_names": [
             {"competition": c, "raw_name": n, "mentions": k} for (c, n), k in names.most_common(25)
         ],
-        "mapping_file": mapping_path.as_posix(),
-        "upsert": upsert_mapping(mapping_path, rows, apply=apply),
+        "mapping_file": mapping_file,
         "migration": "NOT_APPLICABLE: no fixtures database exists (the only database is the Turso user "
         "store); this is an additive, idempotent mapping layer with a dry-run",
     }
@@ -123,7 +122,8 @@ def run(root: Path, as_of: datetime, out_dir: Path, write: bool) -> dict:
     hist = history_matches(result.identity_rows, cfg.result_lag_hours)
     audit = temporal_audit(hist, brute_every=max(1, len(hist) // 300))
     mapping_path = root / "artifacts" / "league_models" / "identity_mapping.jsonl"
-    ident = identity_summary(result, mapping_path, apply=write)
+    ident = identity_summary(result, mapping_path.relative_to(root).as_posix())
+    upsert = upsert_mapping(mapping_path, result.identity_rows, apply=write)
     universe = universe_summary(result.coverage)
     status_counts = Counter(c.training_status for c in result.coverage)
     summary = {
@@ -132,6 +132,7 @@ def run(root: Path, as_of: datetime, out_dir: Path, write: bool) -> dict:
         "training_status_counts": dict(sorted(status_counts.items())),
         "temporal_audit": audit.__dict__,
         "identity_mapping_sha256": ident["mapping_sha256"],
+        "identity_mapping_upsert": upsert,
         "collisions_empty": not any(ident["collisions"].values()),
         "license_manifest_sha256": manifest_hash(manifest),
     }

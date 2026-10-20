@@ -6,7 +6,7 @@
     "self_matches": [],
     "team_with_two_fixtures_on_one_day": []
   },
-  "mapping_file": "C:/Users/weli1/Desktop/DÜnya kupası/artifacts/league_models/identity_mapping.jsonl",
+  "mapping_file": "artifacts/league_models/identity_mapping.jsonl",
   "mapping_sha256": "b0c1d15426dbfe0532723c76ff0e7a49273f04152773e44427bb43fea55b7660",
   "migration": "NOT_APPLICABLE: no fixtures database exists (the only database is the Turso user store); this is an additive, idempotent mapping layer with a dry-run",
   "rows": 18074,
@@ -22,12 +22,5 @@
     "UEFA_UEL": 815
   },
   "unresolved_club_mentions": 0,
-  "unresolved_top_names": [],
-  "upsert": {
-    "added": 0,
-    "applied": true,
-    "changed": 0,
-    "removed": 0,
-    "unchanged": 18074
-  }
+  "unresolved_top_names": []
 }

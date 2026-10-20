@@ -1,5 +1,5 @@
 IDEMPOTENT: a second run with the same cache and --as-of rewrote every output byte-identically (sha256 of all 8 files unchanged)
-e08249d5f89d91c3ae0f1f463ef5a019f2a1d75fcc90186ddbf8018a2351a376 *docs/league_models/canonical_identity_summary.json
+b4e76ae0623d77b277fcd5348b4a13be790829df1c25effda1a6feb916d3faa3 *docs/league_models/canonical_identity_summary.json
 a565f2bb78111b31655e23effdc117e96eedd9287eb1455c7b25cf630fe648c7 *docs/league_models/data_source_license_manifest.json
 a9abc7df466e72a32b335e002aaacb4645d79758b0dd7efc538a4ce8ee6a0bf6 *docs/league_models/league_coverage.json
 0dc8f952b67df9c5155f3295dae2147bc47b67ac2934ddacc6e4fd979146eb45 *docs/league_models/quality_report.json

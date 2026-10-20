@@ -3,6 +3,13 @@
     "as_of": "2026-10-20T00:00:00+00:00",
     "collisions_empty": true,
     "identity_mapping_sha256": "b0c1d15426dbfe0532723c76ff0e7a49273f04152773e44427bb43fea55b7660",
+    "identity_mapping_upsert": {
+      "added": 0,
+      "applied": true,
+      "changed": 0,
+      "removed": 0,
+      "unchanged": 18074
+    },
     "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
     "seasons_audited": 72,
     "temporal_audit": {

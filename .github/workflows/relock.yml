@@ -61,11 +61,21 @@ jobs:
             gh pr create --base main --head "$branch" --title "chore: regenerate lock files (relock)" \
               --body "Automatic: upstream releases made the lock files stale. This PR is updated in place; merge it when all ci jobs are green."
           fi
-          # approve the parked pull_request run(s) of ci for this branch (they appear a few seconds after the push)
+          # Approve ONLY the parked pull_request run of the commit pushed above, and only when its head repository is this
+          # repository. Selecting by branch name alone would also match a fork's branch called chore/relock and so bypass
+          # the approval gate for fork PRs (found by the security review of this workflow).
+          sha="$(git rev-parse HEAD)"
           for attempt in 1 2 3 4 5 6; do
             sleep 10
-            ids="$(gh run list --workflow ci.yml --branch "$branch" --event pull_request --json databaseId,conclusion               -q '.[] | select(.conclusion == "action_required") | .databaseId')"
+            ids="$(gh run list --workflow ci.yml --branch "$branch" --event pull_request --json databaseId,conclusion,headSha               -q ".[] | select(.conclusion == \"action_required\" and .headSha == \"$sha\") | .databaseId")"
             [ -n "$ids" ] && break
           done
-          for id in $ids; do gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/approve" >/dev/null && echo "approved run $id"; done
+          for id in $ids; do
+            repo="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${id}" -q '.head_repository.full_name')"
+            if [ "$repo" = "${GITHUB_REPOSITORY}" ]; then
+              gh api -X POST "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/approve" >/dev/null && echo "approved run $id"
+            else
+              echo "NOT approving run $id: head repository is $repo, not ${GITHUB_REPOSITORY}"
+            fi
+          done
         shell: bash

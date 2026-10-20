@@ -1,6 +1,6 @@
 # ADR 0063: League-based model programme (6 sprints) and Sprint 1
 
-Date: 2026-10-20. Status: accepted; Sprint 1 built, Sprints 2 to 6 not started.
+Date: 2026-10-20. Status: accepted; Sprint 1 built, owner decisions recorded, Sprints 2 to 6 not started.
 
 ## Decision
 Adopt the plan in `docs/reference/Lig_Bazli_Modeller_6_Sprint_ULTRA_PRO_MAX_GUNCEL.pdf` (summary: `docs/league_models/plan.md`):
@@ -35,18 +35,15 @@ S4 ML adapters, S5 calibration/holdout/approval gate, S6 shadow, canary, rollbac
 finished, 0 collisions, 0 unresolved clubs; temporal audit 64,956 (fixture, stage) checks, 0 violations. Trainable matches: five big
 leagues about 2,100 to 2,700 each; Süper Lig 1,064 (three seasons); UEFA 576 to 997 each.
 
-## Open questions for the owner (they gate Sprint 2)
-1. **Features:** accept a score-only universe (no shots, corners, cards, xG), or provide a licensed statistics source (Highlightly PRO
-   costs money and its free Basic terms were not read)?
-2. **Holdout:** `configs/evaluation.yaml` already locks 2024-25 and 2025-26 for the global benchmark (EPL and La Liga). Which season(s) are
-   the league programme's final holdout (proposal: 2025-26 for every league that has it; Süper Lig has none usable, so 2024-25)?
-3. **Source bytes:** archive the 95 cached source files (about 7 MB) in the private data repository so exact reproduction is possible?
-4. **Süper Lig:** accept three usable seasons (tier 500 to 1,500: global + league effect, local models only with OOS superiority)?
-5. **Kick-off times:** 1,205 fixtures publish only a date (mostly future 2026-27 fixtures). Proposed rule: for those, only the t-24h stage
-   is treated as time-safe. OK?
-6. **Running-season lag:** the source is about a month behind (latest score 2026-09-20). Fill it from our own live-results store
-   (football-data.org / The Odds API, licence CONDITIONAL), or keep the permitted-only rule?
-7. **Formats:** the UEFA format versions and Süper Lig sizes are my declarations; confirm or provide sources.
+## Owner decisions (2026-10-20, replaces the open questions; all accepted as proposed)
+1. **Features:** score-only universe (no shots, corners, cards, xG). No paid statistics source for the league programme.
+2. **Holdout:** 2025-26 for every league that has it; Süper Lig 2024-25. Never loaded for training, tuning or selection.
+3. **Source bytes:** the 95 cached source files (about 7 MB) are archived in the private data repository (Ma-analizi2) so exact
+   reproduction is possible. Archiving itself is a Sprint 2 task (not yet executed).
+4. **Süper Lig:** three usable seasons accepted; tier 500 to 1,500 (global + league effect, local model only with out-of-sample superiority).
+5. **Kick-off times:** for date-only fixtures only the t-24h stage is treated as time-safe.
+6. **Running-season lag:** keep the permitted-only rule (openfootball); the CONDITIONAL live-results store does not fill gaps.
+7. **Formats:** UEFA format versions and Süper Lig sizes stay `ASSISTANT_DECLARED_UNVERIFIED` until a source is provided.
 
 ## Status of the six sprints
 | Sprint | Status |

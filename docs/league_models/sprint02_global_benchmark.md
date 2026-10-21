@@ -79,7 +79,8 @@ Poisson/Dixon-Coles fits dominate). `--dry-run` prints the plan, `--verify DIR` 
 - Full-run `--reproduce` of the final revision: `REPRODUCED`, 9 of 9 files identical (`evidence/s2_reproduce_full.json`).
 - The run manifest stores config fingerprint, snapshot id (`snap-546e70fff7fb`), data snapshot hash, licence manifest hash, git sha, Python 3.14.6, numpy,
   dependency-lock hash, seeds. The registry entry is append-only; its id derives from the output hashes.
-- Not claimed: reproduction on Python 3.12 or on another platform (not run); CI does not run the real-data benchmark (no source cache there).
+- Python 3.12.14 (venv from `requirements.lock`, numpy 2.5.4) re-ran the whole benchmark against the 3.14.6 run (numpy 2.5.3): `REPRODUCED`, 9 of 9 files byte-identical (`evidence/s2_reproduce_python312.json`).
+- Not claimed: reproduction on another operating system (only Windows was run); CI does not run the real-data benchmark (no source cache there).
 
 ## Task 6: claims
 | Claim | Class | Basis |
@@ -249,4 +250,4 @@ By competition: positive-class share and log loss of the constant-rate baseline 
 
 ## What was NOT done
 - No GBM, ensemble, calibration, league model, UEFA bridge, odds baseline, shadow or production wiring (later sprints or blocked).
-- No re-score of the existing research benchmark, no Python 3.12 or cross-platform reproduction, no CI run of the real-data benchmark.
+- No re-score of the existing research benchmark, no cross-platform (non-Windows) reproduction and no CI run of the real-data benchmark (the source cache is not in CI).

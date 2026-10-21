@@ -1,0 +1,10 @@
+{
+  "python_314_run": "artifacts/league_models/ml/s4_final",
+  "python_312_run": "artifacts/league_models/ml/py312",
+  "files_compared": 210,
+  "files_byte_identical": 210,
+  "non_model_files_not_byte_identical": [],
+  "model_files_not_byte_identical": 0,
+  "compare_committed_result": "ok (exact files identical, numeric differences none at atol 1e-3)",
+  "platform": "Windows 11 for both runs"
+}

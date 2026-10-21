@@ -1,0 +1,189 @@
+{
+  "definition": "league hypotheses tested by feature-group ablation on dev out-of-sample rows; a feature that does not help stays in the report as NOT_SUPPORTED / INCONCLUSIVE and no importance is read as causation",
+  "hypotheses": [
+    {
+      "base": "B_no_rest",
+      "blocks": 141,
+      "ci95": [
+        -0.002906,
+        0.003111
+      ],
+      "competition": "ENG1",
+      "delta_log_loss_variant_minus_base": 9.9e-05,
+      "hypothesis": "Premier League: rest and fixture-congestion features improve 1X2",
+      "id": "H1_premier_league_rest_fixture_congestion",
+      "n": 1520,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "B_no_league_priors",
+      "blocks": 175,
+      "ci95": [
+        -0.004468,
+        0.001028
+      ],
+      "competition": "ITA1",
+      "delta_log_loss_variant_minus_base": -0.001713,
+      "hypothesis": "Serie A: league-season priors (draw / low-scoring rates) improve 1X2",
+      "id": "H2_serie_a_league_priors_draws",
+      "n": 1890,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "B_no_elo",
+      "blocks": 142,
+      "ci95": [
+        -0.0334,
+        -0.015722
+      ],
+      "competition": "ESP1",
+      "delta_log_loss_variant_minus_base": -0.024486,
+      "hypothesis": "La Liga: the Elo strength gap improves 1X2",
+      "id": "H3_la_liga_elo_disparity",
+      "n": 1520,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "base": "B_no_league_priors",
+      "blocks": 163,
+      "ci95": [
+        -0.000448,
+        0.005655
+      ],
+      "competition": "GER1",
+      "delta_log_loss_variant_minus_base": 0.002655,
+      "hypothesis": "Bundesliga: league goal-density priors improve over/under 2.5",
+      "id": "H4_bundesliga_goal_density",
+      "n": 1530,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "over_under",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_gbm_tuned",
+      "blocks": 175,
+      "ci95": [
+        -0.00259,
+        0.004296
+      ],
+      "competition": "FRA1",
+      "delta_log_loss_variant_minus_base": 0.000755,
+      "hypothesis": "Ligue 1: league identity and priors (B) improve 1X2 against the equally tuned league-blind GBM",
+      "id": "H5_ligue_1_league_identity",
+      "n": 1752,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "B_no_league_priors",
+      "blocks": 33,
+      "ci95": [
+        -0.022638,
+        -0.005532
+      ],
+      "competition": "TUR1",
+      "delta_log_loss_variant_minus_base": -0.013888,
+      "hypothesis": "Süper Lig: league-level home advantage / priors improve 1X2",
+      "id": "H6_super_lig_league_level_home_advantage",
+      "n": 420,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "base": "B_no_home_away",
+      "blocks": 33,
+      "ci95": [
+        -0.008764,
+        0.007669
+      ],
+      "competition": "TUR1",
+      "delta_log_loss_variant_minus_base": -0.000538,
+      "hypothesis": "Süper Lig: home / away venue form improves 1X2",
+      "id": "H6b_super_lig_venue_form",
+      "n": 420,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_gbm_tuned",
+      "blocks": 77,
+      "ci95": [
+        -0.003866,
+        0.00713
+      ],
+      "competition": "UEFA_UCL",
+      "delta_log_loss_variant_minus_base": 0.00152,
+      "hypothesis": "Champions League: league identity plus the bridge-based Elo (B) improve 1X2 against the equally tuned league-blind GBM",
+      "id": "H8_champions_league_cross_league",
+      "n": 689,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_gbm_tuned",
+      "blocks": 79,
+      "ci95": [
+        -0.005805,
+        0.004828
+      ],
+      "competition": "UEFA_UEL",
+      "delta_log_loss_variant_minus_base": -0.000599,
+      "hypothesis": "Europa League: league identity plus the bridge-based Elo (B) improve 1X2 against the equally tuned league-blind GBM",
+      "id": "H9_europa_league_cross_league",
+      "n": 815,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_gbm_tuned",
+      "blocks": 61,
+      "ci95": [
+        -0.004191,
+        0.008344
+      ],
+      "competition": "UEFA_UECL",
+      "delta_log_loss_variant_minus_base": 0.001717,
+      "hypothesis": "Conference League: league identity plus the bridge-based Elo (B) improve 1X2 against the equally tuned league-blind GBM",
+      "id": "H10_conference_league_cross_league",
+      "n": 576,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample rows; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_gbm_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "competition": "TUR1",
+      "hypothesis": "Süper Lig: squad continuity matters",
+      "id": "H7_super_lig_squad_continuity",
+      "reason": "the licensed universe has no squad, transfer or lineup data",
+      "verdict": "NOT_TESTABLE"
+    },
+    {
+      "competition": "ALL",
+      "hypothesis": "beating a bookmaker baseline",
+      "id": "H11_market_odds",
+      "reason": "no licensed timestamped odds exist in this universe: no odds-aware model and no market baseline were built",
+      "verdict": "NOT_TESTABLE"
+    }
+  ]
+}

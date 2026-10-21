@@ -51,6 +51,6 @@ leagues about 2,100 to 2,700 each; Süper Lig 1,064 (three seasons); UEFA 576 to
 | 1 Data, licences, time safety | built and verified locally; CI: see the pull request |
 | 2 Global reference | built and run on real data (ADR 0064) |
 | 3 League statistical models + UEFA bridge | built and run on real data (ADR 0065) |
-| 4 ML adapters | not started |
+| 4 ML adapters | built and run on real data (ADR 0066) |
 | 5 Calibration, holdout, approval gate | not started |
 | 6 Shadow, canary, rollback | not started |

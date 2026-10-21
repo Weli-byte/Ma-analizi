@@ -1,0 +1,83 @@
+# Sprint 4 (ADR 0066): league-aware gradient-boosting adapters. Every value is an engineering default recorded here, never typed
+# into code. The frozen holdout is never read. Hyper-parameter search runs ONLY on the inner-validation season of each outer
+# fold (the last training season); the eval season never reaches Optuna, early stopping, blend weights or ablation choices.
+# Changing a value changes the run fingerprint.
+protocol_version: lm-s4-v1
+seed: 20261021
+league_vocabulary: [ENG1, ESP1, GER1, ITA1, FRA1, TUR1, UEFA_UCL, UEFA_UEL, UEFA_UECL]   # fixed order = categorical code; anything else is "unseen league" (NaN + league_known=0)
+features:                         # score-only universe: no odds, no xG, no lineups, no shots (none exist in the licensed data)
+  form_windows: [5, 10]
+  min_form_matches: 3             # below this many prior matches the form value is NaN (and form_available = 0)
+  rest_cap_days: 30.0
+  congestion_days: 30
+  prior_window_matches: 300       # league priors: the last N available matches of the same competition
+  min_prior_matches: 50           # below this the league priors are NaN (lp_available = 0)
+  new_team_matches: 10            # a club with fewer prior matches is flagged new / promoted-like
+gbm:
+  rounds_default: 150             # frozen candidates (A, B default): fixed number of rounds, no tuning, no early stopping
+  defaults:
+    learning_rate: 0.05
+    num_leaves: 8
+    min_data_in_leaf: 50
+    feature_fraction: 0.8
+    bagging_fraction: 0.8
+    bagging_freq: 1
+    lambda_l1: 0.0
+    lambda_l2: 5.0
+    max_depth: -1
+    min_data_per_group: 50
+    cat_smooth: 20.0
+  class_weight: none              # none | balanced (sample weights from the training label frequencies)
+  threads: 1                      # deterministic CPU fit; no GPU is used or required
+xgb_cross_check:                  # B_xgb_league: the same features with XGBoost, fixed parameters (a backend cross-check, not tuned)
+  rounds: 150
+  learning_rate: 0.05
+  max_depth: 3
+  min_child_weight: 10.0
+  subsample: 0.8
+  colsample_bytree: 0.8
+  reg_lambda: 5.0
+  reg_alpha: 0.0
+inner_split:
+  within_season_fit_share: 0.7    # only when a fold has a single training season (no earlier season to fit on): earliest 70% fit, the rest validates
+tuning:                           # Optuna, inner walk-forward validation only; every trial is recorded
+  max_trials: 14
+  n_startup_trials: 6
+  wallclock_budget_seconds: 900   # safety cap per study; if it ever stops a study the run records stopped_by=wallclock (not reproducible)
+  early_stopping_rounds: 30
+  max_rounds: 400
+  space:                          # coarse categorical grids: a rounding-level difference between machines cannot create a new optimum
+    learning_rate: [0.03, 0.05, 0.08]
+    num_leaves: [4, 8, 16, 31]
+    min_data_in_leaf: [20, 50, 100]
+    feature_fraction: [0.6, 0.8, 1.0]
+    bagging_fraction: [0.7, 0.9, 1.0]
+    lambda_l1: [0.0, 0.1]
+    lambda_l2: [0.0, 1.0, 10.0]
+  objective_rounding_digits: 4    # trial scores are rounded before ranking; ties are broken by trial number
+local:
+  min_train_matches: 500          # below: LOCAL_INELIGIBLE (plan tier table: no independent league model under 500)
+  proof_required_below: 1500      # 500 to 1,500: trained for evidence, production-eligible only with out-of-sample superiority
+  min_inner_fit_matches: 300      # the inner (earlier-seasons) local fit needs this many matches, else w = 0
+  min_minority_class: 10          # fewer examples of the rarer class: LOCAL_INELIGIBLE (one-class / near one-class)
+  max_leaves: 8                   # local models get a capped capacity
+  min_data_in_leaf: 30
+  fixed_rounds: 80                # used when the inner validation block is too small for early stopping (flagged)
+blend:
+  weight_grid_step: 0.05
+  shrink_k: 300                   # w_final = w * n_val / (n_val + k)
+  min_validation_matches: 60      # below this a competition gets weight 0
+  min_improvement: 0.002          # the blend must beat the global candidate on the inner validation by this log loss, else w = 0
+ridge_tuning:                     # S3 left the A_dc team ridge untuned (report finding 4); tuned here on the inner validation only
+  l2_team_grid: [1.0, 2.0, 4.0, 8.0, 16.0]
+ablation:
+  permutation_repeats: 3
+  seed: 20261022
+decision:
+  max_ece_worsening: 0.01
+reference_model: A_gbm            # the frozen global GBM baseline of this sprint (score-only re-implementation, see the model card)
+s3_best_reference: E_elo_bridge
+models:
+  gbm: [A_gbm, B_gbm_league_default, B_gbm_league, C_gbm_local, D_gbm_blend, B_xgb_league]
+  statistical: [A_dc_ridge_tuned]
+  ablations: [B_no_rest, B_no_league_priors, B_no_elo, B_no_home_away]

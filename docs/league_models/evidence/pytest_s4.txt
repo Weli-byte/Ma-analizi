@@ -1,0 +1,43 @@
+============================= test session starts =============================
+platform win32 -- Python 3.14.6, pytest-9.1.1, pluggy-1.6.0 -- C:\Users\weli1\Desktop\DÜnya kupasý\.venv\Scripts\python.exe
+rootdir: C:\Users\weli1\Desktop\DÜnya kupasý
+configfile: pyproject.toml
+plugins: anyio-4.15.1, platformdirs-4.12.2, cov-7.1.0
+collecting ... collected 34 items
+
+tests/test_league_models_s4.py::test_schema_is_one_ordered_hashed_contract_with_complete_groups PASSED [  2%]
+tests/test_league_models_s4.py::test_train_and_serve_use_one_code_path_and_earlier_rows_never_change_when_later_rows_arrive PASSED [  5%]
+tests/test_league_models_s4.py::test_future_results_are_invisible_to_earlier_rows_and_the_audit_catches_a_leak PASSED [  8%]
+tests/test_league_models_s4.py::test_the_builder_refuses_an_availability_rule_that_would_admit_an_unprocessed_match PASSED [ 11%]
+tests/test_league_models_s4.py::test_a_result_still_unpublished_at_the_stage_cutoff_is_not_history PASSED [ 14%]
+tests/test_league_models_s4.py::test_fixtures_sharing_a_kickoff_never_see_each_other PASSED [ 17%]
+tests/test_league_models_s4.py::test_missing_values_are_nan_with_flags_never_zero PASSED [ 20%]
+tests/test_league_models_s4.py::test_unseen_league_is_nan_with_a_flag_and_the_model_still_predicts PASSED [ 23%]
+tests/test_league_models_s4.py::test_elo_feature_equals_the_public_replay_when_results_are_published_between_matches PASSED [ 26%]
+tests/test_league_models_s4.py::test_perturb_replaces_results_from_a_point_on PASSED [ 29%]
+tests/test_league_models_s4.py::test_gbm_probabilities_are_valid_ordered_and_deterministic[lightgbm] PASSED [ 32%]
+tests/test_league_models_s4.py::test_gbm_probabilities_are_valid_ordered_and_deterministic[xgboost] PASSED [ 35%]
+tests/test_league_models_s4.py::test_one_class_and_tiny_minority_targets_refuse_to_train PASSED [ 38%]
+tests/test_league_models_s4.py::test_class_weights_balance_a_skewed_target PASSED [ 41%]
+tests/test_league_models_s4.py::test_early_stopping_uses_only_the_validation_block_and_reports_the_best_iteration PASSED [ 44%]
+tests/test_league_models_s4.py::test_tuner_records_every_trial_is_seeded_and_only_sees_the_blocks_it_is_given PASSED [ 47%]
+tests/test_league_models_s4.py::test_a_tuner_whose_every_trial_fails_is_not_trained PASSED [ 50%]
+tests/test_league_models_s4.py::test_local_models_follow_the_volume_tiers_and_refuse_one_class_targets PASSED [ 52%]
+tests/test_league_models_s4.py::test_blend_weight_is_zero_without_data_or_gain_and_shrunk_toward_zero_with_gain PASSED [ 55%]
+tests/test_league_models_s4.py::test_mix_stays_on_the_simplex_and_w_zero_is_the_global_model PASSED [ 58%]
+tests/test_league_models_s4.py::test_inner_split_is_the_last_training_season_with_a_purge_and_never_overlaps_in_time PASSED [ 61%]
+tests/test_league_models_s4.py::test_a_single_training_season_is_cut_in_time_with_a_purge_not_borrowed_from_the_future PASSED [ 64%]
+tests/test_league_models_s4.py::test_end_to_end_all_candidates_are_scored_on_identical_fixtures_with_decisions_per_target PASSED [ 67%]
+tests/test_league_models_s4.py::test_tuning_is_recorded_per_trial_and_never_touches_the_eval_season PASSED [ 70%]
+tests/test_league_models_s4.py::test_end_to_end_is_deterministic_and_dry_run_writes_nothing PASSED [ 73%]
+tests/test_league_models_s4.py::test_predictions_are_immutable_records_and_never_include_frozen_seasons PASSED [ 76%]
+tests/test_league_models_s4.py::test_ineligible_and_failing_local_models_fall_back_explicitly_never_silently PASSED [ 79%]
+tests/test_league_models_s4.py::test_reference_failure_is_fail_closed PASSED [ 82%]
+tests/test_league_models_s4.py::test_folds_must_match_sprint2_or_the_run_refuses PASSED [ 85%]
+tests/test_league_models_s4.py::test_licence_gate_and_cli_verify PASSED  [ 88%]
+tests/test_league_models_s4.py::test_compare_to_committed_tolerates_noise_and_flags_real_changes PASSED [ 91%]
+tests/test_league_models_s4.py::test_artifact_hashes_are_stripped_from_the_committed_copy_only PASSED [ 94%]
+tests/test_league_models_s4.py::test_real_dry_run_uses_the_sprint2_and_3_folds_without_replay_violations PASSED [ 97%]
+tests/test_league_models_s4.py::test_committed_sprint4_outputs_are_internally_consistent PASSED [100%]
+
+============================= 34 passed in 58.12s =============================

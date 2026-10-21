@@ -1,0 +1,165 @@
+{
+  "columns": [
+    {
+      "group": "league_identity",
+      "name": "league_code"
+    },
+    {
+      "group": "league_identity",
+      "name": "league_known"
+    },
+    {
+      "group": "league_identity",
+      "name": "is_uefa"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_goals_per_match"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_home_win_rate"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_draw_rate"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_over25_rate"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_btts_rate"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_available"
+    },
+    {
+      "group": "league_priors",
+      "name": "lp_home_advantage"
+    },
+    {
+      "group": "elo",
+      "name": "elo_diff"
+    },
+    {
+      "group": "elo",
+      "name": "elo_min_matches"
+    },
+    {
+      "group": "elo",
+      "name": "elo_certain"
+    },
+    {
+      "group": "form",
+      "name": "h_gf5"
+    },
+    {
+      "group": "form",
+      "name": "h_ga5"
+    },
+    {
+      "group": "form",
+      "name": "h_pts5"
+    },
+    {
+      "group": "form",
+      "name": "h_gf10"
+    },
+    {
+      "group": "form",
+      "name": "h_ga10"
+    },
+    {
+      "group": "form",
+      "name": "a_gf5"
+    },
+    {
+      "group": "form",
+      "name": "a_ga5"
+    },
+    {
+      "group": "form",
+      "name": "a_pts5"
+    },
+    {
+      "group": "form",
+      "name": "a_gf10"
+    },
+    {
+      "group": "form",
+      "name": "a_ga10"
+    },
+    {
+      "group": "form",
+      "name": "form_available"
+    },
+    {
+      "group": "home_away",
+      "name": "h_home_gf5"
+    },
+    {
+      "group": "home_away",
+      "name": "h_home_ga5"
+    },
+    {
+      "group": "home_away",
+      "name": "a_away_gf5"
+    },
+    {
+      "group": "home_away",
+      "name": "a_away_ga5"
+    },
+    {
+      "group": "rest_congestion",
+      "name": "h_rest_days"
+    },
+    {
+      "group": "rest_congestion",
+      "name": "a_rest_days"
+    },
+    {
+      "group": "rest_congestion",
+      "name": "rest_diff"
+    },
+    {
+      "group": "rest_congestion",
+      "name": "rest_available"
+    },
+    {
+      "group": "rest_congestion",
+      "name": "h_matches_30d"
+    },
+    {
+      "group": "rest_congestion",
+      "name": "a_matches_30d"
+    },
+    {
+      "group": "team_status",
+      "name": "h_prior_matches"
+    },
+    {
+      "group": "team_status",
+      "name": "a_prior_matches"
+    },
+    {
+      "group": "team_status",
+      "name": "either_new_team"
+    },
+    {
+      "group": "calendar",
+      "name": "days_into_season"
+    }
+  ],
+  "not_available_in_the_licensed_universe": [
+    "bookmaker odds",
+    "xG",
+    "lineups",
+    "shots / corners / cards",
+    "injuries"
+  ],
+  "sha256": "0e5a2f89ec06b3d9642f4a9a27ef3ead34e0d83bd9a0c742fae211bb8313571e",
+  "version": "lm-s4-features-v1"
+}

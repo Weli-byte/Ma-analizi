@@ -1,0 +1,4580 @@
+{
+  "competitions": {
+    "ENG1": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.5125,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.028213,
+                0.012179
+              ],
+              "ci95_vs_control": [
+                -0.005838,
+                0.029325
+              ],
+              "ci95_vs_elo_s2": [
+                0.000339,
+                0.027363
+              ],
+              "ci95_vs_s3_best": [
+                0.006086,
+                0.03557
+              ],
+              "delta_brier_vs_A_gbm": -0.003131,
+              "delta_log_loss_vs_A_gbm": -0.007312,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.011109,
+              "delta_log_loss_vs_elo_s2": 0.01317,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.020512,
+              "ece_raw": 0.01966
+            },
+            "B_gbm_league": {
+              "accuracy": 0.539474,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.023526,
+                -0.005362
+              ],
+              "ci95_vs_control": [
+                -0.000385,
+                0.008318
+              ],
+              "ci95_vs_elo_s2": [
+                -0.005704,
+                0.017586
+              ],
+              "ci95_vs_s3_best": [
+                0.006329,
+                0.021075
+              ],
+              "delta_brier_vs_A_gbm": -0.008791,
+              "delta_log_loss_vs_A_gbm": -0.014596,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.003825,
+              "delta_log_loss_vs_elo_s2": 0.005886,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.013228,
+              "ece_raw": 0.027976
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.532237,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.009712,
+                0.003852
+              ],
+              "ci95_vs_control": [
+                0.007888,
+                0.024081
+              ],
+              "ci95_vs_elo_s2": [
+                0.004184,
+                0.031643
+              ],
+              "ci95_vs_s3_best": [
+                0.015052,
+                0.036247
+              ],
+              "delta_brier_vs_A_gbm": -0.001721,
+              "delta_log_loss_vs_A_gbm": -0.002803,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.015619,
+              "delta_log_loss_vs_elo_s2": 0.017679,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.025022,
+              "ece_raw": 0.033731
+            },
+            "B_xgb_league": {
+              "accuracy": 0.534868,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.01378,
+                0.000558
+              ],
+              "ci95_vs_control": [
+                0.006533,
+                0.017949
+              ],
+              "ci95_vs_elo_s2": [
+                0.000926,
+                0.02798
+              ],
+              "ci95_vs_s3_best": [
+                0.01237,
+                0.030854
+              ],
+              "delta_brier_vs_A_gbm": -0.003551,
+              "delta_log_loss_vs_A_gbm": -0.006471,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.011951,
+              "delta_log_loss_vs_elo_s2": 0.014011,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.021353,
+              "ece_raw": 0.021607
+            },
+            "C_gbm_local": {
+              "accuracy": 0.528289,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.016844,
+                0.008284
+              ],
+              "ci95_vs_control": [
+                0.006212,
+                0.022829
+              ],
+              "ci95_vs_elo_s2": [
+                0.00207,
+                0.030772
+              ],
+              "ci95_vs_s3_best": [
+                0.01273,
+                0.035154
+              ],
+              "delta_brier_vs_A_gbm": -0.001966,
+              "delta_log_loss_vs_A_gbm": -0.004023,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.014399,
+              "delta_log_loss_vs_elo_s2": 0.016459,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.023802,
+              "ece_raw": 0.025169
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.539474,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.023526,
+                -0.005362
+              ],
+              "ci95_vs_control": [
+                -0.000385,
+                0.008318
+              ],
+              "ci95_vs_elo_s2": [
+                -0.005704,
+                0.017586
+              ],
+              "ci95_vs_s3_best": [
+                0.006329,
+                0.021075
+              ],
+              "delta_brier_vs_A_gbm": -0.008791,
+              "delta_log_loss_vs_A_gbm": -0.014596,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.003825,
+              "delta_log_loss_vs_elo_s2": 0.005886,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.013228,
+              "ece_raw": 0.027976
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.530263,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.02705,
+                -0.002819
+              ],
+              "ci95_vs_control": [
+                -0.010853,
+                0.004696
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006569,
+                0.006391
+              ],
+              "delta_brier_vs_A_gbm": -0.00679,
+              "delta_log_loss_vs_A_gbm": -0.014178,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003037,
+              "delta_log_loss_vs_train_rate_baseline": 0.000117,
+              "ece_raw": 0.022965
+            },
+            "B_gbm_league": {
+              "accuracy": 0.533553,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.02361,
+                -0.005109
+              ],
+              "ci95_vs_control": [
+                -0.008331,
+                0.001473
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.003782,
+                0.00355
+              ],
+              "delta_brier_vs_A_gbm": -0.006804,
+              "delta_log_loss_vs_A_gbm": -0.014263,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003121,
+              "delta_log_loss_vs_train_rate_baseline": 3.2e-05,
+              "ece_raw": 0.032292
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.514474,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014914,
+                -0.002474
+              ],
+              "ci95_vs_control": [
+                -0.002707,
+                0.008318
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.001907,
+                0.013784
+              ],
+              "delta_brier_vs_A_gbm": -0.003989,
+              "delta_log_loss_vs_A_gbm": -0.008533,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002608,
+              "delta_log_loss_vs_train_rate_baseline": 0.005761,
+              "ece_raw": 0.039258
+            },
+            "B_xgb_league": {
+              "accuracy": 0.510526,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.015284,
+                -0.002338
+              ],
+              "ci95_vs_control": [
+                -0.002647,
+                0.007645
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.001598,
+                0.013443
+              ],
+              "delta_brier_vs_A_gbm": -0.00397,
+              "delta_log_loss_vs_A_gbm": -0.008437,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002704,
+              "delta_log_loss_vs_train_rate_baseline": 0.005857,
+              "ece_raw": 0.04863
+            },
+            "C_gbm_local": {
+              "accuracy": 0.504605,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.023837,
+                -0.001443
+              ],
+              "ci95_vs_control": [
+                -0.007401,
+                0.005115
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.002982,
+                0.00652
+              ],
+              "delta_brier_vs_A_gbm": -0.005895,
+              "delta_log_loss_vs_A_gbm": -0.012451,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001309,
+              "delta_log_loss_vs_train_rate_baseline": 0.001844,
+              "ece_raw": 0.016658
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.526974,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.024586,
+                -0.005223
+              ],
+              "ci95_vs_control": [
+                -0.009039,
+                0.001238
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.004643,
+                0.003369
+              ],
+              "delta_brier_vs_A_gbm": -0.007069,
+              "delta_log_loss_vs_A_gbm": -0.014801,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003659,
+              "delta_log_loss_vs_train_rate_baseline": -0.000506,
+              "ece_raw": 0.010033
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.546711,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.01048,
+                0.012745
+              ],
+              "ci95_vs_control": [
+                -0.004983,
+                0.015875
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009539,
+                0.012621
+              ],
+              "delta_brier_vs_A_gbm": 0.000442,
+              "delta_log_loss_vs_A_gbm": 0.001078,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.005358,
+              "delta_log_loss_vs_train_rate_baseline": 0.001852,
+              "ece_raw": 0.035211
+            },
+            "B_gbm_league": {
+              "accuracy": 0.542763,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.012236,
+                0.001272
+              ],
+              "ci95_vs_control": [
+                -0.004703,
+                0.002573
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.011611,
+                0.00191
+              ],
+              "delta_brier_vs_A_gbm": -0.002641,
+              "delta_log_loss_vs_A_gbm": -0.005383,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001103,
+              "delta_log_loss_vs_train_rate_baseline": -0.004609,
+              "ece_raw": 0.015807
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.532895,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.005853,
+                0.006187
+              ],
+              "ci95_vs_control": [
+                -0.001582,
+                0.010922
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009582,
+                0.010755
+              ],
+              "delta_brier_vs_A_gbm": 0.000112,
+              "delta_log_loss_vs_A_gbm": 0.000241,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004522,
+              "delta_log_loss_vs_train_rate_baseline": 0.001016,
+              "ece_raw": 0.039022
+            },
+            "B_xgb_league": {
+              "accuracy": 0.542105,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.011796,
+                0.000119
+              ],
+              "ci95_vs_control": [
+                -0.006981,
+                0.003819
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.014429,
+                0.003371
+              ],
+              "delta_brier_vs_A_gbm": -0.002753,
+              "delta_log_loss_vs_A_gbm": -0.005677,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001396,
+              "delta_log_loss_vs_train_rate_baseline": -0.004903,
+              "ece_raw": 0.039712
+            },
+            "C_gbm_local": {
+              "accuracy": 0.503289,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                0.000107,
+                0.0196
+              ],
+              "ci95_vs_control": [
+                0.005738,
+                0.02274
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.001411,
+                0.019816
+              ],
+              "delta_brier_vs_A_gbm": 0.004717,
+              "delta_log_loss_vs_A_gbm": 0.00958,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.013861,
+              "delta_log_loss_vs_train_rate_baseline": 0.010355,
+              "ece_raw": 0.050783
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.5375,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.011804,
+                0.002518
+              ],
+              "ci95_vs_control": [
+                -0.004329,
+                0.00382
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010182,
+                0.002415
+              ],
+              "delta_brier_vs_A_gbm": -0.002227,
+              "delta_log_loss_vs_A_gbm": -0.004529,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000248,
+              "delta_log_loss_vs_train_rate_baseline": -0.003754,
+              "ece_raw": 0.01737
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 1,
+      "training_matches_last_fold": 1900,
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "ESP1": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.516447,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.031146,
+                0.001402
+              ],
+              "ci95_vs_control": [
+                -0.017073,
+                0.008973
+              ],
+              "ci95_vs_elo_s2": [
+                -0.01813,
+                0.008704
+              ],
+              "ci95_vs_s3_best": [
+                -0.015385,
+                0.009157
+              ],
+              "delta_brier_vs_A_gbm": -0.008729,
+              "delta_log_loss_vs_A_gbm": -0.015161,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.004282,
+              "delta_log_loss_vs_elo_s2": -0.004779,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.003225,
+              "ece_raw": 0.035723
+            },
+            "B_gbm_league": {
+              "accuracy": 0.524342,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.013808,
+                0.000335
+              ],
+              "ci95_vs_control": [
+                -0.002502,
+                0.010502
+              ],
+              "ci95_vs_elo_s2": [
+                -0.009709,
+                0.016902
+              ],
+              "ci95_vs_s3_best": [
+                -0.005563,
+                0.016493
+              ],
+              "delta_brier_vs_A_gbm": -0.00373,
+              "delta_log_loss_vs_A_gbm": -0.006749,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004131,
+              "delta_log_loss_vs_elo_s2": 0.003634,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.005187,
+              "ece_raw": 0.03754
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.5,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                0.005483,
+                0.024353
+              ],
+              "ci95_vs_control": [
+                0.012779,
+                0.038932
+              ],
+              "ci95_vs_elo_s2": [
+                0.006027,
+                0.04402
+              ],
+              "ci95_vs_s3_best": [
+                0.009226,
+                0.043172
+              ],
+              "delta_brier_vs_A_gbm": 0.011035,
+              "delta_log_loss_vs_A_gbm": 0.014952,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.025832,
+              "delta_log_loss_vs_elo_s2": 0.025335,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.026888,
+              "ece_raw": 0.056948
+            },
+            "B_xgb_league": {
+              "accuracy": 0.517763,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.004288,
+                0.011481
+              ],
+              "ci95_vs_control": [
+                0.004213,
+                0.02531
+              ],
+              "ci95_vs_elo_s2": [
+                -0.003041,
+                0.030994
+              ],
+              "ci95_vs_s3_best": [
+                0.000325,
+                0.031055
+              ],
+              "delta_brier_vs_A_gbm": 0.003481,
+              "delta_log_loss_vs_A_gbm": 0.00366,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.014539,
+              "delta_log_loss_vs_elo_s2": 0.014042,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.015596,
+              "ece_raw": 0.0502
+            },
+            "C_gbm_local": {
+              "accuracy": 0.511184,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.012155,
+                0.011559
+              ],
+              "ci95_vs_control": [
+                -0.000349,
+                0.021274
+              ],
+              "ci95_vs_elo_s2": [
+                -0.005478,
+                0.026888
+              ],
+              "ci95_vs_s3_best": [
+                -0.001369,
+                0.025356
+              ],
+              "delta_brier_vs_A_gbm": 0.00102,
+              "delta_log_loss_vs_A_gbm": -0.000203,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.010677,
+              "delta_log_loss_vs_elo_s2": 0.01018,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.011734,
+              "ece_raw": 0.018205
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.521053,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.012408,
+                0.002283
+              ],
+              "ci95_vs_control": [
+                -0.000973,
+                0.012557
+              ],
+              "ci95_vs_elo_s2": [
+                -0.008601,
+                0.019184
+              ],
+              "ci95_vs_s3_best": [
+                -0.004383,
+                0.018479
+              ],
+              "delta_brier_vs_A_gbm": -0.002668,
+              "delta_log_loss_vs_A_gbm": -0.005016,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.005863,
+              "delta_log_loss_vs_elo_s2": 0.005366,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.00692,
+              "ece_raw": 0.03134
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.540789,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.027797,
+                -0.004845
+              ],
+              "ci95_vs_control": [
+                -0.014845,
+                0.00078
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.013991,
+                0.003547
+              ],
+              "delta_brier_vs_A_gbm": -0.008061,
+              "delta_log_loss_vs_A_gbm": -0.01682,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.006899,
+              "delta_log_loss_vs_train_rate_baseline": -0.005393,
+              "ece_raw": 0.019887
+            },
+            "B_gbm_league": {
+              "accuracy": 0.510526,
+              "blocked_by": [],
+              "ci95": [
+                -0.026274,
+                -0.00742
+              ],
+              "ci95_vs_control": [
+                -0.01162,
+                -0.001962
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010567,
+                -0.000144
+              ],
+              "delta_brier_vs_A_gbm": -0.007952,
+              "delta_log_loss_vs_A_gbm": -0.016691,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.00677,
+              "delta_log_loss_vs_train_rate_baseline": -0.005264,
+              "ece_raw": 0.019566
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.517763,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.015639,
+                1.3e-05
+              ],
+              "ci95_vs_control": [
+                -0.00487,
+                0.009589
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.007131,
+                0.015435
+              ],
+              "delta_brier_vs_A_gbm": -0.003674,
+              "delta_log_loss_vs_A_gbm": -0.007678,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002242,
+              "delta_log_loss_vs_train_rate_baseline": 0.003749,
+              "ece_raw": 0.043302
+            },
+            "B_xgb_league": {
+              "accuracy": 0.517105,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.016089,
+                -0.00203
+              ],
+              "ci95_vs_control": [
+                -0.004665,
+                0.007388
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.007182,
+                0.013453
+              ],
+              "delta_brier_vs_A_gbm": -0.004188,
+              "delta_log_loss_vs_A_gbm": -0.008713,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001208,
+              "delta_log_loss_vs_train_rate_baseline": 0.002714,
+              "ece_raw": 0.043846
+            },
+            "C_gbm_local": {
+              "accuracy": 0.505921,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.026563,
+                -0.00601
+              ],
+              "ci95_vs_control": [
+                -0.011924,
+                -1.4e-05
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010231,
+                0.001359
+              ],
+              "delta_brier_vs_A_gbm": -0.007499,
+              "delta_log_loss_vs_A_gbm": -0.01578,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.005859,
+              "delta_log_loss_vs_train_rate_baseline": -0.004353,
+              "ece_raw": 0.017214
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.510526,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league"
+              ],
+              "ci95": [
+                -0.026274,
+                -0.00742
+              ],
+              "ci95_vs_control": [
+                -0.01162,
+                -0.001962
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010567,
+                -0.000144
+              ],
+              "delta_brier_vs_A_gbm": -0.007952,
+              "delta_log_loss_vs_A_gbm": -0.016691,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.00677,
+              "delta_log_loss_vs_train_rate_baseline": -0.005264,
+              "ece_raw": 0.019566
+            }
+          },
+          "decision": "CANDIDATE_B_gbm_league",
+          "rationale": "a candidate beats A_gbm, its tuned league-blind control and the train-rate baseline on the whole 95% block interval with Brier, ECE and accuracy not contradicting it"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.568421,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0"
+              ],
+              "ci95": [
+                -0.01833,
+                0.002419
+              ],
+              "ci95_vs_control": [
+                -0.021683,
+                -0.001049
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.034427,
+                -0.010735
+              ],
+              "delta_brier_vs_A_gbm": -0.003896,
+              "delta_log_loss_vs_A_gbm": -0.007769,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.011107,
+              "delta_log_loss_vs_train_rate_baseline": -0.022698,
+              "ece_raw": 0.026482
+            },
+            "B_gbm_league": {
+              "accuracy": 0.550658,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.005808,
+                0.004876
+              ],
+              "ci95_vs_control": [
+                -0.009559,
+                0.00126
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.024198,
+                -0.007447
+              ],
+              "delta_brier_vs_A_gbm": -0.000355,
+              "delta_log_loss_vs_A_gbm": -0.000781,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.00412,
+              "delta_log_loss_vs_train_rate_baseline": -0.01571,
+              "ece_raw": 0.019711
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.555263,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.005611,
+                0.00665
+              ],
+              "ci95_vs_control": [
+                -0.010938,
+                0.005499
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.026789,
+                -0.002997
+              ],
+              "delta_brier_vs_A_gbm": 0.000121,
+              "delta_log_loss_vs_A_gbm": 0.000452,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002886,
+              "delta_log_loss_vs_train_rate_baseline": -0.014476,
+              "ece_raw": 0.030555
+            },
+            "B_xgb_league": {
+              "accuracy": 0.550658,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.005024,
+                0.00615
+              ],
+              "ci95_vs_control": [
+                -0.01077,
+                0.004932
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.026435,
+                -0.003446
+              ],
+              "delta_brier_vs_A_gbm": 0.000138,
+              "delta_log_loss_vs_A_gbm": 0.000391,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002947,
+              "delta_log_loss_vs_train_rate_baseline": -0.014538,
+              "ece_raw": 0.019929
+            },
+            "C_gbm_local": {
+              "accuracy": 0.532237,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.005565,
+                0.009952
+              ],
+              "ci95_vs_control": [
+                -0.00918,
+                0.006237
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.022253,
+                -0.004352
+              ],
+              "delta_brier_vs_A_gbm": 0.00108,
+              "delta_log_loss_vs_A_gbm": 0.002099,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.00124,
+              "delta_log_loss_vs_train_rate_baseline": -0.01283,
+              "ece_raw": 0.019587
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.548684,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.006791,
+                0.004703
+              ],
+              "ci95_vs_control": [
+                -0.009805,
+                0.000859
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.024209,
+                -0.008137
+              ],
+              "delta_brier_vs_A_gbm": -0.000527,
+              "delta_log_loss_vs_A_gbm": -0.001137,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.004475,
+              "delta_log_loss_vs_train_rate_baseline": -0.016066,
+              "ece_raw": 0.021616
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 1,
+      "training_matches_last_fold": 1900,
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "FRA1": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.47774,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.010354,
+                0.023086
+              ],
+              "ci95_vs_control": [
+                0.001856,
+                0.030295
+              ],
+              "ci95_vs_elo_s2": [
+                0.007712,
+                0.031383
+              ],
+              "ci95_vs_s3_best": [
+                0.008749,
+                0.036149
+              ],
+              "delta_brier_vs_A_gbm": 0.005303,
+              "delta_log_loss_vs_A_gbm": 0.006498,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.01571,
+              "delta_log_loss_vs_elo_s2": 0.019253,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.022149,
+              "ece_raw": 0.034062
+            },
+            "B_gbm_league": {
+              "accuracy": 0.504566,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.015202,
+                -0.001759
+              ],
+              "ci95_vs_control": [
+                -0.00259,
+                0.004296
+              ],
+              "ci95_vs_elo_s2": [
+                -0.002877,
+                0.011811
+              ],
+              "ci95_vs_s3_best": [
+                0.001146,
+                0.013116
+              ],
+              "delta_brier_vs_A_gbm": -0.005286,
+              "delta_log_loss_vs_A_gbm": -0.008458,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000755,
+              "delta_log_loss_vs_elo_s2": 0.004298,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.007193,
+              "ece_raw": 0.028063
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.49258,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.002284,
+                0.00884
+              ],
+              "ci95_vs_control": [
+                0.005275,
+                0.019652
+              ],
+              "ci95_vs_elo_s2": [
+                0.005511,
+                0.02672
+              ],
+              "ci95_vs_s3_best": [
+                0.009351,
+                0.029055
+              ],
+              "delta_brier_vs_A_gbm": 0.001441,
+              "delta_log_loss_vs_A_gbm": 0.003339,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.012551,
+              "delta_log_loss_vs_elo_s2": 0.016094,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.01899,
+              "ece_raw": 0.041452
+            },
+            "B_xgb_league": {
+              "accuracy": 0.498858,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.007225,
+                0.002935
+              ],
+              "ci95_vs_control": [
+                0.002222,
+                0.012032
+              ],
+              "ci95_vs_elo_s2": [
+                0.001368,
+                0.020285
+              ],
+              "ci95_vs_s3_best": [
+                0.006095,
+                0.021542
+              ],
+              "delta_brier_vs_A_gbm": -0.001739,
+              "delta_log_loss_vs_A_gbm": -0.002158,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007055,
+              "delta_log_loss_vs_elo_s2": 0.010598,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.013493,
+              "ece_raw": 0.024556
+            },
+            "C_gbm_local": {
+              "accuracy": 0.502854,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.010933,
+                0.007695
+              ],
+              "ci95_vs_control": [
+                0.001292,
+                0.014287
+              ],
+              "ci95_vs_elo_s2": [
+                0.00176,
+                0.020623
+              ],
+              "ci95_vs_s3_best": [
+                0.006466,
+                0.022072
+              ],
+              "delta_brier_vs_A_gbm": -0.00103,
+              "delta_log_loss_vs_A_gbm": -0.001351,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007861,
+              "delta_log_loss_vs_elo_s2": 0.011404,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.0143,
+              "ece_raw": 0.015104
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.505708,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.014684,
+                -0.000712
+              ],
+              "ci95_vs_control": [
+                -0.001964,
+                0.004919
+              ],
+              "ci95_vs_elo_s2": [
+                -0.002257,
+                0.012658
+              ],
+              "ci95_vs_s3_best": [
+                0.001989,
+                0.013716
+              ],
+              "delta_brier_vs_A_gbm": -0.004869,
+              "delta_log_loss_vs_A_gbm": -0.007733,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001479,
+              "delta_log_loss_vs_elo_s2": 0.005022,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.007918,
+              "ece_raw": 0.028007
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.531393,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.008914,
+                0.007774
+              ],
+              "ci95_vs_control": [
+                -0.001445,
+                0.01046
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.002472,
+                0.010867
+              ],
+              "delta_brier_vs_A_gbm": -0.000296,
+              "delta_log_loss_vs_A_gbm": -0.000696,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004605,
+              "delta_log_loss_vs_train_rate_baseline": 0.00663,
+              "ece_raw": 0.020719
+            },
+            "B_gbm_league": {
+              "accuracy": 0.565068,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.013135,
+                -0.001533
+              ],
+              "ci95_vs_control": [
+                -0.005078,
+                0.001557
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.00273,
+                0.00328
+              ],
+              "delta_brier_vs_A_gbm": -0.003468,
+              "delta_log_loss_vs_A_gbm": -0.007137,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001836,
+              "delta_log_loss_vs_train_rate_baseline": 0.000189,
+              "ece_raw": 0.028191
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.526256,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.004106,
+                0.004121
+              ],
+              "ci95_vs_control": [
+                0.000451,
+                0.010375
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.001206,
+                0.013357
+              ],
+              "delta_brier_vs_A_gbm": -3.6e-05,
+              "delta_log_loss_vs_A_gbm": -6.8e-05,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.005232,
+              "delta_log_loss_vs_train_rate_baseline": 0.007258,
+              "ece_raw": 0.038302
+            },
+            "B_xgb_league": {
+              "accuracy": 0.534247,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.003702,
+                0.006252
+              ],
+              "ci95_vs_control": [
+                0.001689,
+                0.011528
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.002234,
+                0.015511
+              ],
+              "delta_brier_vs_A_gbm": 0.000541,
+              "delta_log_loss_vs_A_gbm": 0.001234,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.006535,
+              "delta_log_loss_vs_train_rate_baseline": 0.008561,
+              "ece_raw": 0.039652
+            },
+            "C_gbm_local": {
+              "accuracy": 0.548516,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.011069,
+                0.003149
+              ],
+              "ci95_vs_control": [
+                -0.003526,
+                0.005637
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -3.3e-05,
+                0.006566
+              ],
+              "delta_brier_vs_A_gbm": -0.002028,
+              "delta_log_loss_vs_A_gbm": -0.004236,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001065,
+              "delta_log_loss_vs_train_rate_baseline": 0.00309,
+              "ece_raw": 0.028258
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.557648,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.012236,
+                -0.000207
+              ],
+              "ci95_vs_control": [
+                -0.003977,
+                0.00267
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.001396,
+                0.004267
+              ],
+              "delta_brier_vs_A_gbm": -0.002934,
+              "delta_log_loss_vs_A_gbm": -0.006057,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000756,
+              "delta_log_loss_vs_train_rate_baseline": 0.001269,
+              "ece_raw": 0.021718
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.543379,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007439,
+                0.009487
+              ],
+              "ci95_vs_control": [
+                -0.003326,
+                0.0105
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.007939,
+                0.005631
+              ],
+              "delta_brier_vs_A_gbm": 0.000626,
+              "delta_log_loss_vs_A_gbm": 0.001368,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.003651,
+              "delta_log_loss_vs_train_rate_baseline": -0.001155,
+              "ece_raw": 0.02359
+            },
+            "B_gbm_league": {
+              "accuracy": 0.537671,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007172,
+                0.003928
+              ],
+              "ci95_vs_control": [
+                -0.002719,
+                0.003903
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009458,
+                0.001101
+              ],
+              "delta_brier_vs_A_gbm": -0.000758,
+              "delta_log_loss_vs_A_gbm": -0.001585,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000698,
+              "delta_log_loss_vs_train_rate_baseline": -0.004108,
+              "ece_raw": 0.02367
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.52911,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.006591,
+                0.002967
+              ],
+              "ci95_vs_control": [
+                -0.003413,
+                0.004819
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.011161,
+                0.002798
+              ],
+              "delta_brier_vs_A_gbm": -0.00075,
+              "delta_log_loss_vs_A_gbm": -0.00166,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000623,
+              "delta_log_loss_vs_train_rate_baseline": -0.004183,
+              "ece_raw": 0.043212
+            },
+            "B_xgb_league": {
+              "accuracy": 0.526256,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.004465,
+                0.005909
+              ],
+              "ci95_vs_control": [
+                -0.001355,
+                0.007982
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.008707,
+                0.005328
+              ],
+              "delta_brier_vs_A_gbm": 0.00052,
+              "delta_log_loss_vs_A_gbm": 0.00088,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.003162,
+              "delta_log_loss_vs_train_rate_baseline": -0.001644,
+              "ece_raw": 0.0511
+            },
+            "C_gbm_local": {
+              "accuracy": 0.540525,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.009641,
+                0.005372
+              ],
+              "ci95_vs_control": [
+                -0.005151,
+                0.005465
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.0105,
+                0.001352
+              ],
+              "delta_brier_vs_A_gbm": -0.000959,
+              "delta_log_loss_vs_A_gbm": -0.001976,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000307,
+              "delta_log_loss_vs_train_rate_baseline": -0.004499,
+              "ece_raw": 0.02434
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.539954,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.00813,
+                0.003686
+              ],
+              "ci95_vs_control": [
+                -0.003731,
+                0.003616
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010016,
+                0.000299
+              ],
+              "delta_brier_vs_A_gbm": -0.001084,
+              "delta_log_loss_vs_A_gbm": -0.002235,
+              "delta_log_loss_vs_control_A_gbm_tuned": 4.7e-05,
+              "delta_log_loss_vs_train_rate_baseline": -0.004759,
+              "ece_raw": 0.01773
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 2,
+      "training_matches_last_fold": 1446,
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    },
+    "GER1": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.49085,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.028776,
+                0.007987
+              ],
+              "ci95_vs_control": [
+                -0.009398,
+                0.021467
+              ],
+              "ci95_vs_elo_s2": [
+                -0.013084,
+                0.011335
+              ],
+              "ci95_vs_s3_best": [
+                -0.007461,
+                0.020633
+              ],
+              "delta_brier_vs_A_gbm": -0.005059,
+              "delta_log_loss_vs_A_gbm": -0.010134,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.005864,
+              "delta_log_loss_vs_elo_s2": -0.000883,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.006529,
+              "ece_raw": 0.047988
+            },
+            "B_gbm_league": {
+              "accuracy": 0.500654,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.024038,
+                -0.003568
+              ],
+              "ci95_vs_control": [
+                -0.000975,
+                0.006398
+              ],
+              "ci95_vs_elo_s2": [
+                -0.014821,
+                0.005554
+              ],
+              "ci95_vs_s3_best": [
+                -0.003839,
+                0.010463
+              ],
+              "delta_brier_vs_A_gbm": -0.007833,
+              "delta_log_loss_vs_A_gbm": -0.013371,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002627,
+              "delta_log_loss_vs_elo_s2": -0.00412,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.003293,
+              "ece_raw": 0.034726
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.500654,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.003308,
+                0.011666
+              ],
+              "ci95_vs_control": [
+                0.011271,
+                0.029823
+              ],
+              "ci95_vs_elo_s2": [
+                -0.001111,
+                0.027405
+              ],
+              "ci95_vs_s3_best": [
+                0.007896,
+                0.034617
+              ],
+              "delta_brier_vs_A_gbm": 0.002028,
+              "delta_log_loss_vs_A_gbm": 0.004059,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.020057,
+              "delta_log_loss_vs_elo_s2": 0.013309,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.020722,
+              "ece_raw": 0.057393
+            },
+            "B_xgb_league": {
+              "accuracy": 0.498693,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.014941,
+                9.1e-05
+              ],
+              "ci95_vs_control": [
+                0.002769,
+                0.01491
+              ],
+              "ci95_vs_elo_s2": [
+                -0.010543,
+                0.013293
+              ],
+              "ci95_vs_s3_best": [
+                -0.00077,
+                0.019157
+              ],
+              "delta_brier_vs_A_gbm": -0.004555,
+              "delta_log_loss_vs_A_gbm": -0.007481,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.008518,
+              "delta_log_loss_vs_elo_s2": 0.00177,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.009183,
+              "ece_raw": 0.036828
+            },
+            "C_gbm_local": {
+              "accuracy": 0.496732,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.015155,
+                0.014972
+              ],
+              "ci95_vs_control": [
+                0.006286,
+                0.026518
+              ],
+              "ci95_vs_elo_s2": [
+                -0.004429,
+                0.023195
+              ],
+              "ci95_vs_s3_best": [
+                0.005198,
+                0.02882
+              ],
+              "delta_brier_vs_A_gbm": 0.000751,
+              "delta_log_loss_vs_A_gbm": 0.00031,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.016308,
+              "delta_log_loss_vs_elo_s2": 0.00956,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.016973,
+              "ece_raw": 0.032608
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.500654,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.024038,
+                -0.003568
+              ],
+              "ci95_vs_control": [
+                -0.000975,
+                0.006398
+              ],
+              "ci95_vs_elo_s2": [
+                -0.014821,
+                0.005554
+              ],
+              "ci95_vs_s3_best": [
+                -0.003839,
+                0.010463
+              ],
+              "delta_brier_vs_A_gbm": -0.007833,
+              "delta_log_loss_vs_A_gbm": -0.013371,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002627,
+              "delta_log_loss_vs_elo_s2": -0.00412,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.003293,
+              "ece_raw": 0.034726
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.601307,
+              "blocked_by": [],
+              "ci95": [
+                -0.03881,
+                -0.017439
+              ],
+              "ci95_vs_control": [
+                -0.027597,
+                -0.012003
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.020203,
+                -0.009316
+              ],
+              "delta_brier_vs_A_gbm": -0.013607,
+              "delta_log_loss_vs_A_gbm": -0.028124,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.019667,
+              "delta_log_loss_vs_train_rate_baseline": -0.014796,
+              "ece_raw": 0.015052
+            },
+            "B_gbm_league": {
+              "accuracy": 0.590196,
+              "blocked_by": [
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.024981,
+                -0.007341
+              ],
+              "ci95_vs_control": [
+                -0.013558,
+                -0.002428
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006735,
+                0.001321
+              ],
+              "delta_brier_vs_A_gbm": -0.007825,
+              "delta_log_loss_vs_A_gbm": -0.016124,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.007667,
+              "delta_log_loss_vs_train_rate_baseline": -0.002797,
+              "ece_raw": 0.019724
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.562745,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014928,
+                -0.002007
+              ],
+              "ci95_vs_control": [
+                -0.006908,
+                0.007538
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.004237,
+                0.014682
+              ],
+              "delta_brier_vs_A_gbm": -0.004124,
+              "delta_log_loss_vs_A_gbm": -0.008295,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000162,
+              "delta_log_loss_vs_train_rate_baseline": 0.005032,
+              "ece_raw": 0.029806
+            },
+            "B_xgb_league": {
+              "accuracy": 0.570588,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.018085,
+                -0.004177
+              ],
+              "ci95_vs_control": [
+                -0.009282,
+                0.004226
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006258,
+                0.011193
+              ],
+              "delta_brier_vs_A_gbm": -0.005396,
+              "delta_log_loss_vs_A_gbm": -0.01094,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002483,
+              "delta_log_loss_vs_train_rate_baseline": 0.002387,
+              "ece_raw": 0.015532
+            },
+            "C_gbm_local": {
+              "accuracy": 0.59281,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.027423,
+                -0.004637
+              ],
+              "ci95_vs_control": [
+                -0.018067,
+                0.002674
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.011661,
+                0.007028
+              ],
+              "delta_brier_vs_A_gbm": -0.007866,
+              "delta_log_loss_vs_A_gbm": -0.015711,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.007255,
+              "delta_log_loss_vs_train_rate_baseline": -0.002384,
+              "ece_raw": 0.029905
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.591503,
+              "blocked_by": [
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.028076,
+                -0.009865
+              ],
+              "ci95_vs_control": [
+                -0.017992,
+                -0.003871
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.011182,
+                0.00028
+              ],
+              "delta_brier_vs_A_gbm": -0.009117,
+              "delta_log_loss_vs_A_gbm": -0.018822,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.010365,
+              "delta_log_loss_vs_train_rate_baseline": -0.005495,
+              "ece_raw": 0.010667
+            }
+          },
+          "decision": "CANDIDATE_A_dc_ridge_tuned",
+          "rationale": "a candidate beats A_gbm, its tuned league-blind control and the train-rate baseline on the whole 95% block interval with Brier, ECE and accuracy not contradicting it"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.607843,
+              "blocked_by": [],
+              "ci95": [
+                -0.030214,
+                -0.007518
+              ],
+              "ci95_vs_control": [
+                -0.021516,
+                -0.001101
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.029898,
+                -0.009774
+              ],
+              "delta_brier_vs_A_gbm": -0.009341,
+              "delta_log_loss_vs_A_gbm": -0.019175,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.011972,
+              "delta_log_loss_vs_train_rate_baseline": -0.020371,
+              "ece_raw": 0.020342
+            },
+            "B_gbm_league": {
+              "accuracy": 0.596078,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.018193,
+                -0.003099
+              ],
+              "ci95_vs_control": [
+                -0.00854,
+                0.002536
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.018523,
+                -0.004091
+              ],
+              "delta_brier_vs_A_gbm": -0.005068,
+              "delta_log_loss_vs_A_gbm": -0.010262,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003058,
+              "delta_log_loss_vs_train_rate_baseline": -0.011458,
+              "ece_raw": 0.013437
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.581699,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.012952,
+                0.00193
+              ],
+              "ci95_vs_control": [
+                -0.005036,
+                0.007892
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.015621,
+                0.002881
+              ],
+              "delta_brier_vs_A_gbm": -0.002824,
+              "delta_log_loss_vs_A_gbm": -0.005488,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001715,
+              "delta_log_loss_vs_train_rate_baseline": -0.006684,
+              "ece_raw": 0.015712
+            },
+            "B_xgb_league": {
+              "accuracy": 0.579739,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.012545,
+                0.000633
+              ],
+              "ci95_vs_control": [
+                -0.004822,
+                0.007256
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.015678,
+                0.00142
+              ],
+              "delta_brier_vs_A_gbm": -0.003048,
+              "delta_log_loss_vs_A_gbm": -0.006067,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001137,
+              "delta_log_loss_vs_train_rate_baseline": -0.007262,
+              "ece_raw": 0.02992
+            },
+            "C_gbm_local": {
+              "accuracy": 0.598693,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.019763,
+                0.005337
+              ],
+              "ci95_vs_control": [
+                -0.01008,
+                0.010534
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.018881,
+                0.002347
+              ],
+              "delta_brier_vs_A_gbm": -0.00379,
+              "delta_log_loss_vs_A_gbm": -0.007368,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000165,
+              "delta_log_loss_vs_train_rate_baseline": -0.008564,
+              "ece_raw": 0.026664
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.596078,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.019337,
+                -0.002529
+              ],
+              "ci95_vs_control": [
+                -0.009676,
+                0.002936
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.019132,
+                -0.004245
+              ],
+              "delta_brier_vs_A_gbm": -0.005259,
+              "delta_log_loss_vs_A_gbm": -0.010632,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003428,
+              "delta_log_loss_vs_train_rate_baseline": -0.011827,
+              "ece_raw": 0.012329
+            }
+          },
+          "decision": "CANDIDATE_A_dc_ridge_tuned",
+          "rationale": "a candidate beats A_gbm, its tuned league-blind control and the train-rate baseline on the whole 95% block interval with Brier, ECE and accuracy not contradicting it"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 1,
+      "training_matches_last_fold": 1530,
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "ITA1": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.507407,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.019505,
+                0.007824
+              ],
+              "ci95_vs_control": [
+                -0.002142,
+                0.018955
+              ],
+              "ci95_vs_elo_s2": [
+                0.000681,
+                0.022951
+              ],
+              "ci95_vs_s3_best": [
+                0.004625,
+                0.025825
+              ],
+              "delta_brier_vs_A_gbm": -0.003062,
+              "delta_log_loss_vs_A_gbm": -0.006223,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007973,
+              "delta_log_loss_vs_elo_s2": 0.012263,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.015432,
+              "ece_raw": 0.039617
+            },
+            "B_gbm_league": {
+              "accuracy": 0.530688,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.02298,
+                -0.008874
+              ],
+              "ci95_vs_control": [
+                -0.00541,
+                0.002797
+              ],
+              "ci95_vs_elo_s2": [
+                -0.008121,
+                0.012249
+              ],
+              "ci95_vs_s3_best": [
+                -0.001136,
+                0.01301
+              ],
+              "delta_brier_vs_A_gbm": -0.010936,
+              "delta_log_loss_vs_A_gbm": -0.015543,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001346,
+              "delta_log_loss_vs_elo_s2": 0.002943,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.006112,
+              "ece_raw": 0.025029
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.52381,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.014501,
+                -0.002184
+              ],
+              "ci95_vs_control": [
+                0.000127,
+                0.012089
+              ],
+              "ci95_vs_elo_s2": [
+                -0.001182,
+                0.02142
+              ],
+              "ci95_vs_s3_best": [
+                0.003521,
+                0.022827
+              ],
+              "delta_brier_vs_A_gbm": -0.006678,
+              "delta_log_loss_vs_A_gbm": -0.008158,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.006039,
+              "delta_log_loss_vs_elo_s2": 0.010329,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.013498,
+              "ece_raw": 0.028165
+            },
+            "B_xgb_league": {
+              "accuracy": 0.529101,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.019939,
+                -0.007454
+              ],
+              "ci95_vs_control": [
+                -0.003864,
+                0.00571
+              ],
+              "ci95_vs_elo_s2": [
+                -0.00558,
+                0.014988
+              ],
+              "ci95_vs_s3_best": [
+                -0.000472,
+                0.016501
+              ],
+              "delta_brier_vs_A_gbm": -0.0095,
+              "delta_log_loss_vs_A_gbm": -0.013332,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000865,
+              "delta_log_loss_vs_elo_s2": 0.005154,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.008323,
+              "ece_raw": 0.018971
+            },
+            "C_gbm_local": {
+              "accuracy": 0.522751,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.011847,
+                0.00778
+              ],
+              "ci95_vs_control": [
+                0.00351,
+                0.020907
+              ],
+              "ci95_vs_elo_s2": [
+                0.003167,
+                0.028765
+              ],
+              "ci95_vs_s3_best": [
+                0.009097,
+                0.029574
+              ],
+              "delta_brier_vs_A_gbm": -0.002009,
+              "delta_log_loss_vs_A_gbm": -0.00199,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.012207,
+              "delta_log_loss_vs_elo_s2": 0.016496,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.019666,
+              "ece_raw": 0.029578
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.527513,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.022738,
+                -0.00754
+              ],
+              "ci95_vs_control": [
+                -0.005264,
+                0.004147
+              ],
+              "ci95_vs_elo_s2": [
+                -0.00705,
+                0.013278
+              ],
+              "ci95_vs_s3_best": [
+                -0.000454,
+                0.013867
+              ],
+              "delta_brier_vs_A_gbm": -0.010382,
+              "delta_log_loss_vs_A_gbm": -0.01479,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000593,
+              "delta_log_loss_vs_elo_s2": 0.003697,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.006866,
+              "ece_raw": 0.028761
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.546032,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.016133,
+                0.003121
+              ],
+              "ci95_vs_control": [
+                -0.009427,
+                0.00383
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.004318,
+                0.005966
+              ],
+              "delta_brier_vs_A_gbm": -0.003337,
+              "delta_log_loss_vs_A_gbm": -0.006768,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002992,
+              "delta_log_loss_vs_train_rate_baseline": 0.000688,
+              "ece_raw": 0.017175
+            },
+            "B_gbm_league": {
+              "accuracy": 0.540212,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014323,
+                0.000289
+              ],
+              "ci95_vs_control": [
+                -0.007278,
+                0.000846
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.002795,
+                0.003893
+              ],
+              "delta_brier_vs_A_gbm": -0.003347,
+              "delta_log_loss_vs_A_gbm": -0.006878,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003101,
+              "delta_log_loss_vs_train_rate_baseline": 0.000578,
+              "ece_raw": 0.016536
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.522222,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007291,
+                0.004024
+              ],
+              "ci95_vs_control": [
+                -0.003224,
+                0.007402
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.000896,
+                0.012045
+              ],
+              "delta_brier_vs_A_gbm": -0.000852,
+              "delta_log_loss_vs_A_gbm": -0.001722,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002054,
+              "delta_log_loss_vs_train_rate_baseline": 0.005734,
+              "ece_raw": 0.04548
+            },
+            "B_xgb_league": {
+              "accuracy": 0.515873,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.00627,
+                0.0045
+              ],
+              "ci95_vs_control": [
+                -0.001948,
+                0.007666
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.000173,
+                0.013084
+              ],
+              "delta_brier_vs_A_gbm": -0.000436,
+              "delta_log_loss_vs_A_gbm": -0.000912,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002864,
+              "delta_log_loss_vs_train_rate_baseline": 0.006544,
+              "ece_raw": 0.044103
+            },
+            "C_gbm_local": {
+              "accuracy": 0.544974,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.012766,
+                0.007223
+              ],
+              "ci95_vs_control": [
+                -0.005925,
+                0.008655
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.00167,
+                0.011402
+              ],
+              "delta_brier_vs_A_gbm": -0.001375,
+              "delta_log_loss_vs_A_gbm": -0.00266,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001116,
+              "delta_log_loss_vs_train_rate_baseline": 0.004796,
+              "ece_raw": 0.032165
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.541799,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014716,
+                0.000279
+              ],
+              "ci95_vs_control": [
+                -0.008228,
+                0.001171
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.003674,
+                0.004327
+              ],
+              "delta_brier_vs_A_gbm": -0.003499,
+              "delta_log_loss_vs_A_gbm": -0.007177,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.003401,
+              "delta_log_loss_vs_train_rate_baseline": 0.000279,
+              "ece_raw": 0.017416
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.546032,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.006994,
+                0.010932
+              ],
+              "ci95_vs_control": [
+                -0.005967,
+                0.010982
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006767,
+                0.008367
+              ],
+              "delta_brier_vs_A_gbm": 0.001004,
+              "delta_log_loss_vs_A_gbm": 0.002195,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002689,
+              "delta_log_loss_vs_train_rate_baseline": 0.000578,
+              "ece_raw": 0.037163
+            },
+            "B_gbm_league": {
+              "accuracy": 0.544974,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.005801,
+                0.005957
+              ],
+              "ci95_vs_control": [
+                -0.003379,
+                0.004681
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.007191,
+                0.00412
+              ],
+              "delta_brier_vs_A_gbm": 4.2e-05,
+              "delta_log_loss_vs_A_gbm": 6.8e-05,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000562,
+              "delta_log_loss_vs_train_rate_baseline": -0.00155,
+              "ece_raw": 0.0238
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.538624,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.003098,
+                0.007008
+              ],
+              "ci95_vs_control": [
+                -0.002165,
+                0.007122
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006318,
+                0.007449
+              ],
+              "delta_brier_vs_A_gbm": 0.000916,
+              "delta_log_loss_vs_A_gbm": 0.001954,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002448,
+              "delta_log_loss_vs_train_rate_baseline": 0.000336,
+              "ece_raw": 0.036141
+            },
+            "B_xgb_league": {
+              "accuracy": 0.546032,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.003349,
+                0.006701
+              ],
+              "ci95_vs_control": [
+                -0.002524,
+                0.00649
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006717,
+                0.006645
+              ],
+              "delta_brier_vs_A_gbm": 0.000589,
+              "delta_log_loss_vs_A_gbm": 0.001431,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001924,
+              "delta_log_loss_vs_train_rate_baseline": -0.000187,
+              "ece_raw": 0.026885
+            },
+            "C_gbm_local": {
+              "accuracy": 0.519577,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.00318,
+                0.012262
+              ],
+              "ci95_vs_control": [
+                -0.000739,
+                0.010682
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.002805,
+                0.00861
+              ],
+              "delta_brier_vs_A_gbm": 0.00223,
+              "delta_log_loss_vs_A_gbm": 0.004483,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004977,
+              "delta_log_loss_vs_train_rate_baseline": 0.002866,
+              "ece_raw": 0.051471
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.538624,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.005161,
+                0.006657
+              ],
+              "ci95_vs_control": [
+                -0.00307,
+                0.005326
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006985,
+                0.004991
+              ],
+              "delta_brier_vs_A_gbm": 0.000352,
+              "delta_log_loss_vs_A_gbm": 0.000697,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.00119,
+              "delta_log_loss_vs_train_rate_baseline": -0.000921,
+              "ece_raw": 0.031644
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 1,
+      "training_matches_last_fold": 1900,
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "TUR1": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.464286,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.073947,
+                0.020942
+              ],
+              "ci95_vs_control": [
+                -0.025661,
+                0.034764
+              ],
+              "ci95_vs_elo_s2": [
+                -0.024658,
+                0.026915
+              ],
+              "ci95_vs_s3_best": [
+                -0.01772,
+                0.029092
+              ],
+              "delta_brier_vs_A_gbm": -0.012313,
+              "delta_log_loss_vs_A_gbm": -0.023931,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.006406,
+              "delta_log_loss_vs_elo_s2": 0.001271,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.006913,
+              "ece_raw": 0.059209
+            },
+            "B_gbm_league": {
+              "accuracy": 0.457143,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.055433,
+                -0.00715
+              ],
+              "ci95_vs_control": [
+                -0.008154,
+                0.005902
+              ],
+              "ci95_vs_elo_s2": [
+                -0.026521,
+                0.014384
+              ],
+              "ci95_vs_s3_best": [
+                -0.015837,
+                0.014403
+              ],
+              "delta_brier_vs_A_gbm": -0.019915,
+              "delta_log_loss_vs_A_gbm": -0.03131,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000973,
+              "delta_log_loss_vs_elo_s2": -0.006109,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.000466,
+              "ece_raw": 0.054127
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.454762,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.030798,
+                0.000751
+              ],
+              "ci95_vs_control": [
+                -0.003893,
+                0.032646
+              ],
+              "ci95_vs_elo_s2": [
+                -0.02504,
+                0.044173
+              ],
+              "ci95_vs_s3_best": [
+                -0.014955,
+                0.044848
+              ],
+              "delta_brier_vs_A_gbm": -0.008813,
+              "delta_log_loss_vs_A_gbm": -0.015326,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.015011,
+              "delta_log_loss_vs_elo_s2": 0.009876,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.015519,
+              "ece_raw": 0.106342
+            },
+            "B_xgb_league": {
+              "accuracy": 0.45,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.037002,
+                -0.00316
+              ],
+              "ci95_vs_control": [
+                -0.000897,
+                0.022333
+              ],
+              "ci95_vs_elo_s2": [
+                -0.021873,
+                0.033418
+              ],
+              "ci95_vs_s3_best": [
+                -0.013236,
+                0.033917
+              ],
+              "delta_brier_vs_A_gbm": -0.01215,
+              "delta_log_loss_vs_A_gbm": -0.019965,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.010371,
+              "delta_log_loss_vs_elo_s2": 0.005236,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.010879,
+              "ece_raw": 0.095711
+            },
+            "C_gbm_local": {
+              "accuracy": 0.457143,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.055433,
+                -0.00715
+              ],
+              "ci95_vs_control": [
+                -0.008154,
+                0.005902
+              ],
+              "ci95_vs_elo_s2": [
+                -0.026521,
+                0.014384
+              ],
+              "ci95_vs_s3_best": [
+                -0.015837,
+                0.014403
+              ],
+              "delta_brier_vs_A_gbm": -0.019915,
+              "delta_log_loss_vs_A_gbm": -0.03131,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000973,
+              "delta_log_loss_vs_elo_s2": -0.006109,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.000466,
+              "ece_raw": 0.054127
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.457143,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.055433,
+                -0.00715
+              ],
+              "ci95_vs_control": [
+                -0.008154,
+                0.005902
+              ],
+              "ci95_vs_elo_s2": [
+                -0.026521,
+                0.014384
+              ],
+              "ci95_vs_s3_best": [
+                -0.015837,
+                0.014403
+              ],
+              "delta_brier_vs_A_gbm": -0.019915,
+              "delta_log_loss_vs_A_gbm": -0.03131,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000973,
+              "delta_log_loss_vs_elo_s2": -0.006109,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.000466,
+              "ece_raw": 0.054127
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.533333,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.081696,
+                -0.009145
+              ],
+              "ci95_vs_control": [
+                -0.038294,
+                0.008424
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.002336,
+                0.014023
+              ],
+              "delta_brier_vs_A_gbm": -0.021673,
+              "delta_log_loss_vs_A_gbm": -0.045859,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.015329,
+              "delta_log_loss_vs_train_rate_baseline": 0.00618,
+              "ece_raw": 0.058123
+            },
+            "B_gbm_league": {
+              "accuracy": 0.516667,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.078993,
+                -0.017331
+              ],
+              "ci95_vs_control": [
+                -0.035276,
+                0.000552
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006673,
+                0.014011
+              ],
+              "delta_brier_vs_A_gbm": -0.022871,
+              "delta_log_loss_vs_A_gbm": -0.04848,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.017949,
+              "delta_log_loss_vs_train_rate_baseline": 0.00356,
+              "ece_raw": 0.042139
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.485714,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.041532,
+                -0.00216
+              ],
+              "ci95_vs_control": [
+                -0.00366,
+                0.021129
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.003111,
+                0.058506
+              ],
+              "delta_brier_vs_A_gbm": -0.010128,
+              "delta_log_loss_vs_A_gbm": -0.022167,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.008363,
+              "delta_log_loss_vs_train_rate_baseline": 0.029872,
+              "ece_raw": 0.095657
+            },
+            "B_xgb_league": {
+              "accuracy": 0.480952,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.038843,
+                -0.0034
+              ],
+              "ci95_vs_control": [
+                0.000223,
+                0.019388
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.00508,
+                0.057218
+              ],
+              "delta_brier_vs_A_gbm": -0.009559,
+              "delta_log_loss_vs_A_gbm": -0.021034,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.009497,
+              "delta_log_loss_vs_train_rate_baseline": 0.031005,
+              "ece_raw": 0.093278
+            },
+            "C_gbm_local": {
+              "accuracy": 0.516667,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.078993,
+                -0.017331
+              ],
+              "ci95_vs_control": [
+                -0.035276,
+                0.000552
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006673,
+                0.014011
+              ],
+              "delta_brier_vs_A_gbm": -0.022871,
+              "delta_log_loss_vs_A_gbm": -0.04848,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.017949,
+              "delta_log_loss_vs_train_rate_baseline": 0.00356,
+              "ece_raw": 0.042139
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.516667,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.078993,
+                -0.017331
+              ],
+              "ci95_vs_control": [
+                -0.035276,
+                0.000552
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006673,
+                0.014011
+              ],
+              "delta_brier_vs_A_gbm": -0.022871,
+              "delta_log_loss_vs_A_gbm": -0.04848,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.017949,
+              "delta_log_loss_vs_train_rate_baseline": 0.00356,
+              "ece_raw": 0.042139
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.485714,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.026842,
+                0.023361
+              ],
+              "ci95_vs_control": [
+                -0.011425,
+                0.025575
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.004679,
+                0.018142
+              ],
+              "delta_brier_vs_A_gbm": -0.000503,
+              "delta_log_loss_vs_A_gbm": -0.001643,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007584,
+              "delta_log_loss_vs_train_rate_baseline": 0.006667,
+              "ece_raw": 0.07078
+            },
+            "B_gbm_league": {
+              "accuracy": 0.507143,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.026224,
+                0.009971
+              ],
+              "ci95_vs_control": [
+                -0.009382,
+                0.007115
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.013679,
+                0.011646
+              ],
+              "delta_brier_vs_A_gbm": -0.00428,
+              "delta_log_loss_vs_A_gbm": -0.009789,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000562,
+              "delta_log_loss_vs_train_rate_baseline": -0.001478,
+              "ece_raw": 0.05163
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.497619,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.020175,
+                0.013282
+              ],
+              "ci95_vs_control": [
+                -0.008091,
+                0.015728
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010822,
+                0.01873
+              ],
+              "delta_brier_vs_A_gbm": -0.00184,
+              "delta_log_loss_vs_A_gbm": -0.004625,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004602,
+              "delta_log_loss_vs_train_rate_baseline": 0.003686,
+              "ece_raw": 0.082441
+            },
+            "B_xgb_league": {
+              "accuracy": 0.507143,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.015075,
+                0.012732
+              ],
+              "ci95_vs_control": [
+                -0.003113,
+                0.018124
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009879,
+                0.023123
+              ],
+              "delta_brier_vs_A_gbm": -0.000405,
+              "delta_log_loss_vs_A_gbm": -0.001526,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007701,
+              "delta_log_loss_vs_train_rate_baseline": 0.006785,
+              "ece_raw": 0.069608
+            },
+            "C_gbm_local": {
+              "accuracy": 0.507143,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.026224,
+                0.009971
+              ],
+              "ci95_vs_control": [
+                -0.009382,
+                0.007115
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.013679,
+                0.011646
+              ],
+              "delta_brier_vs_A_gbm": -0.00428,
+              "delta_log_loss_vs_A_gbm": -0.009789,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000562,
+              "delta_log_loss_vs_train_rate_baseline": -0.001478,
+              "ece_raw": 0.05163
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.507143,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.026224,
+                0.009971
+              ],
+              "ci95_vs_control": [
+                -0.009382,
+                0.007115
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.013679,
+                0.011646
+              ],
+              "delta_brier_vs_A_gbm": -0.00428,
+              "delta_log_loss_vs_A_gbm": -0.009789,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000562,
+              "delta_log_loss_vs_train_rate_baseline": -0.001478,
+              "ece_raw": 0.05163
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 1,
+      "training_matches_last_fold": 726,
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    },
+    "UEFA_UCL": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.592163,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.045755,
+                0.002253
+              ],
+              "ci95_vs_control": [
+                -0.024817,
+                0.013196
+              ],
+              "ci95_vs_elo_s2": [
+                -0.013172,
+                0.019566
+              ],
+              "ci95_vs_s3_best": [
+                -0.011525,
+                0.024878
+              ],
+              "delta_brier_vs_A_gbm": -0.012697,
+              "delta_log_loss_vs_A_gbm": -0.021965,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.006552,
+              "delta_log_loss_vs_elo_s2": 0.002893,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.00598,
+              "ece_raw": 0.065368
+            },
+            "B_gbm_league": {
+              "accuracy": 0.580552,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.024111,
+                -0.004532
+              ],
+              "ci95_vs_control": [
+                -0.003866,
+                0.00713
+              ],
+              "ci95_vs_elo_s2": [
+                -0.003765,
+                0.026103
+              ],
+              "ci95_vs_s3_best": [
+                0.001132,
+                0.027427
+              ],
+              "delta_brier_vs_A_gbm": -0.008579,
+              "delta_log_loss_vs_A_gbm": -0.013893,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.00152,
+              "delta_log_loss_vs_elo_s2": 0.010965,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.014052,
+              "ece_raw": 0.028994
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.564586,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.005027,
+                0.008357
+              ],
+              "ci95_vs_control": [
+                0.006898,
+                0.027811
+              ],
+              "ci95_vs_elo_s2": [
+                0.007122,
+                0.047325
+              ],
+              "ci95_vs_s3_best": [
+                0.011104,
+                0.048575
+              ],
+              "delta_brier_vs_A_gbm": 0.001493,
+              "delta_log_loss_vs_A_gbm": 0.001473,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.016885,
+              "delta_log_loss_vs_elo_s2": 0.02633,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.029418,
+              "ece_raw": 0.049316
+            },
+            "B_xgb_league": {
+              "accuracy": 0.574746,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                -0.015915,
+                -2.9e-05
+              ],
+              "ci95_vs_control": [
+                -0.000369,
+                0.015263
+              ],
+              "ci95_vs_elo_s2": [
+                0.000684,
+                0.03341
+              ],
+              "ci95_vs_s3_best": [
+                0.005476,
+                0.03483
+              ],
+              "delta_brier_vs_A_gbm": -0.004175,
+              "delta_log_loss_vs_A_gbm": -0.008081,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007332,
+              "delta_log_loss_vs_elo_s2": 0.016777,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.019864,
+              "ece_raw": 0.056193
+            },
+            "C_gbm_local": {
+              "accuracy": 0.574746,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.027095,
+                -0.003289
+              ],
+              "ci95_vs_control": [
+                -0.010168,
+                0.009599
+              ],
+              "ci95_vs_elo_s2": [
+                -0.006712,
+                0.025872
+              ],
+              "ci95_vs_s3_best": [
+                -0.001505,
+                0.028206
+              ],
+              "delta_brier_vs_A_gbm": -0.009315,
+              "delta_log_loss_vs_A_gbm": -0.015405,
+              "delta_log_loss_vs_control_A_gbm_tuned": 8e-06,
+              "delta_log_loss_vs_elo_s2": 0.009453,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.012541,
+              "ece_raw": 0.022931
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.580552,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.024111,
+                -0.004532
+              ],
+              "ci95_vs_control": [
+                -0.003866,
+                0.00713
+              ],
+              "ci95_vs_elo_s2": [
+                -0.003765,
+                0.026103
+              ],
+              "ci95_vs_s3_best": [
+                0.001132,
+                0.027427
+              ],
+              "delta_brier_vs_A_gbm": -0.008579,
+              "delta_log_loss_vs_A_gbm": -0.013893,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.00152,
+              "delta_log_loss_vs_elo_s2": 0.010965,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.014052,
+              "ece_raw": 0.028994
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.521045,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007046,
+                0.022253
+              ],
+              "ci95_vs_control": [
+                -0.000792,
+                0.023762
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.003135,
+                0.025563
+              ],
+              "delta_brier_vs_A_gbm": 0.003473,
+              "delta_log_loss_vs_A_gbm": 0.007729,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.011194,
+              "delta_log_loss_vs_train_rate_baseline": 0.013908,
+              "ece_raw": 0.062377
+            },
+            "B_gbm_league": {
+              "accuracy": 0.531205,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.015447,
+                0.003941
+              ],
+              "ci95_vs_control": [
+                -0.006889,
+                0.002495
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.003981,
+                0.004812
+              ],
+              "delta_brier_vs_A_gbm": -0.002838,
+              "delta_log_loss_vs_A_gbm": -0.005778,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002313,
+              "delta_log_loss_vs_train_rate_baseline": 0.000401,
+              "ece_raw": 0.032699
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.512337,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007558,
+                0.003525
+              ],
+              "ci95_vs_control": [
+                -0.005919,
+                0.008094
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006401,
+                0.013607
+              ],
+              "delta_brier_vs_A_gbm": -0.001058,
+              "delta_log_loss_vs_A_gbm": -0.002132,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001332,
+              "delta_log_loss_vs_train_rate_baseline": 0.004046,
+              "ece_raw": 0.044993
+            },
+            "B_xgb_league": {
+              "accuracy": 0.513788,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.006049,
+                0.009631
+              ],
+              "ci95_vs_control": [
+                -0.002403,
+                0.0122
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.003098,
+                0.01804
+              ],
+              "delta_brier_vs_A_gbm": 0.000656,
+              "delta_log_loss_vs_A_gbm": 0.001506,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.00497,
+              "delta_log_loss_vs_train_rate_baseline": 0.007684,
+              "ece_raw": 0.04575
+            },
+            "C_gbm_local": {
+              "accuracy": 0.532656,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014059,
+                0.007349
+              ],
+              "ci95_vs_control": [
+                -0.005265,
+                0.004992
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.00189,
+                0.007123
+              ],
+              "delta_brier_vs_A_gbm": -0.001783,
+              "delta_log_loss_vs_A_gbm": -0.003621,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000157,
+              "delta_log_loss_vs_train_rate_baseline": 0.002557,
+              "ece_raw": 0.049991
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.531205,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.015447,
+                0.003941
+              ],
+              "ci95_vs_control": [
+                -0.006889,
+                0.002495
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.003981,
+                0.004812
+              ],
+              "delta_brier_vs_A_gbm": -0.002838,
+              "delta_log_loss_vs_A_gbm": -0.005778,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002313,
+              "delta_log_loss_vs_train_rate_baseline": 0.000401,
+              "ece_raw": 0.032699
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.582003,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007571,
+                0.028841
+              ],
+              "ci95_vs_control": [
+                -0.003402,
+                0.028709
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.011813,
+                0.020603
+              ],
+              "delta_brier_vs_A_gbm": 0.003934,
+              "delta_log_loss_vs_A_gbm": 0.009859,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.011834,
+              "delta_log_loss_vs_train_rate_baseline": 0.003578,
+              "ece_raw": 0.041266
+            },
+            "B_gbm_league": {
+              "accuracy": 0.582003,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.010338,
+                0.00793
+              ],
+              "ci95_vs_control": [
+                -0.004408,
+                0.005619
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.016785,
+                0.001494
+              ],
+              "delta_brier_vs_A_gbm": -0.000548,
+              "delta_log_loss_vs_A_gbm": -0.001464,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000511,
+              "delta_log_loss_vs_train_rate_baseline": -0.007745,
+              "ece_raw": 0.015355
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.570392,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.006431,
+                0.005977
+              ],
+              "ci95_vs_control": [
+                -0.00542,
+                0.009118
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.017964,
+                0.005089
+              ],
+              "delta_brier_vs_A_gbm": -0.000282,
+              "delta_log_loss_vs_A_gbm": -0.000337,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001638,
+              "delta_log_loss_vs_train_rate_baseline": -0.006618,
+              "ece_raw": 0.036486
+            },
+            "B_xgb_league": {
+              "accuracy": 0.58926,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.009064,
+                0.005147
+              ],
+              "ci95_vs_control": [
+                -0.008367,
+                0.008219
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.020603,
+                0.005032
+              ],
+              "delta_brier_vs_A_gbm": -0.000914,
+              "delta_log_loss_vs_A_gbm": -0.001719,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000256,
+              "delta_log_loss_vs_train_rate_baseline": -0.008,
+              "ece_raw": 0.024361
+            },
+            "C_gbm_local": {
+              "accuracy": 0.580552,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.008994,
+                0.012957
+              ],
+              "ci95_vs_control": [
+                -0.002139,
+                0.010589
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.011527,
+                0.003155
+              ],
+              "delta_brier_vs_A_gbm": 0.001084,
+              "delta_log_loss_vs_A_gbm": 0.00186,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.003835,
+              "delta_log_loss_vs_train_rate_baseline": -0.004421,
+              "ece_raw": 0.040119
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.582003,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.010338,
+                0.00793
+              ],
+              "ci95_vs_control": [
+                -0.004408,
+                0.005619
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.016785,
+                0.001494
+              ],
+              "delta_brier_vs_A_gbm": -0.000548,
+              "delta_log_loss_vs_A_gbm": -0.001464,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000511,
+              "delta_log_loss_vs_train_rate_baseline": -0.007745,
+              "ece_raw": 0.015355
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 4,
+      "training_matches_last_fold": 619,
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    },
+    "UEFA_UECL": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.449653,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "significantly worse than the existing global Elo (elo_s2)"
+              ],
+              "ci95": [
+                0.012261,
+                0.084477
+              ],
+              "ci95_vs_control": [
+                0.022295,
+                0.083421
+              ],
+              "ci95_vs_elo_s2": [
+                0.014197,
+                0.048059
+              ],
+              "ci95_vs_s3_best": [
+                0.007635,
+                0.057833
+              ],
+              "delta_brier_vs_A_gbm": 0.036882,
+              "delta_log_loss_vs_A_gbm": 0.04752,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.05287,
+              "delta_log_loss_vs_elo_s2": 0.030793,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.032835,
+              "ece_raw": 0.035591
+            },
+            "B_gbm_league": {
+              "accuracy": 0.508681,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.015702,
+                0.007274
+              ],
+              "ci95_vs_control": [
+                -0.004191,
+                0.008344
+              ],
+              "ci95_vs_elo_s2": [
+                -0.040892,
+                6.2e-05
+              ],
+              "ci95_vs_s3_best": [
+                -0.032504,
+                -0.004168
+              ],
+              "delta_brier_vs_A_gbm": -9.2e-05,
+              "delta_log_loss_vs_A_gbm": -0.003632,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001717,
+              "delta_log_loss_vs_elo_s2": -0.020359,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.018318,
+              "ece_raw": 0.050363
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.508681,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.006643,
+                0.008293
+              ],
+              "ci95_vs_control": [
+                -0.001366,
+                0.014663
+              ],
+              "ci95_vs_elo_s2": [
+                -0.039064,
+                0.009218
+              ],
+              "ci95_vs_s3_best": [
+                -0.032369,
+                0.005827
+              ],
+              "delta_brier_vs_A_gbm": 0.001316,
+              "delta_log_loss_vs_A_gbm": 0.000992,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.006341,
+              "delta_log_loss_vs_elo_s2": -0.015735,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.013694,
+              "ece_raw": 0.048668
+            },
+            "B_xgb_league": {
+              "accuracy": 0.498264,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.012172,
+                0.006099
+              ],
+              "ci95_vs_control": [
+                -0.003639,
+                0.008907
+              ],
+              "ci95_vs_elo_s2": [
+                -0.042684,
+                0.003201
+              ],
+              "ci95_vs_s3_best": [
+                -0.034962,
+                -0.000582
+              ],
+              "delta_brier_vs_A_gbm": -0.0003,
+              "delta_log_loss_vs_A_gbm": -0.00288,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002469,
+              "delta_log_loss_vs_elo_s2": -0.019607,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.017566,
+              "ece_raw": 0.033648
+            },
+            "C_gbm_local": {
+              "accuracy": 0.508681,
+              "blocked_by": [
+                "local models are production-ineligible under the minimum training matches",
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.015702,
+                0.007274
+              ],
+              "ci95_vs_control": [
+                -0.004191,
+                0.008344
+              ],
+              "ci95_vs_elo_s2": [
+                -0.040892,
+                6.2e-05
+              ],
+              "ci95_vs_s3_best": [
+                -0.032504,
+                -0.004168
+              ],
+              "delta_brier_vs_A_gbm": -9.2e-05,
+              "delta_log_loss_vs_A_gbm": -0.003632,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001717,
+              "delta_log_loss_vs_elo_s2": -0.020359,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.018318,
+              "ece_raw": 0.050363
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.508681,
+              "blocked_by": [
+                "local models are production-ineligible under the minimum training matches",
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.015702,
+                0.007274
+              ],
+              "ci95_vs_control": [
+                -0.004191,
+                0.008344
+              ],
+              "ci95_vs_elo_s2": [
+                -0.040892,
+                6.2e-05
+              ],
+              "ci95_vs_s3_best": [
+                -0.032504,
+                -0.004168
+              ],
+              "delta_brier_vs_A_gbm": -9.2e-05,
+              "delta_log_loss_vs_A_gbm": -0.003632,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001717,
+              "delta_log_loss_vs_elo_s2": -0.020359,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.018318,
+              "ece_raw": 0.050363
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.53125,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.002623,
+                0.024213
+              ],
+              "ci95_vs_control": [
+                0.004054,
+                0.025869
+              ],
+              "ci95_vs_train_rate_baseline": [
+                8e-05,
+                0.020611
+              ],
+              "delta_brier_vs_A_gbm": 0.004763,
+              "delta_log_loss_vs_A_gbm": 0.010501,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.014893,
+              "delta_log_loss_vs_train_rate_baseline": 0.01002,
+              "ece_raw": 0.056384
+            },
+            "B_gbm_league": {
+              "accuracy": 0.532986,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.010882,
+                0.00337
+              ],
+              "ci95_vs_control": [
+                -0.002905,
+                0.0044
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009497,
+                0.000844
+              ],
+              "delta_brier_vs_A_gbm": -0.001752,
+              "delta_log_loss_vs_A_gbm": -0.003638,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000753,
+              "delta_log_loss_vs_train_rate_baseline": -0.00412,
+              "ece_raw": 0.013174
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.520833,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007711,
+                0.003697
+              ],
+              "ci95_vs_control": [
+                -0.004854,
+                0.008805
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.012837,
+                0.006883
+              ],
+              "delta_brier_vs_A_gbm": -0.001046,
+              "delta_log_loss_vs_A_gbm": -0.002189,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002203,
+              "delta_log_loss_vs_train_rate_baseline": -0.00267,
+              "ece_raw": 0.045604
+            },
+            "B_xgb_league": {
+              "accuracy": 0.527778,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.005724,
+                0.005015
+              ],
+              "ci95_vs_control": [
+                -0.002763,
+                0.010967
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.010124,
+                0.00833
+              ],
+              "delta_brier_vs_A_gbm": -0.000162,
+              "delta_log_loss_vs_A_gbm": -0.000365,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004027,
+              "delta_log_loss_vs_train_rate_baseline": -0.000846,
+              "ece_raw": 0.030497
+            },
+            "C_gbm_local": {
+              "accuracy": 0.532986,
+              "blocked_by": [
+                "local models are production-ineligible under the minimum training matches",
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.010882,
+                0.00337
+              ],
+              "ci95_vs_control": [
+                -0.002905,
+                0.0044
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009497,
+                0.000844
+              ],
+              "delta_brier_vs_A_gbm": -0.001752,
+              "delta_log_loss_vs_A_gbm": -0.003638,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000753,
+              "delta_log_loss_vs_train_rate_baseline": -0.00412,
+              "ece_raw": 0.013174
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.532986,
+              "blocked_by": [
+                "local models are production-ineligible under the minimum training matches",
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.010882,
+                0.00337
+              ],
+              "ci95_vs_control": [
+                -0.002905,
+                0.0044
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.009497,
+                0.000844
+              ],
+              "delta_brier_vs_A_gbm": -0.001752,
+              "delta_log_loss_vs_A_gbm": -0.003638,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000753,
+              "delta_log_loss_vs_train_rate_baseline": -0.00412,
+              "ece_raw": 0.013174
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.536458,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.000567,
+                0.036354
+              ],
+              "ci95_vs_control": [
+                0.000408,
+                0.033229
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.006739,
+                0.022167
+              ],
+              "delta_brier_vs_A_gbm": 0.008033,
+              "delta_log_loss_vs_A_gbm": 0.016972,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.016595,
+              "delta_log_loss_vs_train_rate_baseline": 0.007408,
+              "ece_raw": 0.030749
+            },
+            "B_gbm_league": {
+              "accuracy": 0.574653,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.009786,
+                0.006451
+              ],
+              "ci95_vs_control": [
+                -0.008982,
+                0.004567
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.019108,
+                -0.001439
+              ],
+              "delta_brier_vs_A_gbm": -0.000425,
+              "delta_log_loss_vs_A_gbm": -0.001265,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001642,
+              "delta_log_loss_vs_train_rate_baseline": -0.010829,
+              "ece_raw": 0.02911
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.567708,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.008176,
+                0.003801
+              ],
+              "ci95_vs_control": [
+                -0.009789,
+                0.004382
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.024151,
+                0.001912
+              ],
+              "delta_brier_vs_A_gbm": -0.000764,
+              "delta_log_loss_vs_A_gbm": -0.001989,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002367,
+              "delta_log_loss_vs_train_rate_baseline": -0.011554,
+              "ece_raw": 0.027702
+            },
+            "B_xgb_league": {
+              "accuracy": 0.583333,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007966,
+                0.004299
+              ],
+              "ci95_vs_control": [
+                -0.009302,
+                0.004404
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.023242,
+                0.000112
+              ],
+              "delta_brier_vs_A_gbm": -0.000653,
+              "delta_log_loss_vs_A_gbm": -0.00165,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.002027,
+              "delta_log_loss_vs_train_rate_baseline": -0.011215,
+              "ece_raw": 0.025467
+            },
+            "C_gbm_local": {
+              "accuracy": 0.574653,
+              "blocked_by": [
+                "local models are production-ineligible under the minimum training matches",
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.009786,
+                0.006451
+              ],
+              "ci95_vs_control": [
+                -0.008982,
+                0.004567
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.019108,
+                -0.001439
+              ],
+              "delta_brier_vs_A_gbm": -0.000425,
+              "delta_log_loss_vs_A_gbm": -0.001265,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001642,
+              "delta_log_loss_vs_train_rate_baseline": -0.010829,
+              "ece_raw": 0.02911
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.574653,
+              "blocked_by": [
+                "local models are production-ineligible under the minimum training matches",
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.009786,
+                0.006451
+              ],
+              "ci95_vs_control": [
+                -0.008982,
+                0.004567
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.019108,
+                -0.001439
+              ],
+              "delta_brier_vs_A_gbm": -0.000425,
+              "delta_log_loss_vs_A_gbm": -0.001265,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001642,
+              "delta_log_loss_vs_train_rate_baseline": -0.010829,
+              "ece_raw": 0.02911
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 4,
+      "training_matches_last_fold": 423,
+      "volume_tier": "LOCAL_OFF_UNDER_500"
+    },
+    "UEFA_UEL": {
+      "by_target": {
+        "1x2": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.543558,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.02528,
+                0.027695
+              ],
+              "ci95_vs_control": [
+                -0.012019,
+                0.03425
+              ],
+              "ci95_vs_elo_s2": [
+                -0.010294,
+                0.029158
+              ],
+              "ci95_vs_s3_best": [
+                -0.021389,
+                0.02113
+              ],
+              "delta_brier_vs_A_gbm": 0.002034,
+              "delta_log_loss_vs_A_gbm": 0.001931,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.011521,
+              "delta_log_loss_vs_elo_s2": 0.008858,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": 0.000373,
+              "ece_raw": 0.06088
+            },
+            "B_gbm_league": {
+              "accuracy": 0.547239,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.018422,
+                -0.001769
+              ],
+              "ci95_vs_control": [
+                -0.005805,
+                0.004828
+              ],
+              "ci95_vs_elo_s2": [
+                -0.01664,
+                0.010221
+              ],
+              "ci95_vs_s3_best": [
+                -0.022906,
+                -0.000386
+              ],
+              "delta_brier_vs_A_gbm": -0.005682,
+              "delta_log_loss_vs_A_gbm": -0.010189,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000599,
+              "delta_log_loss_vs_elo_s2": -0.003262,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.011747,
+              "ece_raw": 0.047278
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.539877,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.008831,
+                0.005657
+              ],
+              "ci95_vs_control": [
+                -0.002327,
+                0.017791
+              ],
+              "ci95_vs_elo_s2": [
+                -0.014362,
+                0.023524
+              ],
+              "ci95_vs_s3_best": [
+                -0.020124,
+                0.01229
+              ],
+              "delta_brier_vs_A_gbm": -0.00066,
+              "delta_log_loss_vs_A_gbm": -0.001723,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.007867,
+              "delta_log_loss_vs_elo_s2": 0.005204,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.003281,
+              "ece_raw": 0.041839
+            },
+            "B_xgb_league": {
+              "accuracy": 0.541104,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.015845,
+                -0.003452
+              ],
+              "ci95_vs_control": [
+                -0.006272,
+                0.006137
+              ],
+              "ci95_vs_elo_s2": [
+                -0.018363,
+                0.011725
+              ],
+              "ci95_vs_s3_best": [
+                -0.024455,
+                0.001129
+              ],
+              "delta_brier_vs_A_gbm": -0.005552,
+              "delta_log_loss_vs_A_gbm": -0.009793,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000203,
+              "delta_log_loss_vs_elo_s2": -0.002866,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.01135,
+              "ece_raw": 0.044342
+            },
+            "C_gbm_local": {
+              "accuracy": 0.546012,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.017484,
+                0.008706
+              ],
+              "ci95_vs_control": [
+                -0.00679,
+                0.016022
+              ],
+              "ci95_vs_elo_s2": [
+                -0.014217,
+                0.019256
+              ],
+              "ci95_vs_s3_best": [
+                -0.020642,
+                0.009017
+              ],
+              "delta_brier_vs_A_gbm": -0.002929,
+              "delta_log_loss_vs_A_gbm": -0.005435,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.004155,
+              "delta_log_loss_vs_elo_s2": 0.001492,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.006993,
+              "ece_raw": 0.03004
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.547239,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+              ],
+              "ci95": [
+                -0.018422,
+                -0.001769
+              ],
+              "ci95_vs_control": [
+                -0.005805,
+                0.004828
+              ],
+              "ci95_vs_elo_s2": [
+                -0.01664,
+                0.010221
+              ],
+              "ci95_vs_s3_best": [
+                -0.022906,
+                -0.000386
+              ],
+              "delta_brier_vs_A_gbm": -0.005682,
+              "delta_log_loss_vs_A_gbm": -0.010189,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000599,
+              "delta_log_loss_vs_elo_s2": -0.003262,
+              "delta_log_loss_vs_s3_best_E_elo_bridge": -0.011747,
+              "ece_raw": 0.047278
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "btts": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.528834,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "accuracy rose while log loss worsened: not an argument for promotion",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.007726,
+                0.020244
+              ],
+              "ci95_vs_control": [
+                0.000902,
+                0.020798
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.001413,
+                0.020276
+              ],
+              "delta_brier_vs_A_gbm": 0.002088,
+              "delta_log_loss_vs_A_gbm": 0.004714,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.010432,
+              "delta_log_loss_vs_train_rate_baseline": 0.010291,
+              "ece_raw": 0.050669
+            },
+            "B_gbm_league": {
+              "accuracy": 0.536196,
+              "blocked_by": [
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014267,
+                -4.3e-05
+              ],
+              "ci95_vs_control": [
+                -0.00531,
+                0.001942
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.005649,
+                0.002512
+              ],
+              "delta_brier_vs_A_gbm": -0.003482,
+              "delta_log_loss_vs_A_gbm": -0.007334,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001616,
+              "delta_log_loss_vs_train_rate_baseline": -0.001757,
+              "ece_raw": 0.011005
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.523926,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.005764,
+                0.00608
+              ],
+              "ci95_vs_control": [
+                -0.000845,
+                0.012544
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.002919,
+                0.014688
+              ],
+              "delta_brier_vs_A_gbm": 3.2e-05,
+              "delta_log_loss_vs_A_gbm": -1.4e-05,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.005704,
+              "delta_log_loss_vs_train_rate_baseline": 0.005563,
+              "ece_raw": 0.048902
+            },
+            "B_xgb_league": {
+              "accuracy": 0.527607,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.008536,
+                0.004573
+              ],
+              "ci95_vs_control": [
+                -0.002631,
+                0.00973
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.004505,
+                0.012521
+              ],
+              "delta_brier_vs_A_gbm": -0.00104,
+              "delta_log_loss_vs_A_gbm": -0.00212,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.003599,
+              "delta_log_loss_vs_train_rate_baseline": 0.003457,
+              "ece_raw": 0.04494
+            },
+            "C_gbm_local": {
+              "accuracy": 0.533742,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.012891,
+                0.003405
+              ],
+              "ci95_vs_control": [
+                -0.003326,
+                0.005064
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.003833,
+                0.004956
+              ],
+              "delta_brier_vs_A_gbm": -0.002365,
+              "delta_log_loss_vs_A_gbm": -0.005075,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.000643,
+              "delta_log_loss_vs_train_rate_baseline": 0.000502,
+              "ece_raw": 0.016934
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.536196,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.014267,
+                -4.3e-05
+              ],
+              "ci95_vs_control": [
+                -0.00531,
+                0.001942
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.005649,
+                0.002512
+              ],
+              "delta_brier_vs_A_gbm": -0.003482,
+              "delta_log_loss_vs_A_gbm": -0.007334,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001616,
+              "delta_log_loss_vs_train_rate_baseline": -0.001757,
+              "ece_raw": 0.011005
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        },
+        "over_under": {
+          "candidates_vs_A_gbm": {
+            "A_dc_ridge_tuned": {
+              "accuracy": 0.527607,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "raw ECE is worse than the reference by more than the allowed margin",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.003484,
+                0.031603
+              ],
+              "ci95_vs_control": [
+                -0.002507,
+                0.030553
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.00626,
+                0.03406
+              ],
+              "delta_brier_vs_A_gbm": 0.006606,
+              "delta_log_loss_vs_A_gbm": 0.014038,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.013918,
+              "delta_log_loss_vs_train_rate_baseline": 0.019667,
+              "ece_raw": 0.059206
+            },
+            "B_gbm_league": {
+              "accuracy": 0.522699,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.006616,
+                0.010234
+              ],
+              "ci95_vs_control": [
+                -0.00353,
+                0.007202
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.000381,
+                0.014149
+              ],
+              "delta_brier_vs_A_gbm": 0.001041,
+              "delta_log_loss_vs_A_gbm": 0.001786,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001666,
+              "delta_log_loss_vs_train_rate_baseline": 0.007414,
+              "ece_raw": 0.042947
+            },
+            "B_gbm_league_default": {
+              "accuracy": 0.533742,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.00414,
+                0.010125
+              ],
+              "ci95_vs_control": [
+                -0.003508,
+                0.009264
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.001276,
+                0.018527
+              ],
+              "delta_brier_vs_A_gbm": 0.001396,
+              "delta_log_loss_vs_A_gbm": 0.002767,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.002647,
+              "delta_log_loss_vs_train_rate_baseline": 0.008395,
+              "ece_raw": 0.037228
+            },
+            "B_xgb_league": {
+              "accuracy": 0.548466,
+              "blocked_by": [
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.005998,
+                0.005493
+              ],
+              "ci95_vs_control": [
+                -0.006095,
+                0.006005
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.005761,
+                0.017237
+              ],
+              "delta_brier_vs_A_gbm": -0.000151,
+              "delta_log_loss_vs_A_gbm": -0.000135,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.000256,
+              "delta_log_loss_vs_train_rate_baseline": 0.005493,
+              "ece_raw": 0.035554
+            },
+            "C_gbm_local": {
+              "accuracy": 0.533742,
+              "blocked_by": [
+                "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.010364,
+                0.007008
+              ],
+              "ci95_vs_control": [
+                -0.007234,
+                0.004387
+              ],
+              "ci95_vs_train_rate_baseline": [
+                -0.00184,
+                0.009665
+              ],
+              "delta_brier_vs_A_gbm": -0.000639,
+              "delta_log_loss_vs_A_gbm": -0.001689,
+              "delta_log_loss_vs_control_A_gbm_tuned": -0.001809,
+              "delta_log_loss_vs_train_rate_baseline": 0.003939,
+              "ece_raw": 0.019396
+            },
+            "D_gbm_blend": {
+              "accuracy": 0.522699,
+              "blocked_by": [
+                "the blend never put weight on the local model: identical to B_gbm_league",
+                "log-loss paired interval against A_gbm is not entirely below 0",
+                "Brier is not better",
+                "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+                "not significantly better than the train-rate baseline (always predicting the base rate)"
+              ],
+              "ci95": [
+                -0.006616,
+                0.010234
+              ],
+              "ci95_vs_control": [
+                -0.00353,
+                0.007202
+              ],
+              "ci95_vs_train_rate_baseline": [
+                0.000381,
+                0.014149
+              ],
+              "delta_brier_vs_A_gbm": 0.001041,
+              "delta_log_loss_vs_A_gbm": 0.001786,
+              "delta_log_loss_vs_control_A_gbm_tuned": 0.001666,
+              "delta_log_loss_vs_train_rate_baseline": 0.007414,
+              "ece_raw": 0.042947
+            }
+          },
+          "decision": "GLOBAL_A_gbm",
+          "rationale": "no league-aware candidate passed every rule; the global model is kept"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "decision_primary_target": "1x2",
+      "decision_scope": "dev out-of-sample evidence only; calibration, the frozen holdout and approval are Sprint 5",
+      "folds_with_local_ineligible_fallback": 4,
+      "training_matches_last_fold": 626,
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    }
+  },
+  "multiple_comparisons": {
+    "comparisons_evaluated": 162,
+    "competition_target_cells_with_a_candidate": 3,
+    "warning": "each candidate is tested against several references in many competition x target cells with a one-sided 2.5% interval rule; a few isolated passes are expected by chance alone. Sprint 5 must confirm any of them on the frozen holdout before it counts."
+  },
+  "reference": "A_gbm (frozen global GBM, score-only re-implementation; the production GBM cannot run on this universe)",
+  "rule": "eligible only with: paired log-loss interval entirely < 0 against A_gbm AND against the tuned league-blind control A_gbm_tuned (and, for over/under and BTTS, the train-rate baseline), Brier better, raw ECE not worse by more than the margin, accuracy not rising while log loss worsens, a tier allowing local models, a non-zero local weight for the blend, and (1X2) not significantly worse than the existing Elo"
+}

@@ -1588,7 +1588,9 @@ sniffio==1.3.1 \
     #   groq
     #   openai
 sqlalchemy==2.1.6 \
-    --hash=sha256:499eae5c9051efe96cb9a73ec2fbde8ffa4186f102b9094ebab8fcc9d3b99f52
+    --hash=sha256:499eae5c9051efe96cb9a73ec2fbde8ffa4186f102b9094ebab8fcc9d3b99f52 \
+    --hash=sha256:e269c68ec200538ae3fa7f9e8d8ed2b4b34d974c25945286ccc2a488438acf32 \
+    --hash=sha256:ea5f3dd7450669acbfee7813d3a2a13876806b1d9e4c1626a7bf587c33c68472
     # via
     #   alembic
     #   optuna

@@ -704,6 +704,74 @@ def headline(metrics: dict, targets: tuple[str, ...]) -> dict:
     return out
 
 
+SOLVER_TRACE_KEYS = frozenset(
+    {"iterations_used", "n_iter", "final_delta", "optimizer_message", "message", "objective", "status",
+     "converged", "ipf_converged", "optimizer_success", "success", "max_tail_mass", "final_params"}
+)  # fmt: skip
+EXACT_FILES = ("protocol_manifest.json", "leakage_audit.json", "baseline_status.json")
+NUMERIC_FILES = ("benchmark_metrics.json", "paired_deltas.json", "reliability.json")
+ENVIRONMENT_DEPENDENT = {
+    "global_artifact_audit.json": "reads the local walk-forward artifacts (git-ignored, absent in CI)",
+    "claims.json": "reads the local forecast artifacts (git-ignored, absent in CI)",
+    "fold_predictions.jsonl": "not committed (large); its content is covered by the metrics compared here",
+}
+
+
+def _walk(a, b, path: str, atol: float, out: list[dict], trace: list[dict]) -> None:
+    if isinstance(a, dict) and isinstance(b, dict):
+        if "share_of_draws_below_zero" in a and abs(a.get("delta_vs_reference", 1)) < 1e-6 and abs(b.get("delta_vs_reference", 1)) < 1e-6:
+            # a paired delta that is zero to 6 digits (Poisson vs Dixon-Coles totals): the share of draws below zero is
+            # decided by float noise, so it carries no information and is skipped
+            a, b = ({k: v for k, v in d.items() if k != "share_of_draws_below_zero"} for d in (a, b))
+        for k in sorted({*a, *b}):
+            if k not in a or k not in b:
+                out.append({"path": f"{path}/{k}", "expected": a.get(k, "<absent>"), "got": b.get(k, "<absent>")})
+            else:
+                _walk(a[k], b[k], f"{path}/{k}", atol, out, trace)
+    elif isinstance(a, list) and isinstance(b, list):
+        if len(a) != len(b):
+            out.append({"path": path, "expected": f"len {len(a)}", "got": f"len {len(b)}"})
+            return
+        for i, (x, y) in enumerate(zip(a, b, strict=True)):
+            _walk(x, y, f"{path}[{i}]", atol, out, trace)
+    elif isinstance(a, bool) or isinstance(b, bool) or a is None or b is None or isinstance(a, str) or isinstance(b, str):
+        if a != b:
+            (trace if path.rsplit("/", 1)[-1] in SOLVER_TRACE_KEYS else out).append({"path": path, "expected": a, "got": b})
+    else:
+        if abs(float(a) - float(b)) > atol:
+            leaf = path.rsplit("/", 1)[-1].split("[")[0]
+            (trace if leaf in SOLVER_TRACE_KEYS else out).append(
+                {"path": path, "expected": a, "got": b, "abs_diff": abs(float(a) - float(b))}
+            )
+
+
+def compare_to_committed(out_dir: Path, docs_dir: Path, atol: float) -> dict:
+    """Cross-platform check against the committed s2_* files: structural files must be byte-identical; metric files
+    must agree numerically within `atol` (last-bit float differences between operating systems are expected, a changed
+    result is not). Solver-trace fields (iteration counts, convergence flags) are reported, never failed. Files that
+    depend on git-ignored local artifacts are listed as not compared, with the reason."""
+    exact_bad, numeric_bad, trace = [], {}, {}
+    for name in EXACT_FILES:
+        if sha256_file(out_dir / name) != sha256_file(docs_dir / f"s2_{name}"):
+            exact_bad.append(name)
+    for name in NUMERIC_FILES:
+        bad, tr = [], []
+        _walk(json.loads((docs_dir / f"s2_{name}").read_text(encoding="utf-8")),
+              json.loads((out_dir / name).read_text(encoding="utf-8")), "", atol, bad, tr)  # fmt: skip
+        if bad:
+            numeric_bad[name] = bad[:25]
+        if tr:
+            trace[name] = tr[:25]
+    return {
+        "atol": atol,
+        "exact_files_differing": exact_bad,
+        "numeric_differences": numeric_bad,
+        "solver_trace_differences_reported_only": trace,
+        "not_compared": ENVIRONMENT_DEPENDENT,
+        "ok": not exact_bad and not numeric_bad,
+    }
+
+
 def reproduce(root: Path, previous: Path, as_of: datetime, a) -> int:
     """Same inputs must give the same files: re-run into a scratch directory and compare hashes (never assume)."""
     import tempfile
@@ -740,6 +808,17 @@ def main(argv=None) -> int:
         "--reproduce", default=None, metavar="DIR",
         help="re-run into a temporary directory and compare every output hash with DIR (NOT_REPRODUCIBLE on a diff)",
     )  # fmt: skip
+    ap.add_argument(
+        "--expect-manifest", default=None, metavar="FILE",
+        help="after the run, compare every output hash with the output_hashes of a committed run manifest "
+        "(exit 1 on a difference); used by the CI job on the archived source snapshot",
+    )  # fmt: skip
+    ap.add_argument(
+        "--compare-committed", default=None, metavar="DOCS_DIR",
+        help="after the run, compare the written files with the committed s2_* files in DOCS_DIR (cross-platform "
+        "check: exact for structural files, numeric within --atol for metric files)",
+    )  # fmt: skip
+    ap.add_argument("--atol", type=float, default=1e-3, help="absolute tolerance of --compare-committed")
     a = ap.parse_args(argv)
     if a.verify:
         res = verify_run(Path(a.root) / a.verify)
@@ -759,6 +838,18 @@ def main(argv=None) -> int:
         docs_dir=(root / a.docs_dir) if a.docs_dir else None,
     )  # fmt: skip
     sys.stdout.write(dumps(out))
+    if a.compare_committed and not a.dry_run:
+        if not a.output_dir:
+            sys.exit("--compare-committed needs --output-dir")
+        report = compare_to_committed(root / a.output_dir, root / a.compare_committed, a.atol)
+        sys.stdout.write(dumps({"compare_committed": report}))
+        return 0 if report["ok"] else 1
+    if a.expect_manifest and not a.dry_run:
+        expected = json.loads(Path(a.expect_manifest).read_text(encoding="utf-8"))["output_hashes"]
+        got = out["run_manifest"]["output_hashes"]
+        diff = {k: [expected.get(k), got.get(k)] for k in sorted({*expected, *got}) if expected.get(k) != got.get(k)}
+        sys.stdout.write(dumps({"expect_manifest": a.expect_manifest, "differences": diff}))
+        return 1 if diff else 0
     return 0
 
 

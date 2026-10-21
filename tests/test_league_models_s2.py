@@ -620,3 +620,55 @@ def test_committed_outputs_are_internally_consistent():
     assert metrics["no_single_winner"] is True
     leaks = json.loads((OUT / "s2_leakage_audit.json").read_text(encoding="utf-8"))
     assert leaks["total_replay_violations"] == 0
+
+
+def test_expect_manifest_exit_codes(tmp_path, monkeypatch, capsys):
+    """TEST_ONLY stub of run(): checks only the comparison and the exit code used by the CI job."""
+    monkeypatch.setattr(benchmark, "run", lambda *a, **k: {"run_manifest": {"output_hashes": {"a.json": "1", "b.json": "2"}}})
+    same = tmp_path / "same.json"
+    same.write_text(json.dumps({"output_hashes": {"a.json": "1", "b.json": "2"}}), encoding="utf-8")
+    other = tmp_path / "other.json"
+    other.write_text(json.dumps({"output_hashes": {"a.json": "1", "b.json": "9"}}), encoding="utf-8")
+    args = ["--root", str(tmp_path), "--as-of", "2026-10-20T00:00:00Z"]
+    assert benchmark.main([*args, "--expect-manifest", str(same)]) == 0
+    assert benchmark.main([*args, "--expect-manifest", str(other)]) == 1
+    assert '"b.json"' in capsys.readouterr().out
+
+
+def test_compare_to_committed_tolerates_float_noise_and_catches_real_changes(e2e_root):
+    import shutil
+
+    root, cfg_path = e2e_root
+    out, docs = root / "artifacts" / "cmp", root / "docs_copy"
+    _run_e2e(root, cfg_path, out, targets=("1x2",))
+    docs.mkdir()
+    for name in (*benchmark.EXACT_FILES, *benchmark.NUMERIC_FILES):
+        shutil.copy(out / name, docs / f"s2_{name}")
+    assert benchmark.compare_to_committed(out, docs, 1e-3)["ok"] is True
+
+    committed = json.loads((docs / "s2_benchmark_metrics.json").read_text(encoding="utf-8"))
+    leaf = committed["metrics"]["1x2"]["ALL"]["elo"]
+    leaf["log_loss"] += 5e-5  # last-digit noise between platforms: accepted
+    committed["fit_health"]["2024-25"]["dixon_coles"]["iterations_used"] += 7  # solver trace: reported, not failed
+    (docs / "s2_benchmark_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
+    res = benchmark.compare_to_committed(out, docs, 1e-3)
+    assert res["ok"] is True and res["solver_trace_differences_reported_only"]["benchmark_metrics.json"]
+
+    leaf["log_loss"] += 0.05  # a changed result: refused
+    (docs / "s2_benchmark_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
+    res = benchmark.compare_to_committed(out, docs, 1e-3)
+    assert res["ok"] is False and res["numeric_differences"]["benchmark_metrics.json"][0]["abs_diff"] > 0.04
+
+    (docs / "s2_protocol_manifest.json").write_text("{}", encoding="utf-8")  # a structural file must match exactly
+    assert benchmark.compare_to_committed(out, docs, 1e-3)["exact_files_differing"] == ["protocol_manifest.json"]
+
+
+def test_compare_skips_the_share_of_a_zero_delta_but_not_of_a_real_one():
+    zero = {"delta_vs_reference": 1e-9, "share_of_draws_below_zero": 0.07, "n": 5}
+    zero2 = {"delta_vs_reference": -2e-9, "share_of_draws_below_zero": 0.11, "n": 5}
+    bad, trace = [], []
+    benchmark._walk(zero, zero2, "", 1e-3, bad, trace)
+    assert bad == []
+    real, real2 = {**zero, "delta_vs_reference": -0.02}, {**zero2, "delta_vs_reference": -0.02}
+    benchmark._walk(real, real2, "", 1e-3, bad, trace)
+    assert [b["path"] for b in bad] == ["/share_of_draws_below_zero"]

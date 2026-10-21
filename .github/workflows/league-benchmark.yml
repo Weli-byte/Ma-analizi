@@ -1,0 +1,82 @@
+name: league-benchmark
+# Real-data check of the league-model programme (ADR 0064): re-runs the Sprint 2 global reference benchmark on the
+# archived source snapshot (private data repo, branch league-source-snapshot) and compares it with the committed
+# docs/league_models/s2_*.json: structural files byte-for-byte, metric files within 1e-3 (float noise between operating
+# systems is expected; a changed result is not). Files that need git-ignored local artifacts are listed as not compared. Takes about 10 minutes, so it runs only when the benchmark, its
+# config, the league-model code or the dependency lock change (and on demand).
+on:
+  pull_request:
+    paths:
+      - "src/league_models/**"
+      - "src/models/**"
+      - "src/evaluation/metrics.py"
+      - "configs/league_models/**"
+      - "configs/model.yaml"
+      - "configs/team_aliases.yaml"
+      - "docs/league_models/s2_*.json"
+      - "requirements.lock"
+      - ".github/workflows/league-benchmark.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/league_models/**"
+      - "src/models/**"
+      - "configs/league_models/**"
+      - "requirements.lock"
+  workflow_dispatch:
+env:
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMEXPR_NUM_THREADS: "1"
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install locked dependencies (hash-verified)
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+      - name: Fetch the source snapshot (read-only use of the repository-scoped deploy key)
+        env:
+          DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -z "$DEPLOY_KEY" ]; then
+            echo "::warning::SKIPPED_NOT_CONFIGURED: DATA_REPO_DEPLOY_KEY is not available (fork pull request?); the real-data benchmark did NOT run"
+            echo "SNAPSHOT=missing" >> "$GITHUB_ENV"
+            exit 0
+          fi
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/data_key && chmod 600 ~/.ssh/data_key
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/meta | python -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<'CFG'
+          Host data-repo
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/data_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+          CFG
+          git -c core.autocrlf=false clone --depth 1 --branch league-source-snapshot git@data-repo:Weli-byte/Ma-analizi2.git /tmp/snapshot
+          (cd /tmp/snapshot && sha256sum -c league_models/source_snapshot/MANIFEST.sha256 --quiet)
+          mkdir -p artifacts/markets/_cache
+          cp -r /tmp/snapshot/league_models/source_snapshot/openfootball artifacts/markets/_cache/
+          cp -r /tmp/snapshot/league_models/source_snapshot/openfootball_cups artifacts/markets/_cache/
+          rm -f ~/.ssh/data_key
+          echo "SNAPSHOT=ready" >> "$GITHUB_ENV"
+        shell: bash
+      - name: Re-run the benchmark and compare with the committed results (exact for structural files, numeric for metrics)
+        if: env.SNAPSHOT == 'ready'
+        run: python -m src.league_models.benchmark --as-of 2026-10-20T00:00:00Z --output-dir artifacts/league_models/benchmark/ci --compare-committed docs/league_models --atol 1e-3
+      - name: Verify the written files by hash
+        if: env.SNAPSHOT == 'ready'
+        run: python -m src.league_models.benchmark --verify artifacts/league_models/benchmark/ci

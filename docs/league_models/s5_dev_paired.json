@@ -1,0 +1,427 @@
+{
+  "definition": "calibrated walk-forward development predictions (folds from the first evaluated fold), pooled over leagues; negative = candidate better",
+  "pairs": {
+    "1x2": {
+      "B_dc_league": {
+        "A_dc_ridge_tuned": {
+          "ci95": [
+            -0.003147,
+            0.003077
+          ],
+          "delta_log_loss": -3.3e-05,
+          "n": 5905
+        },
+        "A_gbm_tuned": {
+          "ci95": [
+            0.007216,
+            0.02121
+          ],
+          "delta_log_loss": 0.014228,
+          "n": 5905
+        },
+        "elo_s2": {
+          "ci95": [
+            0.008198,
+            0.018782
+          ],
+          "delta_log_loss": 0.013317,
+          "n": 5905
+        }
+      },
+      "B_gbm_league": {
+        "A_dc_ridge_tuned": {
+          "ci95": [
+            -0.021843,
+            -0.007097
+          ],
+          "delta_log_loss": -0.014611,
+          "n": 5905
+        },
+        "A_gbm_tuned": {
+          "ci95": [
+            -0.00204,
+            0.001222
+          ],
+          "delta_log_loss": -0.00035,
+          "n": 5905
+        },
+        "elo_s2": {
+          "ci95": [
+            -0.005552,
+            0.003059
+          ],
+          "delta_log_loss": -0.001262,
+          "n": 5905
+        }
+      },
+      "C_gbm_local": {
+        "A_dc_ridge_tuned": {
+          "ci95": [
+            -0.012777,
+            0.003259
+          ],
+          "delta_log_loss": -0.004642,
+          "n": 5905
+        },
+        "A_gbm_tuned": {
+          "ci95": [
+            0.005265,
+            0.013861
+          ],
+          "delta_log_loss": 0.009619,
+          "n": 5905
+        },
+        "elo_s2": {
+          "ci95": [
+            0.00312,
+            0.014182
+          ],
+          "delta_log_loss": 0.008707,
+          "n": 5905
+        }
+      },
+      "D_blend": {
+        "A_dc_ridge_tuned": {
+          "ci95": [
+            -0.003095,
+            0.002993
+          ],
+          "delta_log_loss": -0.000113,
+          "n": 5905
+        },
+        "A_gbm_tuned": {
+          "ci95": [
+            0.006681,
+            0.021867
+          ],
+          "delta_log_loss": 0.014148,
+          "n": 5905
+        },
+        "elo_s2": {
+          "ci95": [
+            0.007293,
+            0.01946
+          ],
+          "delta_log_loss": 0.013236,
+          "n": 5905
+        }
+      },
+      "D_gbm_blend": {
+        "A_dc_ridge_tuned": {
+          "ci95": [
+            -0.021083,
+            -0.006147
+          ],
+          "delta_log_loss": -0.013709,
+          "n": 5905
+        },
+        "A_gbm_tuned": {
+          "ci95": [
+            -0.001332,
+            0.002397
+          ],
+          "delta_log_loss": 0.000552,
+          "n": 5905
+        },
+        "elo_s2": {
+          "ci95": [
+            -0.004773,
+            0.004206
+          ],
+          "delta_log_loss": -0.00036,
+          "n": 5905
+        }
+      },
+      "E_elo_bridge": {
+        "A_dc_ridge_tuned": {
+          "ci95": [
+            -0.018784,
+            -0.005467
+          ],
+          "delta_log_loss": -0.012138,
+          "n": 5905
+        },
+        "A_gbm_tuned": {
+          "ci95": [
+            -0.001806,
+            0.005927
+          ],
+          "delta_log_loss": 0.002123,
+          "n": 5905
+        },
+        "elo_s2": {
+          "ci95": [
+            -0.002007,
+            0.004476
+          ],
+          "delta_log_loss": 0.001211,
+          "n": 5905
+        }
+      }
+    },
+    "btts": {
+      "B_dc_league_goals": {
+        "A_dc_ridge_tuned_goals": {
+          "ci95": [
+            -0.001254,
+            0.000333
+          ],
+          "delta_log_loss": -0.000454,
+          "n": 5905
+        },
+        "A_gbm_tuned_goals": {
+          "ci95": [
+            -0.002159,
+            0.001484
+          ],
+          "delta_log_loss": -0.000349,
+          "n": 5905
+        },
+        "dixon_coles_goals": {
+          "ci95": [
+            -0.000681,
+            0.000607
+          ],
+          "delta_log_loss": -4.9e-05,
+          "n": 5905
+        }
+      },
+      "B_gbm_league_goals": {
+        "A_dc_ridge_tuned_goals": {
+          "ci95": [
+            -0.002632,
+            0.002172
+          ],
+          "delta_log_loss": -0.000228,
+          "n": 5905
+        },
+        "A_gbm_tuned_goals": {
+          "ci95": [
+            -0.001581,
+            0.001281
+          ],
+          "delta_log_loss": -0.000123,
+          "n": 5905
+        },
+        "dixon_coles_goals": {
+          "ci95": [
+            -0.001865,
+            0.002131
+          ],
+          "delta_log_loss": 0.000177,
+          "n": 5905
+        }
+      },
+      "C_gbm_local_goals": {
+        "A_dc_ridge_tuned_goals": {
+          "ci95": [
+            -0.001428,
+            0.002555
+          ],
+          "delta_log_loss": 0.000513,
+          "n": 5905
+        },
+        "A_gbm_tuned_goals": {
+          "ci95": [
+            -0.000775,
+            0.002086
+          ],
+          "delta_log_loss": 0.000619,
+          "n": 5905
+        },
+        "dixon_coles_goals": {
+          "ci95": [
+            -0.00064,
+            0.002548
+          ],
+          "delta_log_loss": 0.000919,
+          "n": 5905
+        }
+      },
+      "D_blend_goals": {
+        "A_dc_ridge_tuned_goals": {
+          "ci95": [
+            -0.001311,
+            0.000278
+          ],
+          "delta_log_loss": -0.00051,
+          "n": 5905
+        },
+        "A_gbm_tuned_goals": {
+          "ci95": [
+            -0.002202,
+            0.001378
+          ],
+          "delta_log_loss": -0.000404,
+          "n": 5905
+        },
+        "dixon_coles_goals": {
+          "ci95": [
+            -0.000772,
+            0.000568
+          ],
+          "delta_log_loss": -0.000104,
+          "n": 5905
+        }
+      },
+      "D_gbm_blend_goals": {
+        "A_dc_ridge_tuned_goals": {
+          "ci95": [
+            -0.002633,
+            0.00196
+          ],
+          "delta_log_loss": -0.000341,
+          "n": 5905
+        },
+        "A_gbm_tuned_goals": {
+          "ci95": [
+            -0.001835,
+            0.001316
+          ],
+          "delta_log_loss": -0.000235,
+          "n": 5905
+        },
+        "dixon_coles_goals": {
+          "ci95": [
+            -0.001981,
+            0.00197
+          ],
+          "delta_log_loss": 6.5e-05,
+          "n": 5905
+        }
+      }
+    },
+    "over_under": {
+      "B_dc_league_totals": {
+        "A_dc_ridge_tuned_totals": {
+          "ci95": [
+            -0.001117,
+            0.000524
+          ],
+          "delta_log_loss": -0.000298,
+          "n": 5905
+        },
+        "A_gbm_tuned_totals": {
+          "ci95": [
+            -0.002253,
+            0.004482
+          ],
+          "delta_log_loss": 0.00124,
+          "n": 5905
+        },
+        "dixon_coles_totals": {
+          "ci95": [
+            -0.00098,
+            0.000434
+          ],
+          "delta_log_loss": -0.000245,
+          "n": 5905
+        }
+      },
+      "B_gbm_league_totals": {
+        "A_dc_ridge_tuned_totals": {
+          "ci95": [
+            -0.005114,
+            0.0014
+          ],
+          "delta_log_loss": -0.001981,
+          "n": 5905
+        },
+        "A_gbm_tuned_totals": {
+          "ci95": [
+            -0.002735,
+            0.00188
+          ],
+          "delta_log_loss": -0.000443,
+          "n": 5905
+        },
+        "dixon_coles_totals": {
+          "ci95": [
+            -0.004769,
+            0.001068
+          ],
+          "delta_log_loss": -0.001929,
+          "n": 5905
+        }
+      },
+      "C_gbm_local_totals": {
+        "A_dc_ridge_tuned_totals": {
+          "ci95": [
+            -0.000832,
+            0.00503
+          ],
+          "delta_log_loss": 0.001992,
+          "n": 5905
+        },
+        "A_gbm_tuned_totals": {
+          "ci95": [
+            0.000281,
+            0.006771
+          ],
+          "delta_log_loss": 0.00353,
+          "n": 5905
+        },
+        "dixon_coles_totals": {
+          "ci95": [
+            -0.000374,
+            0.004717
+          ],
+          "delta_log_loss": 0.002044,
+          "n": 5905
+        }
+      },
+      "D_blend_totals": {
+        "A_dc_ridge_tuned_totals": {
+          "ci95": [
+            -0.001257,
+            0.000404
+          ],
+          "delta_log_loss": -0.000422,
+          "n": 5905
+        },
+        "A_gbm_tuned_totals": {
+          "ci95": [
+            -0.002399,
+            0.00436
+          ],
+          "delta_log_loss": 0.001116,
+          "n": 5905
+        },
+        "dixon_coles_totals": {
+          "ci95": [
+            -0.001087,
+            0.000298
+          ],
+          "delta_log_loss": -0.000369,
+          "n": 5905
+        }
+      },
+      "D_gbm_blend_totals": {
+        "A_dc_ridge_tuned_totals": {
+          "ci95": [
+            -0.005172,
+            0.001322
+          ],
+          "delta_log_loss": -0.002006,
+          "n": 5905
+        },
+        "A_gbm_tuned_totals": {
+          "ci95": [
+            -0.002911,
+            0.002058
+          ],
+          "delta_log_loss": -0.000468,
+          "n": 5905
+        },
+        "dixon_coles_totals": {
+          "ci95": [
+            -0.004821,
+            0.001
+          ],
+          "delta_log_loss": -0.001954,
+          "n": 5905
+        }
+      }
+    }
+  }
+}

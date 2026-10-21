@@ -1,0 +1,49 @@
+# Sprint 5 (ADR 0067): calibration and the model approval gate. THIS FILE IS THE PRE-DECLARED POLICY. The thresholds below are a product decision,
+# not a mathematical guarantee: they trade the risk of promoting a model that does not help against the risk of keeping one that does. The
+# policy is fingerprinted into the pre-registration manifest BEFORE the frozen holdout is read; changing it afterwards is a new policy version.
+policy_version: lm-s5-v1
+seed: 20261023
+calibration:
+  folds_first_eval_index: 2          # inner walk-forward: fit on folds before k, score fold k, for k >= 2 (2022-23, 2023-24, 2024-25)
+  min_gain_over_none: 0.0005         # a calibrator must beat "none" by this much mean walk-forward log loss, otherwise no calibration
+  league_ridge: 50.0                 # offsets of a league with far fewer rows than this stay near the global calibration (hierarchical)
+  min_rows: 100
+  min_isotonic_rows: 500
+screen:                              # dev screen (before the holdout): which candidate, if any, is worth one confirmation test per league x target cell
+  min_dev_rows: 150                  # calibrated walk-forward rows of the cell
+  require_point_estimate_below_every_reference: true
+bootstrap:
+  samples: 10000
+  alpha: 0.05                        # family-wise error over the confirmed cells (Holm)
+holdout_gate:
+  min_holdout_rows: 150              # per league x target; below this the cell stays inconclusive
+  min_oos_coverage: 0.95             # share of the cell's fixtures the candidate and every reference predicted
+  min_training_matches:
+    domestic: 500
+    uefa: 500
+    local_models: 1500               # a local GBM / blend needs the plan's "over 1,500" tier; below it the cell can at most be a shadow
+  max_ece_regression: 0.02           # pooled calibrated ECE of the candidate may not be worse than a reference by more than this (ECE of ~2k rows has noise near 0.01)
+  max_latency_ms_per_fixture: 100.0  # operational ceiling for one prediction
+  require_brier_improvement: true
+  accuracy_can_open_gate: false      # accuracy is reported and can never approve a model
+  require_license_status: APPROVED
+models:                              # fixed before the holdout; probability-dictionary keys of the Sprint 2 / 3 / 4 stack
+  production_baseline: {1x2: elo_s2, over_under: dixon_coles_totals, btts: dixon_coles_goals}
+  references:                        # a candidate must beat EVERY reference of its target (the tuned league-blind GBM is the Sprint 4 control)
+    1x2: [elo_s2, A_gbm_tuned, A_dc_ridge_tuned]
+    over_under: [dixon_coles_totals, A_gbm_tuned_totals, A_dc_ridge_tuned_totals]
+    btts: [dixon_coles_goals, A_gbm_tuned_goals, A_dc_ridge_tuned_goals]
+  candidates:
+    1x2: [E_elo_bridge, B_gbm_league, C_gbm_local, D_gbm_blend, B_dc_league, D_blend]
+    over_under: [B_gbm_league_totals, C_gbm_local_totals, D_gbm_blend_totals, B_dc_league_totals, D_blend_totals]
+    btts: [B_gbm_league_goals, C_gbm_local_goals, D_gbm_blend_goals, B_dc_league_goals, D_blend_goals]
+  naive: {over_under: train_over_rate, btts: train_btts_rate}
+  local_models: [C_gbm_local, D_gbm_blend, D_blend, C_dc_local, F_elo_local]
+statuses:
+  APPROVED_FOR_CANARY: "all gates pass and the Holm-adjusted confirmation test is passed against EVERY reference"
+  SHADOW_INCONCLUSIVE: "the interval includes 0, or too few rows, or a local tier below its proof level: observe in shadow only"
+  REJECTED: "significantly worse than a reference, a material calibration or latency regression, or an invalid artifact"
+  BLOCKED: "no data, coverage below the minimum, revoked license or a broken lineage"
+  GLOBAL_KEPT: "no candidate passed the dev screen for the cell, so nothing was tested on the holdout for approval"
+router:
+  production_fraction: 0.0           # S6 opens production traffic; S5 can only select an approved artifact for canary / shadow

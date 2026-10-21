@@ -1,0 +1,91 @@
+{
+  "bench_config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+  "calibration_choices": {
+    "1x2": {
+      "A_dc_ridge_tuned": "none",
+      "A_gbm_tuned": "none",
+      "B_dc_league": "hier",
+      "B_gbm_league": "none",
+      "C_gbm_local": "none",
+      "D_blend": "none",
+      "D_gbm_blend": "none",
+      "E_elo_bridge": "none",
+      "elo_s2": "hier"
+    },
+    "btts": {
+      "A_dc_ridge_tuned_goals": "affine",
+      "A_gbm_tuned_goals": "isotonic",
+      "B_dc_league_goals": "affine",
+      "B_gbm_league_goals": "none",
+      "C_gbm_local_goals": "affine",
+      "D_blend_goals": "affine",
+      "D_gbm_blend_goals": "none",
+      "dixon_coles_goals": "affine",
+      "train_btts_rate": "none"
+    },
+    "over_under": {
+      "A_dc_ridge_tuned_totals": "hier",
+      "A_gbm_tuned_totals": "none",
+      "B_dc_league_totals": "hier",
+      "B_gbm_league_totals": "none",
+      "C_gbm_local_totals": "hier",
+      "D_blend_totals": "hier",
+      "D_gbm_blend_totals": "none",
+      "dixon_coles_totals": "hier",
+      "train_over_rate": "hier"
+    }
+  },
+  "cells_on_global_model": [
+    "ENG1|btts",
+    "ESP1|1x2",
+    "ESP1|btts",
+    "FRA1|over_under",
+    "GER1|1x2",
+    "GER1|btts",
+    "GER1|over_under",
+    "ITA1|btts",
+    "ITA1|over_under",
+    "TUR1|1x2",
+    "TUR1|btts",
+    "TUR1|over_under",
+    "UEFA_UCL|1x2",
+    "UEFA_UCL|btts",
+    "UEFA_UCL|over_under",
+    "UEFA_UECL|1x2"
+  ],
+  "confirmation_test": "paired block bootstrap (iso-week blocks), one-sided, every reference of the target, Holm across the selected cells",
+  "data_snapshot_sha256": "546e70fff7fb577e20dedb58bf14262c703115ea623904ebe68afe6773b5f484",
+  "development_folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "holdout": {
+    "fixture_ids_sha256": "d1821171348a46714751c3d2cfbfbb614f6e9b8f48b36c831c723f3d6df75c21",
+    "fixtures": 2278,
+    "kind": "FROZEN: fixtures listed by id hash only until the single read",
+    "seasons": "2025-26 (Süper Lig: 2024-25)"
+  },
+  "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+  "ml_config_fingerprint_sha256": "a8f7f8fdb5079518f8d7e42b8d89c0f969577ba2763d43f0f9252f48c3c1fe92",
+  "policy_sha256": "f5f0e4291bdf4af0702cf596f577ba7915315ea46dca670f9791e5187c60fd74",
+  "policy_version": "lm-s5-v1",
+  "rehearsal": false,
+  "screen_selection": {
+    "ENG1|1x2": "E_elo_bridge",
+    "ENG1|over_under": "B_gbm_league_totals",
+    "ESP1|over_under": "B_dc_league_totals",
+    "FRA1|1x2": "E_elo_bridge",
+    "FRA1|btts": "B_gbm_league_goals",
+    "ITA1|1x2": "B_gbm_league",
+    "UEFA_UECL|btts": "B_gbm_league_goals",
+    "UEFA_UECL|over_under": "B_gbm_league_totals",
+    "UEFA_UEL|1x2": "B_dc_league",
+    "UEFA_UEL|btts": "B_gbm_league_goals",
+    "UEFA_UEL|over_under": "C_gbm_local_totals"
+  },
+  "snapshot_id": "snap-546e70fff7fb",
+  "stat_config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf"
+}

@@ -1,0 +1,15 @@
+{
+  "definition": "append-only access log of the frozen holdout (Sprint 5). One CONSUMED entry closes the holdout for good.",
+  "entries": [
+    {
+      "event": "HOLDOUT_READ",
+      "fixture_ids_sha256": "d1821171348a46714751c3d2cfbfbb614f6e9b8f48b36c831c723f3d6df75c21",
+      "fixtures": 2278,
+      "git_sha": "c6a12ced308b8ac2c69dc55e6ee077cdc36db831",
+      "prereg_sha256": "e72f92de980c3b99a5f707505700ccb639ca45cc67949034e0e9e730c1523bba",
+      "purpose": "s5_final_holdout",
+      "status": "CONSUMED",
+      "utc": "2026-10-21T16:17:23.002937+00:00"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "python_314_dev_run": "artifacts/league_models/s5/dev",
+  "python_312_dev_run": "artifacts/league_models/s5/py312",
+  "files_compared": 5,
+  "files_byte_identical": 5,
+  "not_identical": [],
+  
+  "compare_committed": "ok at atol 1e-3, no exact-file difference"
+}

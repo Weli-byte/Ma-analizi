@@ -1,0 +1,428 @@
+{
+  "cells": {
+    "ENG1|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 0.989187,
+        "A_gbm_tuned": 0.963337,
+        "B_dc_league": 0.996026,
+        "B_gbm_league": 0.962755,
+        "C_gbm_local": 0.96865,
+        "D_blend": 0.994718,
+        "D_gbm_blend": 0.962755,
+        "E_elo_bridge": 0.958535,
+        "elo_s2": 0.963416
+      },
+      "descriptive_best_candidate": "E_elo_bridge",
+      "n": 760,
+      "reason": "best candidate below every reference",
+      "selected": "E_elo_bridge"
+    },
+    "ENG1|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.68963,
+        "A_gbm_tuned_goals": 0.686041,
+        "B_dc_league_goals": 0.688111,
+        "B_gbm_league_goals": 0.688503,
+        "C_gbm_local_goals": 0.690417,
+        "D_blend_goals": 0.688145,
+        "D_gbm_blend_goals": 0.688503,
+        "dixon_coles_goals": 0.68779,
+        "train_btts_rate": 0.685979
+      },
+      "descriptive_best_candidate": "B_dc_league_goals",
+      "n": 760,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "ENG1|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.689386,
+        "A_gbm_tuned_totals": 0.678522,
+        "B_dc_league_totals": 0.68833,
+        "B_gbm_league_totals": 0.674864,
+        "C_gbm_local_totals": 0.69228,
+        "D_blend_totals": 0.688292,
+        "D_gbm_blend_totals": 0.675349,
+        "dixon_coles_totals": 0.686876,
+        "train_over_rate": 0.687637
+      },
+      "descriptive_best_candidate": "B_gbm_league_totals",
+      "n": 760,
+      "reason": "best candidate below every reference",
+      "selected": "B_gbm_league_totals"
+    },
+    "ESP1|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 0.989931,
+        "A_gbm_tuned": 0.98449,
+        "B_dc_league": 0.992206,
+        "B_gbm_league": 0.985001,
+        "C_gbm_local": 1.001859,
+        "D_blend": 0.984582,
+        "D_gbm_blend": 0.988466,
+        "E_elo_bridge": 0.989521,
+        "elo_s2": 0.982238
+      },
+      "descriptive_best_candidate": "D_blend",
+      "n": 760,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "ESP1|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.691949,
+        "A_gbm_tuned_goals": 0.698158,
+        "B_dc_league_goals": 0.692623,
+        "B_gbm_league_goals": 0.693762,
+        "C_gbm_local_goals": 0.695666,
+        "D_blend_goals": 0.692666,
+        "D_gbm_blend_goals": 0.693762,
+        "dixon_coles_goals": 0.693652,
+        "train_btts_rate": 0.697283
+      },
+      "descriptive_best_candidate": "B_dc_league_goals",
+      "n": 760,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "ESP1|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.684796,
+        "A_gbm_tuned_totals": 0.686201,
+        "B_dc_league_totals": 0.684354,
+        "B_gbm_league_totals": 0.687859,
+        "C_gbm_local_totals": 0.693577,
+        "D_blend_totals": 0.684523,
+        "D_gbm_blend_totals": 0.687859,
+        "dixon_coles_totals": 0.685204,
+        "train_over_rate": 0.691141
+      },
+      "descriptive_best_candidate": "B_dc_league_totals",
+      "n": 760,
+      "reason": "best candidate below every reference",
+      "selected": "B_dc_league_totals"
+    },
+    "FRA1|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 1.011011,
+        "A_gbm_tuned": 0.998453,
+        "B_dc_league": 1.011842,
+        "B_gbm_league": 0.997944,
+        "C_gbm_local": 1.010495,
+        "D_blend": 1.010551,
+        "D_gbm_blend": 0.999224,
+        "E_elo_bridge": 0.996351,
+        "elo_s2": 0.997355
+      },
+      "descriptive_best_candidate": "E_elo_bridge",
+      "n": 992,
+      "reason": "best candidate below every reference",
+      "selected": "E_elo_bridge"
+    },
+    "FRA1|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.689456,
+        "A_gbm_tuned_goals": 0.684485,
+        "B_dc_league_goals": 0.687491,
+        "B_gbm_league_goals": 0.684203,
+        "C_gbm_local_goals": 0.687397,
+        "D_blend_goals": 0.68719,
+        "D_gbm_blend_goals": 0.686111,
+        "dixon_coles_goals": 0.686042,
+        "train_btts_rate": 0.685449
+      },
+      "descriptive_best_candidate": "B_gbm_league_goals",
+      "n": 992,
+      "reason": "best candidate below every reference",
+      "selected": "B_gbm_league_goals"
+    },
+    "FRA1|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.683909,
+        "A_gbm_tuned_totals": 0.683113,
+        "B_dc_league_totals": 0.684075,
+        "B_gbm_league_totals": 0.685974,
+        "C_gbm_local_totals": 0.685585,
+        "D_blend_totals": 0.683813,
+        "D_gbm_blend_totals": 0.684825,
+        "dixon_coles_totals": 0.683582,
+        "train_over_rate": 0.68934
+      },
+      "descriptive_best_candidate": "D_blend_totals",
+      "n": 992,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "GER1|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 1.010562,
+        "A_gbm_tuned": 0.999484,
+        "B_dc_league": 1.015442,
+        "B_gbm_league": 1.001707,
+        "C_gbm_local": 1.018845,
+        "D_blend": 1.01393,
+        "D_gbm_blend": 1.001707,
+        "E_elo_bridge": 1.001632,
+        "elo_s2": 1.001676
+      },
+      "descriptive_best_candidate": "E_elo_bridge",
+      "n": 918,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "GER1|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.672738,
+        "A_gbm_tuned_goals": 0.681904,
+        "B_dc_league_goals": 0.673414,
+        "B_gbm_league_goals": 0.679563,
+        "C_gbm_local_goals": 0.677304,
+        "D_blend_goals": 0.673332,
+        "D_gbm_blend_goals": 0.67731,
+        "dixon_coles_goals": 0.673844,
+        "train_btts_rate": 0.680741
+      },
+      "descriptive_best_candidate": "D_blend_goals",
+      "n": 918,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "GER1|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.660699,
+        "A_gbm_tuned_totals": 0.67484,
+        "B_dc_league_totals": 0.662151,
+        "B_gbm_league_totals": 0.668892,
+        "C_gbm_local_totals": 0.67221,
+        "D_blend_totals": 0.662323,
+        "D_gbm_blend_totals": 0.668277,
+        "dixon_coles_totals": 0.662799,
+        "train_over_rate": 0.67276
+      },
+      "descriptive_best_candidate": "B_dc_league_totals",
+      "n": 918,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "ITA1|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 0.998793,
+        "A_gbm_tuned": 0.986829,
+        "B_dc_league": 1.002473,
+        "B_gbm_league": 0.984801,
+        "C_gbm_local": 0.994146,
+        "D_blend": 0.999895,
+        "D_gbm_blend": 0.986061,
+        "E_elo_bridge": 0.989441,
+        "elo_s2": 0.984814
+      },
+      "descriptive_best_candidate": "B_gbm_league",
+      "n": 1130,
+      "reason": "best candidate below every reference",
+      "selected": "B_gbm_league"
+    },
+    "ITA1|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.69415,
+        "A_gbm_tuned_goals": 0.694428,
+        "B_dc_league_goals": 0.694576,
+        "B_gbm_league_goals": 0.697009,
+        "C_gbm_local_goals": 0.696255,
+        "D_blend_goals": 0.694629,
+        "D_gbm_blend_goals": 0.696574,
+        "dixon_coles_goals": 0.695473,
+        "train_btts_rate": 0.694673
+      },
+      "descriptive_best_candidate": "B_dc_league_goals",
+      "n": 1130,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "ITA1|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.695982,
+        "A_gbm_tuned_totals": 0.692897,
+        "B_dc_league_totals": 0.695954,
+        "B_gbm_league_totals": 0.694237,
+        "C_gbm_local_totals": 0.695544,
+        "D_blend_totals": 0.695776,
+        "D_gbm_blend_totals": 0.695289,
+        "dixon_coles_totals": 0.697811,
+        "train_over_rate": 0.698847
+      },
+      "descriptive_best_candidate": "B_gbm_league_totals",
+      "n": 1130,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "TUR1|1x2": {
+      "n": 0,
+      "reason": "0 dev rows < 150",
+      "selected": null
+    },
+    "TUR1|btts": {
+      "n": 0,
+      "reason": "0 dev rows < 150",
+      "selected": null
+    },
+    "TUR1|over_under": {
+      "n": 0,
+      "reason": "0 dev rows < 150",
+      "selected": null
+    },
+    "UEFA_UCL|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 0.925011,
+        "A_gbm_tuned": 0.928589,
+        "B_dc_league": 0.928626,
+        "B_gbm_league": 0.927766,
+        "C_gbm_local": 0.925393,
+        "D_blend": 0.93296,
+        "D_gbm_blend": 0.927766,
+        "E_elo_bridge": 0.922314,
+        "elo_s2": 0.919672
+      },
+      "descriptive_best_candidate": "E_elo_bridge",
+      "n": 439,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "UEFA_UCL|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.698448,
+        "A_gbm_tuned_goals": 0.693201,
+        "B_dc_league_goals": 0.697983,
+        "B_gbm_league_goals": 0.694216,
+        "C_gbm_local_goals": 0.694299,
+        "D_blend_goals": 0.698168,
+        "D_gbm_blend_goals": 0.694216,
+        "dixon_coles_goals": 0.698148,
+        "train_btts_rate": 0.692987
+      },
+      "descriptive_best_candidate": "B_gbm_league_goals",
+      "n": 439,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "UEFA_UCL|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.684248,
+        "A_gbm_tuned_totals": 0.672325,
+        "B_dc_league_totals": 0.682235,
+        "B_gbm_league_totals": 0.672648,
+        "C_gbm_local_totals": 0.680127,
+        "D_blend_totals": 0.681967,
+        "D_gbm_blend_totals": 0.672648,
+        "dixon_coles_totals": 0.682952,
+        "train_over_rate": 0.68215
+      },
+      "descriptive_best_candidate": "B_gbm_league_totals",
+      "n": 439,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "UEFA_UECL|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 1.07029,
+        "A_gbm_tuned": 1.021881,
+        "B_dc_league": 1.043706,
+        "B_gbm_league": 1.02391,
+        "C_gbm_local": 1.02391,
+        "D_blend": 1.059163,
+        "D_gbm_blend": 1.02391,
+        "E_elo_bridge": 1.039721,
+        "elo_s2": 1.038529
+      },
+      "descriptive_best_candidate": "B_gbm_league",
+      "n": 435,
+      "reason": "no candidate is below every reference: global model kept",
+      "selected": null
+    },
+    "UEFA_UECL|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.696431,
+        "A_gbm_tuned_goals": 0.691631,
+        "B_dc_league_goals": 0.698359,
+        "B_gbm_league_goals": 0.691378,
+        "C_gbm_local_goals": 0.691475,
+        "D_blend_goals": 0.697916,
+        "D_gbm_blend_goals": 0.691378,
+        "dixon_coles_goals": 0.696674,
+        "train_btts_rate": 0.694163
+      },
+      "descriptive_best_candidate": "B_gbm_league_goals",
+      "n": 435,
+      "reason": "best candidate below every reference",
+      "selected": "B_gbm_league_goals"
+    },
+    "UEFA_UECL|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.689594,
+        "A_gbm_tuned_totals": 0.67994,
+        "B_dc_league_totals": 0.692124,
+        "B_gbm_league_totals": 0.679744,
+        "C_gbm_local_totals": 0.683204,
+        "D_blend_totals": 0.690901,
+        "D_gbm_blend_totals": 0.679744,
+        "dixon_coles_totals": 0.691089,
+        "train_over_rate": 0.690011
+      },
+      "descriptive_best_candidate": "B_gbm_league_totals",
+      "n": 435,
+      "reason": "best candidate below every reference",
+      "selected": "B_gbm_league_totals"
+    },
+    "UEFA_UEL|1x2": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned": 0.980343,
+        "A_gbm_tuned": 0.970158,
+        "B_dc_league": 0.966318,
+        "B_gbm_league": 0.966383,
+        "C_gbm_local": 0.974609,
+        "D_blend": 0.973257,
+        "D_gbm_blend": 0.966383,
+        "E_elo_bridge": 0.979752,
+        "elo_s2": 0.980902
+      },
+      "descriptive_best_candidate": "B_dc_league",
+      "n": 471,
+      "reason": "best candidate below every reference",
+      "selected": "B_dc_league"
+    },
+    "UEFA_UEL|btts": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_goals": 0.692265,
+        "A_gbm_tuned_goals": 0.687975,
+        "B_dc_league_goals": 0.68839,
+        "B_gbm_league_goals": 0.687814,
+        "C_gbm_local_goals": 0.690262,
+        "D_blend_goals": 0.688468,
+        "D_gbm_blend_goals": 0.687814,
+        "dixon_coles_goals": 0.689317,
+        "train_btts_rate": 0.69039
+      },
+      "descriptive_best_candidate": "B_gbm_league_goals",
+      "n": 471,
+      "reason": "best candidate below every reference",
+      "selected": "B_gbm_league_goals"
+    },
+    "UEFA_UEL|over_under": {
+      "calibrated_walk_forward_log_loss": {
+        "A_dc_ridge_tuned_totals": 0.698876,
+        "A_gbm_tuned_totals": 0.696401,
+        "B_dc_league_totals": 0.693987,
+        "B_gbm_league_totals": 0.696309,
+        "C_gbm_local_totals": 0.689839,
+        "D_blend_totals": 0.694249,
+        "D_gbm_blend_totals": 0.696309,
+        "dixon_coles_totals": 0.693649,
+        "train_over_rate": 0.68857
+      },
+      "descriptive_best_candidate": "C_gbm_local_totals",
+      "n": 471,
+      "reason": "best candidate below every reference",
+      "selected": "C_gbm_local_totals"
+    }
+  },
+  "definition": "For every league x target cell with enough dev rows, the candidates whose CALIBRATED walk-forward log loss is below every reference are screened; the best one is the only candidate confirmed on the holdout. Nothing else is tested for approval, which keeps the family of confirmation tests small. Declared before the holdout."
+}

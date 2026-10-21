@@ -43,8 +43,9 @@ def _row(i, comp, season, kick, h, a, hg, ag) -> EvalRow:
     return EvalRow(f"f{i}", comp, season, kick, h, a, 0 if hg > ag else (1 if hg == ag else 2), home_goals=hg, away_goals=ag)
 
 
-def _league(n_teams=8, n_matches=400, seed=3, prefix="ITA", comp="ITA1", season="2020-21", start=utc(2020, 9, 1, 18)):
+def _league(n_teams=8, n_matches=400, seed=3, prefix="ITA", comp="ITA1", season="2020-21", start=None):
     """TEST_ONLY: goals drawn from known strengths, so recovery can be checked. Not real matches."""
+    start = start or utc(2020, 9, 1, 18)
     rng = np.random.default_rng(seed)
     att = rng.normal(0, 0.25, n_teams)
     dfn = rng.normal(0, 0.25, n_teams)

@@ -123,4 +123,6 @@ python -m src.league_models.s5_benchmark --as-of 2026-10-20T00:00:00Z --stage ho
 python -m src.league_models.s5_benchmark --verify artifacts/league_models/s5/final
 ```
 - Local checks (2026-10-21): `ruff check .` clean; the Sprint 5 tests: 26 passed; `--verify` of the final run 14 of 14 files; the dev stage under Python 3.12.14 reproduced the pre-registration hash `e72f92de...` and passed `--compare-committed` (`evidence/s5_cross_python_check.json`).
-- CI: CI_STATUS
+- CI (GitHub Actions, PR #87, 2026-10-21): the `league-benchmark` job (Ubuntu 24.04, Python 3.12, archived snapshot) re-ran Sprints 2 to 4 and the Sprint 5 development stage and passed every comparison with the
+  committed files; `test (3.12)`, `test (3.14)`, `real-data-sanity` and `lock-up-to-date` passed. The holdout stage is never run in CI (a second read is forbidden); its committed report is verified by hash only.
+  The lock files drift every few hours as upstream packages are released (this PR needed two regenerations, the second brought `anthropic` 2.0.0); the daily relock workflow remains the long-term answer.

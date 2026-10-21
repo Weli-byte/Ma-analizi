@@ -383,7 +383,8 @@ def role_check(folds: list[Fold], universe) -> dict:
     seen: set[str] = set()
     for f in folds:
         ev = {r.fixture_id for r in f.eval_rows}
-        assert not (ev & frozen) and not ({r.fixture_id for r in f.train_rows} & frozen) and not (ev & seen)
+        if (ev & frozen) or ({r.fixture_id for r in f.train_rows} & frozen) or (ev & seen):
+            raise ValueError(f"fold {f.eval_season}: a frozen fixture or an overlapping evaluation fixture was found (fail closed)")
         seen |= ev
     return {"holdout_reserved_guard_in_any_fold": 0, "evaluation_fixtures_overlapping_between_folds": 0, "train_and_eval_overlap_inside_a_fold": 0,
             "evaluated_fixtures": len(seen)}  # fmt: skip
@@ -508,7 +509,7 @@ def results_matrix(policy, hold: Stack, cal, pooled_ece, pcfg, bcfg, screen, dec
                 entry["label_rate"] = round(float(y.mean()), 4)
                 entry["candidate_log_loss"] = round(float(np.mean(_loss(target, cal[target][cand][sel], y))), 6)
             out[cell] = entry
-    return {"definition": "WON: log-loss interval below 0 against every reference; LOST: above 0 against at least one; otherwise INSUFFICIENT_EVIDENCE. 27 cells are shown; a small nominal "
+    return {"definition": "WON: log-loss interval below 0 against every reference; LOST: above 0 against at least one; otherwise INSUFFICIENT_EVIDENCE. one entry per league with holdout fixtures x 3 targets; a small nominal "
                           "difference is not a win, and an empty cell is NO_DATA, not a success.", "cells": out}  # fmt: skip
 
 

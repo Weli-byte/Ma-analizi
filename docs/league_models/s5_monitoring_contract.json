@@ -1,0 +1,37 @@
+{
+  "alarms": [
+    "artifact hash mismatch",
+    "fallback rate above 5%",
+    "paired log-loss interval above 0 for 4 consecutive weeks",
+    "ECE worse than the reference by more than the policy margin",
+    "latency above the policy ceiling"
+  ],
+  "canary_candidates": [],
+  "for_sprint_6": "what the live shadow / canary monitor must record and alarm on",
+  "metrics_to_track": [
+    "log loss",
+    "Brier",
+    "ECE",
+    "coverage",
+    "fallback rate",
+    "latency p50/p95",
+    "paired delta against the global reference on the same fixtures"
+  ],
+  "per_prediction_record": [
+    "fixture_id",
+    "league",
+    "target",
+    "stage",
+    "model_id",
+    "version",
+    "route_mode",
+    "fallback_reason",
+    "generated_at_utc (real call time)",
+    "probabilities",
+    "calibrator_id",
+    "feature_schema_sha256",
+    "snapshot_id"
+  ],
+  "policy_version": "lm-s5-v1",
+  "rollback_trigger": "any alarm of a canary model routes that league and target back to GLOBAL"
+}

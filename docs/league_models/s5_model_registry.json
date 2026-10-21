@@ -1,0 +1,159 @@
+{
+  "entries": [
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/elo_s2__1x2.json",
+      "artifact_sha256": "f9cedc6acd90ff19f3973d4175a06514c5421f86d2851fc0e040827131f749df",
+      "league": "*",
+      "mode": "GLOBAL",
+      "model_id": "elo_s2",
+      "status": "GLOBAL_REFERENCE",
+      "target": "1x2",
+      "version": "baseline-546e70fff7fb"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/dixon_coles_totals__over_under.json",
+      "artifact_sha256": "bebd87820de5f8afd55ded2e98c7695843289a9fac54d79cdd7ddc5dc92e164a",
+      "league": "*",
+      "mode": "GLOBAL",
+      "model_id": "dixon_coles_totals",
+      "status": "GLOBAL_REFERENCE",
+      "target": "over_under",
+      "version": "baseline-546e70fff7fb"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/dixon_coles_goals__btts.json",
+      "artifact_sha256": "5538a153a237d7f15bafbbbee8a72e7f9641cbe917e05353c3ec803c80a86ebc",
+      "league": "*",
+      "mode": "GLOBAL",
+      "model_id": "dixon_coles_goals",
+      "status": "GLOBAL_REFERENCE",
+      "target": "btts",
+      "version": "baseline-546e70fff7fb"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/E_elo_bridge__1x2.json",
+      "artifact_sha256": "b21268595c27d718de06aed523fa53cf94e2e5d653c3f44b30114a61130c710e",
+      "league": "ENG1",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "E_elo_bridge",
+      "status": "SHADOW_INCONCLUSIVE",
+      "target": "1x2",
+      "version": "v-8d331f2217"
+    },
+    {
+      "artifact_kind": "booster_file",
+      "artifact_path": "models/2025-26__B_gbm_league__over_under__GLOBAL.txt",
+      "artifact_sha256": "fded9ff2bdaf5b46cd2f4ef0f4191818d47f64a02b135bf1f77e7111afce3d9e",
+      "league": "ENG1",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_gbm_league",
+      "status": "REJECTED",
+      "target": "over_under",
+      "version": "v-eeffb288a7"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/B_dc_league__over_under.json",
+      "artifact_sha256": "06c22ffab526ebbea50943be396f0d6b306e008dd6d2e493f74143d39925f16c",
+      "league": "ESP1",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_dc_league",
+      "status": "SHADOW_INCONCLUSIVE",
+      "target": "over_under",
+      "version": "v-c8613bed77"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/E_elo_bridge__1x2.json",
+      "artifact_sha256": "b21268595c27d718de06aed523fa53cf94e2e5d653c3f44b30114a61130c710e",
+      "league": "FRA1",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "E_elo_bridge",
+      "status": "SHADOW_INCONCLUSIVE",
+      "target": "1x2",
+      "version": "v-8d331f2217"
+    },
+    {
+      "artifact_kind": "booster_file",
+      "artifact_path": "models/2025-26__B_gbm_league__btts__GLOBAL.txt",
+      "artifact_sha256": "d9ce1d21461429f07e1c8eb22013677c92b09a9f863543dd644491c22fd0f2f6",
+      "league": "FRA1",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_gbm_league",
+      "status": "REJECTED",
+      "target": "btts",
+      "version": "v-0d7a7895c4"
+    },
+    {
+      "artifact_kind": "booster_file",
+      "artifact_path": "models/2025-26__B_gbm_league__1x2__GLOBAL.txt",
+      "artifact_sha256": "9cc0d8335dbfe9113c4f5fbd3d5525fb6db846fa0c18594935ad33c73c935ea9",
+      "league": "ITA1",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_gbm_league",
+      "status": "SHADOW_INCONCLUSIVE",
+      "target": "1x2",
+      "version": "v-8d2be1a5cf"
+    },
+    {
+      "artifact_kind": "booster_file",
+      "artifact_path": "models/2025-26__B_gbm_league__btts__GLOBAL.txt",
+      "artifact_sha256": "d9ce1d21461429f07e1c8eb22013677c92b09a9f863543dd644491c22fd0f2f6",
+      "league": "UEFA_UECL",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_gbm_league",
+      "status": "BLOCKED",
+      "target": "btts",
+      "version": "v-0d7a7895c4"
+    },
+    {
+      "artifact_kind": "booster_file",
+      "artifact_path": "models/2025-26__B_gbm_league__over_under__GLOBAL.txt",
+      "artifact_sha256": "fded9ff2bdaf5b46cd2f4ef0f4191818d47f64a02b135bf1f77e7111afce3d9e",
+      "league": "UEFA_UECL",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_gbm_league",
+      "status": "BLOCKED",
+      "target": "over_under",
+      "version": "v-eeffb288a7"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/B_dc_league__1x2.json",
+      "artifact_sha256": "f5710f9758fe4b78637d57a5ad2edfea4a90e3d81b5758d4080bcd3ba7770064",
+      "league": "UEFA_UEL",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_dc_league",
+      "status": "BLOCKED",
+      "target": "1x2",
+      "version": "v-e1aeef9b58"
+    },
+    {
+      "artifact_kind": "booster_file",
+      "artifact_path": "models/2025-26__B_gbm_league__btts__GLOBAL.txt",
+      "artifact_sha256": "d9ce1d21461429f07e1c8eb22013677c92b09a9f863543dd644491c22fd0f2f6",
+      "league": "UEFA_UEL",
+      "mode": "LEAGUE_ADAPTED",
+      "model_id": "B_gbm_league",
+      "status": "BLOCKED",
+      "target": "btts",
+      "version": "v-0d7a7895c4"
+    },
+    {
+      "artifact_kind": "recipe",
+      "artifact_path": "models/recipes/C_gbm_local__over_under.json",
+      "artifact_sha256": "3b53991134f3974a0a95e121520b4eeae574694658ad0fb949b577025f7a7680",
+      "league": "UEFA_UEL",
+      "mode": "LOCAL",
+      "model_id": "C_gbm_local",
+      "status": "BLOCKED",
+      "target": "over_under",
+      "version": "v-50122faaf9"
+    }
+  ],
+  "note": "artifact hashes are of files that exist in the run output"
+}

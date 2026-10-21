@@ -1,0 +1,905 @@
+{
+  "decisions": {
+    "ENG1|1x2": {
+      "candidate": "E_elo_bridge",
+      "checks": [
+        {
+          "check": "license",
+          "detail": "APPROVED",
+          "passed": true
+        },
+        {
+          "check": "no_leakage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "snapshot_lineage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "coverage",
+          "detail": 1.0,
+          "passed": true
+        },
+        {
+          "check": "model_artifact_valid",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "no_material_latency_regression",
+          "detail": 0.005,
+          "passed": true
+        },
+        {
+          "check": "not_significantly_worse_than_any_reference",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "no_material_calibration_regression",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "min_training_data",
+          "detail": {
+            "required": 500,
+            "training_matches": 1900
+          },
+          "passed": true
+        },
+        {
+          "check": "min_holdout_rows",
+          "detail": {
+            "required": 150,
+            "rows": 380
+          },
+          "passed": true
+        },
+        {
+          "check": "baseline_delta_log_loss_below_zero_with_confidence",
+          "detail": {
+            "A_dc_ridge_tuned": [
+              -0.05836,
+              -0.00583
+            ],
+            "A_gbm_tuned": [
+              -0.02411,
+              0.00505
+            ],
+            "elo_s2": [
+              -0.01717,
+              0.00762
+            ]
+          },
+          "passed": false
+        },
+        {
+          "check": "brier_not_worse",
+          "detail": {
+            "A_dc_ridge_tuned": -0.02132,
+            "A_gbm_tuned": -0.00639,
+            "elo_s2": -0.0029
+          },
+          "passed": true
+        },
+        {
+          "check": "holm_adjusted_confirmation",
+          "detail": false,
+          "passed": false
+        },
+        {
+          "check": "accuracy_cannot_open_the_gate",
+          "detail": {
+            "A_dc_ridge_tuned": 0.0158,
+            "A_gbm_tuned": 0.0053,
+            "elo_s2": 0.0105
+          },
+          "passed": true
+        }
+      ],
+      "holdout_rows": 380,
+      "holm_adjusted_pass": false,
+      "p_value_max_over_references": 0.2154,
+      "paired": {
+        "A_dc_ridge_tuned": {
+          "ci_lower": -0.0583607157672249,
+          "ci_upper": -0.005828731757645246,
+          "delta_accuracy": 0.01578999999999997,
+          "delta_brier": -0.02132006361985561,
+          "delta_ece": -0.0032289999999999992,
+          "delta_log_loss": -0.0326995027444974,
+          "p_one_sided": 0.008499999999999952
+        },
+        "A_gbm_tuned": {
+          "ci_lower": -0.024106950247970705,
+          "ci_upper": 0.005052855265340154,
+          "delta_accuracy": 0.005262999999999962,
+          "delta_brier": -0.006386134831810053,
+          "delta_ece": -0.002912999999999999,
+          "delta_log_loss": -0.009896170266507687,
+          "p_one_sided": 0.09719999999999995
+        },
+        "elo_s2": {
+          "ci_lower": -0.017170158973908726,
+          "ci_upper": 0.00762489459543305,
+          "delta_accuracy": 0.01052599999999998,
+          "delta_brier": -0.0028957831297468095,
+          "delta_ece": -0.005715000000000001,
+          "delta_log_loss": -0.004947707847118288,
+          "p_one_sided": 0.21540000000000004
+        }
+      },
+      "reasons": [
+        "the log-loss interval against at least one reference includes 0"
+      ],
+      "status": "SHADOW_INCONCLUSIVE"
+    },
+    "ENG1|btts": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "ENG1|over_under": {
+      "candidate": "B_gbm_league_totals",
+      "checks": [
+        {
+          "check": "license",
+          "detail": "APPROVED",
+          "passed": true
+        },
+        {
+          "check": "no_leakage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "snapshot_lineage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "coverage",
+          "detail": 1.0,
+          "passed": true
+        },
+        {
+          "check": "model_artifact_valid",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "no_material_latency_regression",
+          "detail": 0.023,
+          "passed": true
+        },
+        {
+          "check": "not_significantly_worse_than_any_reference",
+          "detail": [
+            "dixon_coles_totals",
+            "A_dc_ridge_tuned_totals"
+          ],
+          "passed": false
+        },
+        {
+          "check": "no_material_calibration_regression",
+          "detail": "none",
+          "passed": true
+        }
+      ],
+      "holdout_rows": 380,
+      "holm_adjusted_pass": false,
+      "p_value_max_over_references": 0.9764,
+      "paired": {
+        "A_dc_ridge_tuned_totals": {
+          "ci_lower": 0.00020925698126546578,
+          "ci_upper": 0.028830671640835165,
+          "delta_accuracy": -0.007893999999999957,
+          "delta_brier": 0.006757311036849345,
+          "delta_ece": 0.002614,
+          "delta_log_loss": 0.014109212989234399,
+          "p_one_sided": 0.9764
+        },
+        "A_gbm_tuned_totals": {
+          "ci_lower": -0.0035652736415818826,
+          "ci_upper": 0.01699846483996752,
+          "delta_accuracy": 0.026316000000000006,
+          "delta_brier": 0.0027284445942862,
+          "delta_ece": -0.0015169999999999975,
+          "delta_log_loss": 0.005887031867914616,
+          "p_one_sided": 0.865
+        },
+        "dixon_coles_totals": {
+          "ci_lower": 2.7685495184770153e-07,
+          "ci_upper": 0.02629861818950528,
+          "delta_accuracy": -0.005263000000000018,
+          "delta_brier": 0.006065744842198989,
+          "delta_ece": -0.0019290000000000002,
+          "delta_log_loss": 0.012696592649154126,
+          "p_one_sided": 0.975
+        }
+      },
+      "reasons": [
+        "significantly worse than dixon_coles_totals, A_dc_ridge_tuned_totals"
+      ],
+      "status": "REJECTED"
+    },
+    "ESP1|1x2": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "ESP1|btts": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "ESP1|over_under": {
+      "candidate": "B_dc_league_totals",
+      "checks": [
+        {
+          "check": "license",
+          "detail": "APPROVED",
+          "passed": true
+        },
+        {
+          "check": "no_leakage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "snapshot_lineage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "coverage",
+          "detail": 1.0,
+          "passed": true
+        },
+        {
+          "check": "model_artifact_valid",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "no_material_latency_regression",
+          "detail": 0.003,
+          "passed": true
+        },
+        {
+          "check": "not_significantly_worse_than_any_reference",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "no_material_calibration_regression",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "min_training_data",
+          "detail": {
+            "required": 500,
+            "training_matches": 1900
+          },
+          "passed": true
+        },
+        {
+          "check": "min_holdout_rows",
+          "detail": {
+            "required": 150,
+            "rows": 380
+          },
+          "passed": true
+        },
+        {
+          "check": "baseline_delta_log_loss_below_zero_with_confidence",
+          "detail": {
+            "A_dc_ridge_tuned_totals": [
+              -0.00257,
+              0.00141
+            ],
+            "A_gbm_tuned_totals": [
+              -0.00924,
+              0.02112
+            ],
+            "dixon_coles_totals": [
+              -0.00186,
+              0.00086
+            ]
+          },
+          "passed": false
+        },
+        {
+          "check": "brier_not_worse",
+          "detail": {
+            "A_dc_ridge_tuned_totals": -0.00032,
+            "A_gbm_tuned_totals": 0.00283,
+            "dixon_coles_totals": -0.00026
+          },
+          "passed": false
+        },
+        {
+          "check": "holm_adjusted_confirmation",
+          "detail": false,
+          "passed": false
+        },
+        {
+          "check": "accuracy_cannot_open_the_gate",
+          "detail": {
+            "A_dc_ridge_tuned_totals": -0.0105,
+            "A_gbm_tuned_totals": -0.0237,
+            "dixon_coles_totals": -0.0132
+          },
+          "passed": true
+        }
+      ],
+      "holdout_rows": 380,
+      "holm_adjusted_pass": false,
+      "p_value_max_over_references": 0.7842,
+      "paired": {
+        "A_dc_ridge_tuned_totals": {
+          "ci_lower": -0.0025715014513850126,
+          "ci_upper": 0.001408053279651653,
+          "delta_accuracy": -0.010525999999999924,
+          "delta_brier": -0.0003205364474987149,
+          "delta_ece": 0.007527000000000001,
+          "delta_log_loss": -0.0006336352821557645,
+          "p_one_sided": 0.27170000000000005
+        },
+        "A_gbm_tuned_totals": {
+          "ci_lower": -0.009235275995502563,
+          "ci_upper": 0.021116630172144095,
+          "delta_accuracy": -0.023683999999999927,
+          "delta_brier": 0.002827445165104525,
+          "delta_ece": 0.003396000000000003,
+          "delta_log_loss": 0.005710140153560417,
+          "p_one_sided": 0.7842
+        },
+        "dixon_coles_totals": {
+          "ci_lower": -0.0018552039587194985,
+          "ci_upper": 0.0008556789892600621,
+          "delta_accuracy": -0.013158000000000003,
+          "delta_brier": -0.00026350217909199003,
+          "delta_ece": 0.0029840000000000005,
+          "delta_log_loss": -0.0005412096613788275,
+          "p_one_sided": 0.21519999999999995
+        }
+      },
+      "reasons": [
+        "the log-loss interval against at least one reference includes 0",
+        "Brier is not better against every reference"
+      ],
+      "status": "SHADOW_INCONCLUSIVE"
+    },
+    "FRA1|1x2": {
+      "candidate": "E_elo_bridge",
+      "checks": [
+        {
+          "check": "license",
+          "detail": "APPROVED",
+          "passed": true
+        },
+        {
+          "check": "no_leakage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "snapshot_lineage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "coverage",
+          "detail": 1.0,
+          "passed": true
+        },
+        {
+          "check": "model_artifact_valid",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "no_material_latency_regression",
+          "detail": 0.005,
+          "passed": true
+        },
+        {
+          "check": "not_significantly_worse_than_any_reference",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "no_material_calibration_regression",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "min_training_data",
+          "detail": {
+            "required": 500,
+            "training_matches": 1752
+          },
+          "passed": true
+        },
+        {
+          "check": "min_holdout_rows",
+          "detail": {
+            "required": 150,
+            "rows": 305
+          },
+          "passed": true
+        },
+        {
+          "check": "baseline_delta_log_loss_below_zero_with_confidence",
+          "detail": {
+            "A_dc_ridge_tuned": [
+              -0.01594,
+              0.03369
+            ],
+            "A_gbm_tuned": [
+              -0.01862,
+              0.01144
+            ],
+            "elo_s2": [
+              -0.00604,
+              0.0188
+            ]
+          },
+          "passed": false
+        },
+        {
+          "check": "brier_not_worse",
+          "detail": {
+            "A_dc_ridge_tuned": 0.00552,
+            "A_gbm_tuned": -0.00075,
+            "elo_s2": 0.00451
+          },
+          "passed": false
+        },
+        {
+          "check": "holm_adjusted_confirmation",
+          "detail": false,
+          "passed": false
+        },
+        {
+          "check": "accuracy_cannot_open_the_gate",
+          "detail": {
+            "A_dc_ridge_tuned": 0.0,
+            "A_gbm_tuned": -0.0066,
+            "elo_s2": 0.0098
+          },
+          "passed": true
+        }
+      ],
+      "holdout_rows": 305,
+      "holm_adjusted_pass": false,
+      "p_value_max_over_references": 0.8421,
+      "paired": {
+        "A_dc_ridge_tuned": {
+          "ci_lower": -0.015939932795460427,
+          "ci_upper": 0.0336930704897948,
+          "delta_accuracy": 0.0,
+          "delta_brier": 0.005516746175821319,
+          "delta_ece": -0.0032289999999999992,
+          "delta_log_loss": 0.008973836272345048,
+          "p_one_sided": 0.749
+        },
+        "A_gbm_tuned": {
+          "ci_lower": -0.01861833162888069,
+          "ci_upper": 0.011435903234810219,
+          "delta_accuracy": -0.006556999999999924,
+          "delta_brier": -0.0007533372695437413,
+          "delta_ece": -0.002912999999999999,
+          "delta_log_loss": -0.003749813456127904,
+          "p_one_sided": 0.3046
+        },
+        "elo_s2": {
+          "ci_lower": -0.0060355912519324826,
+          "ci_upper": 0.01879904918420039,
+          "delta_accuracy": 0.009836000000000067,
+          "delta_brier": 0.004509731452192467,
+          "delta_ece": -0.005715000000000001,
+          "delta_log_loss": 0.006278715552407443,
+          "p_one_sided": 0.8421
+        }
+      },
+      "reasons": [
+        "the log-loss interval against at least one reference includes 0",
+        "Brier is not better against every reference"
+      ],
+      "status": "SHADOW_INCONCLUSIVE"
+    },
+    "FRA1|btts": {
+      "candidate": "B_gbm_league_goals",
+      "checks": [
+        {
+          "check": "license",
+          "detail": "APPROVED",
+          "passed": true
+        },
+        {
+          "check": "no_leakage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "snapshot_lineage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "coverage",
+          "detail": 1.0,
+          "passed": true
+        },
+        {
+          "check": "model_artifact_valid",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "no_material_latency_regression",
+          "detail": 0.023,
+          "passed": true
+        },
+        {
+          "check": "not_significantly_worse_than_any_reference",
+          "detail": [
+            "A_dc_ridge_tuned_goals"
+          ],
+          "passed": false
+        },
+        {
+          "check": "no_material_calibration_regression",
+          "detail": [
+            "A_gbm_tuned_goals"
+          ],
+          "passed": false
+        }
+      ],
+      "holdout_rows": 305,
+      "holm_adjusted_pass": false,
+      "p_value_max_over_references": 0.9791,
+      "paired": {
+        "A_dc_ridge_tuned_goals": {
+          "ci_lower": 0.0005407019143422988,
+          "ci_upper": 0.027574204679206207,
+          "delta_accuracy": -0.006557000000000035,
+          "delta_brier": 0.006363928984093353,
+          "delta_ece": 0.014763000000000002,
+          "delta_log_loss": 0.01341331381952271,
+          "p_one_sided": 0.9791
+        },
+        "A_gbm_tuned_goals": {
+          "ci_lower": -0.0029692030926522324,
+          "ci_upper": 0.021205605437974662,
+          "delta_accuracy": 0.0,
+          "delta_brier": 0.003943355966066986,
+          "delta_ece": 0.023203,
+          "delta_log_loss": 0.00852001454765472,
+          "p_one_sided": 0.9202
+        },
+        "dixon_coles_goals": {
+          "ci_lower": -0.0006470982265412369,
+          "ci_upper": 0.024608599301382667,
+          "delta_accuracy": 0.0,
+          "delta_brier": 0.005312336150009422,
+          "delta_ece": 0.00046500000000000014,
+          "delta_log_loss": 0.011299875630381373,
+          "p_one_sided": 0.9668
+        }
+      },
+      "reasons": [
+        "significantly worse than A_dc_ridge_tuned_goals",
+        "calibration (ECE) materially worse than A_gbm_tuned_goals"
+      ],
+      "status": "REJECTED"
+    },
+    "FRA1|over_under": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "GER1|1x2": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "GER1|btts": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "GER1|over_under": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "ITA1|1x2": {
+      "candidate": "B_gbm_league",
+      "checks": [
+        {
+          "check": "license",
+          "detail": "APPROVED",
+          "passed": true
+        },
+        {
+          "check": "no_leakage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "snapshot_lineage",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "coverage",
+          "detail": 1.0,
+          "passed": true
+        },
+        {
+          "check": "model_artifact_valid",
+          "detail": true,
+          "passed": true
+        },
+        {
+          "check": "no_material_latency_regression",
+          "detail": 0.023,
+          "passed": true
+        },
+        {
+          "check": "not_significantly_worse_than_any_reference",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "no_material_calibration_regression",
+          "detail": "none",
+          "passed": true
+        },
+        {
+          "check": "min_training_data",
+          "detail": {
+            "required": 500,
+            "training_matches": 2270
+          },
+          "passed": true
+        },
+        {
+          "check": "min_holdout_rows",
+          "detail": {
+            "required": 150,
+            "rows": 380
+          },
+          "passed": true
+        },
+        {
+          "check": "baseline_delta_log_loss_below_zero_with_confidence",
+          "detail": {
+            "A_dc_ridge_tuned": [
+              -0.02239,
+              0.02321
+            ],
+            "A_gbm_tuned": [
+              -0.0075,
+              0.01627
+            ],
+            "elo_s2": [
+              -0.01044,
+              0.02504
+            ]
+          },
+          "passed": false
+        },
+        {
+          "check": "brier_not_worse",
+          "detail": {
+            "A_dc_ridge_tuned": -0.00181,
+            "A_gbm_tuned": 0.00298,
+            "elo_s2": 0.00447
+          },
+          "passed": false
+        },
+        {
+          "check": "holm_adjusted_confirmation",
+          "detail": false,
+          "passed": false
+        },
+        {
+          "check": "accuracy_cannot_open_the_gate",
+          "detail": {
+            "A_dc_ridge_tuned": 0.0211,
+            "A_gbm_tuned": -0.0079,
+            "elo_s2": 0.0053
+          },
+          "passed": true
+        }
+      ],
+      "holdout_rows": 380,
+      "holm_adjusted_pass": false,
+      "p_value_max_over_references": 0.8029,
+      "paired": {
+        "A_dc_ridge_tuned": {
+          "ci_lower": -0.022389753665509132,
+          "ci_upper": 0.0232082670251069,
+          "delta_accuracy": 0.02105299999999999,
+          "delta_brier": -0.001814207264317469,
+          "delta_ece": -0.0006619999999999994,
+          "delta_log_loss": 0.0009148369626577058,
+          "p_one_sided": 0.5237
+        },
+        "A_gbm_tuned": {
+          "ci_lower": -0.0074970571978595505,
+          "ci_upper": 0.016266923101969765,
+          "delta_accuracy": -0.007894999999999985,
+          "delta_brier": 0.0029786907386607497,
+          "delta_ece": -0.0003459999999999991,
+          "delta_log_loss": 0.0044807683844889645,
+          "p_one_sided": 0.7683
+        },
+        "elo_s2": {
+          "ci_lower": -0.010437961702336905,
+          "ci_upper": 0.025042809689451953,
+          "delta_accuracy": 0.005263000000000018,
+          "delta_brier": 0.004466592535741221,
+          "delta_ece": -0.0031480000000000015,
+          "delta_log_loss": 0.007885485776843115,
+          "p_one_sided": 0.8029
+        }
+      },
+      "reasons": [
+        "the log-loss interval against at least one reference includes 0",
+        "Brier is not better against every reference"
+      ],
+      "status": "SHADOW_INCONCLUSIVE"
+    },
+    "ITA1|btts": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "ITA1|over_under": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "TUR1|1x2": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "0 dev rows < 150"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "TUR1|btts": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "0 dev rows < 150"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "TUR1|over_under": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "0 dev rows < 150"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "UEFA_UCL|1x2": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "UEFA_UCL|btts": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "UEFA_UCL|over_under": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "UEFA_UECL|1x2": {
+      "candidate": null,
+      "checks": [],
+      "reasons": [
+        "no candidate is below every reference: global model kept"
+      ],
+      "status": "GLOBAL_KEPT"
+    },
+    "UEFA_UECL|btts": {
+      "candidate": "B_gbm_league_goals",
+      "checks": [],
+      "reasons": [
+        "no holdout rows for the cell"
+      ],
+      "status": "BLOCKED"
+    },
+    "UEFA_UECL|over_under": {
+      "candidate": "B_gbm_league_totals",
+      "checks": [],
+      "reasons": [
+        "no holdout rows for the cell"
+      ],
+      "status": "BLOCKED"
+    },
+    "UEFA_UEL|1x2": {
+      "candidate": "B_dc_league",
+      "checks": [],
+      "reasons": [
+        "no holdout rows for the cell"
+      ],
+      "status": "BLOCKED"
+    },
+    "UEFA_UEL|btts": {
+      "candidate": "B_gbm_league_goals",
+      "checks": [],
+      "reasons": [
+        "no holdout rows for the cell"
+      ],
+      "status": "BLOCKED"
+    },
+    "UEFA_UEL|over_under": {
+      "candidate": "C_gbm_local_totals",
+      "checks": [],
+      "reasons": [
+        "no holdout rows for the cell"
+      ],
+      "status": "BLOCKED"
+    }
+  },
+  "policy_version": "lm-s5-v1",
+  "status_counts": {
+    "APPROVED_FOR_CANARY": 0,
+    "BLOCKED": 5,
+    "GLOBAL_KEPT": 16,
+    "REJECTED": 2,
+    "SHADOW_INCONCLUSIVE": 4
+  }
+}

@@ -1,0 +1,429 @@
+{
+  "alpha": 0.05,
+  "calibrated_metrics": {
+    "1x2": {
+      "A_dc_ridge_tuned": {
+        "accuracy": 0.502634,
+        "brier": 0.602323,
+        "ece_raw": 0.017355,
+        "log_loss": 1.007787,
+        "rps": 0.20931
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.526339,
+        "brier": 0.590625,
+        "ece_raw": 0.017039,
+        "log_loss": 0.99224,
+        "rps": 0.203292
+      },
+      "B_dc_league": {
+        "accuracy": 0.511853,
+        "brier": 0.598858,
+        "ece_raw": 0.019327,
+        "log_loss": 1.003015,
+        "rps": 0.20763
+      },
+      "B_gbm_league": {
+        "accuracy": 0.522388,
+        "brier": 0.591536,
+        "ece_raw": 0.016693,
+        "log_loss": 0.993787,
+        "rps": 0.203787
+      },
+      "C_gbm_local": {
+        "accuracy": 0.498244,
+        "brier": 0.609866,
+        "ece_raw": 0.023229,
+        "log_loss": 1.021878,
+        "rps": 0.209795
+      },
+      "D_blend": {
+        "accuracy": 0.507024,
+        "brier": 0.598543,
+        "ece_raw": 0.017969,
+        "log_loss": 1.002458,
+        "rps": 0.207628
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.521949,
+        "brier": 0.591085,
+        "ece_raw": 0.019481,
+        "log_loss": 0.992988,
+        "rps": 0.203655
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.519315,
+        "brier": 0.590342,
+        "ece_raw": 0.014126,
+        "log_loss": 0.991166,
+        "rps": 0.203714
+      },
+      "elo_s2": {
+        "accuracy": 0.522388,
+        "brier": 0.589127,
+        "ece_raw": 0.019841,
+        "log_loss": 0.989402,
+        "rps": 0.203173
+      }
+    },
+    "btts": {
+      "A_dc_ridge_tuned_goals": {
+        "accuracy": 0.544776,
+        "auc": 0.541642,
+        "brier": 0.246901,
+        "ece_raw": 0.010445,
+        "log_loss": 0.68692
+      },
+      "A_gbm_tuned_goals": {
+        "accuracy": 0.544776,
+        "auc": 0.526272,
+        "brier": 0.247598,
+        "ece_raw": 0.002005,
+        "log_loss": 0.688332
+      },
+      "B_dc_league_goals": {
+        "accuracy": 0.544776,
+        "auc": 0.542479,
+        "brier": 0.24694,
+        "ece_raw": 0.012457,
+        "log_loss": 0.687
+      },
+      "B_gbm_league_goals": {
+        "accuracy": 0.53468,
+        "auc": 0.516531,
+        "brier": 0.248487,
+        "ece_raw": 0.025208,
+        "log_loss": 0.690137
+      },
+      "C_gbm_local_goals": {
+        "accuracy": 0.5259,
+        "auc": 0.497523,
+        "brier": 0.249615,
+        "ece_raw": 0.024233,
+        "log_loss": 0.692387
+      },
+      "D_blend_goals": {
+        "accuracy": 0.545654,
+        "auc": 0.541451,
+        "brier": 0.246969,
+        "ece_raw": 0.008927,
+        "log_loss": 0.687057
+      },
+      "D_gbm_blend_goals": {
+        "accuracy": 0.53468,
+        "auc": 0.518855,
+        "brier": 0.248473,
+        "ece_raw": 0.022838,
+        "log_loss": 0.690131
+      },
+      "dixon_coles_goals": {
+        "accuracy": 0.54302,
+        "auc": 0.550028,
+        "brier": 0.246806,
+        "ece_raw": 0.024743,
+        "log_loss": 0.686731
+      },
+      "train_btts_rate": {
+        "accuracy": 0.544776,
+        "auc": 0.493923,
+        "brier": 0.247996,
+        "ece_raw": 0.000132,
+        "log_loss": 0.689135
+      }
+    },
+    "over_under": {
+      "A_dc_ridge_tuned_totals": {
+        "accuracy": 0.553995,
+        "auc": 0.578426,
+        "brier": 0.243485,
+        "ece_raw": 0.014337,
+        "log_loss": 0.67989
+      },
+      "A_gbm_tuned_totals": {
+        "accuracy": 0.551361,
+        "auc": 0.572261,
+        "brier": 0.244095,
+        "ece_raw": 0.018468,
+        "log_loss": 0.681172
+      },
+      "B_dc_league_totals": {
+        "accuracy": 0.555312,
+        "auc": 0.577816,
+        "brier": 0.243575,
+        "ece_raw": 0.021864,
+        "log_loss": 0.680093
+      },
+      "B_gbm_league_totals": {
+        "accuracy": 0.55619,
+        "auc": 0.569734,
+        "brier": 0.244312,
+        "ece_raw": 0.016951,
+        "log_loss": 0.681636
+      },
+      "C_gbm_local_totals": {
+        "accuracy": 0.554434,
+        "auc": 0.569641,
+        "brier": 0.244758,
+        "ece_raw": 0.012612,
+        "log_loss": 0.682547
+      },
+      "D_blend_totals": {
+        "accuracy": 0.555751,
+        "auc": 0.577702,
+        "brier": 0.243555,
+        "ece_raw": 0.024337,
+        "log_loss": 0.68005
+      },
+      "D_gbm_blend_totals": {
+        "accuracy": 0.555751,
+        "auc": 0.569936,
+        "brier": 0.244233,
+        "ece_raw": 0.019116,
+        "log_loss": 0.681463
+      },
+      "dixon_coles_totals": {
+        "accuracy": 0.558385,
+        "auc": 0.576371,
+        "brier": 0.243751,
+        "ece_raw": 0.01888,
+        "log_loss": 0.680462
+      },
+      "train_over_rate": {
+        "accuracy": 0.543898,
+        "auc": 0.560828,
+        "brier": 0.246166,
+        "ece_raw": 0.025236,
+        "log_loss": 0.685432
+      }
+    }
+  },
+  "fixtures_scored": 2278,
+  "folds": [
+    "2024-25",
+    "2025-26"
+  ],
+  "holm_family_size": 6,
+  "label": "FROZEN HOLDOUT, evaluated once",
+  "latency": {
+    "method": "default-parameter models fitted on the last development fold, prediction timed",
+    "ms_per_fixture": {
+      "A_dc_ridge_tuned": 0.0029,
+      "A_gbm_tuned": 0.0227,
+      "B_dc_league": 0.0029,
+      "B_gbm_league": 0.0227,
+      "C_gbm_local": 0.0227,
+      "D_blend": 0.0059,
+      "D_gbm_blend": 0.0453,
+      "E_elo_bridge": 0.0052,
+      "dixon_coles": 0.0029,
+      "elo_s2": 0.0052
+    },
+    "unit": "milliseconds per fixture, three targets for the GBMs"
+  },
+  "prereg_sha256": "e72f92de980c3b99a5f707505700ccb639ca45cc67949034e0e9e730c1523bba",
+  "raw_metrics": {
+    "1x2": {
+      "A_dc_ridge_tuned": {
+        "accuracy": 0.502634,
+        "brier": 0.602323,
+        "ece_raw": 0.017355,
+        "log_loss": 1.007787,
+        "rps": 0.20931
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.526339,
+        "brier": 0.590625,
+        "ece_raw": 0.017039,
+        "log_loss": 0.99224,
+        "rps": 0.203292
+      },
+      "B_dc_league": {
+        "accuracy": 0.507024,
+        "brier": 0.598547,
+        "ece_raw": 0.017733,
+        "log_loss": 1.002486,
+        "rps": 0.207618
+      },
+      "B_gbm_league": {
+        "accuracy": 0.522388,
+        "brier": 0.591536,
+        "ece_raw": 0.016693,
+        "log_loss": 0.993787,
+        "rps": 0.203787
+      },
+      "C_gbm_local": {
+        "accuracy": 0.498244,
+        "brier": 0.609866,
+        "ece_raw": 0.023229,
+        "log_loss": 1.021878,
+        "rps": 0.209795
+      },
+      "D_blend": {
+        "accuracy": 0.507024,
+        "brier": 0.598543,
+        "ece_raw": 0.017969,
+        "log_loss": 1.002458,
+        "rps": 0.207628
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.521949,
+        "brier": 0.591085,
+        "ece_raw": 0.019481,
+        "log_loss": 0.992988,
+        "rps": 0.203655
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.519315,
+        "brier": 0.590342,
+        "ece_raw": 0.014126,
+        "log_loss": 0.991166,
+        "rps": 0.203714
+      },
+      "elo_s2": {
+        "accuracy": 0.514047,
+        "brier": 0.591683,
+        "ece_raw": 0.034097,
+        "log_loss": 0.993129,
+        "rps": 0.204406
+      }
+    },
+    "btts": {
+      "A_dc_ridge_tuned_goals": {
+        "accuracy": 0.539947,
+        "auc": 0.541642,
+        "brier": 0.247373,
+        "ece_raw": 0.020188,
+        "log_loss": 0.687881
+      },
+      "A_gbm_tuned_goals": {
+        "accuracy": 0.545654,
+        "auc": 0.532391,
+        "brier": 0.247309,
+        "ece_raw": 0.00402,
+        "log_loss": 0.687749
+      },
+      "B_dc_league_goals": {
+        "accuracy": 0.546093,
+        "auc": 0.542479,
+        "brier": 0.247697,
+        "ece_raw": 0.012238,
+        "log_loss": 0.688582
+      },
+      "B_gbm_league_goals": {
+        "accuracy": 0.53468,
+        "auc": 0.516531,
+        "brier": 0.248487,
+        "ece_raw": 0.025208,
+        "log_loss": 0.690137
+      },
+      "C_gbm_local_goals": {
+        "accuracy": 0.516242,
+        "auc": 0.497523,
+        "brier": 0.256405,
+        "ece_raw": 0.065685,
+        "log_loss": 0.706919
+      },
+      "D_blend_goals": {
+        "accuracy": 0.548727,
+        "auc": 0.541451,
+        "brier": 0.247779,
+        "ece_raw": 0.016854,
+        "log_loss": 0.68875
+      },
+      "D_gbm_blend_goals": {
+        "accuracy": 0.53468,
+        "auc": 0.518855,
+        "brier": 0.248473,
+        "ece_raw": 0.022838,
+        "log_loss": 0.690131
+      },
+      "dixon_coles_goals": {
+        "accuracy": 0.545215,
+        "auc": 0.550028,
+        "brier": 0.247369,
+        "ece_raw": 0.018383,
+        "log_loss": 0.687933
+      },
+      "train_btts_rate": {
+        "accuracy": 0.544776,
+        "auc": 0.493923,
+        "brier": 0.247996,
+        "ece_raw": 0.000132,
+        "log_loss": 0.689135
+      }
+    },
+    "over_under": {
+      "A_dc_ridge_tuned_totals": {
+        "accuracy": 0.554873,
+        "auc": 0.571483,
+        "brier": 0.244115,
+        "ece_raw": 0.021583,
+        "log_loss": 0.680984
+      },
+      "A_gbm_tuned_totals": {
+        "accuracy": 0.551361,
+        "auc": 0.572261,
+        "brier": 0.244095,
+        "ece_raw": 0.018468,
+        "log_loss": 0.681172
+      },
+      "B_dc_league_totals": {
+        "accuracy": 0.554873,
+        "auc": 0.571556,
+        "brier": 0.244465,
+        "ece_raw": 0.021531,
+        "log_loss": 0.681721
+      },
+      "B_gbm_league_totals": {
+        "accuracy": 0.55619,
+        "auc": 0.569734,
+        "brier": 0.244312,
+        "ece_raw": 0.016951,
+        "log_loss": 0.681636
+      },
+      "C_gbm_local_totals": {
+        "accuracy": 0.554434,
+        "auc": 0.568597,
+        "brier": 0.245648,
+        "ece_raw": 0.017947,
+        "log_loss": 0.684418
+      },
+      "D_blend_totals": {
+        "accuracy": 0.554434,
+        "auc": 0.57122,
+        "brier": 0.244484,
+        "ece_raw": 0.022316,
+        "log_loss": 0.681759
+      },
+      "D_gbm_blend_totals": {
+        "accuracy": 0.555751,
+        "auc": 0.569936,
+        "brier": 0.244233,
+        "ece_raw": 0.019116,
+        "log_loss": 0.681463
+      },
+      "dixon_coles_totals": {
+        "accuracy": 0.553556,
+        "auc": 0.571559,
+        "brier": 0.244837,
+        "ece_raw": 0.023623,
+        "log_loss": 0.682436
+      },
+      "train_over_rate": {
+        "accuracy": 0.543898,
+        "auc": 0.498087,
+        "brier": 0.248109,
+        "ece_raw": 0.005488,
+        "log_loss": 0.689361
+      }
+    }
+  },
+  "rehearsal": false,
+  "status_counts": {
+    "APPROVED_FOR_CANARY": 0,
+    "BLOCKED": 5,
+    "GLOBAL_KEPT": 16,
+    "REJECTED": 2,
+    "SHADOW_INCONCLUSIVE": 4
+  }
+}

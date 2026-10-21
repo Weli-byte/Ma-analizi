@@ -1,15 +1,32 @@
 {
   "bench_config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
   "git_dirty_at_run": false,
-  "git_sha": "b2f8b299b19bdb6fd14323bc12b9367f54fddb8e",
-  "holdout_access_log": [],
+  "git_sha": "c6a12ced308b8ac2c69dc55e6ee077cdc36db831",
+  "holdout_access_log": [
+    {
+      "event": "HOLDOUT_READ",
+      "fixtures": 2278,
+      "prereg_sha256": "e72f92de980c3b99a5f707505700ccb639ca45cc67949034e0e9e730c1523bba",
+      "purpose": "s5_final_holdout",
+      "status": "CONSUMED"
+    }
+  ],
   "ml_config_fingerprint_sha256": "a8f7f8fdb5079518f8d7e42b8d89c0f969577ba2763d43f0f9252f48c3c1fe92",
   "numpy": "2.5.3",
   "output_hashes": {
+    "approval_decisions.json": "1e8f49fc020fc834c5df5351cb93e68873c9d36827b6077cf8f9049e9e999816",
     "calibration_manifest.json": "0c35d2a05edec85fc932df54366151a77e12dc221492ba15288c4349220e1125",
     "dev_paired.json": "afc4ddded88843d5559ca77caeababffe31fdeb68fc672eae4a2114db0c8ddba",
     "dev_screen.json": "af14512ce3cf2fec73e777e9d16789d29639bd6d0899cc8b867b6e09171737b2",
+    "holdout_diagnostics.json": "00c4f0d59c392b0fd34c56a4d43047b8e366794f6848c1782dfb2a814e5e862b",
+    "holdout_report.json": "75eca16d13bc92aa3cdb8370332f3c91d5cde201418eb4f11d7bcee78ff78742",
+    "model_cards.md": "d37ac14499808cf4ee514b9759d77eba9eae3efe9f37fead0c738f948f62c8fa",
+    "model_registry.json": "5dc1995c9c2de2d9518dced0158cf052e82e6c25d2ad5792a370c71fe26a06e2",
+    "monitoring_contract.json": "d97d09418e602c54ab0359369429736e6341884b7bd2ec69be2da69dd097d448",
     "preregistration.json": "e72f92de980c3b99a5f707505700ccb639ca45cc67949034e0e9e730c1523bba",
+    "results_matrix.json": "afde3fa12dc14f6fd81f77c6460c955e290c267bef492d22a16b009abe7e2317",
+    "rollback_plan.md": "0d6d98c7a1eaf2e27653382356149dfd4f6c4694847289d06f52e0f0627301bb",
+    "router_dry_run.json": "06c8ff7bca8c979511b294acfcde7e83eac70858be00e6c04b1bd8b66fd8c651",
     "split_manifest.json": "b73b00f68856ecd0be8953b08724077718b6e83f494f479e041a8efdc1dbe546"
   },
   "policy_sha256": "f5f0e4291bdf4af0702cf596f577ba7915315ea46dca670f9791e5187c60fd74",
@@ -18,6 +35,6 @@
   "python": "3.14.6",
   "rehearsal": false,
   "snapshot_id": "snap-546e70fff7fb",
-  "stage": "dev",
+  "stage": "holdout",
   "stat_config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf"
 }

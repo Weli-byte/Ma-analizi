@@ -661,3 +661,14 @@ def test_compare_to_committed_tolerates_float_noise_and_catches_real_changes(e2e
 
     (docs / "s2_protocol_manifest.json").write_text("{}", encoding="utf-8")  # a structural file must match exactly
     assert benchmark.compare_to_committed(out, docs, 1e-3)["exact_files_differing"] == ["protocol_manifest.json"]
+
+
+def test_compare_skips_the_share_of_a_zero_delta_but_not_of_a_real_one():
+    zero = {"delta_vs_reference": 1e-9, "share_of_draws_below_zero": 0.07, "n": 5}
+    zero2 = {"delta_vs_reference": -2e-9, "share_of_draws_below_zero": 0.11, "n": 5}
+    bad, trace = [], []
+    benchmark._walk(zero, zero2, "", 1e-3, bad, trace)
+    assert bad == []
+    real, real2 = {**zero, "delta_vs_reference": -0.02}, {**zero2, "delta_vs_reference": -0.02}
+    benchmark._walk(real, real2, "", 1e-3, bad, trace)
+    assert [b["path"] for b in bad] == ["/share_of_draws_below_zero"]

@@ -719,6 +719,10 @@ ENVIRONMENT_DEPENDENT = {
 
 def _walk(a, b, path: str, atol: float, out: list[dict], trace: list[dict]) -> None:
     if isinstance(a, dict) and isinstance(b, dict):
+        if "share_of_draws_below_zero" in a and abs(a.get("delta_vs_reference", 1)) < 1e-6 and abs(b.get("delta_vs_reference", 1)) < 1e-6:
+            # a paired delta that is zero to 6 digits (Poisson vs Dixon-Coles totals): the share of draws below zero is
+            # decided by float noise, so it carries no information and is skipped
+            a, b = ({k: v for k, v in d.items() if k != "share_of_draws_below_zero"} for d in (a, b))
         for k in sorted({*a, *b}):
             if k not in a or k not in b:
                 out.append({"path": f"{path}/{k}", "expected": a.get(k, "<absent>"), "got": b.get(k, "<absent>")})

@@ -1,0 +1,73 @@
+{
+  "runs": [
+    {
+      "data_version": "dv-c89f77323b6e",
+      "dataset_content_hash": "cf2a5df5140bb3ab7e8082cbb9646865900aa44ecdb90e055d7715481e6dd1e4",
+      "dependency_lock_hash": "942cc238d26a6f08a6df0170654c38ec908b8f90a6c56b97d3c6648b039fc35c",
+      "experiment_files": 27,
+      "feature_schema_version_field": "fv2",
+      "feature_version": "fv2",
+      "final_test_seasons": [
+        "2024-25",
+        "2025-26"
+      ],
+      "folds": [
+        {
+          "test_season": "2021-22",
+          "train_seasons": [
+            "2019-20",
+            "2020-21"
+          ]
+        },
+        {
+          "test_season": "2022-23",
+          "train_seasons": [
+            "2019-20",
+            "2020-21",
+            "2021-22"
+          ]
+        },
+        {
+          "test_season": "2023-24",
+          "train_seasons": [
+            "2019-20",
+            "2020-21",
+            "2021-22",
+            "2022-23"
+          ]
+        }
+      ],
+      "git_dirty_at_run": true,
+      "git_sha": "798f979b029634efa142a787c169d09fe4531e08",
+      "model_checksum": "NOT_RECORDED: models are refitted per fold, no serialized model file exists",
+      "models": [
+        "always_home",
+        "dixon_coles",
+        "elo",
+        "historical_prior",
+        "lightgbm",
+        "market_implied",
+        "poisson",
+        "recent_form_naive",
+        "xgboost"
+      ],
+      "prediction_records": 20520,
+      "predictions_hash_basis": "LF-normalised text",
+      "predictions_hash_matches": true,
+      "predictions_sha256_actual_bytes": "50f8cb965a5790f0c7a1b0acb4cd0308fba2d921e5dbd579cd5d81aa9a43f625",
+      "predictions_sha256_normalised_lf": "114d562f745f5e9492da58e403d590e9a0b5e075f37ea75a573dd8b3114ddb9f",
+      "predictions_sha256_recorded": "114d562f745f5e9492da58e403d590e9a0b5e075f37ea75a573dd8b3114ddb9f",
+      "probability_order": "p_home, p_draw, p_away",
+      "reusable_for_league_programme": "NO: scored on the football-data.co.uk dataset (EPL and La Liga only; RESEARCH_ONLY, BLOCKED for league models)",
+      "run": "dv-c89f77323b6e_fv2_split-d642486e1cbf_walkforward",
+      "track": "historical_backtest (information_cutoff = kickoff; not prospective)",
+      "training_cutoffs": {
+        "final_test_start_utc": "2024-08-15T17:00:00+00:00",
+        "train_end_utc": "2022-05-22T20:00:00+00:00",
+        "validation_end_utc": "2024-05-26T19:00:00+00:00",
+        "validation_start_utc": "2022-08-05T19:00:00+00:00"
+      }
+    }
+  ],
+  "status": "READ_FROM_ARTIFACTS"
+}

@@ -1,0 +1,345 @@
+{
+  "by_plan_status": {
+    "BLOCKED": [
+      "football_data_co_uk"
+    ],
+    "CONDITIONAL": [
+      "football_data_org",
+      "highlightly",
+      "the_odds_api"
+    ],
+    "PERMITTED": [
+      "openfootball_cups",
+      "openfootball_domestic"
+    ],
+    "RESEARCH_ONLY": [
+      "api_football",
+      "espn_scoreboard",
+      "fpl_fantasy_premier_league"
+    ]
+  },
+  "manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+  "not_legal_advice": true,
+  "sources": {
+    "api_football": {
+      "attribution": "not addressed",
+      "branding": "logos for identification only; use may need the owners' consent",
+      "cancellation_effect": "the free plan may be changed or withdrawn at any time",
+      "commercial_display": "DENIED",
+      "commercial_ml": "UNKNOWN",
+      "derivative_predictions": "UNKNOWN",
+      "description": "API-Football (api-sports), free plan: injuries, lineups",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": [
+          "commercial_display is DENIED"
+        ],
+        "production_ml": [
+          "plan_status is RESEARCH_ONLY, not PERMITTED",
+          "commercial_ml is UNKNOWN",
+          "derivative_predictions is UNKNOWN",
+          "indefinite_retention is UNKNOWN"
+        ],
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "some competitions may carry federation/organiser restrictions (user's duty to check)",
+      "history_seasons_note": null,
+      "indefinite_retention": "UNKNOWN",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/data_sources/licensing.md",
+      "plan_status": "RESEARCH_ONLY",
+      "provider_id": "api_football",
+      "redistribution": "DENIED",
+      "retrieved_at_utc": "2026-10-09T00:00:00Z",
+      "source_url": "https://www.api-football.com",
+      "supplies": [
+        "injuries",
+        "lineups"
+      ],
+      "terms_version": "Terms of Service, Turkish translation supplied by the owner, read 2026-10-09"
+    },
+    "espn_scoreboard": {
+      "attribution": "not addressed",
+      "branding": "not addressed",
+      "cancellation_effect": "n/a",
+      "commercial_display": "UNKNOWN",
+      "commercial_ml": "UNKNOWN",
+      "derivative_predictions": "UNKNOWN",
+      "description": "ESPN public scoreboard, DraftKings 1X2 prices (approximate timestamps)",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": [
+          "commercial_display is UNKNOWN"
+        ],
+        "production_ml": [
+          "plan_status is RESEARCH_ONLY, not PERMITTED",
+          "commercial_ml is UNKNOWN",
+          "derivative_predictions is UNKNOWN",
+          "indefinite_retention is UNKNOWN"
+        ],
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "not addressed",
+      "history_seasons_note": null,
+      "indefinite_retention": "UNKNOWN",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/adr/0030-odds-value-paper.md",
+      "plan_status": "RESEARCH_ONLY",
+      "provider_id": "espn_scoreboard",
+      "redistribution": "UNKNOWN",
+      "retrieved_at_utc": "2026-10-02T00:00:00Z",
+      "source_url": "https://site.api.espn.com",
+      "supplies": [
+        "odds"
+      ],
+      "terms_version": "none read (terms unverified)"
+    },
+    "football_data_co_uk": {
+      "attribution": "cite Football-Data.co.uk in research outputs (good practice; no requirement found)",
+      "branding": "not addressed",
+      "cancellation_effect": "n/a",
+      "commercial_display": "UNKNOWN",
+      "commercial_ml": "UNKNOWN",
+      "derivative_predictions": "UNKNOWN",
+      "description": "football-data.co.uk CSV downloads (results, shots, corners, cards, odds)",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": [
+          "commercial_display is UNKNOWN"
+        ],
+        "production_ml": [
+          "plan_status is BLOCKED, not PERMITTED",
+          "commercial_ml is UNKNOWN",
+          "derivative_predictions is UNKNOWN",
+          "indefinite_retention is UNKNOWN"
+        ],
+        "research_ml": [
+          "plan_status is BLOCKED"
+        ]
+      },
+      "geographic_restrictions": "not addressed",
+      "history_seasons_note": "the local research files stay in the global research benchmark (S4-S11, RESEARCH_ONLY); league models do not read them",
+      "indefinite_retention": "UNKNOWN",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/data_sources/licensing.md",
+      "plan_status": "BLOCKED",
+      "provider_id": "football_data_co_uk",
+      "redistribution": "UNKNOWN",
+      "retrieved_at_utc": "2026-10-01T00:00:00Z",
+      "source_url": "https://www.football-data.co.uk/data.php",
+      "supplies": [
+        "results",
+        "shots",
+        "corners",
+        "cards",
+        "odds"
+      ],
+      "terms_version": "no licence or reuse terms found (docs/data_sources/licensing.md)"
+    },
+    "football_data_org": {
+      "attribution": "REQUIRED (art. 7): 'Football data provided by the Football-Data.org API'",
+      "branding": "team logos belong to their owners (art. 9.2)",
+      "cancellation_effect": "art. 9.1: fixtures, results, tables, squads may no longer be referenced after cancelling",
+      "commercial_display": "UNKNOWN",
+      "commercial_ml": "UNKNOWN",
+      "derivative_predictions": "UNKNOWN",
+      "description": "football-data.org API v4, free tier (fixtures, results, referees, scorers, live scores)",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": [
+          "commercial_display is UNKNOWN"
+        ],
+        "production_ml": [
+          "plan_status is CONDITIONAL, not PERMITTED",
+          "commercial_ml is UNKNOWN",
+          "derivative_predictions is UNKNOWN",
+          "indefinite_retention is DENIED"
+        ],
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "not addressed",
+      "history_seasons_note": null,
+      "indefinite_retention": "DENIED",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/data_sources/licensing.md",
+      "plan_status": "CONDITIONAL",
+      "provider_id": "football_data_org",
+      "redistribution": "UNKNOWN",
+      "retrieved_at_utc": "2026-10-09T00:00:00Z",
+      "source_url": "https://www.football-data.org",
+      "supplies": [
+        "fixtures",
+        "results",
+        "live_scores",
+        "referees",
+        "scorers"
+      ],
+      "terms_version": "General Terms and Conditions, last updated 2018-06-01, read 2026-10-09 (text supplied by the owner)"
+    },
+    "fpl_fantasy_premier_league": {
+      "attribution": "not addressed",
+      "branding": "not addressed",
+      "cancellation_effect": "n/a",
+      "commercial_display": "UNKNOWN",
+      "commercial_ml": "UNKNOWN",
+      "derivative_predictions": "UNKNOWN",
+      "description": "Fantasy Premier League unofficial endpoints, EPL injury news",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": [
+          "commercial_display is UNKNOWN"
+        ],
+        "production_ml": [
+          "plan_status is RESEARCH_ONLY, not PERMITTED",
+          "commercial_ml is UNKNOWN",
+          "derivative_predictions is UNKNOWN",
+          "indefinite_retention is UNKNOWN"
+        ],
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "not addressed",
+      "history_seasons_note": null,
+      "indefinite_retention": "UNKNOWN",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/adr/0028-availability-providers.md",
+      "plan_status": "RESEARCH_ONLY",
+      "provider_id": "fpl_fantasy_premier_league",
+      "redistribution": "UNKNOWN",
+      "retrieved_at_utc": "2026-10-02T00:00:00Z",
+      "source_url": "https://fantasy.premierleague.com",
+      "supplies": [
+        "injuries"
+      ],
+      "terms_version": "none read (undocumented endpoints)"
+    },
+    "highlightly": {
+      "attribution": "not addressed",
+      "branding": "not addressed",
+      "cancellation_effect": "not addressed",
+      "commercial_display": "UNKNOWN",
+      "commercial_ml": "UNKNOWN",
+      "derivative_predictions": "UNKNOWN",
+      "description": "Highlightly, match statistics (corners, cards, shots), basic free plan in use",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": [
+          "commercial_display is UNKNOWN"
+        ],
+        "production_ml": [
+          "plan_status is CONDITIONAL, not PERMITTED",
+          "commercial_ml is UNKNOWN",
+          "derivative_predictions is UNKNOWN",
+          "indefinite_retention is UNKNOWN"
+        ],
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "not addressed",
+      "history_seasons_note": null,
+      "indefinite_retention": "UNKNOWN",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/data_sources/provider_evaluation.md",
+      "plan_status": "CONDITIONAL",
+      "provider_id": "highlightly",
+      "redistribution": "UNKNOWN",
+      "retrieved_at_utc": "2026-10-11T00:00:00Z",
+      "source_url": "https://highlightly.net",
+      "supplies": [
+        "corners",
+        "cards",
+        "shots"
+      ],
+      "terms_version": "terms 6.1 as summarised in docs/data_sources/provider_evaluation.md; the Basic free plan is under different terms"
+    },
+    "openfootball_cups": {
+      "attribution": "not required (CC0)",
+      "branding": "club names are trademarks; no logos are in the data",
+      "cancellation_effect": "none",
+      "commercial_display": "ALLOWED",
+      "commercial_ml": "ALLOWED",
+      "derivative_predictions": "ALLOWED",
+      "description": "openfootball/champions-league, UEFA club cup results and fixtures (90-minute scores)",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": "ALLOWED",
+        "production_ml": "ALLOWED",
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "none stated",
+      "history_seasons_note": "first season in the repository: UCL 2019-20, UEL 2020-21, UECL 2021-22; last: UCL 2025-26, UEL and UECL 2024-25 (checked 2026-10-13)",
+      "indefinite_retention": "ALLOWED",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/adr/0055-european-cups.md",
+      "plan_status": "PERMITTED",
+      "provider_id": "openfootball_cups",
+      "redistribution": "ALLOWED",
+      "retrieved_at_utc": "2026-10-13T00:00:00Z",
+      "source_url": "https://github.com/openfootball/champions-league",
+      "supplies": [
+        "fixtures",
+        "results"
+      ],
+      "terms_version": "repository licence CC0, verified 2026-10-13"
+    },
+    "openfootball_domestic": {
+      "attribution": "not required (public domain); crediting the repository is good practice",
+      "branding": "club names are trademarks; no logos are in the data",
+      "cancellation_effect": "none (no account, no subscription)",
+      "commercial_display": "ALLOWED",
+      "commercial_ml": "ALLOWED",
+      "derivative_predictions": "ALLOWED",
+      "description": "openfootball/football.json, domestic league results and fixtures (scores and dates only)",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": "ALLOWED",
+        "production_ml": "ALLOWED",
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "none stated",
+      "history_seasons_note": "scores only: no shots, corners, cards, xG, lineups, injuries, odds; gaps exist (e.g. Süper Lig)",
+      "indefinite_retention": "ALLOWED",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/adr/0038-openfootball.md",
+      "plan_status": "PERMITTED",
+      "provider_id": "openfootball_domestic",
+      "redistribution": "ALLOWED",
+      "retrieved_at_utc": "2026-10-08T00:00:00Z",
+      "source_url": "https://github.com/openfootball/football.json",
+      "supplies": [
+        "fixtures",
+        "results"
+      ],
+      "terms_version": "repository statement: data dedicated to the public domain, read 2026-10-08"
+    },
+    "the_odds_api": {
+      "attribution": "not required",
+      "branding": "not addressed",
+      "cancellation_effect": "not addressed",
+      "commercial_display": "ALLOWED",
+      "commercial_ml": "ALLOWED",
+      "derivative_predictions": "ALLOWED",
+      "description": "The Odds API, exact-timestamp bookmaker odds (collected only since 2026-10; no historical archive)",
+      "evidence_file_exists": true,
+      "gate": {
+        "display": "ALLOWED",
+        "production_ml": [
+          "plan_status is CONDITIONAL, not PERMITTED"
+        ],
+        "research_ml": "ALLOWED"
+      },
+      "geographic_restrictions": "if used to promote gambling: 'Gamble Responsibly. 18+' and local advertising rules (user's duty)",
+      "history_seasons_note": null,
+      "indefinite_retention": "ALLOWED",
+      "legal_review_required": true,
+      "license_evidence_path": "docs/data_sources/licensing.md",
+      "plan_status": "CONDITIONAL",
+      "provider_id": "the_odds_api",
+      "redistribution": "DENIED",
+      "retrieved_at_utc": "2026-10-09T00:00:00Z",
+      "source_url": "https://the-odds-api.com",
+      "supplies": [
+        "odds"
+      ],
+      "terms_version": "terms last updated 2026-08-31, text supplied by the owner, read 2026-10-09"
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "as_of": "2026-10-20T00:00:00+00:00",
+  "config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+  "data_snapshot_sha256": "546e70fff7fb577e20dedb58bf14262c703115ea623904ebe68afe6773b5f484",
+  "dependency_lock_sha256": "4f15a73f3c0a798d84d170df86f2734f3eb95d3f2c8538f720833203f4d7322d",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "git_dirty_at_run": true,
+  "git_sha": "40d1ce22083de409dfcaa5c1178b3ee81927700f",
+  "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+  "matches_scored": 10712,
+  "model_config_sha256": "7fc4ae5ad83aab962927d853ee4e428b9ac8afc6090c05ffb6df3f2ae91d9fc7",
+  "numpy": "2.5.3",
+  "output_hashes": {
+    "baseline_status.json": "44a8babae21f59beafb59258dcd70f497623d78bf8fb3af17bde564f309d4b42",
+    "benchmark_metrics.json": "e9afd36c921377c66e5228caa194b82ab744224359462aae9d698f67294e7948",
+    "claims.json": "4b1d47abe978f8e870302cd1f5edd5414c7e6bd81e8b7772f1f9479c0e31a1c5",
+    "fold_predictions.jsonl": "ac67af2f7eb9b79074600ca0c15f253dd1ee9f33438391e1d97774254e24570d",
+    "global_artifact_audit.json": "1c81f05877ee0bd6820cffec87f5e34f67e549433213a105152637870a4c3e7e",
+    "leakage_audit.json": "e1c61c7e1861be0f70348593df7d82f01140afb851951c55cdb4f1d4a7873e51",
+    "paired_deltas.json": "d2a04036059a7ccdaa390517ca4666c29c845df423a88a4da45f442794aeef3d",
+    "protocol_manifest.json": "5351a1bd1a7278936a2577b41998e82880c800efd46385ff6b7366467a624153",
+    "reliability.json": "dd0f059ced4ab6102cf843153e942d36a31d608cc2207c76c7c123ef84f33ea1"
+  },
+  "platform": "Windows-11-10.0.26300-SP0",
+  "protocol_version": "lm-s2-v1",
+  "python": "3.14.6",
+  "random_seed": {
+    "bootstrap": 20261020,
+    "models": "deterministic (no randomness; BFGS / IPF)"
+  },
+  "reproducibility_note": "timings.json is excluded from the hashes (wall-clock); every other file is deterministic",
+  "snapshot_id": "snap-546e70fff7fb",
+  "stage": "t-24h",
+  "timezone": "UTC"
+}

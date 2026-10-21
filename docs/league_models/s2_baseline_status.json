@@ -1,0 +1,46 @@
+{
+  "NOT_RUN_FEATURES_BLOCKED": {
+    "global_binary_classifier_over_under": "needs the same blocked feature pipeline; a score-only GBM is a Sprint 4 candidate",
+    "production_ensemble": "built from the GBM and LLM out-of-fold predictions of the research benchmark; not re-scorable on this universe",
+    "xgboost_lightgbm_1x2": "the GBM feature pipeline (src/features) reads the football-data.co.uk dataset, BLOCKED for league models (ADR 0063)"
+  },
+  "UNAVAILABLE": {
+    "market_favourite_1x2": "no odds exist in the licensed universe (openfootball publishes scores only); no odds were invented",
+    "odds_baselines_overround": "not applicable: no odds baseline was built, so no overround or bookmaker-aggregation rule is needed"
+  },
+  "available": {
+    "1x2": [
+      "always_home",
+      "historical_prior(per league)",
+      "elo",
+      "poisson",
+      "dixon_coles"
+    ],
+    "btts": [
+      "always_yes",
+      "always_no",
+      "train_btts_rate",
+      "poisson_goals",
+      "dixon_coles_goals"
+    ],
+    "over_under_2_5": [
+      "always_over",
+      "always_under",
+      "train_over_rate",
+      "poisson_totals",
+      "dixon_coles_totals"
+    ]
+  },
+  "elo_notes": "Elo outputs 1X2 only; it has no goal distribution, so it has no totals/BTTS entry",
+  "universe_counts": {
+    "DEV": 12583,
+    "GUARD": 750,
+    "HOLDOUT": 2278,
+    "RESERVED": 250
+  },
+  "universe_limits": {
+    "neutral_venue_finals": "UEFA finals are scored with a home-advantage term as if played at the home side's ground (declared limitation)",
+    "score_only": true,
+    "uefa_scores": "90-minute scores as published by openfootball_cups"
+  }
+}

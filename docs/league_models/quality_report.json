@@ -1,0 +1,16 @@
+{
+  "collisions": {
+    "duplicate_canonical_fixture_ids": {},
+    "duplicate_provider_fixture_ids": {},
+    "ids_in_more_than_one_competition": {},
+    "self_matches": [],
+    "team_with_two_fixtures_on_one_day": []
+  },
+  "finished_rows": 16239,
+  "finished_with_kickoff_in_the_future": 0,
+  "kickoff_time_unknown_rows": 1205,
+  "result_available_before_audit_time": 16239,
+  "rows": 18074,
+  "score_out_of_range_0_to_15": 0,
+  "timezone_note": "kick-off times are local clock times without a zone, converted to UTC by the league zone (INFERRED); a DST gap or fold falls back to the date only"
+}

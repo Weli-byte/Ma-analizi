@@ -1,0 +1,1244 @@
+LİG BAZLI FUTBOL TAHMİN MODELLERİ
+
+Üretimde çalışan futbol tahmin platformu için veri, eğitim, validasyon, model
+seçimi ve dağıtım planı
+Sürüm: 1.0 | 20 Ekim 2026 | Teknik uygulama tasarımı
+
+Yönetici özeti
+
+Hedef: mevcut global Elo + Poisson/Dixon–Coles + XGBoost/LightGBM + kalibrasyon + ensemble altyapısını
+bozmadan lig duyarlı tahmin katmanı kurmak. Her lige ayrı model açmak zorunlu değildir: yeterli tarihsel
+veri yoksa global model, lig etkileri ve kısmi havuzlama (partial pooling) daha güvenlidir. Ayrı modeller ancak
+geleceğe dönük, bağımsız testte anlamlı üstünlük gösterirse üretime alınır.
+
+Mevcut gözlem: 138 maçta 1X2 94/138 (%68,1), 2.5 Alt/Üst 84/138 (%60,9), KG 76/138 (%55,1). Bu sayılar
+yeni lig modellerini eğitmek için yeterli tarihsel örneklem değildir; yalnızca değerlendirme penceresi olarak
+görülmelidir. Ligler için önce çok sezonlu ve kullanım hakkı doğrulanmış veri gereklidir.
+
+1 | Amaç, kapsam ve başarı kriterleri
+
+• Kapsam: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig; ayrı rejim olarak Şampiyonlar Ligi,
+Avrupa Ligi ve Konferans Ligi.
+
+• Hedefler: 1X2, 2.5 Alt/Üst, KG; doğru skor ortak gol dağılımından türetilir. Her hedef için ayrı başarı raporu.
+
+• Birincil seçim metriği: 1X2 için multiclass log loss; ikincil Brier, RPS, accuracy, ECE. İkili hedeflerde log loss,
+Brier, ROC-AUC ve accuracy.
+
+• Yayın kapısı: bağımsız zamansal holdout üzerinde global modele göre kalibrasyon bozulmadan daha iyi
+skor; üstünlük yoksa global model korunur.
+
+• Yasak: gelecekteki veri, maç sonu istatistiği, geriye dönük güncellenmiş kadro/oran, sahte xG veya
+uydurulmuş API cevabı.
+
+2 | Veri envanteri ve erişim hakları
+
+Kaynak/alan          Gerekli alanlar                                         Kritik kontrol
+Maçlar
+                     fixture_id, UTC başlangıç, lig, sezon, takımlar, skor,  Maçın oynandığı andaki kimlik ve tarih
+Form/güç             durum
+Gelişmiş istatistik
+Kadro                Önceki maçlar, ev/deplasman, Elo, dinlenme              Her özelliğin as_of zamanı
+Oran
+Haklar               Şut, isabet, kart, korner, xG (varsa)                   Kaynak ve coverage; yoksa NULL
+
+                     İlk 11, sakatlık, ceza, kadro açıklanma zamanı          Yalnız tahmin anında bilinen veri
+
+                     bookmaker, market, fiyat, gözlem zamanı                 Kapanış oranını T-24h modeline sokma
+
+                     Ticari gösterim, ML eğitimi, saklama, türev ürün        Kaynak başına lisans kaydı
+
+The Odds API şartları kullanıcı tarafından paylaşılan metne göre ML eğitimi ve ticari UI kullanımına izin
+veriyor; ham veri ürünü olarak yeniden dağıtımı yasaklıyor. Diğer veri kaynaklarının yetkileri ayrı
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                              1
+doğrulanmalı. Lig, kulüp logosu ve oyuncu görsellerinin hakları veri lisansından ayrı ele alınmalı.
+
+3 | Veri hacmi ve uygunluk kapıları
+
+Önerilen başlangıç hedefi: lig başına 3–5 tamamlanmış sezon ve mevcut sezonun geçmiş bölümü; bu bir veri
+toplama hedefidir, zorunlu istatistiksel eşik değildir. Örneğin 20 takımlı çift devreli ligde sezon yaklaşık 380
+maç, 18 takımlı ligde yaklaşık 306 maçtır. Kupa ve format değişiklikleri ayrı tutulur.
+
+Eğitim hacmi (lig/hedef)  Varsayılan yaklaşım                         Karar
+
+< 500 tamamlanmış maç     Global + lig göstergesi + düzenlileştirme   Bağımsız lig modelini devreye alma
+
+500–1.500 maç             Global + lig etkisi; yerel DC/Elo adayları  Yalnız OOS üstünlük varsa terfi
+
+> 1.500 maç               Yerel GBM, DC ve hiyerarşik adaylar         Nested walk-forward ile karşılaştır
+
+UEFA turnuvaları          Ligler arası güç köprüsü + global model     Turnuva örneklemi azsa bağımsız
+                                                                      GBM yok
+
+Eşikler başlangıç mühendislik kurallarıdır; sabit bilimsel sınır değildir. Asıl karar etkin örneklem, sınıf dengesi,
+sezon değişimi ve zaman bloklu güven aralıklarına göre verilir.
+
+4 | Model mimarisi: dört rakip aday
+
+A. Global referans
+
+Tüm lisanslı liglerin geçmiş verisinden tek model. League_id, sezon, lig bazlı gol ortalaması, ev avantajı, güç
+dağılımı, takım/ülke bağlamı özellik olarak verilir. Mevcut üretim referansı asla silinmez.
+
+B. Global + lig uyarlaması
+
+Global modelin olasılıklarına lig bazlı küçük düzeltme veya lig kimliği etkileşimi eklenir. Düzenlileştirilmiş
+lojistik düzeltme, random intercept veya hiyerarşik kalibrasyon kullanılır.
+
+C. Tam lig modeli
+
+Her ligde ayrı Poisson/DC ve yeterli veri varsa XGBoost/LightGBM. Yalnız o ligin geçmişi kullanılır; veri
+azlığında aşırı öğrenme riski yüksektir.
+
+D. Kısmi havuzlama / mixture-of-experts
+
+Global tahmin ile lig modelini ağırlıklı birleştir: p = (1-w_lig) p_global + w_lig p_lig. w_lig eğitim dönemi dışı
+tahminlerle öğrenilir ve düşük veri hacminde sıfıra doğru düzenlileştirilir.
+Üretim varsayılanı: önce B ve D; C yalnız yeterli veri ve bağımsız üstünlükle. Ensemble ağırlıkları test/holdout
+üzerinde ayarlanmaz.
+
+5 | Her lig için özel modelleme hipotezleri
+
+Aşağıdaki lig özellikleri kesin gerçek olarak kodlanmayacak; tarihsel veride test edilecek hipotezlerdir. Her lig
+için rakip gücü, sezon ve maç bağlamı kontrol edilmeden “hücumcu/savunmacı lig” sabit etiketi atanmaz.
+
+Premier Lig
+
+Test edilecek hipotez: Tempo ve rakip gücü etkileşimi.
+Özellikler: Şut hacmi, gol beklentisi (varsa), ev/deplasman, kısa dinlenme, fikstür yoğunluğu.
+Aday: Global GBM + lig uyarlaması; DC benchmark. Kontrol: Gol ve favori yanlılığını sezon bazında ölç.
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                             2
+Serie A
+
+Test edilecek hipotez: Düşük skorlu eşleşme ve beraberlik davranışı.
+Özellikler: Savunma formu, gol dağılımı, beraberlik oranı, rakip düzeyi.
+Aday: Dixon–Coles + düzenlileştirilmiş lig etkisi. Kontrol: 0-0/1-1 olasılık kalibrasyonu.
+
+La Liga
+
+Test edilecek hipotez: Top-team eşitsizliği ve saha etkisi.
+Özellikler: Elo farkı, güç dağılımı, ev avantajı, seyahat/dinlenme.
+Aday: Global + lig etkileşimi, yerel DC. Kontrol: Ağır favorilerin aşırı güvenini izle.
+
+Bundesliga
+
+Test edilecek hipotez: Gol yoğunluğu ve hücum-savunma dengesizliği.
+Özellikler: Güncel gol oranı, şut, xG varsa, geçiş hızına doğrudan ölçülebilen vekiller.
+Aday: Lig DC + global GBM karışımı. Kontrol: Alt/Üst ve KG kalibrasyonunu ayrı test et.
+
+Ligue 1
+
+Test edilecek hipotez: Takım gücü yoğunlaşması ve sezon geçişleri.
+Özellikler: Güç farkı, kadro değişimi (varsa), terfi/ligden düşme, form.
+Aday: Hiyerarşik güç + global model. Kontrol: Yeni takımlarda shrinkage.
+
+Süper Lig
+
+Test edilecek hipotez: Kadro sürekliliği ve ev/deplasman farklılığı.
+Özellikler: Transfer değişimi (lisanslı veri varsa), dinlenme, seyahat, saha etkisi.
+Aday: Global + lig etkisi; yerel DC aday. Kontrol: 9/9 mevcut başarıyı yeterli kanıt sayma.
+
+Şampiyonlar Ligi
+
+Test edilecek hipotez: Ligler arası güç aktarımı ve değişken turnuva formatı.
+Özellikler: Ülke/lig Elo köprüsü, takım Avrupa geçmişi, ev/deplasman, aşama.
+Aday: Global + cross-league ratings + DC. Kontrol: Domestic-only Elo ölçeklerini doğrudan kıyaslama.
+
+Avrupa Ligi
+
+Test edilecek hipotez: Rakip çeşitliliği, rotasyon ve fikstür yoğunluğu.
+Özellikler: Ligler arası güç, rotasyon yalnız doğrulanırsa, seyahat.
+Aday: Global + turnuva etkisi. Kontrol: 12 maçlık gözlemi yerel eğitim sanma.
+
+Konferans Ligi
+
+Test edilecek hipotez: Az veri ve ligler arası heterojenlik.
+Özellikler: Cross-league güç, ülke, ev etkisi, kalite göstergeleri.
+Aday: Güçlü shrinkage; global varsayılan. Kontrol: 7 maçlık gözlemi %86 kalıcı performans sayma.
+
+6 | Özellik mühendisliği ve zaman güvenliği
+
+• Her tahmin için prediction_as_of ve fixture_kickoff_utc sakla; feature_event_time <= prediction_as_of ve
+feature_available_at <= prediction_as_of şartlarını ayrı doğrula.
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                   3
+• Takımın son N maç formunu yalnız önceki maçlardan üret; aynı gün eşzamanlı maç ve erteleme
+sıralamasına dikkat et.
+• Rolling pencere örnekleri: 5/10 maç, 30/90/365 gün; rakip kalitesiyle düzeltilmiş performans ve üstel
+zaman ağırlığı.
+• Elo: lig içi ve turnuvalar arası ölçekleri açıkça ayır. Sezon başında regresyon-to-mean; yeni yükselen
+takımlara lig priorı.
+• Poisson/DC: takım hücum-savunma güçleri, ev avantajı, düşük skor düzeltmesi; düzenlileştirme ve zaman
+ağırlıkları.
+• Eksik xG: NULL + coverage flag. Gerçek xG yoksa xG adıyla sayı üretme; şut verisi ayrı feature.
+• T-24h, T-90m, T-30m ve kickoff için ayrı veri kullanılabilirliği matrisi. Açıklanmamış ilk 11 T-24h girdisi
+olamaz.
+
+7 | Eğitim protokolü ve deney tasarımı
+
+01. Veri denetimi
+
+Fixture ve takım kimliklerini tekilleştir; saat dilimi, sezon, maç iptali, lig formatı, lisans ve kapsam kontrolü.
+
+02. Feature snapshot
+
+Her maçın geçmişteki tahmin anına göre tekrar üretilebilir snapshotını oluştur; zaman ihlali testleri yaz.
+
+03. Kronolojik ayırma
+
+İlk sezonlar train; sonraki zaman blokları validation; en yeni sezon/pencere dokunulmamış final holdout.
+
+04. İç walk-forward
+
+Expanding/rolling train penceresi, ileri tarihli validation blokları; hiperparametre ve ağırlık seçimi yalnız iç
+katmanda.
+
+05. Global baseline
+
+Mevcut global Elo, DC, GBM ve ensemble sürümlerini aynı fixture kümesinde yeniden skorla.
+
+06. Lig adayları
+
+Her lig için A/B/C/D adaylarını eğit; aynı snapshot, aynı test kümesi ve aynı target kullan.
+
+07. Kalibrasyon
+
+Ayrı kronolojik calibration split üzerinde temperature scaling; küçük liglerde hiyerarşik/global calibrator.
+
+08. Model seçimi
+
+Primary log loss, Brier, accuracy, ECE ve bootstrap belirsizlikleri; iyileşme yoksa baseline.
+
+09. Holdout değerlendirmesi
+
+Tek seferlik dondurulmuş final test; tekrar tekrar ayar yapma. Gerekirse yeni ileri dönem bekle.
+
+10. Prospektif doğrulama
+
+Gerçek maç öncesi kayıtlar, sonuçlar geldikçe canlı performans; backtest ve live metriklerini ayır.
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                           4
+8 | Metrikler, belirsizlik ve seçme kuralları
+
+Ölçüm                 Neden                                  Uygulama
+Multiclass log loss   Olasılık kalitesi, aşırı güven cezası  Birincil 1X2 metriği
+Brier / RPS           Olasılık hatası / sıralı sonuç         İkincil doğrulama
+Accuracy              Üründe anlaşılır başarı oranı          Favori ve çoğunluk baseline ile
+ECE / reliability     %70 denilen olaylar ~%70 mi?           Lig ve hedef bazlı; düşük N uyarısı
+Block bootstrap CI    Maçların zamansal bağımlılığı          Tarih/hafta bloklarıyla fark aralığı
+Coverage              Kaç maç tahmin edildi?                 Missing veri yüzünden seçilim kontrolü
+
+Örnek terfi politikası: holdout log loss farkı < 0 ve blok bootstrap %95 güven aralığı çoğunlukla 0 altında;
+ECE belirgin kötüleşmiyor; coverage düşmüyor; operasyonel gecikme kabul edilebilir. Bunlar önerilen
+kapılardır; ürünün gerçek maliyet/örneklem koşullarına göre önceden yazılı belirlenir.
+
+9 | Alt/Üst, KG ve doğru skorun lig özelinde eğitimi
+
+İki paralel yaklaşımı kıyasla: (i) lig bazlı Poisson/DC skor matrisi üzerinden P(toplam gol > 2.5), P(iki takım gol
+atar) ve P(skor=i-j); (ii) hedefe özel binary LightGBM/XGBoost. Skor matrisi olasılık toplamı 1 olmalı,
+truncation tail izlenmeli. İkili hedef modellerinin ayrı kalibrasyonları bulunmalı. İki yaklaşımı aynı OOS
+örneklemde karşılaştır.
+
+2.5 Alt/Üst için mevcut %60,9 ile “hep Üst” %68,8 karşılaştırması kritik: veri setindeki Üst oranı, lig karışımı,
+zaman aralığı ve class imbalance kontrol edilmeden lig özel modeli başarılı sayma. KG için sürekli
+EVET/HAYIR, gol bazlı Poisson ve piyasa olasılığı baseline olarak eklenebilir.
+
+10 | UEFA turnuvalarında ligler arası güç köprüsü
+
+Yerel lig Elo puanları otomatik ortak ölçek değildir. UEFA kulüplerinin geçmiş uluslararası maçlarından,
+ülke/lig düzeyi rastgele etkiler ve takım güçlerini birlikte güncelleyen bir bridge kur. Sadece tahmin anına
+kadar oynanmış uluslararası maçları kullan. Yeni katılan takım için kendi lig priorına shrink et. Grup/lig
+aşaması ve eleme aşaması ayrı bağlam özelliği olabilir; turnuva formatı değişimleri tarihle versiyonlanmalı.
+
+11 | Üretim mimarisi ve entegrasyon
+
+Önerilen akış: fixture -> canonical team/league mapping -> as_of feature store -> global model -> league
+adapter/local model (eligible ise) -> gate/router -> kalibrasyon -> p(1,X,2), p(O/U), p(KG), skor matrisi ->
+immutable PredictionRecord -> UI/API. Mevcut uygulama sonuçlarını sessizce değiştirme; yeni modeli
+shadow mode ile başlat.
+
+Bileşen                                    Sorumluluk
+
+LeagueModelRegistry                        league_id, season_scope, target, model_version, training_cutoff, metrics, artifact hash
+
+EligibilityGate                            Asgari veri/coverage, lisans, leakage ve kalibrasyon kapıları
+
+PredictionRouter                           GLOBAL / ADAPTED / LOCAL / BLENDED seçimi ve fallback nedeni
+
+FeatureSnapshotStore                       as_of, available_at, lineage, source version, null/coverage flags
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                                           5
+Bileşen                                    Sorumluluk
+EvaluationStore                            Fold tahminleri, OOS skorlar, bootstrap CI, baseline kıyasları
+Monitoring                                 Drift, log loss, ECE, coverage, gecikme, kaynak kesintisi
+
+Fallback: eksik lig modeli veya lisanslı veri durumunda global model; tahminin hangi modelle üretildiği
+kullanıcıya/audite görünür. Model erişilemezse tahmini sahte sonuçla doldurma; açık hata veya güvenilir
+fallback kullan.
+
+12 | Örnek yapılandırma ve sözleşmeler
+
+Önerilen config anahtarları (mevcut repository yapısına uyarlanacak): leagues.<id>.enabled,
+minimum_completed_matches, candidate_families, lookback_seasons, calibration_scope,
+model_selection_metric, snapshot_stage, fallback_model, license_policy. Model artifact manifest alanları:
+git_sha, data_snapshot_hash, train_end_utc, validation_windows, holdout_window, target,
+feature_schema_version, source_license_ids, metrics, approval_status.
+
+PredictionRecord alanları: fixture_id, league_id, prediction_as_of, stage, model_version, model_family,
+p_home, p_draw, p_away, p_over25, p_btts_yes, expected_goals_home/away (varsa), input_snapshot_hash,
+missingness_flags, fallback_reason, created_at. Olasılıklar finite ve [0,1] aralığında; 1X2 toplamı tolerans
+dahilinde 1.
+
+13 | Sprint bazlı uygulama planı (6 sprint)
+
+Sprint 1 - Veri ve lisans
+
+Lig/sezon coverage matrisi, canonical IDs, lisans manifesti, as_of şeması, leakage testleri.
+Çıkış kriteri: Gerçek çok sezonlu dataset ve %100 zaman denetimi.
+
+Sprint 2 - Global referans
+
+Mevcut üretim sürümünü dondur, aynı OOS foldlarda tüm baseline metriklerini kaydet.
+Çıkış kriteri: Yeniden üretilebilir global benchmark raporu.
+
+Sprint 3 - Lig istatistik modelleri
+
+Her lig için DC/Poisson/Elo ve UEFA bridge; düzenlileştirme ve sezon geçişi.
+Çıkış kriteri: Her lig için aday artifact ve OOS tahminler.
+
+Sprint 4 - ML adaptörleri
+
+Lig etkili global GBM, local GBM ve shrinkage blend; Optuna yalnız train/validation.
+Çıkış kriteri: Model kartları, hata analizi, aday karşılaştırma.
+
+Sprint 5 - Kalibrasyon ve karar
+
+Ayrı kalibrasyon; holdout; block bootstrap; model eligibility ve approval gate.
+Çıkış kriteri: İyileşme kanıtlı ligler için onay, diğerleri global.
+
+Sprint 6 - Shadow ve rollout
+
+Shadow prediction, gerçek sonuçla izleme, canary rollout, alarm ve rollback.
+Çıkış kriteri: Üretim kayıtları, dashboard ve rollback provası.
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                     6
+14 | Test paketi ve hata senaryoları
+
+• Zaman sızıntısı: maç sonucu veya sonradan açıklanan ilk 11 önceki snapshotta görünemez.
+• Fixture ID ve takım alias çakışması; aynı maç iki kez eğitim verisi olamaz.
+• Lig terfi/düşme, sezon geçişi, ertelenen maç, saat değişimi, UEFA format değişimi.
+• Eksik xG/kadro/oran alanında NULL korunur; model açıklanabilir fallback üretir.
+• Tek sınıflı kısa dönem, az maç, aşırı favori yoğunluğu, dengesiz lig dağılımı.
+• Ayrı test setinin Optuna, calibration, blend ağırlıkları veya model seçimine sızmaması.
+• Deterministik seed, dependency lock, artifact hash, veriye erişim ve lisans audit logları.
+• Prod smoke test gerçek sağlayıcı ve gerçek fixture ile; gerçek API doğrulaması olmadan LIVE_VERIFIED
+etiketi yok.
+
+15 | Örnek karar senaryoları
+
+Senaryo A: Premier Lig local model log loss 0,92; global 0,94; bootstrap fark aralığı [-0,04, +0,01]. Sonuç:
+kesin üstünlük yok; shadow modda devam. Senaryo B: Süper Lig local model daha iyi accuracy ama daha
+kötü log loss ve ECE. Sonuç: üretime terfi yok. Senaryo C: UEFA yerel model az veriyle istikrarsız. Sonuç:
+global + cross-league bridge. Bu sayılar açıklayıcı örnektir, gerçek ölçüm değildir.
+
+16 | Claude Code uygulama görev metni
+
+Mevcut futbol tahmin reposunu önce incele; mevcut modül isimlerini ve veri sözleşmelerini tespit et. Global
+üretim modelini değiştirmeden lig bazlı modelleme katmanı ekle. Sadece lisansı doğrulanmış gerçek tarihsel
+veriyi kullan. Canonical league/team IDs, as_of feature snapshots, kronolojik nested walk-forward, global
+baseline, lig-adapted GBM, lig Poisson/DC, shrinkage blend, ayrı kalibrasyon, OOS model seçimi, bağımsız
+holdout, league eligibility gate, model registry, immutable prediction kayıtları, shadow rollout, monitoring ve
+rollback uygula. Gerçek API bağlantısı yoksa NOT_CONFIGURED olarak raporla; mock/sahte tahmini gerçek
+sonuç diye sunma. Tüm skorları fold, lig, hedef, sürüm ve veri snapshotı ile raporla. Başarı kanıtı olmadan
+local modeli prod routera açma. Önce mimari ve veri denetimi raporu çıkar, sonra sprintler halinde uygula.
+
+17 | Karar tablosu: başlangıç varsayılanları
+
+Lig grubu       İlk üretim adayı              Yerel model terfisi
+5 büyük lig     Global + league-adapter + DC  OOS ve holdout üstünlüğü
+Süper Lig       Global + league-adapter       Yeterli sezon + OOS üstünlüğü
+UEFA 3 turnuva  Global + cross-league bridge  Turnuva özel veri ve bağımsız üstünlük
+
+18 | Kaynaklar ve yöntem notu
+
+Bu belge kullanıcı tarafından bildirilen 138 maçlık sonuçlara ve daha önce konuşulan proje bileşenlerine göre
+tasarlanmıştır. Repository kodu, canlı veri kapsamı, mevcut model parametreleri ve gerçek üretim logları
+burada doğrudan denetlenmemiştir. Dolayısıyla lig davranışları hipotez, veri eşikleri öneri ve örnek skorlar
+temsili olarak belirtilmiştir.
+
+S. Wilkens (2026), Bundesliga prediction and calibration: https://journals.sagepub.com/doi/abs/10.1177/22150218261416681
+Football score-driven time-series models: https://www.sciencedirect.com/science/article/abs/pii/S0169207018302048
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                                 7
+Hierarchical partial pooling reference: https://mc-stan.org/rstanarm/articles/pooling.html
+Cross-league hierarchical modeling (2026): https://journals.sagepub.com/doi/10.1177/22150218261481583
+Walk-forward model implementation example: https://johngavin.github.io/footbet/articles/models-betting.html
+
+Lig bazlı model eğitim planı | 20.10.2026                                                                    8
+        CLAUDE CODE — ULTRA PRO MAX
+
+Lig Bazlı Futbol Tahmin Modelleri | 6 Sprint İçin Ayrıntılı
+Uygulama Promptları
+
+Ek belge • 20 Ekim 2026 • Sürüm 2.0
+Bu bölüm önceki 8 sayfalık teknik planın tamamına EKLENMEKTEDİR. Her sprint için bağımsız, kopyalanıp
+Claude Code’a verilebilir uzun bir görev metni içerir. Sıralı yürütme ve sprint kapıları zorunludur.
+Kullanım: Önce ana planı inceletin. Sprint 1 promptunu çalıştırın; kanıt raporunu doğrulayın. Ardından Sprint
+2’ye geçin. Altı sprinti tek seferde, denetimsiz ve koşulsuz production deploy olarak yürütmeyin.
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları                                                     1
+     SPRINT 1 — GERÇEK VERİ, LİSANS VE
+                     ZAMAN GÜVENLİĞİ
+
+CLAUDE CODE PROMPT — doğrudan kopyalanabilir | Sprint 1
+
+ROL VE YÜRÜTME İLKELERİ
+
+Sen bu repoda kıdemli ML platform mimarı, istatistiksel modelleme uzmanı, MLOps mühendisi, veri
+mühendisi ve bağımsız QA denetçisisin. Önce kod tabanını gerçekten oku; klasör, dosya, endpoint, sınıf veya
+API icat etme. Mevcut çalışan üretim davranışını koru. Bu sprintin dışına taşan işlerde yalnız arayüz
+sözleşmesi oluştur; başka sprintleri gizlice tamamlanmış ilan etme. Her değişiklik için en küçük güvenli
+yama, deterministik test ve geri alma planı üret.
+
+KIRMIZI ÇİZGİLER
+
+- Gerçek olmayan maç, oran, xG, kadro, API yanıtı, veri kaynağı, model başarısı, ekran görüntüsü veya canlı
+çağrı üretme; mock sonucu asla gerçek doğrulama olarak sunma. Birim testinde sentetik minimal örnek
+gerekiyorsa TEST_ONLY etiketiyle açıkça ayır; canlı doğrulama için yalnız gerçek kaynak kullan.
+- İzin verilmeyen veri kaynağından veri toplama/eğitim yapma. football-data.co.uk ticari/AI kullanımında
+BLOCKED kabul edilsin; API-Football üçüncü taraf yayın hakkı vermiyor; football-data.org ticari/ML hakları
+ayrıca teyit edilmeli. The Odds API için kullanıcı tarafından paylaşılan 31.08.2026 metnindeki ticari UI, ML,
+saklama izni ve ham veri yeniden satışı yasağını ayrı kaydet. Güncel şartları doğrulamadan izin kapsamını
+genişletme.
+- As-of kuralı: Her özellik için event_time ve available_at <= prediction_as_of; maç sonucu, kapanış oranı,
+sonradan ilan edilen ilk 11 veya sonradan revize veri sızamaz.
+- API anahtarlarını yazdırma, repoya commit etme, loglama veya kullanıcıdan sohbete yapıştırmasını isteme.
+.env.example yalnız değişken adlarını içersin.
+- Canlı veri, erişim izni, geçmiş sezon, test ortamı veya gerçek API anahtarı yoksa başarısızlığı saklama:
+BLOCKED / NOT_CONFIGURED / NOT_VERIFIED olarak raporla. Testlerin yeşil olması canlı ürün doğrulaması
+değildir.
+- Aynı fixture kümesi ve aynı zaman kesiti üzerinde kıyas yap. Final holdout'u tuning, Optuna, model seçimi,
+calibration veya ağırlık öğrenmede kullanma.
+
+ZORUNLU ÇALIŞMA PROTOKOLÜ
+
+A) REPO_DISCOVERY: git status, branch, paket yöneticisi, mevcut test komutları,
+src/model/data/llm/API/router ve CI iş akışlarını tespit et; dosya yollarını gerçek bulgularla yaz.
+B) PRE_FLIGHT: var olan model ve API kontratlarını, veri şemalarını, migration durumunu, lisans kayıtlarını
+ve güncel metriklerin nasıl üretildiğini doğrula; eksikliği risk listesine yaz.
+C) PLAN: değiştireceğin dosyaları, migration stratejisini, geriye uyumluluğu, testleri ve kapıları kısa tabloda
+açıkla; sonra kodla.
+D) IMPLEMENT: tipli arayüzler, idempotent komutlar, config/feature flag, yapılandırılmış log, artifact hash,
+veri soy ağacı ve güvenli hata mesajları kullan.
+E) VERIFY: mevcut testler + yeni unit/integration/temporal regression + veri varsa gerçek read-only smoke;
+komut/çıkış kodu/kanıt dosyalarını kaydet. Eksik erişimde smoke SKIPPED_NOT_CONFIGURED.
+F) REPORT: gerçek değişen dosyalar, komutlar, test sonuçları, kullanılan gerçek maç sayıları, veri kapsamı,
+lisans ve güvenlik durumu, kalan blokajlar, sonraki sprint için teslim sözleşmesi. Çalışmayan hiçbir adımı
+DONE yazma.
+
+KAPSAM
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  2
+Dokuz yarışma: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig, Şampiyonlar Ligi, Avrupa Ligi,
+Konferans Ligi. Üç ana hedef: 1X2, 2.5 Alt/Üst, KG; doğru skor tutarlı gol dağılımından. 138 maçlık son rapor
+(1X2 94/138, Alt/Üst 84/138, KG 76/138) yalnız gözlenen değerlendirme setidir, lig modellerini eğitmek için
+yeterli veri varsayma. Başarı ölçütü sadece accuracy değil: 1X2 log loss, multiclass Brier/RPS, accuracy,
+ECE; binary hedeflerde log loss, Brier, accuracy ve calibration. Mevcut global Elo + Poisson/DC +
+XGBoost/LightGBM + ensemble referansını koru.
+
+AMAÇ VE SINIR
+
+Üretim sistemini değiştirmeden lig/sezon bazında güvenilir, hukuken kullanılabilir, tekrar üretilebilir tarihsel
+eğitim evrenini kur. Bu sprintte model eğitimi veya accuracy artışı iddiası yok. Kaynak envanteri, hak
+denetimi, canonical identity, veri kalite kontrolleri, as-of snapshots ve veri erişim kapıları teslim edilecek.
+
+GÖREV 1: KAYNAK VE LİSANS ENVANTERİ
+
+Mevcut fixture, skor, şut, korner, kart, xG, sakatlık, ilk 11, odds, ülke/lig/takım kimliklerinin gerçek
+sağlayıcılarını bul. Her kaynak için provider_id, source_url, retrieved_at_utc, terms_version,
+license_evidence_path, commercial_display, commercial_ml, derivative_predictions, indefinite_retention,
+redistribution, branding, attribution, geographic_restrictions, cancellation_effect, legal_review_required
+alanlarını tanımla. Bilinmeyen hak = UNKNOWN, izin değil. Hakları alan ve kullanım amacına göre kapıla: ML
+eğitimi izinli ama kamusal gösterim belirsizse yalnız izinli iş akışına dahil et. The Odds API'nin ham verisini
+kendi feed'ine dönüştürme. UI'da kaynak hakları ve logoları ayrıca değerlendir.
+
+GÖREV 2: DOKUZ YARIŞMA İÇİN COVERAGE MATRİSİ
+
+LeagueDirectory / TeamDirectory mevcutsa yeniden kullan; yoksa küçük bir adaptör tasarla. Her lig ve
+sezon için fixture_count, completed_count, chronological_span, result_coverage, shot_coverage,
+xg_coverage, lineups_coverage, odds_coverage, available_at_coverage, provider, license_status,
+competition_format_version, missingness_ratio raporla. Aynı maç farklı API'lerde varsa authoritative
+mapping ve conflict resolution üret. Şampiyonlar Ligi/Avrupa Ligi/Konferans Ligi formatlarını yıl bazlı ayrı
+versiyonla. Tamamlanmamış/iptal/ertelenmiş maçları sonuç etiketi gibi eğitime sokma.
+
+GÖREV 3: KANONİK KİMLİKLER
+
+fixture_id, provider_fixture_id, canonical_league_id, season_id, canonical_home_team_id,
+canonical_away_team_id, kickoff_utc, status, final_score, last_updated_at alanlarıyla mevcut şemaya
+uyumlu migration öner ve uygula. Aynı isimli farklı kulüpleri birleştirme; isim değişikliği, yükselme/düşme,
+sezon geçişi, farklı takvim yılı, UEFA eleme/aşama durumlarını kapsa. Provider kimlikleri değişse de
+idempotent upsert ve collision audit sağla. Değişiklikleri dry-run ile denetle.
+
+GÖREV 4: ZAMANSAL SNAPSHOT SÖZLEŞMESİ
+
+prediction_as_of_utc, fixture_kickoff_utc, source_event_time_utc, source_available_at_utc, ingest_time_utc,
+source_version, content_hash, raw_snapshot_pointer, quality_flags tanımla. İleriye bakmayı önlemek için iki
+farklı zaman kontrolü yap: olayın gerçekleşme zamanı ve sistemin o bilgiyi ilk görebildiği zaman.
+Güncellenmiş skor, oran ve kadro alanları geçmişte geriye yürütülmemeli. T-24h, T-90m, T-30m ve kickoff
+aşamalarında hangi alanların meşru olabileceğini matrise dök; stage-specific availability koşullarını kodla.
+
+GÖREV 5: ÖZELLİK VERİSİ VE NULL POLİTİKASI
+
+Son 5/10 maç, 30/90/365 gün, iç/deplasman, dinlenme, gol ortalamaları, şut ve rakip gücü hesapları için
+yalnız önceki tamamlanmış maçları kullan. xG kaynağı yoksa xG=NULL, has_xg=false; şut sayısını xG olarak
+yeniden adlandırma. Lineup unavailable ile lineup confirmed false'u ayır. Bookmaker oranlarında
+observed_at ve bookmaker/market ayrı tut; closing odds'u geçmiş tahmin aşamasına sızdırma. Tarihsel
+available_at bulunmuyorsa geçmiş as-of doğruluğu doğrulanamaz: kayıtları BACKTEST_LIMITED olarak
+etiketle.
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları                                                        3
+GÖREV 6: VERİ KALİTESİ VE TESTLER
+
+Takım ev/deplasman tersliği, yinelenen maç, aynı tarihli iki fikstür, zaman dilimi, skor aralığı, farklı kaynak
+çatışması, silinmiş maç, null/boş ve güncel sezon güncellemesi testleri. Lisans bilinmiyorsa eğitim pipeline'ı
+fail-closed. Gerçek veri üzerinde yalnız izinli ve güvenli read-only örnekleme yap. Test fixture'ları canlı
+verinin yerine geçemez.
+
+ÇIKTILAR VE DOSYALAR
+
+Gerçek repo yapısına göre docs/league_models/sprint01_data_audit.md,
+data_source_license_manifest.(yaml/json), league_coverage.(csv/json), canonical_identity_mapping,
+asof_contract, migration, temporal_leakage_tests, evidence/ altına gerçek komut çıktıları. Kaynaklara erişim
+yoksa coverage 0 veya UNKNOWN; uydurma yüzdeler yok.
+
+KABUL KRİTERLERİ
+
+[ ] Dokuz yarışma listelenmiş ve her sezonun kapsamı gerçek sayılarla belgeli.
+[ ] Kaynakların ticari ML ve gösterim hakları ayrı statüde; belirsiz haklar production training'e geçmiyor.
+[ ] Her training row için as_of, available_at ve hash izlenebilir.
+[ ] Leakage/duplicate/timezone testleri çalışıyor; mevcut CI regresyonsuz.
+[ ] Eğitim yapılabilir sezonlar ile bloke sezonlar açıkça ayrılmış.
+[ ] Sprint 2'ye değişmez veri snapshot manifesti ve baseline-eval fixture listesi devredilmiş.
+
+BİTİRME RAPORU
+
+Lig x sezon veri sayıları, kaynak lisans kararları, kullanılan gerçek API istekleri (anahtarsız), test çıktıları,
+eksik veri oranları ve S2 engellerini dosya yollarıyla göster.
+
+PROMPT SONU — Sprint 1
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları                                                         4
+        SPRINT 2 — GLOBAL REFERANS VE
+                 TARİHSEL BENCHMARK
+
+CLAUDE CODE PROMPT — doğrudan kopyalanabilir | Sprint 2
+
+ROL VE YÜRÜTME İLKELERİ
+
+Sen bu repoda kıdemli ML platform mimarı, istatistiksel modelleme uzmanı, MLOps mühendisi, veri
+mühendisi ve bağımsız QA denetçisisin. Önce kod tabanını gerçekten oku; klasör, dosya, endpoint, sınıf veya
+API icat etme. Mevcut çalışan üretim davranışını koru. Bu sprintin dışına taşan işlerde yalnız arayüz
+sözleşmesi oluştur; başka sprintleri gizlice tamamlanmış ilan etme. Her değişiklik için en küçük güvenli
+yama, deterministik test ve geri alma planı üret.
+
+KIRMIZI ÇİZGİLER
+
+- Gerçek olmayan maç, oran, xG, kadro, API yanıtı, veri kaynağı, model başarısı, ekran görüntüsü veya canlı
+çağrı üretme; mock sonucu asla gerçek doğrulama olarak sunma. Birim testinde sentetik minimal örnek
+gerekiyorsa TEST_ONLY etiketiyle açıkça ayır; canlı doğrulama için yalnız gerçek kaynak kullan.
+- İzin verilmeyen veri kaynağından veri toplama/eğitim yapma. football-data.co.uk ticari/AI kullanımında
+BLOCKED kabul edilsin; API-Football üçüncü taraf yayın hakkı vermiyor; football-data.org ticari/ML hakları
+ayrıca teyit edilmeli. The Odds API için kullanıcı tarafından paylaşılan 31.08.2026 metnindeki ticari UI, ML,
+saklama izni ve ham veri yeniden satışı yasağını ayrı kaydet. Güncel şartları doğrulamadan izin kapsamını
+genişletme.
+- As-of kuralı: Her özellik için event_time ve available_at <= prediction_as_of; maç sonucu, kapanış oranı,
+sonradan ilan edilen ilk 11 veya sonradan revize veri sızamaz.
+- API anahtarlarını yazdırma, repoya commit etme, loglama veya kullanıcıdan sohbete yapıştırmasını isteme.
+.env.example yalnız değişken adlarını içersin.
+- Canlı veri, erişim izni, geçmiş sezon, test ortamı veya gerçek API anahtarı yoksa başarısızlığı saklama:
+BLOCKED / NOT_CONFIGURED / NOT_VERIFIED olarak raporla. Testlerin yeşil olması canlı ürün doğrulaması
+değildir.
+- Aynı fixture kümesi ve aynı zaman kesiti üzerinde kıyas yap. Final holdout'u tuning, Optuna, model seçimi,
+calibration veya ağırlık öğrenmede kullanma.
+
+ZORUNLU ÇALIŞMA PROTOKOLÜ
+
+A) REPO_DISCOVERY: git status, branch, paket yöneticisi, mevcut test komutları,
+src/model/data/llm/API/router ve CI iş akışlarını tespit et; dosya yollarını gerçek bulgularla yaz.
+B) PRE_FLIGHT: var olan model ve API kontratlarını, veri şemalarını, migration durumunu, lisans kayıtlarını
+ve güncel metriklerin nasıl üretildiğini doğrula; eksikliği risk listesine yaz.
+C) PLAN: değiştireceğin dosyaları, migration stratejisini, geriye uyumluluğu, testleri ve kapıları kısa tabloda
+açıkla; sonra kodla.
+D) IMPLEMENT: tipli arayüzler, idempotent komutlar, config/feature flag, yapılandırılmış log, artifact hash,
+veri soy ağacı ve güvenli hata mesajları kullan.
+E) VERIFY: mevcut testler + yeni unit/integration/temporal regression + veri varsa gerçek read-only smoke;
+komut/çıkış kodu/kanıt dosyalarını kaydet. Eksik erişimde smoke SKIPPED_NOT_CONFIGURED.
+F) REPORT: gerçek değişen dosyalar, komutlar, test sonuçları, kullanılan gerçek maç sayıları, veri kapsamı,
+lisans ve güvenlik durumu, kalan blokajlar, sonraki sprint için teslim sözleşmesi. Çalışmayan hiçbir adımı
+DONE yazma.
+
+KAPSAM
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  5
+Dokuz yarışma: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig, Şampiyonlar Ligi, Avrupa Ligi,
+Konferans Ligi. Üç ana hedef: 1X2, 2.5 Alt/Üst, KG; doğru skor tutarlı gol dağılımından. 138 maçlık son rapor
+(1X2 94/138, Alt/Üst 84/138, KG 76/138) yalnız gözlenen değerlendirme setidir, lig modellerini eğitmek için
+yeterli veri varsayma. Başarı ölçütü sadece accuracy değil: 1X2 log loss, multiclass Brier/RPS, accuracy,
+ECE; binary hedeflerde log loss, Brier, accuracy ve calibration. Mevcut global Elo + Poisson/DC +
+XGBoost/LightGBM + ensemble referansını koru.
+
+AMAÇ VE SINIR
+
+Mevcut global modeli bozmadan dondurulmuş referans oluştur. Lig modellerinin başarısını ancak bu
+referansa karşı aynı zaman aralığında ölç. Yeni lig modelini henüz production'a açma. İlk sprintin lisanslı
+snapshot manifestini tek gerçek veri kaynağı kabul et.
+
+GÖREV 1: MODEL VE ÜRETİM YOLU DENETİMİ
+
+Global Elo, Poisson, Dixon–Coles, XGBoost, LightGBM, kalibrasyon, ensemble, PredictionRecord, evaluation
+jobs, model registry ve endpoint akışını keşfet. Gerçek artefact sürümü, git_sha, model checksum,
+feature_schema_version, training_cutoff, training_data_hash, target definitions, probability order ve
+prediction stage kaydet. Mevcut metrikler hangi maçlardan ve hangi timestamp'lerden üretildi, bunu
+kanıtla. Backtest ile maç öncesi gerçek prospektif tahminleri ayrı etiketle.
+
+GÖREV 2: ORTAK TEST EVRENİ
+
+Dokuz lig için uygunluk matrisi oluştur; minimum 3–5 sezon veri hedefini koşulsuz garanti sayma. Sezonlar
+arası expanding veya rolling walk-forward kullan. Train, inner-validation, calibration ve final-holdout zaman
+olarak ayrışsın. Holdout'a hiçbir model, kalibrasyon veya threshold ayarı için bakma. Ligler arası aynı fixture
+aynı anda iki farklı split'e düşmesin; çapraz turnuva ve lig karşılaşmalarında aynı takımın tarihsel kayıtlarını
+tarih sırasıyla işle.
+
+GÖREV 3: BASELINE'LAR
+
+1X2 için mevcut global model; yalnız ev sahibi, yalnız favori (oran erişimi izinliyse ve as-of), Elo-only,
+DC-only; 2.5 için always-over/always-under, Poisson totals, global classifier; KG için always-yes/no ve gol
+dağılımı. Odds baseline kullanılıyorsa overround düzeltmesini ve bookmaker aggregation kuralını açıkça
+belirt. Odds bulunmuyorsa baseline UNAVAILABLE olarak işaretle; uydurma oran üretme.
+
+GÖREV 4: METRİK MOTORU
+
+1X2 sınıf sırası HOME/DRAW/AWAY; multiclass log loss, Brier, ranked probability score, top1 accuracy, ECE
+ve calibration curve; binary için log loss, Brier, accuracy, precision/recall gerekiyorsa ve AUC yalnız iki sınıf
+varsa. Epsilon clipping ve olasılıkların toplamını 1'e normalizasyon politikası belgelensin. Kapsama, gecikme,
+tahmin edilmeyen maç sayısı ve abstention ayrı raporlansın. Lig/season/target/stage/fold ve model_version
+kırılımlarını sakla. Confidence interval için matchweek/date-block bootstrap ve paired delta hesapla; seed ve
+bootstrap parametrelerini sabitle.
+
+GÖREV 5: TEKRAR ÜRETİLEBİLİRLİK
+
+CLI/Makefile/pyproject mevcut standardına uyan benchmark komutu ekle: dry-run, config path, snapshot id,
+train_end, eval_start/end, stage, target, output_dir. Çalıştırınca aynı girdide aynı sonuç dosyaları ve hash
+üretmeli. Random seed, library versions, timezone UTC, dependency lock, train/test manifest, config
+fingerprint sakla. Dosya var diye başarı varsayma; hash doğrula. Üretimde kullanılan modele dokunma.
+
+GÖREV 6: VERİ TUTARLILIĞI
+
+138 maçlık kullanıcı raporunu bir 'reported observation' olarak not et; gerçek tahmin kayıtları varsa fixture
+id ve created_at ile doğrula, yoksa VERIFIED sayma. Lig bazında 9/9, 6/7 gibi küçük örneklemlere aşırı
+güvenme. 2.5 için always-over %68,8 baseline farkını hesaplayıp ölçüm setinin tam aynı olup olmadığını
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  6
+kontrol et.
+
+TESTLER
+
+Leakage regression, split overlap, label mapping, probability normalization, empty/single-class metrics,
+duplicated fixtures, deterministic run, artifact checksum, benchmark parity, unavailable odds, timezone,
+embargo ihtiyacı ve late-arriving data. Modelin yeniden eğitim gerektirdiği durumları raporla; eğitim
+yapmadan yeniden üretilemezse NOT_REPRODUCIBLE.
+
+ÇIKTILAR
+
+Global benchmark manifesti; fold_predictions (gerçek OOS), paired baseline tables, reliability plots,
+calibration diagnostics, leakage audit, reproducibility script, benchmark_model_card, immutable global
+artifact registry entry. Her metrikte N, veri aralığı, stage, snapshot ve kaynağı zorunlu.
+
+KABUL KRİTERLERİ
+
+[ ] Her lig ve hedefte aynı fixture setiyle baseline karşılaştırması var.
+[ ] Kronolojik train/val/calibration/holdout ayrımı doğrulanmış.
+[ ] Gerçek model artefact ve veri hash'leri saklı.
+[ ] %68,1 gibi iddiaların dayanağı VERIFIED/UNVERIFIED olarak sınıflandırılmış.
+[ ] Sprint 3'e fold protokolü, global referans skorları ve frozen holdout aktarılmış.
+
+BİTİRME RAPORU
+
+Komutlar, değişen dosyalar, test ve gerçek OOS sayıları, rapor tablosu, başarısız baseline'lar, holdout kilidi
+ve açık riskleri yaz.
+
+PROMPT SONU — Sprint 2
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları                                                      7
+ SPRINT 3 — LİG POISSON / DIXON–COLES /
+                 ELO VE UEFA KÖPRÜSÜ
+
+CLAUDE CODE PROMPT — doğrudan kopyalanabilir | Sprint 3
+
+ROL VE YÜRÜTME İLKELERİ
+
+Sen bu repoda kıdemli ML platform mimarı, istatistiksel modelleme uzmanı, MLOps mühendisi, veri
+mühendisi ve bağımsız QA denetçisisin. Önce kod tabanını gerçekten oku; klasör, dosya, endpoint, sınıf veya
+API icat etme. Mevcut çalışan üretim davranışını koru. Bu sprintin dışına taşan işlerde yalnız arayüz
+sözleşmesi oluştur; başka sprintleri gizlice tamamlanmış ilan etme. Her değişiklik için en küçük güvenli
+yama, deterministik test ve geri alma planı üret.
+
+KIRMIZI ÇİZGİLER
+
+- Gerçek olmayan maç, oran, xG, kadro, API yanıtı, veri kaynağı, model başarısı, ekran görüntüsü veya canlı
+çağrı üretme; mock sonucu asla gerçek doğrulama olarak sunma. Birim testinde sentetik minimal örnek
+gerekiyorsa TEST_ONLY etiketiyle açıkça ayır; canlı doğrulama için yalnız gerçek kaynak kullan.
+- İzin verilmeyen veri kaynağından veri toplama/eğitim yapma. football-data.co.uk ticari/AI kullanımında
+BLOCKED kabul edilsin; API-Football üçüncü taraf yayın hakkı vermiyor; football-data.org ticari/ML hakları
+ayrıca teyit edilmeli. The Odds API için kullanıcı tarafından paylaşılan 31.08.2026 metnindeki ticari UI, ML,
+saklama izni ve ham veri yeniden satışı yasağını ayrı kaydet. Güncel şartları doğrulamadan izin kapsamını
+genişletme.
+- As-of kuralı: Her özellik için event_time ve available_at <= prediction_as_of; maç sonucu, kapanış oranı,
+sonradan ilan edilen ilk 11 veya sonradan revize veri sızamaz.
+- API anahtarlarını yazdırma, repoya commit etme, loglama veya kullanıcıdan sohbete yapıştırmasını isteme.
+.env.example yalnız değişken adlarını içersin.
+- Canlı veri, erişim izni, geçmiş sezon, test ortamı veya gerçek API anahtarı yoksa başarısızlığı saklama:
+BLOCKED / NOT_CONFIGURED / NOT_VERIFIED olarak raporla. Testlerin yeşil olması canlı ürün doğrulaması
+değildir.
+- Aynı fixture kümesi ve aynı zaman kesiti üzerinde kıyas yap. Final holdout'u tuning, Optuna, model seçimi,
+calibration veya ağırlık öğrenmede kullanma.
+
+ZORUNLU ÇALIŞMA PROTOKOLÜ
+
+A) REPO_DISCOVERY: git status, branch, paket yöneticisi, mevcut test komutları,
+src/model/data/llm/API/router ve CI iş akışlarını tespit et; dosya yollarını gerçek bulgularla yaz.
+B) PRE_FLIGHT: var olan model ve API kontratlarını, veri şemalarını, migration durumunu, lisans kayıtlarını
+ve güncel metriklerin nasıl üretildiğini doğrula; eksikliği risk listesine yaz.
+C) PLAN: değiştireceğin dosyaları, migration stratejisini, geriye uyumluluğu, testleri ve kapıları kısa tabloda
+açıkla; sonra kodla.
+D) IMPLEMENT: tipli arayüzler, idempotent komutlar, config/feature flag, yapılandırılmış log, artifact hash,
+veri soy ağacı ve güvenli hata mesajları kullan.
+E) VERIFY: mevcut testler + yeni unit/integration/temporal regression + veri varsa gerçek read-only smoke;
+komut/çıkış kodu/kanıt dosyalarını kaydet. Eksik erişimde smoke SKIPPED_NOT_CONFIGURED.
+F) REPORT: gerçek değişen dosyalar, komutlar, test sonuçları, kullanılan gerçek maç sayıları, veri kapsamı,
+lisans ve güvenlik durumu, kalan blokajlar, sonraki sprint için teslim sözleşmesi. Çalışmayan hiçbir adımı
+DONE yazma.
+
+KAPSAM
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  8
+Dokuz yarışma: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig, Şampiyonlar Ligi, Avrupa Ligi,
+Konferans Ligi. Üç ana hedef: 1X2, 2.5 Alt/Üst, KG; doğru skor tutarlı gol dağılımından. 138 maçlık son rapor
+(1X2 94/138, Alt/Üst 84/138, KG 76/138) yalnız gözlenen değerlendirme setidir, lig modellerini eğitmek için
+yeterli veri varsayma. Başarı ölçütü sadece accuracy değil: 1X2 log loss, multiclass Brier/RPS, accuracy,
+ECE; binary hedeflerde log loss, Brier, accuracy ve calibration. Mevcut global Elo + Poisson/DC +
+XGBoost/LightGBM + ensemble referansını koru.
+
+AMAÇ VE SINIR
+
+Dokuz organizasyon için gerçek tarihsel veriye dayalı, düzenlileştirilmiş istatistiksel model adayları eğit.
+Bağımsız lig modeli zorunlu değildir. Global baseline her durumda korunur. Sadece Sprint 1 lisans
+kapısından geçen veriyi ve Sprint 2'nin kronolojik foldlarını kullan.
+
+GÖREV 1: LİG STRATEJİ MATRİSİ
+
+Premier Lig: dinlenme/fikstür yoğunluğu ve şut temposu hipotezini doğrula; Serie A: düşük skor/beraberlik
+DC etkisini test et; La Liga: favori güç farkı ve ev avantajı; Bundesliga: gol yoğunluğu ve Alt/Üst/KG; Ligue 1:
+güç yoğunlaşması ve terfi/düşme shrinkage; Süper Lig: ev/deplasman ve kadro sürekliliği ancak gerçek veri
+varsa. Bunları lig hakkında ezberlenmiş kesin varsayım yapma; her hipotezi holdout dışı veride ablation ile
+sınamadan feature weight sabitleme.
+
+GÖREV 2: POISSON/DC MATEMATİĞİ
+
+log(lambda_home) = intercept + attack_home - defense_away + home_advantage + optional covariates;
+log(lambda_away) = intercept + attack_away - defense_home + optional covariates. Parametreleri
+identifiability constraint (sum-to-zero veya prior) ile öğren. Küçük örneklemde ridge/L2 veya hiyerarşik
+shrinkage uygula. Dixon–Coles düşük skor rho düzeltmesini doğru 0-0,0-1,1-0,1-1 hücrelerinde ve geçerli
+olasılık sınırlarında uygula; negatif kütle oluşursa modeli reddet. Skor matrisi için yeterli truncation/tail
+kontrolü yap; normalize etme yöntemi ve tail mass raporla. 1X2, over2.5, BTTS, exact-score aynı matrise
+matematiksel olarak tutarlı olsun.
+
+GÖREV 3: ZAMANA BAĞLI ELO
+
+Her takımın maç öncesi rating'i, home advantage, maç sonucu/goal difference güncellemesi, season
+reversion-to-mean ve promoted team priorını uygula. Farklı liglerin rating ölçeklerini gelişigüzel birleştirme.
+İlk sezonda rating belirsizliği ve takıma özel maç sayısı kaydet. Maçları kickoff_utc sıralı işle; eşzamanlı
+fixture'larda diğerinin sonucunu öne alma. Ertelenen maçlar gerçek oynanma sırasına göre güncellensin.
+
+GÖREV 4: UEFA CROSS-LEAGUE BRIDGE
+
+Şampiyonlar, Avrupa ve Konferans Ligi için uluslararası maçların geçmişinden ülke/lig güç bağlantısı öğren.
+Lig içi Elo'ları ortak ölçek sayma; UEFA karşılaşmaları ve güvenilir priorlar üzerinden ortak referans kur.
+Turnuva formatlarını season/version ile işle (lig aşaması, grup, eleme, çift maç). Aynı takımın ulusal lig ve
+UEFA maçlarında zamansal bilgi tutarlılığı sağla. Uluslararası veri yetersizse global+league prior ve açık
+UNCERTAIN fallback kullan; bağımsız UEFA GBM eğitme.
+
+GÖREV 5: HİYERARŞİK VE YEREL ADAYLAR
+
+Her lig için A) global DC, B) global DC + league intercept, C) local DC/Elo, D) shrinkage blend adaylarını
+karşılaştır. Lig başına <500 maç için local model prod eligibility kapalı; 500–1500 aday ama OOS kanıt şart;
+>1500 local adaylar denenebilir. Bu eşikler heuristik ve config üzerinden ayarlanabilir; nihai karar
+istatistiksel kanıtla verilir. Takım değişimleri ve yükselen takım priorlarını açıkça işle.
+
+GÖREV 6: GERÇEK EĞİTİM VE OOS
+
+Her outer fold için yalnız train sonuna kadarki maçlarla fit et; validation başlangıcında parametreleri dondur;
+tahminleri immutable sakla. Kalibrasyon veya ağırlık seçiminde final holdout kullanma. Her ligde fixture
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  9
+sayısı, skor matrisi tutarlılığı, 1X2 log loss, binary Brier, calibration ve convergence raporla. 0-0 ve 1-1 alt
+gruplarını ayrıca denetle. Optimizasyon başarısızsa artifact NOT_TRAINED; sessiz default parametreyle
+başarılı sayma.
+
+TEST VE EDGE CASE
+
+Pozitif lambda; finite probabilities; 1X2 toplam=1; skor matrisi kütle toplamı; DC rho positivity; sıfır maçlı
+takım; 18/20 takımlı sezon; yeni yükselen kulüp; sezon değişimi; aynı takım farklı lig; UEFA eleme/format;
+gecikmiş veri; aynı kickoff; reproducible seeds; per-lig coverage. Lig başına gerçek OOS örneklemi
+yetersizse ayrı model seçilmez.
+
+ÇIKTILAR
+
+LeagueStatModel interface, per-league DC/Elo candidates, UEFA bridge module, training CLI, immutable
+artifact manifest, per-fold OOS predictions, model cards, convergence/diagnostics, source lineage,
+regression tests. Mevcut repo düzenine adapte et.
+
+KABUL KRİTERLERİ
+
+[ ] Dokuz yarışmanın her biri için model/fallback kararı ve gerekçesi var.
+[ ] DC ve Elo çıktıları as-of tutarlı; skor matrisi valid.
+[ ] UEFA ortak güç köprüsü yalnız gerçek uluslararası geçmişten kurulmuş veya NOT_AVAILABLE.
+[ ] Global model hiçbir yerde silinmemiş veya sessiz değiştirilmemiş.
+[ ] Sprint 4'e aynı foldlarda karşılaştırılabilir OOS artefact teslim edilmiş.
+
+PROMPT SONU — Sprint 3
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları                                                        10
+            SPRINT 4 — GLOBAL GBM, LİG
+  ADAPTÖRLERİ VE SHRINKAGE ENSEMBLE
+
+CLAUDE CODE PROMPT — doğrudan kopyalanabilir | Sprint 4
+
+ROL VE YÜRÜTME İLKELERİ
+
+Sen bu repoda kıdemli ML platform mimarı, istatistiksel modelleme uzmanı, MLOps mühendisi, veri
+mühendisi ve bağımsız QA denetçisisin. Önce kod tabanını gerçekten oku; klasör, dosya, endpoint, sınıf veya
+API icat etme. Mevcut çalışan üretim davranışını koru. Bu sprintin dışına taşan işlerde yalnız arayüz
+sözleşmesi oluştur; başka sprintleri gizlice tamamlanmış ilan etme. Her değişiklik için en küçük güvenli
+yama, deterministik test ve geri alma planı üret.
+
+KIRMIZI ÇİZGİLER
+
+- Gerçek olmayan maç, oran, xG, kadro, API yanıtı, veri kaynağı, model başarısı, ekran görüntüsü veya canlı
+çağrı üretme; mock sonucu asla gerçek doğrulama olarak sunma. Birim testinde sentetik minimal örnek
+gerekiyorsa TEST_ONLY etiketiyle açıkça ayır; canlı doğrulama için yalnız gerçek kaynak kullan.
+- İzin verilmeyen veri kaynağından veri toplama/eğitim yapma. football-data.co.uk ticari/AI kullanımında
+BLOCKED kabul edilsin; API-Football üçüncü taraf yayın hakkı vermiyor; football-data.org ticari/ML hakları
+ayrıca teyit edilmeli. The Odds API için kullanıcı tarafından paylaşılan 31.08.2026 metnindeki ticari UI, ML,
+saklama izni ve ham veri yeniden satışı yasağını ayrı kaydet. Güncel şartları doğrulamadan izin kapsamını
+genişletme.
+- As-of kuralı: Her özellik için event_time ve available_at <= prediction_as_of; maç sonucu, kapanış oranı,
+sonradan ilan edilen ilk 11 veya sonradan revize veri sızamaz.
+- API anahtarlarını yazdırma, repoya commit etme, loglama veya kullanıcıdan sohbete yapıştırmasını isteme.
+.env.example yalnız değişken adlarını içersin.
+- Canlı veri, erişim izni, geçmiş sezon, test ortamı veya gerçek API anahtarı yoksa başarısızlığı saklama:
+BLOCKED / NOT_CONFIGURED / NOT_VERIFIED olarak raporla. Testlerin yeşil olması canlı ürün doğrulaması
+değildir.
+- Aynı fixture kümesi ve aynı zaman kesiti üzerinde kıyas yap. Final holdout'u tuning, Optuna, model seçimi,
+calibration veya ağırlık öğrenmede kullanma.
+
+ZORUNLU ÇALIŞMA PROTOKOLÜ
+
+A) REPO_DISCOVERY: git status, branch, paket yöneticisi, mevcut test komutları,
+src/model/data/llm/API/router ve CI iş akışlarını tespit et; dosya yollarını gerçek bulgularla yaz.
+B) PRE_FLIGHT: var olan model ve API kontratlarını, veri şemalarını, migration durumunu, lisans kayıtlarını
+ve güncel metriklerin nasıl üretildiğini doğrula; eksikliği risk listesine yaz.
+C) PLAN: değiştireceğin dosyaları, migration stratejisini, geriye uyumluluğu, testleri ve kapıları kısa tabloda
+açıkla; sonra kodla.
+D) IMPLEMENT: tipli arayüzler, idempotent komutlar, config/feature flag, yapılandırılmış log, artifact hash,
+veri soy ağacı ve güvenli hata mesajları kullan.
+E) VERIFY: mevcut testler + yeni unit/integration/temporal regression + veri varsa gerçek read-only smoke;
+komut/çıkış kodu/kanıt dosyalarını kaydet. Eksik erişimde smoke SKIPPED_NOT_CONFIGURED.
+F) REPORT: gerçek değişen dosyalar, komutlar, test sonuçları, kullanılan gerçek maç sayıları, veri kapsamı,
+lisans ve güvenlik durumu, kalan blokajlar, sonraki sprint için teslim sözleşmesi. Çalışmayan hiçbir adımı
+DONE yazma.
+
+KAPSAM
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  11
+Dokuz yarışma: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig, Şampiyonlar Ligi, Avrupa Ligi,
+Konferans Ligi. Üç ana hedef: 1X2, 2.5 Alt/Üst, KG; doğru skor tutarlı gol dağılımından. 138 maçlık son rapor
+(1X2 94/138, Alt/Üst 84/138, KG 76/138) yalnız gözlenen değerlendirme setidir, lig modellerini eğitmek için
+yeterli veri varsayma. Başarı ölçütü sadece accuracy değil: 1X2 log loss, multiclass Brier/RPS, accuracy,
+ECE; binary hedeflerde log loss, Brier, accuracy ve calibration. Mevcut global Elo + Poisson/DC +
+XGBoost/LightGBM + ensemble referansını koru.
+
+AMAÇ VE SINIR
+
+Global XGBoost/LightGBM temelini koruyarak lig farklarını veriyle öğrenen adaylar üret. Bağımsız lig
+modelini ancak yeterli veri ve zaman bloklu OOS kanıtı varsa aday olarak eğit. Sprint 3 istatistiksel modelleri
+ile aynı veri snapshotı ve aynı fold protokolü kullan.
+
+GÖREV 1: FEATURE CONTRACT VE PARİTE
+
+Global ve yerel modellerde hedef, feature sırası, encoding, missingness, as_of ve normalization kuralları tek
+kaynaktan gelsin. Feature store'da league_id, league-season priors, takım gücü, rolling goal for/against,
+home/away form, rest_days, fixture congestion, promoted team, odds only if timestamp/licensed, xG only if
+real, lineups only after announced bulunabilir. Train/serve skew test et; categorical league encoding ve
+unseen league fallback tanımla.
+
+GÖREV 2: DÖRT ADAY AİLESİ
+
+A) Frozen global GBM baseline; B) global GBM + lig kimliği/etkileşimleri; C) yeterli veri varsa local
+league-specific GBM; D) global ile local modelin regularized shrinkage blend'i. UEFA için cross-league bridge
+ile global model temel; local UEFA GBM yalnız gerçek yeterlilik ve OOS kanıtıyla. Her target için ayrı olasılık
+sözleşmesi: 1X2 üç sınıf, O/U binary, KG binary. Exact score DC matrisi üzerinden; GBM'nin 1X2 çıktısından
+uydurma skor dağılımı çıkarma.
+
+GÖREV 3: HİPERPARAMETRE VE HESAPLAMA BÜTÇESİ
+
+Optuna/benzeri tuner varsa mevcut uygulamayı kullan; yalnız inner walk-forward validation skorlarını
+optimize et. Random seed, max_trials, wallclock_budget, early_stopping, max_depth,
+min_child_weight/min_data_in_leaf, learning_rate, subsample, colsample, L1/L2, class weights ve objective
+config'e bağla. CPU/GPU yokluğunda deterministic CPU fallback; başarısız GPU run'ını başarılı raporlama.
+Training cutoff ve experiment lineage her trial'da saklansın. Test setini Optuna'ya asla gösterme.
+
+GÖREV 4: PARTIAL POOLING / MIXTURE
+
+p_final=(1-w_lig)*p_global + w_lig*p_local; w_lig OOF inner predictions üzerinden düzenlileştirilerek
+öğrenilir. Yetersiz veri halinde w_lig=0'a yakın olsun; sample size, class balance, OOS improvement ve
+uncertainty dikkate alınsın. Her hedef için ayrı w; olasılık simplex korunsun. Weight estimation ile final eval
+aynı fold üzerinde yapılmasın. Eğer local model yoksa global fallback reason=LOCAL_INELIGIBLE.
+
+GÖREV 5: ABLATION VE ÖNEM ANALİZİ
+
+Liga özgü hipotezleri test et: Premier Lig tempo/fikstür, Serie A draw/DC, La Liga Elo disparity, Bundesliga
+goals, Ligue 1 strength concentration, Süper Lig home advantage; UEFA cross-league bridge. Veri gerçekten
+bu hipotezleri desteklemiyorsa feature çıkar. Permutation importance/SHAP yalnız train/validation ve izinli
+veri üzerinde; önemli görünen özelliği nedensellik gibi sunma. Bookmaker odds kullanımı için odds-free ve
+odds-aware model kartlarını ayrı tut; piyasayı yenme iddiası için market baseline ile paired test şart.
+
+GÖREV 6: HATA ANALİZİ
+
+Per league x season x target: home/draw/away confusion, favorite bias, away underprediction, class
+imbalance, scoreline segments, early/late season, promoted clubs, missing xG/odds, UEFA stages, high/low
+confidence bins. 2.5 için 'always over' ve KG için majority baseline'a karşı gerçek farkı ölç. Accuracy artıp log
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  12
+loss kötüleşirse terfi önerme.
+
+GÖREV 7: KAYIT VE YENİDEN ÜRETİM
+
+Experiment tracker veya repo standardına uygun training runs: model_family, league, target,
+snapshot_hash, fold, feature_schema_hash, params, git_sha, train_end, metrics, artifact_sha256, seed,
+training_time, data_license_ids. Yalnız gerçekten üretilmiş artifact dosyalarını registry'ye yaz. Büyük
+dosyaları rastgele repoya commit etme; mevcut artifact store kullan.
+
+TESTLER VE KABUL
+
+[ ] Baseline/adapted/local/blended tüm uygun adaylar aynı OOS maçlarda karşılaştırılmış.
+[ ] Leakage, split overlap, target order, missingness, one-class fold, unseen league, unseen promoted team,
+probability sum testleri yeşil.
+[ ] Tuning holdout'a bakmıyor; bütün trials izlenebilir.
+[ ] Adayların üstünlüğü kanıtlanmadığında global fallback var.
+[ ] Sprint 5 için dondurulmuş OOF predictions, model cards, artifacts ve eligibility evidence hazır.
+
+SON RAPOR
+
+Hangi liglerde local model denenebildiğini ve hangilerinde veri yetersiz olduğunu ayrı yaz. Gerçek
+performans delta ve CI yoksa 'accuracy increased' deme.
+
+PROMPT SONU — Sprint 4
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  13
+  SPRINT 5 — KALİBRASYON, HOLDOUT VE
+               LİG MODELİ TERFİ KARARI
+
+CLAUDE CODE PROMPT — doğrudan kopyalanabilir | Sprint 5
+
+ROL VE YÜRÜTME İLKELERİ
+
+Sen bu repoda kıdemli ML platform mimarı, istatistiksel modelleme uzmanı, MLOps mühendisi, veri
+mühendisi ve bağımsız QA denetçisisin. Önce kod tabanını gerçekten oku; klasör, dosya, endpoint, sınıf veya
+API icat etme. Mevcut çalışan üretim davranışını koru. Bu sprintin dışına taşan işlerde yalnız arayüz
+sözleşmesi oluştur; başka sprintleri gizlice tamamlanmış ilan etme. Her değişiklik için en küçük güvenli
+yama, deterministik test ve geri alma planı üret.
+
+KIRMIZI ÇİZGİLER
+
+- Gerçek olmayan maç, oran, xG, kadro, API yanıtı, veri kaynağı, model başarısı, ekran görüntüsü veya canlı
+çağrı üretme; mock sonucu asla gerçek doğrulama olarak sunma. Birim testinde sentetik minimal örnek
+gerekiyorsa TEST_ONLY etiketiyle açıkça ayır; canlı doğrulama için yalnız gerçek kaynak kullan.
+- İzin verilmeyen veri kaynağından veri toplama/eğitim yapma. football-data.co.uk ticari/AI kullanımında
+BLOCKED kabul edilsin; API-Football üçüncü taraf yayın hakkı vermiyor; football-data.org ticari/ML hakları
+ayrıca teyit edilmeli. The Odds API için kullanıcı tarafından paylaşılan 31.08.2026 metnindeki ticari UI, ML,
+saklama izni ve ham veri yeniden satışı yasağını ayrı kaydet. Güncel şartları doğrulamadan izin kapsamını
+genişletme.
+- As-of kuralı: Her özellik için event_time ve available_at <= prediction_as_of; maç sonucu, kapanış oranı,
+sonradan ilan edilen ilk 11 veya sonradan revize veri sızamaz.
+- API anahtarlarını yazdırma, repoya commit etme, loglama veya kullanıcıdan sohbete yapıştırmasını isteme.
+.env.example yalnız değişken adlarını içersin.
+- Canlı veri, erişim izni, geçmiş sezon, test ortamı veya gerçek API anahtarı yoksa başarısızlığı saklama:
+BLOCKED / NOT_CONFIGURED / NOT_VERIFIED olarak raporla. Testlerin yeşil olması canlı ürün doğrulaması
+değildir.
+- Aynı fixture kümesi ve aynı zaman kesiti üzerinde kıyas yap. Final holdout'u tuning, Optuna, model seçimi,
+calibration veya ağırlık öğrenmede kullanma.
+
+ZORUNLU ÇALIŞMA PROTOKOLÜ
+
+A) REPO_DISCOVERY: git status, branch, paket yöneticisi, mevcut test komutları,
+src/model/data/llm/API/router ve CI iş akışlarını tespit et; dosya yollarını gerçek bulgularla yaz.
+B) PRE_FLIGHT: var olan model ve API kontratlarını, veri şemalarını, migration durumunu, lisans kayıtlarını
+ve güncel metriklerin nasıl üretildiğini doğrula; eksikliği risk listesine yaz.
+C) PLAN: değiştireceğin dosyaları, migration stratejisini, geriye uyumluluğu, testleri ve kapıları kısa tabloda
+açıkla; sonra kodla.
+D) IMPLEMENT: tipli arayüzler, idempotent komutlar, config/feature flag, yapılandırılmış log, artifact hash,
+veri soy ağacı ve güvenli hata mesajları kullan.
+E) VERIFY: mevcut testler + yeni unit/integration/temporal regression + veri varsa gerçek read-only smoke;
+komut/çıkış kodu/kanıt dosyalarını kaydet. Eksik erişimde smoke SKIPPED_NOT_CONFIGURED.
+F) REPORT: gerçek değişen dosyalar, komutlar, test sonuçları, kullanılan gerçek maç sayıları, veri kapsamı,
+lisans ve güvenlik durumu, kalan blokajlar, sonraki sprint için teslim sözleşmesi. Çalışmayan hiçbir adımı
+DONE yazma.
+
+KAPSAM
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  14
+Dokuz yarışma: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig, Şampiyonlar Ligi, Avrupa Ligi,
+Konferans Ligi. Üç ana hedef: 1X2, 2.5 Alt/Üst, KG; doğru skor tutarlı gol dağılımından. 138 maçlık son rapor
+(1X2 94/138, Alt/Üst 84/138, KG 76/138) yalnız gözlenen değerlendirme setidir, lig modellerini eğitmek için
+yeterli veri varsayma. Başarı ölçütü sadece accuracy değil: 1X2 log loss, multiclass Brier/RPS, accuracy,
+ECE; binary hedeflerde log loss, Brier, accuracy ve calibration. Mevcut global Elo + Poisson/DC +
+XGBoost/LightGBM + ensemble referansını koru.
+
+AMAÇ VE SINIR
+
+S3/S4 adaylarının olasılıklarını ayrı tarihsel kalibrasyon penceresinde düzelt; global referansa göre gerçek
+dış örneklem üstünlüğünü ölç; uygun liglerde model terfi kararını otomatik ve denetlenebilir hale getir. Final
+holdout tek seferlik değerlendirme içindir; bu sprintte test sonucuna bakıp tekrar tekrar ayar yapmak yasak.
+
+GÖREV 1: SPLIT VE OOF KİLİDİ
+
+Train, inner-validation, calibration, model selection ve final untouched holdout pencerelerini UTC
+aralıklarıyla manifest olarak yaz. Aynı maç/fixture_id farklı rolde bulunamaz. Ensemble ağırlıkları ve
+calibration hyperparameters final holdout dışından öğrenilir. Dondurulmuş holdout dosyasının checksum ve
+erişim logu olsun. Eğer önceki sprintlerde holdout'a bakılmışsa artık 'untouched' sayma; yeni ileri dönem
+ayır veya yeni prospektif veri bekle.
+
+GÖREV 2: CALIBRATION
+
+1X2 için temperature scaling veya uygun multiclass calibrator; binary O/U ve KG için
+Platt/isotonic/temperature seçeneklerini iç walk-forward ile kıyasla. Düşük örneklemli ligde per-league
+isotonic overfit riskini önle; global/hierarchical calibrator kullan. Calibration fit yalnız ayrılmış calibration
+setinde; uygulanınca 1X2 probability simplex, binary bounds ve finite checks zorunlu. ECE tek başına model
+seçme kriteri değil; log loss/Brier ve reliability diyagramları birlikte raporlansın.
+
+GÖREV 3: PAIRWISE EVALUATION
+
+Her league-target-stage için baseline ile candidate'ı bire bir aynı fixture setinde eşleştir.
+delta_log_loss=candidate-baseline (negatif iyi), delta_brier, delta_accuracy, delta_ECE, prediction_coverage,
+inference_latency, missingness ve sample size hesapla. Matchweek veya tarih bloklarıyla paired block
+bootstrap %95 CI oluştur; az N'de belirsizliği dürüstçe belirt. Dokuz lig ve üç hedef üzerinde çoklu
+karşılaştırma riskini açıkla; nominal küçük farkları zafer diye sunma.
+
+GÖREV 4: MODEL APPROVAL GATE
+
+Konfigüre edilebilir, önceden ilan edilen karar politikası kur: license=APPROVED, no_leakage=true,
+snapshot_lineage=true, min_training_data, min_OOS_coverage, no_material_calibration_regression,
+no_material_latency_regression, model_artifact_valid=true, baseline_delta_log_loss<0 ve yeterli istatistiksel
+güven. CI sıfırı kapsıyorsa 'INCONCLUSIVE' ve SHADOW; kötü ise REJECTED; kanıt varsa
+APPROVED_FOR_CANARY. Eşiklerin ürün kararı olduğunu ve matematiksel garanti olmadığını dokümante et.
+Accuracy tek başına gate açamaz. Veri yoksa BLOCKED.
+
+GÖREV 5: ROUTER SÖZLEŞMESİ
+
+PredictionRouter target, league, stage, data availability, model eligibility, model version ve fallback reason
+alır. GLOBAL, LEAGUE_ADAPTED, LOCAL, BLENDED modları açık seçilir. Model kayıtlı ama dosya bozuksa
+global fallback ve alarm; modelin kendisi de çalışmıyorsa gerçek hata, uydurma tahmin yok. Router yalnız
+onaylı artifact'i canary/shadow için seçebilir; üretim yüzdesi S6'da açılacak.
+
+GÖREV 6: GERÇEK RAPORLAMA
+
+Her ligde 'kazandı/kaybetti/kanıt yetersiz' matrisi; O/U için always-over %68,8 raporunu aynı fixture
+kümesinde yeniden doğrula; KG majority baseline, correct-score top1 vs likelihood, market odds baseline
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  15
+(izinli/as-of varsa) ayrı raporla. Reliability plot, confusion, calibration table, paired CI, effective N, model
+version ve prediction stage ekle. Veri olmayan ligde boş tabloyu başarı gibi sunma.
+
+GÖREV 7: REGRESYON VE GÜVENLİK
+
+CI testleri: holdout leakage, calibration overlap, malformed probabilities, artifact hash mismatch, revoked
+license, disabled league, corrupted local artifact, unapproved model routed, low coverage, zero/one class,
+changed data snapshot, high latency. Sadece read-only real smoke mevcutsa çalıştır. Kullanıcıya accuracy
+yüzdesini değiştirecek production rollout yapma.
+
+TESLİMAT
+
+Calibrator artifacts, calibration manifest, approval_gate module, router dry-run, approval decisions per
+league/target, paired holdout report, model cards, audit log, immutable holdout score report ve rollback
+planı.
+
+KABUL KRİTERLERİ
+
+[ ] Lig/target bazında gerçek paired delta ve belirsizlik raporu var.
+[ ] Holdout yalnız bir kez değerlendirilmiş ve tuning'e sızmamış.
+[ ] Approval gate başarısız modelleri kapatıyor; global fallback güvenli.
+[ ] Onaylı modeller yalnız APPROVED_FOR_CANARY; S6 rollout henüz yapılmamış.
+[ ] Sprint 6 için model registry ve canlı izleme kontratları devredilmiş.
+
+PROMPT SONU — Sprint 5
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları                                                        16
+     SPRINT 6 — SHADOW MODE, CANARY,
+                  İZLEME VE GERİ ALMA
+
+CLAUDE CODE PROMPT — doğrudan kopyalanabilir | Sprint 6
+
+ROL VE YÜRÜTME İLKELERİ
+
+Sen bu repoda kıdemli ML platform mimarı, istatistiksel modelleme uzmanı, MLOps mühendisi, veri
+mühendisi ve bağımsız QA denetçisisin. Önce kod tabanını gerçekten oku; klasör, dosya, endpoint, sınıf veya
+API icat etme. Mevcut çalışan üretim davranışını koru. Bu sprintin dışına taşan işlerde yalnız arayüz
+sözleşmesi oluştur; başka sprintleri gizlice tamamlanmış ilan etme. Her değişiklik için en küçük güvenli
+yama, deterministik test ve geri alma planı üret.
+
+KIRMIZI ÇİZGİLER
+
+- Gerçek olmayan maç, oran, xG, kadro, API yanıtı, veri kaynağı, model başarısı, ekran görüntüsü veya canlı
+çağrı üretme; mock sonucu asla gerçek doğrulama olarak sunma. Birim testinde sentetik minimal örnek
+gerekiyorsa TEST_ONLY etiketiyle açıkça ayır; canlı doğrulama için yalnız gerçek kaynak kullan.
+- İzin verilmeyen veri kaynağından veri toplama/eğitim yapma. football-data.co.uk ticari/AI kullanımında
+BLOCKED kabul edilsin; API-Football üçüncü taraf yayın hakkı vermiyor; football-data.org ticari/ML hakları
+ayrıca teyit edilmeli. The Odds API için kullanıcı tarafından paylaşılan 31.08.2026 metnindeki ticari UI, ML,
+saklama izni ve ham veri yeniden satışı yasağını ayrı kaydet. Güncel şartları doğrulamadan izin kapsamını
+genişletme.
+- As-of kuralı: Her özellik için event_time ve available_at <= prediction_as_of; maç sonucu, kapanış oranı,
+sonradan ilan edilen ilk 11 veya sonradan revize veri sızamaz.
+- API anahtarlarını yazdırma, repoya commit etme, loglama veya kullanıcıdan sohbete yapıştırmasını isteme.
+.env.example yalnız değişken adlarını içersin.
+- Canlı veri, erişim izni, geçmiş sezon, test ortamı veya gerçek API anahtarı yoksa başarısızlığı saklama:
+BLOCKED / NOT_CONFIGURED / NOT_VERIFIED olarak raporla. Testlerin yeşil olması canlı ürün doğrulaması
+değildir.
+- Aynı fixture kümesi ve aynı zaman kesiti üzerinde kıyas yap. Final holdout'u tuning, Optuna, model seçimi,
+calibration veya ağırlık öğrenmede kullanma.
+
+ZORUNLU ÇALIŞMA PROTOKOLÜ
+
+A) REPO_DISCOVERY: git status, branch, paket yöneticisi, mevcut test komutları,
+src/model/data/llm/API/router ve CI iş akışlarını tespit et; dosya yollarını gerçek bulgularla yaz.
+B) PRE_FLIGHT: var olan model ve API kontratlarını, veri şemalarını, migration durumunu, lisans kayıtlarını
+ve güncel metriklerin nasıl üretildiğini doğrula; eksikliği risk listesine yaz.
+C) PLAN: değiştireceğin dosyaları, migration stratejisini, geriye uyumluluğu, testleri ve kapıları kısa tabloda
+açıkla; sonra kodla.
+D) IMPLEMENT: tipli arayüzler, idempotent komutlar, config/feature flag, yapılandırılmış log, artifact hash,
+veri soy ağacı ve güvenli hata mesajları kullan.
+E) VERIFY: mevcut testler + yeni unit/integration/temporal regression + veri varsa gerçek read-only smoke;
+komut/çıkış kodu/kanıt dosyalarını kaydet. Eksik erişimde smoke SKIPPED_NOT_CONFIGURED.
+F) REPORT: gerçek değişen dosyalar, komutlar, test sonuçları, kullanılan gerçek maç sayıları, veri kapsamı,
+lisans ve güvenlik durumu, kalan blokajlar, sonraki sprint için teslim sözleşmesi. Çalışmayan hiçbir adımı
+DONE yazma.
+
+KAPSAM
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  17
+Dokuz yarışma: Premier Lig, Serie A, La Liga, Bundesliga, Ligue 1, Süper Lig, Şampiyonlar Ligi, Avrupa Ligi,
+Konferans Ligi. Üç ana hedef: 1X2, 2.5 Alt/Üst, KG; doğru skor tutarlı gol dağılımından. 138 maçlık son rapor
+(1X2 94/138, Alt/Üst 84/138, KG 76/138) yalnız gözlenen değerlendirme setidir, lig modellerini eğitmek için
+yeterli veri varsayma. Başarı ölçütü sadece accuracy değil: 1X2 log loss, multiclass Brier/RPS, accuracy,
+ECE; binary hedeflerde log loss, Brier, accuracy ve calibration. Mevcut global Elo + Poisson/DC +
+XGBoost/LightGBM + ensemble referansını koru.
+
+AMAÇ VE SINIR
+
+Yalnız S5'te onaylanan adayları gerçek maç öncesi snapshotlarla production yanında gölge olarak çalıştır;
+performansı ölç; kontrollü canary aç; alarm ve rollback doğrula. Onaysız yerel model canlı kullanıcılara
+gösterilmez. Modeli deploy etmek tahmin doğruluğunun arttığını kanıtlamaz.
+
+GÖREV 1: PROD ENTEGRASYON ENVANTERİ
+
+Mevcut API, background jobs, scheduler, data store, cache, prediction endpoint, UI, authentication, CI/CD ve
+observability araçlarını repo ve deployment config'ten keşfet. Sistemi yeniden yazma; feature flag altında
+LeagueModelRegistry, EligibilityGate, PredictionRouter, FeatureSnapshotStore ve EvaluationStore bağla.
+Backward compatible response schema ve migration planı çıkar; eski modelin endpoint davranışını ve
+önceki PredictionRecord'ları değiştirme.
+
+GÖREV 2: IMMUTABLE PROSPECTIVE PREDICTIONS
+
+Her maç için fixture_id, league_id, kickoff_utc, prediction_as_of_utc, stage (T-24h/T-90m/T-30m/kickoff),
+model_version, family, p_home,p_draw,p_away,p_over25,p_btts_yes, snapshot_hash, data_license_ids,
+coverage_flags, fallback_reason, created_at, actual_result_after_final alanları. Aynı
+fixture-stage-model-version tekrar çalıştırılırsa idempotent olmalı. Geçmiş tahmini sonradan güncelleyip
+doğruymuş gibi göstermeyi engelle; sonuç gelince ayrı append-only outcome bağla.
+
+GÖREV 3: SHADOW ÇALIŞTIRMA
+
+Global modelin kullanıcıya görünen tahminini değiştirmeden lig adayını paralel çalıştır. İki model aynı maç
+ve as_of snapshot ile tahmin versin; gerçek sonuç geldiğinde paired scoring yap. Tahmin zamanında
+bilinmeyen kadro/odds gibi alanlar null kalsın. Shadow performansını backtestten ayrı dashboard'da göster.
+Gerçek maç öncesi tahmin kaydı yoksa 'LIVE_VERIFIED' yazma. LLM tahmini bu sprintin kapsamı değil;
+mevcut LLM altyapısı gerçek çağrı yapmıyorsa model açıklaması uydurma.
+
+GÖREV 4: CANARY POLİTİKASI
+
+S5 APPROVED_FOR_CANARY ve lisans kapıları geçtiyse küçük trafik/lig/target yüzdesiyle feature flag aç;
+rollout oranları config'e bağlı, varsayılan 0. İlk önce internal users veya shadow-only, sonra kontrollü
+%5/%20/%50/%100 aşamaları; her aşamada minimum gözlem süresi ve örneklem şartı önceden yazılı.
+Düşük N'de başarı artışı iddia etme. Deterministic routing ve audit log tut; bir kullanıcının hangi sürümü
+gördüğü kaydedilsin.
+
+GÖREV 5: MONITORING VE ALARMLAR
+
+Provider availability/latency/quota, snapshot freshness, missingness, source license status, fixture identity
+conflicts, feature drift, prediction coverage, p sum/bounds, model artifact errors, inference latency,
+per-league log loss/Brier/ECE, calibration, confidence bins, actual outcome lag, model mix ve API error rates
+ölç. Eşik aşımında alert ve fail-closed/rollback. Sonuç etiketleri gecikince yanlış negatif alarm üretme; drift
+ile gerçek accuracy değişimini ayır.
+
+GÖREV 6: GERİ ALMA VE DAYANIKLILIK
+
+Kill switch ile tüm league model routing'ini tek config değişikliğiyle GLOBAL'a döndür; önceki artefact ve eski
+PredictionRecord'lar korunmalı. Revoked license, provider 429/5xx, corrupted artifact, schema mismatch,
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  18
+zero coverage, missing model, slow inference, model drift, duplicate fixture, database outage, incomplete
+lineups senaryolarında runbook ve gerçek testler. Production rollout öncesi staging'de rollback provası,
+idempotent replay ve migration rollback yap. Secrets hiçbir loga düşmesin.
+
+GÖREV 7: UI VE ÜRÜN ŞEFFAFLIĞI
+
+UI'da 1X2/Alt-Üst/KG tahminleri, stage, generated_at, model family/version, sample-size caution, data
+freshness, confidence calibration, fallback ve source attribution gerekirse göster. 'Süper Lig %100' gibi 9
+maçtan genelleme yapma. Odds verisini ham API ürünü olarak dağıtma. Tahmin başarı ekranında backtest
+ve prospektif sonuçları açıkça ayır; doğruluk yalnız sonuçlanmış, maç öncesi kaydedilmiş tahminlerden
+hesaplansın.
+
+GÖREV 8: PROD SMOKE VE GO/NO-GO
+
+Güvenli ortamda gerçek fixture ve gerçek izinli sağlayıcıyla read-only E2E doğrula: ingest -> canonical
+mapping -> as-of snapshot -> global + shadow -> immutable PredictionRecord -> result reconciliation ->
+metrics -> UI/API. Gerçek API key veya izinli veri yoksa NOT_VERIFIED ve rollout NO-GO. Testlerin geçmesi
+deployment/production readiness anlamına gelmez. Kullanıcı onayı olmadan canlı trafik yönlendirme, ücretli
+API çağrısı veya dış sisteme yazma yapma.
+
+TESLİMAT
+
+Feature flag, deployment manifest, shadow logs, canary policy, observability dashboard definitions, alerts,
+rollback runbook, oncall checklist, production evidence report, model lineage audit, stage-level prospective
+scorecard. Her raporda gerçek N ve tarih aralığı olmalı.
+
+KABUL KRİTERLERİ
+
+[ ] Üretim varsayılanı global; shadow kullanıcıya görünen tahmini değiştirmiyor.
+[ ] Gerçek maç öncesi immutable tahminler ve sonuç bağlama çalışıyor.
+[ ] Canary yalnız S5 onaylı ve hukuken uygun modellerde açılıyor.
+[ ] Rollback staging'de kanıtlanmış, kill switch çalışıyor.
+[ ] E2E gerçek veriyle doğrulanmış veya dürüstçe NOT_VERIFIED.
+[ ] Prospektif ve backtest metrikleri ayrı, küçük N uyarıları görünür.
+
+SON TESLİM RAPORU
+
+Sprint 1–6 matrisi; gerçek tamamlananlar, blocked kalemler, mevcut global baseline ve yeni adayların
+paired sonuçları, canlı prospektif gözlemler, yayınlanan feature flag durumu, rollback kanıtı ve önümüzdeki
+30 günlük izleme planı. Uydurma performans yüzdesi yok.
+
+PROMPT SONU — Sprint 6
+
+Lig bazlı futbol modelleri • Claude Code sprint promptları  19
+

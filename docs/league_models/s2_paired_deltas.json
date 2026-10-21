@@ -1,0 +1,2357 @@
+{
+  "bootstrap": {
+    "alpha": 0.05,
+    "block": "iso_week",
+    "samples": 1000,
+    "seed": 20261020
+  },
+  "definition": "delta = model - reference on the same fixtures; negative = model better",
+  "deltas": {
+    "1x2": {
+      "ALL": {
+        "always_home": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.519611,
+            "lower": 0.500326,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.539145
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 18.487323,
+            "lower": 18.117597,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.847998
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": -0.014184,
+            "lower": -0.018308,
+            "n": 10712,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.009751
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": -0.023946,
+            "lower": -0.030313,
+            "n": 10712,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.017229
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.039095,
+            "lower": 0.033825,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.043852
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 0.04954,
+            "lower": 0.041073,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.057218
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 5.4e-05,
+            "lower": -0.000275,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.381,
+            "upper": 0.000408
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": -0.000505,
+            "lower": -0.001182,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.931,
+            "upper": 0.000148
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=ENG1": {
+        "always_home": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.528269,
+            "lower": 0.476688,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.575124
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 18.405611,
+            "lower": 17.50196,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.257504
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": -0.012103,
+            "lower": -0.022212,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.994,
+            "upper": -0.002395
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": -0.016737,
+            "lower": -0.031518,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.992,
+            "upper": -0.002618
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.051053,
+            "lower": 0.035763,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.065556
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 0.067497,
+            "lower": 0.0451,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.088927
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": -0.001004,
+            "lower": -0.002103,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.959,
+            "upper": 0.000111
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": -0.002429,
+            "lower": -0.004486,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.987,
+            "upper": -0.000468
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=ESP1": {
+        "always_home": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.520341,
+            "lower": 0.476562,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.563322
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 18.271654,
+            "lower": 17.438478,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.051866
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.004258,
+            "lower": -0.004502,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.156,
+            "upper": 0.012459
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 0.007247,
+            "lower": -0.006087,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.134,
+            "upper": 0.019746
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.054199,
+            "lower": 0.041737,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.066359
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 0.07683,
+            "lower": 0.058367,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.095032
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.000592,
+            "lower": -0.000609,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.157,
+            "upper": 0.001753
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 0.00128,
+            "lower": -0.000968,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.127,
+            "upper": 0.003414
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=FRA1": {
+        "always_home": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.535403,
+            "lower": 0.49047,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.576174
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 19.090332,
+            "lower": 18.235602,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.878832
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": -0.023861,
+            "lower": -0.033872,
+            "n": 1752,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.013697
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": -0.0422,
+            "lower": -0.060926,
+            "n": 1752,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.024573
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.023577,
+            "lower": 0.012066,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.001,
+            "upper": 0.035416
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.022872,
+            "lower": 0.003019,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.015,
+            "upper": 0.041962
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": -0.000353,
+            "lower": -0.001318,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.767,
+            "upper": 0.000525
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": -0.001962,
+            "lower": -0.003914,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.99,
+            "upper": -0.000233
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=GER1": {
+        "always_home": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.520355,
+            "lower": 0.477385,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.568246
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 18.424252,
+            "lower": 17.530604,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.37058
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": -0.000764,
+            "lower": -0.008235,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.584,
+            "upper": 0.007611
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": -0.000284,
+            "lower": -0.011918,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.522,
+            "upper": 0.011796
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.046214,
+            "lower": 0.033335,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.060242
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 0.063884,
+            "lower": 0.044961,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.084968
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.000948,
+            "lower": 4e-05,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.02,
+            "upper": 0.001936
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 0.001527,
+            "lower": -0.000137,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.037,
+            "upper": 0.003403
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=ITA1": {
+        "always_home": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.586557,
+            "lower": 0.55345,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.619479
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 19.416078,
+            "lower": 18.825901,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.999487
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": -0.006062,
+            "lower": -0.012803,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.943,
+            "upper": 0.001599
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": -0.008929,
+            "lower": -0.018705,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.94,
+            "upper": 0.002388
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.062774,
+            "lower": 0.049856,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.074131
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.089921,
+            "lower": 0.072537,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.105717
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.001283,
+            "lower": 0.000472,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.001,
+            "upper": 0.002214
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.002674,
+            "lower": 0.001189,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.004346
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=TUR1": {
+        "always_home": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.483643,
+            "lower": 0.39276,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.571578
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 19.15618,
+            "lower": 17.654259,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 20.567334
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": -0.062669,
+            "lower": -0.09126,
+            "n": 420,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.031793
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": -0.108314,
+            "lower": -0.155262,
+            "n": 420,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.059714
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": -0.034469,
+            "lower": -0.069347,
+            "n": 420,
+            "share_of_draws_below_zero": 0.971,
+            "upper": 0.000471
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": -0.069931,
+            "lower": -0.128706,
+            "n": 420,
+            "share_of_draws_below_zero": 0.992,
+            "upper": -0.011304
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.002004,
+            "lower": 7.4e-05,
+            "n": 420,
+            "share_of_draws_below_zero": 0.021,
+            "upper": 0.004144
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 0.000368,
+            "lower": -0.003913,
+            "n": 420,
+            "share_of_draws_below_zero": 0.452,
+            "upper": 0.004897
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=UEFA_UCL": {
+        "always_home": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.505271,
+            "lower": 0.433711,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.574344
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": 17.309412,
+            "lower": 15.909107,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.693439
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": -0.001567,
+            "lower": -0.017488,
+            "n": 689,
+            "share_of_draws_below_zero": 0.572,
+            "upper": 0.015259
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": -0.005627,
+            "lower": -0.030868,
+            "n": 689,
+            "share_of_draws_below_zero": 0.658,
+            "upper": 0.021599
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.076543,
+            "lower": 0.052402,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.101001
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": 0.100101,
+            "lower": 0.062749,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.136894
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": -0.001623,
+            "lower": -0.002808,
+            "n": 689,
+            "share_of_draws_below_zero": 0.995,
+            "upper": -0.000399
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": -0.002913,
+            "lower": -0.005209,
+            "n": 689,
+            "share_of_draws_below_zero": 0.991,
+            "upper": -0.000522
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=UEFA_UECL": {
+        "always_home": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.367225,
+            "lower": 0.292588,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.44341
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 17.237821,
+            "lower": 15.853234,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.600354
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": -0.076621,
+            "lower": -0.100912,
+            "n": 576,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.053559
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": -0.134998,
+            "lower": -0.177391,
+            "n": 576,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.092983
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": -0.059653,
+            "lower": -0.087341,
+            "n": 576,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.03204
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": -0.113414,
+            "lower": -0.16154,
+            "n": 576,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.066677
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": -0.001702,
+            "lower": -0.003246,
+            "n": 576,
+            "share_of_draws_below_zero": 0.962,
+            "upper": 0.000103
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": -0.007116,
+            "lower": -0.010808,
+            "n": 576,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.003096
+          },
+          "reference": "dixon_coles"
+        }
+      },
+      "league=UEFA_UEL": {
+        "always_home": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.449869,
+            "lower": 0.387429,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.516374
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 17.244467,
+            "lower": 15.998349,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.500143
+          },
+          "reference": "dixon_coles"
+        },
+        "elo": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": -0.017247,
+            "lower": -0.033003,
+            "n": 815,
+            "share_of_draws_below_zero": 0.982,
+            "upper": -0.000633
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": -0.029097,
+            "lower": -0.056014,
+            "n": 815,
+            "share_of_draws_below_zero": 0.979,
+            "upper": -0.001556
+          },
+          "reference": "dixon_coles"
+        },
+        "historical_prior": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.02975,
+            "lower": 0.009837,
+            "n": 815,
+            "share_of_draws_below_zero": 0.004,
+            "upper": 0.049767
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 0.035899,
+            "lower": 0.002724,
+            "n": 815,
+            "share_of_draws_below_zero": 0.017,
+            "upper": 0.069723
+          },
+          "reference": "dixon_coles"
+        },
+        "poisson": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": -0.000979,
+            "lower": -0.002378,
+            "n": 815,
+            "share_of_draws_below_zero": 0.908,
+            "upper": 0.000432
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": -0.002036,
+            "lower": -0.004798,
+            "n": 815,
+            "share_of_draws_below_zero": 0.915,
+            "upper": 0.000763
+          },
+          "reference": "dixon_coles"
+        }
+      }
+    },
+    "btts": {
+      "ALL": {
+        "always_no": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.291489,
+            "lower": 0.281149,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.301716
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 18.055759,
+            "lower": 17.715539,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.390968
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.205604,
+            "lower": 0.196062,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.215187
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 15.089397,
+            "lower": 14.756471,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.429391
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.000476,
+            "lower": 0.00033,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.000623
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 0.000987,
+            "lower": 0.000693,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.001282
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": -0.003464,
+            "lower": -0.005048,
+            "n": 10712,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.00179
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": -0.007684,
+            "lower": -0.011017,
+            "n": 10712,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.004204
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=ENG1": {
+        "always_no": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.27917,
+            "lower": 0.249936,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.306419
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 17.619173,
+            "lower": 16.621328,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.549118
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.218643,
+            "lower": 0.192156,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.24777
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 15.528668,
+            "lower": 14.603753,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 16.528185
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.000405,
+            "lower": -5.2e-05,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.04,
+            "upper": 0.000804
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 0.000829,
+            "lower": -0.0001,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.039,
+            "upper": 0.001655
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": -0.001235,
+            "lower": -0.004818,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.759,
+            "upper": 0.002178
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": -0.002604,
+            "lower": -0.009915,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.766,
+            "upper": 0.0044
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=ESP1": {
+        "always_no": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.249203,
+            "lower": 0.224181,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.274126
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 16.59574,
+            "lower": 15.728022,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 17.473941
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.247887,
+            "lower": 0.220097,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.274496
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 16.550294,
+            "lower": 15.667363,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 17.416163
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.000525,
+            "lower": 9.5e-05,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.006,
+            "upper": 0.000964
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 0.00114,
+            "lower": 0.000263,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.005,
+            "upper": 0.00204
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": -0.001359,
+            "lower": -0.005498,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.757,
+            "upper": 0.002988
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": -0.003031,
+            "lower": -0.011495,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.767,
+            "upper": 0.005769
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=FRA1": {
+        "always_no": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.303227,
+            "lower": 0.279169,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.32466
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 18.53971,
+            "lower": 17.697035,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.303722
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.189072,
+            "lower": 0.165723,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.213909
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 14.596927,
+            "lower": 13.831746,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.439876
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.001022,
+            "lower": 0.000634,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.001367
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.002063,
+            "lower": 0.001274,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.002765
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": -0.006946,
+            "lower": -0.011046,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.999,
+            "upper": -0.002801
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": -0.014123,
+            "lower": -0.022554,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.999,
+            "upper": -0.005572
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=GER1": {
+        "always_no": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.361175,
+            "lower": 0.33492,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.389646
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 19.967951,
+            "lower": 19.16408,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 20.848247
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.166404,
+            "lower": 0.144357,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.186899
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 13.24079,
+            "lower": 12.37361,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 14.031804
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.000381,
+            "lower": 4.8e-05,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.013,
+            "upper": 0.00074
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 0.000802,
+            "lower": 9.9e-05,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.013,
+            "upper": 0.001532
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.004456,
+            "lower": 0.001385,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.003,
+            "upper": 0.007293
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 0.009352,
+            "lower": 0.003044,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.002,
+            "upper": 0.01513
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=ITA1": {
+        "always_no": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.292658,
+            "lower": 0.265545,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.316841
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 18.055936,
+            "lower": 17.221662,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.860654
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.206943,
+            "lower": 0.185398,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.230994
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 15.09547,
+            "lower": 14.298664,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.929366
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.000241,
+            "lower": -0.000119,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.094,
+            "upper": 0.000561
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.000458,
+            "lower": -0.000284,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.109,
+            "upper": 0.00111
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": -0.000248,
+            "lower": -0.004035,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.548,
+            "upper": 0.003561
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": -0.000542,
+            "lower": -0.008296,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.552,
+            "upper": 0.007233
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=TUR1": {
+        "always_no": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.307737,
+            "lower": 0.253894,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.360101
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 18.860262,
+            "lower": 16.987097,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 20.576581
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.174404,
+            "lower": 0.126687,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.226969
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 14.255092,
+            "lower": 12.559423,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 16.118205
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.000676,
+            "lower": -0.000127,
+            "n": 420,
+            "share_of_draws_below_zero": 0.051,
+            "upper": 0.0014
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 0.001388,
+            "lower": -0.000246,
+            "n": 420,
+            "share_of_draws_below_zero": 0.053,
+            "upper": 0.002873
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": -0.013039,
+            "lower": -0.024343,
+            "n": 420,
+            "share_of_draws_below_zero": 0.983,
+            "upper": -0.00162
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": -0.026793,
+            "lower": -0.049876,
+            "n": 420,
+            "share_of_draws_below_zero": 0.985,
+            "upper": -0.003845
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=UEFA_UCL": {
+        "always_no": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.260211,
+            "lower": 0.221153,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.297053
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": 17.232071,
+            "lower": 16.013223,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.371323
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.221024,
+            "lower": 0.190879,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.253723
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": 15.878592,
+            "lower": 14.743892,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 17.079514
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": -0.000331,
+            "lower": -0.000821,
+            "n": 689,
+            "share_of_draws_below_zero": 0.914,
+            "upper": 0.000133
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": -0.00069,
+            "lower": -0.001704,
+            "n": 689,
+            "share_of_draws_below_zero": 0.916,
+            "upper": 0.000288
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": -0.008612,
+            "lower": -0.015753,
+            "n": 689,
+            "share_of_draws_below_zero": 0.99,
+            "upper": -0.000998
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": -0.019363,
+            "lower": -0.034896,
+            "n": 689,
+            "share_of_draws_below_zero": 0.992,
+            "upper": -0.003578
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=UEFA_UECL": {
+        "always_no": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.261646,
+            "lower": 0.225311,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.298862
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 17.440945,
+            "lower": 16.088793,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.863729
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.209563,
+            "lower": 0.164047,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.25311
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 15.64205,
+            "lower": 14.188511,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 17.019377
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.000999,
+            "lower": 0.000421,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.001595
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 0.002208,
+            "lower": 0.001027,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.003426
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": -0.014559,
+            "lower": -0.02462,
+            "n": 576,
+            "share_of_draws_below_zero": 0.999,
+            "upper": -0.004543
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": -0.035064,
+            "lower": -0.057371,
+            "n": 576,
+            "share_of_draws_below_zero": 0.999,
+            "upper": -0.01361
+          },
+          "reference": "dixon_coles_goals"
+        }
+      },
+      "league=UEFA_UEL": {
+        "always_no": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.273726,
+            "lower": 0.245459,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.304129
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 17.678749,
+            "lower": 16.707793,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.75075
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "always_yes": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.208695,
+            "lower": 0.1767,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.238755
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 15.432669,
+            "lower": 14.346235,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 16.402027
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "poisson_goals": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.000279,
+            "lower": -0.000196,
+            "n": 815,
+            "share_of_draws_below_zero": 0.118,
+            "upper": 0.000729
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 0.000604,
+            "lower": -0.000384,
+            "n": 815,
+            "share_of_draws_below_zero": 0.111,
+            "upper": 0.001552
+          },
+          "reference": "dixon_coles_goals"
+        },
+        "train_btts_rate": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": -0.009263,
+            "lower": -0.015201,
+            "n": 815,
+            "share_of_draws_below_zero": 0.998,
+            "upper": -0.002692
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": -0.021474,
+            "lower": -0.035066,
+            "n": 815,
+            "share_of_draws_below_zero": 0.998,
+            "upper": -0.007375
+          },
+          "reference": "dixon_coles_goals"
+        }
+      }
+    },
+    "over_under": {
+      "ALL": {
+        "always_over": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.214306,
+            "lower": 0.204662,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.224052
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 15.373538,
+            "lower": 15.036858,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.699752
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.283761,
+            "lower": 0.273454,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.293868
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 17.772423,
+            "lower": 17.449006,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.109584
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.087,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.07,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 190,
+            "delta_vs_reference": -0.002655,
+            "lower": -0.005012,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.99,
+            "upper": -0.000303
+          },
+          "log_loss": {
+            "blocks": 190,
+            "delta_vs_reference": -0.006599,
+            "lower": -0.011665,
+            "n": 10712,
+            "share_of_draws_below_zero": 0.994,
+            "upper": -0.001594
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=ENG1": {
+        "always_over": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.194872,
+            "lower": 0.165412,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.225392
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 14.73142,
+            "lower": 13.777207,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.722659
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.301451,
+            "lower": 0.273106,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.327833
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 18.412526,
+            "lower": 17.419584,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.347611
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.094,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.109,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 141,
+            "delta_vs_reference": -0.003554,
+            "lower": -0.00925,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.872,
+            "upper": 0.002738
+          },
+          "log_loss": {
+            "blocks": 141,
+            "delta_vs_reference": -0.007699,
+            "lower": -0.019474,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.884,
+            "upper": 0.005261
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=ESP1": {
+        "always_over": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.300168,
+            "lower": 0.271516,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.328869
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 18.131802,
+            "lower": 17.2678,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.034374
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.210694,
+            "lower": 0.185991,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.233592
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 15.041491,
+            "lower": 14.139983,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.905465
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.059,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.036,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 142,
+            "delta_vs_reference": 0.003519,
+            "lower": -0.001898,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.102,
+            "upper": 0.008625
+          },
+          "log_loss": {
+            "blocks": 142,
+            "delta_vs_reference": 0.006578,
+            "lower": -0.004738,
+            "n": 1520,
+            "share_of_draws_below_zero": 0.132,
+            "upper": 0.017363
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=FRA1": {
+        "always_over": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.208096,
+            "lower": 0.185673,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.232699
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 15.24747,
+            "lower": 14.498124,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 16.043733
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.28458,
+            "lower": 0.2625,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.305508
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 17.889134,
+            "lower": 17.08741,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.628684
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.101,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.04,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": -0.00473,
+            "lower": -0.009385,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.975,
+            "upper": -2e-06
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": -0.010072,
+            "lower": -0.01982,
+            "n": 1752,
+            "share_of_draws_below_zero": 0.979,
+            "upper": -0.000366
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=GER1": {
+        "always_over": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.165446,
+            "lower": 0.14532,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.185044
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 13.153631,
+            "lower": 12.36321,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 13.925158
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.365446,
+            "lower": 0.337773,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.393016
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 20.061386,
+            "lower": 19.266538,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 20.860794
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.043,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.058,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 163,
+            "delta_vs_reference": 0.00635,
+            "lower": 0.000975,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.012,
+            "upper": 0.011681
+          },
+          "log_loss": {
+            "blocks": 163,
+            "delta_vs_reference": 0.013067,
+            "lower": 0.001423,
+            "n": 1530,
+            "share_of_draws_below_zero": 0.019,
+            "upper": 0.02458
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=ITA1": {
+        "always_over": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.236309,
+            "lower": 0.214234,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.258375
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 16.186565,
+            "lower": 15.387302,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 17.000372
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.258531,
+            "lower": 0.233248,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.282209
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 16.954093,
+            "lower": 16.123451,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 17.748152
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.158,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.099,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 175,
+            "delta_vs_reference": 0.001208,
+            "lower": -0.003335,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.303,
+            "upper": 0.005896
+          },
+          "log_loss": {
+            "blocks": 175,
+            "delta_vs_reference": 0.001834,
+            "lower": -0.007588,
+            "n": 1890,
+            "share_of_draws_below_zero": 0.349,
+            "upper": 0.011687
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=TUR1": {
+        "always_over": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.239606,
+            "lower": 0.195259,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.289577
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 16.553596,
+            "lower": 14.976661,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.403369
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.239606,
+            "lower": 0.180809,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.290094
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 16.553596,
+            "lower": 14.654637,
+            "n": 420,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 18.164816
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 420,
+            "share_of_draws_below_zero": 0.289,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 420,
+            "share_of_draws_below_zero": 0.091,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 33,
+            "delta_vs_reference": -0.008301,
+            "lower": -0.01675,
+            "n": 420,
+            "share_of_draws_below_zero": 0.987,
+            "upper": -0.000993
+          },
+          "log_loss": {
+            "blocks": 33,
+            "delta_vs_reference": -0.018441,
+            "lower": -0.036072,
+            "n": 420,
+            "share_of_draws_below_zero": 0.992,
+            "upper": -0.003229
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=UEFA_UCL": {
+        "always_over": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.170617,
+            "lower": 0.137799,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.204643
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": 13.838115,
+            "lower": 12.645362,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 15.170079
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.328817,
+            "lower": 0.2838,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.370528
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": 19.302159,
+            "lower": 17.941558,
+            "n": 689,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 20.525471
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 689,
+            "share_of_draws_below_zero": 0.036,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": -0.0,
+            "lower": -0.0,
+            "n": 689,
+            "share_of_draws_below_zero": 0.163,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 77,
+            "delta_vs_reference": -0.004688,
+            "lower": -0.014631,
+            "n": 689,
+            "share_of_draws_below_zero": 0.839,
+            "upper": 0.004858
+          },
+          "log_loss": {
+            "blocks": 77,
+            "delta_vs_reference": -0.014792,
+            "lower": -0.038252,
+            "n": 689,
+            "share_of_draws_below_zero": 0.909,
+            "upper": 0.006627
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=UEFA_UECL": {
+        "always_over": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.191244,
+            "lower": 0.141736,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.240968
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 15.042143,
+            "lower": 13.52362,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 16.5812
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.27805,
+            "lower": 0.236134,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.317109
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 18.040301,
+            "lower": 16.511902,
+            "n": 576,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.523058
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 576,
+            "share_of_draws_below_zero": 0.097,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 576,
+            "share_of_draws_below_zero": 0.073,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 61,
+            "delta_vs_reference": -0.017004,
+            "lower": -0.030756,
+            "n": 576,
+            "share_of_draws_below_zero": 0.996,
+            "upper": -0.004374
+          },
+          "log_loss": {
+            "blocks": 61,
+            "delta_vs_reference": -0.038322,
+            "lower": -0.068038,
+            "n": 576,
+            "share_of_draws_below_zero": 0.998,
+            "upper": -0.011018
+          },
+          "reference": "dixon_coles_totals"
+        }
+      },
+      "league=UEFA_UEL": {
+        "always_over": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.184665,
+            "lower": 0.146022,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.22222
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 14.90401,
+            "lower": 13.540558,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 16.235992
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "always_under": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.279144,
+            "lower": 0.240666,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 0.318825
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 18.167182,
+            "lower": 16.830569,
+            "n": 815,
+            "share_of_draws_below_zero": 0.0,
+            "upper": 19.52942
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "poisson_totals": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 815,
+            "share_of_draws_below_zero": 0.205,
+            "upper": 0.0
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": 0.0,
+            "lower": -0.0,
+            "n": 815,
+            "share_of_draws_below_zero": 0.087,
+            "upper": 0.0
+          },
+          "reference": "dixon_coles_totals"
+        },
+        "train_over_rate": {
+          "brier": {
+            "blocks": 79,
+            "delta_vs_reference": -0.019122,
+            "lower": -0.028728,
+            "n": 815,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.009903
+          },
+          "log_loss": {
+            "blocks": 79,
+            "delta_vs_reference": -0.042681,
+            "lower": -0.063566,
+            "n": 815,
+            "share_of_draws_below_zero": 1.0,
+            "upper": -0.022341
+          },
+          "reference": "dixon_coles_totals"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+run at 2026-10-20T12:07:49.505236+00:00
+GET …football.json/2021-22/tr.1.json -> 404
+GET …football.json/2022-23/tr.1.json -> 404
+GET …football.json/2023-24/tr.1.json -> 404
+GET …football.json/2026-27/tr.1.json -> 404
+GET …champions-league/2019-20/el.txt -> 404
+GET …champions-league/2025-26/el.txt -> 404
+GET …champions-league/2025-26/conf.txt -> 404
+GET …champions-league/2026-27/cl.txt -> 404
+cached bytes equal to the source now:
+  openfootball/2025-26/en.1.json status 200 equal
+  openfootball/2026-27/en.1.json status 200 equal
+  openfootball/2025-26/tr.1.json status 200 equal

@@ -1,0 +1,194 @@
+{
+  "summary": {
+    "as_of": "2026-10-20T00:00:00+00:00",
+    "collisions_empty": true,
+    "identity_mapping_sha256": "b0c1d15426dbfe0532723c76ff0e7a49273f04152773e44427bb43fea55b7660",
+    "identity_mapping_upsert": {
+      "added": 0,
+      "applied": true,
+      "changed": 0,
+      "removed": 0,
+      "unchanged": 18074
+    },
+    "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+    "seasons_audited": 72,
+    "temporal_audit": {
+      "backtest_limited": 16239,
+      "brute_checks": 1204,
+      "checks": 64956,
+      "data_anomalies": 0,
+      "disagreements": 0,
+      "fixtures": 16239,
+      "future_kickoff_in_history": 0,
+      "own_result_leaks": 0,
+      "violations": 0
+    },
+    "training_status_counts": {
+      "BLOCKED_INCOMPLETE_SOURCE": 2,
+      "BLOCKED_NO_DATA": 10,
+      "NOT_APPLICABLE_NOT_YET_EXISTING": 2,
+      "TRAINABLE_COMPLETE": 53,
+      "TRAINABLE_PARTIAL_CURRENT": 5
+    }
+  },
+  "universe": [
+    {
+      "blocked_seasons": {},
+      "canonical_league_id": "ENG1",
+      "completed_matches_in_trainable_seasons": 2710,
+      "note": "",
+      "plan_volume_tier": "OVER_1500: local GBM, DC and hierarchical candidates, compare with nested walk-forward",
+      "trainable_seasons": [
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26",
+        "2026-27"
+      ]
+    },
+    {
+      "blocked_seasons": {},
+      "canonical_league_id": "ITA1",
+      "completed_matches_in_trainable_seasons": 2700,
+      "note": "",
+      "plan_volume_tier": "OVER_1500: local GBM, DC and hierarchical candidates, compare with nested walk-forward",
+      "trainable_seasons": [
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26",
+        "2026-27"
+      ]
+    },
+    {
+      "blocked_seasons": {},
+      "canonical_league_id": "ESP1",
+      "completed_matches_in_trainable_seasons": 2719,
+      "note": "",
+      "plan_volume_tier": "OVER_1500: local GBM, DC and hierarchical candidates, compare with nested walk-forward",
+      "trainable_seasons": [
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26",
+        "2026-27"
+      ]
+    },
+    {
+      "blocked_seasons": {},
+      "canonical_league_id": "GER1",
+      "completed_matches_in_trainable_seasons": 2178,
+      "note": "",
+      "plan_volume_tier": "OVER_1500: local GBM, DC and hierarchical candidates, compare with nested walk-forward",
+      "trainable_seasons": [
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26",
+        "2026-27"
+      ]
+    },
+    {
+      "blocked_seasons": {
+        "2019-20": "BLOCKED_INCOMPLETE_SOURCE"
+      },
+      "canonical_league_id": "FRA1",
+      "completed_matches_in_trainable_seasons": 2102,
+      "note": "",
+      "plan_volume_tier": "OVER_1500: local GBM, DC and hierarchical candidates, compare with nested walk-forward",
+      "trainable_seasons": [
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26",
+        "2026-27"
+      ]
+    },
+    {
+      "blocked_seasons": {
+        "2021-22": "BLOCKED_NO_DATA",
+        "2022-23": "BLOCKED_NO_DATA",
+        "2023-24": "BLOCKED_NO_DATA",
+        "2025-26": "BLOCKED_INCOMPLETE_SOURCE",
+        "2026-27": "BLOCKED_NO_DATA"
+      },
+      "canonical_league_id": "TUR1",
+      "completed_matches_in_trainable_seasons": 1064,
+      "note": "",
+      "plan_volume_tier": "500_TO_1500: global + league effect; local DC/Elo candidates only with OOS superiority",
+      "trainable_seasons": [
+        "2019-20",
+        "2020-21",
+        "2024-25"
+      ]
+    },
+    {
+      "blocked_seasons": {
+        "2026-27": "BLOCKED_NO_DATA"
+      },
+      "canonical_league_id": "UEFA_UCL",
+      "completed_matches_in_trainable_seasons": 997,
+      "note": "UEFA: tournament sample is small; a cross-league bridge is the default (plan page 2)",
+      "plan_volume_tier": "500_TO_1500: global + league effect; local DC/Elo candidates only with OOS superiority",
+      "trainable_seasons": [
+        "2019-20",
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25",
+        "2025-26"
+      ]
+    },
+    {
+      "blocked_seasons": {
+        "2019-20": "BLOCKED_NO_DATA",
+        "2025-26": "BLOCKED_NO_DATA",
+        "2026-27": "BLOCKED_NO_DATA"
+      },
+      "canonical_league_id": "UEFA_UEL",
+      "completed_matches_in_trainable_seasons": 815,
+      "note": "UEFA: tournament sample is small; a cross-league bridge is the default (plan page 2)",
+      "plan_volume_tier": "500_TO_1500: global + league effect; local DC/Elo candidates only with OOS superiority",
+      "trainable_seasons": [
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25"
+      ]
+    },
+    {
+      "blocked_seasons": {
+        "2019-20": "NOT_APPLICABLE_NOT_YET_EXISTING",
+        "2020-21": "NOT_APPLICABLE_NOT_YET_EXISTING",
+        "2025-26": "BLOCKED_NO_DATA",
+        "2026-27": "BLOCKED_NO_DATA"
+      },
+      "canonical_league_id": "UEFA_UECL",
+      "completed_matches_in_trainable_seasons": 576,
+      "note": "UEFA: tournament sample is small; a cross-league bridge is the default (plan page 2)",
+      "plan_volume_tier": "500_TO_1500: global + league effect; local DC/Elo candidates only with OOS superiority",
+      "trainable_seasons": [
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25"
+      ]
+    }
+  ]
+}

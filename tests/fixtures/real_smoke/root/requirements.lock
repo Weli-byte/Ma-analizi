@@ -542,9 +542,9 @@ duckdb==2.0.0 \
     --hash=sha256:e38daf0acbad9de7ce892d402b68409519291ee16af3c2cba85ace3b085c7eaa \
     --hash=sha256:f61c96547ed432f54dae42a717fd88563eda55cb47549715fac9f61f770c205a
     # via football-forecasting (pyproject.toml)
-fastapi==0.157.0 \
-    --hash=sha256:45b5cbf098ce3f47e008ca67931ce333d028129c823e3b6766a3bd0d70b81f7f \
-    --hash=sha256:460d48b9fe6fabbb785630fc5b256710bc82723b597b4bfbd6e4470ae5bb20f4
+fastapi==0.158.0 \
+    --hash=sha256:890440689039bdadb06131bafae81eb63468a0dd9f6185fcec47afb69424ea6a \
+    --hash=sha256:c5127864026eca80a419047caba7760d561160904445fd825a60b6285b86ed0b
     # via football-forecasting (pyproject.toml)
 google-auth==2.62.0 \
     --hash=sha256:0bef0ce54bdf9ce226c5d66e4264413bd918141c31bbe49fb52eac882f513d69 \
@@ -1588,9 +1588,17 @@ sniffio==1.3.1 \
     #   groq
     #   openai
 sqlalchemy==2.1.6 \
+    --hash=sha256:1927eabf26265ed962627e7a64626d9058da29cc0faea341091302ec108ce305 \
     --hash=sha256:499eae5c9051efe96cb9a73ec2fbde8ffa4186f102b9094ebab8fcc9d3b99f52 \
+    --hash=sha256:69eeb530ce74be5e202a98ce35aa58b0776c24e64923c4873c25fa56f8e423bc \
+    --hash=sha256:7ea80b33e57f918509eb91cd074324bff0f9aae40d238121cdc369f449c20649 \
+    --hash=sha256:991fa7c6756505e3dc5aad678db5fb0110d9816c2185bc3e2c520de46cfc8c5d \
+    --hash=sha256:9db8bacb2a69b4b5388bc1439463170af28f4cc710933085b81d1658d931d2c2 \
+    --hash=sha256:b9f0b92b4a88b630f1e67df816b43cb017bb583479917dd100541d4f490a9517 \
     --hash=sha256:e269c68ec200538ae3fa7f9e8d8ed2b4b34d974c25945286ccc2a488438acf32 \
-    --hash=sha256:ea5f3dd7450669acbfee7813d3a2a13876806b1d9e4c1626a7bf587c33c68472
+    --hash=sha256:ea5f3dd7450669acbfee7813d3a2a13876806b1d9e4c1626a7bf587c33c68472 \
+    --hash=sha256:f0f22627d6436bd120c6dde0936b12fe75498d1e2e9214ec9863be17f9b80997 \
+    --hash=sha256:fd1154c6394892e727ff234273f5eb2b4319e5714917b016602435d77add8dcb
     # via
     #   alembic
     #   optuna

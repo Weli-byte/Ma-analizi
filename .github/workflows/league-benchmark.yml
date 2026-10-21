@@ -1,7 +1,8 @@
 name: league-benchmark
 # Real-data check of the league-model programme (ADR 0064): re-runs the Sprint 2 global reference benchmark on the
-# archived source snapshot (private data repo, branch league-source-snapshot) and compares EVERY output hash with the
-# committed docs/league_models/s2_run_manifest.json. Takes about 10 minutes, so it runs only when the benchmark, its
+# archived source snapshot (private data repo, branch league-source-snapshot) and compares it with the committed
+# docs/league_models/s2_*.json: structural files byte-for-byte, metric files within 1e-3 (float noise between operating
+# systems is expected; a changed result is not). Files that need git-ignored local artifacts are listed as not compared. Takes about 10 minutes, so it runs only when the benchmark, its
 # config, the league-model code or the dependency lock change (and on demand).
 on:
   pull_request:
@@ -73,9 +74,9 @@ jobs:
           rm -f ~/.ssh/data_key
           echo "SNAPSHOT=ready" >> "$GITHUB_ENV"
         shell: bash
-      - name: Re-run the benchmark and compare every output hash with the committed manifest
+      - name: Re-run the benchmark and compare with the committed results (exact for structural files, numeric for metrics)
         if: env.SNAPSHOT == 'ready'
-        run: python -m src.league_models.benchmark --as-of 2026-10-20T00:00:00Z --output-dir artifacts/league_models/benchmark/ci --expect-manifest docs/league_models/s2_run_manifest.json
+        run: python -m src.league_models.benchmark --as-of 2026-10-20T00:00:00Z --output-dir artifacts/league_models/benchmark/ci --compare-committed docs/league_models --atol 1e-3
       - name: Verify the written files by hash
         if: env.SNAPSHOT == 'ready'
         run: python -m src.league_models.benchmark --verify artifacts/league_models/benchmark/ci

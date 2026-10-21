@@ -633,3 +633,31 @@ def test_expect_manifest_exit_codes(tmp_path, monkeypatch, capsys):
     assert benchmark.main([*args, "--expect-manifest", str(same)]) == 0
     assert benchmark.main([*args, "--expect-manifest", str(other)]) == 1
     assert '"b.json"' in capsys.readouterr().out
+
+
+def test_compare_to_committed_tolerates_float_noise_and_catches_real_changes(e2e_root):
+    import shutil
+
+    root, cfg_path = e2e_root
+    out, docs = root / "artifacts" / "cmp", root / "docs_copy"
+    _run_e2e(root, cfg_path, out, targets=("1x2",))
+    docs.mkdir()
+    for name in (*benchmark.EXACT_FILES, *benchmark.NUMERIC_FILES):
+        shutil.copy(out / name, docs / f"s2_{name}")
+    assert benchmark.compare_to_committed(out, docs, 1e-3)["ok"] is True
+
+    committed = json.loads((docs / "s2_benchmark_metrics.json").read_text(encoding="utf-8"))
+    leaf = committed["metrics"]["1x2"]["ALL"]["elo"]
+    leaf["log_loss"] += 5e-5  # last-digit noise between platforms: accepted
+    committed["fit_health"]["2024-25"]["dixon_coles"]["iterations_used"] += 7  # solver trace: reported, not failed
+    (docs / "s2_benchmark_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
+    res = benchmark.compare_to_committed(out, docs, 1e-3)
+    assert res["ok"] is True and res["solver_trace_differences_reported_only"]["benchmark_metrics.json"]
+
+    leaf["log_loss"] += 0.05  # a changed result: refused
+    (docs / "s2_benchmark_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
+    res = benchmark.compare_to_committed(out, docs, 1e-3)
+    assert res["ok"] is False and res["numeric_differences"]["benchmark_metrics.json"][0]["abs_diff"] > 0.04
+
+    (docs / "s2_protocol_manifest.json").write_text("{}", encoding="utf-8")  # a structural file must match exactly
+    assert benchmark.compare_to_committed(out, docs, 1e-3)["exact_files_differing"] == ["protocol_manifest.json"]

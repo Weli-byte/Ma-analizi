@@ -62,8 +62,10 @@ universe of Sprint 1.
 ## CI (amendment 2026-10-21)
 `.github/workflows/league-benchmark.yml` re-runs the benchmark on the archived source snapshot (private data repository, branch
 `league-source-snapshot`, fetched with the repository-scoped deploy key, files checked against `MANIFEST.sha256`) under Python 3.12
-(the Docker/production target; the lock is compiled for 3.12) and fails when any output hash differs from the committed
-`docs/league_models/s2_run_manifest.json` (`--expect-manifest`). It runs on pull requests and pushes that touch the league-model code,
+(the Docker/production target; the lock is compiled for 3.12) and compares the result with the committed `docs/league_models/s2_*.json` (`--compare-committed`): structural files
+(protocol, leakage audit, baseline status) byte-for-byte, metric files within an absolute tolerance of 1e-3 (the first CI run showed that
+Linux and Windows differ beyond byte identity, so a strict hash gate would be a false alarm); solver traces (iteration counts, convergence
+flags) are reported only; claims and the existing-artifact audit are not compared because they read git-ignored local artifacts. It runs on pull requests and pushes that touch the league-model code,
 its config, the model code or the lock, and on demand. Without the deploy key (fork pull requests) it prints
 `SKIPPED_NOT_CONFIGURED` and does not claim a result. Python 3.12.14 and 3.14.6 gave byte-identical results locally on Windows.
 

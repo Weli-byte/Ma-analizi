@@ -397,8 +397,15 @@ def test_stat_compare_to_committed_tolerates_noise_and_flags_real_changes(e2e):
     committed["metrics"]["1x2"]["ALL"]["A_dc"]["log_loss"] += 0.05
     (docs / "s3_stat_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
     assert stat_benchmark.compare_to_committed(out, docs, 1e-3)["ok"] is False
-    (docs / "s3_league_decisions.json").write_text("{}", encoding="utf-8")
-    assert "league_decisions.json" in stat_benchmark.compare_to_committed(out, docs, 1e-3)["exact_files_differing"]
+    (docs / "s3_protocol_manifest.json").write_text("{}", encoding="utf-8")
+    assert "protocol_manifest.json" in stat_benchmark.compare_to_committed(out, docs, 1e-3)["exact_files_differing"]
+    # a changed decision (text) is a difference even though numbers are tolerated
+    shutil.copy(out / "protocol_manifest.json", docs / "s3_protocol_manifest.json")
+    dec = json.loads((docs / "s3_league_decisions.json").read_text(encoding="utf-8"))
+    first = next(iter(dec["competitions"]))
+    dec["competitions"][first]["decision"] = "CANDIDATE_TAMPERED"
+    (docs / "s3_league_decisions.json").write_text(json.dumps(dec), encoding="utf-8")
+    assert "league_decisions.json" in stat_benchmark.compare_to_committed(out, docs, 1e-3)["numeric_differences"]
 
 
 def test_cli_verify_and_licence_gate(e2e, monkeypatch):

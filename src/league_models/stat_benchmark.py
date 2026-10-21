@@ -79,8 +79,11 @@ LICENSED_PROVIDERS = ["openfootball_domestic", "openfootball_cups"]
 MATRIX_MODELS = ("A_dc", "A_dc_norho", "A_dc_rest", "A_dc_shrink", "B_dc_league", "B_dc_league_nohome", "C_dc_local", "D_blend")
 ELO_MODELS = ("E_elo_bridge", "F_elo_local")
 LOCAL_TYPES = ("C_dc_local", "D_blend", "F_elo_local")
-EXACT_FILES = ("protocol_manifest.json", "league_decisions.json", "hypotheses.json")
-NUMERIC_FILES = ("stat_metrics.json", "paired_deltas.json", "reliability.json", "score_audit.json", "uefa_bridge.json")
+EXACT_FILES = ("protocol_manifest.json",)
+# decisions and verdicts are compared as text, their numbers within the tolerance: a last-digit float difference between
+# operating systems must not read as a different decision
+NUMERIC_FILES = ("stat_metrics.json", "paired_deltas.json", "reliability.json", "score_audit.json", "uefa_bridge.json",
+                 "league_decisions.json", "hypotheses.json")
 
 
 @dataclasses.dataclass(frozen=True)

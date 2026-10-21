@@ -1,11 +1,13 @@
-"""Copy the cached public-domain source files of the league-model programme into an archive directory (ADR 0063
-decision 3), with a sha256 manifest, so exact reproduction does not depend on the public repositories' current bytes.
+"""Copy the cached public-domain source files of the league-model programme into an archive directory
+(ADR 0063 decision 3), with a sha256 manifest, so exact reproduction does not depend on the public
+repositories' current bytes.
 
     python scripts/archive_league_sources.py --out <empty-dir>
 
 Reads artifacts/markets/_cache/{openfootball,openfootball_cups}; writes the files under
-`league_models/source_snapshot/` plus `MANIFEST.sha256`. It never uploads anything: the caller commits the directory
-to the PRIVATE data repository. Files pinned by docs/league_models/snapshot_manifest.json are checked against it."""
+`league_models/source_snapshot/` plus `MANIFEST.sha256`. It never uploads anything: the caller commits the
+directory to the PRIVATE data repository (with `* -text` in .gitattributes, so git keeps the bytes unchanged).
+Files pinned by docs/league_models/snapshot_manifest.json are checked against it."""
 
 import argparse
 import hashlib

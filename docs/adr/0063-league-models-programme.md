@@ -1,6 +1,6 @@
 # ADR 0063: League-based model programme (6 sprints) and Sprint 1
 
-Date: 2026-10-20. Status: accepted; Sprint 1 built, owner decisions recorded, Sprint 2 built (ADR 0064), Sprints 3 to 6 not started.
+Date: 2026-10-20. Status: accepted; Sprint 1 built, owner decisions recorded, Sprints 2 and 3 built (ADR 0064, 0065), Sprints 4 to 6 not started.
 
 ## Decision
 Adopt the plan in `docs/reference/Lig_Bazli_Modeller_6_Sprint_ULTRA_PRO_MAX_GUNCEL.pdf` (summary: `docs/league_models/plan.md`):
@@ -50,7 +50,7 @@ leagues about 2,100 to 2,700 each; Süper Lig 1,064 (three seasons); UEFA 576 to
 |---|---|
 | 1 Data, licences, time safety | built and verified locally; CI: see the pull request |
 | 2 Global reference | built and run on real data (ADR 0064) |
-| 3 League statistical models + UEFA bridge | not started |
+| 3 League statistical models + UEFA bridge | built and run on real data (ADR 0065) |
 | 4 ML adapters | not started |
 | 5 Calibration, holdout, approval gate | not started |
 | 6 Shadow, canary, rollback | not started |

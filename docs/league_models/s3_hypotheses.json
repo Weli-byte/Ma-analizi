@@ -1,0 +1,165 @@
+{
+  "definition": "league hypotheses tested by ablation on dev out-of-sample rows only; none is coded as a fact and no feature weight is fixed from them",
+  "hypotheses": [
+    {
+      "base": "A_dc_norho",
+      "blocks": 175,
+      "ci95": [
+        -0.004563,
+        -0.001478
+      ],
+      "competition": "ITA1",
+      "delta_log_loss_variant_minus_base": -0.002921,
+      "hypothesis": "Serie A: the Dixon-Coles low-score correction (rho) improves 1X2",
+      "id": "H1_serie_a_low_scoring_draws",
+      "n": 1890,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "A_dc",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "base": "A_dc",
+      "blocks": 141,
+      "ci95": [
+        -0.000225,
+        0.000209
+      ],
+      "competition": "ENG1",
+      "delta_log_loss_variant_minus_base": -1e-05,
+      "hypothesis": "Premier League: rest days before a match carry information",
+      "id": "H2_premier_league_rest_congestion",
+      "n": 1520,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "A_dc_rest",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "B_dc_league_nohome",
+      "blocks": 142,
+      "ci95": [
+        -0.005748,
+        0.00087
+      ],
+      "competition": "ESP1",
+      "delta_log_loss_variant_minus_base": -0.002422,
+      "hypothesis": "La Liga: a competition-specific home advantage improves 1X2",
+      "id": "H3_la_liga_home_advantage",
+      "n": 1520,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_dc_totals",
+      "blocks": 163,
+      "ci95": [
+        -0.000592,
+        0.002087
+      ],
+      "competition": "GER1",
+      "delta_log_loss_variant_minus_base": 0.000692,
+      "hypothesis": "Bundesliga: a competition goal-rate intercept improves over/under 2.5",
+      "id": "H4_bundesliga_goal_density",
+      "n": 1530,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "over_under",
+      "variant": "B_dc_league_totals",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_dc",
+      "blocks": 175,
+      "ci95": [
+        -0.013572,
+        -0.004708
+      ],
+      "competition": "FRA1",
+      "delta_log_loss_variant_minus_base": -0.008986,
+      "hypothesis": "Ligue 1: stronger shrinkage of club strengths improves 1X2",
+      "id": "H5_ligue_1_strength_concentration",
+      "n": 1752,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "A_dc_shrink",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "base": "B_dc_league_nohome",
+      "blocks": 33,
+      "ci95": [
+        -0.002766,
+        0.006136
+      ],
+      "competition": "TUR1",
+      "delta_log_loss_variant_minus_base": 0.001641,
+      "hypothesis": "Süper Lig: a competition-specific home advantage improves 1X2",
+      "id": "H6_super_lig_home_away_gap",
+      "n": 420,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_dc",
+      "blocks": 77,
+      "ci95": [
+        -0.006674,
+        0.011374
+      ],
+      "competition": "UEFA_UCL",
+      "delta_log_loss_variant_minus_base": 0.002238,
+      "hypothesis": "Champions League: competition + country levels (bridge) improve 1X2",
+      "id": "H8_champions_league_cross_league",
+      "n": 689,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_dc",
+      "blocks": 79,
+      "ci95": [
+        -0.005679,
+        0.016474
+      ],
+      "competition": "UEFA_UEL",
+      "delta_log_loss_variant_minus_base": 0.004905,
+      "hypothesis": "Europa League: competition + country levels (bridge) improve 1X2",
+      "id": "H9_europa_league_cross_league",
+      "n": 815,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "base": "A_dc",
+      "blocks": 61,
+      "ci95": [
+        -0.038746,
+        -0.004159
+      ],
+      "competition": "UEFA_UECL",
+      "delta_log_loss_variant_minus_base": -0.021712,
+      "hypothesis": "Conference League: competition + country levels (bridge) improve 1X2",
+      "id": "H10_conference_league_cross_league",
+      "n": 576,
+      "rule": "SUPPORTED: the whole 95% block interval is below 0 on dev out-of-sample data; NOT_SUPPORTED: above 0; otherwise INCONCLUSIVE",
+      "target": "1x2",
+      "variant": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "competition": "TUR1",
+      "hypothesis": "Süper Lig: squad continuity matters",
+      "id": "H7_super_lig_squad_continuity",
+      "reason": "the licensed universe has no squad, transfer or lineup data",
+      "verdict": "NOT_TESTABLE"
+    }
+  ]
+}

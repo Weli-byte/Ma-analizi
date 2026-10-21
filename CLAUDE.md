@@ -43,6 +43,7 @@ python -m src.llm.audit                       # S10 scan artifacts/llm_runs/ for
 python -m src.league_models.audit --as-of 2026-10-20T00:00:00Z --write   # league programme S1: licence/coverage/identity/as-of audit (ADR 0063)
 python -m src.evaluation.run_ensemble [--llm-run DIR]   # S11 OOF ensemble; run walk_forward first; --llm-run adds REAL LLM models
 python -m src.league_models.benchmark --as-of 2026-10-20T00:00:00Z [--dry-run|--verify DIR|--reproduce DIR]   # league programme S2: global reference walk-forward (ADR 0064)
+python -m src.league_models.stat_benchmark --as-of 2026-10-20T00:00:00Z [--dry-run|--verify DIR|--reproduce DIR|--compare-committed docs/league_models]   # league programme S3: league statistical candidates (ADR 0065)
 ```
 Dependencies: edit `pyproject.toml`, regenerate `requirements.lock` (uv, hashed). Python 3.12 + 3.14.
 Lock regeneration MUST use `uv pip compile pyproject.toml --extra dev --universal --generate-hashes --python-version 3.12 --upgrade -o requirements.lock`
@@ -155,6 +156,6 @@ coverage.py, cache.py, rate_limit.py, sync.py) · `src/provenance.py`, `src/runm
 - [x] Google sign-in verified live 2026-10-15 (ADR 0060): client id set, consent screen published; works for a non-test account. Apple, SMS, Highlightly PRO, Anthropic, persistent user DB, Free/Pro remain.
 - [x] ADR 0061: persistent user store on Turso free tier (`src/web/store.py`, `FORECAST_TURSO_URL`/`FORECAST_TURSO_TOKEN`); verified live 2026-10-15 (favourite survived a redeploy); the local live pytest was not run.
 - [x] ADR 0062: Free/Pro plan infrastructure (`src/web/plans.py`, `users.plan`), package B (Pro = match tabs Marketler/Hakem/Oyuncular; owner always Pro), gates OFF unless `FORECAST_PLANS_ENFORCED`; no payment, nothing sold; migration verified on live Turso 2026-10-15.
-- [x] ADR 0063 league-model programme (6 sprints, plan: `docs/league_models/plan.md`): Sprint 1 built (`src/league_models/`, `python -m src.league_models.audit`, outputs in `docs/league_models/`); Sprint 2 built (ADR 0064, `python -m src.league_models.benchmark`, report `docs/league_models/sprint02_global_benchmark.md`); S3 to S6 NOT started. Licensed universe = openfootball scores only (football-data.co.uk BLOCKED for league models); every row BACKTEST_LIMITED; global model untouched.
+- [x] ADR 0063 league-model programme (6 sprints, plan: `docs/league_models/plan.md`): Sprint 1 built (`src/league_models/`, `python -m src.league_models.audit`, outputs in `docs/league_models/`); Sprint 2 built (ADR 0064, `python -m src.league_models.benchmark`, report `docs/league_models/sprint02_global_benchmark.md`); Sprint 3 built (ADR 0065, `python -m src.league_models.stat_benchmark`, report `docs/league_models/sprint03_league_statistical_models.md`); S4 to S6 NOT started. Licensed universe = openfootball scores only (football-data.co.uk BLOCKED for league models); every row BACKTEST_LIMITED; global model untouched.
 - [ ] S19 startup MVP (deploy to a host, Google client id, SMS account, Free/Pro, Apple sign-in, Highlightly PRO, Anthropic remain).
 Data source is RESEARCH_ONLY (docs/data_sources/licensing.md): resolve licensing before any commercial use.

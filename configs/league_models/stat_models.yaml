@@ -1,0 +1,47 @@
+# Sprint 3 (ADR 0065): league statistical model candidates. Every value is an engineering default, NOT a tuned optimum:
+# nothing here is fitted on the frozen holdout, and the only quantities learned from data per fold are the model parameters
+# and the blend weights (on the inner-validation block). Changing a value changes the run fingerprint.
+protocol_version: lm-s3-v1
+dc:                               # ridge-regularised Poisson / Dixon-Coles (log-linear, identifiability by L2 toward 0)
+  max_goals: 12                   # score grid 0..12; the mass beyond it is measured and reported (tail mass)
+  l2_team: 2.0                    # attack / defense deviation of a team
+  l2_country: 1.0                 # country-level attack / defense offsets (the cross-league bridge)
+  l2_competition: 1.0             # competition intercept
+  l2_home_dev: 2.0                # competition-specific home-advantage deviation
+  l2_beta: 1.0                    # rest-days covariate coefficient
+  shrink_multiplier: 4.0          # stronger-ridge ablation (French "strength concentration" hypothesis)
+  decay_half_life_days: 1095      # time-decay ablation only (candidate A has no decay)
+  rest_cap_days: 14
+  rest_reference_days: 7
+  maxiter: 2000
+  rho_bounds_cap: 0.5             # |rho| never exceeds this even if the positivity interval is wider
+elo:
+  initial_rating: 1500.0
+  k_factor: 20.0
+  home_advantage: 60.0
+  goal_difference_multiplier: true   # K scaled by 1 + ln(1 + |goal difference|)
+  season_reversion: 0.25             # share of the distance to the country mean given back at a season change
+  promoted_penalty: 50.0             # a club with no earlier domestic match enters this far below its country mean
+  min_matches_certain: 10            # below this many own matches a rating is flagged UNCERTAIN
+  bridge_k: 6.0                      # K of the country offsets learned from UEFA matches
+  bridge_team_k_share: 0.5           # share of K a UEFA result moves the club rating
+blend:
+  weight_grid_step: 0.05
+  shrink_k: 300                      # w_final = w * n_val / (n_val + k): shrinks toward 0 with little validation data
+  min_validation_matches: 60         # below this a competition gets weight 0
+tiers:                               # starting engineering rules per competition (matches in the fold's training window)
+  local_off_below: 500               # local model production-ineligible
+  local_candidate_below: 1500        # candidate, out-of-sample proof mandatory
+  min_local_fit_matches: 100         # a local fit below this is NOT_TRAINED (explicit fallback to the global model)
+bridge:
+  min_uefa_matches_per_country: 20   # below this a country level is UNCERTAIN
+  min_uefa_matches_total: 200        # below this the whole bridge is NOT_AVAILABLE (global + league prior fallback)
+decision:
+  primary_target: 1x2
+  primary_metric: log_loss
+  max_ece_worsening: 0.01            # a candidate whose raw ECE is worse than the reference by more than this is not promoted
+reference_model: A_dc
+models:
+  matrix: [A_dc, A_dc_norho, A_dc_rest, A_dc_shrink, B_dc_league, B_dc_league_nohome, C_dc_local, D_blend]
+  elo: [E_elo_bridge, F_elo_local]
+  references: [elo_s2, historical_prior]

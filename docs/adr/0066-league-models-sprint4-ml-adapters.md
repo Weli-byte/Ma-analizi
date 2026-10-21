@@ -19,7 +19,7 @@ whether a league-aware candidate beats a frozen global GBM **and** an equally tu
    fixtures sharing a kick-off never see each other, the Elo is driven match by match under the same rule. Training and evaluation rows come from one code path.
 3. **Candidates** (all three targets, 1X2 three-class, over/under 2.5 and BTTS binary, each with its own probability contract; exact score stays with the
    Dixon-Coles matrix, no score is derived from a GBM): `A_gbm` frozen global (league-blind, fixed parameters); `A_gbm_tuned` the same league-blind features tuned
-   like B (**the control**); `B_gbm_league_default` and `B_gbm_league` (league-aware, fixed / tuned); `B_xgb_league` (XGBoost cross-check); `C_gbm_local` one model per
+   like B (**the control**); `B_gbm_league_default` and `B_gbm_league` (league-aware, fixed / tuned); `B_xgb_league` (XGBoost cross-check: the first Linux CI run showed that XGBoost CPU results differ between operating systems, so it is reported but is neither a decision candidate nor compared across machines; every LightGBM and statistical result matched Linux within 1e-3); `C_gbm_local` one model per
    competition; `D_gbm_blend` `(1 - w) B + w C`; `A_dc_ridge_tuned` (Sprint 3 finding 4: the DC team ridge tuned on the inner block). Ablations of B drop one feature group
    (rest, league priors, Elo, venue form) with the tuned parameters and no extra search.
 4. **Tuning** is Optuna (TPE, seeded, coarse categorical grid, 14 trials, early stopping) on the **inner-validation season only** (the last training season; with a single
@@ -31,7 +31,7 @@ whether a league-aware candidate beats a frozen global GBM **and** an equally tu
 6. **Decision rule** (per competition and target, DEV evidence only): paired block-bootstrap interval of the log-loss difference entirely below 0 against `A_gbm`
    **and** against `A_gbm_tuned` (and, for over/under and BTTS, against the train-rate baseline), Brier better, raw ECE not worse than 0.01, accuracy not rising while log loss
    worsens, a tier allowing local models, a non-zero local weight for the blend, and (1X2) not significantly worse than the existing Elo. The control is the important rule:
-   without it, any tuned model "beats" a frozen one. A multiple-comparison note (162 comparisons) is part of the decisions file.
+   without it, any tuned model "beats" a frozen one. A multiple-comparison note (135 comparisons) is part of the decisions file.
 7. **Hypotheses** (Premier League rest / congestion, Serie A draws, La Liga Elo gap, Bundesliga goal density, Ligue 1 identity, Süper Lig home advantage, UEFA bridge) are
    feature-group ablations with the Sprint 3 verdict rule; squad continuity and any market claim are `NOT_TESTABLE`. Permutation importance uses the inner-validation
    season only and is reported as an association; SHAP was not computed (no new dependency, same information at group level).
@@ -42,7 +42,7 @@ whether a league-aware candidate beats a frozen global GBM **and** an equally tu
 
 ## CI
 `.github/workflows/league-benchmark.yml` also re-runs Sprint 4 on the archived snapshot under Python 3.12 and compares with the committed `s4_*.json` files (protocol manifest and feature
-schema byte-for-byte, everything else text-exact with numbers within 1e-3 and the discontinuous quantities within 0.01).
+schema byte-for-byte, everything else text-exact with numbers within 1e-3 and the discontinuous quantities within 0.01; the XGBoost cross-check is skipped, and the committed `training_runs` carry neither model-file hashes nor the git sha, which are per-machine provenance kept in the run output).
 
 ## Consequences and limits
 - Score-only and `BACKTEST_LIMITED`; odds-free only (the odds-aware model card is NOT_AVAILABLE, no market baseline). The production XGBoost / LightGBM stack cannot run on this universe,

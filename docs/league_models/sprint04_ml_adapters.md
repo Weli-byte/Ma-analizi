@@ -19,9 +19,9 @@ promoted and nothing is calibrated: calibration, the frozen holdout and the appr
 4. **League awareness helps BTTS, not 1X2 or over/under.** BTTS pooled: `B_gbm_league` 0.6884 and `D_gbm_blend` 0.6881 against the tuned control 0.6927 (-0.0043, interval -0.0062 to -0.0025)
    and the base rate 0.6896; the frozen `A_gbm` (0.7005) is worse than the base rate. Over/under: B 0.6854 against the control 0.6863 (interval -0.0026 to +0.0007, no proof) and the base rate
    0.6915. Accuracy of every model is within about two points of the majority-class accuracy (BTTS 0.5429, over 2.5 0.5347), so accuracy says almost nothing here.
-5. **Decisions for the nine competitions (dev out-of-sample evidence only, 162 comparisons).** 1X2: the global model is kept in all nine; no league-aware GBM beats its tuned league-blind control
+5. **Decisions for the nine competitions (dev out-of-sample evidence only, 135 comparisons).** 1X2: the global model is kept in all nine; no league-aware GBM beats its tuned league-blind control
    anywhere. A candidate passes every rule in only three competition-target cells: BTTS in La Liga (`B_gbm_league`), BTTS and over/under in the Bundesliga (`A_dc_ridge_tuned`, the Sprint 3
-   Dixon-Coles with a tuned ridge). With 162 one-sided 2.5% comparisons a few passes are expected by chance; Sprint 5 must confirm them on the frozen holdout before they count.
+   Dixon-Coles with a tuned ridge). With 135 one-sided 2.5% comparisons a few passes are expected by chance; Sprint 5 must confirm them on the frozen holdout before they count.
 6. **Local models could be tried only where the data allow it.** Trained (500 or more own training matches): Premier League, La Liga, Bundesliga, Serie A from the second fold (2021-22); Ligue 1
    from the third; Champions League and Europa League in the last fold only (619 and 626 matches, evidence tier); never the Conference League (at most 423) or the Süper Lig (306 matches in its
    only evaluation fold, 420 evaluation matches). The local GBM `C_gbm_local` is worse than the global model pooled (1.0083, +0.0097 against the control, interval +0.0066 to +0.0131); the
@@ -64,7 +64,7 @@ promoted and nothing is calibrated: calibration, the frozen holdout and the appr
 | `elo_s2` (existing Elo) | 0.9990 | 0.5960 | 0.2053 | 0.5194 | 0.0262 | -0.0133 [-0.0189, -0.0076] | +0.0004 [-0.0036, +0.0045] |
 | `B_gbm_league` | 1.0001 | 0.5961 | 0.2052 | 0.5229 | 0.0118 | -0.0122 [-0.0155, -0.0090] | +0.0015 [-0.0003, +0.0030] |
 | `D_gbm_blend` | 1.0006 | 0.5964 | 0.2054 | 0.5220 | 0.0124 | -0.0117 [-0.0151, -0.0084] | +0.0020 [+0.0002, +0.0036] |
-| `B_xgb_league` | 1.0059 | 0.5998 | 0.2067 | 0.5181 | 0.0158 | -0.0064 [-0.0089, -0.0039] | +0.0073 [+0.0045, +0.0101] |
+| `B_xgb_league` (cross-check, OS-dependent) | 1.0059 | 0.5998 | 0.2067 | 0.5181 | 0.0158 | -0.0064 [-0.0089, -0.0039] | +0.0073 [+0.0045, +0.0101] |
 | `A_dc_ridge_tuned` | 1.0080 | 0.6023 | 0.2087 | 0.5056 | 0.0177 | -0.0043 [-0.0110, +0.0028] | +0.0093 [+0.0041, +0.0148] |
 | `C_gbm_local` | 1.0083 | 0.6014 | 0.2074 | 0.5167 | 0.0107 | -0.0040 [-0.0088, +0.0007] | +0.0097 [+0.0066, +0.0131] |
 | `A_dc` (Sprint 3 reference) | 1.0102 | 0.6033 | 0.2092 | 0.5039 | 0.0186 | -0.0020 [-0.0087, +0.0054] | +0.0116 [+0.0059, +0.0173] |
@@ -149,6 +149,7 @@ are reported as such; UEFA stages are not marked in the source (analysed per com
 - Selection on the inner season (tuning, early stopping) also feeds the blend weights: a small bias that favours w = 0.
 - The Süper Lig has 420 evaluation matches in one season; the Conference League has no local-eligible fold; UEFA finals carry a home advantage.
 - Permutation importance is an association on the inner-validation season. SHAP was not computed.
+- XGBoost (`B_xgb_league`, fixed parameters) is a backend cross-check only: its CPU results are reproducible on one machine but differed on Linux CI (accuracy by up to 0.02 per league-season), so it is not a decision candidate and is skipped in the cross-OS comparison. The LightGBM and statistical results matched Linux within 1e-3.
 - Raw probabilities: the ECE values here are before any calibration (Sprint 5).
 
 ## Handover to Sprint 5

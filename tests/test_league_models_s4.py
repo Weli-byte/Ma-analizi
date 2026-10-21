@@ -496,9 +496,27 @@ def test_compare_to_committed_tolerates_noise_and_flags_real_changes(e2e):
     assert "feature_schema.json" in ml_benchmark.compare_to_committed(out, docs, 1e-3)["exact_files_differing"]
 
 
-def test_artifact_hashes_are_stripped_from_the_committed_copy_only():
-    runs = [{"model_family": "x", "artifact_sha256": "abc", "rounds": 3}]
-    assert ml_benchmark.strip_artifact_hashes(runs) == [{"model_family": "x", "rounds": 3}] and runs[0]["artifact_sha256"] == "abc"
+def test_artifact_hashes_and_the_git_sha_are_stripped_from_the_committed_copy_only():
+    runs = [{"model_family": "x", "artifact_sha256": "abc", "git_sha": "deadbeef", "rounds": 3}]
+    assert ml_benchmark.strip_artifact_hashes(runs) == [{"model_family": "x", "rounds": 3}] and runs[0]["artifact_sha256"] == "abc" and runs[0]["git_sha"] == "deadbeef"
+
+
+def test_the_os_dependent_xgboost_check_is_not_compared_across_machines_but_everything_else_is(e2e):
+    out, docs = e2e / "x", e2e / "docs_x"
+    _run(e2e, out)
+    docs.mkdir()
+    for name in (*ml_benchmark.EXACT_FILES, *ml_benchmark.NUMERIC_FILES):
+        shutil.copy(out / name, docs / f"s4_{name}")
+    committed = json.loads((docs / "s4_ml_metrics.json").read_text(encoding="utf-8"))
+    committed["metrics"]["1x2"]["ALL"]["B_xgb_league"]["log_loss"] += 0.2  # a different operating system gave different XGBoost trees
+    (docs / "s4_ml_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
+    report = ml_benchmark.compare_to_committed(out, docs, 1e-3)
+    assert report["ok"] is True and "B_xgb_league" in report["not_compared"]
+    committed["metrics"]["1x2"]["ALL"]["B_gbm_league"]["log_loss"] += 0.2  # a LightGBM result must still match
+    (docs / "s4_ml_metrics.json").write_text(json.dumps(committed), encoding="utf-8")
+    assert ml_benchmark.compare_to_committed(out, docs, 1e-3)["ok"] is False
+    dec = json.loads((out / "league_decisions.json").read_text(encoding="utf-8"))["competitions"]["ITA1"]["by_target"]["1x2"]["candidates_vs_A_gbm"]
+    assert "B_xgb_league" not in dec  # a cross-check, never a decision candidate
 
 
 # ------------------------------------------------------------------ real cached data and committed outputs

@@ -80,6 +80,7 @@ LICENSED_PROVIDERS = sb.LICENSED_PROVIDERS
 SUFFIX = {"over_under": "_totals", "btts": "_goals"}
 GBM_MODELS = ("A_gbm", "A_gbm_tuned", "B_gbm_league_default", "B_gbm_league", "B_xgb_league", "C_gbm_local", "D_gbm_blend")
 ABLATIONS = {"B_no_rest": "rest_congestion", "B_no_league_priors": "league_priors", "B_no_elo": "elo", "B_no_home_away": "home_away"}
+OS_DEPENDENT_MODELS = ("B_xgb_league",)  # XGBoost CPU histograms differ between operating systems (first Linux CI run); reported, never compared across OS, never a decision candidate
 EXACT_FILES = ("protocol_manifest.json", "feature_schema.json")
 NUMERIC_FILES = ("ml_metrics.json", "paired_deltas.json", "paired_vs_s3.json", "paired_vs_control.json", "reliability.json", "error_analysis.json", "hypotheses.json",
                  "feature_importance.json", "tuning_trials.json", "league_decisions.json", "training_runs.json", "eligibility_evidence.json",
@@ -479,7 +480,7 @@ def decisions_report(mcfg: MLConfig, folds: list[Fold], metrics: dict, deltas: d
     loc, dec = mcfg.raw["local"], mcfg.raw["decision"]
     last = folds[-1]
     comps = sorted({r.league_id for f in folds for r in f.eval_rows})
-    cands = ("B_gbm_league_default", "B_gbm_league", "B_xgb_league", "C_gbm_local", "D_gbm_blend", "A_dc_ridge_tuned")
+    cands = ("B_gbm_league_default", "B_gbm_league", "C_gbm_local", "D_gbm_blend", "A_dc_ridge_tuned")  # B_xgb_league is a cross-check only (OS-dependent)
     naive = {"over_under": "train_over_rate", "btts": "train_btts_rate"}
     leagues = np.array([r.league_id for r in ev["rows"]])
     blocks = np.array([bm.iso_week_block(r.kickoff_utc) for r in ev["rows"]])
@@ -639,8 +640,9 @@ def prediction_lines(results: list[FoldResult], snapshot_id: str, line: float) -
 
 def strip_artifact_hashes(runs: list[dict]) -> list[dict]:
     """The committed copy keeps everything except the model-file hash (LightGBM text can differ in the last digits between operating
-    systems); the run output keeps the hashes and is verified by `--verify`."""
-    return [{k: v for k, v in r.items() if k != "artifact_sha256"} for r in runs]
+    systems) and the git sha (it names the checkout that produced the run, which differs in CI); the run output keeps both and
+    `--verify` re-hashes the model files."""
+    return [{k: v for k, v in r.items() if k not in ("artifact_sha256", "git_sha")} for r in runs]
 
 
 # ------------------------------------------------------------------------------------------------ run
@@ -812,10 +814,13 @@ def compare_to_committed(out_dir: Path, docs_dir: Path, atol: float) -> dict:
     for name in NUMERIC_FILES:
         bad, tr = [], []
         _walk(json.loads((docs_dir / f"s4_{name}").read_text(encoding="utf-8")), json.loads((out_dir / name).read_text(encoding="utf-8")), "", atol, bad, tr)
+        bad = [b for b in bad if not any(m in b["path"] for m in OS_DEPENDENT_MODELS)]
         if bad:
             numeric_bad[name] = bad[:25]
     return {"atol": atol, "exact_files_differing": exact_bad, "numeric_differences": numeric_bad,
-            "not_compared": {"fold_predictions.jsonl": "not committed (large)", "models/*.txt": "model files are git-ignored artifacts; their hashes are verified by --verify"},
+            "not_compared": {"fold_predictions.jsonl": "not committed (large)", "models/*.txt": "model files are git-ignored artifacts; their hashes are verified by --verify",
+                             **{m: "XGBoost CPU results differ between operating systems (reproducible on one machine only); every LightGBM and statistical result is compared"
+                                for m in OS_DEPENDENT_MODELS}},
             "ok": not exact_bad and not numeric_bad}  # fmt: skip
 
 

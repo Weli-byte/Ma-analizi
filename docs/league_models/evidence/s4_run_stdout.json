@@ -112,7 +112,7 @@
     }
   },
   "registry_entry": {
-    "run_id": "lmbench-abd115c80b971fde",
+    "run_id": "lmbench-496a4b1332f762cf",
     "status": "REGISTERED"
   },
   "run_manifest": {
@@ -131,7 +131,7 @@
       "2024-25"
     ],
     "git_dirty_at_run": true,
-    "git_sha": "5b276e9d582afc8a46cc3606dde47fd41ab28b84",
+    "git_sha": "5bf6b90987d5d12ef2795c61909416427913c303",
     "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
     "lightgbm": "4.7.0",
     "matches_scored": 10712,
@@ -139,13 +139,13 @@
     "numpy": "2.5.3",
     "optuna": "5.0.0",
     "output_hashes": {
-      "eligibility_evidence.json": "0bb2da0923bb6e3bfdb3963de78f51affdab7e0e7848edccc4e073071a4ca6e0",
+      "eligibility_evidence.json": "60b7624baed2d50dfcfb65a185c4f3490ed88fb4be0e6b9d003dc82e9dc054aa",
       "error_analysis.json": "09386a4add05fa35737eb0094be22ba7383049a70797da6442fa3766de501c07",
       "feature_importance.json": "02089f23b3229f9fb826210cb343c270f6793534d1646306b689affbcaa556a1",
       "feature_schema.json": "ef9a3b6fdb35366d6636c82a0a8935d30f65519edfc65ab9126eb459db473a91",
       "fold_predictions.jsonl": "6cd661e02611621faa4c762352fdd97420e364dedbc099c9a4bc471662c02f64",
       "hypotheses.json": "0aa602cf62a38a2bdaa71855ff2dbbe7b25e3ce5cb285401c5b5c705816f073a",
-      "league_decisions.json": "59d7ec198238f4c9924f1d31db0f2a8f149b5770d93b4dfb509f64bf3785e7c5",
+      "league_decisions.json": "dfa5e6fbdaa6f3cd4311940392db869ed1affbafdfefe46023cd15e5a1491062",
       "leakage_audit.json": "283e32ee49f9eb926e06a5006469c39aa90067c1c209d8a2d5d6452ff1303112",
       "ml_metrics.json": "f359d98f267247a98accbb56cc31100a4af4768ebb169a7322aeba3a1aa63a6b",
       "model_cards.md": "fd689e2aa519481a646a78904dd20a9dc68eb29272cf50c5233dd108b6772541",
@@ -346,8 +346,8 @@
       "paired_vs_s3.json": "85b11904f0ef80aff87083df6368ee816f0435a3479a9b977dfe7f030c7245f2",
       "protocol_manifest.json": "b00be59ec20dce51a0a035f090a1facccc865853e9c57fdfe202a994faafe887",
       "reliability.json": "ecbcc6b8dfa4aaed431a6ef9f3fa13ee066a1966247e6af75ce2c8639d74dfb8",
-      "training_runs.json": "c5ed323d06002f41fd46d5fd5770c9c4286df6cd909ce0625a5a8ba7aaa11537",
-      "training_runs_with_artifact_hashes.json": "81178591d5354268efbe2e9daf0353eb00724582be932a80ff7e671a37647192",
+      "training_runs.json": "ff1c6ff2b8ffcc607b4c60b17f0eb8b4b5d621b2951259e9582c89dc27358ff3",
+      "training_runs_with_artifact_hashes.json": "049b87c23bf6e0fc1b2cfbd1faba524e5e3962361f2dbfae90195af6d7e882e9",
       "tuning_trials.json": "2e0479d0e72ee6f7d0a54ebabfb7975a6ae1255b7e90be1878fc362fd05a004d"
     },
     "protocol_version": "lm-s4-v1",

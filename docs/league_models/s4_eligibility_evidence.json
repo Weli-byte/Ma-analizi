@@ -1,0 +1,890 @@
+{
+  "competitions": {
+    "ENG1": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "ESP1": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league"
+            ]
+          },
+          "decision": "CANDIDATE_B_gbm_league"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "FRA1": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "D_gbm_blend": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    },
+    "GER1": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [],
+            "B_gbm_league": [
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "CANDIDATE_A_dc_ridge_tuned"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "CANDIDATE_A_dc_ridge_tuned"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "ITA1": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "D_gbm_blend": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_CANDIDATES_OVER_1500"
+    },
+    "TUR1": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    },
+    "UEFA_UCL": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    },
+    "UEFA_UECL": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "significantly worse than the existing global Elo (elo_s2)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "C_gbm_local": [
+              "local models are production-ineligible under the minimum training matches",
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "local models are production-ineligible under the minimum training matches",
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "local models are production-ineligible under the minimum training matches",
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "local models are production-ineligible under the minimum training matches",
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "local models are production-ineligible under the minimum training matches",
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "local models are production-ineligible under the minimum training matches",
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_OFF_UNDER_500"
+    },
+    "UEFA_UEL": {
+      "by_target": {
+        "1x2": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "btts": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "accuracy rose while log loss worsened: not an argument for promotion",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        },
+        "over_under": {
+          "blocking_reasons": {
+            "A_dc_ridge_tuned": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "raw ECE is worse than the reference by more than the allowed margin",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "B_gbm_league_default": [
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "C_gbm_local": [
+              "at least one fold fell back to the global model (LOCAL_INELIGIBLE)",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ],
+            "D_gbm_blend": [
+              "the blend never put weight on the local model: identical to B_gbm_league",
+              "log-loss paired interval against A_gbm is not entirely below 0",
+              "Brier is not better",
+              "not significantly better than the equally tuned league-blind control A_gbm_tuned (the gain over A_gbm is tuning, not league awareness)",
+              "not significantly better than the train-rate baseline (always predicting the base rate)"
+            ]
+          },
+          "decision": "GLOBAL_A_gbm"
+        }
+      },
+      "decision": "GLOBAL_A_gbm",
+      "volume_tier": "LOCAL_EVIDENCE_500_TO_1500_PROOF_REQUIRED"
+    }
+  },
+  "feature_schema_sha256": "0e5a2f89ec06b3d9642f4a9a27ef3ead34e0d83bd9a0c742fae211bb8313571e",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "for_sprint_5": "frozen inputs and per-competition evidence; nothing here is an approval",
+  "oof_predictions": {
+    "file": "fold_predictions.jsonl",
+    "note": "per-fixture out-of-sample probabilities of every model on the Sprint 2 folds; frozen by the run manifest hash"
+  },
+  "snapshot_id": "snap-546e70fff7fb",
+  "still_required_in_sprint_5": [
+    "calibration fitted on a separate chronological split",
+    "one-shot evaluation of the frozen holdout",
+    "block-bootstrap intervals on that holdout",
+    "approval gate; leagues without proven improvement stay on the global model"
+  ]
+}

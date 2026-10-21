@@ -1,0 +1,5915 @@
+{
+  "binary_targets": {
+    "btts": {
+      "A_dc_ridge_tuned": {
+        "accuracy": 0.5443,
+        "log_loss": 0.69043
+      },
+      "A_gbm": {
+        "accuracy": 0.5147,
+        "log_loss": 0.70053
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5282,
+        "log_loss": 0.69271
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5441,
+        "log_loss": 0.68843
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5424,
+        "log_loss": 0.68809
+      },
+      "always_no": {
+        "accuracy": 0.4571,
+        "log_loss": 7.50103
+      },
+      "always_yes": {
+        "accuracy": 0.5429,
+        "log_loss": 6.31448
+      },
+      "label_rate": 0.5429,
+      "majority_class_accuracy": 0.5429,
+      "train_btts_rate": {
+        "accuracy": 0.5429,
+        "log_loss": 0.68963
+      }
+    },
+    "over_under": {
+      "A_dc_ridge_tuned": {
+        "accuracy": 0.5557,
+        "log_loss": 0.68788
+      },
+      "A_gbm": {
+        "accuracy": 0.5471,
+        "log_loss": 0.68841
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5518,
+        "log_loss": 0.68633
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5524,
+        "log_loss": 0.68541
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5506,
+        "log_loss": 0.68544
+      },
+      "always_over": {
+        "accuracy": 0.5347,
+        "log_loss": 6.42798
+      },
+      "always_under": {
+        "accuracy": 0.4653,
+        "log_loss": 7.38753
+      },
+      "label_rate": 0.5347,
+      "majority_class_accuracy": 0.5347,
+      "train_over_rate": {
+        "accuracy": 0.5347,
+        "log_loss": 0.69145
+      }
+    }
+  },
+  "confidence_bins": {
+    "B_gbm_league": [
+      {
+        "accuracy": 0.4001,
+        "confidence": "[0.00,0.40)",
+        "mean_confidence": 0.3762,
+        "n": 1462
+      },
+      {
+        "accuracy": 0.4417,
+        "confidence": "[0.40,0.50)",
+        "mean_confidence": 0.4483,
+        "n": 3509
+      },
+      {
+        "accuracy": 0.5348,
+        "confidence": "[0.50,0.60)",
+        "mean_confidence": 0.549,
+        "n": 2741
+      },
+      {
+        "accuracy": 0.6357,
+        "confidence": "[0.60,0.70)",
+        "mean_confidence": 0.6461,
+        "n": 1993
+      },
+      {
+        "accuracy": 0.7279,
+        "confidence": "[0.70,1.00)",
+        "mean_confidence": 0.737,
+        "n": 1007
+      }
+    ],
+    "D_gbm_blend": [
+      {
+        "accuracy": 0.4007,
+        "confidence": "[0.00,0.40)",
+        "mean_confidence": 0.3767,
+        "n": 1470
+      },
+      {
+        "accuracy": 0.439,
+        "confidence": "[0.40,0.50)",
+        "mean_confidence": 0.4484,
+        "n": 3494
+      },
+      {
+        "accuracy": 0.5345,
+        "confidence": "[0.50,0.60)",
+        "mean_confidence": 0.5488,
+        "n": 2769
+      },
+      {
+        "accuracy": 0.639,
+        "confidence": "[0.60,0.70)",
+        "mean_confidence": 0.646,
+        "n": 2000
+      },
+      {
+        "accuracy": 0.7263,
+        "confidence": "[0.70,1.00)",
+        "mean_confidence": 0.7374,
+        "n": 979
+      }
+    ]
+  },
+  "groups": {
+    "ENG1|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.4868,
+        "away_p_minus_observed_away_rate": -0.1065,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            121,
+            0,
+            23
+          ],
+          [
+            44,
+            6,
+            33
+          ],
+          [
+            91,
+            4,
+            58
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0218,
+        "favorite_bias_mean_p_minus_win_rate": 0.1094,
+        "log_loss": 1.07504
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5,
+        "away_p_minus_observed_away_rate": -0.0869,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            118,
+            0,
+            26
+          ],
+          [
+            41,
+            1,
+            41
+          ],
+          [
+            81,
+            1,
+            71
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0054,
+        "favorite_bias_mean_p_minus_win_rate": 0.0324,
+        "log_loss": 1.02974
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5053,
+        "away_p_minus_observed_away_rate": -0.1021,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            121,
+            1,
+            22
+          ],
+          [
+            50,
+            1,
+            32
+          ],
+          [
+            81,
+            2,
+            70
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0107,
+        "favorite_bias_mean_p_minus_win_rate": 0.0235,
+        "log_loss": 1.04084
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5053,
+        "away_p_minus_observed_away_rate": -0.1021,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            121,
+            1,
+            22
+          ],
+          [
+            50,
+            1,
+            32
+          ],
+          [
+            81,
+            2,
+            70
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0107,
+        "favorite_bias_mean_p_minus_win_rate": 0.0235,
+        "log_loss": 1.04084
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5026,
+        "away_p_minus_observed_away_rate": -0.0778,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            115,
+            0,
+            29
+          ],
+          [
+            44,
+            0,
+            39
+          ],
+          [
+            77,
+            0,
+            76
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0139,
+        "favorite_bias_mean_p_minus_win_rate": 0.0277,
+        "log_loss": 1.02656
+      },
+      "label_rates_home_draw_away": [
+        0.3789,
+        0.2184,
+        0.4026
+      ],
+      "n": 380
+    },
+    "ENG1|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.5395,
+        "away_p_minus_observed_away_rate": 0.027,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            117,
+            1,
+            45
+          ],
+          [
+            51,
+            4,
+            33
+          ],
+          [
+            43,
+            2,
+            84
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0178,
+        "favorite_bias_mean_p_minus_win_rate": 0.022,
+        "log_loss": 0.9872
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5263,
+        "away_p_minus_observed_away_rate": 0.0348,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            112,
+            0,
+            51
+          ],
+          [
+            48,
+            0,
+            40
+          ],
+          [
+            41,
+            0,
+            88
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0204,
+        "favorite_bias_mean_p_minus_win_rate": 0.0272,
+        "log_loss": 0.98379
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5289,
+        "away_p_minus_observed_away_rate": 0.0533,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            105,
+            0,
+            58
+          ],
+          [
+            46,
+            0,
+            42
+          ],
+          [
+            33,
+            0,
+            96
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0111,
+        "favorite_bias_mean_p_minus_win_rate": 0.0181,
+        "log_loss": 0.98916
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5289,
+        "away_p_minus_observed_away_rate": 0.0533,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            105,
+            0,
+            58
+          ],
+          [
+            46,
+            0,
+            42
+          ],
+          [
+            33,
+            0,
+            96
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0111,
+        "favorite_bias_mean_p_minus_win_rate": 0.0181,
+        "log_loss": 0.98916
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5526,
+        "away_p_minus_observed_away_rate": 0.0054,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            125,
+            0,
+            38
+          ],
+          [
+            53,
+            0,
+            35
+          ],
+          [
+            44,
+            0,
+            85
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0013,
+        "favorite_bias_mean_p_minus_win_rate": -0.0104,
+        "log_loss": 0.95897
+      },
+      "label_rates_home_draw_away": [
+        0.4289,
+        0.2316,
+        0.3395
+      ],
+      "n": 380
+    },
+    "ENG1|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.5184,
+        "away_p_minus_observed_away_rate": 0.0496,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            127,
+            7,
+            50
+          ],
+          [
+            43,
+            5,
+            39
+          ],
+          [
+            34,
+            10,
+            65
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0359,
+        "favorite_bias_mean_p_minus_win_rate": -0.0243,
+        "log_loss": 1.00748
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0448,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            135,
+            0,
+            49
+          ],
+          [
+            47,
+            0,
+            40
+          ],
+          [
+            40,
+            1,
+            68
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0206,
+        "favorite_bias_mean_p_minus_win_rate": -0.0163,
+        "log_loss": 0.98288
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0599,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            130,
+            0,
+            54
+          ],
+          [
+            45,
+            0,
+            42
+          ],
+          [
+            36,
+            0,
+            73
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0055,
+        "favorite_bias_mean_p_minus_win_rate": -0.0036,
+        "log_loss": 0.9807
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0599,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            130,
+            0,
+            54
+          ],
+          [
+            45,
+            0,
+            42
+          ],
+          [
+            36,
+            0,
+            73
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0055,
+        "favorite_bias_mean_p_minus_win_rate": -0.0036,
+        "log_loss": 0.9807
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": 0.0488,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            138,
+            0,
+            46
+          ],
+          [
+            47,
+            0,
+            40
+          ],
+          [
+            41,
+            0,
+            68
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0107,
+        "favorite_bias_mean_p_minus_win_rate": -0.0074,
+        "log_loss": 0.97971
+      },
+      "label_rates_home_draw_away": [
+        0.4842,
+        0.2289,
+        0.2868
+      ],
+      "n": 380
+    },
+    "ENG1|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.5868,
+        "away_p_minus_observed_away_rate": -0.0249,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            150,
+            1,
+            24
+          ],
+          [
+            56,
+            0,
+            26
+          ],
+          [
+            47,
+            3,
+            73
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0151,
+        "favorite_bias_mean_p_minus_win_rate": -0.0438,
+        "log_loss": 0.94417
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.6,
+        "away_p_minus_observed_away_rate": -0.0235,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            152,
+            0,
+            23
+          ],
+          [
+            52,
+            0,
+            30
+          ],
+          [
+            47,
+            0,
+            76
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0232,
+        "favorite_bias_mean_p_minus_win_rate": -0.0643,
+        "log_loss": 0.94379
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5895,
+        "away_p_minus_observed_away_rate": -0.0087,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            143,
+            0,
+            32
+          ],
+          [
+            48,
+            0,
+            34
+          ],
+          [
+            42,
+            0,
+            81
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0195,
+        "favorite_bias_mean_p_minus_win_rate": -0.0543,
+        "log_loss": 0.94481
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5895,
+        "away_p_minus_observed_away_rate": -0.0087,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            143,
+            0,
+            32
+          ],
+          [
+            48,
+            0,
+            34
+          ],
+          [
+            42,
+            0,
+            81
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0195,
+        "favorite_bias_mean_p_minus_win_rate": -0.0543,
+        "log_loss": 0.94481
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5789,
+        "away_p_minus_observed_away_rate": 0.0056,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            139,
+            0,
+            36
+          ],
+          [
+            48,
+            0,
+            34
+          ],
+          [
+            42,
+            0,
+            81
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0213,
+        "favorite_bias_mean_p_minus_win_rate": -0.0404,
+        "log_loss": 0.93736
+      },
+      "label_rates_home_draw_away": [
+        0.4605,
+        0.2158,
+        0.3237
+      ],
+      "n": 380
+    },
+    "ESP1|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.5053,
+        "away_p_minus_observed_away_rate": -0.0198,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            136,
+            7,
+            15
+          ],
+          [
+            81,
+            3,
+            25
+          ],
+          [
+            57,
+            3,
+            53
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0867,
+        "favorite_bias_mean_p_minus_win_rate": 0.0658,
+        "log_loss": 1.06725
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5158,
+        "away_p_minus_observed_away_rate": 0.011,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            133,
+            1,
+            24
+          ],
+          [
+            80,
+            0,
+            29
+          ],
+          [
+            49,
+            1,
+            63
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0572,
+        "favorite_bias_mean_p_minus_win_rate": 0.0033,
+        "log_loss": 1.02413
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5053,
+        "away_p_minus_observed_away_rate": -0.0262,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            142,
+            0,
+            16
+          ],
+          [
+            87,
+            0,
+            22
+          ],
+          [
+            63,
+            0,
+            50
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0927,
+        "favorite_bias_mean_p_minus_win_rate": 0.0614,
+        "log_loss": 1.05403
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5053,
+        "away_p_minus_observed_away_rate": -0.0262,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            142,
+            0,
+            16
+          ],
+          [
+            87,
+            0,
+            22
+          ],
+          [
+            63,
+            0,
+            50
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0927,
+        "favorite_bias_mean_p_minus_win_rate": 0.0614,
+        "log_loss": 1.05403
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5105,
+        "away_p_minus_observed_away_rate": 0.0317,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            129,
+            0,
+            29
+          ],
+          [
+            76,
+            0,
+            33
+          ],
+          [
+            48,
+            0,
+            65
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0556,
+        "favorite_bias_mean_p_minus_win_rate": 0.0218,
+        "log_loss": 1.00825
+      },
+      "label_rates_home_draw_away": [
+        0.4158,
+        0.2868,
+        0.2974
+      ],
+      "n": 380
+    },
+    "ESP1|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.5132,
+        "away_p_minus_observed_away_rate": 0.0657,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            128,
+            4,
+            33
+          ],
+          [
+            62,
+            5,
+            44
+          ],
+          [
+            39,
+            3,
+            62
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0636,
+        "favorite_bias_mean_p_minus_win_rate": 0.0314,
+        "log_loss": 1.02245
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4974,
+        "away_p_minus_observed_away_rate": 0.078,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            123,
+            0,
+            42
+          ],
+          [
+            57,
+            0,
+            54
+          ],
+          [
+            38,
+            0,
+            66
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0669,
+        "favorite_bias_mean_p_minus_win_rate": 0.0345,
+        "log_loss": 1.02329
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5132,
+        "away_p_minus_observed_away_rate": 0.0475,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            134,
+            1,
+            30
+          ],
+          [
+            63,
+            1,
+            47
+          ],
+          [
+            44,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0539,
+        "favorite_bias_mean_p_minus_win_rate": 0.0156,
+        "log_loss": 1.00888
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5132,
+        "away_p_minus_observed_away_rate": 0.0475,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            134,
+            1,
+            30
+          ],
+          [
+            63,
+            1,
+            47
+          ],
+          [
+            44,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0539,
+        "favorite_bias_mean_p_minus_win_rate": 0.0156,
+        "log_loss": 1.00888
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4947,
+        "away_p_minus_observed_away_rate": 0.0675,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            126,
+            0,
+            39
+          ],
+          [
+            58,
+            0,
+            53
+          ],
+          [
+            42,
+            0,
+            62
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0556,
+        "favorite_bias_mean_p_minus_win_rate": 0.0403,
+        "log_loss": 1.02487
+      },
+      "label_rates_home_draw_away": [
+        0.4342,
+        0.2921,
+        0.2737
+      ],
+      "n": 380
+    },
+    "ESP1|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.5184,
+        "away_p_minus_observed_away_rate": 0.0296,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            128,
+            12,
+            42
+          ],
+          [
+            58,
+            7,
+            24
+          ],
+          [
+            37,
+            10,
+            62
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0417,
+        "favorite_bias_mean_p_minus_win_rate": -0.0477,
+        "log_loss": 1.0053
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": 0.0315,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            136,
+            1,
+            45
+          ],
+          [
+            57,
+            1,
+            31
+          ],
+          [
+            40,
+            0,
+            69
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0257,
+        "favorite_bias_mean_p_minus_win_rate": -0.0399,
+        "log_loss": 1.0019
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5368,
+        "away_p_minus_observed_away_rate": 0.0192,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            134,
+            5,
+            43
+          ],
+          [
+            57,
+            3,
+            29
+          ],
+          [
+            39,
+            3,
+            67
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0457,
+        "favorite_bias_mean_p_minus_win_rate": -0.0558,
+        "log_loss": 1.00681
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5237,
+        "away_p_minus_observed_away_rate": 0.0199,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            125,
+            13,
+            44
+          ],
+          [
+            51,
+            14,
+            24
+          ],
+          [
+            37,
+            12,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0599,
+        "favorite_bias_mean_p_minus_win_rate": -0.053,
+        "log_loss": 1.01374
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5368,
+        "away_p_minus_observed_away_rate": 0.0457,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            133,
+            0,
+            49
+          ],
+          [
+            57,
+            0,
+            32
+          ],
+          [
+            38,
+            0,
+            71
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0103,
+        "favorite_bias_mean_p_minus_win_rate": -0.0179,
+        "log_loss": 1.01016
+      },
+      "label_rates_home_draw_away": [
+        0.4789,
+        0.2342,
+        0.2868
+      ],
+      "n": 380
+    },
+    "ESP1|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.5368,
+        "away_p_minus_observed_away_rate": 0.0084,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            149,
+            2,
+            16
+          ],
+          [
+            70,
+            2,
+            35
+          ],
+          [
+            53,
+            0,
+            53
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0417,
+        "favorite_bias_mean_p_minus_win_rate": -0.0025,
+        "log_loss": 0.9649
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5474,
+        "away_p_minus_observed_away_rate": 0.0078,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            151,
+            0,
+            16
+          ],
+          [
+            69,
+            0,
+            38
+          ],
+          [
+            49,
+            0,
+            57
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0328,
+        "favorite_bias_mean_p_minus_win_rate": -0.0259,
+        "log_loss": 0.96708
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": 0.0066,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            148,
+            0,
+            19
+          ],
+          [
+            67,
+            0,
+            40
+          ],
+          [
+            48,
+            0,
+            58
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0309,
+        "favorite_bias_mean_p_minus_win_rate": -0.0211,
+        "log_loss": 0.96319
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": 0.0066,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            148,
+            0,
+            19
+          ],
+          [
+            67,
+            0,
+            40
+          ],
+          [
+            48,
+            0,
+            58
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0309,
+        "favorite_bias_mean_p_minus_win_rate": -0.0211,
+        "log_loss": 0.96319
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5316,
+        "away_p_minus_observed_away_rate": 0.0469,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            139,
+            0,
+            28
+          ],
+          [
+            61,
+            0,
+            46
+          ],
+          [
+            43,
+            0,
+            63
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0416,
+        "favorite_bias_mean_p_minus_win_rate": -0.0002,
+        "log_loss": 0.96888
+      },
+      "label_rates_home_draw_away": [
+        0.4395,
+        0.2816,
+        0.2789
+      ],
+      "n": 380
+    },
+    "FRA1|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.4526,
+        "away_p_minus_observed_away_rate": -0.0731,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            108,
+            7,
+            27
+          ],
+          [
+            53,
+            15,
+            27
+          ],
+          [
+            78,
+            16,
+            49
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0108,
+        "favorite_bias_mean_p_minus_win_rate": 0.0829,
+        "log_loss": 1.08207
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4605,
+        "away_p_minus_observed_away_rate": -0.0622,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            116,
+            1,
+            25
+          ],
+          [
+            65,
+            3,
+            27
+          ],
+          [
+            79,
+            8,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0066,
+        "favorite_bias_mean_p_minus_win_rate": 0.0295,
+        "log_loss": 1.05203
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4658,
+        "away_p_minus_observed_away_rate": -0.0769,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            118,
+            2,
+            22
+          ],
+          [
+            67,
+            4,
+            24
+          ],
+          [
+            83,
+            5,
+            55
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0059,
+        "favorite_bias_mean_p_minus_win_rate": 0.0252,
+        "log_loss": 1.05723
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4658,
+        "away_p_minus_observed_away_rate": -0.0769,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            118,
+            2,
+            22
+          ],
+          [
+            67,
+            4,
+            24
+          ],
+          [
+            83,
+            5,
+            55
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0059,
+        "favorite_bias_mean_p_minus_win_rate": 0.0252,
+        "log_loss": 1.05723
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4553,
+        "away_p_minus_observed_away_rate": -0.0558,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            113,
+            0,
+            29
+          ],
+          [
+            70,
+            0,
+            25
+          ],
+          [
+            83,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0115,
+        "favorite_bias_mean_p_minus_win_rate": 0.0569,
+        "log_loss": 1.03939
+      },
+      "label_rates_home_draw_away": [
+        0.3737,
+        0.25,
+        0.3763
+      ],
+      "n": 380
+    },
+    "FRA1|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.4579,
+        "away_p_minus_observed_away_rate": 0.0282,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            106,
+            12,
+            44
+          ],
+          [
+            44,
+            11,
+            47
+          ],
+          [
+            41,
+            18,
+            57
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.004,
+        "favorite_bias_mean_p_minus_win_rate": 0.0278,
+        "log_loss": 1.04599
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4921,
+        "away_p_minus_observed_away_rate": 0.03,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            116,
+            2,
+            44
+          ],
+          [
+            49,
+            3,
+            50
+          ],
+          [
+            48,
+            0,
+            68
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0106,
+        "favorite_bias_mean_p_minus_win_rate": 0.0207,
+        "log_loss": 1.03791
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4947,
+        "away_p_minus_observed_away_rate": 0.0365,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            120,
+            0,
+            42
+          ],
+          [
+            50,
+            0,
+            52
+          ],
+          [
+            48,
+            0,
+            68
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0313,
+        "favorite_bias_mean_p_minus_win_rate": 0.0255,
+        "log_loss": 1.03751
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4947,
+        "away_p_minus_observed_away_rate": 0.0365,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            120,
+            0,
+            42
+          ],
+          [
+            50,
+            0,
+            52
+          ],
+          [
+            48,
+            0,
+            68
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0313,
+        "favorite_bias_mean_p_minus_win_rate": 0.0255,
+        "log_loss": 1.03751
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4947,
+        "away_p_minus_observed_away_rate": 0.0329,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            0,
+            40
+          ],
+          [
+            55,
+            0,
+            47
+          ],
+          [
+            50,
+            0,
+            66
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0246,
+        "favorite_bias_mean_p_minus_win_rate": 0.0215,
+        "log_loss": 1.02635
+      },
+      "label_rates_home_draw_away": [
+        0.4263,
+        0.2684,
+        0.3053
+      ],
+      "n": 380
+    },
+    "FRA1|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.5263,
+        "away_p_minus_observed_away_rate": -0.0036,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            125,
+            5,
+            33
+          ],
+          [
+            49,
+            2,
+            41
+          ],
+          [
+            45,
+            7,
+            73
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0079,
+        "favorite_bias_mean_p_minus_win_rate": -0.0099,
+        "log_loss": 0.97962
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5263,
+        "away_p_minus_observed_away_rate": -0.0016,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            124,
+            1,
+            38
+          ],
+          [
+            48,
+            0,
+            44
+          ],
+          [
+            48,
+            1,
+            76
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0051,
+        "favorite_bias_mean_p_minus_win_rate": -0.0072,
+        "log_loss": 0.9784
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": 0.0046,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            0,
+            41
+          ],
+          [
+            46,
+            1,
+            45
+          ],
+          [
+            42,
+            0,
+            83
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0097,
+        "favorite_bias_mean_p_minus_win_rate": -0.0186,
+        "log_loss": 0.98103
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": 0.0046,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            0,
+            41
+          ],
+          [
+            46,
+            1,
+            45
+          ],
+          [
+            42,
+            0,
+            83
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0097,
+        "favorite_bias_mean_p_minus_win_rate": -0.0186,
+        "log_loss": 0.98103
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5447,
+        "away_p_minus_observed_away_rate": 0.0031,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            128,
+            0,
+            35
+          ],
+          [
+            50,
+            0,
+            42
+          ],
+          [
+            46,
+            0,
+            79
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0024,
+        "favorite_bias_mean_p_minus_win_rate": -0.0108,
+        "log_loss": 0.97983
+      },
+      "label_rates_home_draw_away": [
+        0.4289,
+        0.2421,
+        0.3289
+      ],
+      "n": 380
+    },
+    "FRA1|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.4673,
+        "away_p_minus_observed_away_rate": -0.0438,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            97,
+            2,
+            21
+          ],
+          [
+            55,
+            1,
+            25
+          ],
+          [
+            60,
+            0,
+            45
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0134,
+        "favorite_bias_mean_p_minus_win_rate": 0.0393,
+        "log_loss": 1.05703
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4477,
+        "away_p_minus_observed_away_rate": -0.0454,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            93,
+            0,
+            27
+          ],
+          [
+            53,
+            0,
+            28
+          ],
+          [
+            61,
+            0,
+            44
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0083,
+        "favorite_bias_mean_p_minus_win_rate": 0.0523,
+        "log_loss": 1.05316
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4706,
+        "away_p_minus_observed_away_rate": -0.033,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            91,
+            0,
+            29
+          ],
+          [
+            53,
+            0,
+            28
+          ],
+          [
+            52,
+            0,
+            53
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.012,
+        "favorite_bias_mean_p_minus_win_rate": 0.0308,
+        "log_loss": 1.04278
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4706,
+        "away_p_minus_observed_away_rate": -0.033,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            91,
+            0,
+            29
+          ],
+          [
+            53,
+            0,
+            28
+          ],
+          [
+            52,
+            0,
+            53
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.012,
+        "favorite_bias_mean_p_minus_win_rate": 0.0308,
+        "log_loss": 1.04278
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4837,
+        "away_p_minus_observed_away_rate": -0.0251,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            92,
+            0,
+            28
+          ],
+          [
+            54,
+            0,
+            27
+          ],
+          [
+            49,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.015,
+        "favorite_bias_mean_p_minus_win_rate": 0.0213,
+        "log_loss": 1.03666
+      },
+      "label_rates_home_draw_away": [
+        0.3922,
+        0.2647,
+        0.3431
+      ],
+      "n": 306
+    },
+    "FRA1|2024-25": {
+      "A_gbm": {
+        "accuracy": 0.5327,
+        "away_p_minus_observed_away_rate": -0.0282,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            109,
+            2,
+            32
+          ],
+          [
+            42,
+            0,
+            20
+          ],
+          [
+            43,
+            4,
+            54
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0505,
+        "favorite_bias_mean_p_minus_win_rate": -0.0139,
+        "log_loss": 0.96866
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5556,
+        "away_p_minus_observed_away_rate": -0.0248,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            109,
+            0,
+            34
+          ],
+          [
+            41,
+            0,
+            21
+          ],
+          [
+            40,
+            0,
+            61
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0489,
+        "favorite_bias_mean_p_minus_win_rate": -0.0256,
+        "log_loss": 0.96866
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5523,
+        "away_p_minus_observed_away_rate": -0.0058,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            108,
+            1,
+            34
+          ],
+          [
+            39,
+            0,
+            23
+          ],
+          [
+            39,
+            1,
+            61
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0518,
+        "favorite_bias_mean_p_minus_win_rate": -0.0377,
+        "log_loss": 0.97412
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5588,
+        "away_p_minus_observed_away_rate": -0.004,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            110,
+            0,
+            33
+          ],
+          [
+            40,
+            0,
+            22
+          ],
+          [
+            38,
+            2,
+            61
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0509,
+        "favorite_bias_mean_p_minus_win_rate": -0.0432,
+        "log_loss": 0.97827
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.549,
+        "away_p_minus_observed_away_rate": -0.0087,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            108,
+            0,
+            35
+          ],
+          [
+            39,
+            0,
+            23
+          ],
+          [
+            41,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0384,
+        "favorite_bias_mean_p_minus_win_rate": -0.0116,
+        "log_loss": 0.97656
+      },
+      "label_rates_home_draw_away": [
+        0.4673,
+        0.2026,
+        0.3301
+      ],
+      "n": 306
+    },
+    "GER1|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.4739,
+        "away_p_minus_observed_away_rate": -0.0121,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            96,
+            2,
+            31
+          ],
+          [
+            57,
+            5,
+            19
+          ],
+          [
+            49,
+            3,
+            44
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0795,
+        "favorite_bias_mean_p_minus_win_rate": 0.1244,
+        "log_loss": 1.08615
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5,
+        "away_p_minus_observed_away_rate": 0.0176,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            98,
+            0,
+            31
+          ],
+          [
+            54,
+            0,
+            27
+          ],
+          [
+            38,
+            3,
+            55
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0489,
+        "favorite_bias_mean_p_minus_win_rate": 0.0368,
+        "log_loss": 1.01975
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4967,
+        "away_p_minus_observed_away_rate": 0.0396,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            92,
+            0,
+            37
+          ],
+          [
+            51,
+            0,
+            30
+          ],
+          [
+            36,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0652,
+        "favorite_bias_mean_p_minus_win_rate": 0.0503,
+        "log_loss": 1.02817
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4967,
+        "away_p_minus_observed_away_rate": 0.0396,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            92,
+            0,
+            37
+          ],
+          [
+            51,
+            0,
+            30
+          ],
+          [
+            36,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0652,
+        "favorite_bias_mean_p_minus_win_rate": 0.0503,
+        "log_loss": 1.02817
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4967,
+        "away_p_minus_observed_away_rate": 0.0175,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            96,
+            0,
+            33
+          ],
+          [
+            53,
+            0,
+            28
+          ],
+          [
+            40,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0368,
+        "favorite_bias_mean_p_minus_win_rate": 0.0452,
+        "log_loss": 1.00967
+      },
+      "label_rates_home_draw_away": [
+        0.4216,
+        0.2647,
+        0.3137
+      ],
+      "n": 306
+    },
+    "GER1|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.5065,
+        "away_p_minus_observed_away_rate": 0.0637,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            97,
+            3,
+            43
+          ],
+          [
+            38,
+            2,
+            33
+          ],
+          [
+            32,
+            2,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0147,
+        "favorite_bias_mean_p_minus_win_rate": 0.0371,
+        "log_loss": 1.01026
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4902,
+        "away_p_minus_observed_away_rate": 0.0724,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            93,
+            1,
+            49
+          ],
+          [
+            38,
+            0,
+            35
+          ],
+          [
+            32,
+            1,
+            57
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.02,
+        "favorite_bias_mean_p_minus_win_rate": 0.055,
+        "log_loss": 1.00801
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4902,
+        "away_p_minus_observed_away_rate": 0.0641,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            92,
+            0,
+            51
+          ],
+          [
+            35,
+            0,
+            38
+          ],
+          [
+            32,
+            0,
+            58
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0029,
+        "favorite_bias_mean_p_minus_win_rate": 0.0419,
+        "log_loss": 1.00606
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4902,
+        "away_p_minus_observed_away_rate": 0.0641,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            92,
+            0,
+            51
+          ],
+          [
+            35,
+            0,
+            38
+          ],
+          [
+            32,
+            0,
+            58
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0029,
+        "favorite_bias_mean_p_minus_win_rate": 0.0419,
+        "log_loss": 1.00606
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5131,
+        "away_p_minus_observed_away_rate": 0.0451,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            105,
+            0,
+            38
+          ],
+          [
+            44,
+            0,
+            29
+          ],
+          [
+            38,
+            0,
+            52
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0034,
+        "favorite_bias_mean_p_minus_win_rate": 0.0046,
+        "log_loss": 1.00833
+      },
+      "label_rates_home_draw_away": [
+        0.4673,
+        0.2386,
+        0.2941
+      ],
+      "n": 306
+    },
+    "GER1|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.5261,
+        "away_p_minus_observed_away_rate": 0.0487,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            104,
+            2,
+            39
+          ],
+          [
+            37,
+            5,
+            33
+          ],
+          [
+            28,
+            6,
+            52
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.018,
+        "favorite_bias_mean_p_minus_win_rate": -0.0146,
+        "log_loss": 1.02581
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5131,
+        "away_p_minus_observed_away_rate": 0.0519,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            101,
+            1,
+            43
+          ],
+          [
+            40,
+            0,
+            35
+          ],
+          [
+            30,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0067,
+        "favorite_bias_mean_p_minus_win_rate": -0.0016,
+        "log_loss": 1.01251
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5033,
+        "away_p_minus_observed_away_rate": 0.0549,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            102,
+            0,
+            43
+          ],
+          [
+            39,
+            0,
+            36
+          ],
+          [
+            34,
+            0,
+            52
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0048,
+        "favorite_bias_mean_p_minus_win_rate": 0.0215,
+        "log_loss": 1.01213
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5033,
+        "away_p_minus_observed_away_rate": 0.0549,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            102,
+            0,
+            43
+          ],
+          [
+            39,
+            0,
+            36
+          ],
+          [
+            34,
+            0,
+            52
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0048,
+        "favorite_bias_mean_p_minus_win_rate": 0.0215,
+        "log_loss": 1.01213
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5033,
+        "away_p_minus_observed_away_rate": 0.0519,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            105,
+            0,
+            40
+          ],
+          [
+            41,
+            0,
+            34
+          ],
+          [
+            37,
+            0,
+            49
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0023,
+        "favorite_bias_mean_p_minus_win_rate": 0.0223,
+        "log_loss": 1.01231
+      },
+      "label_rates_home_draw_away": [
+        0.4739,
+        0.2451,
+        0.281
+      ],
+      "n": 306
+    },
+    "GER1|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.5261,
+        "away_p_minus_observed_away_rate": 0.0034,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            106,
+            0,
+            28
+          ],
+          [
+            58,
+            1,
+            22
+          ],
+          [
+            37,
+            0,
+            54
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0304,
+        "favorite_bias_mean_p_minus_win_rate": 0.021,
+        "log_loss": 0.97038
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5196,
+        "away_p_minus_observed_away_rate": 0.0025,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            105,
+            0,
+            29
+          ],
+          [
+            61,
+            0,
+            20
+          ],
+          [
+            37,
+            0,
+            54
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0212,
+        "favorite_bias_mean_p_minus_win_rate": 0.0098,
+        "log_loss": 0.97108
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5098,
+        "away_p_minus_observed_away_rate": 0.0124,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            100,
+            0,
+            34
+          ],
+          [
+            60,
+            0,
+            21
+          ],
+          [
+            35,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0233,
+        "favorite_bias_mean_p_minus_win_rate": 0.0166,
+        "log_loss": 0.97559
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5098,
+        "away_p_minus_observed_away_rate": 0.0124,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            100,
+            0,
+            34
+          ],
+          [
+            60,
+            0,
+            21
+          ],
+          [
+            35,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0233,
+        "favorite_bias_mean_p_minus_win_rate": 0.0166,
+        "log_loss": 0.97559
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5131,
+        "away_p_minus_observed_away_rate": 0.0312,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            101,
+            0,
+            33
+          ],
+          [
+            56,
+            0,
+            25
+          ],
+          [
+            35,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0242,
+        "favorite_bias_mean_p_minus_win_rate": 0.0135,
+        "log_loss": 0.97001
+      },
+      "label_rates_home_draw_away": [
+        0.4379,
+        0.2647,
+        0.2974
+      ],
+      "n": 306
+    },
+    "GER1|2024-25": {
+      "A_gbm": {
+        "accuracy": 0.5163,
+        "away_p_minus_observed_away_rate": -0.0628,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            96,
+            4,
+            18
+          ],
+          [
+            44,
+            7,
+            26
+          ],
+          [
+            55,
+            1,
+            55
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0009,
+        "favorite_bias_mean_p_minus_win_rate": 0.034,
+        "log_loss": 1.01361
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5098,
+        "away_p_minus_observed_away_rate": -0.0597,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            95,
+            2,
+            21
+          ],
+          [
+            44,
+            2,
+            31
+          ],
+          [
+            52,
+            0,
+            59
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0,
+        "favorite_bias_mean_p_minus_win_rate": 0.0241,
+        "log_loss": 1.01486
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5033,
+        "away_p_minus_observed_away_rate": -0.056,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            97,
+            0,
+            21
+          ],
+          [
+            48,
+            1,
+            28
+          ],
+          [
+            55,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0098,
+        "favorite_bias_mean_p_minus_win_rate": 0.0353,
+        "log_loss": 1.0174
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5033,
+        "away_p_minus_observed_away_rate": -0.056,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            97,
+            0,
+            21
+          ],
+          [
+            48,
+            1,
+            28
+          ],
+          [
+            55,
+            0,
+            56
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0098,
+        "favorite_bias_mean_p_minus_win_rate": 0.0353,
+        "log_loss": 1.0174
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5065,
+        "away_p_minus_observed_away_rate": -0.0428,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            95,
+            0,
+            23
+          ],
+          [
+            45,
+            0,
+            32
+          ],
+          [
+            51,
+            0,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0082,
+        "favorite_bias_mean_p_minus_win_rate": 0.0225,
+        "log_loss": 1.02258
+      },
+      "label_rates_home_draw_away": [
+        0.3856,
+        0.2516,
+        0.3627
+      ],
+      "n": 306
+    },
+    "ITA1|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.5026,
+        "away_p_minus_observed_away_rate": -0.0298,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            123,
+            2,
+            31
+          ],
+          [
+            60,
+            3,
+            33
+          ],
+          [
+            58,
+            5,
+            65
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.07,
+        "favorite_bias_mean_p_minus_win_rate": 0.0965,
+        "log_loss": 1.02942
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5316,
+        "away_p_minus_observed_away_rate": -0.0059,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            124,
+            0,
+            32
+          ],
+          [
+            62,
+            0,
+            34
+          ],
+          [
+            50,
+            0,
+            78
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0415,
+        "favorite_bias_mean_p_minus_win_rate": 0.0171,
+        "log_loss": 0.98949
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0158,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            116,
+            0,
+            40
+          ],
+          [
+            59,
+            0,
+            37
+          ],
+          [
+            41,
+            0,
+            87
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0627,
+        "favorite_bias_mean_p_minus_win_rate": 0.0194,
+        "log_loss": 0.9963
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0158,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            116,
+            0,
+            40
+          ],
+          [
+            59,
+            0,
+            37
+          ],
+          [
+            41,
+            0,
+            87
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0627,
+        "favorite_bias_mean_p_minus_win_rate": 0.0194,
+        "log_loss": 0.9963
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5421,
+        "away_p_minus_observed_away_rate": -0.0039,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            125,
+            0,
+            31
+          ],
+          [
+            60,
+            0,
+            36
+          ],
+          [
+            47,
+            0,
+            81
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0276,
+        "favorite_bias_mean_p_minus_win_rate": 0.0077,
+        "log_loss": 0.9592
+      },
+      "label_rates_home_draw_away": [
+        0.4105,
+        0.2526,
+        0.3368
+      ],
+      "n": 380
+    },
+    "ITA1|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.5184,
+        "away_p_minus_observed_away_rate": 0.0193,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            106,
+            2,
+            40
+          ],
+          [
+            54,
+            1,
+            43
+          ],
+          [
+            42,
+            2,
+            90
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0501,
+        "favorite_bias_mean_p_minus_win_rate": 0.0401,
+        "log_loss": 1.01181
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5368,
+        "away_p_minus_observed_away_rate": 0.0265,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            107,
+            0,
+            41
+          ],
+          [
+            51,
+            0,
+            47
+          ],
+          [
+            37,
+            0,
+            97
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0524,
+        "favorite_bias_mean_p_minus_win_rate": 0.023,
+        "log_loss": 1.00929
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5316,
+        "away_p_minus_observed_away_rate": 0.014,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            108,
+            0,
+            40
+          ],
+          [
+            54,
+            0,
+            44
+          ],
+          [
+            40,
+            0,
+            94
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0402,
+        "favorite_bias_mean_p_minus_win_rate": 0.0226,
+        "log_loss": 1.00182
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5316,
+        "away_p_minus_observed_away_rate": 0.014,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            108,
+            0,
+            40
+          ],
+          [
+            54,
+            0,
+            44
+          ],
+          [
+            40,
+            0,
+            94
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0402,
+        "favorite_bias_mean_p_minus_win_rate": 0.0226,
+        "log_loss": 1.00182
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": -0.0079,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            115,
+            0,
+            33
+          ],
+          [
+            59,
+            0,
+            39
+          ],
+          [
+            46,
+            0,
+            88
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0259,
+        "favorite_bias_mean_p_minus_win_rate": 0.0121,
+        "log_loss": 0.99473
+      },
+      "label_rates_home_draw_away": [
+        0.3895,
+        0.2579,
+        0.3526
+      ],
+      "n": 380
+    },
+    "ITA1|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.4974,
+        "away_p_minus_observed_away_rate": 0.0218,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            109,
+            10,
+            42
+          ],
+          [
+            56,
+            3,
+            41
+          ],
+          [
+            41,
+            1,
+            77
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0031,
+        "favorite_bias_mean_p_minus_win_rate": 0.0093,
+        "log_loss": 1.00418
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5237,
+        "away_p_minus_observed_away_rate": 0.0179,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            121,
+            2,
+            38
+          ],
+          [
+            59,
+            0,
+            41
+          ],
+          [
+            41,
+            0,
+            78
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0147,
+        "favorite_bias_mean_p_minus_win_rate": -0.0026,
+        "log_loss": 0.99033
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5237,
+        "away_p_minus_observed_away_rate": 0.0216,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            119,
+            1,
+            41
+          ],
+          [
+            57,
+            0,
+            43
+          ],
+          [
+            38,
+            1,
+            80
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0174,
+        "favorite_bias_mean_p_minus_win_rate": -0.001,
+        "log_loss": 0.98801
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5237,
+        "away_p_minus_observed_away_rate": 0.0216,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            119,
+            1,
+            41
+          ],
+          [
+            57,
+            0,
+            43
+          ],
+          [
+            38,
+            1,
+            80
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0174,
+        "favorite_bias_mean_p_minus_win_rate": -0.001,
+        "log_loss": 0.98801
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5263,
+        "away_p_minus_observed_away_rate": 0.0237,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            0,
+            39
+          ],
+          [
+            56,
+            0,
+            44
+          ],
+          [
+            41,
+            0,
+            78
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0254,
+        "favorite_bias_mean_p_minus_win_rate": 0.0136,
+        "log_loss": 0.99284
+      },
+      "label_rates_home_draw_away": [
+        0.4237,
+        0.2632,
+        0.3132
+      ],
+      "n": 380
+    },
+    "ITA1|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.5316,
+        "away_p_minus_observed_away_rate": 0.0029,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            138,
+            1,
+            20
+          ],
+          [
+            82,
+            2,
+            28
+          ],
+          [
+            46,
+            1,
+            62
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0523,
+        "favorite_bias_mean_p_minus_win_rate": 0.0011,
+        "log_loss": 0.99558
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5211,
+        "away_p_minus_observed_away_rate": 0.0022,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            138,
+            1,
+            20
+          ],
+          [
+            84,
+            0,
+            28
+          ],
+          [
+            48,
+            1,
+            60
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0476,
+        "favorite_bias_mean_p_minus_win_rate": -0.0017,
+        "log_loss": 0.98864
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0132,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            134,
+            1,
+            24
+          ],
+          [
+            77,
+            0,
+            35
+          ],
+          [
+            40,
+            0,
+            69
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0465,
+        "favorite_bias_mean_p_minus_win_rate": -0.0169,
+        "log_loss": 0.98591
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5342,
+        "away_p_minus_observed_away_rate": 0.0132,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            134,
+            1,
+            24
+          ],
+          [
+            77,
+            0,
+            35
+          ],
+          [
+            40,
+            0,
+            69
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0465,
+        "favorite_bias_mean_p_minus_win_rate": -0.0169,
+        "log_loss": 0.98591
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5368,
+        "away_p_minus_observed_away_rate": 0.041,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            127,
+            0,
+            32
+          ],
+          [
+            75,
+            0,
+            37
+          ],
+          [
+            32,
+            0,
+            77
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0557,
+        "favorite_bias_mean_p_minus_win_rate": -0.0036,
+        "log_loss": 0.99327
+      },
+      "label_rates_home_draw_away": [
+        0.4184,
+        0.2947,
+        0.2868
+      ],
+      "n": 380
+    },
+    "ITA1|2024-25": {
+      "A_gbm": {
+        "accuracy": 0.5189,
+        "away_p_minus_observed_away_rate": -0.0051,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            3,
+            24
+          ],
+          [
+            76,
+            2,
+            30
+          ],
+          [
+            41,
+            4,
+            68
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0289,
+        "favorite_bias_mean_p_minus_win_rate": -0.0021,
+        "log_loss": 0.98895
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5216,
+        "away_p_minus_observed_away_rate": -0.0059,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            0,
+            27
+          ],
+          [
+            72,
+            0,
+            36
+          ],
+          [
+            40,
+            2,
+            71
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0316,
+        "favorite_bias_mean_p_minus_win_rate": -0.0006,
+        "log_loss": 0.98137
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5297,
+        "away_p_minus_observed_away_rate": 0.0129,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            122,
+            0,
+            27
+          ],
+          [
+            71,
+            0,
+            37
+          ],
+          [
+            38,
+            1,
+            74
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0494,
+        "favorite_bias_mean_p_minus_win_rate": 0.0083,
+        "log_loss": 0.98036
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5135,
+        "away_p_minus_observed_away_rate": 0.0086,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            113,
+            5,
+            31
+          ],
+          [
+            64,
+            3,
+            41
+          ],
+          [
+            33,
+            6,
+            74
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0422,
+        "favorite_bias_mean_p_minus_win_rate": 0.0236,
+        "log_loss": 0.98421
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5324,
+        "away_p_minus_observed_away_rate": 0.022,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            120,
+            0,
+            29
+          ],
+          [
+            71,
+            0,
+            37
+          ],
+          [
+            36,
+            0,
+            77
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0536,
+        "favorite_bias_mean_p_minus_win_rate": 0.0121,
+        "log_loss": 0.98202
+      },
+      "label_rates_home_draw_away": [
+        0.4027,
+        0.2919,
+        0.3054
+      ],
+      "n": 370
+    },
+    "TUR1|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.4619,
+        "away_p_minus_observed_away_rate": -0.0166,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            139,
+            3,
+            31
+          ],
+          [
+            89,
+            8,
+            21
+          ],
+          [
+            76,
+            6,
+            47
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0809,
+        "favorite_bias_mean_p_minus_win_rate": 0.1161,
+        "log_loss": 1.0728
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.45,
+        "away_p_minus_observed_away_rate": 0.0098,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            128,
+            0,
+            45
+          ],
+          [
+            78,
+            2,
+            38
+          ],
+          [
+            68,
+            2,
+            59
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0523,
+        "favorite_bias_mean_p_minus_win_rate": 0.0674,
+        "log_loss": 1.04246
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4571,
+        "away_p_minus_observed_away_rate": 0.0037,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            130,
+            1,
+            42
+          ],
+          [
+            80,
+            1,
+            37
+          ],
+          [
+            66,
+            2,
+            61
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0484,
+        "favorite_bias_mean_p_minus_win_rate": 0.0511,
+        "log_loss": 1.04149
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4571,
+        "away_p_minus_observed_away_rate": 0.0037,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            130,
+            1,
+            42
+          ],
+          [
+            80,
+            1,
+            37
+          ],
+          [
+            66,
+            2,
+            61
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0484,
+        "favorite_bias_mean_p_minus_win_rate": 0.0511,
+        "log_loss": 1.04149
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4476,
+        "away_p_minus_observed_away_rate": 0.0146,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            127,
+            0,
+            46
+          ],
+          [
+            76,
+            0,
+            42
+          ],
+          [
+            68,
+            0,
+            61
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0402,
+        "favorite_bias_mean_p_minus_win_rate": 0.0578,
+        "log_loss": 1.04195
+      },
+      "label_rates_home_draw_away": [
+        0.4119,
+        0.281,
+        0.3071
+      ],
+      "n": 420
+    },
+    "UEFA_UCL|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.568,
+        "away_p_minus_observed_away_rate": -0.0753,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            41,
+            2,
+            8
+          ],
+          [
+            14,
+            0,
+            10
+          ],
+          [
+            18,
+            2,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0004,
+        "favorite_bias_mean_p_minus_win_rate": 0.0358,
+        "log_loss": 0.99945
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.616,
+        "away_p_minus_observed_away_rate": -0.0681,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            44,
+            0,
+            7
+          ],
+          [
+            15,
+            0,
+            9
+          ],
+          [
+            17,
+            0,
+            33
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0139,
+        "favorite_bias_mean_p_minus_win_rate": -0.0444,
+        "log_loss": 0.96405
+      },
+      "B_gbm_league": {
+        "accuracy": 0.6,
+        "away_p_minus_observed_away_rate": -0.0678,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            42,
+            0,
+            9
+          ],
+          [
+            15,
+            0,
+            9
+          ],
+          [
+            17,
+            0,
+            33
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0156,
+        "favorite_bias_mean_p_minus_win_rate": -0.0354,
+        "log_loss": 0.9739
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.6,
+        "away_p_minus_observed_away_rate": -0.0678,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            42,
+            0,
+            9
+          ],
+          [
+            15,
+            0,
+            9
+          ],
+          [
+            17,
+            0,
+            33
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0156,
+        "favorite_bias_mean_p_minus_win_rate": -0.0354,
+        "log_loss": 0.9739
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.608,
+        "away_p_minus_observed_away_rate": -0.0762,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            45,
+            0,
+            6
+          ],
+          [
+            14,
+            0,
+            10
+          ],
+          [
+            19,
+            0,
+            31
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0394,
+        "favorite_bias_mean_p_minus_win_rate": -0.0736,
+        "log_loss": 0.92198
+      },
+      "label_rates_home_draw_away": [
+        0.408,
+        0.192,
+        0.4
+      ],
+      "n": 125
+    },
+    "UEFA_UCL|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.552,
+        "away_p_minus_observed_away_rate": 0.0691,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            39,
+            0,
+            17
+          ],
+          [
+            9,
+            0,
+            17
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0271,
+        "favorite_bias_mean_p_minus_win_rate": 0.0669,
+        "log_loss": 0.98113
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.56,
+        "away_p_minus_observed_away_rate": 0.0591,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            40,
+            0,
+            16
+          ],
+          [
+            10,
+            0,
+            16
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0243,
+        "favorite_bias_mean_p_minus_win_rate": 0.0475,
+        "log_loss": 0.96323
+      },
+      "B_gbm_league": {
+        "accuracy": 0.56,
+        "away_p_minus_observed_away_rate": 0.0619,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            40,
+            0,
+            16
+          ],
+          [
+            9,
+            0,
+            17
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0179,
+        "favorite_bias_mean_p_minus_win_rate": 0.0424,
+        "log_loss": 0.96465
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.56,
+        "away_p_minus_observed_away_rate": 0.0619,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            40,
+            0,
+            16
+          ],
+          [
+            9,
+            0,
+            17
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0179,
+        "favorite_bias_mean_p_minus_win_rate": 0.0424,
+        "log_loss": 0.96465
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.544,
+        "away_p_minus_observed_away_rate": 0.0008,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            42,
+            0,
+            14
+          ],
+          [
+            9,
+            0,
+            17
+          ],
+          [
+            17,
+            0,
+            26
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0215,
+        "favorite_bias_mean_p_minus_win_rate": 0.0133,
+        "log_loss": 0.95826
+      },
+      "label_rates_home_draw_away": [
+        0.448,
+        0.208,
+        0.344
+      ],
+      "n": 125
+    },
+    "UEFA_UCL|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.568,
+        "away_p_minus_observed_away_rate": 0.048,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            42,
+            1,
+            18
+          ],
+          [
+            12,
+            2,
+            12
+          ],
+          [
+            9,
+            2,
+            27
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0381,
+        "favorite_bias_mean_p_minus_win_rate": -0.0323,
+        "log_loss": 0.92438
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.568,
+        "away_p_minus_observed_away_rate": 0.0439,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            44,
+            0,
+            17
+          ],
+          [
+            13,
+            0,
+            13
+          ],
+          [
+            11,
+            0,
+            27
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0218,
+        "favorite_bias_mean_p_minus_win_rate": -0.0231,
+        "log_loss": 0.91272
+      },
+      "B_gbm_league": {
+        "accuracy": 0.576,
+        "away_p_minus_observed_away_rate": 0.055,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            44,
+            0,
+            17
+          ],
+          [
+            13,
+            0,
+            13
+          ],
+          [
+            10,
+            0,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.017,
+        "favorite_bias_mean_p_minus_win_rate": -0.0242,
+        "log_loss": 0.9141
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.576,
+        "away_p_minus_observed_away_rate": 0.055,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            44,
+            0,
+            17
+          ],
+          [
+            13,
+            0,
+            13
+          ],
+          [
+            10,
+            0,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.017,
+        "favorite_bias_mean_p_minus_win_rate": -0.0242,
+        "log_loss": 0.9141
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.568,
+        "away_p_minus_observed_away_rate": 0.0323,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            47,
+            0,
+            14
+          ],
+          [
+            14,
+            0,
+            12
+          ],
+          [
+            14,
+            0,
+            24
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0338,
+        "favorite_bias_mean_p_minus_win_rate": -0.0362,
+        "log_loss": 0.91859
+      },
+      "label_rates_home_draw_away": [
+        0.488,
+        0.208,
+        0.304
+      ],
+      "n": 125
+    },
+    "UEFA_UCL|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.584,
+        "away_p_minus_observed_away_rate": 0.0124,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            48,
+            0,
+            12
+          ],
+          [
+            17,
+            1,
+            9
+          ],
+          [
+            14,
+            0,
+            24
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0049,
+        "favorite_bias_mean_p_minus_win_rate": 0.0011,
+        "log_loss": 0.93431
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.584,
+        "away_p_minus_observed_away_rate": 0.0129,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            49,
+            0,
+            11
+          ],
+          [
+            19,
+            0,
+            8
+          ],
+          [
+            14,
+            0,
+            24
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0026,
+        "favorite_bias_mean_p_minus_win_rate": -0.0109,
+        "log_loss": 0.92094
+      },
+      "B_gbm_league": {
+        "accuracy": 0.584,
+        "away_p_minus_observed_away_rate": 0.0243,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            47,
+            0,
+            13
+          ],
+          [
+            18,
+            0,
+            9
+          ],
+          [
+            12,
+            0,
+            26
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0009,
+        "favorite_bias_mean_p_minus_win_rate": -0.0165,
+        "log_loss": 0.9124
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.584,
+        "away_p_minus_observed_away_rate": 0.0243,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            47,
+            0,
+            13
+          ],
+          [
+            18,
+            0,
+            9
+          ],
+          [
+            12,
+            0,
+            26
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0009,
+        "favorite_bias_mean_p_minus_win_rate": -0.0165,
+        "log_loss": 0.9124
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.568,
+        "away_p_minus_observed_away_rate": 0.0297,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            45,
+            0,
+            15
+          ],
+          [
+            16,
+            0,
+            11
+          ],
+          [
+            12,
+            0,
+            26
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0182,
+        "favorite_bias_mean_p_minus_win_rate": -0.0201,
+        "log_loss": 0.91243
+      },
+      "label_rates_home_draw_away": [
+        0.48,
+        0.216,
+        0.304
+      ],
+      "n": 125
+    },
+    "UEFA_UCL|2024-25": {
+      "A_gbm": {
+        "accuracy": 0.5767,
+        "away_p_minus_observed_away_rate": -0.0243,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            65,
+            2,
+            30
+          ],
+          [
+            15,
+            2,
+            9
+          ],
+          [
+            23,
+            1,
+            42
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.1037,
+        "favorite_bias_mean_p_minus_win_rate": -0.0256,
+        "log_loss": 0.94852
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.582,
+        "away_p_minus_observed_away_rate": -0.0258,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            69,
+            0,
+            28
+          ],
+          [
+            18,
+            0,
+            8
+          ],
+          [
+            25,
+            0,
+            41
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0995,
+        "favorite_bias_mean_p_minus_win_rate": -0.0273,
+        "log_loss": 0.94414
+      },
+      "B_gbm_league": {
+        "accuracy": 0.582,
+        "away_p_minus_observed_away_rate": -0.0254,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            68,
+            0,
+            29
+          ],
+          [
+            18,
+            0,
+            8
+          ],
+          [
+            24,
+            0,
+            42
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0921,
+        "favorite_bias_mean_p_minus_win_rate": -0.0215,
+        "log_loss": 0.94697
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.582,
+        "away_p_minus_observed_away_rate": -0.0254,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            68,
+            0,
+            29
+          ],
+          [
+            18,
+            0,
+            8
+          ],
+          [
+            24,
+            0,
+            42
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0921,
+        "favorite_bias_mean_p_minus_win_rate": -0.0215,
+        "log_loss": 0.94697
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5661,
+        "away_p_minus_observed_away_rate": -0.0214,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            67,
+            0,
+            30
+          ],
+          [
+            17,
+            0,
+            9
+          ],
+          [
+            26,
+            0,
+            40
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.1017,
+        "favorite_bias_mean_p_minus_win_rate": -0.0277,
+        "log_loss": 0.93132
+      },
+      "label_rates_home_draw_away": [
+        0.5132,
+        0.1376,
+        0.3492
+      ],
+      "n": 189
+    },
+    "UEFA_UECL|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.5674,
+        "away_p_minus_observed_away_rate": 0.0861,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            52,
+            0,
+            16
+          ],
+          [
+            21,
+            0,
+            12
+          ],
+          [
+            12,
+            0,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0133,
+        "favorite_bias_mean_p_minus_win_rate": -0.0553,
+        "log_loss": 1.00196
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.539,
+        "away_p_minus_observed_away_rate": 0.0722,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            50,
+            0,
+            18
+          ],
+          [
+            19,
+            0,
+            14
+          ],
+          [
+            14,
+            0,
+            26
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0027,
+        "favorite_bias_mean_p_minus_win_rate": -0.0468,
+        "log_loss": 0.98884
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5461,
+        "away_p_minus_observed_away_rate": 0.0716,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            53,
+            0,
+            15
+          ],
+          [
+            21,
+            0,
+            12
+          ],
+          [
+            16,
+            0,
+            24
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0078,
+        "favorite_bias_mean_p_minus_win_rate": -0.0554,
+        "log_loss": 0.9896
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5461,
+        "away_p_minus_observed_away_rate": 0.0716,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            53,
+            0,
+            15
+          ],
+          [
+            21,
+            0,
+            12
+          ],
+          [
+            16,
+            0,
+            24
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0078,
+        "favorite_bias_mean_p_minus_win_rate": -0.0554,
+        "log_loss": 0.9896
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5319,
+        "away_p_minus_observed_away_rate": 0.0393,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            58,
+            0,
+            10
+          ],
+          [
+            22,
+            0,
+            11
+          ],
+          [
+            23,
+            0,
+            17
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0309,
+        "favorite_bias_mean_p_minus_win_rate": -0.0881,
+        "log_loss": 1.01565
+      },
+      "label_rates_home_draw_away": [
+        0.4823,
+        0.234,
+        0.2837
+      ],
+      "n": 141
+    },
+    "UEFA_UECL|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.4539,
+        "away_p_minus_observed_away_rate": -0.0164,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            42,
+            3,
+            14
+          ],
+          [
+            23,
+            1,
+            11
+          ],
+          [
+            25,
+            1,
+            21
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0085,
+        "favorite_bias_mean_p_minus_win_rate": 0.0424,
+        "log_loss": 1.05547
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4681,
+        "away_p_minus_observed_away_rate": -0.0078,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            46,
+            0,
+            13
+          ],
+          [
+            25,
+            0,
+            10
+          ],
+          [
+            27,
+            0,
+            20
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0001,
+        "favorite_bias_mean_p_minus_win_rate": 0.0114,
+        "log_loss": 1.05525
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4823,
+        "away_p_minus_observed_away_rate": -0.0168,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            48,
+            0,
+            11
+          ],
+          [
+            28,
+            0,
+            7
+          ],
+          [
+            27,
+            0,
+            20
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0055,
+        "favorite_bias_mean_p_minus_win_rate": 0.0043,
+        "log_loss": 1.05878
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4823,
+        "away_p_minus_observed_away_rate": -0.0168,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            48,
+            0,
+            11
+          ],
+          [
+            28,
+            0,
+            7
+          ],
+          [
+            27,
+            0,
+            20
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0055,
+        "favorite_bias_mean_p_minus_win_rate": 0.0043,
+        "log_loss": 1.05878
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4397,
+        "away_p_minus_observed_away_rate": -0.0184,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            46,
+            0,
+            13
+          ],
+          [
+            30,
+            0,
+            5
+          ],
+          [
+            31,
+            0,
+            16
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0187,
+        "favorite_bias_mean_p_minus_win_rate": 0.0109,
+        "log_loss": 1.07127
+      },
+      "label_rates_home_draw_away": [
+        0.4184,
+        0.2482,
+        0.3333
+      ],
+      "n": 141
+    },
+    "UEFA_UECL|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.4965,
+        "away_p_minus_observed_away_rate": 0.0107,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            45,
+            1,
+            19
+          ],
+          [
+            14,
+            1,
+            16
+          ],
+          [
+            20,
+            1,
+            24
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0305,
+        "favorite_bias_mean_p_minus_win_rate": 0.0116,
+        "log_loss": 1.0433
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4965,
+        "away_p_minus_observed_away_rate": 0.0084,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            48,
+            1,
+            16
+          ],
+          [
+            17,
+            0,
+            14
+          ],
+          [
+            22,
+            1,
+            22
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0344,
+        "favorite_bias_mean_p_minus_win_rate": -0.0116,
+        "log_loss": 1.03051
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4965,
+        "away_p_minus_observed_away_rate": 0.0045,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            50,
+            0,
+            15
+          ],
+          [
+            19,
+            0,
+            12
+          ],
+          [
+            25,
+            0,
+            20
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0315,
+        "favorite_bias_mean_p_minus_win_rate": -0.0056,
+        "log_loss": 1.04034
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4965,
+        "away_p_minus_observed_away_rate": 0.0045,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            50,
+            0,
+            15
+          ],
+          [
+            19,
+            0,
+            12
+          ],
+          [
+            25,
+            0,
+            20
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0315,
+        "favorite_bias_mean_p_minus_win_rate": -0.0056,
+        "log_loss": 1.04034
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.461,
+        "away_p_minus_observed_away_rate": -0.006,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            52,
+            0,
+            13
+          ],
+          [
+            21,
+            0,
+            10
+          ],
+          [
+            32,
+            0,
+            13
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0414,
+        "favorite_bias_mean_p_minus_win_rate": 0.0048,
+        "log_loss": 1.05586
+      },
+      "label_rates_home_draw_away": [
+        0.461,
+        0.2199,
+        0.3191
+      ],
+      "n": 141
+    },
+    "UEFA_UECL|2024-25": {
+      "A_gbm": {
+        "accuracy": 0.5229,
+        "away_p_minus_observed_away_rate": 0.0308,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            58,
+            1,
+            18
+          ],
+          [
+            23,
+            0,
+            7
+          ],
+          [
+            24,
+            0,
+            22
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0445,
+        "favorite_bias_mean_p_minus_win_rate": -0.015,
+        "log_loss": 0.97924
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5163,
+        "away_p_minus_observed_away_rate": 0.032,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            57,
+            0,
+            20
+          ],
+          [
+            24,
+            0,
+            6
+          ],
+          [
+            24,
+            0,
+            22
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0475,
+        "favorite_bias_mean_p_minus_win_rate": -0.0145,
+        "log_loss": 0.98318
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5098,
+        "away_p_minus_observed_away_rate": 0.0284,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            56,
+            0,
+            21
+          ],
+          [
+            22,
+            0,
+            8
+          ],
+          [
+            24,
+            0,
+            22
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0416,
+        "favorite_bias_mean_p_minus_win_rate": -0.0024,
+        "log_loss": 0.97664
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5098,
+        "away_p_minus_observed_away_rate": 0.0284,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            56,
+            0,
+            21
+          ],
+          [
+            22,
+            0,
+            8
+          ],
+          [
+            24,
+            0,
+            22
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0416,
+        "favorite_bias_mean_p_minus_win_rate": -0.0024,
+        "log_loss": 0.97664
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5163,
+        "away_p_minus_observed_away_rate": 0.0129,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            60,
+            0,
+            17
+          ],
+          [
+            23,
+            0,
+            7
+          ],
+          [
+            27,
+            0,
+            19
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0655,
+        "favorite_bias_mean_p_minus_win_rate": -0.0419,
+        "log_loss": 0.99578
+      },
+      "label_rates_home_draw_away": [
+        0.5033,
+        0.1961,
+        0.3007
+      ],
+      "n": 153
+    },
+    "UEFA_UEL|2020-21": {
+      "A_gbm": {
+        "accuracy": 0.5415,
+        "away_p_minus_observed_away_rate": -0.0122,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            65,
+            4,
+            24
+          ],
+          [
+            21,
+            1,
+            17
+          ],
+          [
+            27,
+            1,
+            45
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0276,
+        "favorite_bias_mean_p_minus_win_rate": 0.0048,
+        "log_loss": 1.00275
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5561,
+        "away_p_minus_observed_away_rate": -0.0162,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            71,
+            0,
+            22
+          ],
+          [
+            23,
+            0,
+            16
+          ],
+          [
+            30,
+            0,
+            43
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0351,
+        "favorite_bias_mean_p_minus_win_rate": -0.035,
+        "log_loss": 0.97026
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5512,
+        "away_p_minus_observed_away_rate": -0.023,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            72,
+            0,
+            21
+          ],
+          [
+            24,
+            0,
+            15
+          ],
+          [
+            32,
+            0,
+            41
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0438,
+        "favorite_bias_mean_p_minus_win_rate": -0.0422,
+        "log_loss": 0.97985
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5512,
+        "away_p_minus_observed_away_rate": -0.023,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            72,
+            0,
+            21
+          ],
+          [
+            24,
+            0,
+            15
+          ],
+          [
+            32,
+            0,
+            41
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0438,
+        "favorite_bias_mean_p_minus_win_rate": -0.0422,
+        "log_loss": 0.97985
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5171,
+        "away_p_minus_observed_away_rate": -0.0378,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            74,
+            0,
+            19
+          ],
+          [
+            24,
+            0,
+            15
+          ],
+          [
+            41,
+            0,
+            32
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0568,
+        "favorite_bias_mean_p_minus_win_rate": -0.0321,
+        "log_loss": 0.99702
+      },
+      "label_rates_home_draw_away": [
+        0.4537,
+        0.1902,
+        0.3561
+      ],
+      "n": 205
+    },
+    "UEFA_UEL|2021-22": {
+      "A_gbm": {
+        "accuracy": 0.4532,
+        "away_p_minus_observed_away_rate": 0.0734,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            34,
+            1,
+            22
+          ],
+          [
+            23,
+            0,
+            16
+          ],
+          [
+            14,
+            0,
+            29
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0644,
+        "favorite_bias_mean_p_minus_win_rate": 0.089,
+        "log_loss": 1.09431
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.4676,
+        "away_p_minus_observed_away_rate": 0.0678,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            35,
+            0,
+            22
+          ],
+          [
+            24,
+            0,
+            15
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0594,
+        "favorite_bias_mean_p_minus_win_rate": 0.0719,
+        "log_loss": 1.08087
+      },
+      "B_gbm_league": {
+        "accuracy": 0.4676,
+        "away_p_minus_observed_away_rate": 0.0709,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            35,
+            0,
+            22
+          ],
+          [
+            23,
+            0,
+            16
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0525,
+        "favorite_bias_mean_p_minus_win_rate": 0.0616,
+        "log_loss": 1.076
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.4676,
+        "away_p_minus_observed_away_rate": 0.0709,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            35,
+            0,
+            22
+          ],
+          [
+            23,
+            0,
+            16
+          ],
+          [
+            13,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0525,
+        "favorite_bias_mean_p_minus_win_rate": 0.0616,
+        "log_loss": 1.076
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.4748,
+        "away_p_minus_observed_away_rate": 0.0253,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            40,
+            0,
+            17
+          ],
+          [
+            27,
+            0,
+            12
+          ],
+          [
+            17,
+            0,
+            26
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.026,
+        "favorite_bias_mean_p_minus_win_rate": 0.0026,
+        "log_loss": 1.07425
+      },
+      "label_rates_home_draw_away": [
+        0.4101,
+        0.2806,
+        0.3094
+      ],
+      "n": 139
+    },
+    "UEFA_UEL|2022-23": {
+      "A_gbm": {
+        "accuracy": 0.5887,
+        "away_p_minus_observed_away_rate": 0.05,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            49,
+            4,
+            16
+          ],
+          [
+            18,
+            3,
+            11
+          ],
+          [
+            7,
+            2,
+            31
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0182,
+        "favorite_bias_mean_p_minus_win_rate": -0.0537,
+        "log_loss": 0.9688
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5887,
+        "away_p_minus_observed_away_rate": 0.0552,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            50,
+            0,
+            19
+          ],
+          [
+            21,
+            0,
+            11
+          ],
+          [
+            7,
+            0,
+            33
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0119,
+        "favorite_bias_mean_p_minus_win_rate": -0.0628,
+        "log_loss": 0.97073
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5887,
+        "away_p_minus_observed_away_rate": 0.059,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            49,
+            0,
+            20
+          ],
+          [
+            20,
+            0,
+            12
+          ],
+          [
+            6,
+            0,
+            34
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0077,
+        "favorite_bias_mean_p_minus_win_rate": -0.0578,
+        "log_loss": 0.97087
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5887,
+        "away_p_minus_observed_away_rate": 0.059,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            49,
+            0,
+            20
+          ],
+          [
+            20,
+            0,
+            12
+          ],
+          [
+            6,
+            0,
+            34
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0077,
+        "favorite_bias_mean_p_minus_win_rate": -0.0578,
+        "log_loss": 0.97087
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5887,
+        "away_p_minus_observed_away_rate": 0.0441,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            52,
+            0,
+            17
+          ],
+          [
+            19,
+            0,
+            13
+          ],
+          [
+            9,
+            0,
+            31
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0241,
+        "favorite_bias_mean_p_minus_win_rate": -0.0847,
+        "log_loss": 0.98223
+      },
+      "label_rates_home_draw_away": [
+        0.4894,
+        0.227,
+        0.2837
+      ],
+      "n": 141
+    },
+    "UEFA_UEL|2023-24": {
+      "A_gbm": {
+        "accuracy": 0.5957,
+        "away_p_minus_observed_away_rate": 0.0355,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            56,
+            0,
+            15
+          ],
+          [
+            18,
+            0,
+            11
+          ],
+          [
+            12,
+            1,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.021,
+        "favorite_bias_mean_p_minus_win_rate": -0.0365,
+        "log_loss": 0.91569
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.6028,
+        "away_p_minus_observed_away_rate": 0.0341,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            57,
+            0,
+            14
+          ],
+          [
+            16,
+            0,
+            13
+          ],
+          [
+            13,
+            0,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0269,
+        "favorite_bias_mean_p_minus_win_rate": -0.0577,
+        "log_loss": 0.9229
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5957,
+        "away_p_minus_observed_away_rate": 0.0374,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            56,
+            0,
+            15
+          ],
+          [
+            16,
+            0,
+            13
+          ],
+          [
+            13,
+            0,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.024,
+        "favorite_bias_mean_p_minus_win_rate": -0.0579,
+        "log_loss": 0.92628
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5957,
+        "away_p_minus_observed_away_rate": 0.0374,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            56,
+            0,
+            15
+          ],
+          [
+            16,
+            0,
+            13
+          ],
+          [
+            13,
+            0,
+            28
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.024,
+        "favorite_bias_mean_p_minus_win_rate": -0.0579,
+        "log_loss": 0.92628
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5957,
+        "away_p_minus_observed_away_rate": 0.0326,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            57,
+            0,
+            14
+          ],
+          [
+            16,
+            0,
+            13
+          ],
+          [
+            14,
+            0,
+            27
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0423,
+        "favorite_bias_mean_p_minus_win_rate": -0.0866,
+        "log_loss": 0.95397
+      },
+      "label_rates_home_draw_away": [
+        0.5035,
+        0.2057,
+        0.2908
+      ],
+      "n": 141
+    },
+    "UEFA_UEL|2024-25": {
+      "A_gbm": {
+        "accuracy": 0.4974,
+        "away_p_minus_observed_away_rate": 0.0446,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            65,
+            3,
+            26
+          ],
+          [
+            27,
+            0,
+            17
+          ],
+          [
+            20,
+            2,
+            29
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0306,
+        "favorite_bias_mean_p_minus_win_rate": -0.0134,
+        "log_loss": 1.00803
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5185,
+        "away_p_minus_observed_away_rate": 0.0451,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            69,
+            0,
+            25
+          ],
+          [
+            28,
+            0,
+            16
+          ],
+          [
+            22,
+            0,
+            29
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0295,
+        "favorite_bias_mean_p_minus_win_rate": -0.0231,
+        "log_loss": 1.00499
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5344,
+        "away_p_minus_observed_away_rate": 0.0342,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            72,
+            0,
+            22
+          ],
+          [
+            29,
+            0,
+            15
+          ],
+          [
+            22,
+            0,
+            29
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0186,
+        "favorite_bias_mean_p_minus_win_rate": -0.0234,
+        "log_loss": 0.99296
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5344,
+        "away_p_minus_observed_away_rate": 0.0342,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            72,
+            0,
+            22
+          ],
+          [
+            29,
+            0,
+            15
+          ],
+          [
+            22,
+            0,
+            29
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0186,
+        "favorite_bias_mean_p_minus_win_rate": -0.0234,
+        "log_loss": 0.99296
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5397,
+        "away_p_minus_observed_away_rate": 0.0435,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            72,
+            0,
+            22
+          ],
+          [
+            30,
+            0,
+            14
+          ],
+          [
+            21,
+            0,
+            30
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0275,
+        "favorite_bias_mean_p_minus_win_rate": -0.0558,
+        "log_loss": 0.99714
+      },
+      "label_rates_home_draw_away": [
+        0.4974,
+        0.2328,
+        0.2698
+      ],
+      "n": 189
+    }
+  },
+  "missing_inputs": "xG, odds and lineups do not exist in the licensed universe: no segment by missing xG / odds is possible (reported, not imputed)",
+  "models": [
+    "A_gbm",
+    "A_gbm_tuned",
+    "B_gbm_league",
+    "D_gbm_blend",
+    "E_elo_bridge"
+  ],
+  "segments": {
+    "early_season_first_third": {
+      "A_gbm": {
+        "accuracy": 0.5068,
+        "away_p_minus_observed_away_rate": 0.0071,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1156,
+            45,
+            338
+          ],
+          [
+            555,
+            37,
+            322
+          ],
+          [
+            452,
+            53,
+            621
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.018,
+        "favorite_bias_mean_p_minus_win_rate": 0.027,
+        "log_loss": 1.01541
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.518,
+        "away_p_minus_observed_away_rate": 0.0138,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1188,
+            4,
+            347
+          ],
+          [
+            561,
+            1,
+            352
+          ],
+          [
+            455,
+            6,
+            665
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0165,
+        "favorite_bias_mean_p_minus_win_rate": 0.0038,
+        "log_loss": 0.99966
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5158,
+        "away_p_minus_observed_away_rate": 0.0138,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1175,
+            7,
+            357
+          ],
+          [
+            558,
+            2,
+            354
+          ],
+          [
+            450,
+            7,
+            669
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0174,
+        "favorite_bias_mean_p_minus_win_rate": 0.0056,
+        "log_loss": 0.99943
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5149,
+        "away_p_minus_observed_away_rate": 0.014,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1173,
+            7,
+            359
+          ],
+          [
+            557,
+            5,
+            352
+          ],
+          [
+            447,
+            14,
+            665
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0167,
+        "favorite_bias_mean_p_minus_win_rate": 0.0065,
+        "log_loss": 0.99983
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5124,
+        "away_p_minus_observed_away_rate": 0.0102,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1213,
+            0,
+            326
+          ],
+          [
+            577,
+            0,
+            337
+          ],
+          [
+            505,
+            0,
+            621
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0084,
+        "favorite_bias_mean_p_minus_win_rate": -0.0061,
+        "log_loss": 0.99752
+      },
+      "label_rates_home_draw_away": [
+        0.43,
+        0.2554,
+        0.3146
+      ],
+      "n": 3579
+    },
+    "either_club_new_or_promoted_like": {
+      "A_gbm": {
+        "accuracy": 0.5345,
+        "away_p_minus_observed_away_rate": 0.0074,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            432,
+            11,
+            133
+          ],
+          [
+            166,
+            6,
+            105
+          ],
+          [
+            163,
+            16,
+            244
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0077,
+        "favorite_bias_mean_p_minus_win_rate": 0.0091,
+        "log_loss": 0.98157
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.547,
+        "away_p_minus_observed_away_rate": 0.0073,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            451,
+            1,
+            124
+          ],
+          [
+            178,
+            0,
+            99
+          ],
+          [
+            175,
+            1,
+            247
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.013,
+        "favorite_bias_mean_p_minus_win_rate": -0.0238,
+        "log_loss": 0.96839
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5439,
+        "away_p_minus_observed_away_rate": 0.0035,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            454,
+            1,
+            121
+          ],
+          [
+            178,
+            0,
+            99
+          ],
+          [
+            180,
+            3,
+            240
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.015,
+        "favorite_bias_mean_p_minus_win_rate": -0.0271,
+        "log_loss": 0.97133
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5431,
+        "away_p_minus_observed_away_rate": 0.0036,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            454,
+            1,
+            121
+          ],
+          [
+            178,
+            0,
+            99
+          ],
+          [
+            181,
+            3,
+            239
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0154,
+        "favorite_bias_mean_p_minus_win_rate": -0.0265,
+        "log_loss": 0.97181
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5321,
+        "away_p_minus_observed_away_rate": -0.0112,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            475,
+            0,
+            101
+          ],
+          [
+            193,
+            0,
+            84
+          ],
+          [
+            219,
+            0,
+            204
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0362,
+        "favorite_bias_mean_p_minus_win_rate": -0.0493,
+        "log_loss": 0.9892
+      },
+      "label_rates_home_draw_away": [
+        0.4514,
+        0.2171,
+        0.3315
+      ],
+      "n": 1276
+    },
+    "late_season_last_third": {
+      "A_gbm": {
+        "accuracy": 0.5085,
+        "away_p_minus_observed_away_rate": -0.0064,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1186,
+            32,
+            339
+          ],
+          [
+            539,
+            31,
+            291
+          ],
+          [
+            519,
+            39,
+            603
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0115,
+        "favorite_bias_mean_p_minus_win_rate": 0.0308,
+        "log_loss": 1.02142
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.5133,
+        "away_p_minus_observed_away_rate": -0.0011,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1184,
+            5,
+            368
+          ],
+          [
+            540,
+            6,
+            315
+          ],
+          [
+            503,
+            11,
+            647
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0056,
+        "favorite_bias_mean_p_minus_win_rate": 0.0142,
+        "log_loss": 1.00946
+      },
+      "B_gbm_league": {
+        "accuracy": 0.5147,
+        "away_p_minus_observed_away_rate": 0.0022,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1170,
+            1,
+            386
+          ],
+          [
+            542,
+            6,
+            313
+          ],
+          [
+            488,
+            7,
+            666
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0076,
+        "favorite_bias_mean_p_minus_win_rate": 0.0151,
+        "log_loss": 1.01095
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5149,
+        "away_p_minus_observed_away_rate": 0.0021,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1164,
+            5,
+            388
+          ],
+          [
+            534,
+            13,
+            314
+          ],
+          [
+            485,
+            10,
+            666
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0072,
+        "favorite_bias_mean_p_minus_win_rate": 0.0149,
+        "log_loss": 1.01129
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.5197,
+        "away_p_minus_observed_away_rate": 0.0077,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1178,
+            0,
+            379
+          ],
+          [
+            519,
+            0,
+            342
+          ],
+          [
+            479,
+            0,
+            682
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.0049,
+        "favorite_bias_mean_p_minus_win_rate": 0.0165,
+        "log_loss": 1.00224
+      },
+      "label_rates_home_draw_away": [
+        0.435,
+        0.2406,
+        0.3244
+      ],
+      "n": 3579
+    },
+    "one_goal_margin": {
+      "A_gbm": {
+        "accuracy": 0.6019,
+        "away_p_minus_observed_away_rate": -0.1227,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1529,
+            74,
+            593
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            850,
+            71,
+            872
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.2358,
+        "favorite_bias_mean_p_minus_win_rate": -0.0887,
+        "log_loss": 0.94841
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.626,
+        "away_p_minus_observed_away_rate": -0.117,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1555,
+            9,
+            632
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            835,
+            16,
+            942
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.2397,
+        "favorite_bias_mean_p_minus_win_rate": -0.1091,
+        "log_loss": 0.9388
+      },
+      "B_gbm_league": {
+        "accuracy": 0.6252,
+        "away_p_minus_observed_away_rate": -0.1162,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1541,
+            4,
+            651
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            827,
+            13,
+            953
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.2377,
+        "favorite_bias_mean_p_minus_win_rate": -0.1056,
+        "log_loss": 0.93598
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.6217,
+        "away_p_minus_observed_away_rate": -0.1163,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1532,
+            13,
+            651
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            825,
+            20,
+            948
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.2385,
+        "favorite_bias_mean_p_minus_win_rate": -0.1046,
+        "log_loss": 0.93752
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.6225,
+        "away_p_minus_observed_away_rate": -0.1125,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1556,
+            0,
+            640
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            866,
+            0,
+            927
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.243,
+        "favorite_bias_mean_p_minus_win_rate": -0.1051,
+        "log_loss": 0.94369
+      },
+      "label_rates_home_draw_away": [
+        0.5505,
+        0.0,
+        0.4495
+      ],
+      "n": 3989
+    },
+    "scoreline_0_0": {
+      "A_gbm": {
+        "accuracy": 0.0423,
+        "away_p_minus_observed_away_rate": 0.3277,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            404,
+            29,
+            252
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7586,
+        "favorite_bias_mean_p_minus_win_rate": 0.5227,
+        "log_loss": 1.47255
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.0058,
+        "away_p_minus_observed_away_rate": 0.3326,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            407,
+            4,
+            274
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7546,
+        "favorite_bias_mean_p_minus_win_rate": 0.5088,
+        "log_loss": 1.43234
+      },
+      "B_gbm_league": {
+        "accuracy": 0.0044,
+        "away_p_minus_observed_away_rate": 0.3323,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            411,
+            3,
+            271
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7571,
+        "favorite_bias_mean_p_minus_win_rate": 0.5088,
+        "log_loss": 1.44163
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.0131,
+        "away_p_minus_observed_away_rate": 0.332,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            406,
+            9,
+            270
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7559,
+        "favorite_bias_mean_p_minus_win_rate": 0.5079,
+        "log_loss": 1.43757
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.0,
+        "away_p_minus_observed_away_rate": 0.3382,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            416,
+            0,
+            269
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7537,
+        "favorite_bias_mean_p_minus_win_rate": 0.5047,
+        "log_loss": 1.41513
+      },
+      "label_rates_home_draw_away": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "n": 685
+    },
+    "scoreline_1_1": {
+      "A_gbm": {
+        "accuracy": 0.0401,
+        "away_p_minus_observed_away_rate": 0.322,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            787,
+            51,
+            434
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7576,
+        "favorite_bias_mean_p_minus_win_rate": 0.5225,
+        "log_loss": 1.46571
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.0039,
+        "away_p_minus_observed_away_rate": 0.3287,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            785,
+            5,
+            482
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7536,
+        "favorite_bias_mean_p_minus_win_rate": 0.5076,
+        "log_loss": 1.42575
+      },
+      "B_gbm_league": {
+        "accuracy": 0.0063,
+        "away_p_minus_observed_away_rate": 0.3303,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            780,
+            8,
+            484
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7568,
+        "favorite_bias_mean_p_minus_win_rate": 0.5091,
+        "log_loss": 1.43839
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.0102,
+        "away_p_minus_observed_away_rate": 0.3301,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            776,
+            13,
+            483
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.756,
+        "favorite_bias_mean_p_minus_win_rate": 0.5088,
+        "log_loss": 1.43566
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.0,
+        "away_p_minus_observed_away_rate": 0.3333,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            776,
+            0,
+            496
+          ],
+          [
+            0,
+            0,
+            0
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": -0.7532,
+        "favorite_bias_mean_p_minus_win_rate": 0.5053,
+        "log_loss": 1.41259
+      },
+      "label_rates_home_draw_away": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "n": 1272
+    },
+    "scoreline_4_plus_goals": {
+      "A_gbm": {
+        "accuracy": 0.5885,
+        "away_p_minus_observed_away_rate": -0.0003,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1317,
+            31,
+            292
+          ],
+          [
+            423,
+            31,
+            237
+          ],
+          [
+            389,
+            33,
+            661
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0239,
+        "favorite_bias_mean_p_minus_win_rate": -0.0326,
+        "log_loss": 0.92996
+      },
+      "A_gbm_tuned": {
+        "accuracy": 0.597,
+        "away_p_minus_observed_away_rate": 0.0054,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1328,
+            1,
+            311
+          ],
+          [
+            430,
+            3,
+            258
+          ],
+          [
+            366,
+            10,
+            707
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0281,
+        "favorite_bias_mean_p_minus_win_rate": -0.0567,
+        "log_loss": 0.92187
+      },
+      "B_gbm_league": {
+        "accuracy": 0.6005,
+        "away_p_minus_observed_away_rate": 0.0066,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1323,
+            4,
+            313
+          ],
+          [
+            433,
+            1,
+            257
+          ],
+          [
+            356,
+            1,
+            726
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0263,
+        "favorite_bias_mean_p_minus_win_rate": -0.0601,
+        "log_loss": 0.92357
+      },
+      "D_gbm_blend": {
+        "accuracy": 0.5999,
+        "away_p_minus_observed_away_rate": 0.0067,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1321,
+            4,
+            315
+          ],
+          [
+            430,
+            4,
+            257
+          ],
+          [
+            354,
+            6,
+            723
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.0268,
+        "favorite_bias_mean_p_minus_win_rate": -0.0598,
+        "log_loss": 0.9242
+      },
+      "E_elo_bridge": {
+        "accuracy": 0.597,
+        "away_p_minus_observed_away_rate": 0.0064,
+        "confusion_rows_actual_cols_predicted_HDA": [
+          [
+            1341,
+            0,
+            299
+          ],
+          [
+            438,
+            0,
+            253
+          ],
+          [
+            386,
+            0,
+            697
+          ]
+        ],
+        "draw_p_minus_observed_draw_rate": 0.033,
+        "favorite_bias_mean_p_minus_win_rate": -0.059,
+        "log_loss": 0.91974
+      },
+      "label_rates_home_draw_away": [
+        0.4804,
+        0.2024,
+        0.3172
+      ],
+      "n": 3414
+    }
+  },
+  "uefa_stages": "NOT_AVAILABLE: the source does not mark group / knockout stages in the scores used here; analysed per competition only"
+}

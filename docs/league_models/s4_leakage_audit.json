@@ -1,0 +1,33 @@
+{
+  "feature_perturbation_audit": {
+    "definition": "all results at/after the point are replaced by 7-0; rows before the point must not change",
+    "points": {
+      "2021-08-06T19:00:00+00:00": {
+        "rows_after_point_that_changed": 8093,
+        "rows_before_point": 4447,
+        "rows_identical": true,
+        "violations": 0
+      },
+      "2023-08-11T17:30:00+00:00": {
+        "rows_after_point_that_changed": 3633,
+        "rows_before_point": 8911,
+        "rows_identical": true,
+        "violations": 0
+      }
+    },
+    "violations": 0
+  },
+  "feature_schema_sha256": "0e5a2f89ec06b3d9642f4a9a27ef3ead34e0d83bd9a0c742fae211bb8313571e",
+  "holdout": "never read (the universe carries holdout / reserved / guard fixtures by id only)",
+  "replay_violations_per_fold": {
+    "2020-21": 0,
+    "2021-22": 0,
+    "2022-23": 0,
+    "2023-24": 0,
+    "2024-25": 0
+  },
+  "stage": "t-24h",
+  "train_serve_parity": "one code path builds training and evaluation rows (build_features); the schema hash is identical for every fold and model",
+  "tuning_isolation": "the tuner receives only the inner-fit and inner-validation blocks of the training rows; no eval-season row, label or prediction reaches it",
+  "unseen_league_rows_in_universe": 0
+}

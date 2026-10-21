@@ -1,0 +1,410 @@
+{
+  "definition": "permutation importance by feature group on the inner-validation season (train-side), and gain importance of the final B model by group; associations, not causes",
+  "folds": {
+    "2020-21": {
+      "gain_share_by_feature_1x2": {
+        "a_away_ga5": 0.01834,
+        "a_away_gf5": 0.02594,
+        "a_ga10": 0.02152,
+        "a_ga5": 0.02091,
+        "a_gf10": 0.08282,
+        "a_gf5": 0.03982,
+        "a_matches_30d": 0.0,
+        "a_prior_matches": 0.00099,
+        "a_pts5": 0.01287,
+        "a_rest_days": 0.01249,
+        "days_into_season": 0.0124,
+        "either_new_team": 0.0,
+        "elo_certain": 0.0,
+        "elo_diff": 0.2774,
+        "elo_min_matches": 0.00497,
+        "form_available": 0.0,
+        "h_ga10": 0.02669,
+        "h_ga5": 0.00709,
+        "h_gf10": 0.04749,
+        "h_gf5": 0.0294,
+        "h_home_ga5": 0.01139,
+        "h_home_gf5": 0.04463,
+        "h_matches_30d": 0.00479,
+        "h_prior_matches": 0.01031,
+        "h_pts5": 0.02548,
+        "h_rest_days": 0.02285,
+        "is_uefa": 0.0,
+        "league_code": 0.00957,
+        "league_known": 0.0,
+        "lp_available": 0.0,
+        "lp_btts_rate": 0.04347,
+        "lp_draw_rate": 0.03305,
+        "lp_goals_per_match": 0.02794,
+        "lp_home_advantage": 0.01682,
+        "lp_home_win_rate": 0.02135,
+        "lp_over25_rate": 0.03074,
+        "rest_available": 0.0,
+        "rest_diff": 0.0565
+      },
+      "permutation": {
+        "baseline_validation_log_loss": 1.008823520795896,
+        "basis": "inner-validation season of this fold (train-side data only); an association with predictive skill, not a cause",
+        "by_group": {
+          "calendar": {
+            "features": 1,
+            "mean_log_loss_increase": -7.286662269153273e-05
+          },
+          "elo": {
+            "features": 3,
+            "mean_log_loss_increase": 0.041369266301034914
+          },
+          "form": {
+            "features": 11,
+            "mean_log_loss_increase": 0.02804144680896951
+          },
+          "home_away": {
+            "features": 4,
+            "mean_log_loss_increase": 0.0026081230894643426
+          },
+          "league_identity": {
+            "features": 3,
+            "mean_log_loss_increase": -0.000304026616271047
+          },
+          "league_priors": {
+            "features": 7,
+            "mean_log_loss_increase": 0.0008236769959841794
+          },
+          "rest_congestion": {
+            "features": 6,
+            "mean_log_loss_increase": -0.00359378395992338
+          },
+          "team_status": {
+            "features": 3,
+            "mean_log_loss_increase": 0.0002636322917121496
+          }
+        },
+        "repeats": 3
+      }
+    },
+    "2021-22": {
+      "gain_share_by_feature_1x2": {
+        "a_away_ga5": 0.00995,
+        "a_away_gf5": 0.02389,
+        "a_ga10": 0.01188,
+        "a_ga5": 0.00967,
+        "a_gf10": 0.03764,
+        "a_gf5": 0.01337,
+        "a_matches_30d": 0.00661,
+        "a_prior_matches": 0.02266,
+        "a_pts5": 0.00327,
+        "a_rest_days": 0.02245,
+        "days_into_season": 0.01267,
+        "either_new_team": 0.0,
+        "elo_certain": 0.0,
+        "elo_diff": 0.51806,
+        "elo_min_matches": 0.00484,
+        "form_available": 0.0,
+        "h_ga10": 0.01564,
+        "h_ga5": 0.00995,
+        "h_gf10": 0.03092,
+        "h_gf5": 0.00984,
+        "h_home_ga5": 0.00872,
+        "h_home_gf5": 0.01898,
+        "h_matches_30d": 0.00119,
+        "h_prior_matches": 0.00986,
+        "h_pts5": 0.00836,
+        "h_rest_days": 0.02583,
+        "is_uefa": 0.00071,
+        "league_code": 0.02667,
+        "league_known": 0.0,
+        "lp_available": 0.0,
+        "lp_btts_rate": 0.01434,
+        "lp_draw_rate": 0.03783,
+        "lp_goals_per_match": 0.0169,
+        "lp_home_advantage": 0.00875,
+        "lp_home_win_rate": 0.00574,
+        "lp_over25_rate": 0.01541,
+        "rest_available": 0.0,
+        "rest_diff": 0.0374
+      },
+      "permutation": {
+        "baseline_validation_log_loss": 1.0204491312879314,
+        "basis": "inner-validation season of this fold (train-side data only); an association with predictive skill, not a cause",
+        "by_group": {
+          "calendar": {
+            "features": 1,
+            "mean_log_loss_increase": -3.1526151706762207e-05
+          },
+          "elo": {
+            "features": 3,
+            "mean_log_loss_increase": 0.06523372625394812
+          },
+          "form": {
+            "features": 11,
+            "mean_log_loss_increase": 0.00816260835929524
+          },
+          "home_away": {
+            "features": 4,
+            "mean_log_loss_increase": 0.0006656777949252864
+          },
+          "league_identity": {
+            "features": 3,
+            "mean_log_loss_increase": 0.00016188455308211816
+          },
+          "league_priors": {
+            "features": 7,
+            "mean_log_loss_increase": -0.0003512568475323441
+          },
+          "rest_congestion": {
+            "features": 6,
+            "mean_log_loss_increase": 0.0026035094532074568
+          },
+          "team_status": {
+            "features": 3,
+            "mean_log_loss_increase": -0.0001573124747788294
+          }
+        },
+        "repeats": 3
+      }
+    },
+    "2022-23": {
+      "gain_share_by_feature_1x2": {
+        "a_away_ga5": 0.0098,
+        "a_away_gf5": 0.01285,
+        "a_ga10": 0.00769,
+        "a_ga5": 0.00511,
+        "a_gf10": 0.03143,
+        "a_gf5": 0.00837,
+        "a_matches_30d": 0.00814,
+        "a_prior_matches": 0.01422,
+        "a_pts5": 0.00059,
+        "a_rest_days": 0.00957,
+        "days_into_season": 0.01146,
+        "either_new_team": 0.0,
+        "elo_certain": 0.0,
+        "elo_diff": 0.67384,
+        "elo_min_matches": 0.00626,
+        "form_available": 0.0,
+        "h_ga10": 0.01299,
+        "h_ga5": 0.01496,
+        "h_gf10": 0.02097,
+        "h_gf5": 0.0045,
+        "h_home_ga5": 0.00663,
+        "h_home_gf5": 0.01278,
+        "h_matches_30d": 0.00312,
+        "h_prior_matches": 0.00783,
+        "h_pts5": 0.00968,
+        "h_rest_days": 0.01257,
+        "is_uefa": 0.00028,
+        "league_code": 0.02321,
+        "league_known": 0.0,
+        "lp_available": 0.0,
+        "lp_btts_rate": 0.00497,
+        "lp_draw_rate": 0.02182,
+        "lp_goals_per_match": 0.01178,
+        "lp_home_advantage": 0.00805,
+        "lp_home_win_rate": 0.00401,
+        "lp_over25_rate": 0.00397,
+        "rest_available": 0.0,
+        "rest_diff": 0.01656
+      },
+      "permutation": {
+        "baseline_validation_log_loss": 1.006088996521317,
+        "basis": "inner-validation season of this fold (train-side data only); an association with predictive skill, not a cause",
+        "by_group": {
+          "calendar": {
+            "features": 1,
+            "mean_log_loss_increase": -0.00014963454457261882
+          },
+          "elo": {
+            "features": 3,
+            "mean_log_loss_increase": 0.09650484191347523
+          },
+          "form": {
+            "features": 11,
+            "mean_log_loss_increase": 0.0043660679148920245
+          },
+          "home_away": {
+            "features": 4,
+            "mean_log_loss_increase": -0.00037749003218926863
+          },
+          "league_identity": {
+            "features": 3,
+            "mean_log_loss_increase": 0.0010571324326421976
+          },
+          "league_priors": {
+            "features": 7,
+            "mean_log_loss_increase": 0.0004923245003878307
+          },
+          "rest_congestion": {
+            "features": 6,
+            "mean_log_loss_increase": 0.00025129850071481385
+          },
+          "team_status": {
+            "features": 3,
+            "mean_log_loss_increase": 0.0006828919520536955
+          }
+        },
+        "repeats": 3
+      }
+    },
+    "2023-24": {
+      "gain_share_by_feature_1x2": {
+        "a_away_ga5": 0.01048,
+        "a_away_gf5": 0.00985,
+        "a_ga10": 0.00653,
+        "a_ga5": 0.00491,
+        "a_gf10": 0.04763,
+        "a_gf5": 0.0141,
+        "a_matches_30d": 0.00977,
+        "a_prior_matches": 0.01065,
+        "a_pts5": 0.00142,
+        "a_rest_days": 0.00545,
+        "days_into_season": 0.00577,
+        "either_new_team": 0.0,
+        "elo_certain": 0.00034,
+        "elo_diff": 0.65942,
+        "elo_min_matches": 0.0123,
+        "form_available": 0.0,
+        "h_ga10": 0.01305,
+        "h_ga5": 0.01774,
+        "h_gf10": 0.0276,
+        "h_gf5": 0.00332,
+        "h_home_ga5": 0.00748,
+        "h_home_gf5": 0.01659,
+        "h_matches_30d": 0.00208,
+        "h_prior_matches": 0.01183,
+        "h_pts5": 0.0068,
+        "h_rest_days": 0.01027,
+        "is_uefa": 0.00036,
+        "league_code": 0.01507,
+        "league_known": 0.0,
+        "lp_available": 0.0,
+        "lp_btts_rate": 0.00426,
+        "lp_draw_rate": 0.00792,
+        "lp_goals_per_match": 0.00916,
+        "lp_home_advantage": 0.00716,
+        "lp_home_win_rate": 0.00497,
+        "lp_over25_rate": 0.00902,
+        "rest_available": 0.0,
+        "rest_diff": 0.02671
+      },
+      "permutation": {
+        "baseline_validation_log_loss": 0.9902227933230692,
+        "basis": "inner-validation season of this fold (train-side data only); an association with predictive skill, not a cause",
+        "by_group": {
+          "calendar": {
+            "features": 1,
+            "mean_log_loss_increase": 0.0001902029128915128
+          },
+          "elo": {
+            "features": 3,
+            "mean_log_loss_increase": 0.10339457697123278
+          },
+          "form": {
+            "features": 11,
+            "mean_log_loss_increase": 0.0042659322125513
+          },
+          "home_away": {
+            "features": 4,
+            "mean_log_loss_increase": 0.0006169880691075195
+          },
+          "league_identity": {
+            "features": 3,
+            "mean_log_loss_increase": 9.18135519615652e-05
+          },
+          "league_priors": {
+            "features": 7,
+            "mean_log_loss_increase": 4.908941976666803e-05
+          },
+          "rest_congestion": {
+            "features": 6,
+            "mean_log_loss_increase": 0.0014053088560773326
+          },
+          "team_status": {
+            "features": 3,
+            "mean_log_loss_increase": 0.0002473638492449526
+          }
+        },
+        "repeats": 3
+      }
+    },
+    "2024-25": {
+      "gain_share_by_feature_1x2": {
+        "a_away_ga5": 0.01689,
+        "a_away_gf5": 0.01832,
+        "a_ga10": 0.01273,
+        "a_ga5": 0.00722,
+        "a_gf10": 0.03879,
+        "a_gf5": 0.01439,
+        "a_matches_30d": 0.01006,
+        "a_prior_matches": 0.01289,
+        "a_pts5": 0.00768,
+        "a_rest_days": 0.01346,
+        "days_into_season": 0.0231,
+        "either_new_team": 0.0,
+        "elo_certain": 0.0,
+        "elo_diff": 0.51078,
+        "elo_min_matches": 0.01355,
+        "form_available": 0.0,
+        "h_ga10": 0.0195,
+        "h_ga5": 0.0186,
+        "h_gf10": 0.03008,
+        "h_gf5": 0.00773,
+        "h_home_ga5": 0.01106,
+        "h_home_gf5": 0.01811,
+        "h_matches_30d": 0.00375,
+        "h_prior_matches": 0.01691,
+        "h_pts5": 0.01141,
+        "h_rest_days": 0.02174,
+        "is_uefa": 0.001,
+        "league_code": 0.02458,
+        "league_known": 0.0,
+        "lp_available": 0.0,
+        "lp_btts_rate": 0.01204,
+        "lp_draw_rate": 0.02191,
+        "lp_goals_per_match": 0.01811,
+        "lp_home_advantage": 0.01409,
+        "lp_home_win_rate": 0.00942,
+        "lp_over25_rate": 0.01449,
+        "rest_available": 0.0,
+        "rest_diff": 0.02562
+      },
+      "permutation": {
+        "baseline_validation_log_loss": 0.9749695904720012,
+        "basis": "inner-validation season of this fold (train-side data only); an association with predictive skill, not a cause",
+        "by_group": {
+          "calendar": {
+            "features": 1,
+            "mean_log_loss_increase": 0.0002757028849138532
+          },
+          "elo": {
+            "features": 3,
+            "mean_log_loss_increase": 0.12080166963147528
+          },
+          "form": {
+            "features": 11,
+            "mean_log_loss_increase": 0.009536658053645378
+          },
+          "home_away": {
+            "features": 4,
+            "mean_log_loss_increase": 0.004406347080610495
+          },
+          "league_identity": {
+            "features": 3,
+            "mean_log_loss_increase": 0.0026633382071813796
+          },
+          "league_priors": {
+            "features": 7,
+            "mean_log_loss_increase": 0.0013853127306611517
+          },
+          "rest_congestion": {
+            "features": 6,
+            "mean_log_loss_increase": 0.0012937158174874581
+          },
+          "team_status": {
+            "features": 3,
+            "mean_log_loss_increase": 0.0010668666083237799
+          }
+        },
+        "repeats": 3
+      }
+    }
+  }
+}

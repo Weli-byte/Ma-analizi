@@ -169,4 +169,7 @@ python -m src.league_models.ml_benchmark --as-of 2026-10-20T00:00:00Z --output-d
 ```
 - Local checks (2026-10-21, Windows 11): `ruff check .` clean; the full `pytest` run: 1,049 tests, no failure and no skip (the 34 Sprint 4 tests alone: `evidence/pytest_s4.txt`); `--verify` 210 of 210; `--reproduce` (Python 3.14.6) `REPRODUCED` 210 of 210; Python 3.12.14 run byte-identical (210 of 210)
   and `--compare-committed` ok (`evidence/s4_cross_python_check.json`).
-- CI: CI_STATUS
+- CI (GitHub Actions, PR #86, 2026-10-21): the `league-benchmark` job (Ubuntu 24.04, Python 3.12, archived snapshot) re-ran Sprints 2, 3 and 4 and passed the comparison with the committed files; `test (3.12)`, `test (3.14)` and
+  `real-data-sanity` passed. The first Linux run failed for two real reasons, both fixed: XGBoost CPU results differ between operating systems (now a reported cross-check outside the comparison) and the committed
+  `training_runs` carried the git sha of the local checkout. Every LightGBM and statistical result matched Linux within 1e-3. The `lock-up-to-date` check fails on this and every other pull request because
+  upstream packages (for example fastapi 0.157.0) were released after the last relock; it is unrelated to this change (relock pull request #83 is open).

@@ -1,0 +1,43 @@
+{
+  "as_of": "2026-10-20T00:00:00+00:00",
+  "bench_config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+  "config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf",
+  "data_snapshot_sha256": "546e70fff7fb577e20dedb58bf14262c703115ea623904ebe68afe6773b5f484",
+  "dependency_lock_sha256": "6211f95bbd504ebe95d1433e289f2f3a61b4f84be4c7d59075d78c939e76d13f",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "git_dirty_at_run": true,
+  "git_sha": "b0f2aca19db38b388f59725645a200e5bb2bb146",
+  "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+  "matches_scored": 10712,
+  "numpy": "2.5.3",
+  "output_hashes": {
+    "fold_predictions.jsonl": "9cbe905a64f19a3a43f0e000c63be7d52c0f4a846dec53a722e100d8f92ff909",
+    "hypotheses.json": "82175e346df89a3c84cf005004c77cd1d71411cf6994bc316f6d90ce55207c15",
+    "league_decisions.json": "bcaac9c6bfb94cee72aeb90d051c983ee9437b8a2586ecaaefb6919201a14aef",
+    "leakage_audit.json": "70480a40454ab1b51bcafb34a040b8fd3bcbf9091842deb7cc85520127749597",
+    "model_cards.md": "968b06d434f9e598ebb063ac72f6c34a8d6298f369825884f63ec90f987d5039",
+    "paired_deltas.json": "92e50f465d403712bc461b5d8819366b351400ebeed63a6043a354f73fb7accb",
+    "protocol_manifest.json": "a34649fcf44fc31cb3d3fb160a0785218653592174163a0db0d35b979e17e4fb",
+    "reliability.json": "ae391e8fa9476745ff38f78c71f02e47e627525563a38e5c912e430d5c14a5e6",
+    "score_audit.json": "b4dd0871bf90c189c3e4c94d5a48f13ff03360eb71bc998abbf2341025dcb063",
+    "stat_metrics.json": "f226420247ccc9be3a5696ef725f984edbcf9b3cf6edb3ba73289e403a62ae8e",
+    "uefa_bridge.json": "0251a51aef8ea51d7bc527ecfcbffb1602241b3d32cb911d593fa30834d9317a"
+  },
+  "protocol_version": "lm-s3-v1",
+  "python": "3.14.6",
+  "random_seed": {
+    "bootstrap": 20261020,
+    "models": "deterministic (L-BFGS-B / BFGS, no randomness)"
+  },
+  "reproducibility_note": "timings.json is excluded from the hashes (wall-clock)",
+  "snapshot_id": "snap-546e70fff7fb",
+  "stage": "t-24h",
+  "stat_config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf",
+  "timezone": "UTC"
+}

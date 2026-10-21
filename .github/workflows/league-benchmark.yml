@@ -1,5 +1,5 @@
 name: league-benchmark
-# Real-data check of the league-model programme (ADR 0064): re-runs the Sprint 2 global reference benchmark on the
+# Real-data check of the league-model programme (ADR 0064 and 0065): re-runs the Sprint 2 global reference benchmark on the
 # archived source snapshot (private data repo, branch league-source-snapshot) and compares it with the committed
 # docs/league_models/s2_*.json: structural files byte-for-byte, metric files within 1e-3 (float noise between operating
 # systems is expected; a changed result is not). Files that need git-ignored local artifacts are listed as not compared. Takes about 10 minutes, so it runs only when the benchmark, its
@@ -14,6 +14,7 @@ on:
       - "configs/model.yaml"
       - "configs/team_aliases.yaml"
       - "docs/league_models/s2_*.json"
+      - "docs/league_models/s3_*.json"
       - "requirements.lock"
       - ".github/workflows/league-benchmark.yml"
   push:
@@ -80,3 +81,9 @@ jobs:
       - name: Verify the written files by hash
         if: env.SNAPSHOT == 'ready'
         run: python -m src.league_models.benchmark --verify artifacts/league_models/benchmark/ci
+      - name: Sprint 3 candidates on the same snapshot, compared with the committed s3 results
+        if: env.SNAPSHOT == 'ready'
+        run: python -m src.league_models.stat_benchmark --as-of 2026-10-20T00:00:00Z --output-dir artifacts/league_models/stat/ci --compare-committed docs/league_models --atol 1e-3
+      - name: Verify the Sprint 3 files by hash
+        if: env.SNAPSHOT == 'ready'
+        run: python -m src.league_models.stat_benchmark --verify artifacts/league_models/stat/ci

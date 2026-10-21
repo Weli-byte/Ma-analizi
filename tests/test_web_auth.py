@@ -28,7 +28,7 @@ def test_a_cookie_signed_with_another_secret_is_refused(monkeypatch):
     assert session.verify(token) is None
 
 
-GOOD = {"aud": "cid", "iss": "https://accounts.google.com", "sub": "123", "email": "v@example.com", "email_verified": "true", "name": "Veli", "exp": str(int(time.time()) + 600)}  # fmt: skip
+GOOD = {"aud": "cid", "iss": "https://accounts.google.com", "sub": "123", "email": "v@example.com", "email_verified": "true", "name": "Veli", "exp": str(int(time.time()) + 86400)}  # fmt: skip
 
 
 def test_google_claims_are_validated_strictly():

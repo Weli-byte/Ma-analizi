@@ -1,0 +1,903 @@
+{
+  "by_model": {
+    "A_dc": {
+      "ALL": {
+        "log_loss_when_0_0": 2.6305,
+        "log_loss_when_1_1": 2.1504,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07227,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11511,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12435
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.5236,
+        "log_loss_when_1_1": 2.1182,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.0784,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.11691,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11118
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3553,
+        "log_loss_when_1_1": 2.0687,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.09349,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12362,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.14342
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.5969,
+        "log_loss_when_1_1": 2.1148,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07519,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.1196,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.11758
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.8306,
+        "log_loss_when_1_1": 2.2452,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05501,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.10591,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.11895
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.7167,
+        "log_loss_when_1_1": 2.1411,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.06647,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11398,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.1455
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.7083,
+        "log_loss_when_1_1": 2.1535,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.07029,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11759,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.15476
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.9089,
+        "log_loss_when_1_1": 2.312,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.05858,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.10414,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.10015
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.6448,
+        "log_loss_when_1_1": 2.1208,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.08023,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11907,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.10417
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.839,
+        "log_loss_when_1_1": 2.2098,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.06781,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.11136,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.10798
+      }
+    },
+    "A_dc_norho": {
+      "ALL": {
+        "log_loss_when_0_0": 2.7437,
+        "log_loss_when_1_1": 2.2159,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.06501,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.10785,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12341
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.634,
+        "log_loss_when_1_1": 2.1855,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.07085,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.10936,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11053
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.4506,
+        "log_loss_when_1_1": 2.1353,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.08549,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.11561,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.14211
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.7054,
+        "log_loss_when_1_1": 2.1811,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.06764,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.11205,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.1153
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.9587,
+        "log_loss_when_1_1": 2.3103,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.04841,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.09932,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.11569
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.834,
+        "log_loss_when_1_1": 2.205,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.05939,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.1069,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.15397
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.8333,
+        "log_loss_when_1_1": 2.2213,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.06258,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.10988,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.14524
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 3.0372,
+        "log_loss_when_1_1": 2.3763,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.05219,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.09775,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.1045
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.7539,
+        "log_loss_when_1_1": 2.1837,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.07294,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11177,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.09896
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.966,
+        "log_loss_when_1_1": 2.2752,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.06094,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.10449,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.09571
+      }
+    },
+    "A_dc_rest": {
+      "ALL": {
+        "log_loss_when_0_0": 2.632,
+        "log_loss_when_1_1": 2.1505,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07219,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11508,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12388
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.5237,
+        "log_loss_when_1_1": 2.118,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.07838,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.1169,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11053
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3583,
+        "log_loss_when_1_1": 2.069,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.09338,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12359,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.14342
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.5993,
+        "log_loss_when_1_1": 2.115,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07512,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.11958,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.11815
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.8315,
+        "log_loss_when_1_1": 2.2458,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05495,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.10587,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.11895
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.719,
+        "log_loss_when_1_1": 2.1415,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.06636,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11392,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.1455
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.7054,
+        "log_loss_when_1_1": 2.1524,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.07049,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11771,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.15476
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.9053,
+        "log_loss_when_1_1": 2.3104,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.05869,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.10423,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.09724
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.652,
+        "log_loss_when_1_1": 2.1221,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.07967,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11886,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.10417
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.8393,
+        "log_loss_when_1_1": 2.2103,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.06766,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.11131,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.10429
+      }
+    },
+    "A_dc_shrink": {
+      "ALL": {
+        "log_loss_when_0_0": 2.6348,
+        "log_loss_when_1_1": 2.1367,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07114,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11662,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12491
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.5372,
+        "log_loss_when_1_1": 2.1101,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.0772,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.11782,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11184
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3697,
+        "log_loss_when_1_1": 2.0627,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.09181,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12464,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.14276
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.6054,
+        "log_loss_when_1_1": 2.1018,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07411,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.1209,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.12043
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.8303,
+        "log_loss_when_1_1": 2.2348,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05483,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.10678,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.11961
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.7197,
+        "log_loss_when_1_1": 2.1364,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.06593,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11467,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.14656
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.7148,
+        "log_loss_when_1_1": 2.1413,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.06921,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11891,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.15476
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.8785,
+        "log_loss_when_1_1": 2.2755,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.05816,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.1069,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.1016
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.6576,
+        "log_loss_when_1_1": 2.0766,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.07605,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.12318,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.09201
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.8138,
+        "log_loss_when_1_1": 2.1681,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.06615,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.11561,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.11288
+      }
+    },
+    "B_dc_league": {
+      "ALL": {
+        "log_loss_when_0_0": 2.6343,
+        "log_loss_when_1_1": 2.1567,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07266,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11458,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12304
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.51,
+        "log_loss_when_1_1": 2.1074,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.07927,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.11811,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11316
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3286,
+        "log_loss_when_1_1": 2.069,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.0966,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12363,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.13553
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.5929,
+        "log_loss_when_1_1": 2.1096,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07553,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.12005,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.11758
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.8542,
+        "log_loss_when_1_1": 2.2437,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05393,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.1059,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.11895
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.7386,
+        "log_loss_when_1_1": 2.146,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.06487,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11353,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.14921
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.7209,
+        "log_loss_when_1_1": 2.1646,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.06891,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11629,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.14048
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.9173,
+        "log_loss_when_1_1": 2.3353,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.05872,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.10244,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.09579
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.7048,
+        "log_loss_when_1_1": 2.1846,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.07852,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11238,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.09896
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.8455,
+        "log_loss_when_1_1": 2.259,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.07237,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.10896,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.10798
+      }
+    },
+    "B_dc_league_nohome": {
+      "ALL": {
+        "log_loss_when_0_0": 2.6362,
+        "log_loss_when_1_1": 2.1571,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07255,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11454,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.1236
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.5123,
+        "log_loss_when_1_1": 2.1093,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.07917,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.11794,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11118
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3315,
+        "log_loss_when_1_1": 2.0606,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.09641,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12464,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.14276
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.5939,
+        "log_loss_when_1_1": 2.1137,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07541,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.11958,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.11758
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.8577,
+        "log_loss_when_1_1": 2.2465,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05385,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.10579,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.1183
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.7398,
+        "log_loss_when_1_1": 2.1494,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.0648,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11315,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.14444
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.7285,
+        "log_loss_when_1_1": 2.1603,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.06868,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11673,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.15
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.9165,
+        "log_loss_when_1_1": 2.3387,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.0587,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.10201,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.10015
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.7016,
+        "log_loss_when_1_1": 2.1827,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.07836,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11254,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.10417
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.845,
+        "log_loss_when_1_1": 2.2568,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.07218,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.10904,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.10552
+      }
+    },
+    "C_dc_local": {
+      "ALL": {
+        "log_loss_when_0_0": 2.6157,
+        "log_loss_when_1_1": 2.1485,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07387,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11547,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12099
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.5506,
+        "log_loss_when_1_1": 2.1406,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.07587,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.1146,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.10658
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3088,
+        "log_loss_when_1_1": 2.0552,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.0983,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12529,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.14079
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.574,
+        "log_loss_when_1_1": 2.103,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07664,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.12099,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.11929
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.7435,
+        "log_loss_when_1_1": 2.1902,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05998,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.11202,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.11895
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.7005,
+        "log_loss_when_1_1": 2.1291,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.06668,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11534,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.14444
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.8023,
+        "log_loss_when_1_1": 2.2125,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.06419,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11104,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.14286
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.8796,
+        "log_loss_when_1_1": 2.3681,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.0625,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.10256,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.09434
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.5642,
+        "log_loss_when_1_1": 2.1631,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.08397,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11558,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.09201
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.9845,
+        "log_loss_when_1_1": 2.2486,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.06881,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.10686,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.09571
+      }
+    },
+    "D_blend": {
+      "ALL": {
+        "log_loss_when_0_0": 2.6235,
+        "log_loss_when_1_1": 2.1518,
+        "n": 10712,
+        "p_0_0_mean_predicted": 0.07327,
+        "p_0_0_observed": 0.06395,
+        "p_1_1_mean_predicted": 0.11509,
+        "p_1_1_observed": 0.11875,
+        "top_score_hit_rate": 0.12379
+      },
+      "league=ENG1": {
+        "log_loss_when_0_0": 2.5105,
+        "log_loss_when_1_1": 2.108,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.0792,
+        "p_0_0_observed": 0.05658,
+        "p_1_1_mean_predicted": 0.11804,
+        "p_1_1_observed": 0.10395,
+        "top_score_hit_rate": 0.11382
+      },
+      "league=ESP1": {
+        "log_loss_when_0_0": 2.3207,
+        "log_loss_when_1_1": 2.0652,
+        "n": 1520,
+        "p_0_0_mean_predicted": 0.09729,
+        "p_0_0_observed": 0.08553,
+        "p_1_1_mean_predicted": 0.12411,
+        "p_1_1_observed": 0.13026,
+        "top_score_hit_rate": 0.13684
+      },
+      "league=FRA1": {
+        "log_loss_when_0_0": 2.5874,
+        "log_loss_when_1_1": 2.1072,
+        "n": 1752,
+        "p_0_0_mean_predicted": 0.07582,
+        "p_0_0_observed": 0.06678,
+        "p_1_1_mean_predicted": 0.12031,
+        "p_1_1_observed": 0.12215,
+        "top_score_hit_rate": 0.11815
+      },
+      "league=GER1": {
+        "log_loss_when_0_0": 2.8053,
+        "log_loss_when_1_1": 2.223,
+        "n": 1530,
+        "p_0_0_mean_predicted": 0.05642,
+        "p_0_0_observed": 0.0549,
+        "p_1_1_mean_predicted": 0.10837,
+        "p_1_1_observed": 0.12288,
+        "top_score_hit_rate": 0.12026
+      },
+      "league=ITA1": {
+        "log_loss_when_0_0": 2.7316,
+        "log_loss_when_1_1": 2.1423,
+        "n": 1890,
+        "p_0_0_mean_predicted": 0.06524,
+        "p_0_0_observed": 0.06296,
+        "p_1_1_mean_predicted": 0.11389,
+        "p_1_1_observed": 0.13333,
+        "top_score_hit_rate": 0.14709
+      },
+      "league=TUR1": {
+        "log_loss_when_0_0": 2.7209,
+        "log_loss_when_1_1": 2.1646,
+        "n": 420,
+        "p_0_0_mean_predicted": 0.06891,
+        "p_0_0_observed": 0.09048,
+        "p_1_1_mean_predicted": 0.11629,
+        "p_1_1_observed": 0.14286,
+        "top_score_hit_rate": 0.14048
+      },
+      "league=UEFA_UCL": {
+        "log_loss_when_0_0": 2.9126,
+        "log_loss_when_1_1": 2.3374,
+        "n": 689,
+        "p_0_0_mean_predicted": 0.05919,
+        "p_0_0_observed": 0.05225,
+        "p_1_1_mean_predicted": 0.10249,
+        "p_1_1_observed": 0.08708,
+        "top_score_hit_rate": 0.1016
+      },
+      "league=UEFA_UECL": {
+        "log_loss_when_0_0": 2.6832,
+        "log_loss_when_1_1": 2.1801,
+        "n": 576,
+        "p_0_0_mean_predicted": 0.07896,
+        "p_0_0_observed": 0.06076,
+        "p_1_1_mean_predicted": 0.11235,
+        "p_1_1_observed": 0.09722,
+        "top_score_hit_rate": 0.10417
+      },
+      "league=UEFA_UEL": {
+        "log_loss_when_0_0": 2.8482,
+        "log_loss_when_1_1": 2.2579,
+        "n": 815,
+        "p_0_0_mean_predicted": 0.07231,
+        "p_0_0_observed": 0.04908,
+        "p_1_1_mean_predicted": 0.10887,
+        "p_1_1_observed": 0.10552,
+        "top_score_hit_rate": 0.10675
+      }
+    }
+  },
+  "definition": "0-0 / 1-1 sub-groups, exact-score hit rate of the most likely score, matrix validity",
+  "matrix_validity": {
+    "A_dc": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.002939872093875362,
+      "min_cell_probability": 1.0461731205028476e-23,
+      "pre_normalisation_sum_range": [
+        0.9970601279061246,
+        0.9999999999937691
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    },
+    "A_dc_norho": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.002939872093875362,
+      "min_cell_probability": 1.0461731205028476e-23,
+      "pre_normalisation_sum_range": [
+        0.9970601279061246,
+        0.9999999999937692
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    },
+    "A_dc_rest": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.002887382610185063,
+      "min_cell_probability": 1.1315962307080814e-23,
+      "pre_normalisation_sum_range": [
+        0.9971126173898148,
+        0.9999999999934337
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    },
+    "A_dc_shrink": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.0019076977600137601,
+      "min_cell_probability": 6.090814536409053e-21,
+      "pre_normalisation_sum_range": [
+        0.9980923022399861,
+        0.9999999999784849
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    },
+    "B_dc_league": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.004599214594144807,
+      "min_cell_probability": 6.115449958650059e-26,
+      "pre_normalisation_sum_range": [
+        0.9954007854058549,
+        0.9999999999969205
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    },
+    "B_dc_league_nohome": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.004568241562929898,
+      "min_cell_probability": 6.46736820397023e-26,
+      "pre_normalisation_sum_range": [
+        0.9954317584370702,
+        0.9999999999960899
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    },
+    "C_dc_local": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.019721116559737184,
+      "min_cell_probability": 1.0189094741409119e-23,
+      "pre_normalisation_sum_range": [
+        0.9802788834402626,
+        0.9999999999995278
+      ],
+      "rows_with_a_club_unseen_in_training": 3071
+    },
+    "D_blend": {
+      "max_abs_matrix_sum_deviation_after_normalisation": 4.440892098500626e-16,
+      "max_tail_mass_outside_grid": 0.019721116559737184,
+      "min_cell_probability": 2.883339270531085e-22,
+      "pre_normalisation_sum_range": [
+        0.9983910750446077,
+        0.9999999999995278
+      ],
+      "rows_with_a_club_unseen_in_training": 2491
+    }
+  }
+}

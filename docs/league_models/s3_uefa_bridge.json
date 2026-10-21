@@ -1,0 +1,1239 @@
+{
+  "folds": {
+    "2020-21": {
+      "countries_with_international_matches": 16,
+      "status": "NOT_AVAILABLE: too few international matches; global + competition prior, UNCERTAIN",
+      "uefa_training_matches": 118
+    },
+    "2021-22": {
+      "countries": [
+        {
+          "attack_offset": 0.247382577093533,
+          "country": "ENG",
+          "defense_offset": 0.49452677594221217,
+          "international_matches": 116,
+          "net_strength": 0.7419093530357452,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.4360196041875094,
+          "country": "POR",
+          "defense_offset": 0.26055983138751015,
+          "international_matches": 32,
+          "net_strength": 0.6965794355750196,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.37909896711768803,
+          "country": "GER",
+          "defense_offset": 0.18537013922373927,
+          "international_matches": 87,
+          "net_strength": 0.5644691063414273,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.1679045202785097,
+          "country": "NED",
+          "defense_offset": 0.2334018845019311,
+          "international_matches": 38,
+          "net_strength": 0.4013064047804408,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.05038964052584055,
+          "country": "ESP",
+          "defense_offset": 0.342146033000237,
+          "international_matches": 105,
+          "net_strength": 0.39253567352607754,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.1469070506770193,
+          "country": "ITA",
+          "defense_offset": 0.21580287958107858,
+          "international_matches": 93,
+          "net_strength": 0.3627099302580979,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.20271233916556064,
+          "country": "CRO",
+          "defense_offset": 0.1296001156903449,
+          "international_matches": 24,
+          "net_strength": 0.33231245485590555,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.258958074132034,
+          "country": "SUI",
+          "defense_offset": 0.06318068715445195,
+          "international_matches": 10,
+          "net_strength": 0.32213876128648594,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.4146651853083198,
+          "country": "SCO",
+          "defense_offset": -0.24883007416632097,
+          "international_matches": 16,
+          "net_strength": 0.16583511114199884,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.10002526769368601,
+          "country": "NOR",
+          "defense_offset": 0.016784941007488036,
+          "international_matches": 10,
+          "net_strength": 0.11681020870117405,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.26875649488565345,
+          "country": "AUT",
+          "defense_offset": -0.16839926426375756,
+          "international_matches": 34,
+          "net_strength": 0.10035723062189589,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.015832547234275293,
+          "country": "GRE",
+          "defense_offset": 0.04183426093395281,
+          "international_matches": 28,
+          "net_strength": 0.0576668081682281,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.08291343980433388,
+          "country": "DEN",
+          "defense_offset": 0.13038130505658366,
+          "international_matches": 6,
+          "net_strength": 0.047467865252249775,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.04520583757856333,
+          "country": "FRA",
+          "defense_offset": -0.014668653445008877,
+          "international_matches": 65,
+          "net_strength": 0.03053718413355445,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.20984427857084348,
+          "country": "RUS",
+          "defense_offset": 0.1446061957606859,
+          "international_matches": 38,
+          "net_strength": -0.06523808281015758,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.17318491597895358,
+          "country": "UKR",
+          "defense_offset": 0.09415997844495035,
+          "international_matches": 32,
+          "net_strength": -0.07902493753400323,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.132100046428955,
+          "country": "SRB",
+          "defense_offset": 0.0052169499694555066,
+          "international_matches": 14,
+          "net_strength": -0.1268830964594995,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.11291070909791177,
+          "country": "CZE",
+          "defense_offset": -0.026882632020476152,
+          "international_matches": 30,
+          "net_strength": -0.13979334111838793,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.22113506035804786,
+          "country": "ISR",
+          "defense_offset": -0.060080970188352366,
+          "international_matches": 14,
+          "net_strength": -0.2812160305464002,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.27276357427417386,
+          "country": "ROU",
+          "defense_offset": -0.026521469381921257,
+          "international_matches": 6,
+          "net_strength": -0.2992850436560951,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.09596446861734821,
+          "country": "HUN",
+          "defense_offset": -0.2256613276533975,
+          "international_matches": 6,
+          "net_strength": -0.3216257962707457,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.2073231405614442,
+          "country": "POL",
+          "defense_offset": -0.11548356088657422,
+          "international_matches": 6,
+          "net_strength": -0.32280670144801843,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.05428005416379485,
+          "country": "IRL",
+          "defense_offset": -0.37809291596340217,
+          "international_matches": 6,
+          "net_strength": -0.32381286179960733,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.1893435972134917,
+          "country": "BEL",
+          "defense_offset": -0.16634381473798224,
+          "international_matches": 40,
+          "net_strength": -0.3556874119514739,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.24543391975009493,
+          "country": "CYP",
+          "defense_offset": -0.13075334211453069,
+          "international_matches": 6,
+          "net_strength": -0.3761872618646256,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.30127190786104324,
+          "country": "BUL",
+          "defense_offset": -0.10314215858993575,
+          "international_matches": 12,
+          "net_strength": -0.404414066450979,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.18619298805150444,
+          "country": "TUR",
+          "defense_offset": -0.37325752253881717,
+          "international_matches": 18,
+          "net_strength": -0.5594505105903216,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.35770467627234404,
+          "country": "AZE",
+          "defense_offset": -0.3195057089056829,
+          "international_matches": 6,
+          "net_strength": -0.6772103851780269,
+          "status": "UNCERTAIN"
+        }
+      ],
+      "countries_with_international_matches": 28,
+      "status": "AVAILABLE",
+      "uefa_training_matches": 449
+    },
+    "2022-23": {
+      "countries": [
+        {
+          "attack_offset": 0.48549085518901236,
+          "country": "NED",
+          "defense_offset": 0.4036851400446798,
+          "international_matches": 89,
+          "net_strength": 0.8891759952336922,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.40688682185804975,
+          "country": "ENG",
+          "defense_offset": 0.4693568026339862,
+          "international_matches": 191,
+          "net_strength": 0.876243624492036,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.5611126522306649,
+          "country": "POR",
+          "defense_offset": 0.3097042879766648,
+          "international_matches": 72,
+          "net_strength": 0.8708169402073297,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.43332430641539393,
+          "country": "GER",
+          "defense_offset": 0.26472732656101766,
+          "international_matches": 150,
+          "net_strength": 0.6980516329764116,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.22108601936166808,
+          "country": "ESP",
+          "defense_offset": 0.42796549249773685,
+          "international_matches": 180,
+          "net_strength": 0.6490515118594049,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.3542002893972509,
+          "country": "CRO",
+          "defense_offset": 0.1791010517882331,
+          "international_matches": 32,
+          "net_strength": 0.533301341185484,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.3588606093953823,
+          "country": "NOR",
+          "defense_offset": 0.169486360011345,
+          "international_matches": 22,
+          "net_strength": 0.5283469694067273,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.3057970521744124,
+          "country": "ITA",
+          "defense_offset": 0.1870663272372583,
+          "international_matches": 156,
+          "net_strength": 0.4928633794116707,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.46216503437703904,
+          "country": "SCO",
+          "defense_offset": -0.019312977796961197,
+          "international_matches": 39,
+          "net_strength": 0.44285205658007787,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2183952049111527,
+          "country": "FRA",
+          "defense_offset": 0.1987589667917485,
+          "international_matches": 121,
+          "net_strength": 0.4171541717029012,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.20670406141378778,
+          "country": "MDA",
+          "defense_offset": 0.19397576496359814,
+          "international_matches": 8,
+          "net_strength": 0.4006798263773859,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.12026268205029114,
+          "country": "RUS",
+          "defense_offset": 0.24073079667181368,
+          "international_matches": 58,
+          "net_strength": 0.36099347872210485,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2961792593585861,
+          "country": "SUI",
+          "defense_offset": 0.0499713055330554,
+          "international_matches": 24,
+          "net_strength": 0.3461505648916415,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.20314891919382005,
+          "country": "AUT",
+          "defense_offset": 0.044437409873450746,
+          "international_matches": 64,
+          "net_strength": 0.2475863290672708,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.07199091427943972,
+          "country": "GRE",
+          "defense_offset": 0.07077314143720859,
+          "international_matches": 48,
+          "net_strength": 0.1427640557166483,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.18304395546020322,
+          "country": "ISR",
+          "defense_offset": 0.21652475818520045,
+          "international_matches": 28,
+          "net_strength": 0.03348080272499723,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.03722954791103374,
+          "country": "SVN",
+          "defense_offset": -0.02374257712885219,
+          "international_matches": 6,
+          "net_strength": 0.013486970782181553,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.042647897303554026,
+          "country": "CZE",
+          "defense_offset": -0.04311730517663332,
+          "international_matches": 56,
+          "net_strength": -0.00046940787307929444,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.16911193668715369,
+          "country": "UKR",
+          "defense_offset": 0.15971729022783937,
+          "international_matches": 50,
+          "net_strength": -0.009394646459314315,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.036188179082787666,
+          "country": "DEN",
+          "defense_offset": -0.06768034596092307,
+          "international_matches": 36,
+          "net_strength": -0.0314921668781354,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.07252550845308502,
+          "country": "POL",
+          "defense_offset": 0.025720703206170217,
+          "international_matches": 12,
+          "net_strength": -0.0468048052469148,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.021397735854613062,
+          "country": "BEL",
+          "defense_offset": -0.0720930395754433,
+          "international_matches": 66,
+          "net_strength": -0.09349077543005636,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.12512223591163255,
+          "country": "SRB",
+          "defense_offset": 0.02109626474964266,
+          "international_matches": 32,
+          "net_strength": -0.10402597116198989,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.1593606104496021,
+          "country": "SVK",
+          "defense_offset": -0.007076993699637297,
+          "international_matches": 6,
+          "net_strength": -0.1664376041492394,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.19102110607199743,
+          "country": "IRL",
+          "defense_offset": -0.38099978388785594,
+          "international_matches": 6,
+          "net_strength": -0.1899786778158585,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.08863771165188004,
+          "country": "HUN",
+          "defense_offset": -0.1053360173073842,
+          "international_matches": 12,
+          "net_strength": -0.19397372895926424,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.08074157021436454,
+          "country": "TUR",
+          "defense_offset": -0.13162161541849887,
+          "international_matches": 40,
+          "net_strength": -0.2123631856328634,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.2930540593030691,
+          "country": "ROU",
+          "defense_offset": 0.05629534524321915,
+          "international_matches": 12,
+          "net_strength": -0.23675871405984994,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.07858197072322777,
+          "country": "AZE",
+          "defense_offset": -0.23796963781309888,
+          "international_matches": 14,
+          "net_strength": -0.31655160853632663,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.3280843184947486,
+          "country": "BUL",
+          "defense_offset": -0.1027875245096365,
+          "international_matches": 24,
+          "net_strength": -0.43087184300438514,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.2844707450751208,
+          "country": "KAZ",
+          "defense_offset": -0.27873456133867686,
+          "international_matches": 6,
+          "net_strength": -0.5632053064137976,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.6734009170274013,
+          "country": "SWE",
+          "defense_offset": -0.019389590649241426,
+          "international_matches": 6,
+          "net_strength": -0.6927905076766427,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.3674649081958015,
+          "country": "CYP",
+          "defense_offset": -0.35779542888368654,
+          "international_matches": 18,
+          "net_strength": -0.7252603370794881,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.44287791992721326,
+          "country": "EST",
+          "defense_offset": -0.29971292097888386,
+          "international_matches": 6,
+          "net_strength": -0.7425908409060971,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.4067540278144488,
+          "country": "FIN",
+          "defense_offset": -0.5415792662604831,
+          "international_matches": 6,
+          "net_strength": -0.9483332940749319,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.5366600402804796,
+          "country": "ARM",
+          "defense_offset": -0.5181158298920945,
+          "international_matches": 6,
+          "net_strength": -1.0547758701725742,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.701368675258401,
+          "country": "GIB",
+          "defense_offset": -0.48206168454874976,
+          "international_matches": 6,
+          "net_strength": -1.1834303598071507,
+          "status": "UNCERTAIN"
+        }
+      ],
+      "countries_with_international_matches": 37,
+      "status": "AVAILABLE",
+      "uefa_training_matches": 854
+    },
+    "2023-24": {
+      "countries": [
+        {
+          "attack_offset": 0.40334409110079156,
+          "country": "ENG",
+          "defense_offset": 0.5086301461350425,
+          "international_matches": 263,
+          "net_strength": 0.9119742372358342,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.5663147424888779,
+          "country": "POR",
+          "defense_offset": 0.3111329623665664,
+          "international_matches": 110,
+          "net_strength": 0.8774477048554443,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.5494945292522668,
+          "country": "NED",
+          "defense_offset": 0.32603184970557036,
+          "international_matches": 127,
+          "net_strength": 0.8755263789578371,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.3661006645949126,
+          "country": "GER",
+          "defense_offset": 0.28879061246967475,
+          "international_matches": 222,
+          "net_strength": 0.6548912770645874,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.25579581543661145,
+          "country": "ESP",
+          "defense_offset": 0.31926957866172206,
+          "international_matches": 245,
+          "net_strength": 0.5750653940983335,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.275748187700639,
+          "country": "ITA",
+          "defense_offset": 0.2122982820896333,
+          "international_matches": 245,
+          "net_strength": 0.48804646979027233,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2978482752608436,
+          "country": "CRO",
+          "defense_offset": 0.15681919062772948,
+          "international_matches": 38,
+          "net_strength": 0.4546674658885731,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.1273030074134118,
+          "country": "RUS",
+          "defense_offset": 0.20088000917148657,
+          "international_matches": 58,
+          "net_strength": 0.32818301658489835,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.1884404472453844,
+          "country": "FRA",
+          "defense_offset": 0.11233634925382832,
+          "international_matches": 169,
+          "net_strength": 0.30077679649921274,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.28095397496255275,
+          "country": "SUI",
+          "defense_offset": -0.025068897331489922,
+          "international_matches": 44,
+          "net_strength": 0.25588507763106283,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.11467230151763082,
+          "country": "POL",
+          "defense_offset": 0.13741484707365084,
+          "international_matches": 24,
+          "net_strength": 0.2520871485912817,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.188880814957419,
+          "country": "NOR",
+          "defense_offset": 0.05941933122950557,
+          "international_matches": 36,
+          "net_strength": 0.2483001461869246,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.14176388705977927,
+          "country": "BEL",
+          "defense_offset": 0.08390203530021999,
+          "international_matches": 108,
+          "net_strength": 0.22566592235999927,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.1453162113282047,
+          "country": "DEN",
+          "defense_offset": 0.03200489367785677,
+          "international_matches": 56,
+          "net_strength": 0.17732110500606146,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.019920543040149223,
+          "country": "ISR",
+          "defense_offset": 0.14395756199816964,
+          "international_matches": 40,
+          "net_strength": 0.16387810503831887,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.04283175792940685,
+          "country": "SRB",
+          "defense_offset": 0.07797842785051472,
+          "international_matches": 46,
+          "net_strength": 0.12081018577992156,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.03432129581154264,
+          "country": "MDA",
+          "defense_offset": 0.07620908060036499,
+          "international_matches": 18,
+          "net_strength": 0.11053037641190763,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.045005240682001554,
+          "country": "GRE",
+          "defense_offset": 0.057883025460654935,
+          "international_matches": 54,
+          "net_strength": 0.10288826614265649,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.06463913113987017,
+          "country": "SVK",
+          "defense_offset": 0.014783554076159288,
+          "international_matches": 14,
+          "net_strength": 0.07942268521602946,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.05027235214283801,
+          "country": "AUT",
+          "defense_offset": -0.0059937380488628835,
+          "international_matches": 84,
+          "net_strength": 0.04427861409397513,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.10376998755851378,
+          "country": "CZE",
+          "defense_offset": -0.09039976671332535,
+          "international_matches": 74,
+          "net_strength": 0.013370220845188435,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.027451784898828255,
+          "country": "AZE",
+          "defense_offset": -0.028622603610427896,
+          "international_matches": 22,
+          "net_strength": -0.0011708187115996409,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.011353840499953697,
+          "country": "SVN",
+          "defense_offset": -0.02597992337175634,
+          "international_matches": 6,
+          "net_strength": -0.014626082871802643,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.15523923878239304,
+          "country": "KOS",
+          "defense_offset": -0.18463150937025036,
+          "international_matches": 6,
+          "net_strength": -0.029392270587857316,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.23355095139771148,
+          "country": "SCO",
+          "defense_offset": -0.2710587708858925,
+          "international_matches": 57,
+          "net_strength": -0.03750781948818099,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.12883141634709552,
+          "country": "UKR",
+          "defense_offset": 0.08867479832758134,
+          "international_matches": 74,
+          "net_strength": -0.04015661801951419,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.07680055238741781,
+          "country": "TUR",
+          "defense_offset": -0.14021410749706334,
+          "international_matches": 72,
+          "net_strength": -0.06341355510964553,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.03578760196517069,
+          "country": "HUN",
+          "defense_offset": -0.08378558706536086,
+          "international_matches": 20,
+          "net_strength": -0.11957318903053155,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.2682162200247933,
+          "country": "LTU",
+          "defense_offset": 0.07532178380235292,
+          "international_matches": 6,
+          "net_strength": -0.19289443622244035,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.2455466684033201,
+          "country": "BUL",
+          "defense_offset": -0.09907448683174667,
+          "international_matches": 32,
+          "net_strength": -0.34462115523506676,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.2504520350993824,
+          "country": "CYP",
+          "defense_offset": -0.0970526578691927,
+          "international_matches": 40,
+          "net_strength": -0.3475046929685751,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.11173522535398436,
+          "country": "LIE",
+          "defense_offset": -0.23867603871018325,
+          "international_matches": 6,
+          "net_strength": -0.3504112640641676,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.287857935782182,
+          "country": "SWE",
+          "defense_offset": -0.0687743372023609,
+          "international_matches": 20,
+          "net_strength": -0.3566322729845429,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.17812989103994534,
+          "country": "KAZ",
+          "defense_offset": -0.19496048466489074,
+          "international_matches": 6,
+          "net_strength": -0.37309037570483605,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.2879777658645393,
+          "country": "EST",
+          "defense_offset": -0.10465233401570392,
+          "international_matches": 6,
+          "net_strength": -0.3926300998802432,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.4032512709800299,
+          "country": "ROU",
+          "defense_offset": -0.05652668847093842,
+          "international_matches": 26,
+          "net_strength": -0.45977795945096833,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.21876003500416047,
+          "country": "ARM",
+          "defense_offset": -0.33121794239760666,
+          "international_matches": 12,
+          "net_strength": -0.5499779774017671,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.45109142803102076,
+          "country": "IRL",
+          "defense_offset": -0.3425739279196242,
+          "international_matches": 12,
+          "net_strength": -0.793665355950645,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.4841042724058834,
+          "country": "FIN",
+          "defense_offset": -0.31989785958726086,
+          "international_matches": 12,
+          "net_strength": -0.8040021319931443,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.8136547303568873,
+          "country": "LVA",
+          "defense_offset": -0.13430754723367755,
+          "international_matches": 6,
+          "net_strength": -0.9479622775905648,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.6018367170691692,
+          "country": "GIB",
+          "defense_offset": -0.4401695239431836,
+          "international_matches": 6,
+          "net_strength": -1.0420062410123527,
+          "status": "UNCERTAIN"
+        }
+      ],
+      "countries_with_international_matches": 41,
+      "status": "AVAILABLE",
+      "uefa_training_matches": 1261
+    },
+    "2024-25": {
+      "countries": [
+        {
+          "attack_offset": 0.4729629415699641,
+          "country": "ENG",
+          "defense_offset": 0.4926579642443072,
+          "international_matches": 335,
+          "net_strength": 0.9656209058142713,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.5649529892103362,
+          "country": "POR",
+          "defense_offset": 0.3326987882012604,
+          "international_matches": 148,
+          "net_strength": 0.8976517774115966,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.5407473542481686,
+          "country": "NED",
+          "defense_offset": 0.3091238747962142,
+          "international_matches": 159,
+          "net_strength": 0.8498712290443828,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.38549276309370023,
+          "country": "GER",
+          "defense_offset": 0.31182539282396665,
+          "international_matches": 292,
+          "net_strength": 0.6973181559176669,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2916654290203677,
+          "country": "ESP",
+          "defense_offset": 0.37335995214078876,
+          "international_matches": 308,
+          "net_strength": 0.6650253811611564,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2769234763972128,
+          "country": "ITA",
+          "defense_offset": 0.2770671041920663,
+          "international_matches": 321,
+          "net_strength": 0.5539905805892791,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.23940397565787275,
+          "country": "FRA",
+          "defense_offset": 0.1885980842126204,
+          "international_matches": 229,
+          "net_strength": 0.4280020598704931,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2661606399274525,
+          "country": "CRO",
+          "defense_offset": 0.15362699756054424,
+          "international_matches": 48,
+          "net_strength": 0.41978763748799675,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.3134314971193212,
+          "country": "NOR",
+          "defense_offset": 0.09184677835726857,
+          "international_matches": 54,
+          "net_strength": 0.4052782754765898,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.145495421119958,
+          "country": "RUS",
+          "defense_offset": 0.2320358309654502,
+          "international_matches": 58,
+          "net_strength": 0.37753125208540816,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.26540394638207154,
+          "country": "DEN",
+          "defense_offset": 0.08194431961214667,
+          "international_matches": 70,
+          "net_strength": 0.3473482659942182,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.17474209932909118,
+          "country": "BEL",
+          "defense_offset": 0.14983941712307944,
+          "international_matches": 150,
+          "net_strength": 0.3245815164521706,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.22781929728010852,
+          "country": "GRE",
+          "defense_offset": 0.08902174104900316,
+          "international_matches": 91,
+          "net_strength": 0.3168410383291117,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.09551157734442214,
+          "country": "POL",
+          "defense_offset": 0.14779821043743072,
+          "international_matches": 38,
+          "net_strength": 0.24330978778185286,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.11801939542498917,
+          "country": "ISR",
+          "defense_offset": 0.12272984920784102,
+          "international_matches": 58,
+          "net_strength": 0.2407492446328302,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.09394962546020635,
+          "country": "AUT",
+          "defense_offset": 0.05135100617707508,
+          "international_matches": 106,
+          "net_strength": 0.14530063163728144,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.1407170457250049,
+          "country": "CZE",
+          "defense_offset": -0.003814329623123234,
+          "international_matches": 102,
+          "net_strength": 0.13690271610188168,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.08170665114171215,
+          "country": "BIH",
+          "defense_offset": 0.051529969588737054,
+          "international_matches": 6,
+          "net_strength": 0.1332366207304492,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": 0.09371839941397801,
+          "country": "AZE",
+          "defense_offset": 0.021145971574458574,
+          "international_matches": 32,
+          "net_strength": 0.11486437098843659,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.0844284953187635,
+          "country": "SUI",
+          "defense_offset": -0.001486082419451129,
+          "international_matches": 68,
+          "net_strength": 0.08294241289931237,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.2374618979018295,
+          "country": "SCO",
+          "defense_offset": -0.17387444343331193,
+          "international_matches": 77,
+          "net_strength": 0.06358745446851757,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.056075606459993335,
+          "country": "UKR",
+          "defense_offset": 0.0801772309551323,
+          "international_matches": 88,
+          "net_strength": 0.02410162449513896,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.03936098376391127,
+          "country": "MDA",
+          "defense_offset": -0.026202115437285,
+          "international_matches": 24,
+          "net_strength": 0.013158868326626268,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": 0.12411916595530598,
+          "country": "TUR",
+          "defense_offset": -0.14153657879284642,
+          "international_matches": 96,
+          "net_strength": -0.017417412837540447,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.03523237682335877,
+          "country": "HUN",
+          "defense_offset": 0.00023432312232086306,
+          "international_matches": 28,
+          "net_strength": -0.03499805370103791,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.2597375438707294,
+          "country": "LTU",
+          "defense_offset": 0.07005805592414331,
+          "international_matches": 6,
+          "net_strength": -0.18967948794658607,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.16296993690172012,
+          "country": "SVN",
+          "defense_offset": -0.028635951005171724,
+          "international_matches": 12,
+          "net_strength": -0.19160588790689184,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.14191117264230865,
+          "country": "KOS",
+          "defense_offset": -0.061107014823534464,
+          "international_matches": 12,
+          "net_strength": -0.2030181874658431,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.1633465897598999,
+          "country": "FRO",
+          "defense_offset": -0.06044289439460883,
+          "international_matches": 6,
+          "net_strength": -0.22378948415450872,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.16810896153453447,
+          "country": "CYP",
+          "defense_offset": -0.09287466527282477,
+          "international_matches": 46,
+          "net_strength": -0.26098362680735926,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.07569796039099858,
+          "country": "SRB",
+          "defense_offset": -0.18624365834336853,
+          "international_matches": 64,
+          "net_strength": -0.2619416187343671,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.208733973726631,
+          "country": "BUL",
+          "defense_offset": -0.05697392261231575,
+          "international_matches": 40,
+          "net_strength": -0.26570789633894676,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.2418103476796045,
+          "country": "EST",
+          "defense_offset": -0.05988500358452297,
+          "international_matches": 6,
+          "net_strength": -0.30169535126412744,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.22228225452872222,
+          "country": "SVK",
+          "defense_offset": -0.13684921114067186,
+          "international_matches": 28,
+          "net_strength": -0.3591314656693941,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.1343837638803851,
+          "country": "LIE",
+          "defense_offset": -0.2552914086770733,
+          "international_matches": 6,
+          "net_strength": -0.38967517255745837,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.3724123336263329,
+          "country": "ROU",
+          "defense_offset": -0.06095990682266024,
+          "international_matches": 26,
+          "net_strength": -0.43337224044899314,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.3461991600531894,
+          "country": "SWE",
+          "defense_offset": -0.13788792175006803,
+          "international_matches": 26,
+          "net_strength": -0.48408708180325744,
+          "status": "AVAILABLE"
+        },
+        {
+          "attack_offset": -0.20283294427673482,
+          "country": "ARM",
+          "defense_offset": -0.2855029207946169,
+          "international_matches": 12,
+          "net_strength": -0.48833586507135174,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.2501560784247189,
+          "country": "FIN",
+          "defense_offset": -0.2924306297289978,
+          "international_matches": 18,
+          "net_strength": -0.5425867081537167,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.2490248843482586,
+          "country": "KAZ",
+          "defense_offset": -0.31629073419679976,
+          "international_matches": 12,
+          "net_strength": -0.5653156185450583,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.3920112006222196,
+          "country": "IRL",
+          "defense_offset": -0.23659036408435097,
+          "international_matches": 12,
+          "net_strength": -0.6286015647065706,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.22143732182323458,
+          "country": "ISL",
+          "defense_offset": -0.5295109834496693,
+          "international_matches": 6,
+          "net_strength": -0.7509483052729039,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.7827707122900994,
+          "country": "LVA",
+          "defense_offset": -0.12217598401125178,
+          "international_matches": 6,
+          "net_strength": -0.9049466963013512,
+          "status": "UNCERTAIN"
+        },
+        {
+          "attack_offset": -0.5871628397067933,
+          "country": "GIB",
+          "defense_offset": -0.36200124230260766,
+          "international_matches": 6,
+          "net_strength": -0.949164082009401,
+          "status": "UNCERTAIN"
+        }
+      ],
+      "countries_with_international_matches": 44,
+      "status": "AVAILABLE",
+      "uefa_training_matches": 1668
+    }
+  },
+  "overall": "AVAILABLE in folds 2021-22, 2022-23, 2023-24, 2024-25",
+  "source": "country offsets of B_dc_league, identified only by matches between clubs of different countries (UEFA) played before each fold's cutoff"
+}

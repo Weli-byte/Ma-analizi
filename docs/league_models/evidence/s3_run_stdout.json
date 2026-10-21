@@ -1,0 +1,161 @@
+{
+  "decisions": {
+    "ENG1": "CANDIDATE_E_elo_bridge",
+    "ESP1": "GLOBAL_A_dc",
+    "FRA1": "CANDIDATE_E_elo_bridge",
+    "GER1": "GLOBAL_A_dc",
+    "ITA1": "CANDIDATE_E_elo_bridge",
+    "TUR1": "GLOBAL_A_dc",
+    "UEFA_UCL": "GLOBAL_A_dc",
+    "UEFA_UECL": "CANDIDATE_E_elo_bridge",
+    "UEFA_UEL": "GLOBAL_A_dc"
+  },
+  "plan": {
+    "dry_run": false,
+    "folds": [
+      {
+        "eval_fixture_ids_sha256": "b820114971612a3f901b3351ce117de6ecce0d1c857ea261dfe11aefe85789e9",
+        "eval_matches": 2576,
+        "eval_season": "2020-21",
+        "fit_cutoff_utc": "2020-08-21T17:00:00+00:00",
+        "inner_validation_season": "2019-20",
+        "train_fixture_ids_sha256": "d2300ef46fdbc7eedfcdd39a4e8a61f2c30e83cdb05a0c82a37b5f210c2fb6ed",
+        "train_matches": 1870,
+        "train_seasons": [
+          "2019-20"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "a26d02786939f54d08e14849d5c5bdadffaae1589a51d08178acbb6eb28bd683",
+        "eval_matches": 2231,
+        "eval_season": "2021-22",
+        "fit_cutoff_utc": "2021-08-06T19:00:00+00:00",
+        "inner_validation_season": "2020-21",
+        "train_fixture_ids_sha256": "044cd19b3004f9279613e1e99ba24ac24fde658366efe170b3686d32feaf83ca",
+        "train_matches": 4447,
+        "train_seasons": [
+          "2019-20",
+          "2020-21"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "5f83b8b386dd63777467b538f13478933ca5445c0e2f924473dac4f82abd6d8a",
+        "eval_matches": 2233,
+        "eval_season": "2022-23",
+        "fit_cutoff_utc": "2022-08-05T18:35:00+00:00",
+        "inner_validation_season": "2021-22",
+        "train_fixture_ids_sha256": "9f07e715e2df80c853f18bf7edd790b80590d962c8ba8daf9c5079b09f448fba",
+        "train_matches": 6678,
+        "train_seasons": [
+          "2019-20",
+          "2020-21",
+          "2021-22"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "89cca3ec25b5753fd4c644fcfb8a9f17935fd1c44fd89a365d4b386a4c353b39",
+        "eval_matches": 2159,
+        "eval_season": "2023-24",
+        "fit_cutoff_utc": "2023-08-11T17:30:00+00:00",
+        "inner_validation_season": "2022-23",
+        "train_fixture_ids_sha256": "c4889d03ebc2a645921ec922643cdf5a2c6be270748fb9f962bac1b32683491c",
+        "train_matches": 8911,
+        "train_seasons": [
+          "2019-20",
+          "2020-21",
+          "2021-22",
+          "2022-23"
+        ]
+      },
+      {
+        "eval_fixture_ids_sha256": "fd6796336a5b6bc75cb11f8fb8155a835f43eef418e618b8eabebccbc5b31b7b",
+        "eval_matches": 1513,
+        "eval_season": "2024-25",
+        "fit_cutoff_utc": "2024-08-16T18:45:00+00:00",
+        "inner_validation_season": "2023-24",
+        "train_fixture_ids_sha256": "aa478927b25e276d1668bb707fb8353da624c0352c9ecff8b56911a5db1525f0",
+        "train_matches": 11070,
+        "train_seasons": [
+          "2019-20",
+          "2020-21",
+          "2021-22",
+          "2022-23",
+          "2023-24"
+        ]
+      }
+    ],
+    "replay_violations_per_fold": {
+      "2020-21": 0,
+      "2021-22": 0,
+      "2022-23": 0,
+      "2023-24": 0,
+      "2024-25": 0
+    },
+    "snapshot_id": "snap-546e70fff7fb",
+    "sprint2_fold_parity": {
+      "compared_folds": [
+        "2020-21",
+        "2021-22",
+        "2022-23",
+        "2023-24",
+        "2024-25"
+      ],
+      "status": "IDENTICAL_TO_SPRINT_2"
+    },
+    "stage": "t-24h",
+    "stat_config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf",
+    "universe_counts": {
+      "DEV": 12583,
+      "GUARD": 750,
+      "HOLDOUT": 2278,
+      "RESERVED": 250
+    }
+  },
+  "registry_entry": {
+    "run_id": "lmbench-8091794f4a608743",
+    "status": "REGISTERED"
+  },
+  "run_manifest": {
+    "as_of": "2026-10-20T00:00:00+00:00",
+    "bench_config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+    "config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf",
+    "data_snapshot_sha256": "546e70fff7fb577e20dedb58bf14262c703115ea623904ebe68afe6773b5f484",
+    "dependency_lock_sha256": "6211f95bbd504ebe95d1433e289f2f3a61b4f84be4c7d59075d78c939e76d13f",
+    "folds": [
+      "2020-21",
+      "2021-22",
+      "2022-23",
+      "2023-24",
+      "2024-25"
+    ],
+    "git_dirty_at_run": true,
+    "git_sha": "b0f2aca19db38b388f59725645a200e5bb2bb146",
+    "license_manifest_sha256": "3f1eb66c28fd0873130ae66e67a6d98ec4c0e93a7b99b5cd800acc465c312167",
+    "matches_scored": 10712,
+    "numpy": "2.5.3",
+    "output_hashes": {
+      "fold_predictions.jsonl": "9cbe905a64f19a3a43f0e000c63be7d52c0f4a846dec53a722e100d8f92ff909",
+      "hypotheses.json": "82175e346df89a3c84cf005004c77cd1d71411cf6994bc316f6d90ce55207c15",
+      "league_decisions.json": "bcaac9c6bfb94cee72aeb90d051c983ee9437b8a2586ecaaefb6919201a14aef",
+      "leakage_audit.json": "70480a40454ab1b51bcafb34a040b8fd3bcbf9091842deb7cc85520127749597",
+      "model_cards.md": "968b06d434f9e598ebb063ac72f6c34a8d6298f369825884f63ec90f987d5039",
+      "paired_deltas.json": "92e50f465d403712bc461b5d8819366b351400ebeed63a6043a354f73fb7accb",
+      "protocol_manifest.json": "a34649fcf44fc31cb3d3fb160a0785218653592174163a0db0d35b979e17e4fb",
+      "reliability.json": "ae391e8fa9476745ff38f78c71f02e47e627525563a38e5c912e430d5c14a5e6",
+      "score_audit.json": "b4dd0871bf90c189c3e4c94d5a48f13ff03360eb71bc998abbf2341025dcb063",
+      "stat_metrics.json": "f226420247ccc9be3a5696ef725f984edbcf9b3cf6edb3ba73289e403a62ae8e",
+      "uefa_bridge.json": "0251a51aef8ea51d7bc527ecfcbffb1602241b3d32cb911d593fa30834d9317a"
+    },
+    "protocol_version": "lm-s3-v1",
+    "python": "3.14.6",
+    "random_seed": {
+      "bootstrap": 20261020,
+      "models": "deterministic (L-BFGS-B / BFGS, no randomness)"
+    },
+    "reproducibility_note": "timings.json is excluded from the hashes (wall-clock)",
+    "snapshot_id": "snap-546e70fff7fb",
+    "stage": "t-24h",
+    "stat_config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf",
+    "timezone": "UTC"
+  }
+}

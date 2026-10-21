@@ -289,7 +289,7 @@ def run(root: Path, as_of: datetime, output_dir: Path | None, *, stage: str = "d
     if stage not in ("dev", "holdout"):
         raise ValueError("stage must be dev or holdout")
     policy = load_policy(policy_path) if policy_path else load_policy()
-    policy_sha = hashlib.sha256((policy_path or POLICY_FILE).read_bytes()).hexdigest()
+    policy_sha = hashlib.sha256((policy_path or POLICY_FILE).read_text(encoding="utf-8").encode("utf-8")).hexdigest()  # newline-normalised: the same on every checkout
     bcfg = load_bench_config(bench_config_path) if bench_config_path else load_bench_config()
     scfg = sb.load_stat_config(stat_config_path) if stat_config_path else sb.load_stat_config()
     mcfg = load_ml_config(ml_config_path) if ml_config_path else load_ml_config()
@@ -428,7 +428,8 @@ def holdout_stage(policy, mcfg, scfg, bcfg, fcfg, league_cfg, dev_rows, h_rows, 
     raw_metrics = {t: {k: _metrics(t, hold.probs[t][k], hold.y[t], bcfg.calibration_bins) for k in cal[t]} for t in TARGETS}
     cal_metrics = {t: {k: _metrics(t, cal[t][k], hold.y[t], bcfg.calibration_bins) for k in cal[t]} for t in TARGETS}
     latency = latency_probe(mcfg, scfg, bcfg, dev_folds[-1], fm_dev)
-    train_n = {lg: sum(1 for r in folds[0].train_rows if r.league_id == lg) for lg in {r.league_id for r in h_rows}}
+    fold_of_league = {r.league_id: f for f in folds for r in f.eval_rows}  # the fold that evaluates a league (Süper Lig has its own frozen season)
+    train_n = {lg: sum(1 for r in fold_of_league[lg].train_rows if r.league_id == lg) for lg in fold_of_league}
     cells = {}
     pvals = {}
     for cell, cand in sorted(selected.items()):

@@ -1,0 +1,23 @@
+{
+  "bench_config_fingerprint_sha256": "b3d218670f0b23b393b43f0bb96a21bf5fdd485edb9ea9c87a10ac0501da7fca",
+  "git_dirty_at_run": false,
+  "git_sha": "b2f8b299b19bdb6fd14323bc12b9367f54fddb8e",
+  "holdout_access_log": [],
+  "ml_config_fingerprint_sha256": "a8f7f8fdb5079518f8d7e42b8d89c0f969577ba2763d43f0f9252f48c3c1fe92",
+  "numpy": "2.5.3",
+  "output_hashes": {
+    "calibration_manifest.json": "0c35d2a05edec85fc932df54366151a77e12dc221492ba15288c4349220e1125",
+    "dev_paired.json": "afc4ddded88843d5559ca77caeababffe31fdeb68fc672eae4a2114db0c8ddba",
+    "dev_screen.json": "af14512ce3cf2fec73e777e9d16789d29639bd6d0899cc8b867b6e09171737b2",
+    "preregistration.json": "e72f92de980c3b99a5f707505700ccb639ca45cc67949034e0e9e730c1523bba",
+    "split_manifest.json": "b73b00f68856ecd0be8953b08724077718b6e83f494f479e041a8efdc1dbe546"
+  },
+  "policy_sha256": "f5f0e4291bdf4af0702cf596f577ba7915315ea46dca670f9791e5187c60fd74",
+  "prereg_sha256": "e72f92de980c3b99a5f707505700ccb639ca45cc67949034e0e9e730c1523bba",
+  "protocol_version": "lm-s5-v1",
+  "python": "3.14.6",
+  "rehearsal": false,
+  "snapshot_id": "snap-546e70fff7fb",
+  "stage": "dev",
+  "stat_config_fingerprint_sha256": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf"
+}

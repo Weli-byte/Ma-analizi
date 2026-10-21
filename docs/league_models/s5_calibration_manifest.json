@@ -1,0 +1,2157 @@
+{
+  "final_calibrators": {
+    "1x2": {
+      "A_dc_ridge_tuned": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "A_gbm_tuned": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "B_dc_league": {
+        "bias_b": [
+          0.0,
+          -0.139941,
+          -0.102842
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.0,
+            -0.092349,
+            0.044573
+          ],
+          "ESP1": [
+            0.0,
+            0.044687,
+            0.000289
+          ],
+          "FRA1": [
+            0.0,
+            -0.004021,
+            0.035944
+          ],
+          "GER1": [
+            0.0,
+            0.081253,
+            -0.02968
+          ],
+          "ITA1": [
+            0.0,
+            0.12899,
+            0.011532
+          ],
+          "TUR1": [
+            0.0,
+            0.091798,
+            0.043309
+          ],
+          "UEFA_UCL": [
+            0.0,
+            -0.1351,
+            -0.041264
+          ],
+          "UEFA_UECL": [
+            0.0,
+            -0.058717,
+            -0.022486
+          ],
+          "UEFA_UEL": [
+            0.0,
+            -0.056726,
+            -0.042317
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.836293,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "B_gbm_league": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "C_gbm_local": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "D_blend": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "D_gbm_blend": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "E_elo_bridge": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "1x2"
+      },
+      "elo_s2": {
+        "bias_b": [
+          0.0,
+          -0.08615,
+          -0.112963
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.0,
+            -0.026404,
+            0.03826
+          ],
+          "ESP1": [
+            0.0,
+            0.103464,
+            -0.122387
+          ],
+          "FRA1": [
+            0.0,
+            0.02163,
+            0.098961
+          ],
+          "GER1": [
+            0.0,
+            0.042785,
+            -0.030227
+          ],
+          "ITA1": [
+            0.0,
+            0.163921,
+            0.035107
+          ],
+          "TUR1": [
+            0.0,
+            0.096078,
+            0.00231
+          ],
+          "UEFA_UCL": [
+            0.0,
+            -0.156751,
+            0.02385
+          ],
+          "UEFA_UECL": [
+            0.0,
+            -0.126487,
+            -0.007294
+          ],
+          "UEFA_UEL": [
+            0.0,
+            -0.119996,
+            -0.040511
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.831269,
+        "status": "FITTED",
+        "target": "1x2"
+      }
+    },
+    "btts": {
+      "A_dc_ridge_tuned_goals": {
+        "bias_b": [
+          0.095165
+        ],
+        "effective_method": "affine",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "affine",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.441213,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "A_gbm_tuned_goals": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "isotonic",
+        "isotonic_knots": 22,
+        "league_offsets": {},
+        "method": "isotonic",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "B_dc_league_goals": {
+        "bias_b": [
+          0.125421
+        ],
+        "effective_method": "affine",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "affine",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.362468,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "B_gbm_league_goals": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "C_gbm_local_goals": {
+        "bias_b": [
+          0.088193
+        ],
+        "effective_method": "affine",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "affine",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.430115,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "D_blend_goals": {
+        "bias_b": [
+          0.124537
+        ],
+        "effective_method": "affine",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "affine",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.36556,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "D_gbm_blend_goals": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "dixon_coles_goals": {
+        "bias_b": [
+          0.152861
+        ],
+        "effective_method": "affine",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "affine",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.306032,
+        "status": "FITTED",
+        "target": "btts"
+      },
+      "train_btts_rate": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "btts"
+      }
+    },
+    "over_under": {
+      "A_dc_ridge_tuned_totals": {
+        "bias_b": [
+          0.071519
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.091481
+          ],
+          "ESP1": [
+            -0.141123
+          ],
+          "FRA1": [
+            0.038464
+          ],
+          "GER1": [
+            0.099245
+          ],
+          "ITA1": [
+            -0.107697
+          ],
+          "TUR1": [
+            -0.07719
+          ],
+          "UEFA_UCL": [
+            0.037979
+          ],
+          "UEFA_UECL": [
+            0.045027
+          ],
+          "UEFA_UEL": [
+            0.015713
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.528876,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "A_gbm_tuned_totals": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "B_dc_league_totals": {
+        "bias_b": [
+          0.085829
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.092993
+          ],
+          "ESP1": [
+            -0.14185
+          ],
+          "FRA1": [
+            0.037021
+          ],
+          "GER1": [
+            0.106801
+          ],
+          "ITA1": [
+            -0.114557
+          ],
+          "TUR1": [
+            -0.080529
+          ],
+          "UEFA_UCL": [
+            0.041207
+          ],
+          "UEFA_UECL": [
+            0.038962
+          ],
+          "UEFA_UEL": [
+            0.022343
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.43962,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "B_gbm_league_totals": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "C_gbm_local_totals": {
+        "bias_b": [
+          0.062244
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.106263
+          ],
+          "ESP1": [
+            -0.136729
+          ],
+          "FRA1": [
+            0.018913
+          ],
+          "GER1": [
+            0.069017
+          ],
+          "ITA1": [
+            -0.097221
+          ],
+          "TUR1": [
+            -0.07223
+          ],
+          "UEFA_UCL": [
+            0.068381
+          ],
+          "UEFA_UECL": [
+            0.018503
+          ],
+          "UEFA_UEL": [
+            0.031142
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.496151,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "D_blend_totals": {
+        "bias_b": [
+          0.086902
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.092098
+          ],
+          "ESP1": [
+            -0.141679
+          ],
+          "FRA1": [
+            0.036065
+          ],
+          "GER1": [
+            0.104447
+          ],
+          "ITA1": [
+            -0.116372
+          ],
+          "TUR1": [
+            -0.081714
+          ],
+          "UEFA_UCL": [
+            0.042038
+          ],
+          "UEFA_UECL": [
+            0.043241
+          ],
+          "UEFA_UEL": [
+            0.021758
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.444162,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "D_gbm_blend_totals": {
+        "bias_b": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "effective_method": "none",
+        "isotonic_knots": 0,
+        "league_offsets": {},
+        "method": "none",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 1.0,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "dixon_coles_totals": {
+        "bias_b": [
+          0.117712
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.078058
+          ],
+          "ESP1": [
+            -0.174338
+          ],
+          "FRA1": [
+            0.051666
+          ],
+          "GER1": [
+            0.122819
+          ],
+          "ITA1": [
+            -0.104433
+          ],
+          "TUR1": [
+            -0.095408
+          ],
+          "UEFA_UCL": [
+            0.04504
+          ],
+          "UEFA_UECL": [
+            0.063627
+          ],
+          "UEFA_UEL": [
+            0.017425
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 0.369852,
+        "status": "FITTED",
+        "target": "over_under"
+      },
+      "train_over_rate": {
+        "bias_b": [
+          0.146338
+        ],
+        "effective_method": "hier",
+        "isotonic_knots": 0,
+        "league_offsets": {
+          "ENG1": [
+            0.053425
+          ],
+          "ESP1": [
+            -0.257623
+          ],
+          "FRA1": [
+            0.005648
+          ],
+          "GER1": [
+            0.203892
+          ],
+          "ITA1": [
+            -0.084083
+          ],
+          "TUR1": [
+            -0.074957
+          ],
+          "UEFA_UCL": [
+            0.108475
+          ],
+          "UEFA_UECL": [
+            0.016304
+          ],
+          "UEFA_UEL": [
+            0.028944
+          ]
+        },
+        "method": "hier",
+        "n_fit": 10712,
+        "reason": "",
+        "slope_a": 4e-05,
+        "status": "FITTED",
+        "target": "over_under"
+      }
+    }
+  },
+  "first_walk_forward_eval_fold": "2022-23",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "no_calibrator_ever_saw": "the evaluated fold of its own walk-forward step, or the frozen holdout",
+  "policy_version": "lm-s5-v1",
+  "rule": "a calibrator is used only when it beats 'none' by the declared margin in mean walk-forward log loss; ECE is reported, never used to select",
+  "selection": {
+    "1x2": {
+      "A_dc_ridge_tuned": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.999428,
+          "hier": 0.998457,
+          "none": 0.998093,
+          "temperature": 0.998383
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            1.011233,
+            0.992089,
+            0.994962
+          ],
+          "hier": [
+            1.011337,
+            0.990253,
+            0.993782
+          ],
+          "none": [
+            1.007756,
+            0.992031,
+            0.994493
+          ],
+          "temperature": [
+            1.008195,
+            0.991793,
+            0.995161
+          ]
+        }
+      },
+      "A_gbm_tuned": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.987385,
+          "hier": 0.986427,
+          "none": 0.984247,
+          "temperature": 0.986304
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.995101,
+            0.980428,
+            0.986627
+          ],
+          "hier": [
+            0.995364,
+            0.978818,
+            0.985099
+          ],
+          "none": [
+            0.99056,
+            0.978128,
+            0.984053
+          ],
+          "temperature": [
+            0.994416,
+            0.979887,
+            0.98461
+          ]
+        }
+      },
+      "B_dc_league": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.998135,
+          "hier": 0.997899,
+          "none": 0.998883,
+          "temperature": 0.999084
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            1.008232,
+            0.99277,
+            0.993403
+          ],
+          "hier": [
+            1.009053,
+            0.991653,
+            0.992991
+          ],
+          "none": [
+            1.01243,
+            0.988629,
+            0.995589
+          ],
+          "temperature": [
+            1.010303,
+            0.991909,
+            0.995041
+          ]
+        }
+      },
+      "B_gbm_league": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.98727,
+          "hier": 0.986902,
+          "none": 0.983875,
+          "temperature": 0.986394
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.996779,
+            0.979486,
+            0.985545
+          ],
+          "hier": [
+            0.997991,
+            0.97793,
+            0.984785
+          ],
+          "none": [
+            0.99133,
+            0.97668,
+            0.983616
+          ],
+          "temperature": [
+            0.995405,
+            0.979742,
+            0.984035
+          ]
+        }
+      },
+      "C_gbm_local": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.997886,
+          "hier": 0.998338,
+          "none": 0.994108,
+          "temperature": 0.99695
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            1.011129,
+            0.985774,
+            0.996755
+          ],
+          "hier": [
+            1.01296,
+            0.984335,
+            0.99772
+          ],
+          "none": [
+            1.005161,
+            0.980493,
+            0.996671
+          ],
+          "temperature": [
+            1.009058,
+            0.985713,
+            0.996079
+          ]
+        }
+      },
+      "D_blend": {
+        "best_method": "hier",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.997719,
+          "hier": 0.99758,
+          "none": 0.997973,
+          "temperature": 0.998594
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            1.008152,
+            0.991752,
+            0.993252
+          ],
+          "hier": [
+            1.009021,
+            0.990745,
+            0.992973
+          ],
+          "none": [
+            1.012067,
+            0.987033,
+            0.99482
+          ],
+          "temperature": [
+            1.010247,
+            0.990743,
+            0.994792
+          ]
+        }
+      },
+      "D_gbm_blend": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.988359,
+          "hier": 0.988196,
+          "none": 0.984862,
+          "temperature": 0.987353
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.998234,
+            0.979582,
+            0.987261
+          ],
+          "hier": [
+            0.999754,
+            0.978062,
+            0.986771
+          ],
+          "none": [
+            0.99251,
+            0.97668,
+            0.985396
+          ],
+          "temperature": [
+            0.996635,
+            0.979729,
+            0.985696
+          ]
+        }
+      },
+      "E_elo_bridge": {
+        "best_method": "hier",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.987223,
+          "hier": 0.985849,
+          "none": 0.986342,
+          "temperature": 0.986922
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.995457,
+            0.979176,
+            0.987035
+          ],
+          "hier": [
+            0.995644,
+            0.977086,
+            0.984818
+          ],
+          "none": [
+            0.994133,
+            0.978829,
+            0.986064
+          ],
+          "temperature": [
+            0.994445,
+            0.980003,
+            0.986317
+          ]
+        }
+      },
+      "elo_s2": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.986714,
+          "hier": 0.985093,
+          "none": 0.985987,
+          "temperature": 0.987579
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.993211,
+            0.979707,
+            0.987225
+          ],
+          "hier": [
+            0.993276,
+            0.977491,
+            0.984512
+          ],
+          "none": [
+            0.994984,
+            0.977182,
+            0.985796
+          ],
+          "temperature": [
+            0.994737,
+            0.980654,
+            0.987347
+          ]
+        }
+      }
+    },
+    "btts": {
+      "A_dc_ridge_tuned_goals": {
+        "best_method": "affine",
+        "chosen": "affine",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.689332,
+          "hier": 0.689642,
+          "isotonic": 0.690171,
+          "none": 0.693028,
+          "temperature": 0.69065
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.694196,
+            0.685492,
+            0.688308
+          ],
+          "hier": [
+            0.693511,
+            0.687065,
+            0.688351
+          ],
+          "isotonic": [
+            0.697198,
+            0.686241,
+            0.687073
+          ],
+          "none": [
+            0.6989,
+            0.686348,
+            0.693836
+          ],
+          "temperature": [
+            0.694771,
+            0.686821,
+            0.690358
+          ]
+        }
+      },
+      "A_gbm_tuned_goals": {
+        "best_method": "isotonic",
+        "chosen": "isotonic",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.689486,
+          "hier": 0.689492,
+          "isotonic": 0.689209,
+          "none": 0.691069,
+          "temperature": 0.690817
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.69246,
+            0.687441,
+            0.688558
+          ],
+          "hier": [
+            0.6917,
+            0.688065,
+            0.68871
+          ],
+          "isotonic": [
+            0.691713,
+            0.688159,
+            0.687756
+          ],
+          "none": [
+            0.691583,
+            0.69368,
+            0.687945
+          ],
+          "temperature": [
+            0.691201,
+            0.691803,
+            0.689447
+          ]
+        }
+      },
+      "B_dc_league_goals": {
+        "best_method": "affine",
+        "chosen": "affine",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.688822,
+          "hier": 0.689186,
+          "isotonic": 0.70343,
+          "none": 0.695199,
+          "temperature": 0.690925
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.693575,
+            0.685614,
+            0.687279
+          ],
+          "hier": [
+            0.692857,
+            0.687212,
+            0.687489
+          ],
+          "isotonic": [
+            0.712071,
+            0.686189,
+            0.712029
+          ],
+          "none": [
+            0.702353,
+            0.689926,
+            0.693318
+          ],
+          "temperature": [
+            0.694623,
+            0.688682,
+            0.689471
+          ]
+        }
+      },
+      "B_gbm_league_goals": {
+        "best_method": "affine",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.688938,
+          "hier": 0.689139,
+          "isotonic": 0.690904,
+          "none": 0.689168,
+          "temperature": 0.689062
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.691284,
+            0.687418,
+            0.688113
+          ],
+          "hier": [
+            0.691103,
+            0.688173,
+            0.688142
+          ],
+          "isotonic": [
+            0.696066,
+            0.68813,
+            0.688515
+          ],
+          "none": [
+            0.69193,
+            0.687085,
+            0.68849
+          ],
+          "temperature": [
+            0.691237,
+            0.687746,
+            0.688202
+          ]
+        }
+      },
+      "C_gbm_local_goals": {
+        "best_method": "affine",
+        "chosen": "affine",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.689795,
+          "hier": 0.689942,
+          "isotonic": 0.691344,
+          "none": 0.692367,
+          "temperature": 0.690595
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.694059,
+            0.687083,
+            0.688242
+          ],
+          "hier": [
+            0.693534,
+            0.688205,
+            0.688087
+          ],
+          "isotonic": [
+            0.697301,
+            0.686203,
+            0.690529
+          ],
+          "none": [
+            0.698441,
+            0.687313,
+            0.691347
+          ],
+          "temperature": [
+            0.694368,
+            0.688402,
+            0.689015
+          ]
+        }
+      },
+      "D_blend_goals": {
+        "best_method": "affine",
+        "chosen": "affine",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.688761,
+          "hier": 0.689173,
+          "isotonic": 0.694832,
+          "none": 0.694972,
+          "temperature": 0.690809
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.693564,
+            0.685551,
+            0.687167
+          ],
+          "hier": [
+            0.69287,
+            0.687222,
+            0.687427
+          ],
+          "isotonic": [
+            0.711221,
+            0.686367,
+            0.686908
+          ],
+          "none": [
+            0.702305,
+            0.689671,
+            0.692941
+          ],
+          "temperature": [
+            0.694581,
+            0.688587,
+            0.68926
+          ]
+        }
+      },
+      "D_gbm_blend_goals": {
+        "best_method": "affine",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.688734,
+          "hier": 0.688969,
+          "isotonic": 0.690182,
+          "none": 0.689001,
+          "temperature": 0.688831
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.691561,
+            0.687135,
+            0.687505
+          ],
+          "hier": [
+            0.691352,
+            0.688013,
+            0.687541
+          ],
+          "isotonic": [
+            0.69285,
+            0.68892,
+            0.688774
+          ],
+          "none": [
+            0.692474,
+            0.686617,
+            0.687913
+          ],
+          "temperature": [
+            0.691557,
+            0.687393,
+            0.687543
+          ]
+        }
+      },
+      "dixon_coles_goals": {
+        "best_method": "affine",
+        "chosen": "affine",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.688951,
+          "hier": 0.689245,
+          "isotonic": 0.715516,
+          "none": 0.697808,
+          "temperature": 0.69153
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.693075,
+            0.685709,
+            0.68807
+          ],
+          "hier": [
+            0.69243,
+            0.68727,
+            0.688035
+          ],
+          "isotonic": [
+            0.721506,
+            0.686619,
+            0.738424
+          ],
+          "none": [
+            0.702491,
+            0.69244,
+            0.698491
+          ],
+          "temperature": [
+            0.693158,
+            0.690228,
+            0.691203
+          ]
+        }
+      },
+      "train_btts_rate": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.690279,
+          "hier": 0.690169,
+          "isotonic": 0.689948,
+          "none": 0.689547,
+          "temperature": 0.68971
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.692189,
+            0.689814,
+            0.688835
+          ],
+          "hier": [
+            0.691445,
+            0.690262,
+            0.688801
+          ],
+          "isotonic": [
+            0.692379,
+            0.6886,
+            0.688865
+          ],
+          "none": [
+            0.6929,
+            0.686934,
+            0.688806
+          ],
+          "temperature": [
+            0.692255,
+            0.687918,
+            0.688957
+          ]
+        }
+      }
+    },
+    "over_under": {
+      "A_dc_ridge_tuned_totals": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.685201,
+          "hier": 0.684488,
+          "isotonic": 0.691175,
+          "none": 0.68871,
+          "temperature": 0.685834
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.69259,
+            0.681714,
+            0.681299
+          ],
+          "hier": [
+            0.693037,
+            0.680263,
+            0.680164
+          ],
+          "isotonic": [
+            0.69665,
+            0.680965,
+            0.69591
+          ],
+          "none": [
+            0.69929,
+            0.681153,
+            0.685687
+          ],
+          "temperature": [
+            0.692608,
+            0.682234,
+            0.682659
+          ]
+        }
+      },
+      "A_gbm_tuned_totals": {
+        "best_method": "hier",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.684423,
+          "hier": 0.683016,
+          "isotonic": 0.720741,
+          "none": 0.683394,
+          "temperature": 0.684154
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.686375,
+            0.683743,
+            0.68315
+          ],
+          "hier": [
+            0.686128,
+            0.681395,
+            0.681524
+          ],
+          "isotonic": [
+            0.6865,
+            0.791759,
+            0.683963
+          ],
+          "none": [
+            0.685915,
+            0.681829,
+            0.682438
+          ],
+          "temperature": [
+            0.68656,
+            0.682517,
+            0.683385
+          ]
+        }
+      },
+      "B_dc_league_totals": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.684997,
+          "hier": 0.684161,
+          "isotonic": 0.688717,
+          "none": 0.6913,
+          "temperature": 0.686095
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.692187,
+            0.682155,
+            0.680648
+          ],
+          "hier": [
+            0.692417,
+            0.680525,
+            0.679543
+          ],
+          "isotonic": [
+            0.695466,
+            0.682653,
+            0.688032
+          ],
+          "none": [
+            0.705212,
+            0.683886,
+            0.684803
+          ],
+          "temperature": [
+            0.692452,
+            0.683358,
+            0.682474
+          ]
+        }
+      },
+      "B_gbm_league_totals": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.683903,
+          "hier": 0.683122,
+          "isotonic": 0.684252,
+          "none": 0.682599,
+          "temperature": 0.683609
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.689547,
+            0.68209,
+            0.680072
+          ],
+          "hier": [
+            0.689062,
+            0.680678,
+            0.679627
+          ],
+          "isotonic": [
+            0.690183,
+            0.682921,
+            0.679651
+          ],
+          "none": [
+            0.690409,
+            0.678356,
+            0.679032
+          ],
+          "temperature": [
+            0.689398,
+            0.681298,
+            0.680131
+          ]
+        }
+      },
+      "C_gbm_local_totals": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.687233,
+          "hier": 0.686551,
+          "isotonic": 0.691471,
+          "none": 0.688145,
+          "temperature": 0.687151
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.690542,
+            0.688002,
+            0.683156
+          ],
+          "hier": [
+            0.690804,
+            0.686465,
+            0.682384
+          ],
+          "isotonic": [
+            0.690566,
+            0.700231,
+            0.683614
+          ],
+          "none": [
+            0.693881,
+            0.687537,
+            0.683016
+          ],
+          "temperature": [
+            0.690167,
+            0.68743,
+            0.683855
+          ]
+        }
+      },
+      "D_blend_totals": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.684859,
+          "hier": 0.684027,
+          "isotonic": 0.688708,
+          "none": 0.690795,
+          "temperature": 0.685974
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.692149,
+            0.68197,
+            0.680459
+          ],
+          "hier": [
+            0.692398,
+            0.680357,
+            0.679328
+          ],
+          "isotonic": [
+            0.695949,
+            0.682473,
+            0.687704
+          ],
+          "none": [
+            0.705185,
+            0.683004,
+            0.684198
+          ],
+          "temperature": [
+            0.692423,
+            0.68319,
+            0.682309
+          ]
+        }
+      },
+      "D_gbm_blend_totals": {
+        "best_method": "none",
+        "chosen": "none",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.683813,
+          "hier": 0.683152,
+          "isotonic": 0.684055,
+          "none": 0.68268,
+          "temperature": 0.683584
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.68922,
+            0.681465,
+            0.680753
+          ],
+          "hier": [
+            0.688852,
+            0.680314,
+            0.680291
+          ],
+          "isotonic": [
+            0.689223,
+            0.68292,
+            0.680022
+          ],
+          "none": [
+            0.690112,
+            0.677886,
+            0.680043
+          ],
+          "temperature": [
+            0.689171,
+            0.680837,
+            0.680744
+          ]
+        }
+      },
+      "dixon_coles_totals": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.685347,
+          "hier": 0.684434,
+          "isotonic": 0.702679,
+          "none": 0.694567,
+          "temperature": 0.687409
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.691836,
+            0.682728,
+            0.681477
+          ],
+          "hier": [
+            0.692221,
+            0.681069,
+            0.680013
+          ],
+          "isotonic": [
+            0.700216,
+            0.684397,
+            0.723424
+          ],
+          "none": [
+            0.70817,
+            0.686855,
+            0.688675
+          ],
+          "temperature": [
+            0.692037,
+            0.685452,
+            0.684738
+          ]
+        }
+      },
+      "train_over_rate": {
+        "best_method": "hier",
+        "chosen": "hier",
+        "fit_statuses": {
+          "affine": [
+            "FITTED"
+          ],
+          "hier": [
+            "FITTED"
+          ],
+          "isotonic": [
+            "FITTED"
+          ],
+          "none": [
+            "FITTED"
+          ],
+          "temperature": [
+            "FITTED"
+          ]
+        },
+        "margin": 0.0005,
+        "mean_log_loss": {
+          "affine": 0.689942,
+          "hier": 0.68766,
+          "isotonic": 0.689978,
+          "none": 0.6895,
+          "temperature": 0.690533
+        },
+        "reason": "none unless a method gains at least the margin in mean walk-forward log loss; ECE is reported, not used to select",
+        "walk_forward_log_loss_by_fold": {
+          "affine": [
+            0.692418,
+            0.689648,
+            0.687761
+          ],
+          "hier": [
+            0.691926,
+            0.686449,
+            0.684606
+          ],
+          "isotonic": [
+            0.692437,
+            0.689736,
+            0.687761
+          ],
+          "none": [
+            0.692932,
+            0.688358,
+            0.687209
+          ],
+          "temperature": [
+            0.692402,
+            0.690333,
+            0.688865
+          ]
+        }
+      }
+    }
+  }
+}

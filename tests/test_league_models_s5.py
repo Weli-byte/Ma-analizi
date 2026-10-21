@@ -337,6 +337,21 @@ def test_the_holdout_stage_refuses_without_a_matching_preregistration_and_reads_
     assert not ids
 
 
+def test_two_frozen_seasons_are_evaluated_in_their_own_folds_like_the_real_holdout(e2e):
+    """TEST_ONLY: one competition has a different frozen season (as the Süper Lig has in the real protocol); both groups are scored once."""
+    text = (e2e / "bench.yaml").read_text(encoding="utf-8")
+    old = "    TUR1: [" + chr(34) + "2024-25" + chr(34) + "]"
+    assert old in text
+    (e2e / "bench.yaml").write_text(text.replace(old, "    UEFA_UCL: [" + chr(34) + "2024-25" + chr(34) + "]"), encoding="utf-8")
+    log = e2e / "log2.json"
+    dev = _run(e2e, e2e / "dev2")
+    res = _run(e2e, e2e / "fin2", stage="holdout", holdout_log=log, expect_prereg=e2e / "dev2" / "preregistration.json", dirty_override=False)
+    report = json.loads((e2e / "fin2" / "holdout_report.json").read_text(encoding="utf-8"))
+    assert report["folds"] == ["2024-25", "2025-26"] and res["prereg_sha256"] == dev["prereg_sha256"] and hl.is_consumed(log)
+    dec = json.loads((e2e / "fin2" / "approval_decisions.json").read_text(encoding="utf-8"))["decisions"]
+    assert {c.split("|")[0] for c in dec} == {"ITA1", "UEFA_UCL"}
+
+
 def test_the_rehearsal_runs_the_identical_code_on_a_pseudo_holdout_with_its_own_log(e2e):
     out = e2e / "reh"
     res = _run(e2e, out, stage="holdout", rehearsal=True, holdout_log=out / "rehearsal_log.json")
@@ -407,7 +422,7 @@ def test_committed_sprint5_outputs_are_internally_consistent():
         if committed.is_file():
             assert hashlib.sha256(committed.read_bytes()).hexdigest() == digest, name
     pre = (OUT / "s5_preregistration.json")
-    assert pre.is_file() and json.loads(pre.read_text(encoding="utf-8"))["policy_sha256"] == hashlib.sha256((ROOT / "configs" / "league_models" / "approval_policy.yaml").read_bytes()).hexdigest()
+    assert pre.is_file() and json.loads(pre.read_text(encoding="utf-8"))["policy_sha256"] == hashlib.sha256((ROOT / "configs" / "league_models" / "approval_policy.yaml").read_text(encoding="utf-8").encode("utf-8")).hexdigest()
     log = hl.read_log(OUT / "s5_holdout_access_log.json")
     if log:
         assert len(log) == 1 and log[0]["status"] == "CONSUMED" and log[0]["prereg_sha256"] == hashlib.sha256(pre.read_bytes()).hexdigest()

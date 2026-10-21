@@ -672,3 +672,13 @@ def test_compare_skips_the_share_of_a_zero_delta_but_not_of_a_real_one():
     real, real2 = {**zero, "delta_vs_reference": -0.02}, {**zero2, "delta_vs_reference": -0.02}
     benchmark._walk(real, real2, "", 1e-3, bad, trace)
     assert [b["path"] for b in bad] == ["/share_of_draws_below_zero"]
+
+
+def test_compare_gives_discontinuous_keys_a_wider_tolerance_but_not_ordinary_ones():
+    bad, trace = [], []
+    benchmark._walk({"share_of_draws_below_zero": 0.930, "ece_raw": 0.0734, "log_loss": 1.0},
+                    {"share_of_draws_below_zero": 0.936, "ece_raw": 0.0715, "log_loss": 1.0004}, "", 1e-3, bad, trace)  # fmt: skip
+    assert bad == []  # a draw share moved by 6 of 1000 draws and an ECE bin edge crossing: tolerated
+    benchmark._walk({"log_loss": 1.0}, {"log_loss": 1.004}, "", 1e-3, bad, trace)
+    benchmark._walk({"ece_raw": 0.0}, {"ece_raw": 0.05}, "", 1e-3, bad, trace)
+    assert [b["path"] for b in bad] == ["/log_loss", "/ece_raw"]

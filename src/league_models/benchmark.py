@@ -708,6 +708,8 @@ SOLVER_TRACE_KEYS = frozenset(
     {"iterations_used", "n_iter", "final_delta", "optimizer_message", "message", "objective", "status",
      "converged", "ipf_converged", "optimizer_success", "success", "max_tail_mass", "final_params"}
 )  # fmt: skip
+# discontinuous quantities (a bootstrap draw or one probability crossing a bin edge flips them): wider, still small
+KEY_ATOL = {"share_of_draws_below_zero": 0.01, "ece_raw": 0.01}
 EXACT_FILES = ("protocol_manifest.json", "leakage_audit.json", "baseline_status.json")
 NUMERIC_FILES = ("benchmark_metrics.json", "paired_deltas.json", "reliability.json")
 ENVIRONMENT_DEPENDENT = {
@@ -738,8 +740,8 @@ def _walk(a, b, path: str, atol: float, out: list[dict], trace: list[dict]) -> N
         if a != b:
             (trace if path.rsplit("/", 1)[-1] in SOLVER_TRACE_KEYS else out).append({"path": path, "expected": a, "got": b})
     else:
-        if abs(float(a) - float(b)) > atol:
-            leaf = path.rsplit("/", 1)[-1].split("[")[0]
+        leaf = path.rsplit("/", 1)[-1].split("[")[0]
+        if abs(float(a) - float(b)) > max(atol, KEY_ATOL.get(leaf, 0.0)):
             (trace if leaf in SOLVER_TRACE_KEYS else out).append(
                 {"path": path, "expected": a, "got": b, "abs_diff": abs(float(a) - float(b))}
             )

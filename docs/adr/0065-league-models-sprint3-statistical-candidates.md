@@ -35,7 +35,7 @@ candidate beats the global reference out of sample. Nothing is promoted (Sprint 
 
 ## CI
 `.github/workflows/league-benchmark.yml` also re-runs Sprint 3 on the archived snapshot under Python 3.12 and compares with the committed `s3_*.json` files (structural files
-byte-for-byte, metric files within 1e-3).
+byte-for-byte, metric files within 1e-3; the draw share of a paired bootstrap and the binned raw ECE, which are discontinuous, within 0.01: the first Linux run moved one of 1,000 draws and one ECE bin edge).
 
 ## Consequences and limits
 - Score-only and `BACKTEST_LIMITED`; clubs unseen in training are predicted at league-average / country level and counted; UEFA finals keep a home advantage.

@@ -740,6 +740,11 @@ def main(argv=None) -> int:
         "--reproduce", default=None, metavar="DIR",
         help="re-run into a temporary directory and compare every output hash with DIR (NOT_REPRODUCIBLE on a diff)",
     )  # fmt: skip
+    ap.add_argument(
+        "--expect-manifest", default=None, metavar="FILE",
+        help="after the run, compare every output hash with the output_hashes of a committed run manifest "
+        "(exit 1 on a difference); used by the CI job on the archived source snapshot",
+    )  # fmt: skip
     a = ap.parse_args(argv)
     if a.verify:
         res = verify_run(Path(a.root) / a.verify)
@@ -759,6 +764,12 @@ def main(argv=None) -> int:
         docs_dir=(root / a.docs_dir) if a.docs_dir else None,
     )  # fmt: skip
     sys.stdout.write(dumps(out))
+    if a.expect_manifest and not a.dry_run:
+        expected = json.loads(Path(a.expect_manifest).read_text(encoding="utf-8"))["output_hashes"]
+        got = out["run_manifest"]["output_hashes"]
+        diff = {k: [expected.get(k), got.get(k)] for k in sorted({*expected, *got}) if expected.get(k) != got.get(k)}
+        sys.stdout.write(dumps({"expect_manifest": a.expect_manifest, "differences": diff}))
+        return 1 if diff else 0
     return 0
 
 

@@ -620,3 +620,16 @@ def test_committed_outputs_are_internally_consistent():
     assert metrics["no_single_winner"] is True
     leaks = json.loads((OUT / "s2_leakage_audit.json").read_text(encoding="utf-8"))
     assert leaks["total_replay_violations"] == 0
+
+
+def test_expect_manifest_exit_codes(tmp_path, monkeypatch, capsys):
+    """TEST_ONLY stub of run(): checks only the comparison and the exit code used by the CI job."""
+    monkeypatch.setattr(benchmark, "run", lambda *a, **k: {"run_manifest": {"output_hashes": {"a.json": "1", "b.json": "2"}}})
+    same = tmp_path / "same.json"
+    same.write_text(json.dumps({"output_hashes": {"a.json": "1", "b.json": "2"}}), encoding="utf-8")
+    other = tmp_path / "other.json"
+    other.write_text(json.dumps({"output_hashes": {"a.json": "1", "b.json": "9"}}), encoding="utf-8")
+    args = ["--root", str(tmp_path), "--as-of", "2026-10-20T00:00:00Z"]
+    assert benchmark.main([*args, "--expect-manifest", str(same)]) == 0
+    assert benchmark.main([*args, "--expect-manifest", str(other)]) == 1
+    assert '"b.json"' in capsys.readouterr().out

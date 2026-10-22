@@ -11,6 +11,7 @@ shadow:
   providers_competitions: {PL: ENG1, SA: ITA1, FL1: FRA1, PD: ESP1}   # football-data.org free-tier codes -> league ids of the candidate cells
   eligible_statuses: [APPROVED_FOR_CANARY, SHADOW_INCONCLUSIVE]       # S5 gate statuses that may run in shadow
   line: 2.5
+  research_overlay: true               # refresh the history with football-data.org results that the licence-clean source lacks (RESEARCH ONLY: such a model can never be served; flagged in every record)
   max_inference_ms_per_fixture: 2000.0
 canary:
   active_fraction: 0.0                 # share of users routed to an APPROVED_FOR_CANARY model; 0 until the owner opens a stage

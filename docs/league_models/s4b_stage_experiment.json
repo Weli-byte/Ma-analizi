@@ -1,0 +1,181 @@
+{
+  "base": "Sprint 4 features, tuned LightGBM, UEFA rows of the development folds",
+  "experiment": "UEFA stage features (Sprint 4b, ADR 0069)",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "holdout": "not read (consumed by Sprint 5); an adopted extension can only be confirmed prospectively",
+  "results": {
+    "1x2": {
+      "UEFA_ALL": {
+        "blocks": 71,
+        "ci95": [
+          -0.003078,
+          0.001669
+        ],
+        "delta_with_stage_minus_base": -0.000743,
+        "log_loss_base": 0.98145,
+        "log_loss_with_stage": 0.9807,
+        "n": 1750,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UCL": {
+        "blocks": 62,
+        "ci95": [
+          -0.00166,
+          0.004548
+        ],
+        "delta_with_stage_minus_base": 0.001396,
+        "log_loss_base": 0.93594,
+        "log_loss_with_stage": 0.93734,
+        "n": 564,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UECL": {
+        "blocks": 61,
+        "ci95": [
+          -0.006694,
+          0.002242
+        ],
+        "delta_with_stage_minus_base": -0.001914,
+        "log_loss_base": 1.01551,
+        "log_loss_with_stage": 1.0136,
+        "n": 576,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UEL": {
+        "blocks": 64,
+        "ci95": [
+          -0.005745,
+          0.002319
+        ],
+        "delta_with_stage_minus_base": -0.001617,
+        "log_loss_base": 0.99136,
+        "log_loss_with_stage": 0.98974,
+        "n": 610,
+        "verdict": "INCONCLUSIVE"
+      }
+    },
+    "btts": {
+      "UEFA_ALL": {
+        "blocks": 71,
+        "ci95": [
+          -0.001903,
+          0.002365
+        ],
+        "delta_with_stage_minus_base": 0.000248,
+        "log_loss_base": 0.68981,
+        "log_loss_with_stage": 0.69005,
+        "n": 1750,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UCL": {
+        "blocks": 62,
+        "ci95": [
+          -0.004207,
+          0.003132
+        ],
+        "delta_with_stage_minus_base": -0.000643,
+        "log_loss_base": 0.69257,
+        "log_loss_with_stage": 0.69193,
+        "n": 564,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UECL": {
+        "blocks": 61,
+        "ci95": [
+          -0.003766,
+          0.003015
+        ],
+        "delta_with_stage_minus_base": -0.000365,
+        "log_loss_base": 0.68841,
+        "log_loss_with_stage": 0.68805,
+        "n": 576,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UEL": {
+        "blocks": 64,
+        "ci95": [
+          -0.001288,
+          0.004588
+        ],
+        "delta_with_stage_minus_base": 0.001651,
+        "log_loss_base": 0.68857,
+        "log_loss_with_stage": 0.69022,
+        "n": 610,
+        "verdict": "INCONCLUSIVE"
+      }
+    },
+    "over_under": {
+      "UEFA_ALL": {
+        "blocks": 71,
+        "ci95": [
+          -0.001708,
+          0.002071
+        ],
+        "delta_with_stage_minus_base": 0.000249,
+        "log_loss_base": 0.68388,
+        "log_loss_with_stage": 0.68412,
+        "n": 1750,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UCL": {
+        "blocks": 62,
+        "ci95": [
+          -0.000487,
+          0.00707
+        ],
+        "delta_with_stage_minus_base": 0.003128,
+        "log_loss_base": 0.67484,
+        "log_loss_with_stage": 0.67796,
+        "n": 564,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UECL": {
+        "blocks": 61,
+        "ci95": [
+          -0.003228,
+          0.004234
+        ],
+        "delta_with_stage_minus_base": 0.000288,
+        "log_loss_base": 0.67859,
+        "log_loss_with_stage": 0.67888,
+        "n": 576,
+        "verdict": "INCONCLUSIVE"
+      },
+      "UEFA_UEL": {
+        "blocks": 64,
+        "ci95": [
+          -0.006116,
+          0.000811
+        ],
+        "delta_with_stage_minus_base": -0.002448,
+        "log_loss_base": 0.69722,
+        "log_loss_with_stage": 0.69477,
+        "n": 610,
+        "verdict": "INCONCLUSIVE"
+      }
+    }
+  },
+  "rule": "SUPPORTED only if the whole 95% block-bootstrap interval of (with stage minus base) is below 0; 12 comparisons, so a single nominal pass is weak evidence",
+  "schema_version": "lm-s4b-stage-v1",
+  "stage_columns": [
+    "stage_known",
+    "stage_league_phase",
+    "stage_playoff",
+    "stage_knockout",
+    "stage_final",
+    "stage_two_legged",
+    "stage_matchday"
+  ],
+  "stage_coverage_uefa_rows": {
+    "total": 1750,
+    "with_stage_text": 1750
+  },
+  "stage_texts_without_a_flag": [],
+  "uefa_evaluation_rows": 1750
+}

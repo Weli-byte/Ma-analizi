@@ -1,0 +1,30 @@
+# Sprint 6 deployment manifest (declarative; nothing here deploys itself). Feature flags live in configs/league_models/rollout.yaml.
+version: lm-s6-v1
+feature_flags:
+  kill_switch: {file: configs/league_models/rollout.yaml, key: kill_switch, default: true, effect: "true = every league route returns GLOBAL"}
+  kill_switch_flag_file: {path: artifacts/league_models/rollout/KILL_SWITCH, written_by: "fail-closed alarm (monitoring.apply_alerts)", effect: "same as kill_switch"}
+  shadow_enabled: {key: shadow.enabled, default: true, effect: "write immutable pre-match shadow records; never user-visible"}
+  canary_fraction: {key: canary.active_fraction, default: 0.0, effect: "share of users routed to an APPROVED_FOR_CANARY model whose data licences are PERMITTED"}
+components:
+  - {name: LeagueModelRegistry, module: src/league_models/rollout/control.py, source: docs/league_models/s5_model_registry.json}
+  - {name: EligibilityGate, module: src/league_models/rollout/control.py, rule: "gate status APPROVED_FOR_CANARY AND every data licence PERMITTED"}
+  - {name: PredictionRouter, module: src/league_models/prediction_router.py, mode: "selection only; production use always GLOBAL"}
+  - {name: CanaryRouter, module: src/league_models/rollout/control.py, mode: "deterministic salted-hash cohorts, audit log without raw user ids"}
+  - {name: FeatureSnapshotStore, module: src/league_models/rollout/shadow.py, mode: "snapshot_hash per record (history digest + fixture + stage); the snapshot engine of ADR 0027 is untouched"}
+  - {name: EvaluationStore, module: "src/league_models/rollout/records.py + evaluation.py", files: [prospective.jsonl, outcomes.jsonl, scorecard.json]}
+  - {name: Monitoring, module: src/league_models/rollout/monitoring.py, files: [alerts.jsonl]}
+scheduler:
+  task: FootballShadowTick
+  script: scripts/shadow_tick.ps1
+  installer: scripts/install_shadow_task.ps1
+  registered: false            # NOT registered; the owner decides
+  cadence_minutes: 30
+data_paths:
+  records: artifacts/league_models/rollout/prospective.jsonl
+  outcomes: artifacts/league_models/rollout/outcomes.jsonl
+  runs: artifacts/league_models/rollout/shadow_runs.jsonl
+  audit: artifacts/league_models/rollout/audit.jsonl
+  dashboard: artifacts/league_models/rollout/dashboard.html
+secrets: "FOOTBALL_DATA_ORG_API_KEY is read from .env only; no secret is printed, logged or committed"
+backward_compatibility: "no existing endpoint, response schema, PredictionRecord or model is changed; the new layer is additive and off the user path"
+migration: "records carry schema_version lm-prospective-v1; a new version is written to new records, old ones are never edited; rollback = kill switch"

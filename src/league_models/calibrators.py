@@ -106,6 +106,22 @@ class Calibrator:
         q = np.clip(q, EPS, 1 - EPS) if self.target != "1x2" else q / q.sum(axis=1, keepdims=True)
         return check_probs(q, self.target)
 
+    @staticmethod
+    def from_dict(d: dict) -> "Calibrator":
+        """Rebuild a calibrator from its recorded parameters (`as_dict`). Isotonic knots are not stored, so an isotonic calibrator cannot be restored."""
+        if d["effective_method"] == "isotonic":
+            raise CalibrationError("an isotonic calibrator cannot be restored from its summary (knots are not stored)")
+        k = 3 if d["target"] == "1x2" else 1
+        cal = Calibrator(d["method"], d["target"], d["status"], d.get("reason", ""), a=float(d["slope_a"]), b=np.array(d["bias_b"], dtype=float), n_fit=int(d["n_fit"]))
+        offsets = d.get("league_offsets") or {}
+        if offsets:
+            names = sorted(offsets)
+            cal.league_index = {lg: i for i, lg in enumerate(names)}
+            cal.d = np.array([offsets[lg] for lg in names], dtype=float).reshape(len(names), k)
+        else:
+            cal.d = np.zeros((0, k))
+        return cal
+
     def as_dict(self) -> dict:
         return {"method": self.method, "effective_method": self.effective_method, "target": self.target, "status": self.status, "reason": self.reason,
                 "slope_a": round(float(self.a), 6), "bias_b": [round(float(x), 6) for x in self.b], "n_fit": self.n_fit,

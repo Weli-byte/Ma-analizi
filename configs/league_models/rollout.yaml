@@ -1,0 +1,40 @@
+# Sprint 6 (ADR 0068): shadow mode, canary policy, monitoring thresholds and the kill switch of the league-model programme.
+# SAFE DEFAULTS: every league route is GLOBAL (kill_switch true), the canary fraction is 0, shadow records are never shown to users.
+# Changing the kill switch or a fraction is a deliberate act of the owner (and an ADR-level decision); nothing in the code changes them.
+version: lm-s6-v1
+kill_switch: true                      # true = ALL league-model routing returns GLOBAL, whatever the registry says
+registry_artifacts_root: artifacts/league_models/s5/final   # where the Sprint 5 registry's artifact paths are resolved (git-ignored run output)
+kill_switch_file: artifacts/league_models/rollout/KILL_SWITCH   # created by an automatic fail-closed alarm; its existence has the same effect
+shadow:
+  enabled: true                        # write prospective shadow records (never user-visible)
+  stages: [t-24h, t-90m, t-30m, kickoff]
+  providers_competitions: {PL: ENG1, SA: ITA1, FL1: FRA1, PD: ESP1}   # football-data.org free-tier codes -> league ids of the candidate cells
+  eligible_statuses: [APPROVED_FOR_CANARY, SHADOW_INCONCLUSIVE]       # S5 gate statuses that may run in shadow
+  line: 2.5
+  max_inference_ms_per_fixture: 2000.0
+canary:
+  active_fraction: 0.0                 # share of users routed to an APPROVED_FOR_CANARY model; 0 until the owner opens a stage
+  salt: lm-s6-routing-v1               # deterministic bucket = sha256(salt | user id) mod 10000; not a secret
+  require_license_permitted: true      # a model whose data licence is not PERMITTED can never be shown to users
+  stages:                              # written in advance; advancing is a config change by the owner, never automatic
+    - {name: shadow_only,    fraction: 0.00, min_observation_days: 14, min_resolved_pairs: 100}
+    - {name: internal_users, fraction: 0.01, min_observation_days: 7,  min_resolved_pairs: 100}
+    - {name: canary_5,       fraction: 0.05, min_observation_days: 14, min_resolved_pairs: 200}
+    - {name: canary_20,      fraction: 0.20, min_observation_days: 14, min_resolved_pairs: 300}
+    - {name: canary_50,      fraction: 0.50, min_observation_days: 14, min_resolved_pairs: 400}
+    - {name: full_100,       fraction: 1.00, min_observation_days: 28, min_resolved_pairs: 600}
+  advance_requires: "prospective paired log-loss interval against the global model entirely below 0, no critical alarm in the window, licence PERMITTED"
+monitoring:
+  min_resolved_for_metric_alarm: 100   # per-league log loss / ECE alarms need at least this many resolved prospective pairs (small N never alarms)
+  outcome_lag_grace_hours: 6           # a result not yet in is "pending" until kick-off + grace; only longer lags alarm
+  outcome_lag_alarm_hours: 48
+  max_fallback_rate: 0.05
+  min_coverage: 0.95                   # due fixtures that got a shadow record
+  max_snapshot_age_hours: 30
+  psi_warn: 0.25
+  psi_critical: 0.40
+  min_drift_rows: 50
+  max_p_sum_error: 1.0e-6
+  max_log_loss_regression: 0.03        # candidate minus global on resolved prospective pairs, only when N is large enough
+  max_ece: 0.08
+  provider_error_alarm_rate: 0.25

@@ -111,4 +111,4 @@ python -m src.league_models.rollout status
 python -m src.league_models.rollout.rehearsal     # TEST_ONLY rollback simulation
 ```
 - Local checks (2026-10-22): `ruff check .` clean; full `pytest` run without failure (24 Sprint 6 tests); real shadow runs at 17:14, 18:48, 18:49 and 19:06 UTC (`s6_shadow_first_run.json`).
-- CI: CI_STATUS
+- CI (GitHub Actions, PR #89, 2026-10-22): the `league-benchmark` job (Ubuntu 24.04, Python 3.12) re-ran Sprints 2 to 5 (development stage) and passed every comparison; `test (3.12)`, `test (3.14)`, `real-data-sanity` and `lock-up-to-date` passed after the lock files were regenerated (three times in two days: upstream packages release every few hours, e.g. pandas 3.1.0 and python-dateutil 3.0.0 in the last regeneration; the daily relock workflow remains the long-term answer). The benchmark numbers did not change with the new lock.

@@ -37,7 +37,8 @@ def render(scorecard: dict, records: list[dict], alerts: list[dict], kill: dict,
             f"&middot; <b>Resolved fixtures:</b> {scorecard['resolved_fixtures']} &middot; <b>Pending results:</b> {scorecard['pending_outcomes']}<br>{e(scorecard['caution'])}</div>"
             f"<h2>Prospective scorecard (stored before kick-off)</h2><table><tr><th>Candidate</th><th>Stage</th><th>Resolved pairs</th><th>Candidate log loss</th><th>Global log loss</th><th>Delta</th><th>Verdict</th></tr>{pair_rows}</table>"
             f"{bt}<h2>Latest records</h2><table><tr><th>Fixture</th><th>League</th><th>Kick-off UTC</th><th>Stage</th><th>Family</th><th>P home</th><th>P draw</th><th>P away</th><th>P over 2.5</th><th>P BTTS</th><th>Version</th></tr>{''.join(rows)}</table>"
-            f"<h2>Alerts</h2><table><tr><th>Severity</th><th>Key</th><th>Message</th></tr>{alert_rows}</table></main></html>")
+            f"<h2>Alerts</h2><table><tr><th>Severity</th><th>Key</th><th>Message</th></tr>{alert_rows}</table>"
+            f"<p><small>Football data provided by the Football-Data.org API. Research evidence only; not betting advice.</small></p></main></html>")
 
 
 def write(path: Path, text: str) -> None:

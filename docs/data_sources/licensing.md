@@ -22,6 +22,8 @@ commercial use**).
 
 ## football-data.org (API v4, free tier) — S12 ingestion adapter
 
+> 2026-10-22: primary-page evidence, the draft written-confirmation request and the data-gap table are in `league_models_data_and_licence_actions.md`. Status unchanged: CONDITIONAL, commercial / ML use unconfirmed.
+
 | Field | football-data.org free tier |
 |---|---|
 | provider | football-data.org (`daniel@football-data.org`) |

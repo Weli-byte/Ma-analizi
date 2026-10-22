@@ -1,0 +1,25 @@
+name: site-check
+# Reachability check of the public site FROM A GITHUB RUNNER (outside any national or ISP filter). On demand and every 6 hours.
+# If this passes but the site does not open on a user's network, the problem is that network (DNS / SNI filtering of *.vercel.app), not the deployment.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Fetch the site and its health route
+        run: |
+          set -u
+          for url in https://mac-tahmin-eight.vercel.app/ https://mac-tahmin-eight.vercel.app/v1/health; do
+            code=$(curl -s -o body.txt -w '%{http_code}' --max-time 30 "$url" || echo 000)
+            echo "$url -> HTTP $code, $(wc -c < body.txt 2>/dev/null || echo 0) bytes"
+            head -c 200 body.txt | tr '\n' ' '; echo
+            echo "| $url | $code |" >> "$GITHUB_STEP_SUMMARY"
+            [ "$code" = 200 ] || { echo "::error::$url answered HTTP $code"; fail=1; }
+          done
+          [ "${fail:-0}" = 0 ]

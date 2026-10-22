@@ -362,3 +362,21 @@ def test_scores_http_error_names_the_status_not_the_key(monkeypatch):
         assert "HTTP 422 Unprocessable" in str(e) and "SECRETKEY" not in str(e)
     else:
         raise AssertionError("must raise")
+
+
+def test_the_low_confidence_label_is_shown_on_the_card_and_the_match_page_and_translated():
+    from src.web import i18n
+
+    class NoLogos:
+        def __getattr__(self, name):
+            return lambda *a, **k: None
+
+    low = _intel(None) | {"most_likely_score": "1-1"}
+    low["data_quality"] = {"flags": ["home team has no history: neutral strength used"],
+                           "low_confidence": {"level": "LOW", "reason": "NO_HISTORY", "label": "Geçmişi yok, düşük güven", "teams": ["ENG_arsenal"]}}  # fmt: skip
+    card = pages.match_row(low, Logos())
+    page = pages.match_page(low, [], Logos())
+    assert card.count("Geçmişi yok, düşük güven") == 1 and "Geçmişi yok, düşük güven" in page and "lig ortalaması güçle" in page
+    assert "No history, low confidence" in i18n.translate_html(card) and "league-average strength" in i18n.translate_html(page)
+    plain = _intel(None) | {"most_likely_score": "1-1"}
+    assert "Geçmişi yok" not in pages.match_row(plain, Logos()) and "Geçmişi yok" not in pages.match_page(plain, [], Logos())   # artifacts written before this field exist

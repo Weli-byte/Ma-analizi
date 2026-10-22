@@ -247,12 +247,14 @@ def match_row(i: dict, logos, tags: bool = True) -> str:
             + "</div>"
         )
     warn = " ⚠" if i["data_quality"]["flags"] else ""
+    low = i["data_quality"].get("low_confidence")
+    badge = f"<span class='tag'>{e(low['label'])}</span>" if low else ""
     return (
         f"<a href='/mac/{e(i['fixture_id'])}'><div class='card'><div class='m'>"
         f"<div class='t'><b>{t.strftime('%H:%M')}</b>{t.day} {MONTHS[t.month - 1]}</div>"
         f"<div class='tm'><div>{team_badge(i, 'home', logos)}{e(i['home'])}</div><div>{team_badge(i, 'away', logos)}{e(i['away'])}</div></div>"
         f"{boxes(r['home'], r['draw'], r['away'])}</div>{tag_html}"
-        f"<div class='mut' style='margin-top:6px'>En olası skor <b>{e(i['most_likely_score'])}</b>{warn}</div></div></a>"
+        f"<div class='mut' style='margin-top:6px'>En olası skor <b>{e(i['most_likely_score'])}</b>{warn} {badge}</div></div></a>"
     )
 
 
@@ -762,10 +764,11 @@ def match_page(
         )
     else:
         value = "<div class='card mut'>Bu maç için verinin desteklediği bir bahis önerisi yok. Bu, hiçbir bahsin iyi olmadığı anlamına gelmez, yalnızca verinin yeterince desteklemediği anlamına gelir.</div>"
+    low = i["data_quality"].get("low_confidence")
     flags = (
-        "".join(f"<li>{e(f)}</li>" for f in i["data_quality"]["flags"])
-        or "<li>Belirgin bir veri sorunu yok.</li>"
-    )
+        (f"<li><b>{e(low['label'])}</b>: bu kulübün modelde maç geçmişi yok, tahmin lig ortalaması güçle yapıldı.</li>" if low else "")
+        + "".join(f"<li>{e(f)}</li>" for f in i["data_quality"]["flags"])
+    ) or "<li>Belirgin bir veri sorunu yok.</li>"
     summary = (
         "<div class='sec'><h2>Sonuç olasılıkları</h2></div><div class='card'>"
         f"<div class='bar'><i style='width:{hp['home'] * 100:.1f}%;background:var(--g)'></i><i style='width:{hp['draw'] * 100:.1f}%;background:#9aa7a0'></i><i style='width:{hp['away'] * 100:.1f}%;background:#e3813a'></i></div>"

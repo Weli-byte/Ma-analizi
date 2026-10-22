@@ -30,3 +30,11 @@ Mjallby AIF, Riga FC, SK Brann, Sint-Truidense (Sint-Truidense exists in the dir
 
 ## Rollback
 Remove the `collect_espn` call from `live_results.collect` (or delete `src/ingestion/espn_fixtures.py`); delete the `espn` alias rows by their `2026-10-23` approver text.
+
+## Update 2026-10-23 (same day): clubs without history are forecast, with a label
+Owner decision: the clubs the model has never seen are no longer skipped. 16 clubs were registered (provenance `no_history_registered`, owner to re-confirm: AGF, CSU Craiova, Egnatia, FC Thun, Hajduk Split, Iberia 1999,
+Inter Club d'Escaldes, Kauno Zalgiris, KuPS Kuopio, Mjallby AIF, Riga FC, SK Brann, Ararat-Armenia, Levski Sofia, Lillestrom, Torreense) and one ESPN alias was added for the existing Sint-Truidense. A forecast for such a club uses the
+league-average strength (the existing rate model's behaviour for an unknown club), so it carries almost no club-specific information. Every artifact now has `data_quality.low_confidence = {level: LOW, reason: NO_HISTORY, label:
+"Geçmişi yok, düşük güven", teams: [...]}` when a club's decayed match weight is under 2.0 (absent, or a single match so far); the match card shows the label as a tag and the match page lists it with the explanation
+(English UI: "No history, low confidence"). Older artifacts have no such field and are rendered as before. The label means "do not rely on this number", not that the club is weak. Result: 18 + 18 upcoming fixtures resolved for 2026-11-05/06
+(Europa League, Conference League), all clubs resolved.

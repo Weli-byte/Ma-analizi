@@ -1,6 +1,15 @@
 # Team identity store. canonical `teams` + `aliases` (with provenance and validity window).
 # Add aliases with: python -m src.data.team_resolution approve --raw NAME --team-id ID
 teams:
+- team_id: ALB_egnatia
+  canonical_name: KF Egnatia
+  country: ALB
+- team_id: AND_inter_club_descaldes
+  canonical_name: Inter Club d'Escaldes
+  country: AND
+- team_id: ARM_ararat_armenia
+  canonical_name: FC Ararat-Armenia
+  country: ARM
 - team_id: ARM_fc_alashkert
   canonical_name: FC Alashkert
   country: ARM
@@ -145,11 +154,17 @@ teams:
 - team_id: BUL_cska_sofia
   canonical_name: CSKA Sofia
   country: BUL
+- team_id: BUL_levski_sofia
+  canonical_name: PFC Levski Sofia
+  country: BUL
 - team_id: BUL_pfc_ludogorets_razgrad
   canonical_name: PFC Ludogorets Razgrad
   country: BUL
 - team_id: CRO_dinamo_zagreb
   canonical_name: Dinamo Zagreb
+  country: CRO
+- team_id: CRO_hajduk_split
+  canonical_name: HNK Hajduk Split
   country: CRO
 - team_id: CRO_hnk_rijeka
   canonical_name: HNK Rijeka
@@ -196,6 +211,9 @@ teams:
 - team_id: CZE_viktoria_plzen
   canonical_name: Viktoria Plzeň
   country: CZE
+- team_id: DEN_agf
+  canonical_name: AGF Aarhus
+  country: DEN
 - team_id: DEN_brndby_if
   canonical_name: Brøndby IF
   country: DEN
@@ -415,6 +433,9 @@ teams:
 - team_id: FIN_hjk_helsinki
   canonical_name: HJK Helsinki
   country: FIN
+- team_id: FIN_kups
+  canonical_name: KuPS Kuopio
+  country: FIN
 - team_id: FRA_ac_ajaccio
   canonical_name: AC Ajaccio
   country: FRA
@@ -505,6 +526,9 @@ teams:
 - team_id: FRO_ki_klaksvik
   canonical_name: KÍ Klaksvík
   country: FRO
+- team_id: GEO_iberia_1999
+  canonical_name: Iberia 1999
+  country: GEO
 - team_id: GER_1_fc_koln
   canonical_name: 1. FC Köln
   country: GER
@@ -781,11 +805,17 @@ teams:
 - team_id: KOS_kf_ballkani
   canonical_name: KF Ballkani
   country: KOS
+- team_id: LAT_riga_fc
+  canonical_name: Riga FC
+  country: LAT
 - team_id: LIE_fc_vaduz
   canonical_name: FC Vaduz
   country: LIE
 - team_id: LTU_fk_zalgiris
   canonical_name: FK Žalgiris
+  country: LTU
+- team_id: LTU_kauno_zalgiris
+  canonical_name: Kauno Žalgiris
   country: LTU
 - team_id: LVA_fk_rfs
   canonical_name: FK RFS
@@ -886,8 +916,14 @@ teams:
 - team_id: NOR_fk_bod_glimt
   canonical_name: FK Bodø/Glimt
   country: NOR
+- team_id: NOR_lillestrom
+  canonical_name: Lillestrøm SK
+  country: NOR
 - team_id: NOR_molde_fk
   canonical_name: Molde FK
+  country: NOR
+- team_id: NOR_sk_brann
+  canonical_name: SK Brann
   country: NOR
 - team_id: POL_jagiellonia_biaystok
   canonical_name: Jagiellonia Białystok
@@ -982,6 +1018,9 @@ teams:
 - team_id: POR_sporting_clube_de_portugal
   canonical_name: Sporting Clube de Portugal
   country: POR
+- team_id: POR_torreense
+  canonical_name: SC Torreense
+  country: POR
 - team_id: POR_vitoria_guimaraes
   canonical_name: Vitória Guimarães
   country: POR
@@ -990,6 +1029,9 @@ teams:
   country: POR
 - team_id: ROU_cfr_cluj
   canonical_name: CFR Cluj
+  country: ROU
+- team_id: ROU_csu_craiova
+  canonical_name: CS Universitatea Craiova
   country: ROU
 - team_id: ROU_fcsb
   canonical_name: FCSB
@@ -1078,6 +1120,9 @@ teams:
 - team_id: SUI_fc_st_gallen
   canonical_name: FC St. Gallen
   country: SUI
+- team_id: SUI_fc_thun
+  canonical_name: FC Thun
+  country: SUI
 - team_id: SUI_fc_zurich
   canonical_name: FC Zürich
   country: SUI
@@ -1110,6 +1155,9 @@ teams:
   country: SWE
 - team_id: SWE_malmo_ff
   canonical_name: Malmö FF
+  country: SWE
+- team_id: SWE_mjallby_aif
+  canonical_name: Mjällby AIF
   country: SWE
 - team_id: TUR_adana_demirspor
   canonical_name: Adana Demirspor
@@ -1212,6 +1260,16 @@ teams:
   country: WAL
 aliases:
 - source: espn
+  raw_name: AGF
+  team_id: DEN_agf
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
   raw_name: Ajax Amsterdam
   team_id: NED_afc_ajax
   valid_from: null
@@ -1230,6 +1288,16 @@ aliases:
     team; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: Ararat-Armenia
+  team_id: ARM_ararat_armenia
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
   raw_name: Athletic Club
   team_id: ESP_athletic_bilbao
   valid_from: null
@@ -1238,6 +1306,16 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (ESPN club name checked against the canonical
     team; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: CSU Craiova
+  team_id: ROU_csu_craiova
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
 - source: espn
   raw_name: Deportivo
   team_id: ESP_deportivo_la_coruna
@@ -1248,6 +1326,26 @@ aliases:
     team; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: Egnatia
+  team_id: ALB_egnatia
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: FC Thun
+  team_id: SUI_fc_thun
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
   raw_name: Ferencvaros
   team_id: HUN_ferencvarosi_tc
   valid_from: null
@@ -1257,6 +1355,16 @@ aliases:
     under this id; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: Hajduk Split
+  team_id: CRO_hajduk_split
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
   raw_name: Hapoel Be'er
   team_id: ISR_hapoel_be_er_sheva
   valid_from: null
@@ -1265,6 +1373,26 @@ aliases:
   approved_by: claude-assistant 2026-10-23 (ESPN display name of a club that has history
     under this id; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: Iberia 1999
+  team_id: GEO_iberia_1999
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Inter D'Escaldes
+  team_id: AND_inter_club_descaldes
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
 - source: espn
   raw_name: Jagiellonia Bialystok
   team_id: POL_jagiellonia_biaystok
@@ -1284,6 +1412,56 @@ aliases:
     under this id; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: Kauno Zalgiris
+  team_id: LTU_kauno_zalgiris
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: KuPS Kuopio
+  team_id: FIN_kups
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Levski Sofia
+  team_id: BUL_levski_sofia
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Lillestrom
+  team_id: NOR_lillestrom
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Mjällby AIF
+  team_id: SWE_mjallby_aif
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
   raw_name: Olympiacos
   team_id: GRE_olympiakos_piraeus
   valid_from: null
@@ -1301,6 +1479,46 @@ aliases:
   approved_by: claude-assistant 2026-10-23 (ESPN display name of a club that has history
     under this id; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: Riga FC
+  team_id: LAT_riga_fc
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: SK Brann
+  team_id: NOR_sk_brann
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Sint-Truidense
+  team_id: BEL_sint_truidense_vv
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Torreense
+  team_id: POR_torreense
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
+    the low-confidence label; the club has no match history in the model; owner to
+    re-confirm)'
+  confidence: 0.9
 - source: espn
   raw_name: Union St.-Gilloise
   team_id: BEL_union_saint_gilloise

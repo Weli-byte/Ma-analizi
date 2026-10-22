@@ -9,6 +9,8 @@ from html import escape, unescape
 LANG_COOKIE = "lang"
 
 PHRASES: dict[str, str] = {
+    "Geçmişi yok, düşük güven": "No history, low confidence",
+    "bu kulübün modelde maç geçmişi yok, tahmin lig ortalaması güçle yapıldı.": "this club has no match history in the model; the forecast uses league-average strength.",
     # navigation and titles
     "Ana sayfa": "Home",
     "Ligler": "Leagues",

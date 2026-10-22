@@ -27,6 +27,10 @@ def _ou(pmf: np.ndarray, line: float) -> dict:
     return {"line": line, "over": round(over, 4), "under": round(1.0 - over, 4)}
 
 
+NO_HISTORY_WEIGHT = 2.0  # decayed match weight under which a club is treated as having no history (one match counts about 1.0)
+LOW_CONFIDENCE_LABEL = "Geçmişi yok, düşük güven"  # the exact label the product shows (English UI: "No history, low confidence")
+
+
 def _data_quality(mm: MarketModels, home: str, away: str) -> dict:
     tm = mm.goals.team_matches
     flags = []
@@ -35,10 +39,14 @@ def _data_quality(mm: MarketModels, home: str, away: str) -> dict:
             flags.append(f"{side} team has no history: neutral strength used")
         elif tm[t] < 8:
             flags.append(f"{side} team has little recent history (weight {tm[t]:.1f})")
-    return {
+    unseen = [t for t in (home, away) if tm.get(t, 0.0) < NO_HISTORY_WEIGHT]  # absent, or a single match so far
+    out = {
         "flags": flags,
         "history_weight": {home: round(tm.get(home, 0.0), 1), away: round(tm.get(away, 0.0), 1)},
     }
+    if unseen:  # a club the model has never seen is predicted at league-average strength: shown, never hidden
+        out["low_confidence"] = {"level": "LOW", "reason": "NO_HISTORY", "label": LOW_CONFIDENCE_LABEL, "teams": unseen, "history_weight_threshold": NO_HISTORY_WEIGHT}
+    return out
 
 
 def intelligence(

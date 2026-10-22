@@ -442,3 +442,24 @@ def test_recent_form_lists_the_last_matches_known_at_the_time_newest_first(world
     later = recent_form(ms, team, ms[-1].available_at, {}, n=5)
     assert later[0]["date"] >= form[0]["date"]  # a later cut-off can only add newer matches
     assert recent_form(ms, "ENG_nobody", cut, {}) == []
+
+
+def test_a_club_without_history_gets_the_low_confidence_label_and_a_known_club_does_not(world):
+    mm = fit_markets(world["ms"], world["cut"], world["cfg"])
+    known_h, known_a = world["ms"][-1].home_id, world["ms"][-1].away_id
+    new = intelligence(mm, "ENG_brand_new_club", known_a, "EPL")["data_quality"]
+    assert new["low_confidence"] == {"level": "LOW", "reason": "NO_HISTORY", "label": "Geçmişi yok, düşük güven", "teams": ["ENG_brand_new_club"], "history_weight_threshold": 2.0}
+    assert "low_confidence" not in intelligence(mm, known_h, known_a, "EPL")["data_quality"]
+    both = intelligence(mm, "ENG_new_a", "ENG_new_b", "EPL")["data_quality"]["low_confidence"]["teams"]
+    assert both == ["ENG_new_a", "ENG_new_b"]
+
+
+def test_a_club_with_a_single_match_counts_as_no_history_and_the_forecast_is_still_a_valid_distribution(world):
+    from src.markets.model import MarketModels  # noqa: F401 - the type of `mm`
+
+    mm = fit_markets(world["ms"], world["cut"], world["cfg"])
+    mm.goals.team_matches["ENG_one_match"] = 1.0
+    i = intelligence(mm, "ENG_one_match", world["ms"][-1].away_id, "EPL")
+    assert i["data_quality"]["low_confidence"]["teams"] == ["ENG_one_match"]
+    hp = i["result"]["headline_probs"]
+    assert abs(sum(hp.values()) - 1) < 1e-9 and all(0 < v < 1 for v in hp.values())

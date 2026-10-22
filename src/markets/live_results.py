@@ -43,7 +43,8 @@ FD_CODES = {
     "UCL": "CL",
 }
 ODDS_ONLY = ("SUPERLIG", "UEL", "UECL")
-SOURCES = ("football-data-org", "the-odds-api", "openfootball", "openfootball-cups")
+SOURCES = ("football-data-org", "the-odds-api", "espn", "openfootball", "openfootball-cups")
+ESPN_LEAGUES = ("UEL", "UECL")  # no other free source lists their fixtures any more (ADR 0070)
 ODDS_BASE = "https://api.the-odds-api.com/v4"
 CUPS = ("UCL", "UEL", "UECL")
 
@@ -193,6 +194,48 @@ def from_odds_scores(
     return rows, unresolved
 
 
+def from_espn(league: str, matches: list[dict], directory: TeamDirectory, now: datetime) -> tuple[list[dict], list[dict], list[str]]:
+    """(finished results, upcoming fixtures, unresolved club names) from parsed ESPN scoreboard matches (src.ingestion.espn_fixtures).
+    A result is accepted only in the league phase (before 1 February), like the odds-provider scores: a knockout score may include extra time."""
+    results, upcoming, unresolved = [], [], []
+    for m in matches:
+        ko = m["kickoff_utc"]
+        h = _resolve(directory, league, m["home"], ko.date())
+        a = _resolve(directory, league, m["away"], ko.date())
+        if h is None or a is None:
+            unresolved += [n for n, t in ((m["home"], h), (m["away"], a)) if t is None]
+            continue
+        if m["completed"] and m["home_goals"] is not None and ko <= now:
+            if ko.month in (2, 3, 4, 5, 6):
+                continue
+            results.append({"league": league, "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(), "home_goals": m["home_goals"], "away_goals": m["away_goals"],
+                            "source": "espn scoreboard (unofficial, research only)", "score_basis": "provider final score (league phase: 90 minutes)"})  # fmt: skip
+        elif not m["completed"] and ko > now and m["status"] in ("STATUS_SCHEDULED", "STATUS_DELAYED"):
+            upcoming.append({"fixture_id": f"espn-{m['event_id']}", "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(), "referee": None})
+    return results, sorted(upcoming, key=lambda x: x["kickoff_utc"]), sorted(set(unresolved))
+
+
+def collect_espn(root: Path, now: datetime, directory: TeamDirectory, days_back: int = 4, days_ahead: int = 14, scanner=None) -> list[str]:
+    """Europa League and Conference League: fixtures of the next `days_ahead` days and results of the last `days_back` days, from ESPN's keyless scoreboard."""
+    from src.ingestion import espn_fixtures
+
+    scanner = scanner or espn_fixtures.scan
+    lines = []
+    for league in ESPN_LEAGUES:
+        matches, errors = scanner(espn_fixtures.SLUGS[league], (now - timedelta(days=days_back)).date(), (now + timedelta(days=days_ahead)).date())
+        results, upcoming, unresolved = from_espn(league, matches, directory, now)
+        store = load_store(root, league)
+        store["season"] = season_label(now)
+        added = merge(store, results, now)
+        keep = [u for u in store.get("upcoming", []) if not str(u.get("fixture_id", "")).startswith("espn-")]
+        known = {(u["home_id"], u["away_id"], u["kickoff_utc"][:10]) for u in keep}
+        store["upcoming"] = sorted([*keep, *[u for u in upcoming if (u["home_id"], u["away_id"], u["kickoff_utc"][:10]) not in known]], key=lambda x: x["kickoff_utc"])
+        store["espn_observed_at"] = now.isoformat()
+        save_store(root, league, store)
+        lines.append(f"{league}: espn {len(matches)} matches, {added} new result(s), {len(upcoming)} upcoming, {len(errors)} day(s) failed, unresolved clubs: {unresolved or 'none'}")
+    return lines
+
+
 def pending_fixtures(root: Path, league: str, now: datetime) -> int:
     """Stored odds-store fixtures of the league that kicked off 2.5+ hours ago and have no result stored."""
     store = load_store(root, league)
@@ -337,6 +380,10 @@ def collect(
         lines.append(download_crests(root))
     else:
         lines.append("football-data.org: NOT_CONFIGURED (FOOTBALL_DATA_ORG_API_KEY not set)")
+    try:
+        lines.extend(collect_espn(root, now, directory))
+    except Exception as e:  # noqa: BLE001 - an optional list; the other sources must still run
+        lines.append(f"espn fixtures FAILED ({type(e).__name__})")
     if odds_key:
         for league in ODDS_ONLY:
             from src.odds.run import key_paused, mark_quota, quota_exhausted

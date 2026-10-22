@@ -84,7 +84,7 @@ Every record carries its snapshot hash, the licence ids (`openfootball_domestic`
 5. UEFA format versions and Süper Lig league sizes remain `ASSISTANT_DECLARED_UNVERIFIED`; the UEFA group / knockout stage is present in the openfootball cups files but was not carried into the Sprint 1 identity layer, so no stage context feature exists (addable, see `docs/data_sources/league_models_data_and_licence_actions.md`).
 **Modelling**
 6. A full hierarchical (random-effect) model of team strength across leagues and a joint bridge: only ridge-penalised country levels and Elo offsets exist. A regularised logistic correction on global probabilities (candidate B in the plan) exists only as league-aware refits and the hierarchical calibrator.
-7. Opponent-adjusted form, 90 / 365-day windows and exponential time weights as features (only 5 / 10-match windows, a 30-day congestion count and a time-decay ablation).
+7. (UEFA stage features: built and evaluated on the development folds in ADR 0069, no demonstrated benefit, not adopted.) Opponent-adjusted form, 90 / 365-day windows and exponential time weights as features (only 5 / 10-match windows, a 30-day congestion count and a time-decay ablation).
 8. Nested walk-forward for every choice: tuning used one inner season per fold (a 70 / 30 time cut in the first fold); blend weights share that block.
 9. The exact-score target is scored only in the Sprint 3 audit; the Sprint 5 holdout report has no correct-score top-1 versus likelihood table. The "always over 68.8%" figure of the 138-match report cannot be re-verified (those matches are not in the licensed universe).
 10. Expected goals per team in the prediction record (`expected_goals_home/away`) and the score matrix are not stored in the prospective record.

@@ -63,6 +63,73 @@ def candidate_cells(registry: LeagueModelRegistry, cfg: RolloutConfig) -> list[C
     return sorted(out, key=lambda c: (c.league, c.target, c.model))
 
 
+def _dedupe_key_dates(history: list[EvalRow]) -> dict:
+    out: dict[tuple, list] = {}
+    for r in history:
+        out.setdefault((r.league_id, r.home_id, r.away_id), []).append(r.kickoff_utc.date())
+    return out
+
+
+def _is_known(known: dict, league: str, home: str, away: str, kickoff: datetime) -> bool:
+    return any(abs((d - kickoff.date()).days) <= 1 for d in known.get((league, home, away), ()))
+
+
+def research_overlay_rows(finished: list, directory, history: list[EvalRow], now: datetime, lag_hours: int, countries: dict) -> tuple[list[EvalRow], dict]:
+    """RESEARCH-ONLY refresh of the licence-clean history: results that football-data.org already returned in this run's schedule call (no extra request) and that the
+    licence-clean source does not yet have. Used for shadow research only (a CONDITIONAL source: a model fed by it can never be served to users); every record is flagged."""
+    known = _dedupe_key_dates(history)
+    cutoff = now - timedelta(hours=lag_hours)
+    rows, unresolved = [], 0
+    for league, raw in finished:
+        if raw.kickoff_utc > cutoff or raw.home_goals is None or raw.away_goals is None:
+            continue
+        country = countries.get(league, league[:3])
+        ids = []
+        for name in (raw.home_team_raw_name, raw.away_team_raw_name):
+            t = directory.resolve(SOURCE, name, country, raw.kickoff_utc.date())
+            if t.team_id is None:
+                t = directory.resolve(ALIAS_FALLBACK_SOURCE, name, country, raw.kickoff_utc.date())
+            ids.append(t.team_id)
+        if None in ids:
+            unresolved += 1
+            continue
+        if _is_known(known, league, ids[0], ids[1], raw.kickoff_utc):
+            continue
+        hg, ag = raw.home_goals, raw.away_goals
+        rows.append(EvalRow(f"fdorg-res-{raw.provider_fixture_id}", league, raw.season, raw.kickoff_utc, ids[0], ids[1], 0 if hg > ag else (1 if hg == ag else 2), home_goals=hg, away_goals=ag))
+    rep = {"source": "football_data_org (research overlay)", "rows_added": len(rows), "unresolved_clubs_skipped": unresolved,
+           "latest_kickoff_utc": max((r.kickoff_utc for r in rows), default=None) and max(r.kickoff_utc for r in rows).isoformat()}  # fmt: skip
+    return rows, rep
+
+
+OPERATIONAL_CODES = {"tr.1": ("TUR1", "SUPERLIG", "TUR")}
+
+
+def operational_extra_rows(root: Path, directory, history: list[EvalRow], now: datetime, lag_hours: int) -> tuple[list[EvalRow], dict]:
+    """Public-domain results from the operational cache (openfootball/europe Football.TXT, e.g. the Süper Lig 2026-27 that football.json lacks). The frozen research snapshot is not touched."""
+    from src.ingestion.openfootball import parse
+
+    base = root / "artifacts" / "league_models" / "operational_cache" / "openfootball-europe-txt"
+    known = _dedupe_key_dates(history)
+    cutoff = now - timedelta(hours=lag_hours)
+    rows, files = [], []
+    for f in sorted(base.glob("*/*.json")) if base.exists() else []:
+        meta = OPERATIONAL_CODES.get(f.stem)
+        if meta is None:
+            continue
+        league, repo_league, country = meta
+        files.append(str(f.relative_to(root)))
+        for raw in parse(f.read_bytes(), repo_league, f.parent.name):
+            if raw.status_raw != "FT" or raw.kickoff_utc > cutoff:
+                continue
+            ids = [directory.resolve(ALIAS_FALLBACK_SOURCE, n, country, raw.kickoff_utc.date()).team_id for n in (raw.home_team_raw_name, raw.away_team_raw_name)]
+            if None in ids or _is_known(known, league, ids[0], ids[1], raw.kickoff_utc):
+                continue
+            hg, ag = raw.home_goals, raw.away_goals
+            rows.append(EvalRow(f"ofe-{raw.provider_fixture_id}", league, raw.season, raw.kickoff_utc, ids[0], ids[1], 0 if hg > ag else (1 if hg == ag else 2), home_goals=hg, away_goals=ag))
+    return rows, {"source": "openfootball/europe Football.TXT (CC0)", "files": files, "rows_added": len(rows)}
+
+
 def operational_history(audit, bcfg, now: datetime, lag_hours: int) -> list[EvalRow]:
     """Every finished licence-clean match that is history at `now` (kick-off + lag <= now). The guard seasons of the older research benchmark stay out."""
     uni = build_universe(bcfg, audit)
@@ -277,6 +344,7 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
         provider = FootballDataOrgProvider(key)
     season = season_label(now)
     upcoming = []
+    finished = []
     for code, league in cfg["shadow"]["providers_competitions"].items():
         try:
             raws = provider.list_fixtures(code, season)
@@ -285,6 +353,8 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
             continue
         report["fixtures_seen"] += len(raws)
         for raw in raws:
+            if raw.status_raw == "FT" and raw.home_goals is not None:
+                finished.append((league, raw))
             if raw.status_raw == "NS" and raw.kickoff_utc > now:
                 stage = due_stage(raw.kickoff_utc, now)
                 if stage is not None and stage.value in (stages or cfg["shadow"]["stages"]):
@@ -325,10 +395,19 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
 
     # 3. as-of history and models
     history = operational_history(audit, bcfg, now, league_cfg.result_lag_hours)
+    base_rows = len(history)
+    extra, rep_extra = operational_extra_rows(root, directory, history, now, league_cfg.result_lag_hours)
+    history = sorted([*history, *extra], key=lambda x: (x.kickoff_utc, x.fixture_id))
+    overlay, rep_overlay = [], {"source": "football_data_org (research overlay)", "rows_added": 0, "status": "DISABLED"}
+    if cfg["shadow"].get("research_overlay"):
+        overlay, rep_overlay = research_overlay_rows(finished, directory, history, now, league_cfg.result_lag_hours, COUNTRY)
+        history = sorted([*history, *overlay], key=lambda x: (x.kickoff_utc, x.fixture_id))
+    report["history_sources"] = {"licence_clean_snapshot_rows": base_rows, "operational_extra": rep_extra, "research_overlay": rep_overlay}
+    overlay_flag = {"licence_clean_rows": base_rows, "operational_extra_rows": len(extra), "research_overlay_rows": len(overlay)}
     report["history_rows"] = len(history)
     report["history_latest_kickoff_utc"] = max(r.kickoff_utc for r in history).isoformat()
     cal_path = calibration_manifest or (root / "docs" / "league_models" / "s5_calibration_manifest.json")
-    sm = fit_models(history, cells, root, snapshot_id, cal_path, scfg, mcfg, league_cfg.result_lag_hours, bcfg)
+    sm = fit_models(history, cells, root, snapshot_id + f"|extra{len(extra)}|overlay{len(overlay)}", cal_path, scfg, mcfg, league_cfg.result_lag_hours, bcfg)
     report["model_errors"] = sm.errors
     store = ProspectiveStore(out_dir / "prospective.jsonl")
     line = float(cfg["shadow"]["line"])
@@ -350,7 +429,7 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
                 continue
             rec = ProspectiveRecord(row.fixture_id, row.league_id, row.kickoff_utc.isoformat(), now.isoformat(), stage.value, sm.version(fam), fam if role == "global" else family, role,
                                     fields["p_home"], fields["p_draw"], fields["p_away"], fields["p_over25"], fields["p_btts_yes"], snap, license_ids,
-                                    {**flags, "lineups": "UNKNOWN", "odds": "NOT_USED", **({"identity": id_flags[row.fixture_id]} if row.fixture_id in id_flags else {})}, why)  # fmt: skip
+                                    {**flags, "lineups": "UNKNOWN", "odds": "NOT_USED", "history_sources": overlay_flag, **({"identity": id_flags[row.fixture_id]} if row.fixture_id in id_flags else {})}, why)  # fmt: skip
             try:
                 report["records"][store.put(rec, now)] += 1
             except ProspectiveConflict as e:

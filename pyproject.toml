@@ -64,10 +64,12 @@ extend-exclude = [".venv", "notebooks"]
 "src/league_models/prediction_router.py" = ["E501"]  # wide evidence strings (Sprint 5)
 "src/league_models/holdout_lock.py" = ["E501"]  # wide evidence strings (Sprint 5)
 "src/league_models/s5_benchmark.py" = ["E501"]  # wide dict literals (Sprint 5)
+"src/league_models/stage_*.py" = ["E501"]  # wide dict literals and docstrings (Sprint 4b)
 "src/league_models/rollout/*.py" = ["E501"]  # wide dict literals and evidence strings (Sprint 6)
 "src/web/*" = ["E501"]  # HTML templates
 "src/ingestion/highlightly.py" = ["E501"]  # long verified-facts docstring
 "src/ingestion/openfootball_cups.py" = ["E501"]  # long verified-facts docstring
+"src/ingestion/openfootball_txt.py" = ["E501"]  # long verified-facts docstring and regexes
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]

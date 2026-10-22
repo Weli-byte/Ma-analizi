@@ -40,6 +40,7 @@ from .records import ProspectiveConflict, ProspectiveError, ProspectiveRecord, P
 SOURCE = "football-data-org"
 TRAIN_LICENSES = ["openfootball_domestic", "openfootball_cups"]
 SCHEDULE_LICENSE = "football_data_org"
+ALIAS_FALLBACK_SOURCE = "openfootball"
 COUNTRY = {"ENG1": "ENG", "ITA1": "ITA", "FRA1": "FRA", "ESP1": "ESP", "GER1": "GER"}
 
 
@@ -296,14 +297,23 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
 
     # 2. canonical mapping (never auto-registers a club)
     rows = []
+    id_flags: dict[str, str] = {}
     for league, raw, stage in upcoming:
         day = raw.kickoff_utc.date()
-        h = directory.resolve(SOURCE, raw.home_team_raw_name, COUNTRY.get(league, league[:3]), day)
-        a = directory.resolve(SOURCE, raw.away_team_raw_name, COUNTRY.get(league, league[:3]), day)
+        country = COUNTRY.get(league, league[:3])
+        h = directory.resolve(SOURCE, raw.home_team_raw_name, country, day)
+        a = directory.resolve(SOURCE, raw.away_team_raw_name, country, day)
+        used_fallback = False
+        if h.team_id is None:  # same string, already approved under the licence-clean source: an exact alias, never a fuzzy guess and never a new registration
+            h, used_fallback = directory.resolve(ALIAS_FALLBACK_SOURCE, raw.home_team_raw_name, country, day), True
+        if a.team_id is None:
+            a, used_fallback = directory.resolve(ALIAS_FALLBACK_SOURCE, raw.away_team_raw_name, country, day), True
         if h.team_id is None or a.team_id is None:
             report["skipped"].append({"fixture": raw.provider_fixture_id, "reason": "UNRESOLVED_TEAM", "names": [raw.home_team_raw_name, raw.away_team_raw_name]})
             continue
         rows.append((stage, _upcoming_row(f"fdorg-{raw.provider_fixture_id}", league, raw.season, raw.kickoff_utc, h.team_id, a.team_id)))
+        if used_fallback:
+            id_flags[f"fdorg-{raw.provider_fixture_id}"] = "EXACT_ALIAS_FROM_OPENFOOTBALL_NAMESPACE"
     report["fixtures_mapped"] = len(rows)
     duplicates = len(rows) - len({r.fixture_id for _, r in rows})
     if duplicates:
@@ -340,7 +350,7 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
                 continue
             rec = ProspectiveRecord(row.fixture_id, row.league_id, row.kickoff_utc.isoformat(), now.isoformat(), stage.value, sm.version(fam), fam if role == "global" else family, role,
                                     fields["p_home"], fields["p_draw"], fields["p_away"], fields["p_over25"], fields["p_btts_yes"], snap, license_ids,
-                                    {**flags, "lineups": "UNKNOWN", "odds": "NOT_USED"}, why)  # fmt: skip
+                                    {**flags, "lineups": "UNKNOWN", "odds": "NOT_USED", **({"identity": id_flags[row.fixture_id]} if row.fixture_id in id_flags else {})}, why)  # fmt: skip
             try:
                 report["records"][store.put(rec, now)] += 1
             except ProspectiveConflict as e:

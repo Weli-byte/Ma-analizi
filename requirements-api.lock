@@ -292,9 +292,9 @@ numpy==2.5.4 \
     --hash=sha256:fe4d21ab149f15e4e6043dfb0de87e6e5f34ac176cde83060e9802981fca2ac2 \
     --hash=sha256:ffa6ce09a1c6a08e9667dd9c97aa0b14184e8d18f2a14b78b2a2328c9147f076
     # via -r requirements-api.in
-openai==3.36.1 \
-    --hash=sha256:4c15b6765fe1792c5ad753556f44c7f82c2920c5e9e40219c0fca97369e923d3 \
-    --hash=sha256:ad8e5d56f20198915d98726ac1edb12ae38e7ecfa9bd560057e84642168b20c9
+openai==3.37.0 \
+    --hash=sha256:670bd6f699000d43a2073bcf94374a55bb133bfe5de0d084d47eb9bb9f6a8e5d \
+    --hash=sha256:d9f5b000f52397a7f9f946012744c5bc4c962eed3c100385252464c273a63e57
     # via -r requirements-api.in
 opentelemetry-api==1.45.1 \
     --hash=sha256:aa38ed19bcc084ba42782a73255b3582283eced7ad6dddbd6695189e69adfb75 \

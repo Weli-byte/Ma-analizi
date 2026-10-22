@@ -1766,6 +1766,69 @@ aliases:
   approved_by: 'initial-import (verified: 20 teams per league-season)'
   confidence: 1.0
 - source: football-data-org
+  raw_name: 1. FC Union Berlin
+  team_id: GER_union_berlin
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: 1. FSV Mainz 05
+  team_id: GER_mainz_05
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: AC Monza
+  team_id: ITA_monza
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: ACF Fiorentina
+  team_id: ITA_fiorentina
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: AJ Auxerre
+  team_id: FRA_auxerre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: AS Monaco FC
+  team_id: FRA_as_monaco
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Angers SCO
+  team_id: FRA_angers
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Arsenal FC
   team_id: ENG_arsenal
   valid_from: null
@@ -1783,6 +1846,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: Atalanta BC
+  team_id: ITA_atalanta
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Athletic Club
   team_id: ESP_athletic_bilbao
   valid_from: null
@@ -1790,6 +1862,24 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Bayer 04 Leverkusen
+  team_id: GER_bayer_leverkusen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Bologna FC 1909
+  team_id: ITA_bologna
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Brentford FC
@@ -1819,6 +1909,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: Cagliari Calcio
+  team_id: ITA_cagliari
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Chelsea FC
   team_id: ENG_chelsea
   valid_from: null
@@ -1837,6 +1936,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: Como 1907
+  team_id: ITA_como
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Coventry City FC
   team_id: ENG_coventry_city
   valid_from: null
@@ -1853,6 +1961,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: ES Troyes AC
+  team_id: FRA_troyes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Elche CF
@@ -1882,6 +1999,51 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: FC Bayern München
+  team_id: GER_bayern_munich
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: FC Internazionale Milano
+  team_id: ITA_inter
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: FC Lorient
+  team_id: FRA_lorient
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: FC Schalke 04
+  team_id: GER_schalke_04
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Frosinone Calcio
+  team_id: ITA_frosinone
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Fulham FC
   team_id: ENG_fulham
   valid_from: null
@@ -1889,6 +2051,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Genoa CFC
+  team_id: ITA_genoa
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Getafe CF
@@ -1918,6 +2089,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: Juventus FC
+  team_id: ITA_juventus
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: LASK Linz
   team_id: AUT_lask
   valid_from: null
@@ -1926,6 +2106,24 @@ aliases:
   approved_by: claude-assistant 2026-10-14 (seen in the football-data.org match list;
     owner to re-confirm)
   confidence: 0.9
+- source: football-data-org
+  raw_name: Le Havre AC
+  team_id: FRA_le_havre
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Le Mans FC
+  team_id: FRA_le_mans
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
 - source: football-data-org
   raw_name: Leeds United FC
   team_id: ENG_leeds_united
@@ -1942,6 +2140,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Lille OSC
+  team_id: FRA_lille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Liverpool FC
@@ -1998,6 +2205,33 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: OGC Nice
+  team_id: FRA_nice
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Olympique Lyonnais
+  team_id: FRA_lyon
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Olympique de Marseille
+  team_id: FRA_marseille
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: PAE AEK
   team_id: GRE_aek_athen
   valid_from: null
@@ -2006,6 +2240,24 @@ aliases:
   approved_by: claude-assistant 2026-10-14 (seen in the football-data.org match list;
     owner to re-confirm)
   confidence: 0.9
+- source: football-data-org
+  raw_name: Paris Saint-Germain FC
+  team_id: FRA_paris_saint_germain
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Parma Calcio 1913
+  team_id: ITA_parma
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
 - source: football-data-org
   raw_name: RC Celta de Vigo
   team_id: ESP_celta_vigo
@@ -2025,6 +2277,15 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: RC Strasbourg Alsace
+  team_id: FRA_strasbourg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: RCD Espanyol de Barcelona
   team_id: ESP_espanyol
   valid_from: null
@@ -2032,6 +2293,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Racing Club de Lens
+  team_id: FRA_lens
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Rayo Vallecano de Madrid
@@ -2088,6 +2358,51 @@ aliases:
     owner to re-confirm)
   confidence: 0.9
 - source: football-data-org
+  raw_name: SC Paderborn 07
+  team_id: GER_paderborn
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: SS Lazio
+  team_id: ITA_lazio
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: SSC Napoli
+  team_id: ITA_napoli
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: SV 07 Elversberg
+  team_id: GER_elversberg
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: SV Werder Bremen
+  team_id: GER_werder_bremen
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Sevilla FC
   team_id: ESP_sevilla
   valid_from: null
@@ -2095,6 +2410,24 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Stade Brestois 29
+  team_id: FRA_brest
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Stade Rennais FC 1901
+  team_id: FRA_rennes
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Sunderland AFC
@@ -2106,6 +2439,24 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: TSG 1899 Hoffenheim
+  team_id: GER_hoffenheim
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Torino FC
+  team_id: ITA_torino
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Tottenham Hotspur FC
   team_id: ENG_tottenham_hotspur
   valid_from: null
@@ -2115,6 +2466,42 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
+  raw_name: Toulouse FC
+  team_id: FRA_toulouse
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: US Lecce
+  team_id: ITA_lecce
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: US Sassuolo Calcio
+  team_id: ITA_sassuolo
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Udinese Calcio
+  team_id: ITA_udinese
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
   raw_name: Valencia CF
   team_id: ESP_valencia
   valid_from: null
@@ -2122,6 +2509,15 @@ aliases:
   provenance: fuzzy_approved
   approved_by: claude-assistant 2026-10-02 (top suggestion checked by name against
     the canonical team; owner to re-confirm)
+  confidence: 0.95
+- source: football-data-org
+  raw_name: Venezia FC
+  team_id: ITA_venezia
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-22 (exact string already approved under source
+    openfootball for the same club; owner to re-confirm)
   confidence: 0.95
 - source: football-data-org
   raw_name: Villarreal CF

@@ -1,0 +1,41 @@
+{
+  "all_ok": true,
+  "label": "TEST_ONLY staging simulation with a SYNTHETIC approved model; not a rehearsal of any real model and not a production evidence",
+  "real_staging_environment": "NOT_VERIFIED: this project has no separate staging deployment",
+  "run_at_utc": "2026-10-22T17:16:55.411549+00:00",
+  "steps": [
+    {
+      "candidate_share": 0.525,
+      "ok": true,
+      "step": "canary on at 50% (synthetic approved model)"
+    },
+    {
+      "all_users_global": true,
+      "decision": "GLOBAL_ONLY (kill switch)",
+      "ok": true,
+      "step": "fail-closed alarm trips the kill switch"
+    },
+    {
+      "ok": true,
+      "step": "stored prediction records untouched by the rollback"
+    },
+    {
+      "ok": true,
+      "step": "flag removed deliberately: routing resumes (the owner's act)"
+    },
+    {
+      "ok": true,
+      "result": "EXISTS",
+      "step": "idempotent replay of the same record"
+    },
+    {
+      "ok": true,
+      "step": "migration check: an old-schema record is detected"
+    },
+    {
+      "decisions_logged": 1200,
+      "ok": true,
+      "step": "audit log has the served version per decision and no raw user id"
+    }
+  ]
+}

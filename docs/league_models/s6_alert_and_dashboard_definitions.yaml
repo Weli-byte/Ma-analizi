@@ -1,0 +1,32 @@
+# Alert and dashboard definitions of the shadow layer (Sprint 6). Thresholds come from configs/league_models/rollout.yaml (monitoring:).
+alerts:
+  - {key: schema_mismatch, severity: critical, fail_closed: true}
+  - {key: probabilities_malformed, severity: critical, fail_closed: true, rule: "outside [0,1] or 1X2 sum error above max_p_sum_error"}
+  - {key: fixture_identity_conflict, severity: critical, fail_closed: true}
+  - {key: lineups_not_unknown, severity: critical, fail_closed: true}
+  - {key: shadow_record_visible, severity: critical, fail_closed: true}
+  - {key: provider_unavailable, severity: critical, fail_closed: true, rule: "3 consecutive failed runs"}
+  - {key: provider_error, severity: warning}
+  - {key: zero_coverage, severity: critical, fail_closed: true}
+  - {key: records_refused, severity: critical, fail_closed: true}
+  - {key: model_missing, severity: warning}
+  - {key: slow_inference, severity: warning, rule: "above shadow.max_inference_ms_per_fixture"}
+  - {key: scheduler_stale, severity: warning, rule: "last run older than max_snapshot_age_hours"}
+  - {key: "license:<id>", severity: critical, fail_closed: true, rule: "unknown or BLOCKED; CONDITIONAL / RESEARCH_ONLY is info"}
+  - {key: "artifact:<model>:<target>:<league>", severity: "warning (critical for a global model)", fail_closed: "global only"}
+  - {key: artifact_store_missing, severity: warning}
+  - {key: drift_warn, severity: info, rule: "PSI at least psi_warn between the first and second half of the records"}
+  - {key: drift_critical, severity: warning, rule: "PSI at least psi_critical; input drift, not an accuracy change"}
+  - {key: "metric_small_n:<family>:<stage>", severity: info, rule: "resolved pairs below min_resolved_for_metric_alarm: no performance alarm"}
+  - {key: "performance_regression:<family>:<stage>", severity: warning, fail_closed: true, rule: "candidate minus global log loss above max_log_loss_regression with enough resolved pairs"}
+  - {key: outcome_lag, severity: warning, rule: "a result missing for more than outcome_lag_alarm_hours after kick-off (pending inside the grace window is NOT an alarm)"}
+dashboard:
+  file: artifacts/league_models/rollout/dashboard.html
+  generated_by: "python -m src.league_models.rollout dashboard"
+  panels:
+    - {title: "Routing state", source: "kill switch and canary fraction"}
+    - {title: "Prospective scorecard", source: scorecard.json, rule: "real N and date range; TOO_FEW_PAIRS_NO_CLAIM below 30 pairs"}
+    - {title: "Backtest reference (separate box)", source: s5_holdout_report.json, rule: "never merged with prospective numbers"}
+    - {title: "Latest records", source: prospective.jsonl, rule: "global next to candidate on the same snapshot"}
+    - {title: "Alerts", source: alerts.jsonl}
+  not_shown: ["odds", "bet advice", "any user-facing prediction change"]

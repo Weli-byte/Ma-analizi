@@ -1,0 +1,397 @@
+{
+  "alerts": [
+    {
+      "at": "2026-10-22T19:07:59.672348+00:00",
+      "fail_closed": false,
+      "key": "license:football_data_org",
+      "message": "plan_status CONDITIONAL: records are research evidence only; a canary can never serve them",
+      "severity": "info"
+    },
+    {
+      "at": "2026-10-22T19:07:59.672348+00:00",
+      "fail_closed": false,
+      "key": "drift_insufficient_rows",
+      "message": "4 global records < 100: drift is not assessed",
+      "severity": "info"
+    }
+  ],
+  "kill_switch_at_run": true,
+  "label": "REAL pre-match shadow records written against the real football-data.org schedule on 2026-10-22; research evidence, never user-visible; no result is known yet",
+  "records": [
+    {
+      "content_hash": "0f8101fb2602b00683c44d380924e647073d8264ce94728e9f9449534996d2ad",
+      "coverage_flags": {
+        "calibration_1x2": "hier",
+        "calibration_btts": "affine",
+        "calibration_over_under": "hier",
+        "identity": "EXACT_ALIAS_FROM_OPENFOOTBALL_NAMESPACE",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED"
+      },
+      "created_at": "2026-10-22T18:49:16.161617+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "global",
+      "fixture_id": "fdorg-558567",
+      "kickoff_utc": "2026-10-23T18:45:00+00:00",
+      "league_id": "ITA1",
+      "model_version": "global-76bbe7a2f4",
+      "p_away": 0.16920572040232,
+      "p_btts_yes": 0.528965655634213,
+      "p_draw": 0.25518959131620744,
+      "p_home": 0.5756046882814726,
+      "p_over25": 0.47375225737358345,
+      "prediction_as_of_utc": "2026-10-22T18:49:16.161617+00:00",
+      "role": "global",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "d5e38bc02a02941fab464c1b34b154708ed94f9ff041ced7280dd164c8e839d4",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "6c879161c206635ff0e9fa88d7123d663200fd222e8102a35352a358a8d73029",
+      "coverage_flags": {
+        "calibration_1x2": "none",
+        "form_available": true,
+        "identity": "EXACT_ALIAS_FROM_OPENFOOTBALL_NAMESPACE",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED"
+      },
+      "created_at": "2026-10-22T18:49:16.161617+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "B_gbm_league:1x2",
+      "fixture_id": "fdorg-558567",
+      "kickoff_utc": "2026-10-23T18:45:00+00:00",
+      "league_id": "ITA1",
+      "model_version": "B_gbm_league-53a987ea93",
+      "p_away": 0.1563193389837096,
+      "p_btts_yes": null,
+      "p_draw": 0.230903761862773,
+      "p_home": 0.6127768991535173,
+      "p_over25": null,
+      "prediction_as_of_utc": "2026-10-22T18:49:16.161617+00:00",
+      "role": "candidate",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "d5e38bc02a02941fab464c1b34b154708ed94f9ff041ced7280dd164c8e839d4",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "7b4dee832b32be692a0bdf8a8f574461d2567b0fb3f68fe905a6ff659434a407",
+      "coverage_flags": {
+        "calibration_1x2": "hier",
+        "calibration_btts": "affine",
+        "calibration_over_under": "hier",
+        "identity": "EXACT_ALIAS_FROM_OPENFOOTBALL_NAMESPACE",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED"
+      },
+      "created_at": "2026-10-22T18:49:16.161617+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "global",
+      "fixture_id": "fdorg-559654",
+      "kickoff_utc": "2026-10-23T18:45:00+00:00",
+      "league_id": "FRA1",
+      "model_version": "global-76bbe7a2f4",
+      "p_away": 0.2870556985923722,
+      "p_btts_yes": 0.5478665391785501,
+      "p_draw": 0.2697417088924166,
+      "p_home": 0.4432025925152111,
+      "p_over25": 0.5338448433980779,
+      "prediction_as_of_utc": "2026-10-22T18:49:16.161617+00:00",
+      "role": "global",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "9058afe3848b7fd2cd9b02f2b2744d8c882609413e0f4e31f0b5e6cf0f2372ce",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "f7feae919eb8867587d19aad350230f93a895c5be253765eb28c904ae4fff000",
+      "coverage_flags": {
+        "calibration_1x2": "none",
+        "identity": "EXACT_ALIAS_FROM_OPENFOOTBALL_NAMESPACE",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED",
+        "uncertain_club_history": false
+      },
+      "created_at": "2026-10-22T18:49:16.161617+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "E_elo_bridge:1x2",
+      "fixture_id": "fdorg-559654",
+      "kickoff_utc": "2026-10-23T18:45:00+00:00",
+      "league_id": "FRA1",
+      "model_version": "E_elo_bridge-bbbbdc183d",
+      "p_away": 0.27839689007442586,
+      "p_btts_yes": null,
+      "p_draw": 0.2720317583196344,
+      "p_home": 0.44957135160593975,
+      "p_over25": null,
+      "prediction_as_of_utc": "2026-10-22T18:49:16.161617+00:00",
+      "role": "candidate",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "9058afe3848b7fd2cd9b02f2b2744d8c882609413e0f4e31f0b5e6cf0f2372ce",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "db21c91e5d480d5ded3ff131b9bb1d1b94b418672c0599d026a1b7205116a9b0",
+      "coverage_flags": {
+        "calibration_1x2": "hier",
+        "calibration_btts": "affine",
+        "calibration_over_under": "hier",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED"
+      },
+      "created_at": "2026-10-22T19:06:09.200709+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "global",
+      "fixture_id": "fdorg-560620",
+      "kickoff_utc": "2026-10-23T19:00:00+00:00",
+      "league_id": "ENG1",
+      "model_version": "global-76bbe7a2f4",
+      "p_away": 0.3099954407089497,
+      "p_btts_yes": 0.599366453075774,
+      "p_draw": 0.27071298944733696,
+      "p_home": 0.41929156984371335,
+      "p_over25": 0.6211783557883587,
+      "prediction_as_of_utc": "2026-10-22T19:06:09.200709+00:00",
+      "role": "global",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "73710b3d4c9806ce61f0657610db5fd41e787aa9ed9de56cbcce045825a4304c",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "254bdbf5d32e49dfe1831b88f49c5b918091ab387d7f073fd62d8ce37d1a9440",
+      "coverage_flags": {
+        "calibration_1x2": "none",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED",
+        "uncertain_club_history": true
+      },
+      "created_at": "2026-10-22T19:06:09.200709+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "E_elo_bridge:1x2",
+      "fixture_id": "fdorg-560620",
+      "kickoff_utc": "2026-10-23T19:00:00+00:00",
+      "league_id": "ENG1",
+      "model_version": "E_elo_bridge-bbbbdc183d",
+      "p_away": 0.36583012845742896,
+      "p_btts_yes": null,
+      "p_draw": 0.2808967325322444,
+      "p_home": 0.35327313901032664,
+      "p_over25": null,
+      "prediction_as_of_utc": "2026-10-22T19:06:09.200709+00:00",
+      "role": "candidate",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "73710b3d4c9806ce61f0657610db5fd41e787aa9ed9de56cbcce045825a4304c",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "38bb2265991538bb611a8537edc4750e5588e612af354dd4aafd8108fb513aa6",
+      "coverage_flags": {
+        "calibration_1x2": "hier",
+        "calibration_btts": "affine",
+        "calibration_over_under": "hier",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED"
+      },
+      "created_at": "2026-10-22T19:06:09.200709+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "global",
+      "fixture_id": "fdorg-564719",
+      "kickoff_utc": "2026-10-23T19:00:00+00:00",
+      "league_id": "ESP1",
+      "model_version": "global-76bbe7a2f4",
+      "p_away": 0.23704214157220965,
+      "p_btts_yes": 0.46163462216777607,
+      "p_draw": 0.30265944540855355,
+      "p_home": 0.46029841301923685,
+      "p_over25": 0.3838343293921813,
+      "prediction_as_of_utc": "2026-10-22T19:06:09.200709+00:00",
+      "role": "global",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "daa77913ba5cb3ad64776beb99520a08c379a107cc6163d13290fbe496843e25",
+      "stage": "t-24h",
+      "visible_to_users": false
+    },
+    {
+      "content_hash": "a9a3197dcc7ae782e9eba9f48a4afd3190031ed94d9c8a208fa6922cbf6384c5",
+      "coverage_flags": {
+        "calibration_over_under": "hier",
+        "lineups": "UNKNOWN",
+        "odds": "NOT_USED",
+        "unseen_club": false
+      },
+      "created_at": "2026-10-22T19:06:09.200709+00:00",
+      "data_license_ids": [
+        "openfootball_domestic",
+        "football_data_org"
+      ],
+      "fallback_reason": null,
+      "family": "B_dc_league:over_under",
+      "fixture_id": "fdorg-564719",
+      "kickoff_utc": "2026-10-23T19:00:00+00:00",
+      "league_id": "ESP1",
+      "model_version": "B_dc_league-64bc51ecb8",
+      "p_away": null,
+      "p_btts_yes": null,
+      "p_draw": null,
+      "p_home": null,
+      "p_over25": 0.3916515420691903,
+      "prediction_as_of_utc": "2026-10-22T19:06:09.200709+00:00",
+      "role": "candidate",
+      "schema_version": "lm-prospective-v1",
+      "snapshot_hash": "daa77913ba5cb3ad64776beb99520a08c379a107cc6163d13290fbe496843e25",
+      "stage": "t-24h",
+      "visible_to_users": false
+    }
+  ],
+  "runs": [
+    {
+      "config_fingerprint": "958a74a0283a9deae02425eefea802b8e6ee43b11eb046e7913ca0830a3fe067",
+      "fixtures_due": 0,
+      "fixtures_mapped": 0,
+      "fixtures_seen": 1446,
+      "provider_errors": [],
+      "records": {
+        "CONFLICT": 0,
+        "CREATED": 0,
+        "EXISTS": 0,
+        "REFUSED": 0
+      },
+      "run_at_utc": "2026-10-22T17:14:16.382389+00:00",
+      "schedule_license_plan_status": "CONDITIONAL",
+      "skipped": [],
+      "snapshot_id": "snap-546e70fff7fb",
+      "status": "OK",
+      "wall_seconds": 11.5
+    },
+    {
+      "config_fingerprint": "761fe4b4c95edf8489bb06ffd1bbdb7040544afe9f948e277cab99263e6f6f89",
+      "fixtures_due": 2,
+      "fixtures_mapped": 0,
+      "fixtures_seen": 1446,
+      "provider_errors": [],
+      "records": {
+        "CONFLICT": 0,
+        "CREATED": 0,
+        "EXISTS": 0,
+        "REFUSED": 0
+      },
+      "run_at_utc": "2026-10-22T18:48:12.895577+00:00",
+      "schedule_license_plan_status": "CONDITIONAL",
+      "skipped": [
+        {
+          "fixture": "558567",
+          "names": [
+            "Torino FC",
+            "AC Monza"
+          ],
+          "reason": "UNRESOLVED_TEAM"
+        },
+        {
+          "fixture": "559654",
+          "names": [
+            "Stade Brestois 29",
+            "OGC Nice"
+          ],
+          "reason": "UNRESOLVED_TEAM"
+        }
+      ],
+      "snapshot_id": "snap-546e70fff7fb",
+      "status": "OK",
+      "wall_seconds": 12.39
+    },
+    {
+      "config_fingerprint": "761fe4b4c95edf8489bb06ffd1bbdb7040544afe9f948e277cab99263e6f6f89",
+      "fixtures_due": 2,
+      "fixtures_mapped": 2,
+      "fixtures_seen": 1446,
+      "history_latest_kickoff_utc": "2026-09-20T19:00:00+00:00",
+      "history_rows": 15111,
+      "model_errors": {},
+      "provider_errors": [],
+      "records": {
+        "CONFLICT": 0,
+        "CREATED": 4,
+        "EXISTS": 0,
+        "REFUSED": 0
+      },
+      "run_at_utc": "2026-10-22T18:49:16.161617+00:00",
+      "schedule_license_plan_status": "CONDITIONAL",
+      "skipped": [],
+      "snapshot_id": "snap-546e70fff7fb",
+      "status": "OK",
+      "wall_seconds": 57.16
+    },
+    {
+      "config_fingerprint": "761fe4b4c95edf8489bb06ffd1bbdb7040544afe9f948e277cab99263e6f6f89",
+      "fixtures_due": 4,
+      "fixtures_mapped": 4,
+      "fixtures_seen": 1446,
+      "history_latest_kickoff_utc": "2026-09-20T19:00:00+00:00",
+      "history_rows": 15111,
+      "model_errors": {},
+      "provider_errors": [],
+      "records": {
+        "CONFLICT": 0,
+        "CREATED": 4,
+        "EXISTS": 4,
+        "REFUSED": 0
+      },
+      "run_at_utc": "2026-10-22T19:06:09.200709+00:00",
+      "schedule_license_plan_status": "CONDITIONAL",
+      "skipped": [],
+      "snapshot_id": "snap-546e70fff7fb",
+      "status": "OK",
+      "wall_seconds": 109.15
+    }
+  ],
+  "scorecard": {
+    "backtest_reference": "see s5_holdout_report.json (BACKTEST, a different protocol and fixture set)",
+    "caution": "fewer than 30 resolved pairs: no claim of improvement or decline is made",
+    "fixtures_with_records": 4,
+    "generated_at_utc": "2026-10-22T19:08:00.947628+00:00",
+    "kicked_off": 0,
+    "kind": "PROSPECTIVE (shadow, pre-match records written before kick-off); never mixed with the backtest",
+    "live_verified": true,
+    "live_verified_meaning": "at least one real pre-match record was stored by the shadow runner (it says nothing about accuracy)",
+    "pairs": [],
+    "pending_outcomes": 0,
+    "records_kickoff_range_utc": [
+      "2026-10-23T18:45:00+00:00",
+      "2026-10-23T19:00:00+00:00"
+    ],
+    "records_total": 8,
+    "resolved_fixtures": 0
+  }
+}

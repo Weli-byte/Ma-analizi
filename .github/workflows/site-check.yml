@@ -20,6 +20,8 @@ jobs:
             echo "$url -> HTTP $code, $(wc -c < body.txt 2>/dev/null || echo 0) bytes"
             head -c 200 body.txt | tr '\n' ' '; echo
             echo "| $url | $code |" >> "$GITHUB_STEP_SUMMARY"
-            [ "$code" = 200 ] || { echo "::error::$url answered HTTP $code"; fail=1; }
+            case "$code" in 200|303) ;; *)   # the front page redirects (303) to the login screen: that is healthy
+               echo "::error::$url answered HTTP $code"; fail=1 ;;
+            esac
           done
           [ "${fail:-0}" = 0 ]

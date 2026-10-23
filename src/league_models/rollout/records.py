@@ -182,3 +182,42 @@ class OutcomeStore:
         _append(self.path, json.dumps({"fixture_id": fixture_id, "home_goals": home_goals, "away_goals": away_goals, "source": source, "final_at_utc": final_at_utc,
                                        "recorded_at": (now or datetime.now(UTC)).isoformat()}, sort_keys=True))
         return "CREATED"
+
+
+class ScoreForecastStore:
+    """Append-only sidecar of the goal-distribution outputs of a stored prospective record (ADR 0071): expected goals, the most likely scorelines, the 0-0 and 1-1 mass and the tail
+    mass of the score grid. It is keyed exactly like the record and carries the record's content hash, so a score forecast can never be attached to a different prediction. The
+    record itself is not changed (its content hash would change and every stored record would turn into a conflict). A rerun with different content is a conflict."""
+
+    def __init__(self, path: Path) -> None:
+        self.path = path
+
+    def all(self) -> list[dict]:
+        out = []
+        for i, line in enumerate(_read_lines(self.path)):
+            try:
+                out.append(json.loads(line))
+            except json.JSONDecodeError as e:
+                raise StoreUnavailable(f"{self.path.name} line {i + 1} is corrupt: {e}") from e
+        return out
+
+    @staticmethod
+    def key(fixture_id: str, stage: str, model_version: str, family: str) -> str:
+        return f"{fixture_id}|{stage}|{model_version}|{family}"
+
+    def put(self, rec: ProspectiveRecord, lam_home: float, lam_away: float, top_scores: list[tuple[str, float]], p00: float, p11: float, tail_mass: float, source: str = "", grid: list | None = None) -> str:
+        if not (math.isfinite(lam_home) and math.isfinite(lam_away) and lam_home > 0 and lam_away > 0):
+            raise ProspectiveError(f"{rec.fixture_id}: expected goals must be positive and finite")
+        body = {"key": self.key(rec.fixture_id, rec.stage, rec.model_version, rec.family), "record_content_hash": rec.content_hash(), "expected_goals_home": round(float(lam_home), 6),
+                "expected_goals_away": round(float(lam_away), 6), "top_scores": [[s, round(float(p), 6)] for s, p in top_scores], "p_0_0": round(float(p00), 6), "p_1_1": round(float(p11), 6),
+                "tail_mass": round(float(tail_mass), 8), "score_source": source, "schema_version": "lm-score-forecast-v1"}  # fmt: skip
+        if grid is not None:  # P(home goals = i, away goals = j) for i, j in 0..6, the realised scoreline is scored against this
+            body["score_grid_0_6"] = [[round(float(x), 6) for x in row[:7]] for row in grid[:7]]
+        digest = hashlib.sha256(json.dumps(body, sort_keys=True).encode("utf-8")).hexdigest()
+        for old in self.all():
+            if old["key"] == body["key"]:
+                if old["content_hash"] != digest:
+                    raise ProspectiveConflict(f"{body['key']}: a score forecast with different content is already stored")
+                return "EXISTS"
+        _append(self.path, json.dumps({**body, "content_hash": digest}, sort_keys=True))
+        return "CREATED"

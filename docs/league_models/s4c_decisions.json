@@ -1,0 +1,256 @@
+{
+  "cells": {
+    "ENG1|1x2": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0040)"
+      ],
+      "worse": [
+        "P_dc_sep vs production_global (+0.0226)",
+        "P_dc_sep vs E_elo_bridge (+0.0300)",
+        "H_dc_hier vs production_global (+0.0158)",
+        "P_gbm_sep vs G_extra (+0.0118)",
+        "P_gbm_sep vs production_global (+0.0144)"
+      ]
+    },
+    "ENG1|btts": {
+      "supported": [],
+      "worse": []
+    },
+    "ENG1|over_under": {
+      "supported": [
+        "P_dc_sep vs production_global (-0.0068)",
+        "H_dc_hier vs B_dc_league (-0.0100)",
+        "H_dc_hier vs production_global (-0.0126)",
+        "G_extra vs production_global (-0.0145)"
+      ],
+      "worse": [
+        "P_gbm_sep vs G_extra (+0.0102)"
+      ]
+    },
+    "ESP1|1x2": {
+      "supported": [
+        "G_extra vs G_base (-0.0071)"
+      ],
+      "worse": [
+        "P_gbm_sep vs P_dc_sep (+0.0165)"
+      ]
+    },
+    "ESP1|btts": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0041)",
+        "H_dc_hier vs production_global (-0.0047)"
+      ],
+      "worse": []
+    },
+    "ESP1|over_under": {
+      "supported": [
+        "G_extra vs G_base (-0.0068)"
+      ],
+      "worse": []
+    },
+    "FRA1|1x2": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0090)",
+        "P_gbm_sep vs P_dc_sep (-0.0192)"
+      ],
+      "worse": [
+        "P_dc_sep vs production_global (+0.0323)",
+        "P_dc_sep vs E_elo_bridge (+0.0352)",
+        "H_dc_hier vs production_global (+0.0230)",
+        "P_gbm_sep vs G_extra (+0.0106)",
+        "P_gbm_sep vs production_global (+0.0132)"
+      ]
+    },
+    "FRA1|btts": {
+      "supported": [
+        "P_dc_sep vs B_dc_league (-0.0054)",
+        "P_dc_sep vs production_global (-0.0113)",
+        "H_dc_hier vs production_global (-0.0107)",
+        "G_base vs production_global (-0.0141)",
+        "G_extra vs production_global (-0.0153)"
+      ],
+      "worse": [
+        "P_gbm_sep vs G_extra (+0.0115)",
+        "P_gbm_sep vs G_base (+0.0104)"
+      ]
+    },
+    "FRA1|over_under": {
+      "supported": [
+        "P_dc_sep vs production_global (-0.0118)",
+        "H_dc_hier vs production_global (-0.0139)",
+        "G_base vs production_global (-0.0159)",
+        "G_extra vs production_global (-0.0176)",
+        "P_gbm_sep vs production_global (-0.0158)"
+      ],
+      "worse": []
+    },
+    "GER1|1x2": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0025)"
+      ],
+      "worse": [
+        "P_gbm_sep vs G_extra (+0.0251)",
+        "P_gbm_sep vs G_base (+0.0229)",
+        "P_gbm_sep vs production_global (+0.0189)"
+      ]
+    },
+    "GER1|btts": {
+      "supported": [],
+      "worse": [
+        "G_base vs production_global (+0.0091)",
+        "G_extra vs production_global (+0.0084)",
+        "P_gbm_sep vs production_global (+0.0120)",
+        "P_gbm_sep vs P_dc_sep (+0.0112)"
+      ]
+    },
+    "GER1|over_under": {
+      "supported": [],
+      "worse": []
+    },
+    "ITA1|1x2": {
+      "supported": [],
+      "worse": [
+        "P_dc_sep vs E_elo_bridge (+0.0105)",
+        "P_gbm_sep vs G_extra (+0.0211)",
+        "P_gbm_sep vs G_base (+0.0183)",
+        "P_gbm_sep vs production_global (+0.0211)"
+      ]
+    },
+    "ITA1|btts": {
+      "supported": [],
+      "worse": [
+        "P_gbm_sep vs G_extra (+0.0135)",
+        "P_gbm_sep vs G_base (+0.0145)",
+        "P_gbm_sep vs P_dc_sep (+0.0133)"
+      ]
+    },
+    "ITA1|over_under": {
+      "supported": [
+        "P_dc_sep vs B_dc_league (-0.0059)",
+        "P_dc_sep vs production_global (-0.0094)",
+        "H_dc_hier vs production_global (-0.0067)"
+      ],
+      "worse": [
+        "P_gbm_sep vs G_extra (+0.0131)",
+        "P_gbm_sep vs G_base (+0.0121)",
+        "P_gbm_sep vs P_dc_sep (+0.0143)"
+      ]
+    },
+    "TUR1|1x2": {
+      "supported": [],
+      "worse": []
+    },
+    "TUR1|btts": {
+      "supported": [
+        "P_dc_sep vs production_global (-0.0168)",
+        "H_dc_hier vs production_global (-0.0256)",
+        "G_base vs production_global (-0.0242)"
+      ],
+      "worse": [
+        "G_extra vs G_base (+0.0131)",
+        "P_gbm_sep vs G_base (+0.0131)"
+      ]
+    },
+    "TUR1|over_under": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0121)",
+        "H_dc_hier vs production_global (-0.0165)"
+      ],
+      "worse": []
+    },
+    "UEFA_UCL|1x2": {
+      "supported": [],
+      "worse": [
+        "P_dc_sep vs B_dc_league (+0.0150)",
+        "P_gbm_sep vs production_global (+0.0174)"
+      ]
+    },
+    "UEFA_UCL|btts": {
+      "supported": [
+        "G_base vs production_global (-0.0185)",
+        "G_extra vs production_global (-0.0198)",
+        "P_gbm_sep vs production_global (-0.0188)",
+        "P_gbm_sep vs P_dc_sep (-0.0178)"
+      ],
+      "worse": []
+    },
+    "UEFA_UCL|over_under": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0157)",
+        "H_dc_hier vs production_global (-0.0232)",
+        "G_base vs production_global (-0.0238)",
+        "G_extra vs production_global (-0.0264)"
+      ],
+      "worse": []
+    },
+    "UEFA_UECL|1x2": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0191)",
+        "G_extra vs production_global (-0.0237)",
+        "P_gbm_sep vs production_global (-0.0237)",
+        "P_gbm_sep vs P_dc_sep (-0.0580)"
+      ],
+      "worse": [
+        "P_dc_sep vs production_global (+0.0343)",
+        "P_dc_sep vs E_elo_bridge (+0.0363)"
+      ]
+    },
+    "UEFA_UECL|btts": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0144)",
+        "H_dc_hier vs production_global (-0.0251)",
+        "G_base vs production_global (-0.0394)",
+        "G_extra vs production_global (-0.0368)",
+        "P_gbm_sep vs production_global (-0.0368)",
+        "P_gbm_sep vs P_dc_sep (-0.0260)"
+      ],
+      "worse": []
+    },
+    "UEFA_UECL|over_under": {
+      "supported": [
+        "P_dc_sep vs production_global (-0.0166)",
+        "H_dc_hier vs B_dc_league (-0.0201)",
+        "H_dc_hier vs production_global (-0.0366)",
+        "G_base vs production_global (-0.0507)",
+        "G_extra vs production_global (-0.0454)",
+        "P_gbm_sep vs production_global (-0.0454)",
+        "P_gbm_sep vs P_dc_sep (-0.0288)"
+      ],
+      "worse": []
+    },
+    "UEFA_UEL|1x2": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0103)"
+      ],
+      "worse": []
+    },
+    "UEFA_UEL|btts": {
+      "supported": [
+        "H_dc_hier vs B_dc_league (-0.0139)",
+        "H_dc_hier vs production_global (-0.0178)",
+        "G_base vs production_global (-0.0225)",
+        "G_extra vs production_global (-0.0189)"
+      ],
+      "worse": [
+        "P_gbm_sep vs G_base (+0.0101)"
+      ]
+    },
+    "UEFA_UEL|over_under": {
+      "supported": [
+        "P_dc_sep vs B_dc_league (-0.0130)",
+        "P_dc_sep vs production_global (-0.0218)",
+        "H_dc_hier vs B_dc_league (-0.0249)",
+        "H_dc_hier vs production_global (-0.0337)",
+        "G_base vs production_global (-0.0374)",
+        "G_extra vs production_global (-0.0378)",
+        "P_gbm_sep vs production_global (-0.0362)"
+      ],
+      "worse": []
+    }
+  },
+  "comparisons": 340,
+  "expected_false_supported_if_nothing_works": 8.5,
+  "rule": "SUPPORTED only if the whole 95% interval of (candidate minus reference) log loss is below 0; development folds only, the holdout is consumed, so NO candidate can be approved from this run",
+  "supported_total": 67,
+  "worse_total": 38
+}

@@ -113,6 +113,34 @@ def scorecard(records: list[dict], outcomes: dict[str, dict], now: datetime, bac
     return sc
 
 
+def score_scorecard(forecasts: list[dict], outcomes: dict[str, dict], now: datetime) -> dict:
+    """Exact-score and expected-goals scorecard of the stored score forecasts (ADR 0071), joined with the append-only outcomes. Per (family): log score of the realised scoreline,
+    top-1 / top-5 hit rate and the mean absolute error of the expected goals. Scorelines above 6 goals for a side are outside the stored grid: counted, not scored. Prospective only."""
+    by: dict[str, list] = {}
+    for f in forecasts:
+        fixture_id, stage, version, family = f["key"].split("|", 3)
+        o = outcomes.get(fixture_id)
+        if o is None or "score_grid_0_6" not in f:
+            continue
+        by.setdefault(f"{stage}|{family}", []).append((f, o))
+    out = {"generated_at_utc": now.isoformat(), "kind": "PROSPECTIVE exact-score / expected-goals scorecard; never mixed with the backtest", "forecasts_total": len(forecasts), "families": [],
+           "caution": f"fewer than {MIN_N_FOR_CLAIM} resolved forecasts: no claim is made"}  # fmt: skip
+    for key, rows in sorted(by.items()):
+        stage, family = key.split("|", 1)
+        inside = [(f, o) for f, o in rows if o["home_goals"] <= 6 and o["away_goals"] <= 6]
+        p = np.array([f["score_grid_0_6"][o["home_goals"]][o["away_goals"]] for f, o in inside])
+        top1 = np.array([f["top_scores"][0][0] == f"{o['home_goals']}-{o['away_goals']}" for f, o in inside])
+        top5 = np.array([any(s == f"{o['home_goals']}-{o['away_goals']}" for s, _ in f["top_scores"]) for f, o in inside])
+        mae_h = np.array([abs(f["expected_goals_home"] - o["home_goals"]) for f, o in rows])
+        mae_a = np.array([abs(f["expected_goals_away"] - o["away_goals"]) for f, o in rows])
+        out["families"].append({"stage": stage, "family": family, "resolved": len(rows), "outside_stored_grid": len(rows) - len(inside),
+                                "log_score": None if not len(inside) else round(float(np.mean(-np.log(np.clip(p, 1e-12, 1.0)))), 5),
+                                "top1_hit_rate": None if not len(inside) else round(float(top1.mean()), 4), "top5_hit_rate": None if not len(inside) else round(float(top5.mean()), 4),
+                                "expected_goals_mae_home": round(float(mae_h.mean()), 4), "expected_goals_mae_away": round(float(mae_a.mean()), 4),
+                                "verdict": "TOO_FEW_RESOLVED_NO_CLAIM" if len(rows) < MIN_N_FOR_CLAIM else "REPORTED_NOT_COMPARED"})  # fmt: skip
+    return out
+
+
 def lag_report(records: list[dict], outcomes: dict[str, dict], now: datetime, grace_hours: float) -> dict:
     """Pending is not failure: a match is only 'late' once kick-off + grace has passed."""
     late = {}

@@ -43,9 +43,8 @@ class ExperimentalModel:
     @classmethod
     def fit(cls, matches, now: datetime, lag_hours: int = 3) -> tuple["ExperimentalModel | None", str]:
         """(model, status). status is "OK" or the reason there is no model."""
-        from src.league_models.nested import (
-            dc_grid,  # noqa: F401 - import check: the league-model package must be importable
-        )
+        if os.environ.get("MARKETS_EXPERIMENTAL", "1") == "0":  # the owner's switch: new artifacts then carry no experimental block
+            return None, "DISABLED (MARKETS_EXPERIMENTAL=0)"
         from src.league_models.per_league import HierarchicalDC
         from src.league_models.s4c_benchmark import load_s4c
         from src.league_models.stat_models import DCSpec, NotTrained

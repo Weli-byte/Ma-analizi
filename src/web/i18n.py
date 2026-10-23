@@ -9,6 +9,12 @@ from html import escape, unescape
 LANG_COOKIE = "lang"
 
 PHRASES: dict[str, str] = {
+    "Deneysel model (beta)": "Experimental model (beta)",
+    "Deneysel model": "Experimental model",
+    "Mevcut model": "Current model",
+    "Geçmiş (geliştirme) maçlarında üst/alt ve karşılıklı gol tahminlerinde mevcut modelden daha iyi çıktı; maç sonucunda (1-X-2) daha iyi değil. Henüz canlı maç sonuçlarıyla doğrulanmadı.": "In past (development) matches it did better than the current model on over/under and both-teams-to-score, but not on the match result (1-X-2). It has not yet been verified on live match results.",
+    "Maç sonucu (1-X-2) tahmini bu modelden gelmez, yukarıdaki mevcut modelden gelir. Garanti değildir.": "The match result (1-X-2) forecast does not come from this model; it comes from the current model above. No guarantee.",
+    "Bu kulüplerden biri için modelin geçmişi yok: lig ortalaması güçle hesaplandı.": "The model has no history for one of these clubs: league-average strength was used.",
     "Geçmişi yok, düşük güven": "No history, low confidence",
     "bu kulübün modelde maç geçmişi yok, tahmin lig ortalaması güçle yapıldı.": "this club has no match history in the model; the forecast uses league-average strength.",
     # navigation and titles

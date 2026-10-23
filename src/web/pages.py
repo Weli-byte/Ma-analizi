@@ -696,6 +696,30 @@ def players_tab(i: dict, people: dict | None) -> str:
     )
 
 
+def experimental_card(i: dict) -> str:
+    """ADR 0072: the hierarchical goal-market model, shown next to (never instead of) the main forecast. Absent block (older artifact, neutral venue, failed fit) shows nothing."""
+    x = i.get("experimental")
+    if not x:
+        return ""
+    ou = {r["line"]: r for r in x["over_under"]}
+    main_ou = {r["line"]: r for r in i["goals"]["over_under"]}
+    rows = "".join(
+        f"<tr><td>{ln:g} gol</td><td>Üst <b>{pct(ou[ln]['over'])}</b> · Alt {pct(ou[ln]['under'])}</td>"
+        f"<td class='mut'>{'Üst ' + pct(main_ou[ln]['over']) if ln in main_ou else '-'}</td></tr>"
+        for ln in sorted(ou)
+    )
+    xg = x["expected_goals"]
+    unseen = "<p class='note'>Bu kulüplerden biri için modelin geçmişi yok: lig ortalaması güçle hesaplandı.</p>" if x.get("unseen_club") else ""
+    top = " · ".join(f"{e(s['score'])} ({pct(s['p'])})" for s in x["scorelines"][:4])
+    return (
+        f"<div class='sec'><h2>{e(x['label'])}</h2></div><div class='card'>"
+        f"<table><tr><th>Piyasa</th><th>Deneysel model</th><th>Mevcut model</th></tr>{rows}"
+        f"<tr><td>Karşılıklı gol</td><td>Var <b>{pct(x['btts_yes'])}</b> · Yok {pct(x['btts_no'])}</td><td class='mut'>Var {pct(i['goals']['btts_yes'])}</td></tr></table>"
+        f"<p class='mut'>Beklenen gol: {e(i['home'])} <b>{xg['home']:.2f}</b> - {e(i['away'])} <b>{xg['away']:.2f}</b> (toplam {xg['total']:.2f}) · En olası skorlar: {top}</p>{unseen}"
+        f"<p class='note'>{e(x['evidence'])} Maç sonucu (1-X-2) tahmini bu modelden gelmez, yukarıdaki mevcut modelden gelir. Garanti değildir.</p></div>"
+    )
+
+
 def match_page(
     i: dict,
     picks: list[dict],
@@ -779,6 +803,7 @@ def match_page(
         + f"<div class='sec'><h2>En olası skorlar</h2></div><div class='card'>{scores}<p class='note'>Skor tahmini zordur: en olası skorun bile ihtimali genelde %10-15 civarında.</p></div>"
         f"<div class='sec'><h2>Goller</h2></div><div class='card'><p>Beklenen gol: {e(home)} <b>{g['expected']['home']:.2f}</b> - {e(away)} <b>{g['expected']['away']:.2f}</b></p>"
         f"{goal_odds}</div>"
+        + experimental_card(i)
     )
     advice = (
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"

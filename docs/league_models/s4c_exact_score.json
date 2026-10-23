@@ -1,0 +1,1086 @@
+{
+  "base_rates_by_competition_season": {
+    "ENG1|2020-21": {
+      "btts_rate": 0.4895,
+      "n": 380,
+      "over_2_5_rate": 0.5
+    },
+    "ENG1|2021-22": {
+      "btts_rate": 0.5,
+      "n": 380,
+      "over_2_5_rate": 0.5395
+    },
+    "ENG1|2022-23": {
+      "btts_rate": 0.5158,
+      "n": 380,
+      "over_2_5_rate": 0.5263
+    },
+    "ENG1|2023-24": {
+      "btts_rate": 0.6158,
+      "n": 380,
+      "over_2_5_rate": 0.6474
+    },
+    "ESP1|2020-21": {
+      "btts_rate": 0.5184,
+      "n": 380,
+      "over_2_5_rate": 0.4395
+    },
+    "ESP1|2021-22": {
+      "btts_rate": 0.4868,
+      "n": 380,
+      "over_2_5_rate": 0.4447
+    },
+    "ESP1|2022-23": {
+      "btts_rate": 0.5026,
+      "n": 380,
+      "over_2_5_rate": 0.4763
+    },
+    "ESP1|2023-24": {
+      "btts_rate": 0.4947,
+      "n": 380,
+      "over_2_5_rate": 0.4605
+    },
+    "FRA1|2020-21": {
+      "btts_rate": 0.5421,
+      "n": 380,
+      "over_2_5_rate": 0.5421
+    },
+    "FRA1|2021-22": {
+      "btts_rate": 0.5526,
+      "n": 380,
+      "over_2_5_rate": 0.5026
+    },
+    "FRA1|2022-23": {
+      "btts_rate": 0.5816,
+      "n": 380,
+      "over_2_5_rate": 0.5632
+    },
+    "FRA1|2023-24": {
+      "btts_rate": 0.5392,
+      "n": 306,
+      "over_2_5_rate": 0.5294
+    },
+    "FRA1|2024-25": {
+      "btts_rate": 0.5686,
+      "n": 306,
+      "over_2_5_rate": 0.5556
+    },
+    "GER1|2020-21": {
+      "btts_rate": 0.6013,
+      "n": 306,
+      "over_2_5_rate": 0.5882
+    },
+    "GER1|2021-22": {
+      "btts_rate": 0.6078,
+      "n": 306,
+      "over_2_5_rate": 0.585
+    },
+    "GER1|2022-23": {
+      "btts_rate": 0.5915,
+      "n": 306,
+      "over_2_5_rate": 0.6046
+    },
+    "GER1|2023-24": {
+      "btts_rate": 0.6176,
+      "n": 306,
+      "over_2_5_rate": 0.6242
+    },
+    "GER1|2024-25": {
+      "btts_rate": 0.5686,
+      "n": 306,
+      "over_2_5_rate": 0.598
+    },
+    "ITA1|2020-21": {
+      "btts_rate": 0.5974,
+      "n": 380,
+      "over_2_5_rate": 0.5684
+    },
+    "ITA1|2021-22": {
+      "btts_rate": 0.5737,
+      "n": 380,
+      "over_2_5_rate": 0.5579
+    },
+    "ITA1|2022-23": {
+      "btts_rate": 0.5026,
+      "n": 380,
+      "over_2_5_rate": 0.4553
+    },
+    "ITA1|2023-24": {
+      "btts_rate": 0.5237,
+      "n": 380,
+      "over_2_5_rate": 0.4921
+    },
+    "ITA1|2024-25": {
+      "btts_rate": 0.5162,
+      "n": 370,
+      "over_2_5_rate": 0.4811
+    },
+    "TUR1|2020-21": {
+      "btts_rate": 0.5667,
+      "n": 420,
+      "over_2_5_rate": 0.5
+    },
+    "UEFA_UCL|2020-21": {
+      "btts_rate": 0.496,
+      "n": 125,
+      "over_2_5_rate": 0.568
+    },
+    "UEFA_UCL|2021-22": {
+      "btts_rate": 0.52,
+      "n": 125,
+      "over_2_5_rate": 0.568
+    },
+    "UEFA_UCL|2022-23": {
+      "btts_rate": 0.44,
+      "n": 125,
+      "over_2_5_rate": 0.512
+    },
+    "UEFA_UCL|2023-24": {
+      "btts_rate": 0.608,
+      "n": 125,
+      "over_2_5_rate": 0.568
+    },
+    "UEFA_UCL|2024-25": {
+      "btts_rate": 0.5291,
+      "n": 189,
+      "over_2_5_rate": 0.6455
+    },
+    "UEFA_UECL|2021-22": {
+      "btts_rate": 0.5532,
+      "n": 141,
+      "over_2_5_rate": 0.5532
+    },
+    "UEFA_UECL|2022-23": {
+      "btts_rate": 0.4894,
+      "n": 141,
+      "over_2_5_rate": 0.5177
+    },
+    "UEFA_UECL|2023-24": {
+      "btts_rate": 0.5248,
+      "n": 141,
+      "over_2_5_rate": 0.539
+    },
+    "UEFA_UECL|2024-25": {
+      "btts_rate": 0.5359,
+      "n": 153,
+      "over_2_5_rate": 0.5621
+    },
+    "UEFA_UEL|2020-21": {
+      "btts_rate": 0.522,
+      "n": 205,
+      "over_2_5_rate": 0.5707
+    },
+    "UEFA_UEL|2021-22": {
+      "btts_rate": 0.5252,
+      "n": 139,
+      "over_2_5_rate": 0.4676
+    },
+    "UEFA_UEL|2022-23": {
+      "btts_rate": 0.4823,
+      "n": 141,
+      "over_2_5_rate": 0.4965
+    },
+    "UEFA_UEL|2023-24": {
+      "btts_rate": 0.5674,
+      "n": 141,
+      "over_2_5_rate": 0.617
+    },
+    "UEFA_UEL|2024-25": {
+      "btts_rate": 0.5608,
+      "n": 189,
+      "over_2_5_rate": 0.5661
+    }
+  },
+  "exact_score": {
+    "B_dc_league": {
+      "ALL": {
+        "log_score": 2.989816546876555,
+        "n": 10712,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12303958177744585,
+        "top5_hit_rate": 0.46536594473487675
+      },
+      "ENG1": {
+        "log_score": 3.0624765556213895,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11315789473684211,
+        "top5_hit_rate": 0.43486842105263157
+      },
+      "ESP1": {
+        "log_score": 2.8139448094281145,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.1355263157894737,
+        "top5_hit_rate": 0.5375
+      },
+      "FRA1": {
+        "log_score": 2.989399571346624,
+        "n": 1752,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11757990867579908,
+        "top5_hit_rate": 0.4503424657534247
+      },
+      "GER1": {
+        "log_score": 3.0839691532663718,
+        "n": 1530,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11895424836601307,
+        "top5_hit_rate": 0.4222222222222222
+      },
+      "ITA1": {
+        "log_score": 2.886542123538503,
+        "n": 1890,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.1492063492063492,
+        "top5_hit_rate": 0.5100529100529101
+      },
+      "TUR1": {
+        "log_score": 2.995114802022206,
+        "n": 420,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.14047619047619048,
+        "top5_hit_rate": 0.49047619047619045
+      },
+      "UEFA_UCL": {
+        "log_score": 3.111847620177198,
+        "n": 689,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.09579100145137881,
+        "top5_hit_rate": 0.4397677793904209
+      },
+      "UEFA_UECL": {
+        "log_score": 3.128302520551339,
+        "n": 576,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.09895833333333333,
+        "top5_hit_rate": 0.4184027777777778
+      },
+      "UEFA_UEL": {
+        "log_score": 3.042178440850088,
+        "n": 815,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10797546012269939,
+        "top5_hit_rate": 0.4392638036809816
+      }
+    },
+    "H_dc_hier": {
+      "ALL": {
+        "log_score": 2.977532859396529,
+        "n": 10712,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12556011949215834,
+        "top5_hit_rate": 0.46601941747572817
+      },
+      "ENG1": {
+        "log_score": 3.053463258132524,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.1118421052631579,
+        "top5_hit_rate": 0.4440789473684211
+      },
+      "ESP1": {
+        "log_score": 2.8104481567132003,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.1355263157894737,
+        "top5_hit_rate": 0.5407894736842105
+      },
+      "FRA1": {
+        "log_score": 2.97682106617738,
+        "n": 1752,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12385844748858447,
+        "top5_hit_rate": 0.4469178082191781
+      },
+      "GER1": {
+        "log_score": 3.0813517103929366,
+        "n": 1530,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12287581699346405,
+        "top5_hit_rate": 0.41830065359477125
+      },
+      "ITA1": {
+        "log_score": 2.8822452639312837,
+        "n": 1890,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.15026455026455027,
+        "top5_hit_rate": 0.5084656084656085
+      },
+      "TUR1": {
+        "log_score": 2.985592171503516,
+        "n": 420,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.14523809523809525,
+        "top5_hit_rate": 0.48333333333333334
+      },
+      "UEFA_UCL": {
+        "log_score": 3.0924870023942685,
+        "n": 689,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10014513788098693,
+        "top5_hit_rate": 0.43831640058055155
+      },
+      "UEFA_UECL": {
+        "log_score": 3.077475011992201,
+        "n": 576,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10416666666666667,
+        "top5_hit_rate": 0.4131944444444444
+      },
+      "UEFA_UEL": {
+        "log_score": 3.003173744818893,
+        "n": 815,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11042944785276074,
+        "top5_hit_rate": 0.45153374233128835
+      }
+    },
+    "P_dc_sep": {
+      "ALL": {
+        "log_score": 2.9892720838782854,
+        "n": 10712,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12331964152352502,
+        "top5_hit_rate": 0.4649925317401046
+      },
+      "ENG1": {
+        "log_score": 3.063729892981046,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11447368421052631,
+        "top5_hit_rate": 0.43486842105263157
+      },
+      "ESP1": {
+        "log_score": 2.812967559547046,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.1355263157894737,
+        "top5_hit_rate": 0.5407894736842105
+      },
+      "FRA1": {
+        "log_score": 2.9872295524794543,
+        "n": 1752,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11757990867579908,
+        "top5_hit_rate": 0.4514840182648402
+      },
+      "GER1": {
+        "log_score": 3.084767843797925,
+        "n": 1530,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12091503267973856,
+        "top5_hit_rate": 0.4241830065359477
+      },
+      "ITA1": {
+        "log_score": 2.882851077039682,
+        "n": 1890,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.14814814814814814,
+        "top5_hit_rate": 0.5052910052910053
+      },
+      "TUR1": {
+        "log_score": 2.995114802022206,
+        "n": 420,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.14047619047619048,
+        "top5_hit_rate": 0.49047619047619045
+      },
+      "UEFA_UCL": {
+        "log_score": 3.1329519920445397,
+        "n": 689,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10304789550072568,
+        "top5_hit_rate": 0.4310595065312046
+      },
+      "UEFA_UECL": {
+        "log_score": 3.128302520551339,
+        "n": 576,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.09895833333333333,
+        "top5_hit_rate": 0.4184027777777778
+      },
+      "UEFA_UEL": {
+        "log_score": 3.0283908354553093,
+        "n": 815,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10184049079754601,
+        "top5_hit_rate": 0.4404907975460123
+      }
+    },
+    "constant_scoreline": {
+      "ALL": {
+        "log_score": 3.092352885826135,
+        "n": 10712,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.11874533233756535,
+        "top5_hit_rate": 0.4268110530246453
+      },
+      "ENG1": {
+        "log_score": 3.1577331418833063,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10394736842105264,
+        "top5_hit_rate": 0.4052631578947368
+      },
+      "ESP1": {
+        "log_score": 2.9666108597698058,
+        "n": 1520,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.13026315789473683,
+        "top5_hit_rate": 0.47171052631578947
+      },
+      "FRA1": {
+        "log_score": 3.0659181983755635,
+        "n": 1752,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12214611872146118,
+        "top5_hit_rate": 0.4223744292237443
+      },
+      "GER1": {
+        "log_score": 3.219302019710346,
+        "n": 1530,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.12287581699346405,
+        "top5_hit_rate": 0.3790849673202614
+      },
+      "ITA1": {
+        "log_score": 3.0118338025549787,
+        "n": 1890,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.13333333333333333,
+        "top5_hit_rate": 0.46190476190476193
+      },
+      "TUR1": {
+        "log_score": 3.0779085686303427,
+        "n": 420,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.14285714285714285,
+        "top5_hit_rate": 0.4523809523809524
+      },
+      "UEFA_UCL": {
+        "log_score": 3.262057678126518,
+        "n": 689,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.08708272859216255,
+        "top5_hit_rate": 0.39622641509433965
+      },
+      "UEFA_UECL": {
+        "log_score": 3.074951303128263,
+        "n": 576,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.09722222222222222,
+        "top5_hit_rate": 0.4270833333333333
+      },
+      "UEFA_UEL": {
+        "log_score": 3.0864334727132574,
+        "n": 815,
+        "outside_grid": 0,
+        "top1_hit_rate": 0.10552147239263804,
+        "top5_hit_rate": 0.4134969325153374
+      }
+    }
+  },
+  "paired": [
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.003469,
+        0.002209
+      ],
+      "delta_log_score": -0.000544,
+      "group": "ALL",
+      "n": 10712,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.00366,
+        0.006104
+      ],
+      "delta_log_score": 0.001253,
+      "group": "ENG1",
+      "n": 1520,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.005865,
+        0.00328
+      ],
+      "delta_log_score": -0.000977,
+      "group": "ESP1",
+      "n": 1520,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.005712,
+        0.001292
+      ],
+      "delta_log_score": -0.00217,
+      "group": "FRA1",
+      "n": 1752,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.006135,
+        0.007519
+      ],
+      "delta_log_score": 0.000799,
+      "group": "GER1",
+      "n": 1530,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.00907,
+        0.001589
+      ],
+      "delta_log_score": -0.003691,
+      "group": "ITA1",
+      "n": 1890,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "delta_log_score": 0.0,
+      "group": "TUR1",
+      "n": 420,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        0.002775,
+        0.041314
+      ],
+      "delta_log_score": 0.021104,
+      "group": "UEFA_UCL",
+      "n": 689,
+      "reference": "B_dc_league",
+      "verdict": "WORSE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "delta_log_score": 0.0,
+      "group": "UEFA_UECL",
+      "n": 576,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.036824,
+        0.005432
+      ],
+      "delta_log_score": -0.013788,
+      "group": "UEFA_UEL",
+      "n": 815,
+      "reference": "B_dc_league",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.014918,
+        -0.009861
+      ],
+      "delta_log_score": -0.012284,
+      "group": "ALL",
+      "n": 10712,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.012629,
+        -0.006103
+      ],
+      "delta_log_score": -0.009013,
+      "group": "ENG1",
+      "n": 1520,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.005782,
+        -0.001241
+      ],
+      "delta_log_score": -0.003497,
+      "group": "ESP1",
+      "n": 1520,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.018197,
+        -0.007712
+      ],
+      "delta_log_score": -0.012579,
+      "group": "FRA1",
+      "n": 1752,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.005166,
+        -0.000204
+      ],
+      "delta_log_score": -0.002617,
+      "group": "GER1",
+      "n": 1530,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.006778,
+        -0.001999
+      ],
+      "delta_log_score": -0.004297,
+      "group": "ITA1",
+      "n": 1890,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.01668,
+        -0.003499
+      ],
+      "delta_log_score": -0.009523,
+      "group": "TUR1",
+      "n": 420,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.032393,
+        -0.006095
+      ],
+      "delta_log_score": -0.019361,
+      "group": "UEFA_UCL",
+      "n": 689,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.070112,
+        -0.031158
+      ],
+      "delta_log_score": -0.050828,
+      "group": "UEFA_UECL",
+      "n": 576,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.053138,
+        -0.025697
+      ],
+      "delta_log_score": -0.039005,
+      "group": "UEFA_UEL",
+      "n": 815,
+      "reference": "B_dc_league",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.112546,
+        -0.092766
+      ],
+      "delta_log_score": -0.103081,
+      "group": "ALL",
+      "n": 10712,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.122018,
+        -0.063359
+      ],
+      "delta_log_score": -0.094003,
+      "group": "ENG1",
+      "n": 1520,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.181458,
+        -0.128283
+      ],
+      "delta_log_score": -0.153643,
+      "group": "ESP1",
+      "n": 1520,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.099444,
+        -0.05736
+      ],
+      "delta_log_score": -0.078689,
+      "group": "FRA1",
+      "n": 1752,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.159725,
+        -0.108924
+      ],
+      "delta_log_score": -0.134534,
+      "group": "GER1",
+      "n": 1530,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.151083,
+        -0.106413
+      ],
+      "delta_log_score": -0.128983,
+      "group": "ITA1",
+      "n": 1890,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.119439,
+        -0.048963
+      ],
+      "delta_log_score": -0.082794,
+      "group": "TUR1",
+      "n": 420,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.180246,
+        -0.075633
+      ],
+      "delta_log_score": -0.129106,
+      "group": "UEFA_UCL",
+      "n": 689,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        0.002691,
+        0.107876
+      ],
+      "delta_log_score": 0.053351,
+      "group": "UEFA_UECL",
+      "n": 576,
+      "reference": "constant_scoreline",
+      "verdict": "WORSE"
+    },
+    {
+      "candidate": "P_dc_sep",
+      "ci95": [
+        -0.087309,
+        -0.024948
+      ],
+      "delta_log_score": -0.058043,
+      "group": "UEFA_UEL",
+      "n": 815,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.11207,
+        -0.09195
+      ],
+      "delta_log_score": -0.102536,
+      "group": "ALL",
+      "n": 10712,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.125527,
+        -0.061057
+      ],
+      "delta_log_score": -0.095257,
+      "group": "ENG1",
+      "n": 1520,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.179007,
+        -0.127823
+      ],
+      "delta_log_score": -0.152666,
+      "group": "ESP1",
+      "n": 1520,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.098543,
+        -0.054754
+      ],
+      "delta_log_score": -0.076519,
+      "group": "FRA1",
+      "n": 1752,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.161828,
+        -0.107125
+      ],
+      "delta_log_score": -0.135333,
+      "group": "GER1",
+      "n": 1530,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.147365,
+        -0.101214
+      ],
+      "delta_log_score": -0.125292,
+      "group": "ITA1",
+      "n": 1890,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.119439,
+        -0.048963
+      ],
+      "delta_log_score": -0.082794,
+      "group": "TUR1",
+      "n": 420,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.201707,
+        -0.098054
+      ],
+      "delta_log_score": -0.15021,
+      "group": "UEFA_UCL",
+      "n": 689,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        0.002691,
+        0.107876
+      ],
+      "delta_log_score": 0.053351,
+      "group": "UEFA_UECL",
+      "n": 576,
+      "reference": "constant_scoreline",
+      "verdict": "WORSE"
+    },
+    {
+      "candidate": "B_dc_league",
+      "ci95": [
+        -0.080718,
+        -0.000651
+      ],
+      "delta_log_score": -0.044255,
+      "group": "UEFA_UEL",
+      "n": 815,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.123632,
+        -0.105717
+      ],
+      "delta_log_score": -0.11482,
+      "group": "ALL",
+      "n": 10712,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.133263,
+        -0.073154
+      ],
+      "delta_log_score": -0.10427,
+      "group": "ENG1",
+      "n": 1520,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.181633,
+        -0.132996
+      ],
+      "delta_log_score": -0.156163,
+      "group": "ESP1",
+      "n": 1520,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.108249,
+        -0.069238
+      ],
+      "delta_log_score": -0.089097,
+      "group": "FRA1",
+      "n": 1752,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.163532,
+        -0.110493
+      ],
+      "delta_log_score": -0.13795,
+      "group": "GER1",
+      "n": 1530,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.150437,
+        -0.107263
+      ],
+      "delta_log_score": -0.129589,
+      "group": "ITA1",
+      "n": 1890,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.124825,
+        -0.062101
+      ],
+      "delta_log_score": -0.092316,
+      "group": "TUR1",
+      "n": 420,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.212838,
+        -0.123484
+      ],
+      "delta_log_score": -0.169571,
+      "group": "UEFA_UCL",
+      "n": 689,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.037973,
+        0.044454
+      ],
+      "delta_log_score": 0.002524,
+      "group": "UEFA_UECL",
+      "n": 576,
+      "reference": "constant_scoreline",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dc_hier",
+      "ci95": [
+        -0.113612,
+        -0.048731
+      ],
+      "delta_log_score": -0.08326,
+      "group": "UEFA_UEL",
+      "n": 815,
+      "reference": "constant_scoreline",
+      "verdict": "SUPPORTED"
+    }
+  ]
+}

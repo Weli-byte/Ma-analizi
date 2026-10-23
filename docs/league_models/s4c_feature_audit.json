@@ -1,0 +1,49 @@
+{
+  "columns": [
+    "x_h_gf90d",
+    "x_h_ga90d",
+    "x_h_n90d",
+    "x_h_gf365d",
+    "x_h_ga365d",
+    "x_h_n365d",
+    "x_h_gf_exp",
+    "x_h_ga_exp",
+    "x_h_adj_att",
+    "x_h_adj_def",
+    "x_a_gf90d",
+    "x_a_ga90d",
+    "x_a_n90d",
+    "x_a_gf365d",
+    "x_a_ga365d",
+    "x_a_n365d",
+    "x_a_gf_exp",
+    "x_a_ga_exp",
+    "x_a_adj_att",
+    "x_a_adj_def",
+    "x_adj_strength_diff",
+    "x_extra_available"
+  ],
+  "perturbation_audit": {
+    "definition": "all results at/after the point are replaced by 7-0; rows before the point must not change",
+    "points": {
+      "2022-01-01T00:00:00+00:00": {
+        "rows_before_point": 5630,
+        "rows_identical": true,
+        "violations": 0
+      },
+      "2023-06-01T00:00:00+00:00": {
+        "rows_before_point": 8879,
+        "rows_identical": true,
+        "violations": 0
+      },
+      "2024-03-01T00:00:00+00:00": {
+        "rows_before_point": 10430,
+        "rows_identical": true,
+        "violations": 0
+      }
+    },
+    "violations": 0
+  },
+  "schema_version": "lm-s4c-extra-features-v1",
+  "sha256": "dca316be2deea466f6135c2c85d86d6c75aa3fcd93d11f3a6d930677d0876d5b"
+}

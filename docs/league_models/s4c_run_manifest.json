@@ -1,0 +1,15 @@
+{
+  "as_of": "2026-10-20T00:00:00+00:00",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "holdout": "not read (consumed by Sprint 5); nothing in this run can be approved for users",
+  "ml_config_fingerprint": "a8f7f8fdb5079518f8d7e42b8d89c0f969577ba2763d43f0f9252f48c3c1fe92",
+  "protocol": "lm-s4c-v1",
+  "s4c_config_fingerprint": "a8d8eaba6e2543e7bbf70389d3b2a4d16857f9d6023e81705d7d1a25a8984ec5",
+  "stat_config_fingerprint": "050c8c3d524c2ee544ed81e1ff7189ef585c0c0afda54a1c2b68a7866ae0c4cf"
+}

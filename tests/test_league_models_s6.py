@@ -357,9 +357,11 @@ def shadow_env(tmp_path):
     return tmp_path, control.LeagueModelRegistry(entries, tmp_path)
 
 
-def _shadow(env, provider, now=NOW, **kw):
+def _shadow(env, provider, now=NOW, per_league=False, **kw):
     root, reg = env
-    return shadow.run_shadow(root, now, provider=provider, audit=_synthetic_audit(), cfg=cfg_with(root, kill_switch=True), registry=reg, out_dir=root / "rollout", calibration_manifest=root / "cal.json",
+    cfg = cfg_with(root, kill_switch=True)
+    cfg.raw["shadow"]["per_league"]["enabled"] = per_league           # the Sprint 6 tests pin the exact family set; ADR 0071 tests switch the exploratory family on
+    return shadow.run_shadow(root, now, provider=provider, audit=_synthetic_audit(), cfg=cfg, registry=reg, out_dir=root / "rollout", calibration_manifest=root / "cal.json",
                              directory=FakeDirectory(), bench_config_path=root / "bench.yaml", stat_config_path=root / "stat.yaml", **kw)  # fmt: skip
 
 
@@ -446,3 +448,51 @@ def test_committed_sprint6_evidence_is_consistent():
     assert ev["records"] and all(r["visible_to_users"] is False and r["role"] in ("global", "candidate") for r in ev["records"])
     assert all(r["stage"] in ("t-24h", "t-90m", "t-30m", "kickoff") and r["prediction_as_of_utc"] < r["kickoff_utc"] for r in ev["records"])
     assert ev["kill_switch_at_run"] is True or ev["kill_switch_at_run"] is False
+
+
+# ------------------------------------------------------------------ ADR 0071: separately trained per-league family and the score-forecast sidecar (TEST_ONLY synthetic history)
+def test_the_per_league_family_and_the_score_forecast_sidecar_are_stored_next_to_the_record_without_changing_it(shadow_env):
+    env = shadow_env
+    rep = _shadow(env, FakeProvider([_fx(1, "Team 0", "Team 1")]), per_league=True)
+    recs = records.ProspectiveStore(env[0] / "rollout" / "prospective.jsonl").all()
+    fams = {r["family"]: r for r in recs}
+    assert {"P_dc_sep:1x2", "P_dc_sep:over_under", "P_dc_sep:btts", "H_dc_hier:1x2", "H_dc_hier:over_under", "H_dc_hier:btts"} <= set(fams) and rep["skipped"] == []
+    sep = [r for r in recs if r["family"].startswith("P_dc_sep")]
+    for r in sep:
+        assert r["role"] == "candidate" and r["visible_to_users"] is False and r["coverage_flags"]["calibration"] == "NONE_EXPLORATORY_RAW"
+    side = records.ScoreForecastStore(env[0] / "rollout" / "score_forecasts.jsonl").all()
+    by_key = {x["key"]: x for x in side}
+    glob = fams["global"]
+    g = by_key[f"{glob['fixture_id']}|{glob['stage']}|{glob['model_version']}|global"]
+    assert g["record_content_hash"] == glob["content_hash"] and g["expected_goals_home"] > 0 and g["expected_goals_away"] > 0 and len(g["top_scores"]) == 5 and 0 <= g["tail_mass"] < 0.01
+    d = fams["B_dc_league:over_under"]
+    assert by_key[f"{d['fixture_id']}|{d['stage']}|{d['model_version']}|B_dc_league:over_under"]["record_content_hash"] == d["content_hash"]
+    assert "p_0_0" in g and "expected_goals_home" not in glob and "lam_home" not in glob       # the immutable record itself is unchanged
+    assert rep["score_forecasts"]["CREATED"] == len(side)
+    again = _shadow(env, FakeProvider([_fx(1, "Team 0", "Team 1")]), now=NOW + timedelta(minutes=20), per_league=True)
+    assert again["records"]["CREATED"] == 0 and again["score_forecasts"]["CREATED"] == 0 and len(records.ScoreForecastStore(env[0] / "rollout" / "score_forecasts.jsonl").all()) == len(side)
+
+
+def test_a_score_forecast_with_different_content_is_a_conflict_and_bad_expected_goals_are_refused(tmp_path):
+    st = records.ScoreForecastStore(tmp_path / "s.jsonl")
+    r = rec()
+    assert st.put(r, 1.4, 1.1, [("1-1", 0.12)], 0.08, 0.12, 1e-5) == "CREATED" and st.put(r, 1.4, 1.1, [("1-1", 0.12)], 0.08, 0.12, 1e-5) == "EXISTS"
+    with pytest.raises(records.ProspectiveConflict):
+        st.put(r, 1.5, 1.1, [("1-1", 0.12)], 0.08, 0.12, 1e-5)
+    with pytest.raises(records.ProspectiveError):
+        st.put(rec(fixture="fdorg-2"), 0.0, 1.1, [], 0.0, 0.0, 0.0)
+
+
+def test_the_score_scorecard_joins_forecasts_with_outcomes_and_never_claims_on_a_tiny_sample(tmp_path):
+    st = records.ScoreForecastStore(tmp_path / "s.jsonl")
+    grid = [[0.0] * 7 for _ in range(7)]
+    grid[1][0], grid[1][1], grid[0][0] = 0.5, 0.3, 0.2
+    r = rec()
+    st.put(r, 1.4, 0.9, [("1-0", 0.5), ("1-1", 0.3), ("0-0", 0.2)], 0.2, 0.3, 0.0, "TEST_ONLY", grid)
+    out = evaluation.score_scorecard(st.all(), {"fdorg-1": {"home_goals": 1, "away_goals": 0}}, NOW)
+    f = out["families"][0]
+    assert f["resolved"] == 1 and f["log_score"] == pytest.approx(-np.log(0.5), abs=1e-5) and f["top1_hit_rate"] == 1.0 and f["top5_hit_rate"] == 1.0
+    assert f["expected_goals_mae_home"] == pytest.approx(0.4) and f["expected_goals_mae_away"] == pytest.approx(0.9) and f["verdict"] == "TOO_FEW_RESOLVED_NO_CLAIM"
+    big = evaluation.score_scorecard(st.all(), {"fdorg-1": {"home_goals": 8, "away_goals": 0}}, NOW)["families"][0]
+    assert big["outside_stored_grid"] == 1 and big["log_score"] is None            # a scoreline above 6 goals is counted, not scored
+    assert evaluation.score_scorecard(st.all(), {}, NOW)["families"] == []          # no outcome, no row

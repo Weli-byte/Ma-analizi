@@ -29,13 +29,20 @@ from src.league_models.coverage import collect
 from src.league_models.licenses import load_manifest, training_gate
 from src.league_models.ml_features import FeatureConfig, build_features
 from src.league_models.ml_models import GBM, full_params, load_ml_config, tune
+from src.league_models.per_league import HierarchicalDC, PerLeagueDC
 from src.league_models.splits import HOLDOUT, build_universe, load_bench_config, to_eval_row
 from src.league_models.stat_models import NotTrained, RidgePoissonDC, TimeAwareElo
 from src.models import build_models
 from src.snapshot.stages import SnapshotStage, due_stage
 
 from .control import LeagueModelRegistry, RolloutConfig, load_rollout
-from .records import ProspectiveConflict, ProspectiveError, ProspectiveRecord, ProspectiveStore
+from .records import (
+    ProspectiveConflict,
+    ProspectiveError,
+    ProspectiveRecord,
+    ProspectiveStore,
+    ScoreForecastStore,
+)
 
 SOURCE = "football-data-org"
 TRAIN_LICENSES = ["openfootball_domestic", "openfootball_cups"]
@@ -154,6 +161,9 @@ class ShadowModels:
     cells: list[Cell]
     e_elo: TimeAwareElo | None = None
     b_dc: RidgePoissonDC | None = None
+    per_league: PerLeagueDC | None = None             # ADR 0071: one separately trained model per competition (exploratory shadow family P_dc_sep)
+    per_league_leagues: tuple = ()
+    hier: HierarchicalDC | None = None                # ADR 0071: exploratory shadow family H_dc_hier (learned variance components)
     b_gbm: dict = field(default_factory=dict)         # target -> GBM
     calibrators: dict = field(default_factory=dict)   # (target, key) -> Calibrator | None
     history: list = field(default_factory=list)
@@ -177,7 +187,7 @@ def restore_calibrators(path: Path) -> tuple[dict, str]:
     return out, hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def fit_models(history: list[EvalRow], cells: list[Cell], root: Path, snapshot_id: str, calibration_manifest: Path, scfg, mcfg, lag_hours: int, bcfg) -> ShadowModels:
+def fit_models(history: list[EvalRow], cells: list[Cell], root: Path, snapshot_id: str, calibration_manifest: Path, scfg, mcfg, lag_hours: int, bcfg, per_league_cfg: dict | None = None) -> ShadowModels:
     model_cfg = load_config("model", config_dir_for(root))
     elo, dcp = build_models(["elo", "dixon_coles"], elo_config=model_cfg.elo, poisson_config=model_cfg.poisson)
     elo.fit(history)
@@ -196,6 +206,21 @@ def fit_models(history: list[EvalRow], cells: list[Cell], root: Path, snapshot_i
         if mod is None:
             sm.errors["B_dc_league"] = f"NOT_TRAINED: {d.get('reason')}"
         sm.b_dc = mod
+    if per_league_cfg and per_league_cfg.get("enabled"):
+        from src.league_models.s4c_benchmark import load_s4c
+
+        leagues = tuple(per_league_cfg["leagues"])
+        try:
+            sm.per_league = PerLeagueDC(load_s4c(), scfg.dc_spec(), float(bcfg.over_under_line), lag_hours).fit([r for r in history if r.league_id in leagues])
+            sm.per_league_leagues = leagues
+        except Exception as e:  # a model that cannot be fitted is reported as missing, never replaced by a guess
+            sm.errors["P_dc_sep"] = f"NOT_TRAINED: {e}"
+        if per_league_cfg.get("hierarchical"):
+            try:
+                uefa = sum(1 for r in history if r.league_id.startswith("UEFA"))
+                sm.hier = HierarchicalDC(load_s4c(), scfg.dc_spec(), float(bcfg.over_under_line), lag_hours, bridge=uefa >= scfg.raw["bridge"]["min_uefa_matches_total"]).fit(history)
+            except Exception as e:
+                sm.errors["H_dc_hier"] = f"NOT_TRAINED: {e}"
     if "B_gbm_league" in names:
         sm.fcfg = FeatureConfig.from_raw(mcfg.raw, mcfg.raw["league_vocabulary"], lag_hours, bcfg.default_stage, scfg.elo_spec())
         for target in sorted({c.target for c in cells if c.model == "B_gbm_league"}):
@@ -204,6 +229,68 @@ def fit_models(history: list[EvalRow], cells: list[Cell], root: Path, snapshot_i
             except Exception as e:  # a model that cannot be fitted is reported as missing, never replaced by a guess
                 sm.errors[f"B_gbm_league:{target}"] = f"NOT_TRAINED: {e}"
     return sm
+
+
+def _score_summary(pred, k: int = 5) -> dict:
+    """Goal-distribution outputs of row 0 of a MatrixPrediction (for the score-forecast sidecar)."""
+    m = pred.matrices[0]
+    g = m.shape[1]
+    order = np.argsort(-m.ravel())[:k]
+    return {"lam_home": float(pred.lam_home[0]), "lam_away": float(pred.lam_away[0]), "top_scores": [(f"{i // g}-{i % g}", float(m.ravel()[i])) for i in order], "p00": float(m[0, 0]), "p11": float(m[1, 1]), "tail": float(pred.tail_mass[0]), "grid": m[:7, :7].tolist()}
+
+
+def _global_score(sm: ShadowModels, row: EvalRow) -> dict | None:
+    """Expected goals and scoreline mass of the production Dixon-Coles model (the part of the global record that has a goal distribution)."""
+    try:
+        lam_h, lam_a, _, _ = sm.dc_prod.expected_goals(row.home_id, row.away_id)
+        mat = sm.dc_prod.scoreline_matrix(lam_h, lam_a)
+    except Exception:  # an unavailable goal distribution is simply not stored; the probabilities of the record are unaffected
+        return None
+    g = mat.shape[1]
+    order = np.argsort(-mat.ravel())[:5]
+    return {"lam_home": float(lam_h), "lam_away": float(lam_a), "top_scores": [(f"{i // g}-{i % g}", float(mat.ravel()[i])) for i in order], "p00": float(mat[0, 0]), "p11": float(mat[1, 1]),
+            "tail": float(max(0.0, 1.0 - mat.sum())), "source": "dixon_coles (production family)", "grid": mat[:7, :7].tolist()}
+
+
+def predict_per_league(sm: ShadowModels, row: EvalRow, target: str, line: float) -> tuple[dict | None, dict, str | None, dict | None]:
+    """Exploratory family P_dc_sep: the separately trained model of the fixture's competition, spec chosen for this target, RAW probabilities (no calibrator exists for this family)."""
+    flags: dict = {"calibration": "NONE_EXPLORATORY_RAW"}
+    if sm.per_league is None:
+        return None, flags, sm.errors.get("P_dc_sep", "MODEL_MISSING"), None
+    pred, covered = sm.per_league.predict([row], target)
+    if pred is None or not covered[0]:
+        info = sm.per_league.info.get(row.league_id, {})
+        return None, flags, f"NO_SEPARATE_MODEL:{info.get('status', 'UNKNOWN_COMPETITION')}", None
+    fields = dict.fromkeys(("p_home", "p_draw", "p_away", "p_over25", "p_btts_yes"))
+    if target == "over_under":
+        fields["p_over25"] = float(np.clip(pred.over(line)[0], 0, 1))
+    elif target == "btts":
+        fields["p_btts_yes"] = float(np.clip(pred.btts()[0], 0, 1))
+    else:
+        p = np.clip(pred.one_x_two(), 0, 1)
+        p = p / p.sum(axis=1, keepdims=True)
+        fields.update(p_home=float(p[0, 0]), p_draw=float(p[0, 1]), p_away=float(p[0, 2]))
+    flags["unseen_club"] = bool(not (pred.seen_home[0] and pred.seen_away[0]))
+    return fields, flags, None, _score_summary(pred)
+
+
+def predict_hier(sm: ShadowModels, row: EvalRow, target: str, line: float) -> tuple[dict | None, dict, str | None, dict | None]:
+    """Exploratory family H_dc_hier: global team < country < world model, variance components chosen by nested walk-forward, RAW probabilities."""
+    flags: dict = {"calibration": "NONE_EXPLORATORY_RAW"}
+    if sm.hier is None:
+        return None, flags, sm.errors.get("H_dc_hier", "MODEL_MISSING"), None
+    pred = sm.hier.predict([row], target)
+    fields = dict.fromkeys(("p_home", "p_draw", "p_away", "p_over25", "p_btts_yes"))
+    if target == "over_under":
+        fields["p_over25"] = float(np.clip(pred.over(line)[0], 0, 1))
+    elif target == "btts":
+        fields["p_btts_yes"] = float(np.clip(pred.btts()[0], 0, 1))
+    else:
+        p = np.clip(pred.one_x_two(), 0, 1)
+        p = p / p.sum(axis=1, keepdims=True)
+        fields.update(p_home=float(p[0, 0]), p_draw=float(p[0, 1]), p_away=float(p[0, 2]))
+    flags["unseen_club"] = bool(not (pred.seen_home[0] and pred.seen_away[0]))
+    return fields, flags, None, _score_summary(pred)
 
 
 def _fit_gbm(history, fcfg, mcfg, target: str, bcfg) -> GBM:
@@ -254,7 +341,7 @@ def predict_global(sm: ShadowModels, row: EvalRow, line: float) -> tuple[dict, d
     return {"p_home": float(p[0, 0]), "p_draw": float(p[0, 1]), "p_away": float(p[0, 2]), "p_over25": float(over[0]), "p_btts_yes": float(both[0])}, flags
 
 
-def predict_cell(sm: ShadowModels, cell: Cell, row: EvalRow, line: float) -> tuple[dict | None, dict, str | None]:
+def predict_cell(sm: ShadowModels, cell: Cell, row: EvalRow, line: float, score_out: dict | None = None) -> tuple[dict | None, dict, str | None]:
     """One candidate for its own target only; every other probability is null. Returns (probabilities, flags, fallback_reason)."""
     flags: dict = {}
     fields = dict.fromkeys(("p_home", "p_draw", "p_away", "p_over25", "p_btts_yes"))
@@ -274,6 +361,8 @@ def predict_cell(sm: ShadowModels, cell: Cell, row: EvalRow, line: float) -> tup
         if sm.b_dc is None:
             return None, flags, sm.errors.get("B_dc_league", "MODEL_MISSING")
         pred = sm.b_dc.predict([row])
+        if score_out is not None:
+            score_out.update(_score_summary(pred))
         if cell.target == "over_under":
             q = _cal(sm, "over_under", "B_dc_league_totals", np.clip(pred.over(line), 0, 1), row.league_id, flags)
             fields["p_over25"] = float(q[0])
@@ -407,9 +496,11 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
     report["history_rows"] = len(history)
     report["history_latest_kickoff_utc"] = max(r.kickoff_utc for r in history).isoformat()
     cal_path = calibration_manifest or (root / "docs" / "league_models" / "s5_calibration_manifest.json")
-    sm = fit_models(history, cells, root, snapshot_id + f"|extra{len(extra)}|overlay{len(overlay)}", cal_path, scfg, mcfg, league_cfg.result_lag_hours, bcfg)
+    sm = fit_models(history, cells, root, snapshot_id + f"|extra{len(extra)}|overlay{len(overlay)}", cal_path, scfg, mcfg, league_cfg.result_lag_hours, bcfg, cfg["shadow"].get("per_league"))
     report["model_errors"] = sm.errors
     store = ProspectiveStore(out_dir / "prospective.jsonl")
+    scores = ScoreForecastStore(out_dir / "score_forecasts.jsonl")
+    report["score_forecasts"] = {"CREATED": 0, "EXISTS": 0, "SKIPPED": 0}
     line = float(cfg["shadow"]["line"])
     hist_digest = hashlib.sha256(f"{len(history)}|{report['history_latest_kickoff_utc']}|{snapshot_id}".encode()).hexdigest()
 
@@ -418,11 +509,21 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
         t0 = time.perf_counter()
         snap = hashlib.sha256(json.dumps({"history": hist_digest, "fixture": row.fixture_id, "home": row.home_id, "away": row.away_id, "kickoff": row.kickoff_utc.isoformat(), "stage": stage.value},
                                          sort_keys=True).encode()).hexdigest()
-        jobs = [("global", "global", predict_global(sm, row, line) + (None,))]
+        jobs = [("global", "global", predict_global(sm, row, line) + (None,), _global_score(sm, row))]
         for cell in [c for c in sm.cells if c.league == row.league_id]:
-            fields, flags, why = predict_cell(sm, cell, row, line)
-            jobs.append((cell.model + ":" + cell.target, "candidate", (fields, flags, why)))
-        for family, role, (fields, flags, why) in jobs:
+            sc: dict = {}
+            fields, flags, why = predict_cell(sm, cell, row, line, sc)
+            jobs.append((cell.model + ":" + cell.target, "candidate", (fields, flags, why), sc or None))
+        if sm.per_league is not None and row.league_id in sm.per_league_leagues:
+            for target in ("1x2", "over_under", "btts"):
+                fields, flags, why, sc = predict_per_league(sm, row, target, line)
+                jobs.append((f"P_dc_sep:{target}", "candidate", (fields, flags, why), sc))
+        if sm.hier is not None or "H_dc_hier" in sm.errors:
+            for target in ("1x2", "over_under", "btts"):
+                if row.league_id in sm.per_league_leagues:
+                    fields, flags, why, sc = predict_hier(sm, row, target, line)
+                    jobs.append((f"H_dc_hier:{target}", "candidate", (fields, flags, why), sc))
+        for family, role, (fields, flags, why), score in jobs:
             fam = family if role == "global" else family.split(":")[0]
             if fields is None:
                 report["skipped"].append({"fixture": row.fixture_id, "family": family, "reason": why or "NO_PREDICTION"})
@@ -435,9 +536,17 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
             except ProspectiveConflict as e:
                 report["records"]["CONFLICT"] += 1
                 report["skipped"].append({"fixture": row.fixture_id, "family": family, "reason": f"CONFLICT:{e}"[:160]})
+                continue
             except ProspectiveError as e:
                 report["records"]["REFUSED"] += 1
                 report["skipped"].append({"fixture": row.fixture_id, "family": family, "reason": f"REFUSED:{e}"[:160]})
+                continue
+            if score:
+                try:
+                    report["score_forecasts"][scores.put(rec, score["lam_home"], score["lam_away"], score["top_scores"], score["p00"], score["p11"], score["tail"], score.get("source", ""), score.get("grid"))] += 1
+                except (ProspectiveConflict, ProspectiveError) as e:
+                    report["score_forecasts"]["SKIPPED"] += 1
+                    report["skipped"].append({"fixture": row.fixture_id, "family": family, "reason": f"SCORE_FORECAST:{e}"[:160]})
         report["per_fixture_ms"][row.fixture_id] = round((time.perf_counter() - t0) * 1000, 1)
     if report["records"]["CONFLICT"] or report["records"]["REFUSED"]:
         report["status"] = "RECORDS_REFUSED"

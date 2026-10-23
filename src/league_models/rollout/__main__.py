@@ -14,7 +14,7 @@ from src.league_models.licenses import load_manifest
 
 from . import dashboard, evaluation, monitoring
 from .control import LeagueModelRegistry, kill_active, load_rollout
-from .records import OutcomeStore, ProspectiveStore
+from .records import OutcomeStore, ProspectiveStore, ScoreForecastStore
 from .shadow import run_shadow, season_label
 
 
@@ -59,6 +59,7 @@ def main(argv=None) -> int:
     sc = evaluation.scorecard(records, outs, now)
     if a.command == "scorecard":
         evaluation.dump(d / "scorecard.json", sc)
+        evaluation.dump(d / "score_scorecard.json", evaluation.score_scorecard(ScoreForecastStore(d / "score_forecasts.jsonl").all(), outs, now))
         sys.stdout.write(json.dumps(sc, indent=2, sort_keys=True) + "\n")
         return 0
     registry = LeagueModelRegistry.load(root=root / cfg["registry_artifacts_root"])

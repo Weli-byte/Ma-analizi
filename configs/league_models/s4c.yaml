@@ -1,0 +1,33 @@
+# Sprint 4c (ADR 0071): per-league SEPARATE models, a hierarchical Poisson model whose variance components are learned, nested walk-forward model selection, the Sprint 4
+# feature extension (calendar windows, time-weighted and opponent-adjusted form) and the exact-score audit. Every value is an engineering choice recorded here.
+# The frozen holdout is consumed (Sprint 5) and is NEVER read: everything below is evaluated on the development folds only, so nothing here can be approved for users by this run.
+protocol_version: lm-s4c-v1
+extra_features:
+  windows_days: [90, 365]
+  half_life_days: 60.0
+  exp_max_matches: 40
+  adjust_matches: 10
+  shrink_k: 10.0                  # an opponent with n matches counts as (sum + k * league-wide mean) / (n + k)
+  min_matches: 3
+nested:
+  inner_folds: 3                  # the last 3 training seasons are each predicted from the seasons BEFORE them (expanding), with the result-lag embargo
+  min_inner_fit_matches: 100      # an inner fold with fewer fit matches is dropped (and reported)
+  objective: "per target (1X2, over/under, BTTS): the mean inner-fold log loss of that target; one choice per target"
+per_league_dc:                    # one RidgePoissonDC per competition, fitted on that competition's matches only; its penalty and decay are chosen by the nested selection
+  min_train_matches: 500          # same tier rule as the Sprint 4 local models: under it the competition keeps the reference (visible fallback)
+  grid:
+    l2_team: [0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0]
+    half_life_days: [null, 1095, 365]
+hierarchical_dc:                  # team < country < global random effects + competition terms; the variance components (1 / penalty) come from the nested selection
+  grid:
+    l2_team: [2.0, 8.0, 32.0, 128.0]
+    l2_country: [0.5, 2.0, 8.0, 32.0]
+    half_life_days: [null, 1095]
+per_league_gbm:                   # one LightGBM per competition and target on that competition's matches only, Sprint 4 + extra features, nested tuning
+  min_train_matches: 500
+  max_trials: 10
+  n_startup_trials: 5
+  rounds_cap: 300
+exact_score:
+  top_k: 5
+  constant_baseline: "empirical scoreline frequencies of the training window of the fold (add-one smoothed over the score grid)"

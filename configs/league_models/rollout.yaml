@@ -13,6 +13,10 @@ shadow:
   line: 2.5
   research_overlay: true               # refresh the history with football-data.org results that the licence-clean source lacks (RESEARCH ONLY: such a model can never be served; flagged in every record)
   max_inference_ms_per_fixture: 2000.0
+  per_league:                          # ADR 0071: exploratory shadow family P_dc_sep = one separately trained Poisson / Dixon-Coles model per competition (RAW probabilities, never calibrated, never user-visible)
+    enabled: true
+    leagues: [ENG1, ESP1, FRA1, ITA1]
+    hierarchical: true                 # also shadow H_dc_hier (global team < country < world model with learned variance components)
 canary:
   active_fraction: 0.0                 # share of users routed to an APPROVED_FOR_CANARY model; 0 until the owner opens a stage
   salt: lm-s6-routing-v1               # deterministic bucket = sha256(salt | user id) mod 10000; not a secret

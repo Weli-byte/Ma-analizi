@@ -230,6 +230,7 @@ class ForecastService:
             "data_version": body["data_version"], "feature_version": body["feature_version"],
             "model_version": body["model_version"], "content_hash": body["content_hash"],
             "market_source": body["market_source"], "form": body.get("form"), "details": body.get("details"),
+            "experimental": body.get("experimental"),  # ADR 0072, absent in older artifacts
             **body["intelligence"],
         }  # fmt: skip
 

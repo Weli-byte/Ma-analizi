@@ -463,3 +463,29 @@ def test_a_club_with_a_single_match_counts_as_no_history_and_the_forecast_is_sti
     assert i["data_quality"]["low_confidence"]["teams"] == ["ENG_one_match"]
     hp = i["result"]["headline_probs"]
     assert abs(sum(hp.values()) - 1) < 1e-9 and all(0 < v < 1 for v in hp.values())
+
+
+class _FakeExperimental:
+    """TEST_ONLY stand-in for ExperimentalModel: a fixed block, so the plumbing (artifact -> API) is tested without a fit."""
+
+    def predict(self, home, away, league, kickoff, neutral=False):
+        return None if neutral else {"model": "H_dc_hier", "label": "Deneysel model (beta)", "btts_yes": 0.55}
+
+
+def test_the_experimental_block_is_stored_in_the_artifact_served_by_the_api_and_skipped_for_neutral_venues(world, tmp_path):
+    from fastapi.testclient import TestClient
+
+    from src.api.app import create_app
+
+    shutil.copytree(REPO_ROOT / "configs", tmp_path / "configs")
+    mm = fit_markets(world["ms"], world["cut"], world["cfg"])
+    now = world["cut"].astimezone(UTC)
+    kickoff = now + timedelta(days=1)
+    key = fixture_key("ENG_arsenal", "ENG_leeds_united", kickoff)
+    p = write_artifact(tmp_path, mm, "cfg", now, key, "fdorg-1", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff, "dv-x", "fv2", None, experimental=_FakeExperimental())  # fmt: skip
+    assert json.loads(p.read_text(encoding="utf-8"))["experimental"]["btts_yes"] == 0.55
+    c = TestClient(create_app(tmp_path, keys=["k"], now_fn=lambda: now))
+    assert c.get(f"/v1/fixtures/{key}/intelligence", headers={"X-API-Key": "k"}).json()["data"]["experimental"]["label"] == "Deneysel model (beta)"
+    key2 = fixture_key("ENG_arsenal", "ENG_leeds_united", kickoff + timedelta(days=9))
+    q = write_artifact(tmp_path, mm, "cfg", now, key2, "fdorg-2", "EPL", "ENG_arsenal", "ENG_leeds_united", kickoff + timedelta(days=9), "dv-x", "fv2", None, neutral=True, experimental=_FakeExperimental())  # fmt: skip
+    assert "experimental" not in json.loads(q.read_text(encoding="utf-8"))

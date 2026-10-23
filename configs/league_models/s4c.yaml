@@ -31,3 +31,11 @@ per_league_gbm:                   # one LightGBM per competition and target on t
 exact_score:
   top_k: 5
   constant_baseline: "empirical scoreline frequencies of the training window of the fold (add-one smoothed over the score grid)"
+production_experimental:          # ADR 0072: the hierarchical model shown to users as "Deneysel model (beta)" for goal markets, fitted on the product's own history
+  max_seasons: 8                  # most recent seasons used (older matches add little under the learned decay and cost fit time)
+  min_rows: 3000
+  min_cross_country_rows: 200     # below this many UEFA-competition rows the country levels are not modelled (as in Sprint 3)
+  grid:
+    l2_team: [8.0, 32.0, 128.0]
+    l2_country: [8.0, 32.0]
+    half_life_days: [null, 1095]

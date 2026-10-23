@@ -97,6 +97,7 @@ def write_artifact(
     form: dict | None = None,
     neutral: bool = False,  # cup final at one neutral venue: no home advantage
     details: dict | None = None,  # recent matches, head-to-head, league table (ADR 0058)
+    experimental=None,  # ExperimentalModel (ADR 0072): hierarchical goal-market model shown as "Deneysel model (beta)"
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
     intel = intelligence(
@@ -113,6 +114,10 @@ def write_artifact(
     }  # fmt: skip
     if details is not None:
         body["details"] = details
+    if experimental is not None:
+        exp_block = experimental.predict(home_id, away_id, league, kickoff, neutral)
+        if exp_block is not None:
+            body["experimental"] = exp_block
     body["content_hash"] = hashlib.sha256(canonical_json(body).encode()).hexdigest()
     body["generated_at"] = now.isoformat()
     d = root / "artifacts" / "markets" / key
@@ -180,6 +185,10 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
 
             history, stats_report = attach_stats(world.history, root, directory, cfg)
         mm = fit_markets(history, now, cfg)
+        from .experimental import ExperimentalModel
+
+        exp, exp_status = ExperimentalModel.fit(history, now)
+        print(f"experimental model: {exp_status}" + (f" ({exp.rows} matches, selected {exp.hier.info['per_target']['over_under']['chosen']})" if exp else ""))
         names = {t: v["canonical_name"] for t, v in directory.teams.items()}
         count_markets = cfg.stats_plan == "pro"  # the free plan's terms differ (clause 4.1): research only
         wanted = {LEAGUES[c][0] if c in LEAGUES else c for c in leagues}
@@ -207,7 +216,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                  "statistics": stats_report},
                 count_markets,
                 {"home": recent_form(history, h.team_id, now, names), "away": recent_form(history, a.team_id, now, names)},
-                details=build_details(history, h.team_id, a.team_id, league, now, names),
+                details=build_details(history, h.team_id, a.team_id, league, now, names), experimental=exp,
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
@@ -235,7 +244,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                         "away": recent_form(history, fx["away_id"], now, names),
                     },
                     neutral,
-                    build_details(history, fx["home_id"], fx["away_id"], league, now, names),
+                    build_details(history, fx["home_id"], fx["away_id"], league, now, names), experimental=exp,
                 )  # fmt: skip
                 if path is not None:
                     written.append({"fixture_key": key, "path": str(path)})

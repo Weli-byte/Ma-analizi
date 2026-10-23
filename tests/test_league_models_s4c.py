@@ -300,3 +300,69 @@ def test_the_committed_sprint_4c_outputs_are_consistent_and_never_claim_an_appro
     for p in paired:                                                    # verdicts follow the interval rule exactly
         assert p["verdict"] == ("SUPPORTED" if p["ci95"][1] < 0 else ("WORSE" if p["ci95"][0] > 0 else "INCONCLUSIVE"))
     assert S4C["protocol_version"] == man["protocol"]
+
+
+# ------------------------------------------------------------------ end to end on a synthetic audit (TEST_ONLY)
+@pytest.fixture
+def e2e(tmp_path):
+    import shutil
+
+    bench = (ROOT / "configs" / "league_models" / "benchmark.yaml").read_text(encoding="utf-8").replace("min_train_matches: 500", "min_train_matches: 50").replace("samples: 1000", "samples: 60")
+    stat = (ROOT / "configs" / "league_models" / "stat_models.yaml").read_text(encoding="utf-8").replace("min_uefa_matches_total: 200", "min_uefa_matches_total: 100").replace("min_local_fit_matches: 100", "min_local_fit_matches: 40")
+    ml = yaml.safe_load((ROOT / "configs" / "league_models" / "ml_models.yaml").read_text(encoding="utf-8"))
+    ml["tuning"].update({"max_trials": 2, "n_startup_trials": 2, "max_rounds": 30, "early_stopping_rounds": 5})
+    ml["features"].update({"min_prior_matches": 20})
+    s4c = yaml.safe_load(yaml.safe_dump(S4C))
+    s4c["nested"].update({"inner_folds": 2, "min_inner_fit_matches": 40})
+    s4c["per_league_dc"].update({"min_train_matches": 120, "grid": {"l2_team": [1.0, 16.0], "half_life_days": [None]}})
+    s4c["hierarchical_dc"]["grid"] = {"l2_team": [2.0, 32.0], "l2_country": [2.0], "half_life_days": [None]}
+    s4c["per_league_gbm"].update({"min_train_matches": 120, "max_trials": 2, "n_startup_trials": 2})
+    (tmp_path / "configs").mkdir()
+    shutil.copy(ROOT / "configs" / "model.yaml", tmp_path / "configs" / "model.yaml")
+    for name, text in (("bench.yaml", bench), ("stat.yaml", stat)):
+        (tmp_path / name).write_text(text, encoding="utf-8")
+    (tmp_path / "ml.yaml").write_text(yaml.safe_dump(ml), encoding="utf-8")
+    (tmp_path / "s4c.yaml").write_text(yaml.safe_dump(s4c), encoding="utf-8")
+    return tmp_path
+
+
+def _run_s4c(root, **kw):
+    from src.league_models import s4c_benchmark
+    from tests.test_league_models_s3 import _synthetic_audit
+
+    return s4c_benchmark.run(root, utc(2026, 10, 20), audit=_synthetic_audit(), bench_config_path=root / "bench.yaml", stat_config_path=root / "stat.yaml", ml_config_path=root / "ml.yaml",
+                             s4c_config_path=root / "s4c.yaml", **kw)  # fmt: skip
+
+
+def test_end_to_end_every_candidate_is_scored_on_identical_fixtures_and_nothing_is_approved(e2e):
+    out = _run_s4c(e2e, docs_dir=e2e / "docs", export_models=True)
+    names = {"B_dc_league", "production_global", "H_dc_hier", "P_dc_sep", "G_base", "G_extra", "P_gbm_sep"}
+    for t in ("1x2", "over_under", "btts"):
+        assert names <= set(out["analysis"]["metrics"][t])
+        assert len({m["ALL"]["n"] for m in out["analysis"]["metrics"][t].values()}) == 1          # one fixture set for every model
+    assert out["decisions"]["comparisons"] == len(out["analysis"]["paired"]) and "NO candidate can be approved" in out["decisions"]["rule"]
+    assert out["extra_features"]["perturbation_audit"]["violations"] == 0 and "not read" in out["holdout"]
+    for p in out["analysis"]["paired"]:
+        assert p["verdict"] == ("SUPPORTED" if p["ci95"][1] < 0 else ("WORSE" if p["ci95"][0] > 0 else "INCONCLUSIVE"))
+    ex = out["analysis"]["exact_score"]
+    assert set(ex) == {"B_dc_league", "constant_scoreline", "H_dc_hier", "P_dc_sep"} and ex["B_dc_league"]["ALL"]["outside_grid"] == 0
+    d = out["diagnostics"][-1]
+    assert d["fallbacks"]["P_dc_sep_rows_covered_by_a_separate_model"]["eval_rows"] > 0 and d["per_league_export"] is not None
+    assert all(f.is_file() for f in (e2e / "docs").glob("s4c_*.json")) and len(list((e2e / "docs").glob("s4c_*.json"))) == 7
+    assert "timings" not in (e2e / "docs" / "s4c_nested_selection.json").read_text(encoding="utf-8")
+
+
+def test_end_to_end_is_deterministic(e2e):
+    a = _run_s4c(e2e, docs_dir=e2e / "a")
+    b = _run_s4c(e2e, docs_dir=e2e / "b")
+    for f in ("s4c_metrics.json", "s4c_paired.json", "s4c_nested_selection.json", "s4c_exact_score.json"):
+        assert (e2e / "a" / f).read_bytes() == (e2e / "b" / f).read_bytes()
+    assert a["decisions"] == b["decisions"]
+
+
+def test_quick_mode_writes_nothing(e2e):
+    from src.league_models import s4c_benchmark
+
+    out = _run_s4c(e2e, docs_dir=e2e / "q", quick=True)
+    assert not (e2e / "q").exists() and out["quick"] is True and len(out["folds"]) == 2
+    assert s4c_benchmark.load_s4c()["_fingerprint"] and s4c_benchmark.group_masks([])["ALL"].shape == (0,)

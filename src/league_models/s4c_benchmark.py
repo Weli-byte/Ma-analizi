@@ -318,12 +318,13 @@ def decisions(paired: list[dict]) -> dict:
 
 
 # ------------------------------------------------------------------------------------------------ run
-def run(root: Path, as_of: datetime, docs_dir: Path | None = None, audit=None, quick: bool = False, export_models: bool = False, only_folds: list[str] | None = None) -> dict:
+def run(root: Path, as_of: datetime, docs_dir: Path | None = None, audit=None, quick: bool = False, export_models: bool = False, only_folds: list[str] | None = None,
+        bench_config_path=None, stat_config_path=None, ml_config_path=None, s4c_config_path=None) -> dict:
     t_start = time.perf_counter()
-    bcfg = load_bench_config()
-    scfg = sb.load_stat_config()
-    mcfg = load_ml_config()
-    s4c = load_s4c()
+    bcfg = load_bench_config(bench_config_path) if bench_config_path else load_bench_config()
+    scfg = sb.load_stat_config(stat_config_path) if stat_config_path else sb.load_stat_config()
+    mcfg = load_ml_config(ml_config_path) if ml_config_path else load_ml_config()
+    s4c = load_s4c(s4c_config_path) if s4c_config_path else load_s4c()
     league_cfg = load_league_config()
     manifest = load_manifest()
     training_gate(manifest, ["openfootball_domestic", "openfootball_cups"], "production_ml")

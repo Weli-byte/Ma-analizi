@@ -77,6 +77,8 @@ jobs:
         run: python -m src.markets.stats_collect
       - name: Results the open history does not have yet (ADR 0058)
         run: python -m src.markets.live_results
+      - name: Europa / Conference League 2025-26 results from ESPN, once (ADR 0074; a marker in the stored results makes later runs a no-op)
+        run: python -m src.markets.espn_backfill --if-needed
       - name: Injuries and suspensions (information only, never in a probability; ADR 0057)
         run: python -m src.markets.injuries
       - name: Intelligence for the next fixtures

@@ -169,7 +169,7 @@ def live_matches(root: Path, known: set, cfg: MarketsConfig, now: datetime, blob
             out.append(
                 StatMatch(
                     f"live-{r['league']}-{ko.date().isoformat()}-{r['home_id']}-{r['away_id']}",
-                    store.get("season", ""),
+                    r.get("season") or store.get("season", ""),   # a backfilled row carries its own season (ADR 0074)
                     r["league"],
                     ko,
                     avail,

@@ -187,7 +187,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
         mm = fit_markets(history, now, cfg)
         from .experimental import ExperimentalModel
 
-        exp, exp_status = ExperimentalModel.fit(history, now)
+        exp, exp_status = ExperimentalModel.fit(history, now, root=root)
         print(f"experimental model: {exp_status}" + (f" ({exp.rows} matches, selected {exp.hier.info['per_target']['over_under']['chosen']})" if exp else ""))
         names = {t: v["canonical_name"] for t, v in directory.teams.items()}
         count_markets = cfg.stats_plan == "pro"  # the free plan's terms differ (clause 4.1): research only

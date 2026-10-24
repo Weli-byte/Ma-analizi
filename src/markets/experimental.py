@@ -24,6 +24,18 @@ EVIDENCE = (
 )
 
 
+def live_status(root) -> dict:
+    """The last live-gate result written by `python -m src.markets.track` ({} when there is none yet)."""
+    import json
+    from pathlib import Path
+
+    p = Path(root) / "artifacts" / "markets" / "experimental_status.json"
+    try:
+        return json.loads(p.read_text(encoding="utf-8")) if p.is_file() else {}
+    except (OSError, ValueError):
+        return {}
+
+
 def _rows(matches, now: datetime, max_seasons: int) -> list[EvalRow]:
     seasons = sorted({m.season for m in matches if m.available_at <= now}, key=lambda s: int(s.split("-")[0]) if "-" in s else int(s[:4]))
     keep = set(seasons[-max_seasons:]) if max_seasons else set(seasons)
@@ -41,10 +53,12 @@ class ExperimentalModel:
         self.hier, self.rows, self.seasons = hier, rows, seasons
 
     @classmethod
-    def fit(cls, matches, now: datetime, lag_hours: int = 3) -> tuple["ExperimentalModel | None", str]:
+    def fit(cls, matches, now: datetime, lag_hours: int = 3, root=None) -> tuple["ExperimentalModel | None", str]:
         """(model, status). status is "OK" or the reason there is no model."""
         if os.environ.get("MARKETS_EXPERIMENTAL", "1") == "0":  # the owner's switch: new artifacts then carry no experimental block
             return None, "DISABLED (MARKETS_EXPERIMENTAL=0)"
+        if root is not None and live_status(root).get("status") == "WITHDRAWN":  # the pre-registered live gate (ADR 0073) found it clearly worse than the current model
+            return None, "WITHDRAWN (live gate)"
         from src.league_models.per_league import HierarchicalDC
         from src.league_models.s4c_benchmark import load_s4c
         from src.league_models.stat_models import DCSpec, NotTrained

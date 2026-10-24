@@ -198,6 +198,76 @@ def track_record(
     }
 
 
+GATE_PATH = ROOT / "configs" / "experimental_gate.yaml"
+STATUS_FILE = "experimental_status.json"
+
+
+def load_gate(path: Path = GATE_PATH) -> dict:
+    import hashlib
+
+    import yaml
+
+    text = path.read_text(encoding="utf-8")
+    gate = yaml.safe_load(text)
+    gate["_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
+    return gate
+
+
+def experimental_scorecard(root: Path, results: list[StatMatch], now: datetime | None = None, gate: dict | None = None) -> dict:
+    """ADR 0073: the live gate of the experimental goal model. For every finished match with a pre-kick-off artifact that carries an `experimental` block, the log loss of the
+    experimental model and of the current model on over/under 2.5 and BTTS are paired and compared with the pre-registered rule (`configs/experimental_gate.yaml`)."""
+    from src.league_models import bench_metrics as bm
+
+    now = now or datetime.now(UTC)
+    gate = gate or load_gate()
+    by_key = {(m.home_id, m.away_id, m.kickoff_utc.date().isoformat()): m for m in results}
+    rows = []
+    for key, arts in load_artifacts(root).items():
+        home, away, day = key.split("__")
+        m = by_key.get((home, away, day))
+        if m is None or m.kickoff_utc > now:
+            continue
+        before = [a for a in arts if datetime.fromisoformat(a["information_cutoff"]) < m.kickoff_utc and a.get("experimental")]
+        if not before:
+            continue
+        art = max(before, key=lambda a: a["information_cutoff"])
+        ex, cur = art["experimental"], art["intelligence"]["goals"]
+        o = int(m.home_goals + m.away_goals > 2)
+        b = int(m.home_goals > 0 and m.away_goals > 0)
+
+        def ll(p: float, y: int) -> float:
+            return -float(np.log(max(p if y else 1 - p, EPS)))
+
+        p_ex_o = next(x for x in ex["over_under"] if x["line"] == 2.5)["over"]
+        p_cu_o = next(x for x in cur["over_under"] if x["line"] == 2.5)["over"]
+        rows.append({"key": key, "date": m.kickoff_utc.date().isoformat(), "kickoff": m.kickoff_utc, "score": f"{m.home_goals}-{m.away_goals}",
+                     "over_2_5": (ll(p_ex_o, o), ll(p_cu_o, o)), "btts": (ll(ex["btts_yes"], b), ll(cur["btts_yes"], b))})  # fmt: skip
+    n = len(rows)
+    targets, uppers, lowers = {}, [], []
+    for t in gate["targets"]:
+        if n < 2:
+            targets[t] = {"n": n, "verdict": "TOO_FEW_MATCHES"}
+            continue
+        a = np.array([r[t][0] for r in rows])
+        b_ = np.array([r[t][1] for r in rows])
+        blocks = [bm.iso_week_block(r["kickoff"]) for r in rows]
+        d = bm.paired_block_bootstrap(a, b_, blocks, 2000, 20261024, 0.05)
+        targets[t] = {"n": n, "log_loss_experimental": round(float(a.mean()), 5), "log_loss_current": round(float(b_.mean()), 5), "delta": round(d.delta, 5), "ci95": [round(d.lower, 5), round(d.upper, 5)],
+                      "blocks": d.n_blocks, "verdict": "EXPERIMENTAL_BETTER" if d.upper < 0 else ("EXPERIMENTAL_WORSE" if d.lower > 0 else "NO_DIFFERENCE_DEMONSTRATED")}  # fmt: skip
+        uppers.append(d.upper)
+        lowers.append(d.lower)
+    interim, decision = int(gate["interim_look_at"]), int(gate["decision_at"])
+    if n >= interim and lowers and any(x > 0 for x in lowers):
+        status, reason = "WITHDRAWN", "the experimental model is clearly worse than the current model on at least one target"
+    elif n >= decision and len(uppers) == len(gate["targets"]) and all(x < 0 for x in uppers):
+        status, reason = "VERIFIED", "the experimental model is clearly better than the current model on both targets"
+    else:
+        status, reason = "BETA", f"{n} of {decision} matches; no clear difference demonstrated yet" if n < decision else "no clear difference on both targets"
+    return {"gate_version": gate["version"], "gate_sha256": gate["_sha256"], "generated_at": now.isoformat(), "matches_paired": n, "interim_look_at": interim, "decision_at": decision,
+            "status": status, "status_reason": reason, "targets": targets,
+            "first_kickoff": min((r["date"] for r in rows), default=None), "last_kickoff": max((r["date"] for r in rows), default=None)}  # fmt: skip
+
+
 def main(argv=None) -> int:
     from src.config import config_dir_for, load_config
     from src.data.teams import TeamDirectory
@@ -213,6 +283,8 @@ def main(argv=None) -> int:
     directory = TeamDirectory.load(cdir / "team_aliases.yaml")
     names = {t: v["canonical_name"] for t, v in directory.teams.items()}
     rep = track_record(root, world.history, names=names)
+    rep["experimental"] = experimental_scorecard(root, world.history)
+    (root / "artifacts" / "markets" / STATUS_FILE).write_text(json.dumps(rep["experimental"], indent=2, default=float), encoding="utf-8")
     out = root / "artifacts" / "markets" / "track_record.json"
     out.write_text(json.dumps(rep, indent=2, default=float), encoding="utf-8")
     print(json.dumps(rep, indent=2, default=float))

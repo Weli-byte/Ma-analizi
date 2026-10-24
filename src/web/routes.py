@@ -373,6 +373,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
             people,
             _names(root),
             locked=plans.locked_tabs(plan_of(u)),
+            exp_status=service.track_record().get("experimental"),
         )
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)

@@ -696,10 +696,21 @@ def players_tab(i: dict, people: dict | None) -> str:
     )
 
 
-def experimental_card(i: dict) -> str:
+def experimental_status_line(st: dict | None) -> str:
+    """The live-gate line under the experimental card (ADR 0073): verified / beta with the match count."""
+    if not st:
+        return "<p class='note'><b>Beta:</b> canlı doğrulama henüz başlamadı.</p>"
+    n, need = st.get("matches_paired", 0), st.get("decision_at", 150)
+    if st.get("status") == "VERIFIED":
+        deltas = ", ".join(f"{k.replace('over_2_5', '2.5 alt/üst').replace('btts', 'karşılıklı gol')} {v['delta']:+.3f}" for k, v in st["targets"].items() if "delta" in v)
+        return f"<p class='note'><b>Canlı doğrulandı:</b> {n} maçta mevcut modelden belirgin biçimde iyi (log kaybı farkı: {e(deltas)}). <a href='/basari-kaydi'>Ayrıntı</a></p>"
+    return f"<p class='note'><b>Beta:</b> canlı doğrulama sürüyor ({n}/{need} maç). Henüz mevcut modelden iyi ya da kötü olduğu kanıtlanmadı. <a href='/basari-kaydi'>Canlı kayıt</a></p>"
+
+
+def experimental_card(i: dict, status: dict | None = None) -> str:
     """ADR 0072: the hierarchical goal-market model, shown next to (never instead of) the main forecast. Absent block (older artifact, neutral venue, failed fit) shows nothing."""
     x = i.get("experimental")
-    if not x:
+    if not x or (status or {}).get("status") == "WITHDRAWN":
         return ""
     ou = {r["line"]: r for r in x["over_under"]}
     main_ou = {r["line"]: r for r in i["goals"]["over_under"]}
@@ -716,7 +727,7 @@ def experimental_card(i: dict) -> str:
         f"<table><tr><th>Piyasa</th><th>Deneysel model</th><th>Mevcut model</th></tr>{rows}"
         f"<tr><td>Karşılıklı gol</td><td>Var <b>{pct(x['btts_yes'])}</b> · Yok {pct(x['btts_no'])}</td><td class='mut'>Var {pct(i['goals']['btts_yes'])}</td></tr></table>"
         f"<p class='mut'>Beklenen gol: {e(i['home'])} <b>{xg['home']:.2f}</b> - {e(i['away'])} <b>{xg['away']:.2f}</b> (toplam {xg['total']:.2f}) · En olası skorlar: {top}</p>{unseen}"
-        f"<p class='note'>{e(x['evidence'])} Maç sonucu (1-X-2) tahmini bu modelden gelmez, yukarıdaki mevcut modelden gelir. Garanti değildir.</p></div>"
+        f"<p class='note'>{e(x['evidence'])} Maç sonucu (1-X-2) tahmini bu modelden gelmez, yukarıdaki mevcut modelden gelir. Garanti değildir.</p>{experimental_status_line(status)}</div>"
     )
 
 
@@ -729,6 +740,7 @@ def match_page(
     people: dict | None = None,
     names: dict[str, str] | None = None,
     locked: set[str] | frozenset[str] = frozenset(),
+    exp_status: dict | None = None,
 ) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
@@ -803,7 +815,7 @@ def match_page(
         + f"<div class='sec'><h2>En olası skorlar</h2></div><div class='card'>{scores}<p class='note'>Skor tahmini zordur: en olası skorun bile ihtimali genelde %10-15 civarında.</p></div>"
         f"<div class='sec'><h2>Goller</h2></div><div class='card'><p>Beklenen gol: {e(home)} <b>{g['expected']['home']:.2f}</b> - {e(away)} <b>{g['expected']['away']:.2f}</b></p>"
         f"{goal_odds}</div>"
-        + experimental_card(i)
+        + experimental_card(i, exp_status)
     )
     advice = (
         f"<div class='sec'><h2>Tavsiyeler</h2></div><div class='card'><table><tr><th>Tahmin</th><th>İhtimal</th><th>Eğilim</th></tr>{tips}</table>"
@@ -921,6 +933,31 @@ def league_hit_table(listing: list[dict]) -> str:
     )
 
 
+def experimental_track_section(x: dict | None) -> str:
+    """Live record of the experimental goal model against the current model, with the pre-registered rule (ADR 0073)."""
+    if not x:
+        return ""
+    names = {"over_2_5": "2.5 alt/üst", "btts": "Karşılıklı gol"}
+    rows = ""
+    for k, v in x["targets"].items():
+        if "delta" not in v:
+            rows += f"<tr><td>{names.get(k, k)}</td><td colspan='4' class='mut'>Henüz yeterli maç yok</td></tr>"
+            continue
+        rows += (
+            f"<tr><td>{names.get(k, k)}</td><td>{v['log_loss_experimental']:.4f}</td><td>{v['log_loss_current']:.4f}</td>"
+            f"<td><b>{v['delta']:+.4f}</b></td><td class='mut'>{v['ci95'][0]:+.4f} / {v['ci95'][1]:+.4f}</td></tr>"
+        )
+    label = {"VERIFIED": "Canlı doğrulandı", "WITHDRAWN": "Geri çekildi (kart gizli)", "BETA": "Beta (doğrulanıyor)"}.get(x["status"], x["status"])
+    return (
+        "<div class='sec'><h2>Deneysel model: canlı kayıt</h2></div><div class='card'>"
+        f"<p><b>{e(label)}</b> · {x['matches_paired']} maç (karar için {x['decision_at']}, ilk bakış {x['interim_look_at']})</p>"
+        f"<table><tr><th>Piyasa</th><th>Deneysel</th><th>Mevcut</th><th>Fark</th><th>%95 aralık</th></tr>{rows}</table>"
+        "<p class='note'>Log kaybı, düşük iyi; fark negatifse deneysel model daha iyi. Kural maç sonuçları görülmeden yazıldı ve kilitlendi: "
+        "her iki piyasada aralığın tamamı 0'ın altındaysa ve en az 150 maç varsa doğrulanır; ilk 100 maçtan sonra bir piyasada aralığın tamamı 0'ın üstündeyse model geri çekilir. "
+        f"Durum: {e(x['status_reason'])}.</p></div>"
+    )
+
+
 def track_page(t: dict) -> str:
     if not t["available"] or not t["matches_scored"]:
         body = "<div class='card warn'>Henüz sonuçlanmış maç yok. İlk sonuçlar tur bittiğinde burada görünecek.</div>"
@@ -974,6 +1011,7 @@ def track_page(t: dict) -> str:
             f"<tr><td>Lig taban oranı ile kıyas</td><td>{h['log_loss_league_base_rate']:.3f}</td></tr></table></div>"
             f"<div class='sec'><h2>Eğilime göre</h2></div><div class='card'><table><tr><th>Eğilim</th><th>Tuttu</th><th>Oran</th></tr>{tips}</table></div>"
             f"{league_hit_table(listing)}"
+            f"{experimental_track_section(t.get('experimental'))}"
             f"<div class='sec'><h2>Tüm değerlendirilen maçlar</h2></div>{lst}"
         )
     return page(

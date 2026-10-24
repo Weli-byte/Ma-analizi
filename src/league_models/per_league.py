@@ -17,7 +17,7 @@ import numpy as np
 
 from src.evaluation.dataset import EvalRow
 
-from .nested import dc_grid, inner_folds, select_dc
+from .nested import dc_grid, inner_folds, make_model, select_dc
 from .stat_models import DCSpec, MatrixPrediction, NotTrained, RidgePoissonDC
 
 
@@ -118,8 +118,8 @@ class PerLeagueDC:
 class HierarchicalDC:
     """Global team < country < world model with learned variance components, selected per target by nested walk-forward."""
 
-    def __init__(self, s4c: dict, base: DCSpec, line: float, lag_hours: int, bridge: bool = True) -> None:
-        self.cfg, self.nested_cfg, self.base, self.line, self.lag_hours, self.bridge = s4c["hierarchical_dc"], s4c["nested"], base, line, lag_hours, bridge
+    def __init__(self, s4c: dict, base: DCSpec, line: float, lag_hours: int, bridge: bool = True, section: str = "hierarchical_dc") -> None:
+        self.cfg, self.nested_cfg, self.base, self.line, self.lag_hours, self.bridge = s4c[section], s4c["nested"], base, line, lag_hours, bridge
         self.models: dict[str, RidgePoissonDC] = {}
         self.info: dict = {}
 
@@ -142,11 +142,11 @@ class HierarchicalDC:
             if name is None:
                 raise NotTrained(f"{t}: no hierarchical candidate trained")
             if name not in fitted:
-                fitted[name] = RidgePoissonDC(specs[name], "H_dc_hier").fit(train)
+                fitted[name] = make_model(specs[name], "H_dc_hier").fit(train)
             self.models[t] = fitted[name]
             spec = specs[name]
             per_target[t] = {"chosen": name, "chosen_mean_inner_loss": sel["chosen_mean_loss"][t], "grid_edge": grid_edges(self.cfg["grid"], spec), "half_life_days": spec.half_life_days,
-                             "variance_components": {"team": round(1.0 / spec.l2_team, 6), "country": round(1.0 / spec.l2_country, 6), "competition": round(1.0 / spec.l2_competition, 6)},
+                             "variance_components": {"team": round(1.0 / spec.l2_team, 6), "country": round(1.0 / spec.l2_country, 6), "competition": round(1.0 / spec.l2_competition, 6), **({"season_walk": round(1.0 / spec.l2_walk, 6)} if hasattr(spec, "l2_walk") else {})},
                              "parameter_digest": _theta_digest(fitted[name])}  # fmt: skip
         self.info = {"status": "TRAINED", "bridge_country_levels": self.bridge, "per_target": per_target, "inner_folds_used": [f.season for f in folds], "dropped_inner_folds": dropped, "nested_table": sel["table"]}
         return self

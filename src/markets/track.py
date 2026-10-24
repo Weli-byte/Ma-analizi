@@ -198,7 +198,7 @@ def track_record(
     }
 
 
-GATE_PATH = ROOT / "configs" / "experimental_gate.yaml"
+GATE_PATH = ROOT / "configs" / "league_models" / "experimental_gate.yaml"
 STATUS_FILE = "experimental_status.json"
 
 
@@ -215,7 +215,7 @@ def load_gate(path: Path = GATE_PATH) -> dict:
 
 def experimental_scorecard(root: Path, results: list[StatMatch], now: datetime | None = None, gate: dict | None = None) -> dict:
     """ADR 0073: the live gate of the experimental goal model. For every finished match with a pre-kick-off artifact that carries an `experimental` block, the log loss of the
-    experimental model and of the current model on over/under 2.5 and BTTS are paired and compared with the pre-registered rule (`configs/experimental_gate.yaml`)."""
+    experimental model and of the current model on over/under 2.5 and BTTS are paired and compared with the pre-registered rule (`configs/league_models/experimental_gate.yaml`)."""
     from src.league_models import bench_metrics as bm
 
     now = now or datetime.now(UTC)

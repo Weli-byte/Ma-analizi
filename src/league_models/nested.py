@@ -15,6 +15,7 @@ import numpy as np
 from src.evaluation.dataset import EvalRow
 
 from . import bench_metrics as bm
+from .dynamic_dc import DynamicPoissonDC, DynSpec
 from .ml_models import (  # noqa: F401 - class_weights re-exported for callers that want the same weighting
     GBM,
     NotTrainedML,
@@ -75,6 +76,11 @@ def matrix_losses(pred: MatrixPrediction, rows: list[EvalRow], line: float) -> d
             "btts": float(bm.binary_log_loss_rows(np.clip(pred.btts(), 1e-6, 1 - 1e-6), y["btts"]).mean())}  # fmt: skip
 
 
+def make_model(spec, name: str):
+    """The model class of a spec: the static ridge model, or the random-walk model for a `DynSpec` (ADR 0075)."""
+    return DynamicPoissonDC(spec, name) if isinstance(spec, DynSpec) else RidgePoissonDC(spec, name)
+
+
 def select_dc(grid: list[tuple[str, DCSpec]], folds: list[InnerFold], line: float) -> dict:
     """Pick, for EACH target, the DC spec with the lowest mean inner log loss of that target (ties go to the earlier grid entry). A target whose every candidate failed has no choice.
     Returns {status, chosen: {target: name | None}, chosen_mean_loss: {target: x}, table}."""
@@ -83,7 +89,7 @@ def select_dc(grid: list[tuple[str, DCSpec]], folds: list[InnerFold], line: floa
         per_fold, failures = [], []
         for f in folds:
             try:
-                mod = RidgePoissonDC(spec, f"inner_{name}").fit(list(f.fit))
+                mod = make_model(spec, f"inner_{name}").fit(list(f.fit))
                 ls = matrix_losses(mod.predict(list(f.val)), list(f.val), line)
                 per_fold.append({"season": f.season, "fit_matches": len(f.fit), "val_matches": len(f.val), **{k: round(v, 6) for k, v in ls.items()}})
             except NotTrained as e:
@@ -107,7 +113,7 @@ def dc_grid(raw_grid: dict, base: DCSpec, **fixed) -> list[tuple[str, DCSpec]]:
     import dataclasses
     import itertools
 
-    keys = [k for k in ("l2_team", "l2_country", "half_life_days") if k in raw_grid]
+    keys = [k for k in ("l2_team", "l2_country", "l2_walk", "half_life_days") if k in raw_grid]
     out = []
     for combo in itertools.product(*(raw_grid[k] for k in keys)):
         kw = dict(zip(keys, combo, strict=True))

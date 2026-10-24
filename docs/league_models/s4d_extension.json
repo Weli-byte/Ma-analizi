@@ -1,0 +1,1518 @@
+{
+  "as_of": "2026-10-20T00:00:00+00:00",
+  "folds": [
+    "2020-21",
+    "2021-22",
+    "2022-23",
+    "2023-24",
+    "2024-25"
+  ],
+  "holdout": "not read (consumed by Sprint 5); nothing here approves a model",
+  "not_compared": {},
+  "paired": [
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000239,
+        0.000431
+      ],
+      "delta": 0.000112,
+      "group": "ALL",
+      "log_loss_candidate": 1.00668,
+      "log_loss_reference": 1.00657,
+      "n": 10712,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000726,
+        0.000599
+      ],
+      "delta": -8.7e-05,
+      "group": "ENG1",
+      "log_loss_candidate": 0.99871,
+      "log_loss_reference": 0.9988,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000511,
+        0.000171
+      ],
+      "delta": -0.000166,
+      "group": "ESP1",
+      "log_loss_candidate": 0.99511,
+      "log_loss_reference": 0.99528,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        3.4e-05,
+        0.00047
+      ],
+      "delta": 0.000252,
+      "group": "FRA1",
+      "log_loss_candidate": 1.03835,
+      "log_loss_reference": 1.0381,
+      "n": 1752,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "WORSE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000773,
+        -3e-06
+      ],
+      "delta": -0.000389,
+      "group": "GER1",
+      "log_loss_candidate": 1.01404,
+      "log_loss_reference": 1.01443,
+      "n": 1530,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000196,
+        -5.8e-05
+      ],
+      "delta": -0.000129,
+      "group": "ITA1",
+      "log_loss_candidate": 0.99704,
+      "log_loss_reference": 0.99717,
+      "n": 1890,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "delta": 0.0,
+      "group": "TUR1",
+      "log_loss_candidate": 1.05081,
+      "log_loss_reference": 1.05081,
+      "n": 420,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000593,
+        0.004826
+      ],
+      "delta": 0.001999,
+      "group": "UEFA_UCL",
+      "log_loss_candidate": 0.93042,
+      "log_loss_reference": 0.92842,
+      "n": 689,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000556,
+        0.005508
+      ],
+      "delta": 0.002421,
+      "group": "UEFA_UECL",
+      "log_loss_candidate": 1.05348,
+      "log_loss_reference": 1.05106,
+      "n": 576,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.003602,
+        0.001649
+      ],
+      "delta": -0.000967,
+      "group": "UEFA_UEL",
+      "log_loss_candidate": 0.99224,
+      "log_loss_reference": 0.99321,
+      "n": 815,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.000936,
+        0.002875
+      ],
+      "delta": 0.000935,
+      "group": "ALL",
+      "log_loss_candidate": 1.0075,
+      "log_loss_reference": 1.00657,
+      "n": 10712,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.004645,
+        0.00618
+      ],
+      "delta": 0.000983,
+      "group": "ENG1",
+      "log_loss_candidate": 0.99978,
+      "log_loss_reference": 0.9988,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.000588,
+        0.010305
+      ],
+      "delta": 0.00494,
+      "group": "ESP1",
+      "log_loss_candidate": 1.00022,
+      "log_loss_reference": 0.99528,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.004912,
+        0.00386
+      ],
+      "delta": -0.000434,
+      "group": "FRA1",
+      "log_loss_candidate": 1.03766,
+      "log_loss_reference": 1.0381,
+      "n": 1752,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.003522,
+        0.007932
+      ],
+      "delta": 0.002056,
+      "group": "GER1",
+      "log_loss_candidate": 1.01649,
+      "log_loss_reference": 1.01443,
+      "n": 1530,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.005176,
+        0.002741
+      ],
+      "delta": -0.001217,
+      "group": "ITA1",
+      "log_loss_candidate": 0.99595,
+      "log_loss_reference": 0.99717,
+      "n": 1890,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.007815,
+        0.002079
+      ],
+      "delta": -0.002851,
+      "group": "TUR1",
+      "log_loss_candidate": 1.04795,
+      "log_loss_reference": 1.05081,
+      "n": 420,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.008258,
+        0.007381
+      ],
+      "delta": -0.000542,
+      "group": "UEFA_UCL",
+      "log_loss_candidate": 0.92788,
+      "log_loss_reference": 0.92842,
+      "n": 689,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.009697,
+        0.010198
+      ],
+      "delta": 0.000606,
+      "group": "UEFA_UECL",
+      "log_loss_candidate": 1.05166,
+      "log_loss_reference": 1.05106,
+      "n": 576,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.005602,
+        0.011638
+      ],
+      "delta": 0.002636,
+      "group": "UEFA_UEL",
+      "log_loss_candidate": 0.99584,
+      "log_loss_reference": 0.99321,
+      "n": 815,
+      "reference": "H_base",
+      "target": "1x2",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.00064,
+        0.001067
+      ],
+      "delta": 0.000202,
+      "group": "ALL",
+      "log_loss_candidate": 0.68443,
+      "log_loss_reference": 0.68423,
+      "n": 10712,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -6.6e-05,
+        0.004433
+      ],
+      "delta": 0.0021,
+      "group": "ENG1",
+      "log_loss_candidate": 0.68695,
+      "log_loss_reference": 0.68485,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000839,
+        0.004183
+      ],
+      "delta": 0.001611,
+      "group": "ESP1",
+      "log_loss_candidate": 0.68276,
+      "log_loss_reference": 0.68115,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.002095,
+        0.000665
+      ],
+      "delta": -0.000671,
+      "group": "FRA1",
+      "log_loss_candidate": 0.68647,
+      "log_loss_reference": 0.68714,
+      "n": 1752,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000251,
+        0.003888
+      ],
+      "delta": 0.001852,
+      "group": "GER1",
+      "log_loss_candidate": 0.66356,
+      "log_loss_reference": 0.6617,
+      "n": 1530,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.001459,
+        0.001666
+      ],
+      "delta": 0.000118,
+      "group": "ITA1",
+      "log_loss_candidate": 0.69243,
+      "log_loss_reference": 0.69231,
+      "n": 1890,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.005114,
+        0.001551
+      ],
+      "delta": -0.001874,
+      "group": "TUR1",
+      "log_loss_candidate": 0.69743,
+      "log_loss_reference": 0.6993,
+      "n": 420,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.00322,
+        0.004586
+      ],
+      "delta": 0.000897,
+      "group": "UEFA_UCL",
+      "log_loss_candidate": 0.67696,
+      "log_loss_reference": 0.67607,
+      "n": 689,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.006646,
+        0.002703
+      ],
+      "delta": -0.001654,
+      "group": "UEFA_UECL",
+      "log_loss_candidate": 0.68989,
+      "log_loss_reference": 0.69154,
+      "n": 576,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.009108,
+        -0.001451
+      ],
+      "delta": -0.005198,
+      "group": "UEFA_UEL",
+      "log_loss_candidate": 0.69488,
+      "log_loss_reference": 0.70007,
+      "n": 815,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "SUPPORTED"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.000689,
+        0.001472
+      ],
+      "delta": 0.000392,
+      "group": "ALL",
+      "log_loss_candidate": 0.68462,
+      "log_loss_reference": 0.68423,
+      "n": 10712,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.001794,
+        0.004025
+      ],
+      "delta": 0.001197,
+      "group": "ENG1",
+      "log_loss_candidate": 0.68604,
+      "log_loss_reference": 0.68485,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.002867,
+        0.002387
+      ],
+      "delta": -0.000141,
+      "group": "ESP1",
+      "log_loss_candidate": 0.68101,
+      "log_loss_reference": 0.68115,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.002289,
+        0.002314
+      ],
+      "delta": 7.6e-05,
+      "group": "FRA1",
+      "log_loss_candidate": 0.68722,
+      "log_loss_reference": 0.68714,
+      "n": 1752,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.001348,
+        0.004782
+      ],
+      "delta": 0.001606,
+      "group": "GER1",
+      "log_loss_candidate": 0.66331,
+      "log_loss_reference": 0.6617,
+      "n": 1530,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.003755,
+        0.001571
+      ],
+      "delta": -0.001042,
+      "group": "ITA1",
+      "log_loss_candidate": 0.69127,
+      "log_loss_reference": 0.69231,
+      "n": 1890,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.000171,
+        0.000863
+      ],
+      "delta": 0.000362,
+      "group": "TUR1",
+      "log_loss_candidate": 0.69967,
+      "log_loss_reference": 0.6993,
+      "n": 420,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.001633,
+        0.011448
+      ],
+      "delta": 0.00404,
+      "group": "UEFA_UCL",
+      "log_loss_candidate": 0.68011,
+      "log_loss_reference": 0.67607,
+      "n": 689,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.003559,
+        0.00154
+      ],
+      "delta": -0.001001,
+      "group": "UEFA_UECL",
+      "log_loss_candidate": 0.69054,
+      "log_loss_reference": 0.69154,
+      "n": 576,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.00461,
+        0.004156
+      ],
+      "delta": -0.00048,
+      "group": "UEFA_UEL",
+      "log_loss_candidate": 0.69959,
+      "log_loss_reference": 0.70007,
+      "n": 815,
+      "reference": "H_base",
+      "target": "over_under",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000136,
+        0.000808
+      ],
+      "delta": 0.000309,
+      "group": "ALL",
+      "log_loss_candidate": 0.6899,
+      "log_loss_reference": 0.68959,
+      "n": 10712,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000691,
+        0.001687
+      ],
+      "delta": 0.000493,
+      "group": "ENG1",
+      "log_loss_candidate": 0.69267,
+      "log_loss_reference": 0.69218,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.00021,
+        0.002005
+      ],
+      "delta": 0.000902,
+      "group": "ESP1",
+      "log_loss_candidate": 0.69254,
+      "log_loss_reference": 0.69164,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -6.9e-05,
+        0.00055
+      ],
+      "delta": 0.000223,
+      "group": "FRA1",
+      "log_loss_candidate": 0.69063,
+      "log_loss_reference": 0.69041,
+      "n": 1752,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        0.000145,
+        0.002234
+      ],
+      "delta": 0.001116,
+      "group": "GER1",
+      "log_loss_candidate": 0.66823,
+      "log_loss_reference": 0.66712,
+      "n": 1530,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "WORSE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.000472,
+        0.001482
+      ],
+      "delta": 0.000506,
+      "group": "ITA1",
+      "log_loss_candidate": 0.68998,
+      "log_loss_reference": 0.68947,
+      "n": 1890,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.004784,
+        0.001811
+      ],
+      "delta": -0.001716,
+      "group": "TUR1",
+      "log_loss_candidate": 0.68444,
+      "log_loss_reference": 0.68615,
+      "n": 420,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.002589,
+        0.00211
+      ],
+      "delta": -0.000324,
+      "group": "UEFA_UCL",
+      "log_loss_candidate": 0.71077,
+      "log_loss_reference": 0.71109,
+      "n": 689,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.005033,
+        0.001894
+      ],
+      "delta": -0.001524,
+      "group": "UEFA_UECL",
+      "log_loss_candidate": 0.70125,
+      "log_loss_reference": 0.70278,
+      "n": 576,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_ext",
+      "ci95": [
+        -0.002762,
+        0.002514
+      ],
+      "delta": -5.5e-05,
+      "group": "UEFA_UEL",
+      "log_loss_candidate": 0.69587,
+      "log_loss_reference": 0.69592,
+      "n": 815,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.00051,
+        0.001478
+      ],
+      "delta": 0.000422,
+      "group": "ALL",
+      "log_loss_candidate": 0.69001,
+      "log_loss_reference": 0.68959,
+      "n": 10712,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.004321,
+        0.0021
+      ],
+      "delta": -0.001011,
+      "group": "ENG1",
+      "log_loss_candidate": 0.69117,
+      "log_loss_reference": 0.69218,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.00221,
+        0.001932
+      ],
+      "delta": -0.000147,
+      "group": "ESP1",
+      "log_loss_candidate": 0.69149,
+      "log_loss_reference": 0.69164,
+      "n": 1520,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.001049,
+        0.003506
+      ],
+      "delta": 0.001357,
+      "group": "FRA1",
+      "log_loss_candidate": 0.69176,
+      "log_loss_reference": 0.69041,
+      "n": 1752,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.001301,
+        0.003641
+      ],
+      "delta": 0.001111,
+      "group": "GER1",
+      "log_loss_candidate": 0.66823,
+      "log_loss_reference": 0.66712,
+      "n": 1530,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.002744,
+        0.001855
+      ],
+      "delta": -0.000449,
+      "group": "ITA1",
+      "log_loss_candidate": 0.68902,
+      "log_loss_reference": 0.68947,
+      "n": 1890,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.000718,
+        0.00085
+      ],
+      "delta": 5.9e-05,
+      "group": "TUR1",
+      "log_loss_candidate": 0.68621,
+      "log_loss_reference": 0.68615,
+      "n": 420,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.003717,
+        0.007004
+      ],
+      "delta": 0.001193,
+      "group": "UEFA_UCL",
+      "log_loss_candidate": 0.71228,
+      "log_loss_reference": 0.71109,
+      "n": 689,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.000685,
+        0.003135
+      ],
+      "delta": 0.001152,
+      "group": "UEFA_UECL",
+      "log_loss_candidate": 0.70393,
+      "log_loss_reference": 0.70278,
+      "n": 576,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    },
+    {
+      "candidate": "H_dyn",
+      "ci95": [
+        -0.001904,
+        0.005406
+      ],
+      "delta": 0.001894,
+      "group": "UEFA_UEL",
+      "log_loss_candidate": 0.69782,
+      "log_loss_reference": 0.69592,
+      "n": 815,
+      "reference": "H_base",
+      "target": "btts",
+      "verdict": "INCONCLUSIVE"
+    }
+  ],
+  "protocol": "lm-s4d-v1",
+  "rows": 10712,
+  "s4c_config_fingerprint": "5c27b65fdf4020a42adc369a981ef62c080d5189c76044e1136622760da55e69",
+  "selections": [
+    {
+      "H_base": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=0.5|half_life_days=none",
+          "grid_edge": [
+            "l2_country=0.5 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 2.0,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=128.0|l2_country=0.5|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=0.5 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 2.0,
+            "team": 0.007812
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=0.5|half_life_days=none",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=0.5 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 2.0,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_dyn": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=32.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.25,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=128.0|l2_country=32.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.25,
+            "team": 0.007812
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.25,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_ext": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=2.0|half_life_days=none",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value",
+            "l2_country=2.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.5,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=1000000.0|l2_country=2.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=1000000.0 is the largest grid value",
+            "l2_country=2.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.5,
+            "team": 1e-06
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=2048.0|l2_country=2.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=2.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.5,
+            "team": 0.000488
+          }
+        }
+      },
+      "fold": "2020-21"
+    },
+    {
+      "H_base": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=32.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.03125
+          }
+        }
+      },
+      "H_dyn": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=32.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.25,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=32.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.25,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=32.0|l2_country=32.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.25,
+            "team": 0.03125
+          }
+        }
+      },
+      "H_ext": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value",
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.007812
+          }
+        }
+      },
+      "fold": "2021-22"
+    },
+    {
+      "H_base": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|half_life_days=none",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_dyn": {
+        "1x2": {
+          "chosen": "l2_team=32.0|l2_country=8.0|l2_walk=4.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=8.0 is the smallest grid value",
+            "l2_walk=4.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.125,
+            "season_walk": 0.25,
+            "team": 0.03125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=32.0|l2_walk=64.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.015625,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.003906,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_ext": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value",
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=128.0|half_life_days=none",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.007812
+          }
+        }
+      },
+      "fold": "2022-23"
+    },
+    {
+      "H_base": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_dyn": {
+        "1x2": {
+          "chosen": "l2_team=32.0|l2_country=32.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.003906,
+            "team": 0.03125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=32.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.003906,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.003906,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_ext": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=32.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.03125
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.007812
+          }
+        }
+      },
+      "fold": "2023-24"
+    },
+    {
+      "H_base": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=8.0|half_life_days=1095",
+          "grid_edge": [],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.125,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=128.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.007812
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_dyn": {
+        "1x2": {
+          "chosen": "l2_team=32.0|l2_country=8.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=8.0 is the smallest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.125,
+            "season_walk": 0.003906,
+            "team": 0.03125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=128.0|l2_country=32.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.003906,
+            "team": 0.007812
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=32.0|l2_walk=256.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=128.0 is the largest grid value",
+            "l2_country=32.0 is the largest grid value",
+            "l2_walk=256.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.03125,
+            "season_walk": 0.003906,
+            "team": 0.007812
+          }
+        }
+      },
+      "H_ext": {
+        "1x2": {
+          "chosen": "l2_team=8.0|l2_country=8.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_team=8.0 is the smallest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.125,
+            "team": 0.125
+          }
+        },
+        "btts": {
+          "chosen": "l2_team=128.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.007812
+          }
+        },
+        "over_under": {
+          "chosen": "l2_team=128.0|l2_country=128.0|half_life_days=1095",
+          "grid_edge": [
+            "l2_country=128.0 is the largest grid value"
+          ],
+          "variance_components": {
+            "competition": 1.0,
+            "country": 0.007812,
+            "team": 0.007812
+          }
+        }
+      },
+      "fold": "2024-25"
+    }
+  ],
+  "selections_on_grid_edge": {
+    "H_base": {
+      "of": 15,
+      "on_edge": 14
+    },
+    "H_dyn": {
+      "of": 15,
+      "on_edge": 15
+    },
+    "H_ext": {
+      "of": 15,
+      "on_edge": 15
+    }
+  }
+}

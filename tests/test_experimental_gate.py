@@ -18,7 +18,7 @@ NOW = START + timedelta(days=700)
 
 
 def test_the_pre_registered_gate_file_is_pinned():
-    text = (ROOT / "configs" / "experimental_gate.yaml").read_bytes()
+    text = (ROOT / "configs" / "league_models" / "experimental_gate.yaml").read_bytes()
     assert hashlib.sha256(text).hexdigest() == GATE_SHA256, "the gate was edited after registration: that needs a new ADR and a new version, not an edit"
     g = load_gate()
     assert g["version"] == "exp-gate-v1" and g["interim_look_at"] == 100 and g["decision_at"] == 150 and g["targets"] == ["over_2_5", "btts"] and g["_sha256"] == GATE_SHA256

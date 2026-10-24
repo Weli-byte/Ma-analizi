@@ -1336,6 +1336,15 @@ aliases:
     re-confirm)'
   confidence: 0.9
 - source: espn
+  raw_name: FC Basel
+  team_id: SUI_fc_basel_1893
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: FC Thun
   team_id: SUI_fc_thun
   valid_from: null
@@ -1432,6 +1441,15 @@ aliases:
     re-confirm)'
   confidence: 0.9
 - source: espn
+  raw_name: Legia Warsaw
+  team_id: POL_legia_warszawa
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: Levski Sofia
   team_id: BUL_levski_sofia
   valid_from: null
@@ -1450,6 +1468,33 @@ aliases:
   approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
     the low-confidence label; the club has no match history in the model; owner to
     re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Ludogorets Razgrad
+  team_id: BUL_pfc_ludogorets_razgrad
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Maccabi Tel-Aviv
+  team_id: ISR_maccabi_tel_aviv
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Mainz
+  team_id: GER_mainz_05
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
   confidence: 0.9
 - source: espn
   raw_name: Mjällby AIF
@@ -1479,6 +1524,33 @@ aliases:
   approved_by: claude-assistant 2026-10-23 (ESPN display name of a club that has history
     under this id; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: PAOK
+  team_id: GRE_paok_saloniki
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Racing Genk
+  team_id: BEL_krc_genk
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Rapid Vienna
+  team_id: AUT_rapid_wien
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
 - source: espn
   raw_name: Riga FC
   team_id: LAT_riga_fc
@@ -1528,6 +1600,15 @@ aliases:
   approved_by: claude-assistant 2026-10-23 (ESPN display name of a club that has history
     under this id; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: Young Boys
+  team_id: SUI_bsc_young_boys
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-24 (ESPN historical backfill, ADR 0074; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
 - source: football-data
   raw_name: Alaves
   team_id: ESP_deportivo_alaves

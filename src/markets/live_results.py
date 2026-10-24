@@ -194,9 +194,11 @@ def from_odds_scores(
     return rows, unresolved
 
 
-def from_espn(league: str, matches: list[dict], directory: TeamDirectory, now: datetime) -> tuple[list[dict], list[dict], list[str]]:
+def from_espn(league: str, matches: list[dict], directory: TeamDirectory, now: datetime, full_time_in_knockout: bool = False) -> tuple[list[dict], list[dict], list[str]]:
     """(finished results, upcoming fixtures, unresolved club names) from parsed ESPN scoreboard matches (src.ingestion.espn_fixtures).
-    A result is accepted only in the league phase (before 1 February), like the odds-provider scores: a knockout score may include extra time."""
+    A result is accepted only in the league phase (before 1 February), like the odds-provider scores: a knockout score may include extra time.
+    `full_time_in_knockout` (the historical backfill) also accepts a knockout-month match whose ESPN status is STATUS_FULL_TIME (decided in 90 minutes, so the score is the 90-minute score);
+    matches decided in extra time or on penalties stay out: their 90-minute score is not in the feed."""
     results, upcoming, unresolved = [], [], []
     for m in matches:
         ko = m["kickoff_utc"]
@@ -206,10 +208,12 @@ def from_espn(league: str, matches: list[dict], directory: TeamDirectory, now: d
             unresolved += [n for n, t in ((m["home"], h), (m["away"], a)) if t is None]
             continue
         if m["completed"] and m["home_goals"] is not None and ko <= now:
-            if ko.month in (2, 3, 4, 5, 6):
+            knockout_month = ko.month in (2, 3, 4, 5, 6)
+            if knockout_month and not (full_time_in_knockout and m["status"] == "STATUS_FULL_TIME"):
                 continue
-            results.append({"league": league, "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(), "home_goals": m["home_goals"], "away_goals": m["away_goals"],
-                            "source": "espn scoreboard (unofficial, research only)", "score_basis": "provider final score (league phase: 90 minutes)"})  # fmt: skip
+            results.append({"league": league, "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(), "home_goals": m["home_goals"], "away_goals": m["away_goals"], "season": season_label(ko),
+                            "source": "espn scoreboard (unofficial, research only)",
+                            "score_basis": "provider final score, decided in 90 minutes" if knockout_month else "provider final score (league phase: 90 minutes)"})  # fmt: skip
         elif not m["completed"] and ko > now and m["status"] in ("STATUS_SCHEDULED", "STATUS_DELAYED"):
             upcoming.append({"fixture_id": f"espn-{m['event_id']}", "home_id": h, "away_id": a, "kickoff_utc": ko.isoformat(), "referee": None})
     return results, sorted(upcoming, key=lambda x: x["kickoff_utc"]), sorted(set(unresolved))

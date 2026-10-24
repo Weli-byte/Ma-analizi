@@ -1,0 +1,15 @@
+# ADR 0073: the live (prospective) gate of the "Deneysel model (beta)" card. WRITTEN BEFORE THE FIRST SCORING RUN and pinned by its SHA-256 in tests/test_experimental_gate.py:
+# changing a value after results are seen needs a new ADR and a new version, never an edit of this file.
+version: exp-gate-v1
+registered_on: 2026-10-24            # the first artifacts with an experimental block were written on 2026-10-23; nothing had been scored when this rule was fixed
+counted_forecast: last artifact of a fixture whose information_cutoff is before kick-off and that carries an experimental block (the forecast a user could have seen); neutral-venue matches carry none
+targets: [over_2_5, btts]
+metric: log loss of the experimental model minus log loss of the current model on the SAME matches (negative = experimental better)
+interval: paired block bootstrap, ISO-week blocks, 95%, samples 2000, seed 20261024
+interim_look_at: 100                 # numbers are published from here, status can only become WITHDRAWN
+decision_at: 150
+rules:
+  WITHDRAWN: "n >= interim_look_at and for at least one target the whole 95% interval of the difference is above 0 (experimental clearly worse); the card is hidden and new artifacts carry no block"
+  VERIFIED: "n >= decision_at and for BOTH targets the whole 95% interval is below 0 (experimental clearly better)"
+  BETA: "everything else (not enough matches, or no clear difference); the card stays with the beta note"
+note: one rule for two targets and two looks; a single verified target is not enough, because the card shows both markets together.

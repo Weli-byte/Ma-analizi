@@ -366,3 +366,87 @@ def test_quick_mode_writes_nothing(e2e):
     out = _run_s4c(e2e, docs_dir=e2e / "q", quick=True)
     assert not (e2e / "q").exists() and out["quick"] is True and len(out["folds"]) == 2
     assert s4c_benchmark.load_s4c()["_fingerprint"] and s4c_benchmark.group_masks([])["ALL"].shape == (0,)
+
+
+# ------------------------------------------------------------------ Sprint 4d: time-varying team strength (random walk across seasons)
+def test_the_random_walk_objective_has_a_correct_analytic_gradient_and_the_fit_converges():
+    from scipy.optimize import approx_fprime
+
+    from src.league_models.dynamic_dc import DynamicPoissonDC, DynSpec
+
+    rows = synth(seasons=(2018, 2019, 2020), per_season=120)
+    m = DynamicPoissonDC(DynSpec(l2_walk=6.0, l2_team=3.0)).fit(rows)
+    assert m.diagnostics["converged"] and m.status == "TRAINED" and m.diagnostics["team_seasons"] == 3 * 8
+    rng = np.random.default_rng(0)
+    theta = rng.normal(0, 0.2, m._n)
+    num = approx_fprime(theta, lambda t: m._objective(t)[0], 1e-6)
+    assert np.allclose(m._objective(theta)[1], num, rtol=1e-4, atol=1e-4)
+
+
+def test_a_stiff_walk_is_the_static_model_and_a_free_walk_follows_a_team_that_changes():
+    from src.league_models.dynamic_dc import DynamicPoissonDC, DynSpec
+
+    rng = np.random.default_rng(4)
+    rows, i = [], 0
+    for y in (2019, 2020, 2021):             # team 0 becomes much stronger in the last training season
+        start = utc(y, 8, 20, 18)
+        for k in range(240):
+            h, a = rng.choice(6, 2, replace=False)
+            sh = 1.2 if h == 0 and y == 2021 else 0.0
+            sa = 1.2 if a == 0 and y == 2021 else 0.0
+            gh, ga = int(rng.poisson(np.exp(0.3 + 0.2 + sh - sa))), int(rng.poisson(np.exp(0.3 + sa - sh)))
+            kick = start + timedelta(hours=30 * k)
+            rows.append(EvalRow(f"d{i}", "ITA1", season_of(kick), kick, f"ITA_t{h}", f"ITA_t{a}", 0 if gh > ga else (1 if gh == ga else 2), home_goals=gh, away_goals=ga))
+            i += 1
+    probe = [EvalRow("p", "ITA1", "2022-23", utc(2022, 9, 1), "ITA_t0", "ITA_t1", 1)]
+    free = DynamicPoissonDC(DynSpec(l2_walk=0.5, l2_team=4.0)).fit(rows).predict(probe)
+    stiff = DynamicPoissonDC(DynSpec(l2_walk=400.0, l2_team=4.0)).fit(rows).predict(probe)
+    assert free.lam_home[0] > stiff.lam_home[0] + 0.15                                 # the free walk has moved to the new level, the stiff one averages over three seasons
+    assert free.one_x_two()[0, 0] > stiff.one_x_two()[0, 0]
+
+
+def test_the_dynamic_model_predicts_unseen_clubs_from_the_country_level_and_refuses_empty_data():
+    from src.league_models.dynamic_dc import DynamicPoissonDC, DynSpec
+
+    rows = synth(seasons=(2019, 2020, 2021), per_season=120)
+    m = DynamicPoissonDC(DynSpec()).fit(rows)
+    p = m.predict([EvalRow("u", "ITA1", "2022-23", utc(2022, 9, 1), "ITA_t1", "ITA_new", 1)])
+    assert not p.seen_away[0] and p.seen_home[0] and p.matrices[0].sum() == pytest.approx(1.0)
+    with pytest.raises(NotTrained):
+        DynamicPoissonDC(DynSpec()).fit([])
+    with pytest.raises(NotTrained):
+        DynamicPoissonDC(DynSpec()).predict([])
+
+
+def test_the_nested_selection_builds_the_model_class_from_the_spec_and_the_grid_accepts_the_walk_dimension():
+    from src.league_models.dynamic_dc import DynamicPoissonDC, DynSpec
+    from src.league_models.nested import make_model
+    from src.league_models.stat_models import RidgePoissonDC
+
+    assert isinstance(make_model(DynSpec(), "x"), DynamicPoissonDC) and isinstance(make_model(DCSpec(), "x"), RidgePoissonDC)
+    g = dc_grid({"l2_team": [4.0], "l2_walk": [4.0, 64.0], "half_life_days": [None]}, DynSpec())
+    assert [n for n, _ in g] == ["l2_team=4.0|l2_walk=4.0|half_life_days=none", "l2_team=4.0|l2_walk=64.0|half_life_days=none"] and dict(g)[g[1][0]].l2_walk == 64.0
+    rows = synth(seasons=(2017, 2018, 2019, 2020), per_season=200)
+    folds, _ = inner_folds(rows, 3, 2, 50)
+    sel = select_dc(g, folds, 2.5)
+    assert sel["status"] == "SELECTED" and set(sel["chosen"].values()) <= {n for n, _ in g}
+
+
+def test_sprint_4d_experiment_compares_the_extensions_with_the_base_model_on_identical_matches(e2e):
+    import yaml as _yaml
+
+    from src.league_models import s4d_experiment
+    from tests.test_league_models_s3 import _synthetic_audit
+
+    s4c = _yaml.safe_load((e2e / "s4c.yaml").read_text(encoding="utf-8"))
+    s4c["hierarchical_dc"]["grid"] = {"l2_team": [2.0, 32.0], "l2_country": [2.0], "half_life_days": [None]}
+    s4c["hierarchical_extended"]["grid"] = {"l2_team": [2.0, 5000.0], "l2_country": [2.0], "half_life_days": [None]}
+    s4c["hierarchical_dynamic"]["grid"] = {"l2_team": [8.0], "l2_country": [8.0], "l2_walk": [16.0, 256.0], "half_life_days": [None]}
+    (e2e / "s4c_small.yaml").write_text(_yaml.safe_dump(s4c), encoding="utf-8")
+    out = s4d_experiment.run(e2e, utc(2026, 10, 20), e2e / "docs", audit=_synthetic_audit(), bench_config_path=e2e / "bench.yaml", stat_config_path=e2e / "stat.yaml", s4c_config_path=e2e / "s4c_small.yaml")
+    assert out["not_compared"] == {} and {p["candidate"] for p in out["paired"]} == {"H_ext", "H_dyn"} and {p["reference"] for p in out["paired"]} == {"H_base"}
+    assert len({p["n"] for p in out["paired"] if p["group"] == "ALL"}) == 1 and "not read" in out["holdout"]
+    for p in out["paired"]:
+        assert p["verdict"] == ("SUPPORTED" if p["ci95"][1] < 0 else ("WORSE" if p["ci95"][0] > 0 else "INCONCLUSIVE"))
+    assert set(out["selections_on_grid_edge"]) == {"H_base", "H_ext", "H_dyn"} and (e2e / "docs" / "s4d_extension.json").is_file()
+    assert "wall_seconds" not in (e2e / "docs" / "s4d_extension.json").read_text(encoding="utf-8")        # the committed file carries no wall-clock number

@@ -12,7 +12,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.league_models.prediction_router import artifact_ok
+from src.league_models.prediction_router import CANARY_STATUSES, artifact_ok
 from src.mlops.monitor import psi
 
 from .control import LeagueModelRegistry, RolloutConfig, trip_kill_switch
@@ -97,7 +97,9 @@ def check_runs(runs: list[dict], cfg: RolloutConfig, now: datetime) -> list[Aler
 def check_registry(registry: LeagueModelRegistry) -> list[Alert]:
     out = []
     if not registry.root.exists():  # the run output that holds the artifacts is not on this machine: that is NOT_VERIFIED, not a corrupted artifact
-        return [Alert(WARNING, "artifact_store_missing", f"artifact directory {registry.root.name} is absent: artifact hashes NOT_VERIFIED on this machine")]
+        servable = any(e.mode != "GLOBAL" and e.status in CANARY_STATUSES for e in registry.entries)   # only a canary-approved model could ever be served from these artifacts
+        return [Alert(WARNING if servable else INFO, "artifact_store_missing", f"artifact directory {registry.root.name} is absent: artifact hashes NOT_VERIFIED on this machine"
+                      + ("" if servable else " (no registry entry is approved for a canary, so nothing is served from these artifacts; the cloud shadow job fits its models in process)"))]
     for e in registry.entries:
         ok, why = artifact_ok(e, registry.root)
         if not ok:

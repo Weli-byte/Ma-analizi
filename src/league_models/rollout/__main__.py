@@ -58,7 +58,7 @@ def main(argv=None) -> int:
         for line in (alerts_path.read_text(encoding="utf-8").splitlines() if alerts_path.is_file() else []):
             al = json.loads(line)
             fresh = (now - datetime.fromisoformat(al["at"])).total_seconds() < 2 * 3600       # only what the last runs raised: the file keeps the whole history
-            if al.get("severity") in notify.SEVERITIES and fresh:
+            if fresh and notify.should_notify(al.get("severity", ""), al["key"]):
                 key = f"alert:{al['key']}:{al['severity']}:{now.date().isoformat()}"            # at most one message per alert and day
                 sent.append((key, notify.notify_once(state, key, f"[{al['severity'].upper()}] Gölge sistem: {al['key']}\n{al['message']}")))
         gate_path = d / "shadow_gate.json"

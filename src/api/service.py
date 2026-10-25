@@ -265,4 +265,8 @@ class ForecastService:
         path = self.root / "artifacts" / "markets" / "track_record.json"
         if not path.exists():
             return {"available": False, "reason": "no track record yet (python -m src.markets.track)"}
-        return {"available": True, **json.loads(path.read_text(encoding="utf-8"))}
+        rep = {"available": True, **json.loads(path.read_text(encoding="utf-8"))}
+        gate = self.root / "artifacts" / "markets" / "shadow_gate.json"
+        if gate.exists():
+            rep["shadow_gate"] = json.loads(gate.read_text(encoding="utf-8"))
+        return rep

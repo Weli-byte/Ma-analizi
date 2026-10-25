@@ -73,6 +73,12 @@ jobs:
           cp -r markets-data-wt/artifacts/injuries artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/results artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/crests artifacts/ 2>/dev/null || true
+      - name: Shadow gate verdict from the shadow-data branch (ADR 0076; shown on the track page, evidence only)
+        run: |
+          if git ls-remote --exit-code --heads data shadow-data >/dev/null 2>&1; then
+            git fetch -q data shadow-data
+            git show FETCH_HEAD:artifacts/league_models/rollout/shadow_gate.json > artifacts/markets/shadow_gate.json 2>/dev/null || rm -f artifacts/markets/shadow_gate.json
+          fi
       - name: Match statistics (Highlightly, within the daily request budget)
         run: python -m src.markets.stats_collect
       - name: Results the open history does not have yet (ADR 0058)

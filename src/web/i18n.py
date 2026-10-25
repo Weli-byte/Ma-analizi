@@ -9,6 +9,14 @@ from html import escape, unescape
 LANG_COOKIE = "lang"
 
 PHRASES: dict[str, str] = {
+    "Gölge modeller: canlı kayıt": "Shadow models: live record",
+    "Her ligi ayrı eğitilmiş model": "Model trained separately for each league",
+    "Hiyerarşik model": "Hierarchical model",
+    "Gölgede (kanıt toplanıyor)": "In shadow (collecting evidence)",
+    "Aday (karar sahibinde)": "Candidate (the owner decides)",
+    "Emekli (belirgin kötü)": "Retired (clearly worse)",
+    "Maç sonucu (bilgi)": "Match result (information)",
+    "Aday olmak hiçbir şeyi otomatik değiştirmez.": "Becoming a candidate changes nothing automatically.",
     "Canlı doğrulandı": "Verified live",
     "Beta: canlı doğrulama henüz başlamadı.": "Beta: live verification has not started yet.",
     "Henüz mevcut modelden iyi ya da kötü olduğu kanıtlanmadı.": "It has not yet been shown to be better or worse than the current model.",

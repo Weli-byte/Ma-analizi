@@ -32,7 +32,7 @@ def main(argv=None) -> int:
     configure_output()
     load_dotenv()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("command", choices=["shadow", "reconcile", "monitor", "scorecard", "dashboard", "status"])
+    ap.add_argument("command", choices=["shadow", "reconcile", "monitor", "scorecard", "dashboard", "status", "gate", "prepare"])
     ap.add_argument("--root", default=str(ROOT))
     ap.add_argument("--now", default=None, help="ISO UTC override for rehearsals; default is the real clock")
     a = ap.parse_args(argv)
@@ -40,6 +40,22 @@ def main(argv=None) -> int:
     now = datetime.fromisoformat(a.now.replace("Z", "+00:00")).astimezone(UTC) if a.now else datetime.now(UTC)
     cfg = load_rollout()
     d, store, outcomes = _paths(root)
+    if a.command == "prepare":  # warm the open-source cache in a fresh checkout (the cloud runner): the same fetch the product's history loader does
+        from src.config import config_dir_for, load_config
+        from src.data.teams import TeamDirectory
+        from src.markets.of_source import load_world
+
+        cdir = config_dir_for(root)
+        world = load_world(root, TeamDirectory.load(cdir / "team_aliases.yaml"), load_config("markets", cdir), now)
+        sys.stdout.write(json.dumps({"history_matches": len(world.history), "stale_files": world.stale_files, "missing_files": world.missing_files}, default=str) + "\n")
+        return 0
+    if a.command == "gate":
+        from . import gate as gate_mod
+
+        res = gate_mod.evaluate(store.all(), outcomes.all(), now)
+        gate_mod.write(d / "shadow_gate.json", res)
+        sys.stdout.write(json.dumps({f: {"status": v["status"], "n": v["resolved_pairs_min_over_rule_targets"]} for f, v in res["families"].items()}, indent=2) + "\n")
+        return 0
     if a.command == "shadow":
         rep = run_shadow(root, now, cfg=cfg)
         sys.stdout.write(json.dumps({k: v for k, v in rep.items() if k != "per_fixture_ms"}, indent=2, sort_keys=True, default=str) + "\n")

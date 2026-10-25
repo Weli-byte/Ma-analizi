@@ -1,0 +1,18 @@
+# ADR 0076: the pre-registered live gate of the exploratory shadow families (P_dc_sep, H_dc_hier). WRITTEN BEFORE THE FIRST SCORING and pinned by its SHA-256 in tests/test_shadow_gate.py:
+# changing a value after results are seen needs a new ADR and a new version, never an edit of this file. It decides nothing by itself: PROMOTION_CANDIDATE is a recommendation to the owner;
+# nothing is routed to users (kill switch ON, canary fraction 0, football-data.org schedule CONDITIONAL).
+version: shadow-gate-v1
+registered_on: 2026-10-25
+stage: t-24h                         # one record per fixture and family is counted (the t-24h snapshot), so a fixture is never counted twice
+reference: the production-family global record of the same fixture and snapshot (calibrated Elo for 1X2, Dixon-Coles totals / BTTS)
+families: [P_dc_sep, H_dc_hier]
+rule_targets: [over_under, btts]     # the markets the earlier evidence was about
+information_targets: [1x2]           # reported, never part of a decision (the development evidence said these models are not better for the result)
+interval: paired block bootstrap on log loss, ISO-week blocks, 95%, samples 2000, seed 20261025; difference = family minus reference (negative = family better)
+interim_look_at: 100                 # resolved pairs per family and target
+decision_at: 150
+rules:
+  RETIRE: "n >= interim_look_at and for at least one rule target the whole 95% interval is above 0 (clearly worse than the global model)"
+  PROMOTION_CANDIDATE: "n >= decision_at and for BOTH rule targets the whole 95% interval is below 0 (clearly better than the global model)"
+  SHADOW: "everything else: keep collecting"
+note: a promotion candidate still needs the owner's decision, a PERMITTED data licence and the canary stages of rollout.yaml; this file only turns the shadow evidence into a verdict nobody can bend afterwards.

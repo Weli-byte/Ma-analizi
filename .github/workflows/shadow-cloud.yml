@@ -1,20 +1,26 @@
 name: shadow-cloud
-# League-model shadow layer without the owner's PC (ADR 0068, 0076): every 30 minutes it writes the immutable PRE-MATCH shadow records of the fixtures whose snapshot window is open,
+# League-model shadow layer without the owner's PC (ADR 0068, 0076): every 10 minutes (rounds inside self-restarting runs, like odds-exact) it writes the immutable PRE-MATCH shadow records of the fixtures whose snapshot window is open,
 # reconciles finished results, evaluates the alarms, writes the scorecards and applies the pre-registered shadow gate. Nothing here is user-visible and nothing routes traffic.
 # State (the append-only stores) lives on the `shadow-data` branch of the private data repo; the repository is public, so the Actions minutes are free.
 on:
   schedule:
-    - cron: "7,37 * * * *"
-  workflow_dispatch: {}
+    - cron: "17 * * * *"          # the backup clock: the run restarts itself, the cron only revives a stopped loop
+  workflow_dispatch:
+    inputs:
+      rounds:
+        description: "Rounds in this run (10 minutes apart); the next run starts itself afterwards"
+        type: string
+        default: "5"
 concurrency:
   group: shadow-cloud
   cancel-in-progress: false
 permissions:
   contents: read
+  actions: write
 jobs:
   shadow:
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 65
     env:
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # optional (ADR 0077): without them notify is a no-op
@@ -62,26 +68,10 @@ jobs:
           fi
       - name: Open-source history cache (public domain files, the same fetch the product uses)
         run: python -m src.league_models.rollout prepare
-      - name: Shadow records, results, alarms, scorecards, gate
-        run: |
-          set +e
-          for cmd in shadow reconcile monitor scorecard gate notify; do
-            echo "=== $cmd ==="
-            python -m src.league_models.rollout $cmd
-            echo "exit=$?"
-          done
-          exit 0
-      - name: Publish the stores (append-only; the dashboard is regenerated on demand)
-        run: |
-          mkdir -p shadow-data-wt/artifacts/league_models
-          rm -rf shadow-data-wt/artifacts/league_models/rollout
-          cp -r artifacts/league_models/rollout shadow-data-wt/artifacts/league_models/
-          rm -f shadow-data-wt/artifacts/league_models/rollout/dashboard.html
-          cd shadow-data-wt
-          git config user.name "shadow bot"
-          git config user.email "shadow-bot@users.noreply.github.com"
-          git add -A artifacts
-          if git diff --cached --quiet; then echo "nothing new"; else
-            git commit -q -m "shadow: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
-            git push data HEAD:shadow-data
-          fi
+      - name: Shadow rounds every 10 minutes for about 50 minutes (records only appear while a fixture's window is open)
+        run: bash scripts/shadow_cloud_loop.sh ${{ inputs.rounds || '5' }} 600
+      - name: Start the next run (self-restart keeps the cadence when GitHub's cron is late; set repository variable SHADOW_LOOP=off to stop)
+        if: success() && vars.SHADOW_LOOP != 'off'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run shadow-cloud.yml --ref main

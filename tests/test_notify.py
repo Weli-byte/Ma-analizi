@@ -89,4 +89,4 @@ def test_the_track_step_and_both_workflows_are_wired_to_the_notifier_without_a_s
         text = (root / ".github" / "workflows" / wf).read_text(encoding="utf-8")
         assert "secrets.TELEGRAM_BOT_TOKEN" in text and "secrets.TELEGRAM_CHAT_ID" in text
         assert "api.telegram.org" not in text and "bot1" not in text
-    assert "gate notify" in (root / ".github" / "workflows" / "shadow-cloud.yml").read_text(encoding="utf-8")
+    assert "scorecard gate notify" in (root / "scripts" / "shadow_cloud_loop.sh").read_text(encoding="utf-8")        # the notify command runs in every shadow round

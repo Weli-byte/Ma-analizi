@@ -1,0 +1,85 @@
+name: shadow-cloud
+# League-model shadow layer without the owner's PC (ADR 0068, 0076): every 30 minutes it writes the immutable PRE-MATCH shadow records of the fixtures whose snapshot window is open,
+# reconciles finished results, evaluates the alarms, writes the scorecards and applies the pre-registered shadow gate. Nothing here is user-visible and nothing routes traffic.
+# State (the append-only stores) lives on the `shadow-data` branch of the private data repo; the repository is public, so the Actions minutes are free.
+on:
+  schedule:
+    - cron: "7,37 * * * *"
+  workflow_dispatch: {}
+concurrency:
+  group: shadow-cloud
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  shadow:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - name: Install locked dependencies (hash-verified)
+        run: |
+          python -m pip install --upgrade pip
+          pip install --require-hashes -r requirements.lock
+          pip install --no-deps -e .
+      - name: Private data repo access (repository-scoped deploy key)
+        env:
+          DEPLOY_KEY: ${{ secrets.DATA_REPO_DEPLOY_KEY }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          echo "$DEPLOY_KEY" > ~/.ssh/data_key && chmod 600 ~/.ssh/data_key
+          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/meta | python -c "import json,sys; [print('github.com', k) for k in json.load(sys.stdin)['ssh_keys']]" > ~/.ssh/known_hosts
+          cat >> ~/.ssh/config <<'EOF'
+          Host data-repo
+            HostName github.com
+            User git
+            IdentityFile ~/.ssh/data_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking yes
+          EOF
+          git remote add data git@data-repo:Weli-byte/Ma-analizi2.git
+      - name: Restore the shadow stores from the data branch
+        run: |
+          if git ls-remote --exit-code --heads data shadow-data >/dev/null 2>&1; then
+            git fetch data shadow-data
+            git worktree add -B shadow-data shadow-data-wt data/shadow-data
+            mkdir -p artifacts/league_models
+            cp -r shadow-data-wt/artifacts/league_models/rollout artifacts/league_models/ 2>/dev/null || true
+          else
+            echo "no shadow-data branch yet: the first run starts empty"
+            git worktree add --detach shadow-data-wt
+            cd shadow-data-wt && git checkout --orphan shadow-data && git rm -rf . -q
+          fi
+      - name: Open-source history cache (public domain files, the same fetch the product uses)
+        run: python -m src.league_models.rollout prepare
+      - name: Shadow records, results, alarms, scorecards, gate
+        run: |
+          set +e
+          for cmd in shadow reconcile monitor scorecard gate; do
+            echo "=== $cmd ==="
+            python -m src.league_models.rollout $cmd
+            echo "exit=$?"
+          done
+          exit 0
+      - name: Publish the stores (append-only; the dashboard is regenerated on demand)
+        run: |
+          mkdir -p shadow-data-wt/artifacts/league_models
+          rm -rf shadow-data-wt/artifacts/league_models/rollout
+          cp -r artifacts/league_models/rollout shadow-data-wt/artifacts/league_models/
+          rm -f shadow-data-wt/artifacts/league_models/rollout/dashboard.html
+          cd shadow-data-wt
+          git config user.name "shadow bot"
+          git config user.email "shadow-bot@users.noreply.github.com"
+          git add -A artifacts
+          if git diff --cached --quiet; then echo "nothing new"; else
+            git commit -q -m "shadow: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push data HEAD:shadow-data
+          fi

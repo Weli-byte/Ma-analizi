@@ -958,6 +958,33 @@ def experimental_track_section(x: dict | None) -> str:
     )
 
 
+def shadow_gate_section(g: dict | None) -> str:
+    """Live record of the exploratory shadow models against the global model, with the pre-registered rule (ADR 0076). Evidence only: nothing here routes users to these models."""
+    if not g:
+        return ""
+    fam_names = {"P_dc_sep": "Her ligi ayrı eğitilmiş model", "H_dc_hier": "Hiyerarşik model"}
+    tn = {"over_under": "2.5 alt/üst", "btts": "Karşılıklı gol", "1x2": "Maç sonucu (bilgi)"}
+    status = {"SHADOW": "Gölgede (kanıt toplanıyor)", "PROMOTION_CANDIDATE": "Aday (karar sahibinde)", "RETIRE": "Emekli (belirgin kötü)"}
+    blocks = ""
+    for fam, v in g["families"].items():
+        rows = ""
+        for t, x in v["targets"].items():
+            if "delta" not in x:
+                rows += f"<tr><td>{tn.get(t, t)}</td><td colspan='3' class='mut'>{x['resolved_pairs']} eşleşmiş maç: henüz yeterli değil</td></tr>"
+                continue
+            rows += f"<tr><td>{tn.get(t, t)}</td><td>{x['resolved_pairs']}</td><td><b>{x['delta']:+.4f}</b></td><td class='mut'>{x['ci95'][0]:+.4f} / {x['ci95'][1]:+.4f}</td></tr>"
+        blocks += (
+            f"<div class='card'><p><b>{e(fam_names.get(fam, fam))}</b> · {e(status.get(v['status'], v['status']))} · karar için {g['decision_at']} maç</p>"
+            f"<table><tr><th>Piyasa</th><th>Maç</th><th>Fark (model - genel)</th><th>%95 aralık</th></tr>{rows}</table></div>"
+        )
+    return (
+        "<div class='sec'><h2>Gölge modeller: canlı kayıt</h2></div>" + blocks
+        + "<p class='note'>Bu modeller kullanıcıya gösterilmez; her maçtan önce tahmin yazar, maç bitince genel modelle kıyaslanır. Fark negatifse gölge model daha iyi. "
+        "Kural sonuçlar görülmeden yazıldı ve kilitlendi: her iki piyasada aralığın tamamı 0'ın altındaysa ve en az 150 maç varsa 'aday' olur, 0'ın üstündeyse ve 100 maçtan sonra 'emekli' olur. "
+        "Aday olmak hiçbir şeyi otomatik değiştirmez.</p>"
+    )
+
+
 def track_page(t: dict) -> str:
     if not t["available"] or not t["matches_scored"]:
         body = "<div class='card warn'>Henüz sonuçlanmış maç yok. İlk sonuçlar tur bittiğinde burada görünecek.</div>"
@@ -1012,6 +1039,7 @@ def track_page(t: dict) -> str:
             f"<div class='sec'><h2>Eğilime göre</h2></div><div class='card'><table><tr><th>Eğilim</th><th>Tuttu</th><th>Oran</th></tr>{tips}</table></div>"
             f"{league_hit_table(listing)}"
             f"{experimental_track_section(t.get('experimental'))}"
+            f"{shadow_gate_section(t.get('shadow_gate'))}"
             f"<div class='sec'><h2>Tüm değerlendirilen maçlar</h2></div>{lst}"
         )
     return page(

@@ -51,7 +51,8 @@ def build(out: Path, root: Path = ROOT) -> list[str]:
     markets = root / "artifacts" / "markets"
     if markets.exists():
         _newest_per_dir(markets, out / "artifacts" / "markets", "intel-*.json")
-        for extra in ("track_record.json",):
+        (out / "artifacts" / "markets").mkdir(parents=True, exist_ok=True)  # even with no forecast yet
+        for extra in ("track_record.json", "shadow_gate.json"):  # ADR 0076: shown on the track page
             if (markets / extra).exists():
                 shutil.copy(markets / extra, out / "artifacts" / "markets" / extra)
     injuries = root / "artifacts" / "injuries"

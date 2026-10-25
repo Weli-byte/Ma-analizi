@@ -933,19 +933,34 @@ def league_hit_table(listing: list[dict]) -> str:
     )
 
 
+def _interval_cell(v: dict) -> str:
+    """A 95% interval from a handful of weeks is not an interval worth printing: it collapses onto one point. Shown from 4 ISO-week blocks on."""
+    if v.get("blocks", 0) < 4:
+        return "<td class='mut'>az hafta var</td>"
+    return f"<td class='mut'>{v['ci95'][0]:+.4f} / {v['ci95'][1]:+.4f}</td>"
+
+
+def _status_text(st: str, n: int, need: int) -> str:
+    return {
+        "VERIFIED": f"{n} maçta mevcut modelden belirgin biçimde iyi bulundu",
+        "WITHDRAWN": f"{n} maçta mevcut modelden belirgin biçimde kötü bulundu, kart gizlendi",
+    }.get(st, f"{n} / {need} maç; belirgin bir fark henüz kanıtlanmadı" if n < need else f"{n} maç; belirgin bir fark kanıtlanmadı")
+
+
 def experimental_track_section(x: dict | None) -> str:
     """Live record of the experimental goal model against the current model, with the pre-registered rule (ADR 0073)."""
     if not x:
         return ""
     names = {"over_2_5": "2.5 alt/üst", "btts": "Karşılıklı gol"}
     rows = ""
-    for k, v in x["targets"].items():
+    for k in ("over_2_5", "btts"):
+        v = x["targets"].get(k, {})
         if "delta" not in v:
-            rows += f"<tr><td>{names.get(k, k)}</td><td colspan='4' class='mut'>Henüz yeterli maç yok</td></tr>"
+            rows += f"<tr><td>{names[k]}</td><td colspan='4' class='mut'>Henüz yeterli maç yok</td></tr>"
             continue
         rows += (
-            f"<tr><td>{names.get(k, k)}</td><td>{v['log_loss_experimental']:.4f}</td><td>{v['log_loss_current']:.4f}</td>"
-            f"<td><b>{v['delta']:+.4f}</b></td><td class='mut'>{v['ci95'][0]:+.4f} / {v['ci95'][1]:+.4f}</td></tr>"
+            f"<tr><td>{names[k]}</td><td>{v['log_loss_experimental']:.4f}</td><td>{v['log_loss_current']:.4f}</td>"
+            f"<td><b>{v['delta']:+.4f}</b></td>{_interval_cell(v)}</tr>"
         )
     label = {"VERIFIED": "Canlı doğrulandı", "WITHDRAWN": "Geri çekildi (kart gizli)", "BETA": "Beta (doğrulanıyor)"}.get(x["status"], x["status"])
     return (
@@ -954,7 +969,7 @@ def experimental_track_section(x: dict | None) -> str:
         f"<table><tr><th>Piyasa</th><th>Deneysel</th><th>Mevcut</th><th>Fark</th><th>%95 aralık</th></tr>{rows}</table>"
         "<p class='note'>Log kaybı, düşük iyi; fark negatifse deneysel model daha iyi. Kural maç sonuçları görülmeden yazıldı ve kilitlendi: "
         "her iki piyasada aralığın tamamı 0'ın altındaysa ve en az 150 maç varsa doğrulanır; ilk 100 maçtan sonra bir piyasada aralığın tamamı 0'ın üstündeyse model geri çekilir. "
-        f"Durum: {e(x['status_reason'])}.</p></div>"
+        f"Durum: {e(_status_text(x['status'], x['matches_paired'], x['decision_at']))}.</p></div>"
     )
 
 
@@ -967,16 +982,19 @@ def shadow_gate_section(g: dict | None) -> str:
     status = {"SHADOW": "Gölgede (kanıt toplanıyor)", "PROMOTION_CANDIDATE": "Aday (karar sahibinde)", "RETIRE": "Emekli (belirgin kötü)"}
     blocks = ""
     for fam, v in g["families"].items():
-        rows = ""
-        for t, x in v["targets"].items():
-            if "delta" not in x:
-                rows += f"<tr><td>{tn.get(t, t)}</td><td colspan='3' class='mut'>{x['resolved_pairs']} eşleşmiş maç: henüz yeterli değil</td></tr>"
-                continue
-            rows += f"<tr><td>{tn.get(t, t)}</td><td>{x['resolved_pairs']}</td><td><b>{x['delta']:+.4f}</b></td><td class='mut'>{x['ci95'][0]:+.4f} / {x['ci95'][1]:+.4f}</td></tr>"
-        blocks += (
-            f"<div class='card'><p><b>{e(fam_names.get(fam, fam))}</b> · {e(status.get(v['status'], v['status']))} · karar için {g['decision_at']} maç</p>"
-            f"<table><tr><th>Piyasa</th><th>Maç</th><th>Fark (model - genel)</th><th>%95 aralık</th></tr>{rows}</table></div>"
-        )
+        paired = {t: x for t, x in v["targets"].items() if "delta" in x}
+        if paired:
+            rows = ""
+            for t in ("over_under", "btts", "1x2"):
+                x = v["targets"].get(t)
+                if x and "delta" in x:
+                    rows += f"<tr><td>{tn[t]}</td><td>{x['resolved_pairs']}</td><td><b>{x['delta']:+.4f}</b></td>{_interval_cell(x)}</tr>"
+                elif x:
+                    rows += f"<tr><td>{tn[t]}</td><td>{x['resolved_pairs']}</td><td colspan='2' class='mut'>henüz yeterli değil</td></tr>"
+            detail = f"<table><tr><th>Piyasa</th><th>Maç</th><th>Fark (model - genel)</th><th>%95 aralık</th></tr>{rows}</table>"
+        else:
+            detail = "<p class='mut'>Henüz eşleşmiş (sonuçlanmış) maç yok.</p>"
+        blocks += f"<div class='card'><p><b>{e(fam_names.get(fam, fam))}</b> · {e(status.get(v['status'], v['status']))} · karar için {g['decision_at']} maç</p>{detail}</div>"
     return (
         "<div class='sec'><h2>Gölge modeller: canlı kayıt</h2></div>" + blocks
         + "<p class='note'>Bu modeller kullanıcıya gösterilmez; her maçtan önce tahmin yazar, maç bitince genel modelle kıyaslanır. Fark negatifse gölge model daha iyi. "
@@ -987,7 +1005,10 @@ def shadow_gate_section(g: dict | None) -> str:
 
 def track_page(t: dict) -> str:
     if not t["available"] or not t["matches_scored"]:
-        body = "<div class='card warn'>Henüz sonuçlanmış maç yok. İlk sonuçlar tur bittiğinde burada görünecek.</div>"
+        body = (
+            "<div class='card warn'>Henüz sonuçlanmış maç yok. İlk sonuçlar tur bittiğinde burada görünecek.</div>"
+            f"{experimental_track_section(t.get('experimental'))}{shadow_gate_section(t.get('shadow_gate'))}"  # the live records of the models under test show even before the first scored match
+        )
     else:
         h = t["headline_1x2"]
         hr = t.get("hit_rates") or {}

@@ -285,7 +285,10 @@ def test_corrupted_or_missing_artifacts_alarm_and_only_a_broken_global_is_fail_c
 def test_an_absent_artifact_store_is_not_verified_not_a_rollback(tmp_path):
     reg = control.LeagueModelRegistry([_entry(tmp_path, "elo_s2", "GLOBAL_REFERENCE", GLOBAL, "*")], tmp_path / "no_such_store")
     a = monitoring.check_registry(reg)
-    assert [x.key for x in a] == ["artifact_store_missing"] and a[0].severity == "warning" and not a[0].fail_closed
+    assert [x.key for x in a] == ["artifact_store_missing"] and a[0].severity == "info" and not a[0].fail_closed         # nothing is canary-approved: no message to the owner
+    canary = control.LeagueModelRegistry([_entry(tmp_path, "elo_s2", "GLOBAL_REFERENCE", GLOBAL, "*"), _entry(tmp_path, status="APPROVED_FOR_CANARY")], tmp_path / "no_such_store")
+    b = monitoring.check_registry(canary)
+    assert [x.key for x in b] == ["artifact_store_missing"] and b[0].severity == "warning" and not b[0].fail_closed         # a servable model with unverifiable artifacts is a warning
 
 
 def test_performance_alarms_need_enough_resolved_pairs_and_drift_is_reported_separately(tmp_path):

@@ -17,6 +17,8 @@ on:
       - "docs/league_models/s3_*.json"
       - "docs/league_models/s4_*.json"
       - "docs/league_models/s5_*.json"
+      - "docs/league_models/s4c_*.json"
+      - "docs/league_models/s4d_*.json"
       - "requirements.lock"
       - ".github/workflows/league-benchmark.yml"
   push:
@@ -101,3 +103,9 @@ jobs:
       - name: Verify the Sprint 5 files by hash
         if: env.SNAPSHOT == 'ready'
         run: python -m src.league_models.s5_benchmark --verify artifacts/league_models/s5/ci
+      - name: Sprint 4c (per-league models, learned hierarchy, nested selection) on the same snapshot, compared with the committed s4c results (a different machine than the one that wrote them)
+        if: env.SNAPSHOT == 'ready'
+        run: python -m src.league_models.s4c_benchmark --as-of 2026-10-20T00:00:00Z --compare-committed docs/league_models --atol 1e-3
+      - name: Sprint 4d (wider grid, random-walk strength), compared with the committed s4d result
+        if: env.SNAPSHOT == 'ready'
+        run: python -m src.league_models.s4d_experiment --as-of 2026-10-20T00:00:00Z --compare-committed docs/league_models --atol 1e-3

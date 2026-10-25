@@ -80,6 +80,8 @@ jobs:
           if git ls-remote --exit-code --heads data shadow-data >/dev/null 2>&1; then
             git fetch -q data shadow-data
             git show FETCH_HEAD:artifacts/league_models/rollout/shadow_gate.json > artifacts/markets/shadow_gate.json 2>/dev/null || rm -f artifacts/markets/shadow_gate.json
+            # dead-man switch: the shadow job cannot report its own death, this job can (the shadow job stamps shadow_gate.json on every run; older than 6 hours = stalled)
+            python -m src.mlops.notify --watchdog artifacts/markets/shadow_gate.json --max-hours 6 --label "Gölge işi" --state artifacts/markets/notified_watchdog.json || true
           fi
       - name: Match statistics (Highlightly, within the daily request budget)
         run: python -m src.markets.stats_collect

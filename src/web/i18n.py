@@ -9,6 +9,13 @@ from html import escape, unescape
 LANG_COOKIE = "lang"
 
 PHRASES: dict[str, str] = {
+    "az hafta var": "too few weeks",
+    "Henüz eşleşmiş (sonuçlanmış) maç yok.": "No paired (finished) match yet.",
+    "henüz yeterli değil": "not enough yet",
+    "maçta mevcut modelden belirgin biçimde iyi bulundu": "matches: clearly better than the current model",
+    "maçta mevcut modelden belirgin biçimde kötü bulundu, kart gizlendi": "matches: clearly worse than the current model, card hidden",
+    "belirgin bir fark henüz kanıtlanmadı": "no clear difference has been shown yet",
+    "belirgin bir fark kanıtlanmadı": "no clear difference was shown",
     "Gölge modeller: canlı kayıt": "Shadow models: live record",
     "Her ligi ayrı eğitilmiş model": "Model trained separately for each league",
     "Hiyerarşik model": "Hierarchical model",

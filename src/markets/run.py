@@ -299,6 +299,7 @@ def sync_remote(root: Path, branch: str = "markets-data") -> str:
                 "--",
                 "artifacts/markets",
                 "artifacts/injuries",
+                "artifacts/lineups",
                 "artifacts/results",
             "artifacts/crests",
             )

@@ -73,6 +73,7 @@ jobs:
           cp -r markets-data-wt/artifacts/markets artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/stats artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/injuries artifacts/ 2>/dev/null || true
+          cp -r markets-data-wt/artifacts/lineups artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/results artifacts/ 2>/dev/null || true
           cp -r markets-data-wt/artifacts/crests artifacts/ 2>/dev/null || true
       - name: Shadow gate verdict from the shadow-data branch (ADR 0076; shown on the track page, evidence only)
@@ -80,6 +81,8 @@ jobs:
           if git ls-remote --exit-code --heads data shadow-data >/dev/null 2>&1; then
             git fetch -q data shadow-data
             git show FETCH_HEAD:artifacts/league_models/rollout/shadow_gate.json > artifacts/markets/shadow_gate.json 2>/dev/null || rm -f artifacts/markets/shadow_gate.json
+            # starting line-ups collected by the shadow loop (information only, ADR 0081)
+            rm -rf artifacts/lineups && git archive FETCH_HEAD artifacts/lineups 2>/dev/null | tar -x -C . 2>/dev/null || true
             # dead-man switch: the shadow job cannot report its own death, this job can (the shadow job stamps shadow_gate.json on every run; older than 6 hours = stalled)
             python -m src.mlops.notify --watchdog artifacts/markets/shadow_gate.json --max-hours 6 --label "Gölge işi" --state artifacts/markets/notified_watchdog.json || true
           fi
@@ -101,6 +104,7 @@ jobs:
           cp -r artifacts/markets markets-data-wt/artifacts/
           cp -r artifacts/stats markets-data-wt/artifacts/ 2>/dev/null || true
           rm -rf markets-data-wt/artifacts/injuries && cp -r artifacts/injuries markets-data-wt/artifacts/ 2>/dev/null || true
+          rm -rf markets-data-wt/artifacts/lineups && cp -r artifacts/lineups markets-data-wt/artifacts/ 2>/dev/null || true
           mkdir -p markets-data-wt/artifacts/results && cp -r artifacts/results/. markets-data-wt/artifacts/results/ 2>/dev/null || true
           mkdir -p markets-data-wt/artifacts/crests && cp -r artifacts/crests/. markets-data-wt/artifacts/crests/ 2>/dev/null || true
           find markets-data-wt/artifacts/injuries -mindepth 1 -maxdepth 1 -type d -mtime +3 -exec rm -rf {} + 2>/dev/null || true

@@ -1,0 +1,639 @@
+{
+ "_capture": "ESPN public summary, site.api.espn.com/apis/site/v2/sports/soccer/esp.1/summary?event=401882835, read 2026-10-25 (Athletic Club - Getafe, finished); only the fields the parser uses are kept",
+ "rosters": [
+  {
+   "homeAway": "home",
+   "team": {
+    "displayName": "Athletic Club"
+   },
+   "formation": "4-2-3-1",
+   "roster": [
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "1",
+     "athlete": {
+      "displayName": "Unai Simón",
+      "fullName": "Unai Simón"
+     },
+     "position": {
+      "name": "Goalkeeper",
+      "abbreviation": "G"
+     },
+     "formationPlace": "1"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "4",
+     "athlete": {
+      "displayName": "Aitor Paredes",
+      "fullName": "Aitor Paredes"
+     },
+     "position": {
+      "name": "Center Left Defender",
+      "abbreviation": "CD-L"
+     },
+     "formationPlace": "6"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "3",
+     "athlete": {
+      "displayName": "Dani Vivian",
+      "fullName": "Dani Vivian"
+     },
+     "position": {
+      "name": "Center Right Defender",
+      "abbreviation": "CD-R"
+     },
+     "formationPlace": "5"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "17",
+     "athlete": {
+      "displayName": "Yuri Berchiche",
+      "fullName": "Yuri Berchiche"
+     },
+     "position": {
+      "name": "Left Back",
+      "abbreviation": "LB"
+     },
+     "formationPlace": "3"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "15",
+     "athlete": {
+      "displayName": "Hugo Rincón",
+      "fullName": "Hugo Rincón"
+     },
+     "position": {
+      "name": "Right Back",
+      "abbreviation": "RB"
+     },
+     "formationPlace": "2"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "7",
+     "athlete": {
+      "displayName": "Álex Berenguer",
+      "fullName": "Álex Berenguer"
+     },
+     "position": {
+      "name": "Attacking Midfielder",
+      "abbreviation": "AM"
+     },
+     "formationPlace": "10"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "28",
+     "athlete": {
+      "displayName": "Peio Canales",
+      "fullName": "Peio Canales"
+     },
+     "position": {
+      "name": "Left Midfielder",
+      "abbreviation": "LM"
+     },
+     "formationPlace": "4"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "16",
+     "athlete": {
+      "displayName": "Iñigo Ruiz de Galarreta",
+      "fullName": "Iñigo Ruiz de Galarreta"
+     },
+     "position": {
+      "name": "Right Midfielder",
+      "abbreviation": "RM"
+     },
+     "formationPlace": "8"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "21",
+     "athlete": {
+      "displayName": "Maroan Sannadi",
+      "fullName": "Maroan Sannadi"
+     },
+     "position": {
+      "name": "Forward",
+      "abbreviation": "F"
+     },
+     "formationPlace": "9"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "10",
+     "athlete": {
+      "displayName": "Nico Williams",
+      "fullName": "Nico Williams"
+     },
+     "position": {
+      "name": "Attacking Midfielder Left",
+      "abbreviation": "AM-L"
+     },
+     "formationPlace": "11"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "9",
+     "athlete": {
+      "displayName": "Iñaki Williams",
+      "fullName": "Iñaki Williams"
+     },
+     "position": {
+      "name": "Attacking Midfielder Right",
+      "abbreviation": "AM-R"
+     },
+     "formationPlace": "7"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "22",
+     "athlete": {
+      "displayName": "Nico Serrano",
+      "fullName": "Nico Serrano"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "5",
+     "athlete": {
+      "displayName": "Yeray",
+      "fullName": "Yeray"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "6",
+     "athlete": {
+      "displayName": "Beñat Prados",
+      "fullName": "Beñat Prados"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "12",
+     "athlete": {
+      "displayName": "Jesús Areso",
+      "fullName": "Jesús Areso"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "33",
+     "athlete": {
+      "displayName": "Christian Imga",
+      "fullName": "Christian Imga"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "23",
+     "athlete": {
+      "displayName": "Robert Navarro",
+      "fullName": "Robert Navarro"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "31",
+     "athlete": {
+      "displayName": "Johaneko Louis Jean",
+      "fullName": "Johaneko Louis Jean"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "24",
+     "athlete": {
+      "displayName": "Beñat Gerenabarrena",
+      "fullName": "Beñat Gerenabarrena"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "13",
+     "athlete": {
+      "displayName": "Álex Padilla",
+      "fullName": "Álex Padilla"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "34",
+     "athlete": {
+      "displayName": "Jesús Vizcay Hurtado",
+      "fullName": "Jesús Vizcay Hurtado"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "20",
+     "athlete": {
+      "displayName": "Alejandro Rego",
+      "fullName": "Alejandro Rego"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "18",
+     "athlete": {
+      "displayName": "Mikel Jauregizar",
+      "fullName": "Mikel Jauregizar"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    }
+   ]
+  },
+  {
+   "homeAway": "away",
+   "team": {
+    "displayName": "Getafe"
+   },
+   "formation": "5-4-1",
+   "roster": [
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "13",
+     "athlete": {
+      "displayName": "David Soria",
+      "fullName": "David Soria"
+     },
+     "position": {
+      "name": "Goalkeeper",
+      "abbreviation": "G"
+     },
+     "formationPlace": "1"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "8",
+     "athlete": {
+      "displayName": "Nemanja Gudelj",
+      "fullName": "Nemanja Gudelj"
+     },
+     "position": {
+      "name": "Center Defender",
+      "abbreviation": "CD"
+     },
+     "formationPlace": "5"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "26",
+     "athlete": {
+      "displayName": "Jean Ives Valou",
+      "fullName": "Jean Ives Valou"
+     },
+     "position": {
+      "name": "Center Left Defender",
+      "abbreviation": "CD-L"
+     },
+     "formationPlace": "4"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "14",
+     "athlete": {
+      "displayName": "Dani Carvajal",
+      "fullName": "Dani Carvajal"
+     },
+     "position": {
+      "name": "Center Right Defender",
+      "abbreviation": "CD-R"
+     },
+     "formationPlace": "6"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "22",
+     "athlete": {
+      "displayName": "Johan Mojica",
+      "fullName": "Johan Mojica"
+     },
+     "position": {
+      "name": "Left Back",
+      "abbreviation": "LB"
+     },
+     "formationPlace": "3"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "17",
+     "athlete": {
+      "displayName": "Kiko Femenía",
+      "fullName": "Kiko Femenía"
+     },
+     "position": {
+      "name": "Right Back",
+      "abbreviation": "RB"
+     },
+     "formationPlace": "2"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "6",
+     "athlete": {
+      "displayName": "Mario Martín",
+      "fullName": "Mario Martín"
+     },
+     "position": {
+      "name": "Center Left Midfielder",
+      "abbreviation": "CM-L"
+     },
+     "formationPlace": "10"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "16",
+     "athlete": {
+      "displayName": "Francho Serrano",
+      "fullName": "Francho Serrano"
+     },
+     "position": {
+      "name": "Center Right Midfielder",
+      "abbreviation": "CM-R"
+     },
+     "formationPlace": "8"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "10",
+     "athlete": {
+      "displayName": "Martín Satriano",
+      "fullName": "Martín Satriano"
+     },
+     "position": {
+      "name": "Left Midfielder",
+      "abbreviation": "LM"
+     },
+     "formationPlace": "11"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "11",
+     "athlete": {
+      "displayName": "Ramón Terrats",
+      "fullName": "Ramón Terrats"
+     },
+     "position": {
+      "name": "Right Midfielder",
+      "abbreviation": "RM"
+     },
+     "formationPlace": "7"
+    },
+    {
+     "active": true,
+     "starter": true,
+     "jersey": "20",
+     "athlete": {
+      "displayName": "Ivan Azón",
+      "fullName": "Ivan Azón"
+     },
+     "position": {
+      "name": "Forward",
+      "abbreviation": "F"
+     },
+     "formationPlace": "9"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "28",
+     "athlete": {
+      "displayName": "Alberto Risco",
+      "fullName": "Alberto Risco"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "5",
+     "athlete": {
+      "displayName": "Abdel Abqar",
+      "fullName": "Abdel Abqar"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "15",
+     "athlete": {
+      "displayName": "Sebastián Boselli",
+      "fullName": "Sebastián Boselli"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "4",
+     "athlete": {
+      "displayName": "Saba Sazonov",
+      "fullName": "Saba Sazonov"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "3",
+     "athlete": {
+      "displayName": "Davinchi",
+      "fullName": "Davinchi"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "19",
+     "athlete": {
+      "displayName": "Enes Ünal",
+      "fullName": "Enes Ünal"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "21",
+     "athlete": {
+      "displayName": "Andrés García",
+      "fullName": "Andrés García"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "1",
+     "athlete": {
+      "displayName": "Jirí Letácek",
+      "fullName": "Jirí Letácek"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "35",
+     "athlete": {
+      "displayName": "Diego Ferrer",
+      "fullName": "Diego Ferrer"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    },
+    {
+     "active": true,
+     "starter": false,
+     "jersey": "9",
+     "athlete": {
+      "displayName": "Borja Mayoral",
+      "fullName": "Borja Mayoral"
+     },
+     "position": {
+      "name": "Substitute",
+      "abbreviation": "SUB"
+     },
+     "formationPlace": "0"
+    }
+   ]
+  }
+ ]
+}

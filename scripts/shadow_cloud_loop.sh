@@ -8,12 +8,13 @@ set -u
 rounds="${1:-5}"
 interval="${2:-600}"
 store=artifacts/league_models/rollout
-sig() { cat "$store"/prospective.jsonl "$store"/outcomes.jsonl "$store"/score_forecasts.jsonl 2>/dev/null | sha256sum | cut -d' ' -f1; }
+sig() { { cat "$store"/prospective.jsonl "$store"/outcomes.jsonl "$store"/score_forecasts.jsonl 2>/dev/null; find artifacts/lineups -name 'lineup-*.json' 2>/dev/null | sort; } | sha256sum | cut -d' ' -f1; }
 
 publish() {
   mkdir -p shadow-data-wt/artifacts/league_models
-  rm -rf shadow-data-wt/artifacts/league_models/rollout
+  rm -rf shadow-data-wt/artifacts/league_models/rollout shadow-data-wt/artifacts/lineups
   cp -r "$store" shadow-data-wt/artifacts/league_models/
+  [ -d artifacts/lineups ] && cp -r artifacts/lineups shadow-data-wt/artifacts/
   rm -f shadow-data-wt/artifacts/league_models/rollout/dashboard.html
   ( cd shadow-data-wt \
     && git config user.name "shadow bot" && git config user.email "shadow-bot@users.noreply.github.com" \
@@ -24,6 +25,8 @@ publish() {
 for r in $(seq 1 "$rounds"); do
   echo "=== round $r of $rounds at $(date -u +%H:%M:%SZ) ==="
   before="$(sig)"
+  echo "--- lineups ---"
+  python -m src.markets.lineups || echo "lineups: failed (information only, the round continues)"
   for cmd in shadow reconcile monitor scorecard gate notify; do
     echo "--- $cmd ---"
     python -m src.league_models.rollout "$cmd"

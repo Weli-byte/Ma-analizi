@@ -55,6 +55,9 @@ def build(out: Path, root: Path = ROOT) -> list[str]:
         for extra in ("track_record.json", "shadow_gate.json"):  # ADR 0076: shown on the track page
             if (markets / extra).exists():
                 shutil.copy(markets / extra, out / "artifacts" / "markets" / extra)
+    lineups = root / "artifacts" / "lineups"  # starting line-ups, information only (ADR 0081)
+    if lineups.exists():
+        _newest_per_dir(lineups, out / "artifacts" / "lineups", "lineup-*.json")
     injuries = root / "artifacts" / "injuries"
     if injuries.exists():
         _newest_per_dir(injuries, out / "artifacts" / "injuries", "inj-*.json")

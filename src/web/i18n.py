@@ -9,6 +9,11 @@ from html import escape, unescape
 LANG_COOKIE = "lang"
 
 PHRASES: dict[str, str] = {
+    "Kadrolar (bilgi amaçlı)": "Line-ups (information only)",
+    "Kadro henüz açıklanmadı. Kulüpler ilk 11'i genelde maçtan yaklaşık bir saat önce açıklar; açıklanınca burada görünür.": "The line-up has not been announced yet. Clubs usually announce the starting eleven about an hour before kick-off; it appears here once announced.",
+    "Yedekler": "Substitutes",
+    "Kadro tahmin olasılıklarına girmez.": "The line-up is not part of any forecast probability.",
+    "Kaynak: ESPN herkese açık maç sayfası (resmî olmayan kaynak, yalnızca araştırma amaçlı), alınma zamanı": "Source: ESPN's public match page (unofficial source, research use only), observed at",
     "Tarafsız saha: ev sahibi avantajı yok, iki takım da eşit saha koşullarıyla hesaplandı.": "Neutral venue: there is no home advantage, both teams were modelled with equal venue conditions.",
     "az hafta var": "too few weeks",
     "Henüz eşleşmiş (sonuçlanmış) maç yok.": "No paired (finished) match yet.",

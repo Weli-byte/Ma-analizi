@@ -1457,6 +1457,15 @@ aliases:
     re-confirm)'
   confidence: 0.9
 - source: espn
+  raw_name: Internazionale
+  team_id: ITA_inter
+  valid_from: null
+  valid_to: null
+  provenance: espn_lineups
+  approved_by: claude-assistant 2026-10-25 (ESPN line-up collector, ADR 0081; exact
+    name of an existing club; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: Jagiellonia Bialystok
   team_id: POL_jagiellonia_biaystok
   valid_from: null

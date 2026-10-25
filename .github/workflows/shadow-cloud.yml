@@ -61,6 +61,7 @@ jobs:
             git worktree add -B shadow-data shadow-data-wt data/shadow-data
             mkdir -p artifacts/league_models
             cp -r shadow-data-wt/artifacts/league_models/rollout artifacts/league_models/ 2>/dev/null || true
+            cp -r shadow-data-wt/artifacts/lineups artifacts/ 2>/dev/null || true
           else
             echo "no shadow-data branch yet: the first run starts empty"
             git worktree add --detach shadow-data-wt

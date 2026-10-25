@@ -55,3 +55,13 @@ def test_the_committed_files_exist_and_the_workflow_runs_both_comparisons():
     wf = (ROOT / ".github" / "workflows" / "league-benchmark.yml").read_text(encoding="utf-8")
     assert "s4c_benchmark --as-of 2026-10-20T00:00:00Z --compare-committed docs/league_models" in wf and "s4d_experiment --as-of 2026-10-20T00:00:00Z --compare-committed docs/league_models" in wf
     assert 'docs/league_models/s4c_*.json' in wf and 'docs/league_models/s4d_*.json' in wf
+
+
+def test_a_parameter_digest_is_not_compared_because_a_hash_cannot_have_a_tolerance(tmp_path):
+    a = {"s4c_nested_selection.json": [{"nested": {"H_dc_hier": {"per_target": {"1x2": {"chosen": "l2_team=8.0", "parameter_digest": "aaa"}}}}}]}
+    b = {"s4c_nested_selection.json": [{"nested": {"H_dc_hier": {"per_target": {"1x2": {"chosen": "l2_team=8.0", "parameter_digest": "bbb"}}}}}]}
+    names = ("s4c_nested_selection.json",)
+    rep = s4c_benchmark.compare_to_committed(write(tmp_path / "f", b), write(tmp_path / "c", a), 1e-3, files=names)
+    assert rep["ok"] and "parameter_digest" in rep["ignored_keys"]
+    other = {"s4c_nested_selection.json": [{"nested": {"H_dc_hier": {"per_target": {"1x2": {"chosen": "l2_team=32.0", "parameter_digest": "bbb"}}}}}]}
+    assert not s4c_benchmark.compare_to_committed(write(tmp_path / "g", other), tmp_path / "c", 1e-3, files=names)["ok"]       # the chosen candidate still has to agree

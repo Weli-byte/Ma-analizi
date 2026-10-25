@@ -379,6 +379,17 @@ def run(root: Path, as_of: datetime, docs_dir: Path | None = None, audit=None, q
 
 COMPARED_FILES = ("s4c_metrics.json", "s4c_paired.json", "s4c_decisions.json", "s4c_exact_score.json", "s4c_nested_selection.json", "s4c_feature_audit.json", "s4c_run_manifest.json")
 FINGERPRINT_KEYS = ("s4c_config_fingerprint", "ml_config_fingerprint", "stat_config_fingerprint")
+# a parameter digest is the SHA-256 of the fitted parameters rounded to 8 decimals: a hash cannot be compared within a tolerance, and the last digits of an L-BFGS solution differ between
+# operating systems (seen on the first Ubuntu run: every digest differed while every metric, interval and decision agreed). The parameters are covered through the results they produce.
+HASH_KEYS = ("parameter_digest",)
+
+
+def _strip(obj, keys):
+    if isinstance(obj, dict):
+        return {k: _strip(v, keys) for k, v in obj.items() if k not in keys}
+    if isinstance(obj, list):
+        return [_strip(x, keys) for x in obj]
+    return obj
 
 
 def compare_to_committed(fresh_dir: Path, docs_dir: Path, atol: float, files: tuple[str, ...] = COMPARED_FILES, ignore: tuple[str, ...] = FINGERPRINT_KEYS) -> dict:
@@ -390,15 +401,12 @@ def compare_to_committed(fresh_dir: Path, docs_dir: Path, atol: float, files: tu
     for name in files:
         a = json.loads((docs_dir / name).read_text(encoding="utf-8"))
         b = json.loads((fresh_dir / name).read_text(encoding="utf-8"))
-        for d in (a, b):
-            if isinstance(d, dict):
-                for k in ignore:
-                    d.pop(k, None)
+        a, b = _strip(a, (*ignore, *HASH_KEYS)), _strip(b, (*ignore, *HASH_KEYS))
         diffs: list = []
         _walk(a, b, "", atol, diffs, [])
         if diffs:
             bad[name] = diffs[:25]
-    return {"atol": atol, "files_compared": list(files), "differences": bad, "ignored_keys": list(ignore), "ok": not bad}
+    return {"atol": atol, "files_compared": list(files), "differences": bad, "ignored_keys": [*ignore, *HASH_KEYS], "ok": not bad}
 
 
 def main(argv=None) -> int:

@@ -12,3 +12,6 @@ Sprint 4c and 4d outputs were produced on the owner's Windows machine and reprod
 
 ## Limits
 Float noise between operating systems is bounded, but near-ties in a nested selection (two candidates equal to six digits) could flip between machines and then fail the exact-text rule; if that ever happens it is reported as a failure, not hidden, and the tie rule (earlier grid entry) is the place to look. LightGBM results are compared with the same tolerance as the other sprints (XGBoost is the one the earlier sprints already treat as backend-sensitive; Sprint 4c/4d use LightGBM only).
+
+## First Ubuntu run (2026-10-25)
+Everything agreed within 1e-3 (metrics, paired intervals, decisions, exact-score tables, feature audit, manifest, the candidates chosen by the nested selection) except one kind of value: `parameter_digest`, the SHA-256 of the fitted parameters rounded to 8 decimals, which differed in every entry. A hash cannot be compared within a tolerance and the last digits of an L-BFGS solution depend on the operating system, so the digests are excluded from the comparison (`HASH_KEYS`); the parameters are covered through the results they produce, and the chosen candidates still have to agree exactly.

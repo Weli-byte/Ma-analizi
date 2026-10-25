@@ -428,6 +428,31 @@ def injuries_card(i: dict, injuries: dict | None) -> str:
     )
 
 
+def lineups_card(i: dict, lineups: dict | None) -> str:
+    """The announced starting line-ups as INFORMATION (never in the probabilities, ADR 0081). Not announced is said plainly."""
+    head = "<div class='sec'><h2>Kadrolar (bilgi amaçlı)</h2></div>"
+    if lineups is None:
+        return head + "<div class='card mut'>Kadro henüz açıklanmadı. Kulüpler ilk 11'i genelde maçtan yaklaşık bir saat önce açıklar; açıklanınca burada görünür.</div>"
+
+    def side(name: str, x: dict) -> str:
+        starters = sorted(x["starters"], key=lambda p: int(p["formation_place"]) if str(p.get("formation_place") or "").isdigit() else 99)
+        rows = "".join(f"<li>{e(p.get('jersey') or '')} {e(p['name'])} <span class='mut'>{e(p.get('position') or '')}</span></li>" for p in starters)
+        subs = ", ".join(e(p["name"]) for p in x.get("substitutes", []) if p.get("name"))
+        more = f"<details class='more'><summary>Yedekler</summary><p class='mut'>{subs}</p></details>" if subs else ""
+        form = f" · {e(x['formation'])}" if x.get("formation") else ""
+        return f"<p><b>{e(name)}</b>{form}</p><ol style='margin:0 0 6px;padding-left:22px'>{rows}</ol>{more}"
+
+    return (
+        head
+        + "<div class='card'>"
+        + side(i["home"], lineups["home"])
+        + side(i["away"], lineups["away"])
+        + "<p class='note'>Kaynak: ESPN herkese açık maç sayfası (resmî olmayan kaynak, yalnızca araştırma amaçlı), alınma zamanı "
+        + f"<b>{e(lineups['observed_at'][:16].replace('T', ' '))}</b>"
+        + " UTC. Kadro tahmin olasılıklarına girmez.</p></div>"
+    )
+
+
 COMP_EXTRA = {
     "AUT1": "Avusturya Bundesliga",
     "BEL1": "Belçika Pro Lig",
@@ -743,6 +768,7 @@ def match_page(
     names: dict[str, str] | None = None,
     locked: set[str] | frozenset[str] = frozenset(),
     exp_status: dict | None = None,
+    lineups: dict | None = None,
 ) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
@@ -854,7 +880,7 @@ def match_page(
         "puan": table_tab(i),
         "hakem": referee_tab(people, names),
         "oyuncu": players_tab(i, people),
-        "eksik": injuries_card(i, injuries),
+        "eksik": lineups_card(i, lineups) + injuries_card(i, injuries),
         "oneri": advice,
         "veri": quality,
     }

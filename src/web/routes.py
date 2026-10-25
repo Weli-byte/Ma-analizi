@@ -354,6 +354,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
             )
         picks = [p for p in service.value_picks()["picks"] if p["fixture_id"] == fixture_id]
         from src.markets.injuries import latest_for
+        from src.markets.lineups import latest_for as lineups_for
 
         injuries = latest_for(
             root, found["home_team_id"], found["away_team_id"], datetime.fromisoformat(found["kickoff_utc"])
@@ -374,6 +375,7 @@ def register(app: FastAPI, service, root, now_fn) -> None:
             _names(root),
             locked=plans.locked_tabs(plan_of(u)),
             exp_status=service.track_record().get("experimental"),
+            lineups=lineups_for(root, found["home_team_id"], found["away_team_id"], datetime.fromisoformat(found["kickoff_utc"])),
         )
 
     @app.get("/tavsiyeler", response_class=HTMLResponse, include_in_schema=False)

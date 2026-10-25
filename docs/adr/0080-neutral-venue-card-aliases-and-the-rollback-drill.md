@@ -13,3 +13,9 @@ Two exact aliases of existing clubs (Breidablik to `ISL_breiablik`, Dynamo Kyiv 
 
 ## Limits
 A neutral model is the same model with half the home advantage moved: it knows nothing about a particular venue. A club registered without history is forecast at league-average strength and labelled as such. The drill's rollback relies on the Vercel plan's rollback feature; the result of the first real drill is recorded in the Sprint report of this date.
+
+## Results of 2026-10-25
+* **Drill, dry-run:** production deployment and five predecessors read from the Vercel API, previous READY production deployment found, site HTTP 200.
+* **Drill, preview:** the bundle built and the preview deployment became READY (not production).
+* **Drill, execute:** production rolled back to the previous deployment (`dpl_5k7P...`), verified through the API and HTTP 200, the original (`dpl_AGTj...`) promoted again in 2 seconds, verified again, HTTP 200 at every step. The rollback feature works on this plan and the whole drill takes about a minute.
+* **ESPN clubs:** the cloud job rescanned the window after the new aliases: Conference League +51 results, no unresolved club left in either competition; the job took 9.5 minutes (limit 20).

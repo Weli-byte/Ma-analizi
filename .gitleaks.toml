@@ -1,0 +1,9 @@
+# gitleaks configuration (ADR 0078): the default rules plus an (empty) place for reviewed false positives. An entry needs a comment saying what it is and who decided it.
+title = "Ma-analizi secret scan"
+
+[extend]
+useDefault = true
+
+# [[allowlists]]
+# description = "example: a documented fake value in a test, reviewed by the owner"
+# regexes = ['''exactly-this-fake-value''']

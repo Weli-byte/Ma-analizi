@@ -4,8 +4,8 @@
 $ErrorActionPreference = "Stop"
 $root = Split-Path -Parent $PSScriptRoot
 $tick = Join-Path $root "scripts\shadow_tick.ps1"
-$action = New-ScheduledTaskAction -Execute "powershell.exe" `
-    -Argument "-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File `"$tick`"" `
+$action = New-ScheduledTaskAction -Execute "wscript.exe" `
+    -Argument "`"$(Join-Path $PSScriptRoot 'hidden_run.vbs')`" `"$tick`"" `
     -WorkingDirectory $root
 $trigger = New-ScheduledTaskTrigger -Once -At (Get-Date).AddMinutes(1) `
     -RepetitionInterval (New-TimeSpan -Minutes 30) -RepetitionDuration (New-TimeSpan -Days 3650)

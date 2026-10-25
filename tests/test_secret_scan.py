@@ -21,7 +21,7 @@ def test_a_finding_fails_the_job_and_nothing_can_make_it_pass():
 
 def test_a_canary_proves_the_scanner_detects_a_secret_and_the_workflow_holds_no_secret_itself():
     assert "canary" in WF and "did not flag the canary" in WF and "secrets.token_hex(16)" in WF           # random at run time: the file contains nothing that looks like a key
-    assert "permissions:\n  contents: read" in WF and "secrets." not in WF                                  # least privilege, and no repository secret is needed
+    assert "permissions:\n  contents: read" in WF and "${{ secrets." not in WF                                  # least privilege, and no repository secret is needed
 
 
 def test_the_gitleaks_config_extends_the_default_rules_and_has_no_blanket_allowlist():

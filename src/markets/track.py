@@ -227,7 +227,7 @@ def experimental_scorecard(root: Path, results: list[StatMatch], now: datetime |
         m = by_key.get((home, away, day))
         if m is None or m.kickoff_utc > now:
             continue
-        before = [a for a in arts if datetime.fromisoformat(a["information_cutoff"]) < m.kickoff_utc and a.get("experimental")]
+        before = [a for a in arts if datetime.fromisoformat(a["information_cutoff"]) < m.kickoff_utc and a.get("experimental") and not a["experimental"].get("neutral_venue")]   # neutral-venue blocks (ADR 0080) are shown but not part of the registered gate population
         if not before:
             continue
         art = max(before, key=lambda a: a["information_cutoff"])

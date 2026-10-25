@@ -1,0 +1,32 @@
+name: vercel-rollback-drill
+# Manual only (ADR 0080). `dry-run` reads the production deployment, its predecessors and the live site and changes nothing. `execute` rolls production back to the previous deployment,
+# checks the site and promotes the original deployment again (the original is restored even if a step fails). The markets job redeploys production every four hours anyway, so a failed
+# restore heals itself. Needs the repository secrets VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID (the markets job already uses them).
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "dry-run (nothing changes), preview (deploys a preview, not production) or execute (a real rollback and restore, a few minutes)"
+        type: choice
+        options: [dry-run, preview, execute]
+        default: dry-run
+concurrency:
+  group: vercel-deploy
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  drill:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Rollback drill
+        run: bash scripts/vercel_rollback_drill.sh "${{ inputs.mode }}"

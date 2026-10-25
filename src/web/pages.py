@@ -721,6 +721,8 @@ def experimental_card(i: dict, status: dict | None = None) -> str:
     )
     xg = x["expected_goals"]
     unseen = "<p class='note'>Bu kulüplerden biri için modelin geçmişi yok: lig ortalaması güçle hesaplandı.</p>" if x.get("unseen_club") else ""
+    if x.get("neutral_venue"):
+        unseen += "<p class='note'>Tarafsız saha: ev sahibi avantajı yok, iki takım da eşit saha koşullarıyla hesaplandı.</p>"
     top = " · ".join(f"{e(s['score'])} ({pct(s['p'])})" for s in x["scorelines"][:4])
     return (
         f"<div class='sec'><h2>{e(x['label'])}</h2></div><div class='card'>"

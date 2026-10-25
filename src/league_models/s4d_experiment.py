@@ -115,6 +115,8 @@ def run(root: Path, as_of: datetime, docs_dir: Path | None = None, audit=None, b
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--compare-committed", default=None, help="re-run into a temporary directory and compare with the committed s4d_extension.json in this docs directory")
+    ap.add_argument("--atol", type=float, default=1e-3)
     ap.add_argument("--as-of", default=None)
     ap.add_argument("--root", default=str(ROOT))
     ap.add_argument("--docs-dir", default=None)
@@ -122,6 +124,16 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     as_of = datetime.fromisoformat(a.as_of.replace("Z", "+00:00")) if a.as_of else datetime.now(UTC)
     root = Path(a.root)
+    if a.compare_committed:
+        import tempfile
+
+        from .s4c_benchmark import compare_to_committed
+
+        with tempfile.TemporaryDirectory() as tmp:
+            run(root, as_of.astimezone(UTC), Path(tmp))
+            rep = compare_to_committed(Path(tmp), root / a.compare_committed, a.atol, files=("s4d_extension.json",))
+        sys.stdout.write(json.dumps(rep, indent=2, default=str) + "\n")
+        return 0 if rep["ok"] else 1
     out = run(root, as_of.astimezone(UTC), (root / a.docs_dir) if a.docs_dir else None, only_folds=a.only_folds.split(",") if a.only_folds else None)
     sys.stdout.write(json.dumps({"selections_on_grid_edge": out["selections_on_grid_edge"], "pooled": [p for p in out["paired"] if p["group"] == "ALL"], "not_compared": out["not_compared"]}, indent=2) + "\n")
     return 0

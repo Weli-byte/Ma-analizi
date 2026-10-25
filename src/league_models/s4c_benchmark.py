@@ -377,8 +377,42 @@ def run(root: Path, as_of: datetime, docs_dir: Path | None = None, audit=None, q
     return out
 
 
+COMPARED_FILES = ("s4c_metrics.json", "s4c_paired.json", "s4c_decisions.json", "s4c_exact_score.json", "s4c_nested_selection.json", "s4c_feature_audit.json", "s4c_run_manifest.json")
+FINGERPRINT_KEYS = ("s4c_config_fingerprint", "ml_config_fingerprint", "stat_config_fingerprint")
+# a parameter digest is the SHA-256 of the fitted parameters rounded to 8 decimals: a hash cannot be compared within a tolerance, and the last digits of an L-BFGS solution differ between
+# operating systems (seen on the first Ubuntu run: every digest differed while every metric, interval and decision agreed). The parameters are covered through the results they produce.
+HASH_KEYS = ("parameter_digest",)
+
+
+def _strip(obj, keys):
+    if isinstance(obj, dict):
+        return {k: _strip(v, keys) for k, v in obj.items() if k not in keys}
+    if isinstance(obj, list):
+        return [_strip(x, keys) for x in obj]
+    return obj
+
+
+def compare_to_committed(fresh_dir: Path, docs_dir: Path, atol: float, files: tuple[str, ...] = COMPARED_FILES, ignore: tuple[str, ...] = FINGERPRINT_KEYS) -> dict:
+    """Cross-machine check (ADR 0079): every output written by a fresh run against the committed one, numbers within `atol`, text and structure exactly. The config fingerprints are ignored:
+    they legitimately change when a later sprint adds a section to `s4c.yaml` (the sections this run uses are compared through their results)."""
+    from .benchmark import _walk
+
+    bad: dict[str, list] = {}
+    for name in files:
+        a = json.loads((docs_dir / name).read_text(encoding="utf-8"))
+        b = json.loads((fresh_dir / name).read_text(encoding="utf-8"))
+        a, b = _strip(a, (*ignore, *HASH_KEYS)), _strip(b, (*ignore, *HASH_KEYS))
+        diffs: list = []
+        _walk(a, b, "", atol, diffs, [])
+        if diffs:
+            bad[name] = diffs[:25]
+    return {"atol": atol, "files_compared": list(files), "differences": bad, "ignored_keys": [*ignore, *HASH_KEYS], "ok": not bad}
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--compare-committed", default=None, help="re-run into a temporary directory and compare with the committed s4c_* files in this docs directory")
+    ap.add_argument("--atol", type=float, default=1e-3)
     ap.add_argument("--as-of", default=None)
     ap.add_argument("--root", default=str(ROOT))
     ap.add_argument("--docs-dir", default=None)
@@ -388,6 +422,14 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     as_of = datetime.fromisoformat(a.as_of.replace("Z", "+00:00")) if a.as_of else datetime.now(UTC)
     root = Path(a.root)
+    if a.compare_committed:
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as tmp:
+            run(root, as_of.astimezone(UTC), Path(tmp))
+            rep = compare_to_committed(Path(tmp), root / a.compare_committed, a.atol)
+        sys.stdout.write(json.dumps(rep, indent=2, default=str) + "\n")
+        return 0 if rep["ok"] else 1
     out = run(root, as_of.astimezone(UTC), (root / a.docs_dir) if a.docs_dir else None, quick=a.quick, export_models=a.export_models, only_folds=a.only_folds.split(",") if a.only_folds else None)
     sys.stdout.write(json.dumps({"folds": out["folds"], "decisions": {k: out["decisions"][k] for k in ("comparisons", "supported_total", "worse_total", "expected_false_supported_if_nothing_works")}, "wall_seconds": out["wall_seconds"]}, indent=2) + "\n")
     return 0

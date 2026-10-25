@@ -9,6 +9,7 @@ registered), league-phase matches are 90-minute scores, a knockout-month match c
 league and window (a marker is stored with the results) so the cloud job can call it on every run."""
 
 import argparse
+import hashlib
 import json
 from datetime import UTC, date, datetime
 from pathlib import Path
@@ -24,7 +25,9 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def backfill(root: Path, directory: TeamDirectory, start: date, end: date, now: datetime, if_needed: bool = False, scanner=None, leagues=lr.ESPN_LEAGUES) -> list[dict]:
     scanner = scanner or espn_fixtures.scan
-    marker = f"{start.isoformat()}..{end.isoformat()}"
+    # the marker holds the window AND a signature of the ESPN club names the directory knows: a new alias (a club that did not resolve before) makes the window be scanned once more
+    espn_names = sorted(a.raw_name for a in getattr(directory, "aliases", []) if a.source == espn_fixtures.SOURCE)
+    marker = f"{start.isoformat()}..{end.isoformat()}#{hashlib.sha256(chr(10).join(espn_names).encode('utf-8')).hexdigest()[:8]}"
     out = []
     for league in leagues:
         store = lr.load_store(root, league)

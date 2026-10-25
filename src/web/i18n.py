@@ -9,6 +9,7 @@ from html import escape, unescape
 LANG_COOKIE = "lang"
 
 PHRASES: dict[str, str] = {
+    "Tarafsız saha: ev sahibi avantajı yok, iki takım da eşit saha koşullarıyla hesaplandı.": "Neutral venue: there is no home advantage, both teams were modelled with equal venue conditions.",
     "az hafta var": "too few weeks",
     "Henüz eşleşmiş (sonuçlanmış) maç yok.": "No paired (finished) match yet.",
     "henüz yeterli değil": "not enough yet",

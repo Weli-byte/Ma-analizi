@@ -202,6 +202,9 @@ teams:
 - team_id: CZE_fk_mlada_boleslav
   canonical_name: FK Mladá Boleslav
   country: CZE
+- team_id: CZE_sigma_olomouc
+  canonical_name: SK Sigma Olomouc
+  country: CZE
 - team_id: CZE_slavia_praha
   canonical_name: Slavia Praha
   country: CZE
@@ -688,6 +691,9 @@ teams:
 - team_id: IRL_shamrock_rovers
   canonical_name: Shamrock Rovers
   country: IRL
+- team_id: IRL_shelbourne_fc
+  canonical_name: Shelbourne FC
+  country: IRL
 - team_id: ISL_breiablik
   canonical_name: Breiðablik
   country: ISL
@@ -805,6 +811,9 @@ teams:
 - team_id: KOS_kf_ballkani
   canonical_name: KF Ballkani
   country: KOS
+- team_id: KOS_kf_drita
+  canonical_name: KF Drita
+  country: KOS
 - team_id: LAT_riga_fc
   canonical_name: Riga FC
   country: LAT
@@ -829,6 +838,12 @@ teams:
 - team_id: MDA_fc_sheriff
   canonical_name: FC Sheriff
   country: MDA
+- team_id: MKD_kf_shkendija
+  canonical_name: KF Shkëndija
+  country: MKD
+- team_id: MLT_hamrun_spartans
+  canonical_name: Hamrun Spartans
+  country: MLT
 - team_id: NED_ado_den_haag
   canonical_name: ADO Den Haag
   country: NED
@@ -1126,6 +1141,9 @@ teams:
 - team_id: SUI_fc_zurich
   canonical_name: FC Zürich
   country: SUI
+- team_id: SUI_lausanne_sport
+  canonical_name: FC Lausanne-Sport
+  country: SUI
 - team_id: SUI_servette_fc
   canonical_name: Servette FC
   country: SUI
@@ -1307,6 +1325,15 @@ aliases:
     team; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: Breidablik
+  team_id: ISL_breiablik
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: CSU Craiova
   team_id: ROU_csu_craiova
   valid_from: null
@@ -1325,6 +1352,24 @@ aliases:
   approved_by: claude-assistant 2026-10-02 (ESPN club name checked against the canonical
     team; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: Drita Gjilan
+  team_id: KOS_kf_drita
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Dynamo Kyiv
+  team_id: UKR_dinamo_kiev
+  valid_from: null
+  valid_to: null
+  provenance: espn_backfill
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
+  confidence: 0.9
 - source: espn
   raw_name: Egnatia
   team_id: ALB_egnatia
@@ -1374,6 +1419,15 @@ aliases:
     re-confirm)'
   confidence: 0.9
 - source: espn
+  raw_name: Hamrun Spartans
+  team_id: MLT_hamrun_spartans
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: Hapoel Be'er
   team_id: ISR_hapoel_be_er_sheva
   valid_from: null
@@ -1412,6 +1466,15 @@ aliases:
     under this id; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: KF Shkëndija
+  team_id: MKD_kf_shkendija
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: Kairat Almaty
   team_id: KAZ_fk_kairat
   valid_from: null
@@ -1439,6 +1502,15 @@ aliases:
   approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
     the low-confidence label; the club has no match history in the model; owner to
     re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Lausanne Sports
+  team_id: SUI_lausanne_sport
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
   confidence: 0.9
 - source: espn
   raw_name: Legia Warsaw
@@ -1570,6 +1642,24 @@ aliases:
   approved_by: 'claude-assistant 2026-10-23 (owner request: forecast these clubs with
     the low-confidence label; the club has no match history in the model; owner to
     re-confirm)'
+  confidence: 0.9
+- source: espn
+  raw_name: Shelbourne
+  team_id: IRL_shelbourne_fc
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Sigma Olomouc
+  team_id: CZE_sigma_olomouc
+  valid_from: null
+  valid_to: null
+  provenance: no_history_registered
+  approved_by: claude-assistant 2026-10-25 (ESPN backfill of 2025-26, ADR 0074 update;
+    owner asked to finish the remaining clubs; owner to re-confirm)
   confidence: 0.9
 - source: espn
   raw_name: Sint-Truidense

@@ -450,3 +450,17 @@ def test_sprint_4d_experiment_compares_the_extensions_with_the_base_model_on_ide
         assert p["verdict"] == ("SUPPORTED" if p["ci95"][1] < 0 else ("WORSE" if p["ci95"][0] > 0 else "INCONCLUSIVE"))
     assert set(out["selections_on_grid_edge"]) == {"H_base", "H_ext", "H_dyn"} and (e2e / "docs" / "s4d_extension.json").is_file()
     assert "wall_seconds" not in (e2e / "docs" / "s4d_extension.json").read_text(encoding="utf-8")        # the committed file carries no wall-clock number
+
+
+def test_the_neutral_prediction_removes_the_home_advantage_and_the_default_is_unchanged():
+    from src.league_models.stat_models import RidgePoissonDC
+
+    rows = synth(seasons=(2019, 2020, 2021), per_season=150)
+    m = RidgePoissonDC(DCSpec(competition_terms=True, home_dev=True), "t").fit(rows)
+    pair = [EvalRow("p", "ITA1", "2022-23", utc(2022, 9, 1), "ITA_t1", "ITA_t2", 1)]
+    mirror = [EvalRow("q", "ITA1", "2022-23", utc(2022, 9, 1), "ITA_t2", "ITA_t1", 1)]
+    default, neutral, swapped = m.predict(pair), m.predict(pair, neutral=True), m.predict(mirror, neutral=True)
+    assert np.array_equal(default.matrices, m.predict(pair, neutral=False).matrices)                      # the default path is the old one
+    assert neutral.lam_home[0] < default.lam_home[0] and neutral.lam_away[0] > default.lam_away[0]        # half of the home advantage moves from the nominal home side to the other
+    assert neutral.lam_home[0] == pytest.approx(swapped.lam_away[0]) and neutral.lam_away[0] == pytest.approx(swapped.lam_home[0])
+    assert neutral.matrices[0].sum() == pytest.approx(1.0)

@@ -1,5 +1,6 @@
 """Experimental goal-market model shown to users (ADR 0072). TEST_ONLY synthetic matches; not real data."""
 
+import json
 from datetime import UTC, datetime, timedelta
 
 import numpy as np
@@ -53,7 +54,11 @@ def test_the_model_is_fitted_on_available_history_and_predicts_valid_goal_market
     assert overs == sorted(overs, reverse=True)                                           # more goals needed, less likely
     assert x["expected_goals"]["total"] == pytest.approx(x["expected_goals"]["home"] + x["expected_goals"]["away"], abs=2e-3)
     assert len(x["scorelines"]) == 6 and "geliştirme" in x["evidence"] and x["selected"].keys() == {"1x2", "over_under", "btts"}
-    assert model.predict("ENG_t1", "ENG_t2", "EPL", NOW, neutral=True) is None            # no home-advantage switch: a neutral-venue final gets no block
+    n = model.predict("ENG_t1", "ENG_t2", "EPL", NOW + timedelta(days=3), neutral=True)         # a neutral-venue final gets a block without a home side (ADR 0080)
+    assert n["neutral_venue"] is True and x["neutral_venue"] is False and n["expected_goals"]["home"] < x["expected_goals"]["home"] and n["expected_goals"]["away"] > x["expected_goals"]["away"]
+    swapped = model.predict("ENG_t2", "ENG_t1", "EPL", NOW + timedelta(days=3), neutral=True)
+    assert abs(n["over_under"][1]["over"] - swapped["over_under"][1]["over"]) < 1e-9 and abs(n["btts_yes"] - swapped["btts_yes"]) < 1e-9          # no home side: the order of the two teams does not matter
+    assert abs(n["expected_goals"]["home"] - swapped["expected_goals"]["away"]) < 1e-3
 
 
 def test_a_match_that_is_not_yet_a_result_at_now_is_not_history():
@@ -102,3 +107,25 @@ def test_the_owner_can_switch_the_experimental_model_off(monkeypatch):
     monkeypatch.setenv("MARKETS_EXPERIMENTAL", "0")
     model, status = ExperimentalModel.fit(history(), NOW)
     assert model is None and status.startswith("DISABLED")
+
+
+def test_the_neutral_card_says_so_and_the_live_gate_does_not_count_neutral_blocks(tmp_path):
+    from src.markets.track import experimental_scorecard
+    from tests.test_experimental_gate import NOW as GATE_NOW
+    from tests.test_experimental_gate import world
+
+    model, _ = ExperimentalModel.fit(history(), NOW)
+    n = model.predict("ENG_t1", "ENG_t2", "EPL", NOW + timedelta(days=3), neutral=True)
+    html = pages.experimental_card({"home": "A", "away": "B", "goals": {"over_under": [{"line": 2.5, "over": 0.5, "under": 0.5}], "btts_yes": 0.5, "btts_no": 0.5}, "experimental": n})
+    assert "Tarafsız saha" in html
+    from src.web import i18n
+
+    assert "Neutral venue" in i18n.translate_html(html)
+    results = world(tmp_path, 40, +1)
+    base = experimental_scorecard(tmp_path, results, GATE_NOW)["matches_paired"]
+    assert base == 40
+    for f in (tmp_path / "artifacts" / "markets").glob("*/intel-x.json"):
+        art = json.loads(f.read_text(encoding="utf-8"))
+        art["experimental"]["neutral_venue"] = True
+        f.write_text(json.dumps(art), encoding="utf-8")
+    assert experimental_scorecard(tmp_path, results, GATE_NOW)["matches_paired"] == 0                  # shown to users, not part of the registered gate population

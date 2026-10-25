@@ -151,10 +151,10 @@ class HierarchicalDC:
         self.info = {"status": "TRAINED", "bridge_country_levels": self.bridge, "per_target": per_target, "inner_folds_used": [f.season for f in folds], "dropped_inner_folds": dropped, "nested_table": sel["table"]}
         return self
 
-    def predict(self, rows: list[EvalRow], target: str) -> MatrixPrediction:
+    def predict(self, rows: list[EvalRow], target: str, neutral: bool = False) -> MatrixPrediction:
         if target not in self.models:
             raise NotTrained("hierarchical model is not trained")
-        return self.models[target].predict(rows)
+        return self.models[target].predict(rows, neutral=True) if neutral else self.models[target].predict(rows)
 
 
 # ------------------------------------------------------------------------------------------------ exact-score audit

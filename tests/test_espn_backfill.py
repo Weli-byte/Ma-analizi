@@ -84,3 +84,26 @@ def test_the_live_collection_still_refuses_knockout_scores_and_a_backfilled_row_
 
     out = live_matches(tmp_path, set(), Cfg(), NOW, [])
     assert {m.season for m in out} == {"2025-26"} and len(out) == 2                    # not mislabelled with the current season
+
+
+def test_a_new_espn_alias_makes_the_marked_window_scan_once_more(tmp_path):
+    from types import SimpleNamespace
+
+    calls = []
+
+    def scan(slug, start, end):
+        calls.append(slug)
+        return scanner_for(events())(slug, start, end)
+
+    class D(Dir):
+        aliases = [SimpleNamespace(source="espn", raw_name="Juventus")]
+
+    args = (tmp_path, D(), date(2025, 7, 1), date(2026, 7, 1), NOW)
+    assert espn_backfill.backfill(*args, if_needed=True, scanner=scan, leagues=("UEL",))[0]["status"] == "OK"
+    assert espn_backfill.backfill(*args, if_needed=True, scanner=scan, leagues=("UEL",))[0]["status"] == "ALREADY_DONE" and len(calls) == 1
+
+    class D2(Dir):
+        aliases = [SimpleNamespace(source="espn", raw_name="Juventus"), SimpleNamespace(source="espn", raw_name="Breidablik")]       # a club that did not resolve before is now known
+
+    again = espn_backfill.backfill(tmp_path, D2(), date(2025, 7, 1), date(2026, 7, 1), NOW, if_needed=True, scanner=scan, leagues=("UEL",))
+    assert again[0]["status"] == "OK" and len(calls) == 2                                           # scanned once more; the merge is idempotent, nothing is added twice

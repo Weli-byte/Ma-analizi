@@ -3,7 +3,7 @@
 It is the Sprint 4c hierarchical Poisson / Dixon-Coles model (`league_models.per_league.HierarchicalDC`: team < country < world random effects plus competition terms, the variance
 components chosen per target by nested walk-forward) fitted on the SAME history the product already uses (`StatMatch` rows available at `now`). It supplies over/under, BTTS, expected goals
 and the most likely scorelines. It does NOT supply the 1X2 headline: on the development folds it was better than the production goal models for totals and BTTS and worse than the
-production Elo for the result. Neutral-venue matches (cup finals) are skipped because the model has no home-advantage switch.
+production Elo for the result. Neutral-venue matches (cup finals) are predicted without a home side (the home advantage is split evenly, ADR 0080); their block says `neutral_venue: true` and the live gate (ADR 0073) does not count them.
 
 Nothing is guessed: a fit that fails returns None and the artifact simply has no experimental block (the reason is logged by the caller)."""
 
@@ -77,13 +77,11 @@ class ExperimentalModel:
         return cls(hier, len(rows), sorted({r.season for r in rows})), "OK"
 
     def predict(self, home: str, away: str, league: str, kickoff: datetime, neutral: bool = False) -> dict | None:
-        if neutral:
-            return None
         row = EvalRow("exp", league, "", kickoff, home, away, 1)
         try:
-            ou = self.hier.predict([row], "over_under")
-            bt = self.hier.predict([row], "btts")
-            sc = self.hier.predict([row], "1x2")
+            ou = self.hier.predict([row], "over_under", neutral)
+            bt = self.hier.predict([row], "btts", neutral)
+            sc = self.hier.predict([row], "1x2", neutral)
         except Exception:  # a prediction that fails is simply not shown
             return None
         m = ou.matrices[0]
@@ -97,6 +95,7 @@ class ExperimentalModel:
             "expected_goals": {"home": round(float(ou.lam_home[0]), 3), "away": round(float(ou.lam_away[0]), 3), "total": round(float(ou.lam_home[0] + ou.lam_away[0]), 3)},
             "scorelines": [{"score": f"{i // g}-{i % g}", "p": round(float(sc.matrices[0].ravel()[i]), 4)} for i in order],
             "unseen_club": bool(not (ou.seen_home[0] and ou.seen_away[0])),
+            "neutral_venue": bool(neutral),
             "fitted_on": {"rows": self.rows, "seasons": self.seasons[:1] + self.seasons[-1:]},
             "selected": {t: per[t]["chosen"] for t in per},
             "fit_digest": hashlib.sha256(repr(sorted((t, per[t]["parameter_digest"]) for t in per)).encode()).hexdigest()[:12],

@@ -340,13 +340,16 @@ class RidgePoissonDC(LeagueStatModel):
             d += float(self.theta[sl["delta"]][self.c_idx[c]])
         return a, d, seen
 
-    def predict(self, rows: list[EvalRow], rest: dict | None = None) -> MatrixPrediction:
+    def predict(self, rows: list[EvalRow], rest: dict | None = None, neutral: bool = False) -> MatrixPrediction:
+        """`neutral=True` (ADR 0080): the matches are played at one neutral venue, so there is no home side. The home advantage (global term plus the competition's deviation) is split evenly:
+        half is taken from the nominal home side and half is given to the other, exactly the "mid level" rule of the product's rate model; the default (False) is unchanged."""
         if self.status != TRAINED:
             raise NotTrained(f"{self.model_id} is {self.status}: no prediction")
         s, sl = self.spec, self._sl
         n, g = len(rows), self.spec.max_goals + 1
         ea_h, ed_h, sh = zip(*(self.team_effects(r.home_id) for r in rows), strict=True)
         ea_a, ed_a, sa = zip(*(self.team_effects(r.away_id) for r in rows), strict=True)
+        hadv = np.full(n, float(self.theta[sl["h"]][0]))
         eh = self.theta[sl["mu"]][0] + self.theta[sl["h"]][0] + np.array(ea_h) - np.array(ed_a)
         ea = self.theta[sl["mu"]][0] + np.array(ea_a) - np.array(ed_h)
         if s.competition_terms:
@@ -358,18 +361,22 @@ class RidgePoissonDC(LeagueStatModel):
             )
             eh, ea = eh + kappa, ea + kappa
             if s.home_dev:
-                eh = eh + np.array(
+                dev = np.array(
                     [
                         self.theta[sl["hdev"]][self.k_idx[r.league_id]] if r.league_id in self.k_idx else 0.0
                         for r in rows
                     ]
                 )
+                eh = eh + dev
+                hadv = hadv + dev
         if s.use_rest:
             if rest is None:
                 raise NotTrained("rest features requested but not supplied")
             b = self.theta[sl["beta"]][0]
             eh = eh + b * np.array([rest[r.fixture_id][0] for r in rows])
             ea = ea + b * np.array([rest[r.fixture_id][1] for r in rows])
+        if neutral:
+            eh, ea = eh - hadv / 2.0, ea + hadv / 2.0
         lh, la = np.exp(eh), np.exp(ea)
         if not (np.isfinite(lh).all() and np.isfinite(la).all() and (lh > 0).all() and (la > 0).all()):
             raise NotTrained("non-positive or non-finite lambda")

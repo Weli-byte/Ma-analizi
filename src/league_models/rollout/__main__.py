@@ -32,7 +32,7 @@ def main(argv=None) -> int:
     configure_output()
     load_dotenv()
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("command", choices=["shadow", "reconcile", "monitor", "scorecard", "dashboard", "status", "gate", "prepare"])
+    ap.add_argument("command", choices=["shadow", "reconcile", "monitor", "scorecard", "dashboard", "status", "gate", "prepare", "notify"])
     ap.add_argument("--root", default=str(ROOT))
     ap.add_argument("--now", default=None, help="ISO UTC override for rehearsals; default is the real clock")
     a = ap.parse_args(argv)
@@ -48,6 +48,26 @@ def main(argv=None) -> int:
         cdir = config_dir_for(root)
         world = load_world(root, TeamDirectory.load(cdir / "team_aliases.yaml"), load_config("markets", cdir), now)
         sys.stdout.write(json.dumps({"history_matches": len(world.history), "stale_files": world.stale_files, "missing_files": world.missing_files}, default=str) + "\n")
+        return 0
+    if a.command == "notify":
+        from src.mlops import notify
+
+        sent = []
+        state = d / "notified.json"
+        alerts_path = d / "alerts.jsonl"
+        for line in (alerts_path.read_text(encoding="utf-8").splitlines() if alerts_path.is_file() else []):
+            al = json.loads(line)
+            fresh = (now - datetime.fromisoformat(al["at"])).total_seconds() < 2 * 3600       # only what the last runs raised: the file keeps the whole history
+            if al.get("severity") in notify.SEVERITIES and fresh:
+                key = f"alert:{al['key']}:{al['severity']}:{now.date().isoformat()}"            # at most one message per alert and day
+                sent.append((key, notify.notify_once(state, key, f"[{al['severity'].upper()}] Gölge sistem: {al['key']}\n{al['message']}")))
+        gate_path = d / "shadow_gate.json"
+        if gate_path.is_file():
+            for fam, v in json.loads(gate_path.read_text(encoding="utf-8"))["families"].items():
+                if v["status"] != "SHADOW":
+                    key = f"gate:{fam}:{v['status']}"
+                    sent.append((key, notify.notify_once(state, key, f"Gölge model {fam}: {v['status']}\n{v['status_reason']}\n(Öneridir, hiçbir şey otomatik değişmez.)")))
+        sys.stdout.write(json.dumps({"configured": notify.configured(), "results": dict(sent)}, indent=2) + "\n")
         return 0
     if a.command == "gate":
         from . import gate as gate_mod

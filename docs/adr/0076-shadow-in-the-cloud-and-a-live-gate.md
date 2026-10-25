@@ -18,3 +18,6 @@ The shadow records were written by a Windows scheduled task on the owner's PC. A
 
 ## Rollback
 Disable the workflow (GitHub Actions page or delete the file), re-enable the Windows task (`scripts/install_shadow_task.ps1`), copy `shadow-data` back to `artifacts/league_models/rollout/` first so the stores continue.
+
+## Update 2026-10-25 (same day): self-restarting loop instead of a 30-minute cron
+On the first day GitHub's cron fired late or not at all for new and old workflows (the markets job was almost an hour late, the shadow job's own cron never fired in two hours). A pre-match record can only be written in a 3-hour window, so the job now runs five rounds ten minutes apart inside one run (`scripts/shadow_cloud_loop.sh`), then starts itself again with `gh workflow run` (the same self-restarting loop as odds-exact, ADR 0049; `SHADOW_LOOP=off` as a repository variable stops it). The cron stays as an hourly backup that revives a stopped loop. The stores are published after a round that changed them and at least every third round (the stamp in `shadow_gate.json` is what the markets job's watchdog reads, ADR 0077).

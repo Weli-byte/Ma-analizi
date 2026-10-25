@@ -112,7 +112,11 @@ def test_the_api_track_record_carries_the_shadow_verdict_when_the_file_exists(tm
     assert svc.track_record()["shadow_gate"] == {"families": {}}
 
 
-def test_the_workflow_restores_publishes_and_never_holds_a_secret():
+def test_the_workflow_restores_loops_restarts_itself_and_never_holds_a_secret():
     wf = (ROOT / ".github" / "workflows" / "shadow-cloud.yml").read_text(encoding="utf-8")
-    assert "shadow-data" in wf and "rollout prepare" in wf and "for cmd in shadow reconcile monitor scorecard gate" in wf and "concurrency:" in wf
+    loop = (ROOT / "scripts" / "shadow_cloud_loop.sh").read_text(encoding="utf-8")
+    assert "shadow-data" in wf and "rollout prepare" in wf and "scripts/shadow_cloud_loop.sh" in wf and "concurrency:" in wf and "actions: write" in wf
+    assert "gh workflow run shadow-cloud.yml" in wf and "SHADOW_LOOP" in wf and 'cron: "17 * * * *"' in wf          # the loop restarts itself; the hourly cron only revives a stopped loop
+    assert "for cmd in shadow reconcile monitor scorecard gate notify" in loop and "sleep" in loop and "git push -q data HEAD:shadow-data" in loop
+    assert "(r - 1) % 3" in loop and 'before" != "$after"' in loop                                                 # publish after a round that changed the stores, and at least every third round
     assert "secrets.FOOTBALL_DATA_ORG_API_KEY" in wf and "secrets.DATA_REPO_DEPLOY_KEY" in wf and "AIza" not in wf and "sk-" not in wf

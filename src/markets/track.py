@@ -284,6 +284,12 @@ def main(argv=None) -> int:
     names = {t: v["canonical_name"] for t, v in directory.teams.items()}
     rep = track_record(root, world.history, names=names)
     rep["experimental"] = experimental_scorecard(root, world.history)
+    previous = json.loads((root / "artifacts" / "markets" / STATUS_FILE).read_text(encoding="utf-8")) if (root / "artifacts" / "markets" / STATUS_FILE).is_file() else {}
+    if rep["experimental"]["status"] != previous.get("status", "BETA"):  # the card changed state (verified or withdrawn): tell the owner once
+        from src.mlops.notify import notify_once
+
+        st = rep["experimental"]
+        print("notify:", notify_once(root / "artifacts" / "markets" / "notified.json", f"card:{st['status']}", f"Deneysel model kartı: {st['status']} - {st['status_reason']} ({st['matches_paired']} maç)"))
     (root / "artifacts" / "markets" / STATUS_FILE).write_text(json.dumps(rep["experimental"], indent=2, default=float), encoding="utf-8")
     out = root / "artifacts" / "markets" / "track_record.json"
     out.write_text(json.dumps(rep, indent=2, default=float), encoding="utf-8")

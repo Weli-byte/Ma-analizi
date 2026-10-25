@@ -23,6 +23,8 @@ jobs:
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
       THE_ODDS_API_KEY_2: ${{ secrets.THE_ODDS_API_KEY_2 }}  # optional second free account (ADR 0059)
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # optional (ADR 0077): without them notify is a no-op
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
     steps:
       - uses: actions/checkout@v4
         with:

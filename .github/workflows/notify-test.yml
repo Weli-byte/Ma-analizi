@@ -1,0 +1,20 @@
+name: notify-test
+# Manual only: sends one Telegram test message with the repository secrets TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID (ADR 0077). Prints SENT, NOT_CONFIGURED or FAILED:<class>; never prints a secret.
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Send the test message
+        run: python -m src.mlops.notify

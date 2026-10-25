@@ -17,6 +17,8 @@ jobs:
     timeout-minutes: 25
     env:
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # optional (ADR 0077): without them notify is a no-op
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -63,7 +65,7 @@ jobs:
       - name: Shadow records, results, alarms, scorecards, gate
         run: |
           set +e
-          for cmd in shadow reconcile monitor scorecard gate; do
+          for cmd in shadow reconcile monitor scorecard gate notify; do
             echo "=== $cmd ==="
             python -m src.league_models.rollout $cmd
             echo "exit=$?"

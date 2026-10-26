@@ -395,6 +395,21 @@ def test_a_shadow_replay_is_idempotent_and_a_late_fixture_gets_no_record(shadow_
     assert late["fixtures_due"] == 0 and late["records"]["CREATED"] == 0
 
 
+def test_a_later_round_with_a_longer_history_keeps_the_first_record_of_the_stage_and_is_not_a_refusal(shadow_env):
+    """ADR 0082: a result that arrives between two rounds changes the fitted history, so the same stage would hash differently; the stored record stands, nothing is overwritten."""
+    env = shadow_env
+    prov = FakeProvider([_fx(1, "Team 0", "Team 1")])
+    _shadow(env, prov)
+    path = env[0] / "rollout" / "prospective.jsonl"
+    before = path.read_text(encoding="utf-8")
+    changed = "\n".join(json.dumps({**json.loads(x), "content_hash": "changed-by-a-longer-history"}, sort_keys=True) for x in before.splitlines()) + "\n"
+    path.write_text(changed, encoding="utf-8")
+    again = _shadow(env, prov, now=NOW + timedelta(minutes=20))
+    assert again["status"] == "OK" and again["records"]["CONFLICT"] == 0 and again["records"]["CREATED"] == 0 and again["records"]["EXISTS"] == 3 and again["stage_already_recorded"] == 3
+    assert path.read_text(encoding="utf-8") == changed                                                     # immutable: not a byte changed
+    assert "records_refused" not in _keys(monitoring.check_runs([again], cfg_with(env[0]), NOW), "critical")
+
+
 def test_provider_failures_unresolved_clubs_and_duplicates_never_produce_a_guess(shadow_env):
     env = shadow_env
     rl = _shadow(env, FakeProvider(error=RateLimitedError("HTTP 429")))

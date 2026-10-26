@@ -272,6 +272,38 @@ def test_cup_credit_is_spent_only_when_a_match_is_inside_the_horizon(tmp_path, m
     assert paid == [1]
 
 
+def test_a_scheduled_league_is_called_once_per_window_not_once_per_round(tmp_path, monkeypatch):
+    """ADR 0083: rounds come every 10 minutes and a window is up to 60 minutes wide; one call answers the whole window."""
+    from types import SimpleNamespace
+
+    from src.ingestion.football_data_org import FootballDataOrgProvider
+    from src.odds import run as odds_run
+
+    monkeypatch.setenv("THE_ODDS_API_KEY", "k")
+    monkeypatch.setenv("FOOTBALL_DATA_ORG_API_KEY", "fd")
+    __import__("shutil").copytree(ROOT / "configs", tmp_path / "configs")
+    kick = datetime(2026, 10, 14, 15, tzinfo=UTC)
+    fixture = SimpleNamespace(status_raw="NS", kickoff_utc=kick)
+    monkeypatch.setattr(FootballDataOrgProvider, "list_fixtures", lambda self, lg, season: [fixture])
+    paid = []
+    monkeypatch.setattr(odds_run, "_collect_feed", lambda *a, **k: paid.append(1) or [])
+
+    def at(minutes_before):
+        return odds_run.collect_exact(tmp_path, "PL", tmp_path, now=kick - timedelta(minutes=minutes_before))
+
+    at(90)
+    again = at(80)
+    at(70)
+    assert paid == [1] and "already collected" in again[0] and "no credit spent" in again[0]         # window 95..65: one call
+    at(30)
+    at(25)
+    assert paid == [1, 1]                                                                               # window 35..10: one more
+    at(5)
+    at(2)
+    assert paid == [1, 1, 1]                                                                            # window 12..0
+    assert odds_run.collect_exact(tmp_path, "PL", tmp_path, now=kick - timedelta(minutes=80), force=True) is not None and paid == [1, 1, 1, 1]  # --force still calls
+
+
 def test_quota_reached_pauses_the_provider_instead_of_failing_every_round(tmp_path, monkeypatch):
     from src.odds import run as odds_run
 

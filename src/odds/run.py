@@ -286,6 +286,22 @@ def is_quota_error(e: Exception) -> bool:
 FDORG_SCHEDULED = {"PL", "PD", "BL1", "SA", "FL1"}  # leagues whose due windows come from football-data.org
 
 
+def _served_path(store_root: Path, league: str) -> Path:
+    return store_root / "artifacts" / "odds" / f"_served_windows_{league}.json"
+
+
+def _served_windows(store_root: Path, league: str, now: datetime) -> dict[str, str]:
+    """Windows (kickoff|window index) already answered by a call; entries older than 3 days are dropped."""
+    path = _served_path(store_root, league)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+    return {k: v for k, v in data.items() if now - datetime.fromisoformat(v) < timedelta(days=3)}
+
+
 def collect_exact(
     root: Path, league: str, data_root: Path | None = None, now: datetime | None = None, force: bool = False
 ) -> list[str]:
@@ -335,6 +351,11 @@ def collect_exact(
         ]
         if not due:
             return [f"{league}: no collection window open (no credit spent)"]
+        served = _served_windows(store_root, league, now)
+        due_keys = {f"{f.kickoff_utc.isoformat()}|{due_window(f.kickoff_utc, now)}" for f in due}
+        # one call answers every fixture of a window; a repeat only spends credits (ADR 0083)
+        if due_keys <= set(served):
+            return [f"{league}: every open window was already collected (no credit spent)"]
     feed = TheOddsApiFeed(key, cfg.odds_api_bookmakers)
     left = None
     left = key_remaining(store_root, key, key == odds_keys()[0])
@@ -366,6 +387,9 @@ def collect_exact(
         ]
     marker.parent.mkdir(parents=True, exist_ok=True)
     marker.write_text(json.dumps({"at": now.isoformat()}), encoding="utf-8")
+    if not force and league in FDORG_SCHEDULED:
+        done = {**served, **{k: now.isoformat() for k in due_keys}}
+        _served_path(store_root, league).write_text(json.dumps(done, sort_keys=True), encoding="utf-8")
     credits_path.parent.mkdir(parents=True, exist_ok=True)
     body = json.dumps(
         {"remaining": feed.requests_remaining, "updated_at": now.isoformat(), "key": key_id(key)}

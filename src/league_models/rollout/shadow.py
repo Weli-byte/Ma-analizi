@@ -499,6 +499,7 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
     sm = fit_models(history, cells, root, snapshot_id + f"|extra{len(extra)}|overlay{len(overlay)}", cal_path, scfg, mcfg, league_cfg.result_lag_hours, bcfg, cfg["shadow"].get("per_league"))
     report["model_errors"] = sm.errors
     store = ProspectiveStore(out_dir / "prospective.jsonl")
+    stored_hash = {f"{o['fixture_id']}|{o['stage']}|{o['model_version']}|{o['family']}": o["content_hash"] for o in store.all()}
     scores = ScoreForecastStore(out_dir / "score_forecasts.jsonl")
     report["score_forecasts"] = {"CREATED": 0, "EXISTS": 0, "SKIPPED": 0}
     line = float(cfg["shadow"]["line"])
@@ -531,6 +532,10 @@ def run_shadow(root: Path, now: datetime, *, provider=None, audit=None, cfg: Rol
             rec = ProspectiveRecord(row.fixture_id, row.league_id, row.kickoff_utc.isoformat(), now.isoformat(), stage.value, sm.version(fam), fam if role == "global" else family, role,
                                     fields["p_home"], fields["p_draw"], fields["p_away"], fields["p_over25"], fields["p_btts_yes"], snap, license_ids,
                                     {**flags, "lineups": "UNKNOWN", "odds": "NOT_USED", "history_sources": overlay_flag, **({"identity": id_flags[row.fixture_id]} if row.fixture_id in id_flags else {})}, why)  # fmt: skip
+            if stored_hash.get(rec.key(), rec.content_hash()) != rec.content_hash():  # the stage already has its record: a later round sees a longer history (a result arrived since), the first stands (ADR 0082)
+                report["records"]["EXISTS"] += 1
+                report["stage_already_recorded"] = report.get("stage_already_recorded", 0) + 1
+                continue
             try:
                 report["records"][store.put(rec, now)] += 1
             except ProspectiveConflict as e:

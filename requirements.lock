@@ -1053,9 +1053,9 @@ nvidia-nccl-cu13==2.32.3 ; sys_platform == 'linux' \
     --hash=sha256:1459723080ac889d73a26edfa3e04383a7928ab31ac8f0ec43b3ea9548b04ff3 \
     --hash=sha256:a5bee92b2f4af218c109f8d221c3c9adcc752b94ae0ffcb0ed5abf9341a7724c
     # via xgboost
-openai==3.37.0 \
-    --hash=sha256:670bd6f699000d43a2073bcf94374a55bb133bfe5de0d084d47eb9bb9f6a8e5d \
-    --hash=sha256:d9f5b000f52397a7f9f946012744c5bc4c962eed3c100385252464c273a63e57
+openai==3.39.0 \
+    --hash=sha256:02687994f7bb6a4e80ed7796426d46c654889821ce4eb48699be15b3a425e1d3 \
+    --hash=sha256:e29bc8d9785d9a386cffa0bed1726e7f3989e096245c0c003cb29f1d4ae67e32
     # via football-forecasting (pyproject.toml)
 opentelemetry-api==1.45.1 \
     --hash=sha256:aa38ed19bcc084ba42782a73255b3582283eced7ad6dddbd6695189e69adfb75 \

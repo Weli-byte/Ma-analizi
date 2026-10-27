@@ -246,6 +246,7 @@ def match_row(i: dict, logos, tags: bool = True) -> str:
             )
             + "</div>"
         )
+    xg = i["goals"]["expected"]
     warn = " ⚠" if i["data_quality"]["flags"] else ""
     low = i["data_quality"].get("low_confidence")
     badge = f"<span class='tag'>{e(low['label'])}</span>" if low else ""
@@ -254,7 +255,7 @@ def match_row(i: dict, logos, tags: bool = True) -> str:
         f"<div class='t'><b>{t.strftime('%H:%M')}</b>{t.day} {MONTHS[t.month - 1]}</div>"
         f"<div class='tm'><div>{team_badge(i, 'home', logos)}{e(i['home'])}</div><div>{team_badge(i, 'away', logos)}{e(i['away'])}</div></div>"
         f"{boxes(r['home'], r['draw'], r['away'])}</div>{tag_html}"
-        f"<div class='mut' style='margin-top:6px'>En olası skor <b>{e(i['most_likely_score'])}</b>{warn} {badge}</div></div></a>"
+        f"<div class='mut' style='margin-top:6px'>Beklenen gol <b>{xg['home']:.1f} - {xg['away']:.1f}</b> · En olası skor <b>{e(i['most_likely_score'])}</b> ({pct(i['scorelines'][0]['p'])}){warn} {badge}</div></div></a>"
     )
 
 

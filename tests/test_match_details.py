@@ -380,3 +380,16 @@ def test_the_low_confidence_label_is_shown_on_the_card_and_the_match_page_and_tr
     assert "No history, low confidence" in i18n.translate_html(card) and "league-average strength" in i18n.translate_html(page)
     plain = _intel(None) | {"most_likely_score": "1-1"}
     assert "Geçmişi yok" not in pages.match_row(plain, Logos()) and "Geçmişi yok" not in pages.match_page(plain, [], Logos())   # artifacts written before this field exist
+
+
+def test_the_match_card_shows_expected_goals_next_to_the_most_likely_score_and_its_probability():
+    from src.web import i18n
+
+    class Logos:
+        def __getattr__(self, name):
+            return lambda *a, **k: None
+
+    intel = _intel(None) | {"most_likely_score": "1-1", "goals": {"expected": {"home": 1.64, "away": 1.08, "total": 2.72}}, "scorelines": [{"score": "1-1", "p": 0.112}]}
+    card = pages.match_row(intel, Logos())
+    assert "Beklenen gol" in card and "1.6 - 1.1" in card and "En olası skor" in card and "(%11)" in card
+    assert "Expected goals" in i18n.translate_html(card)

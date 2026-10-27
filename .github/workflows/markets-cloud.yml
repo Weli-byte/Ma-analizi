@@ -20,6 +20,7 @@ jobs:
       DATA_REPO_URL: git@data-repo:Weli-byte/Ma-analizi2.git
       HIGHLIGHTLY_API_KEY: ${{ secrets.HIGHLIGHTLY_API_KEY }}
       API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+      INJURIES_COLLECT: ${{ vars.INJURIES_COLLECT }}   # set the repository variable to `off` to pause API-Football calls (account suspended)
       FOOTBALL_DATA_ORG_API_KEY: ${{ secrets.FOOTBALL_DATA_ORG_API_KEY }}
       THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
       THE_ODDS_API_KEY_2: ${{ secrets.THE_ODDS_API_KEY_2 }}  # optional second free account (ADR 0059)

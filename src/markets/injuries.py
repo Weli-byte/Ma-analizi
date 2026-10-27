@@ -26,6 +26,7 @@ from src.mlops.oplog import logged_urlopen
 
 ROOT = Path(__file__).resolve().parents[2]
 KEY_ENV = "API_FOOTBALL_KEY"
+PAUSE_ENV = "INJURIES_COLLECT"   # "off" pauses the collection (repository variable in the cloud job)
 SOURCES = (SOURCE, "the-odds-api", "openfootball-cups", "openfootball")
 WEB_LABEL = {"DOUBTFUL": "Şüpheli", "INJURED": "Sakat", "SUSPENDED": "Cezalı", "UNAVAILABLE": "Kadro dışı"}
 
@@ -142,6 +143,9 @@ def latest_for(root: Path, home_id: str, away_id: str, kickoff: datetime) -> dic
 def main(argv=None) -> int:
     configure_output()
     load_dotenv()
+    if os.environ.get(PAUSE_ENV, "").strip().lower() == "off":  # the owner paused the collection (e.g. the provider suspended the account): no request is made
+        print(f"PAUSED: ${PAUSE_ENV}=off, no request to the provider (stored observations stay as they are)")
+        return 0
     key = os.environ.get(KEY_ENV)
     if not key:
         print(f"NOT_CONFIGURED: ${KEY_ENV} not set")

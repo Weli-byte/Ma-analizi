@@ -93,3 +93,13 @@ def test_cli_needs_a_key(monkeypatch, capsys):
     monkeypatch.setattr("src.cli_utils.load_dotenv", lambda *a, **k: None)  # configure_output loads .env too
     assert injuries.main() == 2
     assert "NOT_CONFIGURED" in capsys.readouterr().out
+
+
+def test_a_paused_collection_makes_no_request_even_with_a_key(monkeypatch, capsys):
+    from src.markets import injuries
+
+    monkeypatch.setenv("API_FOOTBALL_KEY", "never-used")
+    monkeypatch.setenv("INJURIES_COLLECT", "off")
+    monkeypatch.setattr(injuries, "collect", lambda *a, **k: (_ for _ in ()).throw(AssertionError("a request was made")))
+    assert injuries.main([]) == 0
+    assert "PAUSED" in capsys.readouterr().out

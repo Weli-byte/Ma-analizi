@@ -1,6 +1,8 @@
 # Expected goals (xG) data source
 
-**Status: NOT AVAILABLE. No validated xG source is integrated.** The `xg_avg_10` / `xga_avg_10`
+**Status (updated 2026-10-27, ADR 0085): a real xG source exists but is RESEARCH ONLY and too young to use.** Highlightly returns `expected_goals` for most matches (335 of 336 fetched 2026-27 matches); the free plan is research-only, product use needs PRO; no publication time, so history starts at our fetch time (2026-10-13). `src/xg/` builds as-of safe features behind the OFF flag `XG_FEATURES_ENABLED`; no model reads them. The text below is the original note: no validated source was integrated when it was written.
+
+**Original status: NOT AVAILABLE. No validated xG source is integrated.** The `xg_avg_10` / `xga_avg_10`
 features are declared as `experimental` in `src/features/registry.py` (`EXPERIMENTAL`), are never produced,
 never written to `features.parquet`, and never used for training. xG is never imputed or faked.
 

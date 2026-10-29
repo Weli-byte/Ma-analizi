@@ -1,0 +1,282 @@
+{
+ "away_id": "TUR_fenerbahce",
+ "espn_event_id": "401888265",
+ "home_id": "TUR_galatasaray",
+ "kickoff_utc": "2026-10-26T18:30:00+00:00",
+ "league": "SUPERLIG",
+ "lineup_sha256": "fa21c05d2d67476c375213d8348634a19e69f0653004dfe51bb15cb5f03cc458",
+ "lineups": {
+  "away": {
+   "formation": "4-2-3-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "31",
+     "name": "Ederson",
+     "position": "G"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "27",
+     "name": "Nélson Semedo",
+     "position": "D"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "3",
+     "name": "Archie Brown",
+     "position": "D"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "22",
+     "name": "Munir Mercan",
+     "position": "D"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "37",
+     "name": "Milan Skriniar",
+     "position": "D"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "17",
+     "name": "Irfan Can Kahveci",
+     "position": "M"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "70",
+     "name": "Oguz Aydin",
+     "position": "M"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "11",
+     "name": "Mason Greenwood",
+     "position": "M"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "6",
+     "name": "Matteo Guendouzi",
+     "position": "M"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "91",
+     "name": "N'Golo Kanté",
+     "position": "M"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Romelu Lukaku",
+     "position": "F"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "34",
+     "name": "Mert Günok",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Yiğit Demir",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "45",
+     "name": "Nene Dorgeles",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Kojo Peprah Oppong",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Kerem Aktürkoglu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Mert Müldür",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Mert Yandas",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "28",
+     "name": "Bartug Elmaz",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Ismail Yüksek",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "19",
+     "name": "Vedat Muriqi",
+     "position": "SUB"
+    }
+   ],
+   "team": "Fenerbahce"
+  },
+  "home": {
+   "formation": "4-2-3-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Ugurcan Çakir",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "42",
+     "name": "Abdülkerim Bardakçi",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "6",
+     "name": "Davinson Sánchez",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "4",
+     "name": "Ismail Jakobs",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "7",
+     "name": "Roland Sallai",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "83",
+     "name": "Alexey Batrakov",
+     "position": "AM"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "99",
+     "name": "Mario Lemina",
+     "position": "LM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "34",
+     "name": "Lucas Torreira",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "45",
+     "name": "Victor Osimhen",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "53",
+     "name": "Baris Alper Yilmaz",
+     "position": "AM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "11",
+     "name": "Yunus Akgün",
+     "position": "AM-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "10",
+     "name": "Leroy Sané",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "17",
+     "name": "Eren Elmali",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "74",
+     "name": "Renato Nhaga",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "90",
+     "name": "Wilfried Singo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "24",
+     "name": "Jankat Yilmaz",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Deniz Gül",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Lesley Ugochukwu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Ilkay Gündogan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "27",
+     "name": "Rafael Leão",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Gabriel Gomes",
+     "position": "SUB"
+    }
+   ],
+   "team": "Galatasaray"
+  }
+ },
+ "observed_at": "2026-10-26T17:36:44.390273+00:00",
+ "raw_sha256": "c1302f50d756939dd843de1dd38b45f0f4a4568d00aab14572f464a39427709e",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

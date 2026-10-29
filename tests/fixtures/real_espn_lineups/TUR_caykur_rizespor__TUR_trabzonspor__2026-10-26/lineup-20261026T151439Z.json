@@ -1,0 +1,282 @@
+{
+ "away_id": "TUR_trabzonspor",
+ "espn_event_id": "401888267",
+ "home_id": "TUR_caykur_rizespor",
+ "kickoff_utc": "2026-10-26T16:00:00+00:00",
+ "league": "SUPERLIG",
+ "lineup_sha256": "c2dc9444913496903c8f2f553b36640fd2534da8250413e5269373d3463574a6",
+ "lineups": {
+  "away": {
+   "formation": "4-2-3-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "24",
+     "name": "André Onana",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "15",
+     "name": "Stefan Savic",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "27",
+     "name": "Chibuike Nwaiwu",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "19",
+     "name": "Mustafa Eskihellac",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "20",
+     "name": "Wagner Pina",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "7",
+     "name": "Ernest Muçi",
+     "position": "AM"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "6",
+     "name": "Fabinho",
+     "position": "LM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "57",
+     "name": "Melih Kabasakal",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Franculino Djú",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "58",
+     "name": "Aral Simsir",
+     "position": "AM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "10",
+     "name": "Mohamed Salah",
+     "position": "AM-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "70",
+     "name": "Noah Saviolo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "1",
+     "name": "Ahmet Yildirim",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "77",
+     "name": "Metehan Mimaroglu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Mehmet Umut Nayir",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "99",
+     "name": "Ali Habesoglu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Ozan Tufan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "55",
+     "name": "Sidny Lopes Cabral",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "26",
+     "name": "Tim Jabol-Folcarelli",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "4",
+     "name": "Samet Akaydin",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "39",
+     "name": "Cenk Özkacar",
+     "position": "SUB"
+    }
+   ],
+   "team": "Trabzonspor"
+  },
+  "home": {
+   "formation": "4-1-4-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "75",
+     "name": "Yahia Fofana",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "93",
+     "name": "Modibo Sagnan",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "21",
+     "name": "Siaka Bakayoko",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "14",
+     "name": "Taylan Antalyali",
+     "position": "DM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "17",
+     "name": "Zakaria Ariss",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "54",
+     "name": "Mithat Pala",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "20",
+     "name": "Qazim Laçi",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "10",
+     "name": "Ibrahim Olawoyin",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "99",
+     "name": "Emrecan Bulut",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "11",
+     "name": "Adedire Mebude",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "29",
+     "name": "Gennaro Borrelli",
+     "position": "F"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Dal Varesanovic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "4",
+     "name": "Attila Mocsi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "79",
+     "name": "Iustin Doicaru",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "70",
+     "name": "Can Bozdogan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Valentin Mihaila",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Tayyib Talha Sanuc",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "37",
+     "name": "Taha Sahin",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Ali Sowe",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "30",
+     "name": "Zafer Görgen",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Moussa Diakité",
+     "position": "SUB"
+    }
+   ],
+   "team": "Caykur Rizespor"
+  }
+ },
+ "observed_at": "2026-10-26T15:14:39.120338+00:00",
+ "raw_sha256": "a953851d3eee85dc0c0f0d5d7ed3bdb2696ea07e7f9a136415c629f470851620",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

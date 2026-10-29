@@ -1,0 +1,324 @@
+{
+ "away_id": "ITA_bologna",
+ "espn_event_id": "401874993",
+ "home_id": "ITA_ac_milan",
+ "kickoff_utc": "2026-10-28T17:30:00+00:00",
+ "league": "SERIEA",
+ "lineup_sha256": "cbb4823d40a59290ba0407e34244ce7cb966af1b7bcf803392020365778afcea",
+ "lineups": {
+  "away": {
+   "formation": "3-4-3",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Lukasz Skorupski",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "16",
+     "name": "Nicoló",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "3",
+     "name": "Arthur Theate",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "36",
+     "name": "Matteo Darmian",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "4",
+     "name": "Tommaso Pobega",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "19",
+     "name": "Lewis Ferguson",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "23",
+     "name": "Rahim Alhassane",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "20",
+     "name": "Nadir Zortea",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "21",
+     "name": "Jens Odgaard",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "11",
+     "name": "Samuel Mbangula",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "10",
+     "name": "Federico Bernardeschi",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Nikola Moro",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "28",
+     "name": "Nicolò Cambiaghi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Eivind Helland",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Torbjørn Heggem",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Artem Dovbyk",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "25",
+     "name": "Massimo Pessina",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "43",
+     "name": "Luca Lo Monaco",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "33",
+     "name": "Juan Miranda",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "17",
+     "name": "Oussama El Azzouzi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Marco Libra",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Mikel Amondarain",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "41",
+     "name": "Martin Vitík",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "72",
+     "name": "Ukko Happonen",
+     "position": "SUB"
+    }
+   ],
+   "team": "Bologna"
+  },
+  "home": {
+   "formation": "4-2-3-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "16",
+     "name": "Mike Maignan",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "31",
+     "name": "Strahinja Pavlovic",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "5",
+     "name": "Koni De Winter",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "2",
+     "name": "Pervis Estupiñán",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "23",
+     "name": "Fikayo Tomori",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "70",
+     "name": "Alphadjo Cissè",
+     "position": "AM"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "30",
+     "name": "Ardon Jashari",
+     "position": "LM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "80",
+     "name": "Yunus Musah",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Gonçalo Ramos",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "33",
+     "name": "Davide Bartesaghi",
+     "position": "AM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "20",
+     "name": "Omari Hutchinson",
+     "position": "AM-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "48",
+     "name": "El Hadji Malick Cissé",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "13",
+     "name": "Sankhoun Diawara",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "73",
+     "name": "Francesco Camarda",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "42",
+     "name": "Filippo Terracciano",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "47",
+     "name": "Nirash Raffaello Perera",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "41",
+     "name": "Léo-Paul Bouyer",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "49",
+     "name": "Luca Menon",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "35",
+     "name": "Valeri Vladimirov",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "96",
+     "name": "Lorenzo Torriani",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "28",
+     "name": "Christian Comotto",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Christian Pulisic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Luka Modric",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "40",
+     "name": "Lorenzo Ossola",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "55",
+     "name": "Silvano Vos",
+     "position": "SUB"
+    }
+   ],
+   "team": "AC Milan"
+  }
+ },
+ "observed_at": "2026-10-28T17:38:54.212777+00:00",
+ "raw_sha256": "7d7555d82933bb2b8c668658cdded794e4a7c1ca5dee72653fde891b7136a416",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

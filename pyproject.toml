@@ -72,6 +72,7 @@ extend-exclude = [".venv", "notebooks"]
 "src/markets/lineups.py" = ["E501"]  # wide docstrings (ADR 0081)
 "src/readiness.py" = ["E501"]  # wide table rows (ADR 0081)
 "src/xg/*" = ["E501"]  # wide docstrings and report lines (ADR 0085)
+"src/availability/*" = ["E501"]  # wide docstrings and report lines (ADR 0086)
 "src/league_models/nested.py" = ["E501"]  # wide dict literals (Sprint 4c)
 "src/league_models/per_league.py" = ["E501"]  # wide dict literals (Sprint 4c)
 "src/league_models/extra_features.py" = ["E501"]  # wide docstrings (Sprint 4c)

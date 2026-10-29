@@ -1,0 +1,318 @@
+{
+ "away_id": "ITA_inter",
+ "espn_event_id": "401874773",
+ "home_id": "ITA_venezia",
+ "kickoff_utc": "2026-10-28T17:30:00+00:00",
+ "league": "SERIEA",
+ "lineup_sha256": "bd41c26c59eab5eda18c73a060e12dfd830f2cdc8266e468e6857417653aee03",
+ "lineups": {
+  "away": {
+   "formation": "3-5-2",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "49",
+     "name": "Ivan Provedel",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "95",
+     "name": "Alessandro Bastoni",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "30",
+     "name": "Carlos Augusto",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "31",
+     "name": "Yann Bisseck",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "7",
+     "name": "Piotr Zielinski",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "8",
+     "name": "Petar Sucic",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "5",
+     "name": "Aleksandar Stankovic",
+     "position": "AM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "32",
+     "name": "Federico Dimarco",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "17",
+     "name": "Andy Diouf",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "14",
+     "name": "Ange-Yoan Bonny",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "9",
+     "name": "Marcus Thuram",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "53",
+     "name": "Matteo Lavelli",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "94",
+     "name": "Pio Esposito",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "1",
+     "name": "Josep Martínez",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "23",
+     "name": "Nicolò Barella",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "12",
+     "name": "Raffaele Di Gennaro",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "48",
+     "name": "Mattia Mosconi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Henrikh Mkhitaryan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "46",
+     "name": "Leonardo Bovio",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Hakan Çalhanoglu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "99",
+     "name": "Djed Spence",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "25",
+     "name": "Manuel Akanji",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "51",
+     "name": "Leon Jakirovic",
+     "position": "SUB"
+    }
+   ],
+   "team": "Internazionale"
+  },
+  "home": {
+   "formation": "3-5-2",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Filip Stankovic",
+     "position": "G"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "15",
+     "name": "Juan Jesus",
+     "position": "CD"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "2",
+     "name": "Matías Moreno",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "25",
+     "name": "Redouane Halhal",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "21",
+     "name": "Thorir Johann Helgason",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "71",
+     "name": "Enrique Perez",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "19",
+     "name": "Simon Sohm",
+     "position": "AM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "18",
+     "name": "Antoine Hainaut",
+     "position": "LM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "70",
+     "name": "Pasquale Mazzocchi",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "45",
+     "name": "Akor Adams",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "29",
+     "name": "Lion Lauberbach",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Ridgeciano Haps",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Albion Rrahmani",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "96",
+     "name": "Lorenzo Montipò",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "32",
+     "name": "Alfred Duncan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "10",
+     "name": "John Yeboah",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Lamine Dabo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "3",
+     "name": "Joel Schingtienne",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Gianluca Busio",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "26",
+     "name": "Toma Basic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "56",
+     "name": "Kornel Lisman",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "30",
+     "name": "Matteo Dagasso",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "17",
+     "name": "Armel Bella-Kotchap",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "77",
+     "name": "Toni Fernández",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Richie Sagrado",
+     "position": "SUB"
+    }
+   ],
+   "team": "Venezia"
+  }
+ },
+ "observed_at": "2026-10-28T16:52:11.893028+00:00",
+ "raw_sha256": "aae9449cd443c0365ec40836ea84c23a4dec50f98b3601afea29546ee60abce3",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

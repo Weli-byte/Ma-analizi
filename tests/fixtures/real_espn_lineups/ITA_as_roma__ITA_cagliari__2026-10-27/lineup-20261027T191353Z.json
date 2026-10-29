@@ -1,0 +1,312 @@
+{
+ "away_id": "ITA_cagliari",
+ "espn_event_id": "401874780",
+ "home_id": "ITA_as_roma",
+ "kickoff_utc": "2026-10-27T19:45:00+00:00",
+ "league": "SERIEA",
+ "lineup_sha256": "ffe4528d454d5fa0ed3a807684adca552bf23163c51e3b93a4e3571ef72e099f",
+ "lineups": {
+  "away": {
+   "formation": "3-5-1-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Elia Caprile",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "26",
+     "name": "Yerry Mina",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "15",
+     "name": "Juan Rodríguez",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "2",
+     "name": "Zé Pedro",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "8",
+     "name": "Michel Adopo",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "4",
+     "name": "Alessandro Romano",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "14",
+     "name": "Alessandro Deiola",
+     "position": "AM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "33",
+     "name": "Adam Obert",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "28",
+     "name": "Yukinari Sugawara",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "18",
+     "name": "M'Bala Nzola",
+     "position": "F"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "39",
+     "name": "Alieu Fadera",
+     "position": "RCF"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Raphael Kofler",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "79",
+     "name": "Yanis Massolin",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "23",
+     "name": "Boris Radunovic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Roberto Gagliardini",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "32",
+     "name": "Ivan Sulev",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "12",
+     "name": "Alen Sherri",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "27",
+     "name": "Joseph Liteta",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "10",
+     "name": "Jacopo Fazzini",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Riccardo Ciervo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "70",
+     "name": "Daniel Maldini",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "19",
+     "name": "Yael Trepy",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "24",
+     "name": "Giuseppe Aurelio",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "31",
+     "name": "Paul Mendy",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Kevin Carlos",
+     "position": "SUB"
+    }
+   ],
+   "team": "Cagliari"
+  },
+  "home": {
+   "formation": "3-5-2",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "95",
+     "name": "Pierluigi Gollini",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "5",
+     "name": "Evan Ndicka",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "3",
+     "name": "Konstantinos Koulierakis",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "23",
+     "name": "Gianluca Mancini",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "61",
+     "name": "Niccolò Pisilli",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "4",
+     "name": "Bryan Cristante",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "15",
+     "name": "Marten de Roon",
+     "position": "AM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "20",
+     "name": "Nahuel Molina",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "77",
+     "name": "Emanuele Lulli",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Santiago Castro",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "18",
+     "name": "Matìas Soulè",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "63",
+     "name": "Alessandro Di Nunzio",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "32",
+     "name": "Devis Vásquez",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "70",
+     "name": "Giorgio De Marzi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "78",
+     "name": "Mandjou Camara",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "87",
+     "name": "Daniele Ghilardi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Mario Hermoso",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Donyell Malen",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "26",
+     "name": "Leonardo Balerdi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "86",
+     "name": "Rodrigo Mora",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "43",
+     "name": "Wesley",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "2",
+     "name": "Devyne Rensch",
+     "position": "SUB"
+    }
+   ],
+   "team": "AS Roma"
+  }
+ },
+ "observed_at": "2026-10-27T19:13:53.251830+00:00",
+ "raw_sha256": "934c634102d82b6856862d2f4081c8e08fc6beb17ac284292c673244a579a197",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

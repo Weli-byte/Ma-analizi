@@ -29,7 +29,7 @@ SLUGS = {
 SOURCES = (espn_fixtures.SOURCE, "openfootball", "openfootball-cups", "football-data-org", "the-odds-api")
 WINDOW_BEFORE = timedelta(minutes=100)     # a match is looked at from this long before kick-off
 WINDOW_AFTER = timedelta(minutes=10)       # ... until a few minutes after (a line-up announced late is still wanted for the page)
-KEEP_DAYS = 3
+KEEP_DAYS = 730      # the stored line-ups are the evidence of the as-of line-up history (ADR 0086); the site bundle ships only the last days
 
 
 def fetch_summary(slug: str, event_id: str, timeout: float = 30.0) -> bytes:
@@ -112,7 +112,7 @@ def collect(root: Path, now: datetime | None = None, fetch_day=None, fetch_sum=N
 
 
 def prune(root: Path, now: datetime) -> int:
-    """Remove line-up folders of matches older than KEEP_DAYS (the page only needs the upcoming and just-played ones)."""
+    """Remove line-up folders of matches older than KEEP_DAYS (the page only needs the recent ones, the as-of history needs all)."""
     n = 0
     base = Path(root) / "artifacts" / "lineups"
     for d in base.glob("*__*__*") if base.exists() else []:

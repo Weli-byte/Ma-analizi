@@ -1,0 +1,306 @@
+{
+ "away_id": "ITA_como",
+ "espn_event_id": "401874786",
+ "home_id": "ITA_torino",
+ "kickoff_utc": "2026-10-27T19:45:00+00:00",
+ "league": "SERIEA",
+ "lineup_sha256": "5edbe9bccb9152f170e1f9f807be0142da2febf1550367bf2a5379cb6d67c3f8",
+ "lineups": {
+  "away": {
+   "formation": "4-2-3-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "97",
+     "name": "Robert Sánchez",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "2",
+     "name": "Marc-Oliver Kempf",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "4",
+     "name": "Jacobo Ramón",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "3",
+     "name": "Álex Valle",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "27",
+     "name": "Yan Couto",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "10",
+     "name": "Nico Paz",
+     "position": "AM"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "6",
+     "name": "Luis Milla",
+     "position": "LM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "5",
+     "name": "Máximo Perrone",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Anastasios Douvikas",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "8",
+     "name": "Maxence Caqueret",
+     "position": "AM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "7",
+     "name": "Lucas Da Cunha",
+     "position": "AM-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Mauro Vigorito",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "15",
+     "name": "Adrian Lahdo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Martin Baturina",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "1",
+     "name": "Jean Butez",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "42",
+     "name": "Jayden Addai",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "16",
+     "name": "Kaiki",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Edoardo Goldaniga",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "54",
+     "name": "Matteo Papaccioli",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Samuele Ricci",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "13",
+     "name": "Alberto Dossena",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "53",
+     "name": "Willy Kambwala",
+     "position": "SUB"
+    }
+   ],
+   "team": "Como"
+  },
+  "home": {
+   "formation": "3-5-2",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "20",
+     "name": "Lucas Perri",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "44",
+     "name": "Adrian Ismajli",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "15",
+     "name": "Pietro Comuzzo",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "23",
+     "name": "Saúl Coco",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "10",
+     "name": "Nikola Vlasic",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "28",
+     "name": "Kian Fitz-Jim",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "21",
+     "name": "Daniel Bragança",
+     "position": "AM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "77",
+     "name": "Alessio Cacciamani",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "45",
+     "name": "Rafik Belghali",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "19",
+     "name": "Ché Adams",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "18",
+     "name": "Giovanni Simeone",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Zakaria Aboukhlal",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "91",
+     "name": "Duván Zapata",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "2",
+     "name": "Nathan Patterson",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "3",
+     "name": "Cristiano Biraghi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "76",
+     "name": "Lapo Siviero",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Pietro Pellegri",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "66",
+     "name": "Gvidas Gineitis",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "26",
+     "name": "Diego Mascardi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Emirhan Ilkhan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "17",
+     "name": "Sandro Kulenovic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Cesare Casadei",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Eray Cömert",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Gaetano Oristanio",
+     "position": "SUB"
+    }
+   ],
+   "team": "Torino"
+  }
+ },
+ "observed_at": "2026-10-27T19:13:53.251830+00:00",
+ "raw_sha256": "e631200d9c1cda7707ae4e10cb6fa5188ab1adb8e36e64fb971d1d79bf6d313e",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

@@ -29,4 +29,4 @@ Plan: `Futbol_Tahmin_Optimizasyonu_Sprint_7_12_ULTRA_PRO_MAX.pdf`, sprint 9. Res
 - No over/under or BTTS ensemble, no EV/CLV analysis (n too small, closing quotes stay evaluation-only), no stacking, no change to any served number. Open owner decisions: a paid odds plan with totals/BTTS and history, or waiting for the quota to renew.
 
 ## Rollback
-Research package only, no served consumer. Remove `src/oddsens/`, `tests/test_oddsens.py` and `tests/fixtures/real_oddsens/` to undo.
+Research package only, no served consumer. Remove `src/oddsens/`, `tests/test_oddsens.py` and `tests/fixtures/real_oddsens_excerpt.json` to undo.

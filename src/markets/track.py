@@ -73,14 +73,27 @@ def load_artifacts(root: Path) -> dict[str, list[dict]]:
 DATE_TOLERANCE_DAYS = 3  # ADR 0090: a fixture published under a provisional date (e.g. a TBD kick-off) is joined to the same home/away pair played within this many days
 
 
-def result_index(results: list[StatMatch]):
-    """A lookup (home, away, forecast date) -> result: the exact date first, else the same ordered pair within DATE_TOLERANCE_DAYS (an ordered pair meets once in a league season)."""
+def load_merges() -> dict[str, str]:
+    """Old club id -> new id of the owner-approved duplicate merges (`configs/club_id_merges.yaml`)."""
+    import yaml
+
+    path = ROOT / "configs" / "club_id_merges.yaml"
+    if not path.exists():
+        return {}
+    return {m["old"]: m["new"] for m in (yaml.safe_load(path.read_text(encoding="utf-8")) or {}).get("merges", [])}
+
+
+def result_index(results: list[StatMatch], merges: dict[str, str] | None = None):
+    """A lookup (home, away, forecast date) -> result: the exact date first, else the same ordered pair within DATE_TOLERANCE_DAYS (an ordered pair meets once in a league season).
+    A club id merged away after the forecast was stored is read under its new id (`merges`)."""
+    merges = load_merges() if merges is None else merges
     exact = {(m.home_id, m.away_id, m.kickoff_utc.date().isoformat()): m for m in results}
     pairs: dict[tuple[str, str], list[StatMatch]] = {}
     for m in results:
         pairs.setdefault((m.home_id, m.away_id), []).append(m)
 
     def find(home: str, away: str, day: str) -> StatMatch | None:
+        home, away = merges.get(home, home), merges.get(away, away)
         if (home, away, day) in exact:
             return exact[(home, away, day)]
         d = datetime.fromisoformat(day).date()

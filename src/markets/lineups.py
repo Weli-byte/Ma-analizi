@@ -29,6 +29,7 @@ SLUGS = {
 SOURCES = (espn_fixtures.SOURCE, "openfootball", "openfootball-cups", "football-data-org", "the-odds-api")
 WINDOW_BEFORE = timedelta(minutes=100)     # a match is looked at from this long before kick-off
 WINDOW_AFTER = timedelta(minutes=10)       # ... until a few minutes after (a line-up announced late is still wanted for the page)
+CHECKS_DIR = "_checks"  # per-day ledger of every fixture the collector looked at (ADR 0090)
 KEEP_DAYS = 730      # the stored line-ups are the evidence of the as-of line-up history (ADR 0086); the site bundle ships only the last days
 
 
@@ -63,6 +64,14 @@ def fixture_key(home_id: str, away_id: str, kickoff: datetime) -> str:
     return f"{home_id}__{away_id}__{kickoff.astimezone(UTC).date().isoformat()}"
 
 
+def _check(root: Path, league: str, m: dict, now: datetime, outcome: str) -> None:
+    """One line per fixture looked at (ADR 0090): the denominator of the line-up record, including the fixtures for which no XI was published or whose clubs did not resolve."""
+    d = Path(root) / "artifacts" / "lineups" / CHECKS_DIR
+    d.mkdir(parents=True, exist_ok=True)
+    with (d / f"{m['kickoff_utc'].astimezone(UTC).date().isoformat()}.jsonl").open("a", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({"league": league, "home": m["home"], "away": m["away"], "kickoff_utc": m["kickoff_utc"].isoformat(), "espn_event_id": m["event_id"], "checked_at": now.isoformat(), "outcome": outcome}, sort_keys=True, ensure_ascii=False) + "\n")
+
+
 def collect(root: Path, now: datetime | None = None, fetch_day=None, fetch_sum=None) -> list[str]:
     now = now or datetime.now(UTC)
     fetch_day = fetch_day or espn_fixtures.fetch_day
@@ -85,15 +94,18 @@ def collect(root: Path, now: datetime | None = None, fetch_day=None, fetch_sum=N
             a = directory.resolve_any_country(SOURCES, m["away"], m["kickoff_utc"].date())
             if h.team_id is None or a.team_id is None:
                 lines.append(f"{league}: {m['home']} - {m['away']}: club not in the directory, skipped")
+                _check(root, league, m, now, "unresolved")
                 continue
             try:
                 raw = fetch_sum(slug, m["event_id"])
                 rosters = parse_rosters(raw)
             except (RuntimeError, ValueError) as e:
                 lines.append(f"{league}: {m['home']} - {m['away']}: FAILED ({e})")
+                _check(root, league, m, now, "failed")
                 continue
             if rosters is None:
                 lines.append(f"{league}: {m['home']} - {m['away']}: no line-up published yet")
+                _check(root, league, m, now, "not_published")
                 continue
             key = fixture_key(h.team_id, a.team_id, m["kickoff_utc"])
             out = Path(root) / "artifacts" / "lineups" / key
@@ -101,12 +113,14 @@ def collect(root: Path, now: datetime | None = None, fetch_day=None, fetch_sum=N
             previous = sorted(out.glob("lineup-*.json"))
             if previous and json.loads(previous[-1].read_text(encoding="utf-8"))["lineup_sha256"] == digest:
                 lines.append(f"{league}: {m['home']} - {m['away']}: unchanged")
+                _check(root, league, m, now, "unchanged")
                 continue
             out.mkdir(parents=True, exist_ok=True)
             body = {"source": espn_fixtures.SOURCE, "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)", "observed_at": now.isoformat(), "kickoff_utc": m["kickoff_utc"].isoformat(), "league": league,
                     "home_id": h.team_id, "away_id": a.team_id, "espn_event_id": m["event_id"], "raw_sha256": hashlib.sha256(raw).hexdigest(), "lineup_sha256": digest, "lineups": rosters}  # fmt: skip
             (out / f"lineup-{now.strftime('%Y%m%dT%H%M%SZ')}.json").write_text(json.dumps(body, indent=1, sort_keys=True, ensure_ascii=False), encoding="utf-8")
             lines.append(f"{league}: {m['home']} - {m['away']}: line-up stored ({rosters['home']['formation']} / {rosters['away']['formation']})")
+            _check(root, league, m, now, "stored")
     prune(Path(root), now)
     return lines
 
@@ -115,6 +129,12 @@ def prune(root: Path, now: datetime) -> int:
     """Remove line-up folders of matches older than KEEP_DAYS (the page only needs the recent ones, the as-of history needs all)."""
     n = 0
     base = Path(root) / "artifacts" / "lineups"
+    for f in (base / CHECKS_DIR).glob("*.jsonl") if (base / CHECKS_DIR).exists() else []:
+        try:
+            if now - datetime.fromisoformat(f.stem).replace(tzinfo=UTC) > timedelta(days=KEEP_DAYS):
+                f.unlink()
+        except ValueError:
+            continue
     for d in base.glob("*__*__*") if base.exists() else []:
         try:
             day = datetime.fromisoformat(d.name.rsplit("__", 1)[1]).replace(tzinfo=UTC)

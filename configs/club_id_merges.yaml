@@ -1,0 +1,19 @@
+# Club ids merged away by an owner-approved duplicate merge (`python -m src.markets.club_duplicates --apply OLD=NEW`).
+# A forecast stored before the merge still carries the old id; the live record joins it to the result under the new id (ADR 0090 amendment).
+# The 15 pairs below are the merges approved in ADR 0057 (PR #48, 2026-10-14). New merges are appended by `--apply`.
+merges:
+  - {old: NED_az, new: NED_az_alkmaar, approved: "ADR 0057"}
+  - {old: POR_boavista_fc, new: POR_boavista, approved: "ADR 0057"}
+  - {old: NED_fc_twente_65, new: NED_fc_twente, approved: "ADR 0057"}
+  - {old: POR_gd_estoril, new: POR_gd_estoril_praia, approved: "ADR 0057"}
+  - {old: POR_gil_vicente_fc, new: POR_gil_vicente, approved: "ADR 0057"}
+  - {old: NED_nec_nijmegen, new: NED_nec, approved: "ADR 0057"}
+  - {old: NED_willem_ii_tilburg, new: NED_willem_ii, approved: "ADR 0057"}
+  - {old: UKR_fk_shakhtar_donetsk, new: UKR_shakhtar_donetsk, approved: "ADR 0057"}
+  - {old: NED_feyenoord_rotterdam, new: NED_feyenoord, approved: "ADR 0057"}
+  - {old: CRO_gnk_dinamo_zagreb, new: CRO_dinamo_zagreb, approved: "ADR 0057"}
+  - {old: NED_psv, new: NED_psv_eindhoven, approved: "ADR 0057"}
+  - {old: AZE_qarabag_agdam_fk, new: AZE_qarabag_fk, approved: "ADR 0057"}
+  - {old: CZE_sk_slavia_praha, new: CZE_slavia_praha, approved: "ADR 0057"}
+  - {old: AUT_sk_sturm_graz, new: AUT_sturm_graz, approved: "ADR 0057"}
+  - {old: SVK_sk_slovan_bratislava, new: SVK_slovan_bratislava, approved: "ADR 0057"}

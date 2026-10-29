@@ -7,6 +7,7 @@ minutes before kick-off), the denominator of fixtures WITHOUT a published XI is 
 """
 
 import argparse
+import json
 import statistics
 import tempfile
 from datetime import UTC, datetime
@@ -48,7 +49,26 @@ def leakage_check(obs: list[LineupObservation]) -> dict:
     return {"checked": checked, "snapshot_after_cutoff_or_post_kickoff": bad_snapshot, "features_changed_by_later_observations": bad_feature}
 
 
-def build(obs: list[LineupObservation], rep: dict, as_of: datetime) -> str:
+def denominator(root) -> dict | None:
+    """From the collector's check ledger (`artifacts/lineups/_checks/*.jsonl`, ADR 0090): fixtures looked at, and how many got a stored XI. None before the ledger exists."""
+    d = Path(root) / "artifacts" / "lineups" / "_checks"
+    if not d.exists():
+        return None
+    seen: dict[str, set[str]] = {}
+    league: dict[str, str] = {}
+    for f in sorted(d.glob("*.jsonl")):
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                r = json.loads(line)
+                seen.setdefault(r["espn_event_id"], set()).add(r["outcome"])
+                league[r["espn_event_id"]] = r["league"]
+    stored = {k for k, v in seen.items() if v & {"stored", "unchanged"}}
+    unresolved = {k for k, v in seen.items() if v == {"unresolved"}}
+    return {"looked_at": len(seen), "with_xi": len(stored), "never_published": len(seen) - len(stored) - len(unresolved), "unresolved_only": len(unresolved),
+            "by_league": {lg: (sum(1 for k in seen if league[k] == lg), sum(1 for k in stored if league[k] == lg)) for lg in sorted(set(league.values()))}}  # fmt: skip
+
+
+def build(obs: list[LineupObservation], rep: dict, as_of: datetime, denom: dict | None = None) -> str:
     fx = by_fixture(obs)
     due = {k: v for k, v in fx.items() if v[0].kickoff_utc <= as_of}
     lag = []
@@ -93,7 +113,8 @@ def build(obs: list[LineupObservation], rep: dict, as_of: datetime) -> str:
         f"- Files read: {rep['files']}; quarantined: {rep['quarantined']} {rep['quarantine_reasons'] or ''}; fixtures with a stored confirmed XI that kicked off by the report time: **{len(due)}** (versions per fixture: min {min(versions_n, default=0)}, max {max(versions_n, default=0)}); leagues: {league_text}.",
         "- ESPN gives no announcement time. The first sighting is an UPPER bound of the announcement and is censored: the collector starts looking 100 minutes before kick-off, an earlier announcement is not visible.",
         lag_line,
-        "- The denominator is NOT stored: a fixture for which nothing was published (or that the collector never saw) leaves no record, so the coverage below is the coverage of fixtures WITH a stored XI, not of all fixtures. This is a known selection-bias gap; the collector's round log lines are the only trace.",
+        (f"- Denominator (check ledger since it started, ADR 0090): {denom['looked_at']} fixtures looked at, {denom['with_xi']} with a stored XI, {denom['never_published']} without a published XI, {denom['unresolved_only']} skipped because a club did not resolve; by league (looked at / with XI): " + ", ".join(f"{k} {a}/{b}" for k, (a, b) in denom["by_league"].items()) + "."
+         if denom else "- The denominator is NOT stored yet: before the check ledger of ADR 0090 a fixture for which nothing was published left no record, so the coverage below is the coverage of fixtures WITH a stored XI."),
         "",
         "## Confirmed XI visible at each stage cutoff (fixtures with a stored XI)",
         "",
@@ -134,7 +155,7 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
     as_of = datetime.fromisoformat(a.as_of.replace("Z", "+00:00")) if a.as_of else datetime.now(UTC)
     obs, rep = load(Path(a.root))
-    text = build(obs, rep, as_of)
+    text = build(obs, rep, as_of, denominator(Path(a.root)))
     if a.write_snapshots:
         print("snapshots:", write_snapshots(a.write_snapshots, obs, as_of))
     if a.out:

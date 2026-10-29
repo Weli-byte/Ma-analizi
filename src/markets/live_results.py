@@ -241,12 +241,16 @@ def collect_espn(root: Path, now: datetime, directory: TeamDirectory, days_back:
 
 
 SETTLE_LEAGUES = ("EPL", "LALIGA", "BUNDESLIGA", "SERIEA", "LIGUE1", "SUPERLIG")  # ADR 0090: results only, from ESPN's keyless scoreboard
+SETTLE_CUPS = ("UCL", "UEL", "UECL")  # league phase only (a knockout score may include extra time)
 SETTLE_DAYS_BACK = 21
+VOID_STATUSES = ("STATUS_ABANDONED", "STATUS_POSTPONED", "STATUS_CANCELED", "STATUS_SUSPENDED")
 
 
 def settle_from_espn(root: Path, now: datetime, directory: TeamDirectory, days_back: int = SETTLE_DAYS_BACK, scanner=None) -> list[str]:
-    """Settlement of the domestic leagues from ESPN (ADR 0090): adds a finished result that no other source has stored, never changes a stored one and never touches the fixture list.
-    Domestic league matches have no extra time, so ESPN's final score is the 90-minute score (`full_time_in_knockout`: a spring league match is accepted when ESPN says STATUS_FULL_TIME).
+    """Settlement from ESPN (ADR 0090): adds a finished result that no other source has stored, never changes a stored one and never touches the fixture list.
+    Domestic league matches have no extra time, so ESPN's final score is the 90-minute score (`full_time_in_knockout`: a spring league match is accepted when ESPN says STATUS_FULL_TIME);
+    the cups are settled in their league phase only. A match ESPN marks abandoned / postponed / cancelled / suspended is recorded under `void` with that status, so it is reported with a
+    reason instead of waiting for a result forever; it is never given a score.
     Needed because the Super Lig results came from the odds provider's scores, whose free quota is exhausted, and a few other results were never published by the free sources."""
     from src.ingestion import espn_fixtures
 
@@ -254,14 +258,25 @@ def settle_from_espn(root: Path, now: datetime, directory: TeamDirectory, days_b
 
     scanner = scanner or espn_fixtures.scan
     lines = []
-    for league in SETTLE_LEAGUES:
+    for league in (*SETTLE_LEAGUES, *SETTLE_CUPS):
         matches, errors = scanner(SLUGS[league], (now - timedelta(days=days_back)).date(), now.date())
-        results, _, unresolved = from_espn(league, matches, directory, now, full_time_in_knockout=True)
+        results, _, unresolved = from_espn(league, matches, directory, now, full_time_in_knockout=league in SETTLE_LEAGUES)
         store = load_store(root, league)
         added = merge(store, results, now)
-        if added:
+        void = 0
+        for m in matches:
+            if m["status"] not in VOID_STATUSES or m["kickoff_utc"] > now:
+                continue
+            h, a = _resolve(directory, league, m["home"], m["kickoff_utc"].date()), _resolve(directory, league, m["away"], m["kickoff_utc"].date())
+            if h is None or a is None:
+                continue
+            key = f"{h}|{a}|{m['kickoff_utc'].date().isoformat()}"
+            if key not in store["matches"] and key not in store.setdefault("void", {}):
+                store["void"][key] = {"status": m["status"], "source": "espn scoreboard (unofficial, research only)", "first_seen": now.isoformat()}
+                void += 1
+        if added or void:
             save_store(root, league, store)
-        lines.append(f"{league}: espn settlement {len(results)} finished, {added} new result(s), {len(errors)} day(s) failed, unresolved clubs: {unresolved or 'none'}")
+        lines.append(f"{league}: espn settlement {len(results)} finished, {added} new result(s), {void} new void match(es), {len(errors)} day(s) failed, unresolved clubs: {unresolved or 'none'}")
     return lines
 
 

@@ -33,7 +33,8 @@ app = create_app(ROOT)
 def _newest_per_dir(src: Path, dst: Path, pattern: str, recent_after: str | None = None) -> int:
     """Newest file of every folder; `recent_after` (ISO date) keeps only folders dated on or after it."""
     n = 0
-    for d in sorted(p for p in src.glob("*") if p.is_dir()):
+    # `_checks` and other ledgers stay in the data repository
+    for d in sorted(p for p in src.glob("*") if p.is_dir() and not p.name.startswith("_")):
         if recent_after is not None and d.name.rsplit("__", 1)[-1] < recent_after:
             continue
         files = sorted(d.glob(pattern))

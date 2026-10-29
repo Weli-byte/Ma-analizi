@@ -97,6 +97,18 @@ def render(rows: list[dict]) -> str:
     return "\n".join(lines) + "\n"
 
 
+def record_merges(path: Path, pairs: list[tuple[str, str]]) -> None:
+    """Append applied merges to `club_id_merges.yaml`, so forecasts stored under an old id are still joined to their results (ADR 0090)."""
+    import yaml
+
+    text = path.read_text(encoding="utf-8") if path.exists() else ""
+    header = "".join(line + "\n" for line in text.splitlines() if line.startswith("#"))
+    data = yaml.safe_load(text) or {"merges": []}
+    known = {m["old"] for m in data["merges"]}
+    data["merges"] += [{"old": o, "new": n, "approved": "owner, club_duplicates --apply"} for o, n in pairs if o not in known]
+    path.write_text(header + yaml.safe_dump(data, sort_keys=False, allow_unicode=True), encoding="utf-8")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--root", default=str(ROOT))
@@ -115,6 +127,7 @@ def main(argv=None) -> int:
             print("validation problems:", problems[:3])
             return 1
         d.dump(path)
+        record_merges(cdir / "club_id_merges.yaml", [tuple(p.split("=")) for p in a.apply])
         return 0
     from .of_source import load_world
 

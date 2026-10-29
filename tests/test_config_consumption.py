@@ -83,6 +83,6 @@ def test_config_files_have_no_unknown_keys_and_yaml_matches_models():
     from src.config import CONFIG_DIR, load_config
 
     for path in CONFIG_DIR.glob("*.yaml"):
-        if path.stem == "team_aliases":
+        if path.stem in ("team_aliases", "club_id_merges"):  # identity data, not a typed config (club_id_merges: ADR 0090)
             continue
         assert load_config(path.stem) is not None  # extra=forbid catches stray keys

@@ -68,3 +68,18 @@ def test_the_report_tables_count_hits_per_league_and_show_the_trivial_strategies
     n = sum(1 for m in track["matches"] if m["pick_hit"])
     assert f"{n}/5 (%{100 * n / 5:.1f})" in text
     assert report.cell(0, 0) == "-" and report.cell(3, 4) == "3/4 (%75.0)"
+
+
+def test_a_forecast_under_a_provisional_date_is_joined_to_the_same_pair_played_within_three_days():
+    """ADR 0090: e.g. a forecast stored as 2026-10-24 (TBD kick-off) for a match played on 2026-10-26. TEST_ONLY results."""
+    from src.markets.data import StatMatch
+    from src.markets.track import result_index
+
+    def m(home, away, day):
+        k = datetime.fromisoformat(day).replace(tzinfo=UTC)
+        return StatMatch(f"t-{home}-{day}", "2026-27", "LALIGA", k, k, home, away, 2, 1, {}, {}, None)
+
+    find = result_index([m("ESP_barcelona", "ESP_real_madrid", "2026-10-26T15:15:00"), m("ESP_real_madrid", "ESP_barcelona", "2026-10-24T15:15:00"), m("ESP_a", "ESP_b", "2026-10-10T12:00:00")])
+    assert find("ESP_barcelona", "ESP_real_madrid", "2026-10-24").kickoff_utc.day == 26          # same ordered pair, two days later
+    assert find("ESP_real_madrid", "ESP_barcelona", "2026-10-24").kickoff_utc.day == 24          # exact date wins, the reversed fixture is another match
+    assert find("ESP_a", "ESP_b", "2026-10-14") is None and find("ESP_a", "ESP_b", "2026-10-13").kickoff_utc.day == 10   # beyond three days: no join

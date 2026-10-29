@@ -70,11 +70,31 @@ def load_artifacts(root: Path) -> dict[str, list[dict]]:
     return out
 
 
+DATE_TOLERANCE_DAYS = 3  # ADR 0090: a fixture published under a provisional date (e.g. a TBD kick-off) is joined to the same home/away pair played within this many days
+
+
+def result_index(results: list[StatMatch]):
+    """A lookup (home, away, forecast date) -> result: the exact date first, else the same ordered pair within DATE_TOLERANCE_DAYS (an ordered pair meets once in a league season)."""
+    exact = {(m.home_id, m.away_id, m.kickoff_utc.date().isoformat()): m for m in results}
+    pairs: dict[tuple[str, str], list[StatMatch]] = {}
+    for m in results:
+        pairs.setdefault((m.home_id, m.away_id), []).append(m)
+
+    def find(home: str, away: str, day: str) -> StatMatch | None:
+        if (home, away, day) in exact:
+            return exact[(home, away, day)]
+        d = datetime.fromisoformat(day).date()
+        near = [m for m in pairs.get((home, away), []) if abs((m.kickoff_utc.date() - d).days) <= DATE_TOLERANCE_DAYS]
+        return min(near, key=lambda m: abs((m.kickoff_utc.date() - d).days)) if near else None
+
+    return find
+
+
 def track_record(
     root: Path, results: list[StatMatch], now: datetime | None = None, names: dict[str, str] | None = None
 ) -> dict:
     now = now or datetime.now(UTC)
-    by_key = {(m.home_id, m.away_id, m.kickoff_utc.date().isoformat()): m for m in results}
+    find = result_index(results)
     arts_all = load_artifacts(root)
     first_cutoff = min(
         (datetime.fromisoformat(a["information_cutoff"]) for arts in arts_all.values() for a in arts),
@@ -90,7 +110,7 @@ def track_record(
     rows, tips = [], {"strong lean": [0, 0], "lean": [0, 0], "toss-up": [0, 0]}
     for key, arts in arts_all.items():
         home, away, day = key.split("__")
-        m = by_key.get((home, away, day))
+        m = find(home, away, day)
         if m is None or m.kickoff_utc > now:
             continue
         before = [a for a in arts if datetime.fromisoformat(a["information_cutoff"]) < m.kickoff_utc]
@@ -220,11 +240,11 @@ def experimental_scorecard(root: Path, results: list[StatMatch], now: datetime |
 
     now = now or datetime.now(UTC)
     gate = gate or load_gate()
-    by_key = {(m.home_id, m.away_id, m.kickoff_utc.date().isoformat()): m for m in results}
+    find = result_index(results)
     rows = []
     for key, arts in load_artifacts(root).items():
         home, away, day = key.split("__")
-        m = by_key.get((home, away, day))
+        m = find(home, away, day)
         if m is None or m.kickoff_utc > now:
             continue
         before = [a for a in arts if datetime.fromisoformat(a["information_cutoff"]) < m.kickoff_utc and a.get("experimental") and not a["experimental"].get("neutral_venue")]   # neutral-venue blocks (ADR 0080) are shown but not part of the registered gate population

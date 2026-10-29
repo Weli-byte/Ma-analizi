@@ -152,3 +152,23 @@ def test_the_cloud_wiring_collects_in_every_shadow_round_and_publishes_to_both_d
     assert "git archive FETCH_HEAD artifacts/lineups" in mk and "markets-data-wt/artifacts/lineups" in mk
     assert "artifacts/lineups" in (ROOT / "src" / "markets" / "run.py").read_text(encoding="utf-8")
     assert "cp -r shadow-data-wt/artifacts/lineups" in (ROOT / ".github" / "workflows" / "shadow-cloud.yml").read_text(encoding="utf-8")
+
+
+def test_every_looked_at_fixture_leaves_a_check_line_and_the_bundle_skips_the_ledger(world, tmp_path):
+    """ADR 0090: the denominator of the line-up record (fixtures looked at, also when nothing was published or a club did not resolve)."""
+    root, fd, fs, calls, kick = world
+    lineups.collect(root, NOW, fd, fs)
+    lineups.collect(root, NOW + timedelta(minutes=10), fd, lambda slug, ev: b'{"rosters": []}')
+    lines = [json.loads(x) for x in (root / "artifacts" / "lineups" / lineups.CHECKS_DIR / f"{kick.date().isoformat()}.jsonl").read_text(encoding="utf-8").splitlines()]
+    outcomes = [x["outcome"] for x in lines]
+    assert outcomes.count("stored") == 1 and outcomes.count("unresolved") == 2 and outcomes.count("not_published") == 1 and all(x["checked_at"] and x["espn_event_id"] for x in lines)
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("mvb4", ROOT / "scripts" / "make_vercel_bundle.py")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    out = tmp_path / "bundle_src"
+    (out / "artifacts" / "lineups").mkdir(parents=True)
+    (out / "artifacts" / "lineups" / "_checks").mkdir()
+    (out / "artifacts" / "lineups" / "_checks" / "2026-10-25.jsonl").write_text("{}\n", encoding="utf-8")
+    assert mod._newest_per_dir(out / "artifacts" / "lineups", tmp_path / "dst", "*.jsonl") == 0

@@ -83,3 +83,28 @@ def test_a_forecast_under_a_provisional_date_is_joined_to_the_same_pair_played_w
     assert find("ESP_barcelona", "ESP_real_madrid", "2026-10-24").kickoff_utc.day == 26          # same ordered pair, two days later
     assert find("ESP_real_madrid", "ESP_barcelona", "2026-10-24").kickoff_utc.day == 24          # exact date wins, the reversed fixture is another match
     assert find("ESP_a", "ESP_b", "2026-10-14") is None and find("ESP_a", "ESP_b", "2026-10-13").kickoff_utc.day == 10   # beyond three days: no join
+
+
+def test_an_abandoned_match_is_reported_with_its_reason_and_the_settlement_lag_is_measured(tree):
+    trk = tree / "artifacts" / "markets" / "track_record.json"
+    t = json.loads(trk.read_text(encoding="utf-8"))
+    dropped = t["matches"].pop()
+    trk.write_text(json.dumps(t), encoding="utf-8")
+    res_dir = tree / "artifacts" / "results"
+    res_dir.mkdir(parents=True)
+    kept = t["matches"][0]
+    k_kept = kept["key"].replace("__", "|")
+    (res_dir / "X.json").write_text(json.dumps({"matches": {k_kept: {"kickoff_utc": "2026-10-09T18:30:00+00:00", "first_seen": "2026-10-10T00:30:00+00:00"}},
+                                                "void": {dropped["key"].replace("__", "|"): {"status": "STATUS_ABANDONED", "source": "espn scoreboard (unofficial, research only)"}}}), encoding="utf-8")  # fmt: skip
+    a = audit.audit(tree, AS_OF)
+    assert a["unsettled"][0]["reason"] == "ABANDONED (espn)" and a["settlement_lag_hours"]["n"] == 1 and a["settlement_lag_hours"]["median"] == pytest.approx(6.0)
+
+
+def test_stage_rows_score_the_forecast_as_it_stood_at_each_cutoff(tree):
+    rows, skipped = report.stage_rows(tree)
+    stages = {r["stage"] for r in rows}
+    assert stages <= {"t-24h", "t-90m", "t-30m"} and rows and skipped >= 0
+    by = {s: sum(1 for r in rows if r["stage"] == s) for s in stages}
+    assert by.get("t-30m", 0) >= by.get("t-24h", 0)                                       # later cutoffs see at least as many published forecasts
+    text = "\n".join(report.stage_table(rows, skipped))
+    assert "| aşama | maç |" in text and "provisional date" in text

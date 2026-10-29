@@ -22,3 +22,11 @@ Remove `settle_from_espn` from `live_results.collect` to stop the ESPN settlemen
 
 ## Amendment 2026-10-29 — provisional fixture dates
 After the ESPN settlement ran (18 Süper Lig results added), 11 fixtures were still unsettled; 7 of them were La Liga matches stored under 2026-10-24 22:00 (a provisional kick-off) that were played on 25–26 October (the line-up collector saw Barcelona–Real Madrid on 2026-10-25), so the exact-date join could never find their result. `track.result_index` now joins a forecast to the same ordered home/away pair played within 3 days when no result has the exact date (an ordered pair meets once in a league season; the exact date always wins). The pre-kick-off rule is unchanged and uses the REAL kick-off of the result. Applies to the live record and to the experimental-card gate.
+
+## Amendment 2026-10-29 — the free gaps closed after the Phase 2 report
+- **Merged club ids:** forecasts stored on 2026-10-13/14 still carry ids that the owner-approved merges of ADR 0057 removed (e.g. `AUT_sk_sturm_graz` → `AUT_sturm_graz`), so Slovan Bratislava–Stuttgart and Bournemouth–Sturm Graz were never joined to their results. `configs/club_id_merges.yaml` records the 15 merges of ADR 0057; `track.result_index` reads an old id under its new one; `club_duplicates --apply` appends future merges.
+- **Cups and void matches:** the ESPN settlement also covers UCL / UEL / UECL (league phase only, 21 days back), and a match ESPN marks abandoned / postponed / cancelled / suspended is stored under `void` with its status (never a score). The audit then lists an unsettled fixture with its reason (Rayo Vallecano–Athletic Club, 2026-10-10: ESPN `STATUS_ABANDONED`).
+- **Settlement lag** is now measured: hours from kick-off to the first time a collector saw the result (`first_seen`, an upper bound).
+- **Stage scoring:** the published product forecast as it stood at `t-24h` / `t-90m` / `t-30m` is scored next to the last-before-kick-off record.
+- **Line-up denominator:** the line-up collector writes one line per fixture it looked at (`artifacts/lineups/_checks/<date>.jsonl`: stored / unchanged / not_published / unresolved / failed); the line-up report now gives fixtures looked at versus fixtures with an XI. The site bundle skips the ledger.
+- **Aliases** (ESPN, owner to re-confirm): Bodo/Glimt, FC Cologne, Hamburg SV, Slavia Prague.

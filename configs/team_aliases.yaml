@@ -7375,6 +7375,42 @@ aliases:
     the canonical team; owner to re-confirm)
   confidence: 0.95
 - source: espn
+  raw_name: Bodo/Glimt
+  team_id: NOR_fk_bod_glimt
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-29 (ESPN scoreboard name of the Champions League club, seen unresolved in the real
+    settlement run of ADR 0090; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: FC Cologne
+  team_id: GER_1_fc_koln
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-29 (ESPN scoreboard name of the Bundesliga club, seen unresolved in the real
+    settlement run of ADR 0090; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Hamburg SV
+  team_id: GER_hamburger_sv
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-29 (ESPN scoreboard name of the Bundesliga club, seen unresolved in the real
+    settlement run of ADR 0090; owner to re-confirm)
+  confidence: 0.9
+- source: espn
+  raw_name: Slavia Prague
+  team_id: CZE_slavia_praha
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-29 (ESPN scoreboard name of the Champions League club, seen unresolved in the real
+    settlement run of ADR 0090; owner to re-confirm)
+  confidence: 0.9
+- source: espn
   raw_name: Amed SFK
   team_id: TUR_amed_sk
   valid_from: null

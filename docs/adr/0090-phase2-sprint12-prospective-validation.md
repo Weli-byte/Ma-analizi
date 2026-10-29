@@ -19,3 +19,6 @@ Plan: `Futbol_Tahmin_Optimizasyonu_Sprint_7_12_ULTRA_PRO_MAX.pdf`, sprint 12. Re
 
 ## Rollback
 Remove `settle_from_espn` from `live_results.collect` to stop the ESPN settlement (results already stored stay, they are correct 90-minute scores); the audit and report packages have no served consumer.
+
+## Amendment 2026-10-29 — provisional fixture dates
+After the ESPN settlement ran (18 Süper Lig results added), 11 fixtures were still unsettled; 7 of them were La Liga matches stored under 2026-10-24 22:00 (a provisional kick-off) that were played on 25–26 October (the line-up collector saw Barcelona–Real Madrid on 2026-10-25), so the exact-date join could never find their result. `track.result_index` now joins a forecast to the same ordered home/away pair played within 3 days when no result has the exact date (an ordered pair meets once in a league season; the exact date always wins). The pre-kick-off rule is unchanged and uses the REAL kick-off of the result. Applies to the live record and to the experimental-card gate.

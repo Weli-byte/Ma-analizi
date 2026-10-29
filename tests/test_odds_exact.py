@@ -326,6 +326,7 @@ def test_quota_reached_pauses_the_provider_instead_of_failing_every_round(tmp_pa
     from src.markets import live_results
 
     monkeypatch.setattr(live_results, "collect_espn", lambda *a, **k: [])  # no network in this test (the ESPN list is tested in tests/test_espn_fixtures.py)
+    monkeypatch.setattr(live_results, "settle_from_espn", lambda *a, **k: [])  # no network (ESPN settlement, ADR 0090, is tested in tests/test_espn_fixtures.py)
     lines = live_results.collect(tmp_path, now + timedelta(hours=1), fd_key=None, odds_key="o")
     assert any("quota reached recently" in x for x in lines if x.startswith("SUPERLIG"))
 

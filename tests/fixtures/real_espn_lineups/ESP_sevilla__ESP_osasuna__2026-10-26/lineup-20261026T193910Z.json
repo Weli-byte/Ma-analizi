@@ -1,0 +1,306 @@
+{
+ "away_id": "ESP_osasuna",
+ "espn_event_id": "401882828",
+ "home_id": "ESP_sevilla",
+ "kickoff_utc": "2026-10-26T20:00:00+00:00",
+ "league": "LALIGA",
+ "lineup_sha256": "5fbf91e47756cde2e2b7c6dc3cdca7d37d658a42668f5de696028e74aa87d21a",
+ "lineups": {
+  "away": {
+   "formation": "4-3-3",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "13",
+     "name": "Aitor Fernández",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "22",
+     "name": "Enzo Boyomo",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "24",
+     "name": "Alejandro Catena",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "23",
+     "name": "Abel Bretones",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "19",
+     "name": "Valentin Rosier",
+     "position": "RB"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "6",
+     "name": "Lucas Torró",
+     "position": "CM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "16",
+     "name": "Moi Gómez",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "7",
+     "name": "Jon Moncayola",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "17",
+     "name": "Ante Budimir",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "21",
+     "name": "Jonathan Dubasin",
+     "position": "LF"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "14",
+     "name": "Rubén García",
+     "position": "RF"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "48",
+     "name": "Rockson Yeboah",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Iker Muñoz",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "26",
+     "name": "Mauro Echegoyen",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "31",
+     "name": "Rafa Fernández",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "15",
+     "name": "Diego Rico",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "29",
+     "name": "Asier Osambela",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "35",
+     "name": "Unai Santos",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "27",
+     "name": "Iñigo Arguibide",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Raúl Moro",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Raúl García",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Enrique Barja",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "1",
+     "name": "Sergio Herrera",
+     "position": "SUB"
+    }
+   ],
+   "team": "Osasuna"
+  },
+  "home": {
+   "formation": "4-4-2",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Odisseas Vlachodimos",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "4",
+     "name": "Enrique Salas",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "5",
+     "name": "Andrés Castrín",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "17",
+     "name": "Gabriel Suazo",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "2",
+     "name": "Juan Iglesias",
+     "position": "RB"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "24",
+     "name": "Youssouf Fofana",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "6",
+     "name": "Lucien Agoumé",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "20",
+     "name": "Felix Correia",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "21",
+     "name": "Chidera Ejuke",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "19",
+     "name": "Lucas Stassin",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "16",
+     "name": "Isaac Romero",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "10",
+     "name": "Peque",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "José Ángel Carmona",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "15",
+     "name": "Fábio Cardoso",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "13",
+     "name": "Fran González",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Manu Bueno",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "12",
+     "name": "Arouna Sangante",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "3",
+     "name": "Julio Díaz",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Alfonso González",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Jon Guridi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Rubén Vargas",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Giorgi Kochorashvili",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Robbie Ure",
+     "position": "SUB"
+    }
+   ],
+   "team": "Sevilla"
+  }
+ },
+ "observed_at": "2026-10-26T19:39:10.232356+00:00",
+ "raw_sha256": "156bf2b5391d2ac66e8cc69448a3a3e100c038c9fa3bb384914f070c1ddd3d63",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

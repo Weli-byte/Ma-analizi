@@ -1,0 +1,324 @@
+{
+ "away_id": "ITA_udinese",
+ "espn_event_id": "401874965",
+ "home_id": "ITA_parma",
+ "kickoff_utc": "2026-10-28T17:30:00+00:00",
+ "league": "SERIEA",
+ "lineup_sha256": "f969fb8430927d170802b5952369fec590ecef3458ac4b1917b91be50e20c57d",
+ "lineups": {
+  "away": {
+   "formation": "3-4-2-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "40",
+     "name": "Maduka Okoye",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "27",
+     "name": "Christian Kabasele",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "13",
+     "name": "Nicolò Bertola",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "14",
+     "name": "James Abankwah",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "30",
+     "name": "Giorgi Chakvetadze",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "8",
+     "name": "Jesper Karlström",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "11",
+     "name": "Hassane Kamara",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "16",
+     "name": "Matteo Palma",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Keinan Davis",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "32",
+     "name": "Jurgen Ekkelenkamp",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "10",
+     "name": "Nicolò Zaniolo",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Oier Zarraga",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Juan David Arizala",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "38",
+     "name": "Lennon Miller",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "91",
+     "name": "Lazar Jovanovic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "4",
+     "name": "Sandi Lovric",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "46",
+     "name": "Unai Gómez",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "45",
+     "name": "Giulio Vinciati",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "24",
+     "name": "Jakub Piotrowski",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "23",
+     "name": "Mërgim Vojvoda",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "93",
+     "name": "Daniele Padelli",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "77",
+     "name": "Enzo Ebosse",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "41",
+     "name": "Bartosz Mrozek",
+     "position": "SUB"
+    }
+   ],
+   "team": "Udinese"
+  },
+  "home": {
+   "formation": "3-5-2",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "30",
+     "name": "Giovanni Daffara",
+     "position": "G"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "37",
+     "name": "Mariano Troilo",
+     "position": "CD"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "72",
+     "name": "Dominik Drobnic",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "15",
+     "name": "Enrico Del Prato",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "4",
+     "name": "Vincent Sierro",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "10",
+     "name": "Adrián Bernabé",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "19",
+     "name": "El Bilal Toure",
+     "position": "AM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "29",
+     "name": "Franco Carboni",
+     "position": "LM"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "27",
+     "name": "Sascha Britschgi",
+     "position": "RM"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "9",
+     "name": "José Romero",
+     "position": "CF-L"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "16",
+     "name": "Mandela Keita",
+     "position": "CF-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Simone Ghidotti",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "34",
+     "name": "Diego Carlos",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "40",
+     "name": "Edoardo Corvi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Pontus Almqvist",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "25",
+     "name": "Thomás De Martis",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Ousmane Diallo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Benjamin Cremaschi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "80",
+     "name": "Giovanni Fabbian",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "14",
+     "name": "Emanuele Valeri",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Matija Frigan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "47",
+     "name": "Abdou-Salam Konate",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "76",
+     "name": "Simone Lontani",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "32",
+     "name": "Christian Ordoñez",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "3",
+     "name": "Abdoulaye Ndiaye",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "41",
+     "name": "Hans Nicolussi Caviglia",
+     "position": "SUB"
+    }
+   ],
+   "team": "Parma"
+  }
+ },
+ "observed_at": "2026-10-28T16:52:11.893028+00:00",
+ "raw_sha256": "8b9cc6ce805d5be59db84db47b7f3a9e4e0d753cec24b0ab5eee4edeadf8e8d9",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

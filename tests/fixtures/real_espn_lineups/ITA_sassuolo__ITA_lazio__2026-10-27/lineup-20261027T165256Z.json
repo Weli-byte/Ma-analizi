@@ -1,0 +1,342 @@
+{
+ "away_id": "ITA_lazio",
+ "espn_event_id": "401874980",
+ "home_id": "ITA_sassuolo",
+ "kickoff_utc": "2026-10-27T17:30:00+00:00",
+ "league": "SERIEA",
+ "lineup_sha256": "fef356ad49e75b958ded209cb98a7c8aea62fbfe70f627d2c2d0bb5f0d40a544",
+ "lineups": {
+  "away": {
+   "formation": "4-3-3",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "35",
+     "name": "Christos Mandas",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "2",
+     "name": "Diogo Leite",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "37",
+     "name": "Josip Sutalo",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "17",
+     "name": "Nuno Tavares",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "15",
+     "name": "Romano Floriani",
+     "position": "RB"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "21",
+     "name": "Reda Belahyane",
+     "position": "CM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "24",
+     "name": "Kenneth Taylor",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "16",
+     "name": "Davide Frattesi",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "14",
+     "name": "Tijjani Noslin",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "10",
+     "name": "Mattia Zaccagni",
+     "position": "LF"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "11",
+     "name": "Gustav Isaksen",
+     "position": "RF"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Fisayo Dele-Bashiru",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "29",
+     "name": "Manuel Lazzari",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "23",
+     "name": "Alfonso Pedraza",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "40",
+     "name": "Edoardo Motta",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "47",
+     "name": "Davide Renzetti",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "33",
+     "name": "Ricardo Bordon",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "71",
+     "name": "Valerio Farcomeni",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "3",
+     "name": "Luca Pellegrini",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "32",
+     "name": "Danilo Cataldi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "28",
+     "name": "Adrian Przyborek",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Andrea Pinamonti",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Danilho Doekhi",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "63",
+     "name": "Federico Serra",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "25",
+     "name": "Oliver Provstgaard",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Matteo Cancellieri",
+     "position": "SUB"
+    }
+   ],
+   "team": "Lazio"
+  },
+  "home": {
+   "formation": "4-3-3",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "80",
+     "name": "Stefano Turati",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "15",
+     "name": "Duje Caleta-Car",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "26",
+     "name": "Cas Odenthal",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "3",
+     "name": "Josh Doig",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "46",
+     "name": "Simone Cinquegrano",
+     "position": "RB"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "35",
+     "name": "Luca Lipani",
+     "position": "CM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "50",
+     "name": "Darryl Bakola",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "42",
+     "name": "Kristian Thorstvedt",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "94",
+     "name": "Sebastiano Esposito",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "45",
+     "name": "Armand Laurienté",
+     "position": "LF"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "10",
+     "name": "Domenico Berardi",
+     "position": "RF"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "17",
+     "name": "Vasilije Adzic",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Sebastian Walukiewicz",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "25",
+     "name": "Benjamín Domínguez",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "33",
+     "name": "Rafael Obrador",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "49",
+     "name": "Arijanet Muric",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "7",
+     "name": "Cristian Volpato",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Kieron Bowie",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "20",
+     "name": "Ignace van der Brempt",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "5",
+     "name": "Fali Candé",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "77",
+     "name": "Nicholas Pierini",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "55",
+     "name": "Sulemana",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Andrea Ghion",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Jay Idzes",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "12",
+     "name": "Giacomo Satalino",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Nemanja Matic",
+     "position": "SUB"
+    }
+   ],
+   "team": "Sassuolo"
+  }
+ },
+ "observed_at": "2026-10-27T16:52:56.608848+00:00",
+ "raw_sha256": "b118e6445ae6488285a3c2cfa061c2cbfe73cb4b8b407c022b572ba11916c23b",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

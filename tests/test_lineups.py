@@ -102,7 +102,7 @@ def test_a_changed_line_up_before_kick_off_is_a_new_file_and_a_failure_is_report
 
 def test_old_folders_are_pruned_and_latest_for_is_none_without_a_file(world):
     root, fd, fs, calls, kick = world
-    old = root / "artifacts" / "lineups" / "A__B__2026-10-01"
+    old = root / "artifacts" / "lineups" / "A__B__2024-10-01"
     old.mkdir(parents=True)
     (old / "lineup-x.json").write_text("{}", encoding="utf-8")
     lineups.collect(root, NOW, fd, fs)
@@ -139,7 +139,7 @@ def test_the_match_page_shows_the_line_up_card_in_the_missing_players_tab_and_th
         (fake / x).mkdir()
         (fake / x / "f").write_text("", encoding="utf-8")
     (fake / "requirements-api.lock").write_text("a==1\n", encoding="utf-8")
-    files = mod.build(tmp_path / "out", fake)
+    files = mod.build(tmp_path / "out", fake, now=datetime(2026, 10, 26, tzinfo=UTC))
     assert "artifacts/lineups/A__B__2026-10-25/lineup-20261025T110000Z.json" in files and "artifacts/lineups/A__B__2026-10-25/lineup-20261025T100000Z.json" not in files      # newest only
     src = (ROOT / "src" / "web" / "pages.py").read_text(encoding="utf-8")
     assert '"eksik": lineups_card(i, lineups) + injuries_card(i, injuries)' in src

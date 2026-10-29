@@ -8,6 +8,7 @@ in /tmp and reset when the function restarts (see docs/hosting.md)."""
 
 import argparse
 import shutil
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,9 +30,12 @@ app = create_app(ROOT)
 '''
 
 
-def _newest_per_dir(src: Path, dst: Path, pattern: str) -> int:
+def _newest_per_dir(src: Path, dst: Path, pattern: str, recent_after: str | None = None) -> int:
+    """Newest file of every folder; `recent_after` (ISO date) keeps only folders dated on or after it."""
     n = 0
     for d in sorted(p for p in src.glob("*") if p.is_dir()):
+        if recent_after is not None and d.name.rsplit("__", 1)[-1] < recent_after:
+            continue
         files = sorted(d.glob(pattern))
         if files:
             (dst / d.name).mkdir(parents=True, exist_ok=True)
@@ -40,7 +44,7 @@ def _newest_per_dir(src: Path, dst: Path, pattern: str) -> int:
     return n
 
 
-def build(out: Path, root: Path = ROOT) -> list[str]:
+def build(out: Path, root: Path = ROOT, now: datetime | None = None) -> list[str]:
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
@@ -57,7 +61,9 @@ def build(out: Path, root: Path = ROOT) -> list[str]:
                 shutil.copy(markets / extra, out / "artifacts" / "markets" / extra)
     lineups = root / "artifacts" / "lineups"  # starting line-ups, information only (ADR 0081)
     if lineups.exists():
-        _newest_per_dir(lineups, out / "artifacts" / "lineups", "lineup-*.json")
+        # the full history stays in the data repository (ADR 0086)
+        recent = ((now or datetime.now(UTC)) - timedelta(days=3)).date().isoformat()
+        _newest_per_dir(lineups, out / "artifacts" / "lineups", "lineup-*.json", recent_after=recent)
     injuries = root / "artifacts" / "injuries"
     if injuries.exists():
         _newest_per_dir(injuries, out / "artifacts" / "injuries", "inj-*.json")

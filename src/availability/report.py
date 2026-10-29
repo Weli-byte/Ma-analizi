@@ -1,0 +1,149 @@
+"""Coverage, announcement lag, leakage and idempotency report of the stored line-ups (ADR 0086).
+
+`python -m src.availability.report --root <checkout holding artifacts/lineups> --as-of 2026-10-28T20:00:00Z --out docs/availability/sprint08_lineup_coverage.md`
+
+A function of the stored files and `--as-of`. It says what the data can and cannot support: the announcement time is only bounded from above (ESPN gives none, the collector looks from 100
+minutes before kick-off), the denominator of fixtures WITHOUT a published XI is not stored, and player impact / injuries / rest have no licensed data.
+"""
+
+import argparse
+import statistics
+import tempfile
+from datetime import UTC, datetime
+from pathlib import Path
+
+from src.cli_utils import configure_output
+
+from .features import fixture_features
+from .lineup_asof import CONFIRMED, STAGES, LineupObservation, by_fixture, load, snapshot_at, write_snapshots
+
+MIN_FIXTURES_FOR_ABLATION = 800      # pre-registered (ADR 0086): fixtures with complete as-of line-up features at t-30m before an ablation is run at all
+MIN_PER_LEAGUE_FOR_LEAGUE_CLAIM = 100
+
+
+def _same(a, b) -> bool:
+    return a == b or (a != a and b != b)
+
+
+def leakage_check(obs: list[LineupObservation]) -> dict:
+    """At every stage cutoff of every fixture the features must not change when everything observed after the cutoff is removed, and the snapshot never holds a later or post-kick-off sighting."""
+    checked = bad_feature = bad_snapshot = 0
+    for key, versions in by_fixture(obs).items():
+        for delta in STAGES.values():
+            cutoff = versions[0].kickoff_utc - delta
+            full = fixture_features(obs, key, cutoff, force=True)
+            cut = fixture_features([o for o in obs if o.observed_at_utc <= cutoff], key, cutoff, force=True)
+            checked += 1
+            snap = snapshot_at(versions, cutoff)
+            if snap is not None and (snap.observed_at_utc > cutoff or not snap.pre_kickoff):
+                bad_snapshot += 1
+            if full["lineup_status"] != cut["lineup_status"]:
+                bad_feature += 1
+                continue
+            for side in ("home", "away"):
+                if side in full and side in cut:  # a fixture with nothing observed by the cutoff has no side block at all: both views then say UNKNOWN, which the status check above covers
+                    a, b = full[side], cut[side]
+                    if any(not _same(a.get(k), b.get(k)) for k in set(a) | set(b)):
+                        bad_feature += 1
+    return {"checked": checked, "snapshot_after_cutoff_or_post_kickoff": bad_snapshot, "features_changed_by_later_observations": bad_feature}
+
+
+def build(obs: list[LineupObservation], rep: dict, as_of: datetime) -> str:
+    fx = by_fixture(obs)
+    due = {k: v for k, v in fx.items() if v[0].kickoff_utc <= as_of}
+    lag = []
+    for versions in due.values():
+        pre = [o for o in versions if o.pre_kickoff]
+        if pre:
+            first = min(pre, key=lambda o: o.observed_at_utc)
+            lag.append((first.kickoff_utc - first.observed_at_utc).total_seconds() / 60)
+    stage_rows = []
+    for stage, delta in STAGES.items():
+        n = sum(1 for v in due.values() if snapshot_at(v, v[0].kickoff_utc - delta) is not None)
+        stage_rows.append(f"| {stage} | {n} | {len(due) - n} | {100 * n / len(due):.0f} |" if due else f"| {stage} | 0 | 0 | - |")
+    versions_n = [len(v) for v in due.values()]
+    leagues: dict[str, int] = {}
+    for v in due.values():
+        leagues[v[0].league] = leagues.get(v[0].league, 0) + 1
+    leak = leakage_check([o for o in obs if o.kickoff_utc <= as_of])
+    with tempfile.TemporaryDirectory() as tmp:
+        first_run = write_snapshots(tmp, obs, as_of)
+        second_run = write_snapshots(tmp, obs, as_of)
+    complete = 0
+    by_league: dict[str, int] = {}
+    for key, v in due.items():
+        f = fixture_features(obs, key, v[0].kickoff_utc - STAGES["t-30m"], force=True)
+        if f.get("lineup_status") == CONFIRMED and all(f[s]["usual_xi_missing_n"] == f[s]["usual_xi_missing_n"] for s in ("home", "away")):
+            complete += 1
+            by_league[v[0].league] = by_league.get(v[0].league, 0) + 1
+    lag_line = (
+        f"- First pre-kick-off sighting, minutes before kick-off: median {statistics.median(lag):.0f}, min {min(lag):.0f}, max {max(lag):.0f} (n={len(lag)})."
+        if lag
+        else "- No pre-kick-off sighting yet."
+    )
+    league_text = ", ".join(f"{k} {v}" for k, v in sorted(leagues.items(), key=lambda kv: -kv[1])) or "none"
+    by_league_text = (" (" + ", ".join(f"{k} {v}" for k, v in sorted(by_league.items())) + ")") if by_league else ""
+    gate = "OPEN" if complete >= MIN_FIXTURES_FOR_ABLATION else "NOT MET - ablation not run"
+    lines = [
+        "# Sprint 8 - line-up coverage and as-of report (ADR 0086)",
+        "",
+        f"As of {as_of.isoformat()} · source `espn` (public match summary, UNOFFICIAL, research only, ADR 0081) · generated by `python -m src.availability.report`.",
+        "",
+        "## What the data is",
+        f"- Files read: {rep['files']}; quarantined: {rep['quarantined']} {rep['quarantine_reasons'] or ''}; fixtures with a stored confirmed XI that kicked off by the report time: **{len(due)}** (versions per fixture: min {min(versions_n, default=0)}, max {max(versions_n, default=0)}); leagues: {league_text}.",
+        "- ESPN gives no announcement time. The first sighting is an UPPER bound of the announcement and is censored: the collector starts looking 100 minutes before kick-off, an earlier announcement is not visible.",
+        lag_line,
+        "- The denominator is NOT stored: a fixture for which nothing was published (or that the collector never saw) leaves no record, so the coverage below is the coverage of fixtures WITH a stored XI, not of all fixtures. This is a known selection-bias gap; the collector's round log lines are the only trace.",
+        "",
+        "## Confirmed XI visible at each stage cutoff (fixtures with a stored XI)",
+        "",
+        "| stage | confirmed | unknown | confirmed % |",
+        "|---|---|---|---|",
+        *stage_rows,
+        "",
+        "A fixture is `UNKNOWN` at a stage when no pre-kick-off sighting existed at its cutoff (never PREDICTED, never filled). `t-24h` is empty by construction: the collector does not look that early.",
+        "",
+        "## Leakage and idempotency (automatic)",
+        "",
+        f"- Stage cutoffs checked: {leak['checked']}; snapshots holding a later or post-kick-off sighting: {leak['snapshot_after_cutoff_or_post_kickoff']}; features changed when everything observed after the cutoff is removed: {leak['features_changed_by_later_observations']} (both must be 0).",
+        f"- Snapshot files, first run: written {first_run['written']}, conflicts {len(first_run['conflicts'])}, stages not yet due {first_run['not_due']}; second run: written {second_run['written']}, unchanged {second_run['unchanged']}, conflicts {len(second_run['conflicts'])} (must be 0 written, 0 conflicts).",
+        "",
+        "## Not built (no licensed data)",
+        "",
+        "- **Player impact** (minutes, starts share, xA, position-aware shrinkage): needs licensed per-player history; none exists. Disabled, not approximated.",
+        "- **Injuries and suspensions**: the API-Football account is suspended (collection paused, ADR 0084), its terms forbid publication of derived data, ESPN's summary lists none. No injury feature; a player missing from a list is never assumed healthy or injured.",
+        "- **Canonical player directory** (transfers, loans, name variants): none; players carry a provisional key (team id + normalised name) and a transfer makes a new key. **Rest and fatigue**: not wired to the schedule.",
+        "",
+        "## Decision gate for a +line-up ablation (pre-registered)",
+        "",
+        f"- A baseline versus +line-up ablation is run only with at least {MIN_FIXTURES_FOR_ABLATION} fixtures that have complete as-of features at `t-30m` (confirmed XI and a usual XI for both clubs, which needs three earlier line-ups per club), and a league-level claim only with {MIN_PER_LEAGUE_FOR_LEAGUE_CLAIM} such fixtures in that league.",
+        f"- Fixtures with complete features today: **{complete}**{by_league_text}. Gate: **{gate}**.",
+        "- `LINEUP_FEATURES_ENABLED` stays unset (OFF): no model reads a line-up feature.",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def main(argv=None) -> int:
+    configure_output()
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--root", required=True, help="checkout that holds artifacts/lineups")
+    ap.add_argument("--as-of", default=None)
+    ap.add_argument("--out", default=None)
+    ap.add_argument("--write-snapshots", default=None, help="directory in which to store the due stage snapshots (artifacts/lineup_snapshots/...)")
+    a = ap.parse_args(argv)
+    as_of = datetime.fromisoformat(a.as_of.replace("Z", "+00:00")) if a.as_of else datetime.now(UTC)
+    obs, rep = load(Path(a.root))
+    text = build(obs, rep, as_of)
+    if a.write_snapshots:
+        print("snapshots:", write_snapshots(a.write_snapshots, obs, as_of))
+    if a.out:
+        Path(a.out).parent.mkdir(parents=True, exist_ok=True)
+        Path(a.out).write_text(text + "\n", encoding="utf-8", newline="\n")
+    else:
+        print(text)
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

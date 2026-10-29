@@ -1,0 +1,270 @@
+{
+ "away_id": "FRA_lyon",
+ "espn_event_id": "401876422",
+ "home_id": "FRA_paris_saint_germain",
+ "kickoff_utc": "2026-10-26T19:30:00+00:00",
+ "league": "LIGUE1",
+ "lineup_sha256": "242fe27b777e4ddb9be814234af99a09656a7c6956fbcc1a3b5a1b6243ff3ae0",
+ "lineups": {
+  "away": {
+   "formation": "4-3-3",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Dominik Greif",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "19",
+     "name": "Moussa Niakhaté",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "20",
+     "name": "Felix Bacher",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "16",
+     "name": "Abner",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "13",
+     "name": "Zachary Athekame",
+     "position": "RB"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "23",
+     "name": "Tyler Morton",
+     "position": "CM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "8",
+     "name": "Corentin Tolisso",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "6",
+     "name": "Tanner Tessmann",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "18",
+     "name": "Khalis Merah",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "24",
+     "name": "Julien Duranville",
+     "position": "LF"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "7",
+     "name": "Ernest Nuamah",
+     "position": "RF"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Clinton Mata",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "85",
+     "name": "Noham Kamara",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "45",
+     "name": "Rémi Himbert",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Ruben Kluivert",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "2",
+     "name": "Mads Bidstrup",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "44",
+     "name": "Adil Hamdani",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "26",
+     "name": "Kail Boudache",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "99",
+     "name": "Noah Nartey",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "40",
+     "name": "Rémy Descamps",
+     "position": "SUB"
+    }
+   ],
+   "team": "Lyon"
+  },
+  "home": {
+   "formation": "4-3-3",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "39",
+     "name": "Matvei Safonov",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "51",
+     "name": "Willian Pacho",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "6",
+     "name": "Illia Zabarnyi",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "33",
+     "name": "Warren Zaïre-Emery",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "2",
+     "name": "Achraf Hakimi",
+     "position": "RB"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "17",
+     "name": "Vitinha",
+     "position": "CM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "8",
+     "name": "Fabián Ruiz",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "87",
+     "name": "João Neves",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "9",
+     "name": "Ferran Torres",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "11",
+     "name": "Maghnes Akliouche",
+     "position": "LF"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "14",
+     "name": "Désiré Doué",
+     "position": "RF"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "12",
+     "name": "Lucas Digne",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Mika Godts",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "30",
+     "name": "Lucas Chevalier",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "4",
+     "name": "Lucas Beraldo",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "27",
+     "name": "Dro Fernández",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "24",
+     "name": "Senny Mayulu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "47",
+     "name": "Quentin Ndjantou",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "21",
+     "name": "Lucas Hernández",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "42",
+     "name": "David Boly",
+     "position": "SUB"
+    }
+   ],
+   "team": "Paris Saint-Germain"
+  }
+ },
+ "observed_at": "2026-10-26T18:51:26.701570+00:00",
+ "raw_sha256": "72b2730fbd58fbbe6dbfaeb23ed1a5e381fdfa59ca7a350456cbab6904e6b979",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

@@ -1,0 +1,282 @@
+{
+ "away_id": "TUR_istanbul_basaksehir",
+ "espn_event_id": "401888264",
+ "home_id": "TUR_besiktas",
+ "kickoff_utc": "2026-10-26T16:00:00+00:00",
+ "league": "SUPERLIG",
+ "lineup_sha256": "8f1bbd2d088062db0139d64f768d8fe5e2041058ee1529c2719028d4da0d1258",
+ "lineups": {
+  "away": {
+   "formation": "4-2-3-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "16",
+     "name": "Muhammed Sengezer",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "27",
+     "name": "Ousseynou Ba",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "23",
+     "name": "Emin Bayram",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "38",
+     "name": "Saba Kharebashvili",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "33",
+     "name": "Michal Karbownik",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "14",
+     "name": "Eldor Shomurodov",
+     "position": "AM"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "20",
+     "name": "Umut Günes",
+     "position": "LM"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "8",
+     "name": "Olivier Kemen",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "17",
+     "name": "Umut Bozok",
+     "position": "F"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "7",
+     "name": "Yusuf Sari",
+     "position": "AM-L"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "70",
+     "name": "Andreas Skov Olsen",
+     "position": "AM-R"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "91",
+     "name": "Bertug Yildirim",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "6",
+     "name": "Onur Bulut",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "98",
+     "name": "Deniz Dilmen",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "18",
+     "name": "Jakub Kaluzinski",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "10",
+     "name": "Edin Visca",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Abbosbek Fayzullaev",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "42",
+     "name": "Omer Sahiner",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Davie Selke",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "15",
+     "name": "Hamza Güreler",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "77",
+     "name": "Ivan Brnic",
+     "position": "SUB"
+    }
+   ],
+   "team": "Istanbul Basaksehir"
+  },
+  "home": {
+   "formation": "4-1-4-1",
+   "starters": [
+    {
+     "formation_place": "1",
+     "jersey": "1",
+     "name": "Alexander Nübel",
+     "position": "G"
+    },
+    {
+     "formation_place": "6",
+     "jersey": "53",
+     "name": "Emir Han Topcu",
+     "position": "CD-L"
+    },
+    {
+     "formation_place": "5",
+     "jersey": "12",
+     "name": "Emmanuel Agbadou",
+     "position": "CD-R"
+    },
+    {
+     "formation_place": "4",
+     "jersey": "4",
+     "name": "Wilfred Ndidi",
+     "position": "DM"
+    },
+    {
+     "formation_place": "3",
+     "jersey": "33",
+     "name": "Ridvan Yilmaz",
+     "position": "LB"
+    },
+    {
+     "formation_place": "2",
+     "jersey": "62",
+     "name": "Amir Murillo",
+     "position": "RB"
+    },
+    {
+     "formation_place": "10",
+     "jersey": "6",
+     "name": "Salih Özcan",
+     "position": "CM-L"
+    },
+    {
+     "formation_place": "8",
+     "jersey": "15",
+     "name": "Junior Olaitan",
+     "position": "CM-R"
+    },
+    {
+     "formation_place": "11",
+     "jersey": "19",
+     "name": "Leandro Trossard",
+     "position": "LM"
+    },
+    {
+     "formation_place": "7",
+     "jersey": "18",
+     "name": "Václav Cerný",
+     "position": "RM"
+    },
+    {
+     "formation_place": "9",
+     "jersey": "28",
+     "name": "Dusan Vlahovic",
+     "position": "F"
+    }
+   ],
+   "substitutes": [
+    {
+     "formation_place": "0",
+     "jersey": "9",
+     "name": "Oh Hyeon-Gyu",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "11",
+     "name": "Kassoum Ouattara",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "29",
+     "name": "Ilhan Fakili",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "22",
+     "name": "Taylan Bulut",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "58",
+     "name": "Yasin Ozcan",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "17",
+     "name": "Ernest Poku",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "8",
+     "name": "Kartal Kayra Yilmaz",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "35",
+     "name": "Tiago Djaló",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "90",
+     "name": "Semih Kiliçsoy",
+     "position": "SUB"
+    },
+    {
+     "formation_place": "0",
+     "jersey": "80",
+     "name": "Dogan Alemdar",
+     "position": "SUB"
+    }
+   ],
+   "team": "Besiktas"
+  }
+ },
+ "observed_at": "2026-10-26T15:14:39.120338+00:00",
+ "raw_sha256": "cf40c471a75ef872f4dfc19c47a7b15bad05cc6d7de5cb6317533a81048c3115",
+ "source": "espn",
+ "source_terms": "UNOFFICIAL, RESEARCH_ONLY (ADR 0081)"
+}

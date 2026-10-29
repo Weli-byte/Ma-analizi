@@ -1,0 +1,108 @@
+{
+ "gate": {
+  "ece_tolerance": 0.005,
+  "min_gain": 0.001,
+  "min_league_rows": 800
+ },
+ "oof": {
+  "data_version": "dv-of-56d45e54d516",
+  "fits": 43,
+  "git_sha": "c73e0d6c7e6c76c09ee703f033e428f620927023",
+  "history_matches": 16663,
+  "matches": 7650,
+  "oof_digest": "4a022b29480da2f41f3e1c54ab7ab2f94f179753544e34bc7b101486970d2fbe",
+  "refit_block_days": 30
+ },
+ "registry": {
+  "1x2": {
+   "calibrator": {
+    "checksum": "8f110852a51aa8a8b384ea0598dfa28b0c1375fdf97c643c353abea18c90a4be",
+    "kind": "temperature",
+    "n_fit": 5898,
+    "params": {
+     "T": 1.1484858954483979
+    },
+    "target": "1x2"
+   },
+   "chosen": "temperature",
+   "status": "KEEP_CHAMPION",
+   "test_paired": {
+    "alpha": 0.0125,
+    "blocks": 39,
+    "delta": 0.0017106762113452412,
+    "interval": [
+     -0.0015408306753174623,
+     0.004908065637216836
+    ]
+   }
+  },
+  "btts": {
+   "calibrator": {
+    "checksum": "172977effc5d8ba0ee56b066e0978abb23a02701d495ae9508ca8c4766977993",
+    "kind": "platt",
+    "n_fit": 5898,
+    "params": {
+     "a": 0.6259188317587467,
+     "b": 0.12930493980847757
+    },
+    "target": "btts"
+   },
+   "chosen": "platt",
+   "status": "KEEP_CHAMPION",
+   "test_paired": {
+    "alpha": 0.0125,
+    "blocks": 39,
+    "delta": -0.0019950221235036647,
+    "interval": [
+     -0.005830018009660768,
+     0.0016220899817139367
+    ]
+   }
+  },
+  "over_2_5": {
+   "calibrator": {
+    "checksum": "217f09b161169d4789653a117126f3dda41bfeab7a1369e27b266bda3833de2a",
+    "kind": "platt",
+    "n_fit": 5898,
+    "params": {
+     "a": 0.6381832884421055,
+     "b": 0.021642214433036034
+    },
+    "target": "over_2_5"
+   },
+   "chosen": "platt",
+   "status": "KEEP_CHAMPION",
+   "test_paired": {
+    "alpha": 0.0125,
+    "blocks": 39,
+    "delta": 0.0027303069767836696,
+    "interval": [
+     -0.0009176187671828829,
+     0.005990868670489088
+    ]
+   }
+  }
+ },
+ "test_rows_read_once": true,
+ "windows": {
+  "fit": {
+   "rows": 4072,
+   "seasons": [
+    "2020-21",
+    "2021-22"
+   ]
+  },
+  "select": {
+   "rows": 1826,
+   "seasons": [
+    "2022-23"
+   ]
+  },
+  "test": {
+   "rows": 1752,
+   "seasons": [
+    "2023-24"
+   ]
+  }
+ }
+}

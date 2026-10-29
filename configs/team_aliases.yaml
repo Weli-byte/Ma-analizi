@@ -7374,6 +7374,15 @@ aliases:
   approved_by: claude-assistant 2026-10-08 (The Odds API club name checked against
     the canonical team; owner to re-confirm)
   confidence: 0.95
+- source: espn
+  raw_name: Amed SFK
+  team_id: TUR_amed_sk
+  valid_from: null
+  valid_to: null
+  provenance: fuzzy_approved
+  approved_by: claude-assistant 2026-10-29 (ESPN scoreboard name of the Super Lig club, seen in a real
+    response during the settlement check of ADR 0090; owner to re-confirm)
+  confidence: 0.9
 - source: the-odds-api
   raw_name: Amed SK
   team_id: TUR_amed_sk

@@ -91,3 +91,32 @@ def test_collect_espn_keeps_other_sources_upcoming_and_replaces_only_its_own(tmp
 
 def test_the_slugs_are_the_verified_ones():
     assert ef.SLUGS["UEL"] == "uefa.europa" and ef.SLUGS["UECL"] == "uefa.europa.conf" and pytest.importorskip("src.markets.live_results").ESPN_LEAGUES == ("UEL", "UECL")
+
+
+def test_settlement_adds_missing_domestic_results_only_and_never_changes_a_stored_one(tmp_path):
+    """ADR 0090: results only, all six domestic leagues; a stored result stands; the fixture list is not touched; a spring league match decided in 90 minutes is accepted."""
+    root = tmp_path
+    for league in lr.SETTLE_LEAGUES:
+        lr.save_store(root, league, {"league": league, "matches": {}, "upcoming": [{"fixture_id": "fd-1", "home_id": "ITA_juventus", "away_id": "SCO_celtic_fc", "kickoff_utc": "2026-11-01T17:00:00+00:00"}]})
+    stored = lr.load_store(root, "SUPERLIG")
+    stored["matches"]["ITA_juventus|SCO_celtic_fc|2026-10-20"] = {"home_id": "ITA_juventus", "away_id": "SCO_celtic_fc", "kickoff_utc": "2026-10-20T17:00:00+00:00", "home_goals": 3, "away_goals": 3, "first_seen": "x"}
+    lr.save_store(root, "SUPERLIG", stored)
+    slugs = []
+
+    def scanner(slug, start, end):
+        slugs.append(slug)
+        return [ef.parse_event(event(1, "Juventus", "Celtic", datetime(2026, 10, 20, 17, tzinfo=UTC), "STATUS_FULL_TIME", True, "1", "0")),       # differs from the stored 3-3
+                ef.parse_event(event(2, "Ajax Amsterdam", "Celtic", datetime(2026, 10, 18, 17, tzinfo=UTC), "STATUS_FULL_TIME", True, "2", "2")),
+                ef.parse_event(event(3, "Ajax Amsterdam", "Juventus", NOW + timedelta(days=2)))], []  # fmt: skip
+
+    lines = lr.settle_from_espn(root, NOW, Dir(), scanner=scanner)
+    assert len(lines) == 6 and len(slugs) == 6 and "eng.1" in slugs and "tur.1" in slugs
+    tr = lr.load_store(root, "SUPERLIG")
+    assert tr["matches"]["ITA_juventus|SCO_celtic_fc|2026-10-20"]["home_goals"] == 3                         # the stored result is never changed
+    assert tr["matches"]["NED_afc_ajax|SCO_celtic_fc|2026-10-18"]["source"].startswith("espn") and tr["upcoming"][0]["fixture_id"] == "fd-1" and len(tr["upcoming"]) == 1
+    assert lr.load_store(root, "EPL")["matches"]["ITA_juventus|SCO_celtic_fc|2026-10-20"]["home_goals"] == 1
+    again = lr.settle_from_espn(root, NOW, Dir(), scanner=scanner)
+    assert all("0 new result(s)" in x for x in again)
+    spring = [ef.parse_event(event(4, "Juventus", "Celtic", datetime(2027, 3, 14, 15, tzinfo=UTC), "STATUS_FULL_TIME", True, "2", "0"))]
+    res, _, _ = lr.from_espn("SERIEA", spring, Dir(), datetime(2027, 3, 20, tzinfo=UTC), full_time_in_knockout=True)
+    assert len(res) == 1

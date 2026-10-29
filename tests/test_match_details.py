@@ -264,6 +264,7 @@ def test_collect_runs_every_source_reports_failures_and_spends_credits_only_when
     monkeypatch.setattr(live_results.time, "sleep", lambda s: None)
     monkeypatch.setattr(live_results, "odds_scores", lambda key, league: calls["odds"].append(league) or [])
     monkeypatch.setattr(live_results, "collect_espn", lambda *a, **k: [])  # the ESPN list is covered by tests/test_espn_fixtures.py; this test must not touch the network
+    monkeypatch.setattr(live_results, "settle_from_espn", lambda *a, **k: [])  # ESPN settlement (ADR 0090) is covered by tests/test_espn_fixtures.py
     lines = live_results.collect(tmp_path, NOW, fd_key="k", odds_key="o")
     assert any(x.startswith("EPL: 1 finished, 1 new") for x in lines)
     assert any("NED1: football-data.org FAILED" in x for x in lines)

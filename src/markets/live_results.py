@@ -240,6 +240,31 @@ def collect_espn(root: Path, now: datetime, directory: TeamDirectory, days_back:
     return lines
 
 
+SETTLE_LEAGUES = ("EPL", "LALIGA", "BUNDESLIGA", "SERIEA", "LIGUE1", "SUPERLIG")  # ADR 0090: results only, from ESPN's keyless scoreboard
+SETTLE_DAYS_BACK = 21
+
+
+def settle_from_espn(root: Path, now: datetime, directory: TeamDirectory, days_back: int = SETTLE_DAYS_BACK, scanner=None) -> list[str]:
+    """Settlement of the domestic leagues from ESPN (ADR 0090): adds a finished result that no other source has stored, never changes a stored one and never touches the fixture list.
+    Domestic league matches have no extra time, so ESPN's final score is the 90-minute score (`full_time_in_knockout`: a spring league match is accepted when ESPN says STATUS_FULL_TIME).
+    Needed because the Super Lig results came from the odds provider's scores, whose free quota is exhausted, and a few other results were never published by the free sources."""
+    from src.ingestion import espn_fixtures
+
+    from .lineups import SLUGS
+
+    scanner = scanner or espn_fixtures.scan
+    lines = []
+    for league in SETTLE_LEAGUES:
+        matches, errors = scanner(SLUGS[league], (now - timedelta(days=days_back)).date(), now.date())
+        results, _, unresolved = from_espn(league, matches, directory, now, full_time_in_knockout=True)
+        store = load_store(root, league)
+        added = merge(store, results, now)
+        if added:
+            save_store(root, league, store)
+        lines.append(f"{league}: espn settlement {len(results)} finished, {added} new result(s), {len(errors)} day(s) failed, unresolved clubs: {unresolved or 'none'}")
+    return lines
+
+
 def pending_fixtures(root: Path, league: str, now: datetime) -> int:
     """Stored odds-store fixtures of the league that kicked off 2.5+ hours ago and have no result stored."""
     store = load_store(root, league)
@@ -388,6 +413,10 @@ def collect(
         lines.extend(collect_espn(root, now, directory))
     except Exception as e:  # noqa: BLE001 - an optional list; the other sources must still run
         lines.append(f"espn fixtures FAILED ({type(e).__name__})")
+    try:
+        lines.extend(settle_from_espn(root, now, directory))
+    except Exception as e:  # noqa: BLE001 - settlement from a second source is optional; the stored results stay as they are
+        lines.append(f"espn settlement FAILED ({type(e).__name__})")
     if odds_key:
         for league in ODDS_ONLY:
             from src.odds.run import key_paused, mark_quota, quota_exhausted

@@ -1,0 +1,74 @@
+{
+ "results": [
+  {
+   "at_utc": "2026-10-30T21:20:36.005742+00:00",
+   "bytes": 22641,
+   "endpoint": "https://api.football-data.org/v4/competitions/PL",
+   "headers": {
+    "X-Requests-Available-Minute": "9"
+   },
+   "http": 200,
+   "latency_ms": 1289,
+   "provider": "football-data.org",
+   "status": "OK"
+  },
+  {
+   "at_utc": "2026-10-30T21:20:37.294435+00:00",
+   "endpoint": "https://api.the-odds-api.com/v4/sports/",
+   "latency_ms": 615,
+   "message": "URLError: [WinError 10054] Varolan bir ba\u011flant\u0131 uzaktaki bir ana bilgisayar taraf\u0131ndan zorla kapat\u0131ld\u0131",
+   "provider": "the-odds-api (the_odds_api_key)",
+   "status": "UNREACHABLE"
+  },
+  {
+   "at_utc": "2026-10-30T21:20:37.909863+00:00",
+   "bytes": 12707,
+   "endpoint": "https://api.the-odds-api.com/v4/sports/",
+   "headers": {
+    "x-requests-remaining": "24",
+    "x-requests-used": "476"
+   },
+   "http": 200,
+   "latency_ms": 1600,
+   "provider": "the-odds-api (the_odds_api_key_2)",
+   "status": "OK"
+  },
+  {
+   "at_utc": "2026-10-30T21:20:39.509988+00:00",
+   "bytes": 187,
+   "endpoint": "https://v3.football.api-sports.io/status",
+   "headers": {},
+   "http": 200,
+   "latency_ms": 2082,
+   "message": "{\"access\": \"Your account is suspended, check on https://dashboard.api-football.com.\"}",
+   "provider": "api-football",
+   "status": "ACCOUNT_REFUSED"
+  },
+  {
+   "at_utc": "2026-10-30T21:20:41.591941+00:00",
+   "bytes": 2503,
+   "endpoint": "https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard",
+   "headers": {},
+   "http": 200,
+   "latency_ms": 2032,
+   "provider": "espn (keyless)",
+   "status": "OK"
+  },
+  {
+   "at_utc": "2026-10-30T21:20:43.623619+00:00",
+   "bytes": 110141,
+   "endpoint": "https://raw.githubusercontent.com/openfootball/football.json/master/2024-25/en.1.json",
+   "headers": {},
+   "http": 200,
+   "latency_ms": 2196,
+   "provider": "openfootball (keyless)",
+   "status": "OK"
+  },
+  {
+   "message": "host unreachable from the owner's network; verified by the cloud statistics collector (ADR 0050)",
+   "provider": "highlightly",
+   "status": "NOT_CALLED_FROM_THIS_NETWORK"
+  }
+ ],
+ "schema": "provider-smoke-v1"
+}

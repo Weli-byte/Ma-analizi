@@ -759,6 +759,22 @@ def experimental_card(i: dict, status: dict | None = None) -> str:
     )
 
 
+STAGE_TR = {"early": "maçtan 24 saatten önce", "t-24h": "maçtan 24 saat - 90 dakika önce", "t-90m": "maçtan 90 - 30 dakika önce", "t-30m": "maçtan son 30 dakika içinde", "post_kickoff": "maç başladıktan sonra"}
+
+
+def lineage_note(i: dict) -> str:
+    """Tahmin künyesi (ADR 0091): stage, producing commit, odds source time. Older forecasts have no lineage block and say so instead of guessing."""
+    lin = i.get("lineage")
+    if not lin:
+        return "<p class='note'>Tahmin künyesi: bu tahmin künye kaydı başlamadan önce üretildi (eski kayıt, ayrıntı yok).</p>"
+    odds = lin.get("odds") or {}
+    src = f"oran kaynağı: tam zamanlı piyasa oranı ({e((odds.get('observed_at') or '')[:16].replace('T', ' '))} UTC)" if odds else "oran yok, yalnızca model"  # no bookmaker name on the page
+    return (
+        f"<p class='note'>Tahmin künyesi: {e(STAGE_TR.get(lin.get('stage'), lin.get('stage') or '-'))} üretildi · kod {e((lin.get('code_commit') or 'unknown')[:10])} · "
+        f"geçmiş {e(str((lin.get('history') or {}).get('matches') or '-'))} maç · {src} · kalibrasyon yok.</p>"
+    )
+
+
 def match_page(
     i: dict,
     picks: list[dict],
@@ -853,7 +869,8 @@ def match_page(
     )
     quality = (
         f"<div class='sec'><h2>Veri kalitesi</h2></div><div class='card'><ul style='margin:0;padding-left:18px'>{flags}</ul>"
-        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yalnızca bilgi olarak gösterilir).</p></div>"
+        f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yalnızca bilgi olarak gösterilir).</p>"
+        f"{lineage_note(i)}</div>"
     )
     tabs = (
         ("ozet", "Özet"),

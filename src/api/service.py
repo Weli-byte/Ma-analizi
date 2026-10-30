@@ -231,6 +231,7 @@ class ForecastService:
             "model_version": body["model_version"], "content_hash": body["content_hash"],
             "market_source": body["market_source"], "form": body.get("form"), "details": body.get("details"),
             "experimental": body.get("experimental"),  # ADR 0072, absent in older artifacts
+            "lineage": body.get("lineage"),  # ADR 0091, absent in older artifacts (legacy_unknown)
             **body["intelligence"],
         }  # fmt: skip
 
@@ -241,6 +242,12 @@ class ForecastService:
             if f.parent.name == fixture_id:
                 return self._public_intel(json.loads(f.read_text(encoding="utf-8")))
         return None
+
+    def lineage(self, fixture_id: str) -> dict | None:
+        """Every stored version of the fixture's forecast with what produced it (ADR 0091)."""
+        from src.lineage.query import lineage_for
+
+        return lineage_for(self.root, fixture_id)
 
     def tips(self, min_probability: float, upcoming_only: bool = True) -> list[dict]:
         import json

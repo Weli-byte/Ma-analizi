@@ -1,0 +1,37 @@
+{
+ "cooldown": "one announcement per alarm key per day (notify_once, ADR 0077)",
+ "history_max": {
+  "league_mix.js": 0.102836,
+  "p_btts.js": 0.016144,
+  "p_btts.ks": 0.106661,
+  "p_btts.psi": 0.090515,
+  "p_home.js": 0.015235,
+  "p_home.ks": 0.084922,
+  "p_home.psi": 0.085332,
+  "p_over_2_5.js": 0.017642,
+  "p_over_2_5.ks": 0.081495,
+  "p_over_2_5.psi": 0.099495
+ },
+ "margin": 1.25,
+ "min_n": 100,
+ "seasons": [
+  "2020-21",
+  "2021-22",
+  "2022-23"
+ ],
+ "source": "market-model out-of-fold predictions (ADR 0089), fit + select seasons",
+ "thresholds": {
+  "league_mix.js": 0.128544,
+  "p_btts.js": 0.02018,
+  "p_btts.ks": 0.133326,
+  "p_btts.psi": 0.113144,
+  "p_home.js": 0.019044,
+  "p_home.ks": 0.106152,
+  "p_home.psi": 0.106664,
+  "p_over_2_5.js": 0.022053,
+  "p_over_2_5.ks": 0.101869,
+  "p_over_2_5.psi": 0.124369
+ },
+ "window_days": 60,
+ "window_pairs": 14
+}

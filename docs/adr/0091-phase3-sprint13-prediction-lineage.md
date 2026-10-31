@@ -10,3 +10,6 @@ Plan: `Futbol_Tahmin_Platformu_Faz3_Sprint_13_18_ULTRA_PRO_MAX.pdf`, sprint 13 (
 
 ## Not done
 No database (the forecast store is files; immutability is the no-overwrite rule plus the hash); no Vercel deployment id (needs the token, which exists only as a repository secret); no property-based test library added (no new dependency).
+
+## Amendment 2026-10-31 — post-deploy coverage
+The first cloud run after the deploy (`markets-cloud` 41201300488) wrote 80 forecasts; all 80 carry the lineage block (commit `e4bdd649`) and verify their content hash. The open item of the release decision is closed.

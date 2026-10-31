@@ -69,7 +69,8 @@ def build(out: Path, root: Path = ROOT, now: datetime | None = None) -> list[str
     stage_records = root / "artifacts" / "stage_records"
     if stage_records.exists():
         recent = ((now or datetime.now(UTC)) - timedelta(days=3)).date().isoformat()
-        dirs = [p for p in stage_records.glob("*__*__*") if p.is_dir() and p.name.rsplit("__", 1)[-1] >= recent]
+        dirs = [p for p in stage_records.glob("*__*__*") if p.is_dir()]
+        dirs = [p for p in dirs if p.name.rsplit("__", 1)[-1] >= recent]
         for d in sorted(dirs):
             shutil.copytree(d, out / "artifacts" / "stage_records" / d.name)
     injuries = root / "artifacts" / "injuries"

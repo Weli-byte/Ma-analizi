@@ -22,3 +22,6 @@ Plan: `Futbol_Tahmin_Platformu_Faz3_Sprint_13_18_ULTRA_PRO_MAX.pdf`, sprint 14. 
 
 ## Not done
 The monitors are a report command, not yet a scheduled cloud step with Telegram alerts (that wiring belongs with the sprint 18 SLO work); no incident ticket system (the runbook and the review template stand in).
+
+## Amendment 2026-10-31 — scheduled in the cloud job
+The open item above is closed in ADR 0093: `markets-cloud` runs `python -m src.drift.report` after the track record, publishes `drift_report.md` / `drift_status.json`, and sends the alarms to Telegram (critical once a day, warning once an ISO week).

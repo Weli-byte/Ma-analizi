@@ -171,3 +171,23 @@ def test_the_report_and_threshold_commands_write_their_documents(tree, tmp_path)
                                           "po": 0.5, "pb": 0.5}) for i in range(700)) + "\n", encoding="utf-8")  # TEST_ONLY  # fmt: skip
     th = tmp_path / "th.json"
     assert thresholds.main(["--oof", str(oof), "--out", str(th)]) == 0 and json.loads(th.read_text(encoding="utf-8"))["window_pairs"] >= 1
+
+
+def test_alarms_are_sent_once_per_period_by_severity(tmp_path, monkeypatch):
+    from src.drift import report
+    from src.mlops import notify as nt
+
+    sent = []
+    monkeypatch.setattr(nt, "send", lambda text: sent.append(text) or "SENT")                  # no Telegram call in tests
+    state = tmp_path / "n.json"
+    now = datetime(2026, 11, 2, 10, tzinfo=UTC)
+    assert report.severity("freshness:odds") == "warning" and report.severity("schema") == "critical" and report.severity("performance_drift:1x2") == "critical"
+    report.notify(["freshness:odds", "schema"], state, now)
+    report.notify(["freshness:odds", "schema"], state, now + timedelta(hours=4))                # same day: nothing new
+    report.notify(["freshness:odds", "schema"], state, now + timedelta(days=1))                 # next day: the critical one again, the warning not (same ISO week)
+    assert len(sent) == 3 and sum("schema" in s for s in sent) == 2 and sum("freshness:odds" in s for s in sent) == 1
+
+
+def test_the_cloud_job_runs_the_monitor_with_the_quote_folder_and_alarms():
+    wf = (ROOT / ".github" / "workflows" / "markets-cloud.yml").read_text(encoding="utf-8")
+    assert "python -m src.drift.report --markets-root . --odds-dir artifacts/odds_remote" in wf and "--notify-state artifacts/markets/notified_drift.json" in wf

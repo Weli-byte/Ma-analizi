@@ -12,6 +12,25 @@ from src.cli_utils import configure_output
 
 from . import monitor, quality
 
+CRITICAL = ("freshness:live_record", "freshness:forecast", "schema", "duplicates:results", "consistency", "performance_drift")
+
+
+def severity(alarm: str) -> str:
+    return "critical" if alarm.startswith(CRITICAL) else "warning"
+
+
+def notify(alarms: list[str], state: Path, now: datetime) -> list[str]:
+    """Telegram (ADR 0077): a critical alarm once per day, a warning once per ISO week (a known, slow problem such as stale odds must not repeat every run)."""
+    from src.mlops.notify import notify_once
+
+    year, week, _ = now.isocalendar()
+    out = []
+    for a in alarms:
+        sev = severity(a)
+        period = now.date().isoformat() if sev == "critical" else f"{year}-W{week:02d}"
+        out.append(f"{a}: " + notify_once(state, f"drift:{a}:{period}", f"Veri/kayma alarmı ({sev}): {a} — ayrıntı: python -m src.drift.report (ADR 0092)"))
+    return out
+
 REPO = Path(__file__).resolve().parents[2]
 THRESHOLDS = REPO / "docs" / "phase3" / "s14_thresholds.json"
 
@@ -56,15 +75,24 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--markets-root", required=True)
     ap.add_argument("--odds-root", default=None)
+    ap.add_argument("--odds-dir", default=None, help="folder of the stored quotes when it is not <root>/artifacts/odds (the cloud job: artifacts/odds_remote)")
+    ap.add_argument("--json-out", default=None, help="machine-readable status (alarms per panel)")
+    ap.add_argument("--notify-state", default=None, help="send the alarms to Telegram, deduplicated through this state file")
     ap.add_argument("--as-of", default=None)
     ap.add_argument("--out", default=None)
     a = ap.parse_args(argv)
     now = datetime.fromisoformat(a.as_of.replace("Z", "+00:00")) if a.as_of else datetime.now(UTC)
     th = json.loads(THRESHOLDS.read_text(encoding="utf-8"))
-    q = quality.check(a.markets_root, now, a.odds_root)
+    q = quality.check(a.markets_root, now, a.odds_root, a.odds_dir)
     inp = monitor.input_drift(monitor.forecast_rows(a.markets_root), th["thresholds"], now)
     perf = monitor.performance_drift(monitor.settled_losses(a.markets_root))
     text = build(q, inp, perf, th, now)
+    alarms = [*q["alarms"], *inp.get("alarms", []), *perf.get("alarms", [])]
+    if a.json_out:
+        Path(a.json_out).write_text(json.dumps({"generated_at": now.isoformat(), "quality": q["status"], "input_drift": inp.get("status"), "performance_drift": perf["status"],
+                                                "alarms": [{"alarm": x, "severity": severity(x)} for x in alarms]}, indent=1) + "\n", encoding="utf-8", newline="\n")  # fmt: skip
+    if a.notify_state:
+        print("notify:", notify(alarms, Path(a.notify_state), now))
     if a.out:
         Path(a.out).write_text(text, encoding="utf-8", newline="\n")
     else:

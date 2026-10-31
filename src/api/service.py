@@ -249,6 +249,12 @@ class ForecastService:
 
         return lineage_for(self.root, fixture_id)
 
+    def stages(self, fixture_id: str) -> list[dict]:
+        """The frozen stage records (t-24h / t-90m / t-30m / kickoff) of the fixture (ADR 0093)."""
+        from src.stages.view import stages_for
+
+        return stages_for(self.root, fixture_id)
+
     def tips(self, min_probability: float, upcoming_only: bool = True) -> list[dict]:
         import json
 

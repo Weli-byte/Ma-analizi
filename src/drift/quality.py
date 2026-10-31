@@ -26,7 +26,8 @@ def _age(now: datetime, t: datetime | None) -> float | None:
     return None if t is None else round((now - t).total_seconds() / 3600, 1)
 
 
-def check(markets_root, now: datetime, odds_root=None) -> dict:
+def check(markets_root, now: datetime, odds_root=None, odds_dir=None) -> dict:
+    """`odds_root`: a checkout holding `artifacts/odds`; `odds_dir`: the quote folder itself (the cloud job keeps them in `artifacts/odds_remote`)."""
     root = Path(markets_root) / "artifacts"
     alarms, out = [], {"freshness": {}, "schema": {}, "duplicates": {}, "consistency": {}, "coverage": {}}
     track = root / "markets" / "track_record.json"
@@ -47,13 +48,14 @@ def check(markets_root, now: datetime, odds_root=None) -> dict:
     lineups = [p for p in (root / "lineups").glob("*__*__*/lineup-*.json")] if (root / "lineups").exists() else []
     newest_lineup = max((_utc(json.loads(p.read_text(encoding="utf-8"))["observed_at"]) for p in lineups), default=None)
     newest_odds = None
-    if odds_root:
-        for q in (Path(odds_root) / "artifacts" / "odds").glob("*/quotes.jsonl"):
+    odds_base = Path(odds_dir) if odds_dir else (Path(odds_root) / "artifacts" / "odds" if odds_root else None)
+    if odds_base:
+        for q in odds_base.glob("*/quotes.jsonl"):
             last = q.read_text(encoding="utf-8").strip().splitlines()[-1:] or []
             for line in last:
                 t = _utc(json.loads(line)["observed_at"])
                 newest_odds = t if newest_odds is None or t > newest_odds else newest_odds
-    for name, t in (("live_record", t_track), ("forecast", newest_forecast), ("lineups", newest_lineup), ("odds", newest_odds if odds_root else "NOT_CHECKED")):
+    for name, t in (("live_record", t_track), ("forecast", newest_forecast), ("lineups", newest_lineup), ("odds", newest_odds if odds_base else "NOT_CHECKED")):
         if t == "NOT_CHECKED":
             out["freshness"][name] = {"status": "NOT_CHECKED"}
             continue

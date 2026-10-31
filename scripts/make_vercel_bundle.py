@@ -65,6 +65,14 @@ def build(out: Path, root: Path = ROOT, now: datetime | None = None) -> list[str
         # the full history stays in the data repository (ADR 0086)
         recent = ((now or datetime.now(UTC)) - timedelta(days=3)).date().isoformat()
         _newest_per_dir(lineups, out / "artifacts" / "lineups", "lineup-*.json", recent_after=recent)
+    # ADR 0093: every stage record of the recent fixtures (four small files each)
+    stage_records = root / "artifacts" / "stage_records"
+    if stage_records.exists():
+        recent = ((now or datetime.now(UTC)) - timedelta(days=3)).date().isoformat()
+        dirs = [p for p in stage_records.glob("*__*__*") if p.is_dir()]
+        dirs = [p for p in dirs if p.name.rsplit("__", 1)[-1] >= recent]
+        for d in sorted(dirs):
+            shutil.copytree(d, out / "artifacts" / "stage_records" / d.name)
     injuries = root / "artifacts" / "injuries"
     if injuries.exists():
         _newest_per_dir(injuries, out / "artifacts" / "injuries", "inj-*.json")

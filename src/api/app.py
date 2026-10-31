@@ -178,6 +178,14 @@ def create_app(
             raise HTTPException(404, f"no stored forecast for {fixture_id!r}")
         return envelope(lin, request)
 
+    @app.get("/v1/fixtures/{fixture_id}/stages", tags=["fixtures"], dependencies=[Depends(auth)])
+    def stages(fixture_id: str, request: Request):
+        """The forecast frozen at each stage: t-24h, t-90m, t-30m, kickoff (ADR 0093)."""
+        recs = service.stages(fixture_id)
+        if not recs:
+            raise HTTPException(404, f"no stage record for {fixture_id!r} yet")
+        return envelope({"fixture_id": fixture_id, "stages": recs}, request)
+
     @app.get("/v1/tips", tags=["research"], dependencies=[Depends(auth)])
     def tips(request: Request, min_probability: float = Query(0.55, ge=0.5, le=1),
              upcoming_only: bool = True, limit: int = Limit, offset: int = Offset):  # fmt: skip

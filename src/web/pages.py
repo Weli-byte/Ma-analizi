@@ -775,6 +775,28 @@ def lineage_note(i: dict) -> str:
     )
 
 
+STAGE_NAME = {"t-24h": "24 saat önce", "t-90m": "90 dakika önce", "t-30m": "30 dakika önce", "kickoff": "başlama anı"}
+
+
+def stages_card(stages: list[dict] | None) -> str:
+    """Aşamalara göre tahmin (ADR 0093): the forecast as it stood at each stage, with its age and the line-up status at that time."""
+    if not stages:
+        return ""
+    rows = []
+    for r in stages:
+        name = e(STAGE_NAME.get(r["stage"], r["stage"]))
+        if r.get("status") != "OK":
+            rows.append(f"<tr><td>{name}</td><td colspan='4'>bu aşamada tahmin yoktu</td></tr>")
+            continue
+        p = r["probabilities"]
+        h = p["headline_1x2"]
+        xi = "kadro açıklanmıştı" if r["lineup_status"] == "CONFIRMED" else "kadro açıklanmamıştı"
+        rows.append(f"<tr><td>{name}</td><td>{pct(h['home'])} / {pct(h['draw'])} / {pct(h['away'])}</td><td>{pct(p['over_2_5'])}</td><td>{pct(p['btts_yes'])}</td>"
+                    f"<td>{round(r['staleness_minutes'] / 60, 1)} sa · {xi}</td></tr>")
+    return ("<div class='sec'><h2>Aşamalara göre tahmin</h2></div><div class='card'><table><tr><th>Aşama</th><th>Ev / Ber / Dep</th><th>2.5 Üst</th><th>KG Var</th><th>Tahminin yaşı</th></tr>"
+            + "".join(rows) + "</table><p class='note'>Her aşamada o an elde olan son tahmin değiştirilmeden saklanır. Bilgi amaçlıdır, bahis tavsiyesi değildir.</p></div>")
+
+
 def match_page(
     i: dict,
     picks: list[dict],
@@ -786,6 +808,7 @@ def match_page(
     locked: set[str] | frozenset[str] = frozenset(),
     exp_status: dict | None = None,
     lineups: dict | None = None,
+    stages: list[dict] | None = None,
 ) -> str:
     home, away = i["home"], i["away"]
     res, g = i["result"], i["goals"]
@@ -870,7 +893,7 @@ def match_page(
     quality = (
         f"<div class='sec'><h2>Veri kalitesi</h2></div><div class='card'><ul style='margin:0;padding-left:18px'>{flags}</ul>"
         f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yalnızca bilgi olarak gösterilir).</p>"
-        f"{lineage_note(i)}</div>"
+        f"{lineage_note(i)}</div>{stages_card(stages)}"
     )
     tabs = (
         ("ozet", "Özet"),

@@ -118,6 +118,9 @@ def write_artifact(
         exp_block = experimental.predict(home_id, away_id, league, kickoff, neutral)
         if exp_block is not None:
             body["experimental"] = exp_block
+    from src.lineage.record import build as build_lineage
+
+    body["lineage"] = build_lineage(now, kickoff, data_version, getattr(mm, "n_matches", None), odds)  # ADR 0091: covered by the content hash
     body["content_hash"] = hashlib.sha256(canonical_json(body).encode()).hexdigest()
     body["generated_at"] = now.isoformat()
     d = root / "artifacts" / "markets" / key

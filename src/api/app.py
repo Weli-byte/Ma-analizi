@@ -170,6 +170,14 @@ def create_app(
             )
         return envelope(i, request)
 
+    @app.get("/v1/fixtures/{fixture_id}/lineage", tags=["fixtures"], dependencies=[Depends(auth)])
+    def lineage(fixture_id: str, request: Request):
+        """Every stored version of the forecast with what produced it (ADR 0091)."""
+        lin = service.lineage(fixture_id)
+        if lin is None:
+            raise HTTPException(404, f"no stored forecast for {fixture_id!r}")
+        return envelope(lin, request)
+
     @app.get("/v1/tips", tags=["research"], dependencies=[Depends(auth)])
     def tips(request: Request, min_probability: float = Query(0.55, ge=0.5, le=1),
              upcoming_only: bool = True, limit: int = Limit, offset: int = Offset):  # fmt: skip

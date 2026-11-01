@@ -1,0 +1,53 @@
+{
+ "generated": "As of 2026-11-01 (live record of the markets-data branch, 2026-10-31)",
+ "history_rows": 5898,
+ "live_rows": 237,
+ "live_tiers": {
+  "40": {
+   "ci95": [
+    0.7028,
+    0.8712
+   ],
+   "evidence": "MEASURED",
+   "hit_rate": 0.8,
+   "mean_stated": 0.6619,
+   "n": 85
+  },
+  "60": {
+   "ci95": [
+    0.4493,
+    0.6939
+   ],
+   "evidence": "MEASURED",
+   "hit_rate": 0.5763,
+   "mean_stated": 0.512,
+   "n": 59
+  },
+  "80": {
+   "ci95": [
+    0.4234,
+    0.6841
+   ],
+   "evidence": "MEASURED",
+   "hit_rate": 0.5577,
+   "mean_stated": 0.44,
+   "n": 52
+  },
+  "abstain": {
+   "ci95": [
+    0.2566,
+    0.5427
+   ],
+   "evidence": "INSUFFICIENT_EVIDENCE",
+   "hit_rate": 0.3902,
+   "mean_stated": 0.3841,
+   "n": 41
+  }
+ },
+ "thresholds": {
+  "100": 0.0,
+  "40": 0.5498859874851869,
+  "60": 0.47311173321073424,
+  "80": 0.41306192644472617
+ }
+}

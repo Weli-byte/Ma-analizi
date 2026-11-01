@@ -797,6 +797,26 @@ def stages_card(stages: list[dict] | None) -> str:
             + "".join(rows) + "</table><p class='note'>Her aşamada o an elde olan son tahmin değiştirilmeden saklanır. Bilgi amaçlıdır, bahis tavsiyesi değildir.</p></div>")
 
 
+BUCKET_TR = {"40": "en güvenli %40'lık dilimde", "60": "orta-yüksek güven (%40-60'lık dilim)", "80": "orta-düşük güven (%60-80'lik dilim)", "abstain": "en düşük güvenli %20'lik dilimde: model bu maçta çekimser"}
+
+
+def uncertainty_card(u: dict | None) -> str:
+    """Model güveni (ADR 0095): the confidence bucket with its live evidence; never a promise."""
+    if not u:
+        return ""
+    ev = u.get("bucket_evidence") or {}
+    if ev.get("evidence") == "MEASURED":
+        proof = f"Bu dilimdeki tahminler canlı kayıtta {ev['n']} maçın %{round(100 * ev['hit_rate'])}'inde tuttu (aralık %{round(100 * ev['ci95'][0])}-%{round(100 * ev['ci95'][1])})."
+    else:
+        proof = "Bu dilim için henüz yeterli canlı kanıt yok (en az 50 maç gerekir)."
+    reasons = {"NO_EXACT_ODDS (model only)": "piyasa oranı yok, yalnızca model", "LOW_HISTORY (a club has little or no match history)": "takımlardan birinin geçmişi az",
+               "MODEL_MARKET_DISAGREEMENT": "model ile piyasa ayrışıyor"}
+    rs = ", ".join(reasons.get(r, r) for r in u.get("uncertainty_reason", []))
+    return (f"<div class='sec'><h2>Model güveni</h2></div><div class='card'><p>Bu tahmin {e(BUCKET_TR.get(u['coverage_bucket'], u['coverage_bucket']))}. {e(proof)}</p>"
+            + (f"<p class='note'>Belirsizlik nedenleri: {e(rs)}.</p>" if rs else "")
+            + "<p class='note'>Model güveni geçmiş hata kaydından gelir; kazanma garantisi ve bahis tavsiyesi değildir.</p></div>")
+
+
 def match_page(
     i: dict,
     picks: list[dict],
@@ -893,7 +913,7 @@ def match_page(
     quality = (
         f"<div class='sec'><h2>Veri kalitesi</h2></div><div class='card'><ul style='margin:0;padding-left:18px'>{flags}</ul>"
         f"<p class='note'>Model {e(i['model_version'])} · veri {e(i['data_version'])} · tahmin zamanı {e(i['generated_at'])}. Kadro ve sakatlık bilgisi bu tahmine girmez (eksikler yalnızca bilgi olarak gösterilir).</p>"
-        f"{lineage_note(i)}</div>{stages_card(stages)}"
+        f"{lineage_note(i)}</div>{uncertainty_card(i.get('uncertainty'))}{stages_card(stages)}"
     )
     tabs = (
         ("ozet", "Özet"),

@@ -353,6 +353,11 @@ def register(app: FastAPI, service, root, now_fn) -> None:
                 404,
             )
         picks = [p for p in service.value_picks()["picks"] if p["fixture_id"] == fixture_id]
+        from src.uncertainty.serving import block, load
+
+        found = {**found, "uncertainty": block(found, load(root))}  # ADR 0095
+        if (found.get("uncertainty") or {}).get("abstain"):
+            picks = []  # ADR 0095: an abstaining forecast shows no value suggestion
         from src.markets.injuries import latest_for
         from src.markets.lineups import latest_for as lineups_for
         from src.stages.view import stages_for

@@ -3,10 +3,7 @@ name: experiments-lab
 # owner's PC), runs the pre-registered experiments once (specs are committed BEFORE this job computes anything; a spec whose hash changed or an
 # experiment that already has a result is refused) and uploads the results. The final-test seasons are never downloaded. Nothing is promoted.
 on:
-  workflow_dispatch:
-  pull_request:
-    paths:
-      - ".github/workflows/experiments-lab.yml"
+  workflow_dispatch:  # on demand only; the first run (41292019257) recorded the results, a rerun finds them and records nothing
 env:
   OMP_NUM_THREADS: "1"
   OPENBLAS_NUM_THREADS: "1"

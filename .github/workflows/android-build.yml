@@ -38,7 +38,10 @@ jobs:
         run: |
           mkdir -p ~/.bubblewrap
           printf '{"jdkPath": "%s", "androidSdkPath": "%s"}\n' "$JAVA_HOME" "$ANDROID_HOME" > ~/.bubblewrap/config.json
+          # Bubblewrap 1.27 validates the SDK by a `tools/` or `bin/` folder and calls tools/bin/sdkmanager; the runner keeps them in cmdline-tools/latest
+          [ -e "$ANDROID_HOME/tools" ] || ln -s "$ANDROID_HOME/cmdline-tools/latest" "$ANDROID_HOME/tools"
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --install "build-tools;36.1.0" "platforms;android-36" > /dev/null
       - name: Version
         env:
           VC: ${{ inputs.version_code || '1' }}

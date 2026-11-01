@@ -23,6 +23,7 @@ from . import stats
 
 REFERENCE_DAYS = 14
 CURRENT_DAYS = 14
+ALARM_P = 0.01 / 4  # permutation p-value an input-drift alarm also needs (four features, Bonferroni)
 MIN_WEEKS = 4  # each performance window must span at least this many ISO weeks: fewer weekly blocks give no usable interval
 REFERENCE_N = 100
 CURRENT_N = 50
@@ -58,15 +59,20 @@ def input_drift(rows: list[dict], thresholds: dict, now: datetime) -> dict:
     cur = [r for r in rows if cur_start <= r["kickoff"] <= now]
     out = {"reference": {"from": t0.isoformat(), "days": REFERENCE_DAYS, "n": len(ref)}, "current": {"from": cur_start.isoformat(), "days": CURRENT_DAYS, "to": now.isoformat(), "n": len(cur)}, "features": {}, "alarms": []}
     for name in ("p_home", "p_over_2_5", "p_btts"):
-        m = stats.continuous([r[name] for r in ref], [r[name] for r in cur])
+        a, b = [r[name] for r in ref], [r[name] for r in cur]
+        m = stats.continuous(a, b)
         if m["status"] == "MEASURED":
             m["over_threshold"] = [k for k in ("psi", "js", "ks") if m[k] > thresholds[f"{name}.{k}"]]
-            if m["over_threshold"]:
+            m["permutation_p_psi"] = stats.permutation_p(a, b, lambda x, y: stats.psi(np.asarray(x, float), np.asarray(y, float)))
+            if m["over_threshold"] and m["permutation_p_psi"] < ALARM_P:  # over the history threshold AND not explained by the sample size
                 out["alarms"].append(f"input_drift:{name}")
         out["features"][name] = m
-    m = stats.categorical([r["league"] for r in ref], [r["league"] for r in cur])
-    if m["status"] == "MEASURED" and m["js"] > thresholds["league_mix.js"]:
-        out["alarms"].append("input_drift:league_mix")
+    la, lb = [r["league"] for r in ref], [r["league"] for r in cur]
+    m = stats.categorical(la, lb)
+    if m["status"] == "MEASURED":
+        m["permutation_p"] = stats.permutation_p(la, lb, lambda x, y: stats.categorical(x, y).get("js", 0.0) if len(x) >= stats.MIN_N and len(y) >= stats.MIN_N else 0.0)
+        if m["js"] > thresholds["league_mix.js"] and m["permutation_p"] < ALARM_P:
+            out["alarms"].append("input_drift:league_mix")
     out["features"]["league_mix"] = m
     for flag in ("odds", "low_confidence"):
         out["features"][f"{flag}_share"] = {"reference": round(sum(r[flag] for r in ref) / len(ref), 4) if ref else None, "current": round(sum(r[flag] for r in cur) / len(cur), 4) if cur else None}

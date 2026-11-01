@@ -1,0 +1,10 @@
+# Android app link (ADR 0098): served at /.well-known/assetlinks.json so the Welliddia Android app (a Trusted Web Activity) opens the site
+# full screen. The SHA-256 fingerprints are PUBLIC certificate digests, not secrets.
+# - upload: the owner's upload key (Play App Signing; the key itself lives only in the GitHub secret ANDROID_UPLOAD_KEYSTORE_B64 and the
+#   owner's backup folder). Lets a directly installed test build open full screen.
+# - play_app_signing: the key Google signs the store build with. Copy it from Play Console > Test and release > App integrity >
+#   App signing key certificate > SHA-256 after the first upload, add it here and redeploy; until then the store build shows a URL bar.
+package_name: app.welliddia.tahmin
+fingerprints:
+  upload: "39:13:64:2B:4F:93:E5:8E:7C:E8:AE:62:83:85:DB:F2:D1:B0:18:EF:4E:E6:09:A3:FC:20:AF:FC:B1:DD:58:85"
+  play_app_signing: null

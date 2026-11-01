@@ -65,6 +65,7 @@ MANIFEST = {
     "icons": [
         {"src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
         {"src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
+        {"src": "/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},  # ADR 0098: full-bleed green, the ball inside the safe zone
     ],
 }  # fmt: skip
 SW = "self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',()=>{});"
@@ -148,6 +149,20 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     @app.get("/favicon.ico", include_in_schema=False)
     def favicon():
         return Response(icon_png(192), media_type="image/png")
+
+    @app.get("/icon-maskable-512.png", include_in_schema=False)
+    def icon_maskable():
+        return Response(icon_png(512), media_type="image/png")  # the ball covers 60 % of the width: inside the 80 % safe zone of a maskable icon
+
+    @app.get("/.well-known/assetlinks.json", include_in_schema=False)
+    def assetlinks():
+        """Digital Asset Links for the Android app (ADR 0098): the site vouches for the app signed with these certificates, so it opens full screen."""
+        import yaml
+
+        cfg = yaml.safe_load((Path(__file__).resolve().parents[2] / "configs" / "android" / "assetlinks.yaml").read_text(encoding="utf-8"))
+        fps = [f for f in cfg["fingerprints"].values() if f]
+        body = [{"relation": ["delegate_permission/common.handle_all_urls"], "target": {"namespace": "android_app", "package_name": cfg["package_name"], "sha256_cert_fingerprints": fps}}]
+        return Response(json.dumps(body), media_type="application/json")
 
     @app.get("/icon-{size}.png", include_in_schema=False)
     def icon(size: int):

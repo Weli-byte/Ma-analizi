@@ -1,0 +1,43 @@
+{
+  "packageId": "app.welliddia.tahmin",
+  "host": "mac-tahmin-eight.vercel.app",
+  "name": "Welliddia",
+  "launcherName": "Welliddia",
+  "display": "standalone",
+  "orientation": "portrait",
+  "themeColor": "#00A651",
+  "themeColorDark": "#00A651",
+  "navigationColor": "#00A651",
+  "navigationColorDark": "#00A651",
+  "navigationDividerColor": "#00A651",
+  "navigationDividerColorDark": "#00A651",
+  "backgroundColor": "#00A651",
+  "enableNotifications": false,
+  "startUrl": "/",
+  "iconUrl": "https://mac-tahmin-eight.vercel.app/icon-512.png",
+  "maskableIconUrl": "https://mac-tahmin-eight.vercel.app/icon-maskable-512.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "./upload-keystore.p12",
+    "alias": "upload"
+  },
+  "appVersionName": "1.0.0",
+  "appVersionCode": 1,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://mac-tahmin-eight.vercel.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://mac-tahmin-eight.vercel.app/",
+  "minSdkVersion": 21,
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "appVersion": "1.0.0"
+}

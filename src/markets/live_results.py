@@ -428,11 +428,14 @@ def collect(
         lines.extend(collect_espn(root, now, directory))
     except Exception as e:  # noqa: BLE001 - an optional list; the other sources must still run
         lines.append(f"espn fixtures FAILED ({type(e).__name__})")
+    light = os.environ.get("MARKETS_LIGHT_RUN") == "1"  # ADR 0094: the hourly runs between the four-hourly full runs spend no paid credit and scan ESPN only three days back
     try:
-        lines.extend(settle_from_espn(root, now, directory))
+        lines.extend(settle_from_espn(root, now, directory, days_back=3 if light else SETTLE_DAYS_BACK))
     except Exception as e:  # noqa: BLE001 - settlement from a second source is optional; the stored results stay as they are
         lines.append(f"espn settlement FAILED ({type(e).__name__})")
-    if odds_key:
+    if odds_key and light:
+        lines.append("odds-provider scores: skipped in a light run (credits are spent only in the four-hourly full run)")
+    if odds_key and not light:
         for league in ODDS_ONLY:
             from src.odds.run import key_paused, mark_quota, quota_exhausted
 

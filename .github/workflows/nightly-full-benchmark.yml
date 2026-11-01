@@ -3,6 +3,8 @@ on:
   schedule:
     - cron: "17 3 * * *"  # 03:17 UTC daily
   workflow_dispatch: {}
+permissions:
+  contents: read  # least privilege (ADR 0097): this workflow only reads the repository
 jobs:
   full-benchmark:
     # The full real 2019-2024+ dataset (both leagues, every configured season) — network

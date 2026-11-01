@@ -403,6 +403,16 @@ def register(app: FastAPI, service, root, now_fn) -> None:
         _, redirect = guarded(request)
         return redirect or pages.track_page(service.track_record())
 
+    @app.get("/durum", response_class=HTMLResponse, include_in_schema=False)
+    def status(request: Request):
+        """Hizmet durumu (ADR 0097): public, like any status page; it shows only operational indicators."""
+        p = root / "artifacts" / "markets" / "slo.json"
+        try:
+            slo = json.loads(p.read_text(encoding="utf-8")) if p.is_file() else None
+        except (OSError, ValueError):
+            slo = None
+        return pages.status_page(slo)
+
     def site_base(request: Request) -> str | None:
         return public_base(request.headers.get("host") or request.url.netloc)
 

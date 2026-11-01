@@ -169,6 +169,14 @@ def local(iso: str) -> datetime:
     return datetime.fromisoformat(iso).astimezone(TR)
 
 
+def kickoff_label(i: dict) -> str:
+    """ADR 0097: a fixture whose source gives only the date never shows the placeholder clock time."""
+    if i.get("kickoff_time_known") is False:
+        t = local(i["kickoff_utc"])  # local midnight of the league's day, which is the same calendar day in Türkiye
+        return f"{t.day} {MONTHS[t.month - 1]}, saat belli değil"
+    return kickoff_tr(i["kickoff_utc"])
+
+
 def kickoff_tr(iso: str) -> str:
     t = local(iso)
     return f"{t.day} {MONTHS[t.month - 1]} {t.strftime('%H:%M')} (TSİ)"
@@ -252,7 +260,7 @@ def match_row(i: dict, logos, tags: bool = True) -> str:
     badge = f"<span class='tag'>{e(low['label'])}</span>" if low else ""
     return (
         f"<a href='/mac/{e(i['fixture_id'])}'><div class='card'><div class='m'>"
-        f"<div class='t'><b>{t.strftime('%H:%M')}</b>{t.day} {MONTHS[t.month - 1]}</div>"
+        f"<div class='t'><b>{'saat ?' if i.get('kickoff_time_known') is False else t.strftime('%H:%M')}</b>{t.day} {MONTHS[t.month - 1]}</div>"
         f"<div class='tm'><div>{team_badge(i, 'home', logos)}{e(i['home'])}</div><div>{team_badge(i, 'away', logos)}{e(i['away'])}</div></div>"
         f"{boxes(r['home'], r['draw'], r['away'])}</div>{tag_html}"
         f"<div class='mut' style='margin-top:6px'>Beklenen gol <b>{xg['home']:.1f} - {xg['away']:.1f}</b> · En olası skor <b>{e(i['most_likely_score'])}</b> ({pct(i['scorelines'][0]['p'])}){warn} {badge}</div></div></a>"
@@ -839,7 +847,7 @@ def match_page(
         else "Bu olasılıklar <b>istatistiksel modelden</b> geliyor (bu maç için güvenilir oran verisi yok)."
     )
     hero = (
-        f"<div class='hero'><div class='mut' style='color:#e6f6ed'>{e(comp_name(i['league']))} · {e(kickoff_tr(i['kickoff_utc']))}</div>"
+        f"<div class='hero'><div class='mut' style='color:#e6f6ed'>{e(comp_name(i['league']))} · {e(kickoff_label(i))}</div>"
         f"<div style='display:flex;justify-content:space-around;align-items:center;margin-top:10px;text-align:center'>"
         f"<div>{team_badge(i, 'home', logos, False)}<div><b>{e(home)}</b> {star(i['home_team_id'], fav_ids, i['fixture_id'])}</div></div><b style='font-size:20px'>VS</b>"
         f"<div>{team_badge(i, 'away', logos, False)}<div><b>{e(away)}</b> {star(i['away_team_id'], fav_ids, i['fixture_id'])}</div></div></div></div>"
@@ -1092,6 +1100,46 @@ def shadow_gate_section(g: dict | None) -> str:
     )
 
 
+SLO_TR = {
+    "forecast_freshness_hours": ("En yeni tahminin yaşı (saat)", "saat"),
+    "fresh_forecast_share": ("48 saat içindeki maçlarda güncel tahmin payı", "pay"),
+    "stage_completion": ("Aşama kayıtlarının tamamlanma oranı (7 gün)", "pay"),
+    "settlement": ("Biten maçların sonuçlandırılma oranı (6-72 saat)", "pay"),
+    "odds_freshness_hours": ("En yeni piyasa oranının yaşı (saat)", "saat"),
+    "calibration_ece_1x2": ("1X2 kalibrasyon hatası (ECE)", "sayı"),
+    "api_p95_ms": ("Site yanıt süresi p95 (ms)", "ms"),
+    "api_p99_ms": ("Site yanıt süresi p99 (ms)", "ms"),
+    "api_availability": ("Site erişilebilirliği", "pay"),
+    "run_availability_28d": ("Saatlik güncellemelerin çalışma oranı (28 gün)", "pay"),
+}
+SLO_STATUS_TR = {"MET": "Hedefte", "BREACHED": "Hedef dışı", "CRITICAL": "Kritik", "NOT_MEASURED": "Ölçülemedi"}
+
+
+def status_page(slo: dict | None) -> str:
+    """Hizmet durumu (ADR 0097): the service level objectives measured by the last hourly cloud run; nothing is assumed met without a measurement."""
+    if not slo:
+        return page("Hizmet durumu", "<div class='card warn'>Henüz ölçüm yok. Hizmet hedefleri saatlik bulut işinde ölçülür.</div>", "profile", back="/profil")
+
+    def val(k: str, v) -> str:
+        if v is None:
+            return "ölçülemedi"
+        return pct(v) if SLO_TR.get(k, ("", ""))[1] == "pay" else f"{v:g}"
+
+    rows = "".join(
+        f"<tr><td>{e(SLO_TR.get(k, (k, ''))[0])}</td><td><b>{e(val(k, o['value']))}</b></td><td class='mut'>{e(o['target'])}</td>"
+        f"<td><span class='tag {'s' if o['status'] == 'MET' else ''}'>{e(SLO_STATUS_TR.get(o['status'], o['status']))}</span></td></tr>"
+        for k, o in slo["objectives"].items()
+    )
+    br = [f"{e(p)}: {e(s.get('reason') or '')}" for p, s in (slo.get("breakers") or {}).items() if s.get("open")]
+    body = (
+        f"<div class='card'><p class='mut'>Son ölçüm: {e(kickoff_tr(slo['generated_at']))}. Hedefler önceden sabitlendi (ADR 0097); ölçülemeyen bir hedef karşılanmış sayılmaz.</p>"
+        f"<table><tr><th>Gösterge</th><th>Değer</th><th>Hedef</th><th>Durum</th></tr>{rows}</table></div>"
+        + (f"<div class='card warn'><b>Bekletilen veri kaynakları</b> (devre kesici açık): {'; '.join(br)}. Bu kaynaklardan gelen bilgi son kayıtlı haliyle gösterilir.</div>" if br else "")
+        + "<div class='card'><p class='note'>Bu sayfa hizmetin çalışma durumunu gösterir; tahminlerin doğruluğu için Başarı kaydı sayfasına bak.</p></div>"
+    )
+    return page("Hizmet durumu", body, "profile", back="/profil")
+
+
 def track_page(t: dict) -> str:
     if not t["available"] or not t["matches_scored"]:
         body = (
@@ -1333,6 +1381,7 @@ def profile_page(user, plan: str = "free") -> str:
         f"<div class='mut'>{e(kind)}{(' · ' + e(user.email)) if user.email else ''}</div>"
         f"<div class='mut'>Plan: <b>{'Pro' if plan == 'pro' else 'Ücretsiz'}</b></div></div></div></div>"
         "<div class='card pad0'><a href='/basari-kaydi'><div class='row'>Başarı kaydı <span>›</span></div></a>"
+        "<a href='/durum'><div class='row'>Hizmet durumu <span>›</span></div></a>"
         "<a href='/hakkinda'><div class='row'>Yöntem ve sınırlar <span>›</span></div></a>"
         "<a href='/sunum'><div class='row'>Proje özeti <span>›</span></div></a>"
         "<a href='/gizlilik'><div class='row'>Gizlilik politikası <span>›</span></div></a>"

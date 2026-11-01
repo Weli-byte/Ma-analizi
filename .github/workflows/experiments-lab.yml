@@ -8,6 +8,8 @@ env:
   OMP_NUM_THREADS: "1"
   OPENBLAS_NUM_THREADS: "1"
   MKL_NUM_THREADS: "1"
+permissions:
+  contents: read  # least privilege (ADR 0097): this workflow only reads the repository
 jobs:
   lab:
     runs-on: ubuntu-24.04

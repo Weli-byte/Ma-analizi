@@ -1,6 +1,8 @@
 name: regenerate-golden
 on:
   workflow_dispatch: {}
+permissions:
+  contents: read  # least privilege (ADR 0097): this workflow only reads the repository
 jobs:
   regenerate:
     # Golden artifacts must be generated on the SAME platform CI verifies them on (Linux) —

@@ -121,17 +121,44 @@ def read_rows(name: str, directory: Path | None = None) -> list[dict]:
 
 
 def logged_urlopen(provider: str, endpoint: str, req, timeout: float) -> bytes:
-    """`urlopen` + read, recording the outcome. The original exception is re-raised unchanged."""
-    t0 = time.monotonic()
-    try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310 - callers pass fixed https URLs
-            body = resp.read()
-            status = resp.status
-    except urllib.error.HTTPError as e:
-        record_call(provider, endpoint, False, (time.monotonic() - t0) * 1000, e.code, f"HTTP {e.code}")
-        raise
-    except (urllib.error.URLError, TimeoutError) as e:
-        record_call(provider, endpoint, False, (time.monotonic() - t0) * 1000, None, type(e).__name__)
-        raise
-    record_call(provider, endpoint, True, (time.monotonic() - t0) * 1000, status, None, len(body))
-    return body
+    """`urlopen` + read, recording the outcome. The original exception is re-raised unchanged.
+
+    With `PROVIDER_BREAKER=1` the provider's circuit breaker guards the call and one bounded
+    retry follows a 502 / 503 / 504 or a timeout (ADR 0097, `src.release.breaker`)."""
+    from src.release import breaker
+
+    guarded = breaker.enabled()
+    attempts = 2 if guarded else 1
+    for attempt in range(attempts):
+        if guarded:
+            try:
+                breaker.guard(provider)
+            except breaker.CircuitOpen:
+                record_call(provider, endpoint, False, 0.0, None, "CircuitOpen")
+                raise
+        t0 = time.monotonic()
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:  # noqa: S310 - callers pass fixed https URLs
+                body = resp.read()
+                status = resp.status
+        except urllib.error.HTTPError as e:
+            record_call(provider, endpoint, False, (time.monotonic() - t0) * 1000, e.code, f"HTTP {e.code}")
+            if guarded:
+                breaker.failure(provider, e.code, breaker.retry_after_of(e))
+                if attempt + 1 < attempts and breaker.retryable(e.code):
+                    time.sleep(breaker.RETRY_PAUSE)
+                    continue
+            raise
+        except (urllib.error.URLError, TimeoutError) as e:
+            record_call(provider, endpoint, False, (time.monotonic() - t0) * 1000, None, type(e).__name__)
+            if guarded:
+                breaker.failure(provider, None)
+                if attempt + 1 < attempts:
+                    time.sleep(breaker.RETRY_PAUSE)
+                    continue
+            raise
+        record_call(provider, endpoint, True, (time.monotonic() - t0) * 1000, status, None, len(body))
+        if guarded:
+            breaker.success(provider)
+        return body
+    raise AssertionError("unreachable")  # pragma: no cover

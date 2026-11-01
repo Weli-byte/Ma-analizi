@@ -34,6 +34,8 @@ env:
   OPENBLAS_NUM_THREADS: "1"
   MKL_NUM_THREADS: "1"
   NUMEXPR_NUM_THREADS: "1"
+permissions:
+  contents: read  # least privilege (ADR 0097): this workflow only reads the repository
 jobs:
   benchmark:
     runs-on: ubuntu-24.04

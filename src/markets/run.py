@@ -98,6 +98,7 @@ def write_artifact(
     neutral: bool = False,  # cup final at one neutral venue: no home advantage
     details: dict | None = None,  # recent matches, head-to-head, league table (ADR 0058)
     experimental=None,  # ExperimentalModel (ADR 0072): hierarchical goal-market model shown as "Deneysel model (beta)"
+    kickoff_time_known: bool | None = None,  # ADR 0097: False = the source gives a date only (openfootball without a time); the clock time shown is then a placeholder
 ) -> Path | None:  # fmt: skip
     """One immutable, content-hashed artifact; an existing file for the same second is never overwritten."""
     intel = intelligence(
@@ -114,6 +115,8 @@ def write_artifact(
     }  # fmt: skip
     if details is not None:
         body["details"] = details
+    if kickoff_time_known is not None:
+        body["kickoff_time_known"] = kickoff_time_known
     if experimental is not None:
         exp_block = experimental.predict(home_id, away_id, league, kickoff, neutral)
         if exp_block is not None:
@@ -220,6 +223,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                 count_markets,
                 {"home": recent_form(history, h.team_id, now, names), "away": recent_form(history, a.team_id, now, names)},
                 details=build_details(history, h.team_id, a.team_id, league, now, names), experimental=exp,
+                kickoff_time_known=bool((f.extra or {}).get("time_given", True)),
             )  # fmt: skip
             if path is not None:
                 written.append({"fixture_key": key, "path": str(path)})
@@ -248,6 +252,7 @@ def run(root: Path, leagues: list[str], n: int, force: bool, now: datetime | Non
                     },
                     neutral,
                     build_details(history, fx["home_id"], fx["away_id"], league, now, names), experimental=exp,
+                    kickoff_time_known=True,  # football-data.org / The Odds API give the kick-off time
                 )  # fmt: skip
                 if path is not None:
                     written.append({"fixture_key": key, "path": str(path)})

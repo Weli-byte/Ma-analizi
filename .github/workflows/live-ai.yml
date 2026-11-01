@@ -10,6 +10,8 @@ on:
   schedule:
     - cron: "23 6 * * 1"  # Mondays 06:23 UTC
   workflow_dispatch: {}
+permissions:
+  contents: read  # least privilege (ADR 0097): this workflow only reads the repository
 jobs:
   live-smoke:
     runs-on: ubuntu-24.04

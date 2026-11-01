@@ -1,0 +1,61 @@
+{
+ "deploy_dry_run": {
+  "conclusion": "success",
+  "ran_at": "2026-11-01T10:06:47.327597+00:00",
+  "status": "PASS",
+  "workflow_run": "41295811913"
+ },
+ "deploy_preview": {
+  "conclusion": "success",
+  "ran_at": "2026-11-01T10:06:47.477621+00:00",
+  "status": "PASS",
+  "workflow_run": "41295820893"
+ },
+ "migration_rollback": {
+  "columns_after_migration": [
+   "uid",
+   "provider",
+   "name",
+   "email",
+   "created_at",
+   "last_seen",
+   "plan"
+  ],
+  "columns_after_rollback": [
+   "uid",
+   "provider",
+   "name",
+   "email",
+   "created_at",
+   "last_seen"
+  ],
+  "favourites_kept": 1,
+  "note": "TEST_ONLY rows on a scratch file; the live Turso store was not touched (its migration was verified live in ADR 0062)",
+  "ran_at": "2026-11-01T10:03:57.994454+00:00",
+  "reapplied": true,
+  "rows_kept": 5,
+  "sqlite": "3.50.4",
+  "status": "PASS"
+ },
+ "model_rollback": {
+  "challenger_share_after": 0.0,
+  "challenger_share_before": 0.056,
+  "champion_pinned": "markets-1.0.0",
+  "decision": "ROLLBACK",
+  "ran_at": "2026-11-01T10:00:32.515898+00:00",
+  "real_config_unchanged": true,
+  "reason": "challenger worse than the champion (paired interval wholly above 0)",
+  "status": "PASS"
+ },
+ "restore": {
+  "backup_bytes": 27737068,
+  "files": 10194,
+  "files_mismatched": 0,
+  "forecast_hash_mismatches": 0,
+  "forecasts": 9018,
+  "ran_at": "2026-11-01T10:03:41.819454+00:00",
+  "rto_note": "restore of the published state takes this long on the runner; the data repo itself is the off-site copy",
+  "seconds": 188.8,
+  "status": "PASS"
+ }
+}

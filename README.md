@@ -67,8 +67,9 @@ An earlier write-up of the first 130 matches (same conclusions on 1X2):
 - **Research hardening (Phases 2 and 3).** Real xG and line-up observations kept as-of and behind data gates, odds-aware ensembles,
   goal-market label audit, out-of-fold calibration selection, a prospective record with immutable hashes, prediction lineage
   ("Tahmin künyesi"), drift and data-quality monitoring with Telegram alerts, frozen stage records (t-24h / t-90m / t-30m / kickoff),
-  uncertainty and selective prediction ("Model güveni"), and a pre-registered ablation laboratory with a promotion gate
-  ([`docs/phase3/`](docs/phase3/)).
+  uncertainty and selective prediction ("Model güveni"), a pre-registered ablation laboratory with a promotion gate, and production
+  hardening: provider circuit breaker, hourly SLOs with an error budget, canary policy, release gate, recorded restore and rollback
+  drills ([`docs/phase3/`](docs/phase3/)).
 
 ## Engineering rules this repo enforces
 
@@ -119,7 +120,7 @@ Regenerating the lock after a dependency change needs `--upgrade`
 
 `src/` (`data`, `features`, `models`, `evaluation`, `llm`, `ingestion`, `snapshot`, `live`, `odds`, `markets`, `mlops`,
 `dashboard`, `api`, `web`, `league_models`, `xg`, `availability`, `oddsens`, `goalmkts`, `calibsel`, `prospective`, `lineage`,
-`drift`, `stages`, `uncertainty`, `experiments`) · `configs/` · `data/` · `docs/` (guides, `adr/`, data-source licensing) · `tests/` (with golden
+`drift`, `stages`, `uncertainty`, `experiments`, `release`) · `configs/` · `data/` · `docs/` (guides, `adr/`, data-source licensing) · `tests/` (with golden
 fixtures and real provider captures) · `reports/` · `scripts/` · `.github/workflows/`
 
 ## Data sources and licensing
@@ -131,8 +132,9 @@ terms of each provider before any commercial use. Club logos are off by default 
 
 ## Status
 
-Sprints S0 to S18, the league-model programme, Phase 2 (sprints 7 to 12) and Phase 3 sprints 13 to 17 are built; Phase 3
-sprint 18 (canary, SLOs, incident and rollback drills) is next. The remaining S19 items (paid sign-in providers, payments,
+Sprints S0 to S18, the league-model programme, Phase 2 (sprints 7 to 12) and Phase 3 (sprints 13 to 18) are built. The release
+gate says CONDITIONAL_GO for the research product and NO_GO for a commercial launch (licences); live service objectives are on
+`/durum`, the operations handbook is [`docs/phase3/sprint18_operations.md`](docs/phase3/sprint18_operations.md). The remaining S19 items (paid sign-in providers, payments,
 Highlightly PRO, paid odds, a custom domain) need money or an account the owner does not have yet. Details and the decision log are in [`CLAUDE.md`](CLAUDE.md) and
 [`docs/adr/`](docs/adr/).
 

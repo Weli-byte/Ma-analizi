@@ -16,6 +16,8 @@ env:
   NUMEXPR_NUM_THREADS: "1"
 # runs-on is pinned to ubuntu-24.04 in every workflow (not ubuntu-latest): GitHub moves `latest` to Ubuntu 26 from 2026-10-19,
 # and a different image (BLAS, libc, Python builds) can change the golden-chain hashes. Move all workflows together, on purpose.
+permissions:
+  contents: read  # least privilege (ADR 0097): this workflow only reads the repository
 jobs:
   test:
     runs-on: ubuntu-24.04

@@ -22,6 +22,7 @@ import urllib.request
 from dataclasses import dataclass
 
 from src.mlops.oplog import record_call
+from src.release import breaker
 
 from .endpoints import endpoint
 from .provider import ProviderError
@@ -88,11 +89,12 @@ class HighlightlyClient:
             url += "?" + urllib.parse.urlencode(params)
         req = urllib.request.Request(url, headers={"x-rapidapi-key": self.api_key})
         t0 = time.monotonic()
-        try:
+        def call():
             with urllib.request.urlopen(req, timeout=self.timeout) as r:  # noqa: S310 - fixed https host
-                raw = r.read()
-                rem = r.headers.get("x-ratelimit-requests-remaining")
-                status = r.status
+                return r.read(), r.headers.get("x-ratelimit-requests-remaining"), r.status
+
+        try:
+            raw, rem, status = breaker.observe(SOURCE, call)  # ADR 0097
         except urllib.error.HTTPError as e:
             record_call(SOURCE, label, False, (time.monotonic() - t0) * 1000, e.code, f"HTTP {e.code}")
             raise ProviderError(f"highlightly: HTTP {e.code}") from None  # message never carries the key

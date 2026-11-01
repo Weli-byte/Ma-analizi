@@ -22,6 +22,7 @@ from datetime import UTC, datetime
 
 from src.ingestion.interfaces import Capability, ProviderMeta, Support
 from src.llm.providers.base import scrub
+from src.release import breaker
 
 from .quotes import MAX_CLOCK_SKEW_S, OddsQuote
 
@@ -140,9 +141,12 @@ class TheOddsApiFeed:
         (provider documentation), so it can decide whether a paid odds call is worth it."""
         params = urllib.parse.urlencode({"apiKey": self.api_key, "dateFormat": "iso"})
         url = f"{BASE}/sports/{SPORT_KEYS[league]}/events?{params}"
-        try:
+        def call():
             with urllib.request.urlopen(url, timeout=self.timeout) as r:  # noqa: S310 - fixed https host
-                raw = r.read()
+                return r.read()
+
+        try:
+            raw = breaker.observe("the-odds-api", call)  # ADR 0097
         except (urllib.error.URLError, TimeoutError) as e:
             raise RuntimeError(
                 f"the-odds-api events request failed: {scrub(f'{type(e).__name__}: {e}', self.api_key)}"
@@ -151,10 +155,13 @@ class TheOddsApiFeed:
 
     def fetch(self, league: str, received_at: datetime | None = None) -> list[dict]:
         url = self.url(league)
-        try:
+        def call():
             with urllib.request.urlopen(url, timeout=self.timeout) as r:  # noqa: S310 - fixed https host
-                raw = r.read()
                 self.requests_remaining = r.headers.get("x-requests-remaining")
+                return r.read()
+
+        try:
+            raw = breaker.observe("the-odds-api", call)  # ADR 0097
         except (urllib.error.URLError, TimeoutError) as e:
             raise RuntimeError(
                 f"the-odds-api request failed: {scrub(f'{type(e).__name__}: {e}', self.api_key)}"

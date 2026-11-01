@@ -53,7 +53,7 @@ class RawFixture:
     status_raw: str  # provider's own status vocabulary; upsert.py maps it to FixtureStatus
     home_goals: int | None = None
     away_goals: int | None = None
-    extra: dict = field(default_factory=dict)  # provider-specific fields kept for audit, unused
+    extra: dict = field(default_factory=dict)  # provider fields kept for audit; markets reads `time_given`
 
 
 class FixtureProvider(Protocol):

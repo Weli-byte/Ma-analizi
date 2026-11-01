@@ -232,6 +232,7 @@ class ForecastService:
             "market_source": body["market_source"], "form": body.get("form"), "details": body.get("details"),
             "experimental": body.get("experimental"),  # ADR 0072, absent in older artifacts
             "lineage": body.get("lineage"),  # ADR 0091, absent in older artifacts (legacy_unknown)
+            "kickoff_time_known": body.get("kickoff_time_known"),  # ADR 0097: False = date only
             **body["intelligence"],
         }  # fmt: skip
 

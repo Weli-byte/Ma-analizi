@@ -1,0 +1,73 @@
+{
+ "breakers": {},
+ "generated_at": "2026-11-01T09:57:34.741603+00:00",
+ "objectives": {
+  "api_availability": {
+   "status": "NOT_MEASURED",
+   "target": ">= 0.99",
+   "value": null
+  },
+  "api_p95_ms": {
+   "status": "NOT_MEASURED",
+   "target": "<= 1500.0",
+   "value": null
+  },
+  "api_p99_ms": {
+   "status": "NOT_MEASURED",
+   "target": "<= 3000.0",
+   "value": null
+  },
+  "calibration_ece_1x2": {
+   "status": "BREACHED",
+   "target": "<= 0.0858",
+   "value": 0.0985
+  },
+  "forecast_freshness_hours": {
+   "status": "MET",
+   "target": "<= 2.0",
+   "value": 1.64
+  },
+  "fresh_forecast_share": {
+   "status": "MET",
+   "target": ">= 0.95",
+   "value": 1.0
+  },
+  "odds_freshness_hours": {
+   "status": "NOT_MEASURED",
+   "target": "<= 24.0",
+   "value": null
+  },
+  "run_availability_28d": {
+   "status": "MET",
+   "target": ">= 0.95",
+   "value": 1.0
+  },
+  "settlement": {
+   "status": "BREACHED",
+   "target": ">= 0.95",
+   "value": 0.8056
+  },
+  "stage_completion": {
+   "status": "MET",
+   "target": ">= 0.95",
+   "value": 1.0
+  }
+ },
+ "sli": {
+  "budget_left": 1.0,
+  "calibration_ece_1x2": 0.0985,
+  "ece_n": 259,
+  "ece_null95": 0.0858,
+  "fixtures_next_48h": 14,
+  "forecast_freshness_hours": 1.64,
+  "fresh_forecast_share": 1.0,
+  "hours_expected": 1,
+  "hours_with_run": 1,
+  "odds_freshness_hours": null,
+  "run_availability_28d": 1.0,
+  "settlement": 0.8056,
+  "settlement_due": 36,
+  "stage_completion": 1.0,
+  "stages_due_7d": 268
+ }
+}

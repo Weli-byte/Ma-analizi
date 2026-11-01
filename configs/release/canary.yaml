@@ -1,0 +1,10 @@
+# Phase 3 sprint 18 (ADR 0097): champion / challenger binding and the canary state of the served market model.
+# SAFE DEFAULTS: the champion is pinned, no challenger is bound, the stage is shadow (fraction 0). Advancing a stage is a deliberate
+# change of this file by the owner after `python -m src.release.canary evaluate` recommends it; the code never advances on its own.
+# A rollback (automatic on a stop criterion, or by the owner) sets challenger: null, stage: shadow.
+version: release-canary-v1
+champion: markets-1.0.0          # must equal src.markets.model.MODEL_VERSION (checked by the release gate)
+challenger: null                 # a candidate id from artifacts/registry/market_candidates.jsonl that passed the sprint 17 promotion gate
+stage: shadow
+kill_switch: false               # true = every user gets the champion whatever the stage says
+salt: release-canary-v1          # deterministic bucket = sha256(salt | user id) mod 10000; not a secret

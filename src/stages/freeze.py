@@ -105,11 +105,14 @@ def _load(root: Path) -> dict[str, list[tuple[str, dict]]]:
 
 def freeze(root: Path, now: datetime, only: set[tuple[str, str]] | None = None, replay: bool = False) -> dict:
     root = Path(root)
-    rep = {"WRITTEN": 0, "UNCHANGED": 0, "CONFLICT": 0, "NOT_DUE": 0, "FAILED": 0, "kickoff_moved": 0}
+    rep = {"WRITTEN": 0, "UNCHANGED": 0, "CONFLICT": 0, "NOT_DUE": 0, "FAILED": 0, "kickoff_moved": 0, "TIME_UNKNOWN": 0}
     dlq = root / "artifacts" / "stage_records" / "_failed.jsonl"
     for fixture, arts in _load(root).items():
         if len({b["kickoff_utc"] for _, b in arts}) > 1:
             rep["kickoff_moved"] += 1
+        if arts[-1][1].get("kickoff_time_known") is False:
+            rep["TIME_UNKNOWN"] += 1  # ADR 0097: a stage frozen against a placeholder clock time would be frozen at the wrong moment; waits until the time is published
+            continue
         kickoff = _utc(arts[-1][1]["kickoff_utc"])
         for stage, minutes in STAGES:
             if only is not None and (fixture, stage) not in only:

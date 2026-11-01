@@ -57,7 +57,8 @@ def build(out: Path, root: Path = ROOT, now: datetime | None = None) -> list[str
     if markets.exists():
         _newest_per_dir(markets, out / "artifacts" / "markets", "intel-*.json")
         (out / "artifacts" / "markets").mkdir(parents=True, exist_ok=True)  # even with no forecast yet
-        for extra in ("track_record.json", "shadow_gate.json"):  # ADR 0076: shown on the track page
+        # ADR 0076: shown on the track page; ADR 0097: slo.json feeds the status page
+        for extra in ("track_record.json", "shadow_gate.json", "slo.json"):
             if (markets / extra).exists():
                 shutil.copy(markets / extra, out / "artifacts" / "markets" / extra)
     lineups = root / "artifacts" / "lineups"  # starting line-ups, information only (ADR 0081)

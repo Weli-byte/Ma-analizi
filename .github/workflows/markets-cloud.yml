@@ -26,6 +26,8 @@ jobs:
       THE_ODDS_API_KEY_2: ${{ secrets.THE_ODDS_API_KEY_2 }}  # optional second free account (ADR 0059)
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}   # optional (ADR 0077): without them notify is a no-op
       TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      PROVIDER_BREAKER: "1"                                          # ADR 0097: circuit breaker + bounded retry on every provider call
+      PROVIDER_BREAKER_STATE: artifacts/markets/_ops/breakers.json   # shared by consecutive runs (published with the markets data)
     steps:
       - uses: actions/checkout@v4
         with:
@@ -110,6 +112,8 @@ jobs:
           python -m src.stages.freeze --root .
       - name: Data quality and drift (ADR 0092; a report and Telegram alarms, never a model change)
         run: python -m src.drift.report --markets-root . --odds-dir artifacts/odds_remote --out artifacts/markets/drift_report.md --json-out artifacts/markets/drift_status.json --notify-state artifacts/markets/notified_drift.json || echo "drift report failed (the other steps are unaffected)"
+      - name: Service level objectives (ADR 0097; measured on this run's data and on the live site)
+        run: python -m src.release.slo --markets-root . --odds-dir artifacts/odds_remote --probe-url https://mac-tahmin-eight.vercel.app --history artifacts/markets/_ops/slo_history.jsonl --out artifacts/markets/slo.json --notify-state artifacts/markets/notified_slo.json || echo "SLO measurement failed (the other steps are unaffected)"
       - name: Publish artifacts
         run: |
           mkdir -p markets-data-wt/artifacts
@@ -138,6 +142,7 @@ jobs:
         run: |
           if [ -z "$VERCEL_TOKEN" ]; then echo "VERCEL_TOKEN not set: no redeploy"; exit 0; fi
           python scripts/make_vercel_bundle.py --out dist/mac-tahmin
+          python -m src.release.gate --bundle dist/mac-tahmin --require-clean-bundle --out dist/release_gate.json   # ADR 0097: no secret value may reach the public bundle
           printf '{"commit": "%s", "run_id": "%s", "built_at": "%s"}\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > dist/mac-tahmin/deploy_info.json   # ADR 0094: shown by /v1/health
           cd dist/mac-tahmin
           npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN" > ../vercel_url.txt

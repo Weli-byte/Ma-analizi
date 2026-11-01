@@ -1,0 +1,29 @@
+{
+ "registered_at": "2026-11-01T09:09:40.471626+00:00",
+ "spec": {
+  "baselines": [
+   "prevalence of 2020-23",
+   "always home",
+   "always over",
+   "always yes"
+  ],
+  "candidate": "champion (published headline)",
+  "data_requirements": [],
+  "decision_rule": "CHAMPION_BEATS_BASELINE when the Bonferroni interval is wholly below 0 and at least 8 weekly blocks exist; TOO_FEW_WEEKLY_BLOCKS otherwise",
+  "hypothesis": "The published forecasts beat the naive baselines on the live record",
+  "id": "S17-E02-champion-vs-naive-live",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.0,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "PROSPECTIVE_LIVE",
+  "window": "live record from 2026-10-09"
+ },
+ "spec_sha256": "8cd183fe54b10e85320bedd26008a4bae1550e0a07ee3bf0754d80eda1ca39ee"
+}

@@ -1,0 +1,28 @@
+{
+ "registered_at": "2026-11-01T09:09:40.474236+00:00",
+ "spec": {
+  "baselines": [
+   "champion Dixon-Coles grid"
+  ],
+  "candidate": "negative binomial (dispersion fitted on 2020-23)",
+  "data_requirements": [
+   "OOF rows with expected goals"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "Negative binomial margins beat the champion's Dixon-Coles grid",
+  "id": "S17-E07-negative-binomial",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "RETROSPECTIVE_OOF",
+  "window": "2023-24 out-of-fold"
+ },
+ "spec_sha256": "33bd1993e8d66f3aecf7a7623677a055f1dbc157e9569a24b2ced6494b23081a"
+}

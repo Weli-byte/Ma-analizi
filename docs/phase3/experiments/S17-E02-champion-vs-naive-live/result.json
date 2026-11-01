@@ -1,0 +1,64 @@
+{
+ "accuracy": {
+  "always_home": 0.5019305019305019,
+  "always_over": 0.6332046332046332,
+  "always_yes": 0.5752895752895753,
+  "champion_1x2": 0.6293436293436293
+ },
+ "decision": "TOO_FEW_WEEKLY_BLOCKS",
+ "leakage": {
+  "forecasts_checked": 9018,
+  "post_kickoff_forecasts_not_scored": 0,
+  "problems": [],
+  "status": "PASS"
+ },
+ "markets": {
+  "1x2": {
+   "champion_log_loss": 0.8951237853229989,
+   "paired": {
+    "alpha": 0.016666666666666666,
+    "blocks": 4,
+    "delta": -0.1432777995273985,
+    "interval": [
+     -0.19583799266107701,
+     -0.0812645454926817
+    ]
+   },
+   "prevalence_log_loss": 1.0384015848503974,
+   "verdict": "TOO_FEW_WEEKLY_BLOCKS"
+  },
+  "btts": {
+   "champion_log_loss": 0.6912067778303798,
+   "paired": {
+    "alpha": 0.016666666666666666,
+    "blocks": 4,
+    "delta": 0.007425390517859731,
+    "interval": [
+     0.0029963496024401934,
+     0.011470409446204782
+    ]
+   },
+   "prevalence_log_loss": 0.68378138731252,
+   "verdict": "TOO_FEW_WEEKLY_BLOCKS"
+  },
+  "over_2_5": {
+   "champion_log_loss": 0.6591935157719451,
+   "paired": {
+    "alpha": 0.016666666666666666,
+    "blocks": 4,
+    "delta": -0.023250181190294317,
+    "interval": [
+     -0.029852537464796082,
+     -0.017776783058816217
+    ]
+   },
+   "prevalence_log_loss": 0.6824436969622394,
+   "verdict": "TOO_FEW_WEEKLY_BLOCKS"
+  }
+ },
+ "n": 259,
+ "recorded_at": "2026-11-01T09:16:36.125415+00:00",
+ "result_sha256": "97b51a580bf0ef5be8e70415a0adde807ebb8b0e7dc0c3a4ea9ea6741a1351ec",
+ "spec_sha256": "8cd183fe54b10e85320bedd26008a4bae1550e0a07ee3bf0754d80eda1ca39ee",
+ "status": "RUN"
+}

@@ -1,0 +1,31 @@
+{
+ "registered_at": "2026-11-01T09:09:40.471012+00:00",
+ "spec": {
+  "baselines": [
+   "prevalence of 2020-23 (1X2 shares, over rate, BTTS rate)",
+   "always home",
+   "always over",
+   "always yes"
+  ],
+  "candidate": "champion (model only)",
+  "data_requirements": [
+   "OOF rows 2020-24"
+  ],
+  "decision_rule": "CHAMPION_BEATS_BASELINE when the Bonferroni interval (3 markets) of champion minus prevalence is wholly below 0",
+  "hypothesis": "The champion beats the naive baselines on the untouched 2023-24 season",
+  "id": "S17-E01-champion-vs-naive-oof",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.0,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "RETROSPECTIVE_OOF",
+  "window": "2023-24 out-of-fold"
+ },
+ "spec_sha256": "395b97ee2b25403cc6594eba6afed5d6bb9406474c77ddab8f501aa972036a4e"
+}

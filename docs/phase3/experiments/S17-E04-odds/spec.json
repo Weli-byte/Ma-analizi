@@ -1,0 +1,28 @@
+{
+ "registered_at": "2026-11-01T09:09:40.472839+00:00",
+ "spec": {
+  "baselines": [
+   "market weight 1.0 (production)"
+  ],
+  "candidate": "convex blend / power-devig consensus",
+  "data_requirements": [
+   "docs/oddsens/sprint09_market_vs_model.md"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "Mixing the model into the de-vigged market improves the 1X2 headline",
+  "id": "S17-E04-odds",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "STORED_EVIDENCE",
+  "window": "131 live rows (ADR 0087)"
+ },
+ "spec_sha256": "218ffe396c8d0c8c9a2e877672a686309565de4a07cc1e3a8b27c845608f8870"
+}

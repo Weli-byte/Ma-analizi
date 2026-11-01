@@ -1,0 +1,8 @@
+{
+ "decision": "NOT_RUN",
+ "reason": "data gate not met: 0 of 800 fixtures with complete as-of line-up features when ADR 0086 was written",
+ "recorded_at": "2026-11-01T09:16:57.131264+00:00",
+ "result_sha256": "b8db7ab6af14f247d00d649fe37dca9445c792a120a7eebfcb595019c824b342",
+ "spec_sha256": "55237a57e9837100f4157539d14b15e59915853494b63eba16b3b5b6923b2eca",
+ "status": "NOT_RUN"
+}

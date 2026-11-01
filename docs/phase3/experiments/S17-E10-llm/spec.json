@@ -1,0 +1,28 @@
+{
+ "registered_at": "2026-11-01T09:09:40.476004+00:00",
+ "spec": {
+  "baselines": [
+   "champion"
+  ],
+  "candidate": "LLM providers (ADR 0024 / 0026)",
+  "data_requirements": [
+   "real authorised calls with recorded cost; the owner's budget is 0"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "An LLM forecast or commentary improves the champion",
+  "id": "S17-E10-llm",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "NOT_RUN",
+  "window": ""
+ },
+ "spec_sha256": "e0295cb97f352ae005f4f794e33959f56d1f6d16afa829e97560466239eecea4"
+}

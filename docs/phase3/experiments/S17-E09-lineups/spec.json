@@ -1,0 +1,28 @@
+{
+ "registered_at": "2026-11-01T09:09:40.475484+00:00",
+ "spec": {
+  "baselines": [
+   "champion"
+  ],
+  "candidate": "+line-ups (ADR 0086)",
+  "data_requirements": [
+   "800 fixtures with complete as-of line-up features"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "Line-up features improve the champion",
+  "id": "S17-E09-lineups",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "NOT_RUN",
+  "window": ""
+ },
+ "spec_sha256": "55237a57e9837100f4157539d14b15e59915853494b63eba16b3b5b6923b2eca"
+}

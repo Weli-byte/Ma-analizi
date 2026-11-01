@@ -1,0 +1,12 @@
+{
+ "decision": "NO_GAIN (production already uses the market at weight 1.0; the power-consensus rule waits for its gate)",
+ "gate": "300 report rows to change the market rule; 65 today",
+ "model_only_minus_market_report_half": 0.0028,
+ "power_consensus_minus_production_report_half": -0.0066,
+ "recorded_at": "2026-11-01T09:16:36.126206+00:00",
+ "result_sha256": "9ac2a60f720ed923b4ea5a9292b14321c2dda27919aa549c8cc2daf4463460a2",
+ "selected_market_weight": 1.0,
+ "source": "ADR 0087, docs/oddsens/sprint09_market_vs_model.md",
+ "spec_sha256": "218ffe396c8d0c8c9a2e877672a686309565de4a07cc1e3a8b27c845608f8870",
+ "status": "STORED_EVIDENCE"
+}

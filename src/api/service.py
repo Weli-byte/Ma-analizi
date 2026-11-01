@@ -240,7 +240,11 @@ class ForecastService:
 
         for f in self._intel_files():
             if f.parent.name == fixture_id:
-                return self._public_intel(json.loads(f.read_text(encoding="utf-8")))
+                from src.uncertainty.serving import block, load
+
+                out = self._public_intel(json.loads(f.read_text(encoding="utf-8")))
+                out["uncertainty"] = block(out, load(self.root))  # ADR 0095; None without the thresholds file
+                return out
         return None
 
     def lineage(self, fixture_id: str) -> dict | None:

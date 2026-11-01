@@ -1,0 +1,8 @@
+{
+ "decision": "NOT_RUN",
+ "reason": "data gate not met: 131 of 600 rows with three or more bookmakers when ADR 0087 was written; odds collection is paused (quota)",
+ "recorded_at": "2026-11-01T09:16:57.131650+00:00",
+ "result_sha256": "a6976154ed9191245d827f8a343d3f23a9b0247272626a0036a5f77254875713",
+ "spec_sha256": "56c91a5d00cbd52181aa6b485e3ce86905e12c74315c4aa845833a45aa388153",
+ "status": "NOT_RUN"
+}

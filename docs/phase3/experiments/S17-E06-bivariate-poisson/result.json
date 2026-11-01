@@ -1,0 +1,253 @@
+{
+ "decision": "NO_GAIN",
+ "family": "bivariate",
+ "leakage": {
+  "problems": [],
+  "rows": 7650,
+  "rows_without_fit_time": 0,
+  "status": "PASS"
+ },
+ "markets": {
+  "1x2": {
+   "candidate_log_loss": 0.9774617746471093,
+   "champion_log_loss": 0.9763503491195081,
+   "ece_delta": 0.00037073850478114463,
+   "gate": {
+    "checks": {
+     "calibration_non_regression": true,
+     "cost": true,
+     "coverage": true,
+     "leakage_gate": true,
+     "no_severe_league_regression": false,
+     "primary_metric": false,
+     "reproduced": true
+    },
+    "decision": "NO_GAIN"
+   },
+   "leagues": {
+    "BUNDESLIGA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 34,
+     "delta": 0.0020000169583670457,
+     "interval": [
+      -0.0003763276745490551,
+      0.004550810921269001
+     ],
+     "n": 306
+    },
+    "EPL": {
+     "alpha": 0.008333333333333333,
+     "blocks": 37,
+     "delta": -0.0001044030318630984,
+     "interval": [
+      -0.002791962596377942,
+      0.0025635535308636084
+     ],
+     "n": 380
+    },
+    "LALIGA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 37,
+     "delta": 0.0009183887582084882,
+     "interval": [
+      -0.001929186643100729,
+      0.003459210244123826
+     ],
+     "n": 380
+    },
+    "LIGUE1": {
+     "alpha": 0.008333333333333333,
+     "blocks": 34,
+     "delta": 0.00031351599153728316,
+     "interval": [
+      -0.002040786888756424,
+      0.0027489556489346616
+     ],
+     "n": 306
+    },
+    "SERIEA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 38,
+     "delta": 0.0024472680675658998,
+     "interval": [
+      0.0003692953673234958,
+      0.004781596427739317
+     ],
+     "n": 380
+    }
+   },
+   "paired": {
+    "alpha": 0.008333333333333333,
+    "blocks": 39,
+    "delta": 0.0011114255276011287,
+    "interval": [
+     9.35576884601778e-05,
+     0.002190235685032291
+    ]
+   }
+  },
+  "btts": {
+   "candidate_log_loss": 0.6812787462649148,
+   "champion_log_loss": 0.680715065938831,
+   "ece_delta": 0.0023432025582911034,
+   "gate": {
+    "checks": {
+     "calibration_non_regression": true,
+     "cost": true,
+     "coverage": true,
+     "leakage_gate": true,
+     "no_severe_league_regression": false,
+     "primary_metric": false,
+     "reproduced": true
+    },
+    "decision": "NO_GAIN"
+   },
+   "leagues": {
+    "BUNDESLIGA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 34,
+     "delta": 0.0005258014799507382,
+     "interval": [
+      -0.00033987009849105633,
+      0.0014189433921578333
+     ],
+     "n": 306
+    },
+    "EPL": {
+     "alpha": 0.008333333333333333,
+     "blocks": 37,
+     "delta": 0.0011264598947597904,
+     "interval": [
+      0.00037199200204087856,
+      0.0018191589012248638
+     ],
+     "n": 380
+    },
+    "LALIGA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 37,
+     "delta": 0.00022281391508283122,
+     "interval": [
+      -0.0008265926175771708,
+      0.0013292058191476622
+     ],
+     "n": 380
+    },
+    "LIGUE1": {
+     "alpha": 0.008333333333333333,
+     "blocks": 34,
+     "delta": 0.0005073408663187617,
+     "interval": [
+      -0.0006664369212704707,
+      0.00182337863137338
+     ],
+     "n": 306
+    },
+    "SERIEA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 38,
+     "delta": 0.00041763769894809233,
+     "interval": [
+      -0.000267034843205692,
+      0.0010659749326204487
+     ],
+     "n": 380
+    }
+   },
+   "paired": {
+    "alpha": 0.008333333333333333,
+    "blocks": 39,
+    "delta": 0.0005636803260837819,
+    "interval": [
+     0.0001300972438845636,
+     0.0009555855771316875
+    ]
+   }
+  },
+  "over_2_5": {
+   "candidate_log_loss": 0.6683419745193083,
+   "champion_log_loss": 0.6681903361051874,
+   "ece_delta": 0.001759257123555208,
+   "gate": {
+    "checks": {
+     "calibration_non_regression": true,
+     "cost": true,
+     "coverage": true,
+     "leakage_gate": true,
+     "no_severe_league_regression": false,
+     "primary_metric": false,
+     "reproduced": true
+    },
+    "decision": "NO_GAIN"
+   },
+   "leagues": {
+    "BUNDESLIGA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 34,
+     "delta": 0.00011879825182103954,
+     "interval": [
+      -0.0004222934473291094,
+      0.0006626584068883212
+     ],
+     "n": 306
+    },
+    "EPL": {
+     "alpha": 0.008333333333333333,
+     "blocks": 37,
+     "delta": 0.0005182849114288013,
+     "interval": [
+      0.00016539462268951719,
+      0.0008780891277278976
+     ],
+     "n": 380
+    },
+    "LALIGA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 37,
+     "delta": 5.340158552169516e-05,
+     "interval": [
+      -0.00023474506334374728,
+      0.0003011617333473901
+     ],
+     "n": 380
+    },
+    "LIGUE1": {
+     "alpha": 0.008333333333333333,
+     "blocks": 34,
+     "delta": 5.2284089166132475e-05,
+     "interval": [
+      -0.00033008445383775255,
+      0.0004258493008595288
+     ],
+     "n": 306
+    },
+    "SERIEA": {
+     "alpha": 0.008333333333333333,
+     "blocks": 38,
+     "delta": -1.0319904325317708e-05,
+     "interval": [
+      -0.000344105854413451,
+      0.00030392896438221565
+     ],
+     "n": 380
+    }
+   },
+   "paired": {
+    "alpha": 0.008333333333333333,
+    "blocks": 39,
+    "delta": 0.00015163841412091372,
+    "interval": [
+     -7.133579288807134e-05,
+     0.00035131579844645895
+    ]
+   }
+  }
+ },
+ "n": 1752,
+ "recorded_at": "2026-11-01T09:16:51.300815+00:00",
+ "reproduced": true,
+ "result_sha256": "f7a95209e019bfd55a267b53ae2398ec3a3faa7320ba9b61c3a37f0440e2cbe8",
+ "shape_fitted_on_2020_23": 0.02,
+ "spec_sha256": "8cf547f968e0b27338f595b3923b4a408810c89d0ab52c69fb1e9afc5db11cf3",
+ "status": "RUN"
+}

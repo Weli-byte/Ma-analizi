@@ -1,0 +1,49 @@
+{
+ "decision": "NO_GAIN",
+ "per_target": {
+  "1x2": {
+   "chosen": "temperature",
+   "status": "KEEP_CHAMPION",
+   "test_paired": {
+    "alpha": 0.0125,
+    "blocks": 39,
+    "delta": 0.0017106762113452412,
+    "interval": [
+     -0.0015408306753174623,
+     0.004908065637216836
+    ]
+   }
+  },
+  "btts": {
+   "chosen": "platt",
+   "status": "KEEP_CHAMPION",
+   "test_paired": {
+    "alpha": 0.0125,
+    "blocks": 39,
+    "delta": -0.0019950221235036647,
+    "interval": [
+     -0.005830018009660768,
+     0.0016220899817139367
+    ]
+   }
+  },
+  "over_2_5": {
+   "chosen": "platt",
+   "status": "KEEP_CHAMPION",
+   "test_paired": {
+    "alpha": 0.0125,
+    "blocks": 39,
+    "delta": 0.0027303069767836696,
+    "interval": [
+     -0.0009176187671828829,
+     0.005990868670489088
+    ]
+   }
+  }
+ },
+ "recorded_at": "2026-11-01T09:16:36.125909+00:00",
+ "result_sha256": "f629d87450c08880a4b461a06d4b01b6ab63b4f17f1bad77b1d8d388fccc3d03",
+ "source": "docs/calibsel/sprint11_evaluation_manifest.json",
+ "spec_sha256": "017225403d14c5f882a8db59a59d72f07859e8f9902d43f582ae42f53d1fb756",
+ "status": "STORED_EVIDENCE"
+}

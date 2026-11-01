@@ -1,0 +1,8 @@
+{
+ "decision": "NOT_RUN",
+ "reason": "NOT_CONFIGURED: real calls cost money and the owner's budget is 0; mock or replayed answers never enter the comparison",
+ "recorded_at": "2026-11-01T09:16:57.131466+00:00",
+ "result_sha256": "2217e48d43983f65eb2034b4be9669c2381215ea8f04a3900ef74fe8db29ed94",
+ "spec_sha256": "e0295cb97f352ae005f4f794e33959f56d1f6d16afa829e97560466239eecea4",
+ "status": "NOT_RUN"
+}

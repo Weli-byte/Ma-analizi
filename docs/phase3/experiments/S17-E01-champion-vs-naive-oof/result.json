@@ -1,0 +1,75 @@
+{
+ "accuracy": {
+  "always_home": 0.4309360730593607,
+  "always_over": 0.5485159817351598,
+  "always_yes": 0.5565068493150684,
+  "champion_1x2": 0.5302511415525114
+ },
+ "decision": "NOT_DEMONSTRATED_FOR_EVERY_MARKET",
+ "leakage": {
+  "problems": [],
+  "rows": 7650,
+  "rows_without_fit_time": 0,
+  "status": "PASS"
+ },
+ "markets": {
+  "1x2": {
+   "champion_log_loss": 0.9763503491195081,
+   "paired": {
+    "alpha": 0.016666666666666666,
+    "blocks": 39,
+    "delta": -0.10079148779255831,
+    "interval": [
+     -0.11991432923543498,
+     -0.08136975207890026
+    ]
+   },
+   "prevalence_log_loss": 1.0771418369120664
+  },
+  "btts": {
+   "champion_log_loss": 0.680715065938831,
+   "paired": {
+    "alpha": 0.016666666666666666,
+    "blocks": 39,
+    "delta": -0.006361244432034341,
+    "interval": [
+     -0.01337249515560607,
+     0.0010580326462263448
+    ]
+   },
+   "prevalence_log_loss": 0.6870763103708654
+  },
+  "over_2_5": {
+   "champion_log_loss": 0.6681903361051874,
+   "paired": {
+    "alpha": 0.016666666666666666,
+    "blocks": 39,
+    "delta": -0.02166727221546294,
+    "interval": [
+     -0.030866488947516982,
+     -0.012626341061413545
+    ]
+   },
+   "prevalence_log_loss": 0.6898576083206504
+  }
+ },
+ "n": 1752,
+ "per_market_decision": {
+  "1x2": "BEATS_PREVALENCE",
+  "btts": "NOT_DEMONSTRATED",
+  "over_2_5": "BEATS_PREVALENCE"
+ },
+ "prevalence": {
+  "1x2": [
+   0.4269243811461512,
+   0.2538148524923703,
+   0.3192607663614785
+  ],
+  "btts": 0.5437436419125127,
+  "over_2_5": 0.5218718209562564
+ },
+ "recorded_at": "2026-11-01T09:16:34.316240+00:00",
+ "result_sha256": "b5517edab21a53291c2ccbeb94e8601e98c446549bdf209ee9b61f35b620c3db",
+ "spec_sha256": "395b97ee2b25403cc6594eba6afed5d6bb9406474c77ddab8f501aa972036a4e",
+ "status": "RUN"
+}

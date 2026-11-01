@@ -1,0 +1,15 @@
+{
+ "decision": "NO_GAIN (no league model approved; the global model stays)",
+ "recorded_at": "2026-11-01T09:16:36.126624+00:00",
+ "result_sha256": "9f7db39828c7b1bf508bef6f42c2e7cdbe4aaffc4982702dbca01219819a3c19",
+ "source": "docs/league_models/s5_approval_decisions.json (ADR 0063-0071)",
+ "spec_sha256": "ae95633c20bf965e90b1b9cba719c02e585a5dc802ab4a1417bccd9e45023648",
+ "status": "STORED_EVIDENCE",
+ "status_counts": {
+  "APPROVED_FOR_CANARY": 0,
+  "BLOCKED": 5,
+  "GLOBAL_KEPT": 16,
+  "REJECTED": 2,
+  "SHADOW_INCONCLUSIVE": 4
+ }
+}

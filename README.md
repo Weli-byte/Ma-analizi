@@ -19,28 +19,32 @@ against the real results**. A mobile-first web app and a REST API sit on top.
 
 ## How well does it work? (honest numbers)
 
-Published forecasts are locked before kickoff and scored after the match, on every finished match. First read, **138 matches
-between 9 and 19 October 2026** (generated 20 October 2026; the record is short, so treat it as a first look, not a verdict):
+Published forecasts are locked before kickoff and scored after the match, on every finished match. Current read, **259 matches
+between 9 October and 31 October 2026** (track record of 1 November 2026; about four weeks, so treat it as a first look, not a verdict):
 
 | Prediction | Hit rate | 95% interval | Naive baseline |
 |---|---|---|---|
-| 1X2 (most likely result) | 94/138 = **68.1%** | 59.9% to 75.3% | "always home": 52.9% |
-| Over/under 2.5 goals | 84/138 = 60.9% | 52.5% to 68.6% | "always over": **68.8%** |
-| Both teams to score | 76/138 = 55.1% | 46.7% to 63.1% | |
-| Exact score | 10/138 = 7.2% | 4.0% to 12.8% | |
+| 1X2 (most likely result) | 163/259 = **62.9%** | 56.9% to 68.6% | "always home": 50.2% |
+| Over/under 2.5 goals | 159/259 = 61.4% | 55.3% to 67.1% | "always over": **63.3%** |
+| Both teams to score | 143/259 = 55.2% | 49.1% to 61.1% | "always yes": **57.5%** |
+| Exact score | 22/259 = 8.5% | 5.7% to 12.5% | |
 
-Probability quality on 1X2 (Log Loss, lower is better): league base rate 1.023, model alone 0.874, market 0.853,
-published forecast 0.851. What that means, stated plainly:
+Probability quality (Log Loss, lower is better): 1X2 league base rate 1.036, model alone 0.910, published forecast 0.896
+(market on the 221 matches with exact odds 0.879). Over 2.5: 0.659 vs 0.682 for the 2020-23 base rate; BTTS: 0.691 vs 0.684.
+What that means, stated plainly:
 
-- The model clearly beats a no-information baseline, so it carries real signal.
-- **The model alone is slightly worse than the bookmaker market**, in line with the project's earlier backtests
-  (no model beat the market).
-- The published 1X2 forecast is driven by exact-timestamp market odds in nearly every match, so its closeness to the market
-  is expected and is **not** evidence of an edge.
-- For over/under, "always over" scored higher than the model in this sample.
-- No single competition has 20 or more matches; per-competition rates are noise.
+- The model clearly beats a no-information baseline on 1X2 and over/under, so it carries real signal; on an untouched past
+  season (2023-24, 1,752 matches) the same holds ([sprint 17 report](docs/phase3/sprint17_report.md)).
+- **Both-teams-to-score is not better than its base rate** (slightly worse live, not demonstrated on 2023-24).
+- **The model alone is slightly worse than the bookmaker market**, in line with the project's earlier backtests (no model beat
+  the market). The published 1X2 forecast is driven by exact-timestamp market odds where they exist, so its closeness to the
+  market is expected and is **not** evidence of an edge.
+- Hit rates of "always over" / "always yes" are higher than the model's picks; log loss is the fairer score for probabilities.
+- Confidence buckets are validated: the 40 % most confident forecasts hit 80.0 % live (85 matches) and 66.4 % on 2023-24
+  ([sprint 16 report](docs/phase3/sprint16_report.md)); the least confident fifth is marked "abstain" and shows no value suggestion.
+- No single competition has 50 or more matches; per-competition rates are noise.
 
-An earlier write-up of the first 130 matches (same conclusions):
+An earlier write-up of the first 130 matches (same conclusions on 1X2):
 [`reports/model_comparison_2026-10-19.md`](reports/model_comparison_2026-10-19.md). The live site shows the current record at
 `/basari-kaydi`, per competition.
 
@@ -58,8 +62,13 @@ An earlier write-up of the first 130 matches (same conclusions):
   probability), for six leagues (the big five and the Turkish Süper Lig) and the UEFA club cups.
 - **Web app and API.** Mobile-first web UI, favourites, search, Google sign-in, Free/Pro plan infrastructure (gates off, nothing
   is sold), and a FastAPI `/v1` with API keys, rate limits and an OpenAPI schema.
-- **Operations.** Scheduled cloud jobs refresh data and redeploy the site; a daily job keeps lock files fresh with one rolling
-  PR. Runbooks in [`docs/`](docs/).
+- **Operations.** Hourly cloud jobs refresh forecasts and redeploy the site (`/v1/health` names the deployed commit); a daily job
+  keeps lock files fresh with one rolling PR. Runbooks in [`docs/`](docs/).
+- **Research hardening (Phases 2 and 3).** Real xG and line-up observations kept as-of and behind data gates, odds-aware ensembles,
+  goal-market label audit, out-of-fold calibration selection, a prospective record with immutable hashes, prediction lineage
+  ("Tahmin künyesi"), drift and data-quality monitoring with Telegram alerts, frozen stage records (t-24h / t-90m / t-30m / kickoff),
+  uncertainty and selective prediction ("Model güveni"), and a pre-registered ablation laboratory with a promotion gate
+  ([`docs/phase3/`](docs/phase3/)).
 
 ## Engineering rules this repo enforces
 
@@ -69,7 +78,8 @@ An earlier write-up of the first 130 matches (same conclusions):
 - Only exact-timestamp odds may drive edge/EV/CLV; closing odds are a reference baseline. Value analytics are suggestions
   only (ADR 0039).
 - TLS verification is never disabled; no secrets in code; CI is only called green when GitHub Actions actually ran green.
-- Methodological changes need an ADR ([`docs/adr/`](docs/adr/), 60+ decisions); golden artifacts change only with an ADR.
+- Methodological changes need an ADR ([`docs/adr/`](docs/adr/), 90+ decisions); golden artifacts change only with an ADR.
+- Experiments are pre-registered: the spec's hash is committed before its result, and an experiment has one result only.
 
 Working rules for contributors and agents: [`CLAUDE.md`](CLAUDE.md).
 
@@ -82,7 +92,7 @@ python -m venv .venv
 source .venv/bin/activate                # Windows: .venv\Scripts\activate
 pip install --require-hashes -r requirements.lock
 pip install --no-deps -e .
-ruff check . && pytest                   # ~900 tests: golden, reproducibility, leakage, provenance, web, API
+ruff check . && pytest                   # 1,300+ tests: golden, reproducibility, leakage, provenance, web, API
 ```
 
 Run the research pipeline:
@@ -108,7 +118,8 @@ Regenerating the lock after a dependency change needs `--upgrade`
 ## Layout
 
 `src/` (`data`, `features`, `models`, `evaluation`, `llm`, `ingestion`, `snapshot`, `live`, `odds`, `markets`, `mlops`,
-`dashboard`, `api`, `web`) · `configs/` · `data/` · `docs/` (guides, `adr/`, data-source licensing) · `tests/` (with golden
+`dashboard`, `api`, `web`, `league_models`, `xg`, `availability`, `oddsens`, `goalmkts`, `calibsel`, `prospective`, `lineage`,
+`drift`, `stages`, `uncertainty`, `experiments`) · `configs/` · `data/` · `docs/` (guides, `adr/`, data-source licensing) · `tests/` (with golden
 fixtures and real provider captures) · `reports/` · `scripts/` · `.github/workflows/`
 
 ## Data sources and licensing
@@ -120,8 +131,9 @@ terms of each provider before any commercial use. Club logos are off by default 
 
 ## Status
 
-Sprints S0 to S18 are built; the remaining S19 items (paid sign-in providers, payments, Highlightly PRO, a custom domain) need
-money or an account the owner does not have yet. Details and the decision log are in [`CLAUDE.md`](CLAUDE.md) and
+Sprints S0 to S18, the league-model programme, Phase 2 (sprints 7 to 12) and Phase 3 sprints 13 to 17 are built; Phase 3
+sprint 18 (canary, SLOs, incident and rollback drills) is next. The remaining S19 items (paid sign-in providers, payments,
+Highlightly PRO, paid odds, a custom domain) need money or an account the owner does not have yet. Details and the decision log are in [`CLAUDE.md`](CLAUDE.md) and
 [`docs/adr/`](docs/adr/).
 
 ## Author

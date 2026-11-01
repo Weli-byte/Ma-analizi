@@ -23,3 +23,10 @@ logs/
 dist/
 
 .playwright-mcp/
+
+# Android build (ADR 0098): the generated project and any key material stay out of git
+android/*
+!android/twa-manifest.json
+*.p12
+*.jks
+*.keystore

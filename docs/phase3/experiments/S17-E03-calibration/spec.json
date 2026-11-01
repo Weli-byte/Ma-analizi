@@ -1,0 +1,28 @@
+{
+ "registered_at": "2026-11-01T09:09:40.472370+00:00",
+ "spec": {
+  "baselines": [
+   "identity champion"
+  ],
+  "candidate": "temperature / Platt / isotonic / vector / Dirichlet / league-level",
+  "data_requirements": [
+   "docs/calibsel/sprint11_evaluation_manifest.json"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "A calibrator improves the champion",
+  "id": "S17-E03-calibration",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "STORED_EVIDENCE",
+  "window": "fit 2020-22, select 2022-23, test 2023-24 (ADR 0089)"
+ },
+ "spec_sha256": "017225403d14c5f882a8db59a59d72f07859e8f9902d43f582ae42f53d1fb756"
+}

@@ -1,0 +1,7 @@
+{
+ "calibrator": "identity (ADR 0089)",
+ "frozen_at": "2026-11-01T09:09:40.470240+00:00",
+ "headline_1x2": "de-vigged market at weight 1.0 when exact odds exist (ADR 0087)",
+ "markets_config_sha256": "9edb5d68616804b8c6ff0a7e1688dc7b2820232164bbd2014f8387a4489f61a0",
+ "model_version": "markets-1.0.0"
+}

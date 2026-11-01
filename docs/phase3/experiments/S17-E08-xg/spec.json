@@ -1,0 +1,29 @@
+{
+ "registered_at": "2026-11-01T09:09:40.474692+00:00",
+ "spec": {
+  "baselines": [
+   "champion"
+  ],
+  "candidate": "+xG (ADR 0085)",
+  "data_requirements": [
+   "1,500 matches with complete as-of xG",
+   "Highlightly PRO for product use"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "xG features improve the champion",
+  "id": "S17-E08-xg",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "NOT_RUN",
+  "window": ""
+ },
+ "spec_sha256": "769922a36fbe19af3a7d5f631f3c961d300281f7a9bd661c5ae7ad5be916e046"
+}

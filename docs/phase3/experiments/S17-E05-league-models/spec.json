@@ -1,0 +1,29 @@
+{
+ "registered_at": "2026-11-01T09:09:40.473292+00:00",
+ "spec": {
+  "baselines": [
+   "global model"
+  ],
+  "candidate": "league programme candidates",
+  "data_requirements": [
+   "docs/league_models/s5_approval_decisions.json",
+   "docs/league_models/s4c_paired.json"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "League-specific or hierarchical models replace the global model",
+  "id": "S17-E05-league-models",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2, over/under 2.5, BTTS",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "STORED_EVIDENCE",
+  "window": "development folds and the one-shot holdout (ADR 0063-0071)"
+ },
+ "spec_sha256": "ae95633c20bf965e90b1b9cba719c02e585a5dc802ab4a1417bccd9e45023648"
+}

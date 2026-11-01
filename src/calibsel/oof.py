@@ -22,7 +22,8 @@ from src.markets.predict import _data_quality
 ROOT = Path(__file__).resolve().parents[2]
 
 
-def build_oof(root: Path, seasons: tuple[str, ...]) -> tuple[list[dict], dict]:
+def build_oof(root: Path, seasons: tuple[str, ...], with_rates: bool = False) -> tuple[list[dict], dict]:
+    """`with_rates` also stores the fitted expected goals and rho of each row (ADR 0091 goal-family study); off by default so the rows of ADR 0089 stay byte-identical."""
     cdir = config_dir_for(root)
     cfg, ev = load_config("markets", cdir), load_config("evaluation", cdir)
     allowed = [*ev.train_seasons, *ev.validation_seasons]
@@ -49,6 +50,7 @@ def build_oof(root: Path, seasons: tuple[str, ...]) -> tuple[list[dict], dict]:
                     "y": 0 if m.home_goals > m.away_goals else 1 if m.home_goals == m.away_goals else 2, "o": int(m.home_goals + m.away_goals > 2), "b": int(m.home_goals > 0 and m.away_goals > 0),
                     "p": [float(mat[i > j].sum()), float(mat[i == j].sum()), float(mat[i < j].sum())], "po": float(mat[(i + j) > 2].sum()), "pb": float(mat[1:, 1:].sum()),
                     "low_confidence": bool(_data_quality(mm, m.home_id, m.away_id).get("low_confidence")),
+                    **({"lh": float(lh), "la": float(la), "rho": float(mm.rho), "hg": int(m.home_goals), "ag": int(m.away_goals), "fit_as_of": start.isoformat()} if with_rates else {}),
                 })  # fmt: skip
         start = end
     return rows, {"fits": fits, "matches": len(rows), "history_matches": len(ms), "data_version": world.data_version, "refit_block_days": cfg.refit_block_days}

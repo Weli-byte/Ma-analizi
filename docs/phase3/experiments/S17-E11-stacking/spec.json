@@ -1,0 +1,28 @@
+{
+ "registered_at": "2026-11-01T09:09:40.476492+00:00",
+ "spec": {
+  "baselines": [
+   "market weight 1.0"
+  ],
+  "candidate": "OOF logistic stacker (ADR 0087)",
+  "data_requirements": [
+   "600 rows with three or more bookmakers"
+  ],
+  "decision_rule": "promotion candidate only if the Bonferroni interval of candidate minus champion is wholly below -min_practical_effect and every promotion-gate check passes",
+  "hypothesis": "A trained stacker over market and model improves the headline",
+  "id": "S17-E11-stacking",
+  "leagues": "the six domestic forecast leagues",
+  "market": "1x2",
+  "min_practical_effect": 0.002,
+  "primary_metric": "log_loss",
+  "secondary_metrics": [
+   "brier",
+   "ece",
+   "accuracy"
+  ],
+  "stage": "last forecast before kick-off",
+  "track": "NOT_RUN",
+  "window": ""
+ },
+ "spec_sha256": "56c91a5d00cbd52181aa6b485e3ce86905e12c74315c4aa845833a45aa388153"
+}

@@ -5,7 +5,7 @@ name: markets-cloud
 # `python -m src.markets.run --sync-remote`. No API key is needed.
 on:
   schedule:
-    - cron: "23 */4 * * *"
+    - cron: "23 * * * *"   # hourly (ADR 0094): fresher t-90m / t-30m stage records; the paid / budgeted calls run only in the four-hourly full run
   workflow_dispatch: {}
 concurrency:
   group: markets-cloud
@@ -88,8 +88,12 @@ jobs:
             # dead-man switch: the shadow job cannot report its own death, this job can (the shadow job stamps shadow_gate.json on every run; older than 6 hours = stalled)
             python -m src.mlops.notify --watchdog artifacts/markets/shadow_gate.json --max-hours 6 --label "Gölge işi" --state artifacts/markets/notified_watchdog.json || true
           fi
-      - name: Match statistics (Highlightly, within the daily request budget)
-        run: python -m src.markets.stats_collect
+      - name: Full or light run (ADR 0094)
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ $(( 10#$(date -u +%H) % 4 )) -eq 0 ]; then echo "MARKETS_LIGHT_RUN=0" >> "$GITHUB_ENV"; echo "full run"; else echo "MARKETS_LIGHT_RUN=1" >> "$GITHUB_ENV"; echo "light run"; fi
+      - name: Match statistics (Highlightly, within the daily request budget; full runs only)
+        run: |
+          if [ "$MARKETS_LIGHT_RUN" = "1" ]; then echo "light run: statistics skipped (the daily request budget is spent by the four-hourly runs)"; else python -m src.markets.stats_collect; fi
       - name: Results the open history does not have yet (ADR 0058)
         run: python -m src.markets.live_results
       - name: Europa / Conference League 2025-26 results from ESPN, once (ADR 0074; a marker in the stored results makes later runs a no-op)
@@ -134,6 +138,7 @@ jobs:
         run: |
           if [ -z "$VERCEL_TOKEN" ]; then echo "VERCEL_TOKEN not set: no redeploy"; exit 0; fi
           python scripts/make_vercel_bundle.py --out dist/mac-tahmin
+          printf '{"commit": "%s", "run_id": "%s", "built_at": "%s"}\n' "$GITHUB_SHA" "$GITHUB_RUN_ID" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > dist/mac-tahmin/deploy_info.json   # ADR 0094: shown by /v1/health
           cd dist/mac-tahmin
           npx --yes vercel@latest deploy --prod --yes --token "$VERCEL_TOKEN" > ../vercel_url.txt
           npx --yes vercel@latest git disconnect --yes --token "$VERCEL_TOKEN" || true   # pushes must not build the repo root

@@ -10,6 +10,7 @@
 
 import hashlib
 import hmac
+import json
 import os
 import time
 import uuid
@@ -140,7 +141,15 @@ def create_app(
 
     @app.get("/v1/health", tags=["system"])
     def health(request: Request):
-        return envelope({"status": "ok", "auth_configured": bool(digests)}, request)
+        # written by the deploy step (ADR 0094): which commit and run built this deployment
+        info = Path(root) / "deploy_info.json"
+        deployed = None
+        if info.is_file():
+            try:
+                deployed = json.loads(info.read_text(encoding="utf-8"))
+            except ValueError:
+                deployed = {"status": "UNREADABLE"}
+        return envelope({"status": "ok", "auth_configured": bool(digests), "deployed": deployed}, request)
 
     @app.get("/v1/fixtures", tags=["fixtures"], dependencies=[Depends(auth)])
     def fixtures(request: Request, upcoming_only: bool = True, league: str | None = None,

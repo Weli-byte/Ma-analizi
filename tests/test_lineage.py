@@ -181,3 +181,30 @@ def test_the_baseline_cli_freezes_and_verifies(tmp_path):
     rows[0]["score_hit"] = True
     t.write_text(json.dumps({"generated_at": "t2", "matches": rows}), encoding="utf-8")
     assert baseline.main(["verify", "--manifest", str(m), "--track", str(t)]) == 1
+
+
+def test_health_shows_the_deployed_commit_when_the_deploy_step_wrote_it(tmp_path):
+    """ADR 0094: the deploy step writes deploy_info.json into the bundle root."""
+    c = TestClient(create_app(tmp_path, keys=[KEY]))
+    assert c.get("/v1/health").json()["data"]["deployed"] is None
+    (tmp_path / "deploy_info.json").write_text('{"commit": "abc123", "run_id": "1", "built_at": "2026-11-01T10:00:00Z"}', encoding="utf-8")
+    assert c.get("/v1/health").json()["data"]["deployed"]["commit"] == "abc123"
+    wf = (ROOT / ".github" / "workflows" / "markets-cloud.yml").read_text(encoding="utf-8")
+    assert "deploy_info.json" in wf and '"$GITHUB_SHA"' in wf
+
+
+def test_the_markets_job_is_hourly_and_spends_budgets_only_in_full_runs(monkeypatch, tmp_path):
+    wf = (ROOT / ".github" / "workflows" / "markets-cloud.yml").read_text(encoding="utf-8")
+    assert 'cron: "23 * * * *"' in wf and "MARKETS_LIGHT_RUN=1" in wf and "light run: statistics skipped" in wf
+    from src.markets import live_results as lr
+
+    seen = {}
+    monkeypatch.setattr(lr, "collect_espn", lambda *a, **k: [])
+    monkeypatch.setattr(lr, "settle_from_espn", lambda root, now, directory, days_back=21, scanner=None: seen.setdefault("days", days_back) and [])
+    monkeypatch.setattr(lr, "odds_scores", lambda key, league: (_ for _ in ()).throw(AssertionError("a paid call in a light run")))
+    monkeypatch.setenv("MARKETS_LIGHT_RUN", "1")
+    import shutil
+
+    shutil.copytree(ROOT / "configs", tmp_path / "configs")
+    lines = lr.collect(tmp_path, datetime(2026, 11, 1, 13, tzinfo=UTC), fd_key=None, odds_key="o")
+    assert seen["days"] == 3 and any("skipped in a light run" in x for x in lines)

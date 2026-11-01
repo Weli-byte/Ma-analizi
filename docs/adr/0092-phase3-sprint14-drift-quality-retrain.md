@@ -25,3 +25,10 @@ The monitors are a report command, not yet a scheduled cloud step with Telegram 
 
 ## Amendment 2026-10-31 — scheduled in the cloud job
 The open item above is closed in ADR 0093: `markets-cloud` runs `python -m src.drift.report` after the track record, publishes `drift_report.md` / `drift_status.json`, and sends the alarms to Telegram (critical once a day, warning once an ISO week).
+
+## Amendment 2026-11-01 — false input-drift alarms from small windows (fixed)
+Once the current window reached 100 forecasts, the hourly runs raised input-drift alarms for the model's home, over-2.5 and BTTS probabilities and sent them to Telegram. They were a sample-size
+artefact of this design: the thresholds were calibrated on 60-day history windows of about 800 matches, while the live windows hold 101 and 166, and PSI / JS grow by chance with small samples
+(under one distribution, PSI on ten bins is about 9 × (1/n1 + 1/n2) ≈ 0.14 here). An input-drift alarm now ALSO needs a permutation test at the real sample sizes: p < 0.01 / 4 (four features,
+Bonferroni), 500 label permutations of the pooled windows. On the live data of 2026-11-01 the three probability alarms have p = 0.17 / 0.30 / 0.45 (no alarm); the league-mix alarm stays
+(p = 0.002): the last two weeks hold more cup matches, and the share of forecasts with exact odds fell from 90 % to 72 %. A test with two windows of one distribution checks that no alarm fires.

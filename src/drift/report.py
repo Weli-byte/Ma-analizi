@@ -40,6 +40,8 @@ def _fmt(m: dict) -> str:
         return f"{m.get('status')} (n {m.get('n_reference')} / {m.get('n_current')}, minimum {m.get('min_n')})"
     extra = f", KS {m['ks']:.3f}" if "ks" in m else ""
     over = f" — over threshold: {', '.join(m['over_threshold'])}" if m.get("over_threshold") else ""
+    perm = m.get("permutation_p_psi", m.get("permutation_p"))
+    over += f"; permutation p {perm:.4f} (alarm needs < {monitor.ALARM_P:.4f})" if perm is not None else ""
     psi = f"PSI {m['psi']:.3f}, " if "psi" in m else ""
     return f"{psi}JS {m['js']:.4f}{extra} (n {m['n_reference']} / {m['n_current']}){over}"
 

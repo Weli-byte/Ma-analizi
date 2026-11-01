@@ -36,6 +36,22 @@ def continuous(reference, current, bins: int = 10) -> dict:
             "mean_reference": float(r.mean()), "mean_current": float(c.mean())}  # fmt: skip
 
 
+def permutation_p(reference, current, statistic, n_perm: int = 500, seed: int = 20261101) -> float:
+    """Share of label permutations of the pooled sample whose statistic reaches the observed one (+1 smoothing): the chance of a value this large AT THESE SAMPLE SIZES when both windows
+    come from one distribution. PSI and JS grow with small samples, so a threshold calibrated on large windows alone is not enough (ADR 0092 amendment)."""
+    pooled = list(reference) + list(current)
+    k = len(reference)
+    observed = statistic(reference, current)
+    rng = np.random.default_rng(seed)
+    hits = 0
+    for _ in range(n_perm):
+        idx = rng.permutation(len(pooled))
+        a = [pooled[i] for i in idx[:k]]
+        b = [pooled[i] for i in idx[k:]]
+        hits += statistic(a, b) >= observed
+    return (hits + 1) / (n_perm + 1)
+
+
 def categorical(reference: list, current: list) -> dict:
     if len(reference) < MIN_N or len(current) < MIN_N:
         return {"status": "INSUFFICIENT_DATA", "n_reference": len(reference), "n_current": len(current), "min_n": MIN_N}

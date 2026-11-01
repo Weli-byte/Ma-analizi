@@ -191,3 +191,15 @@ def test_alarms_are_sent_once_per_period_by_severity(tmp_path, monkeypatch):
 def test_the_cloud_job_runs_the_monitor_with_the_quote_folder_and_alarms():
     wf = (ROOT / ".github" / "workflows" / "markets-cloud.yml").read_text(encoding="utf-8")
     assert "python -m src.drift.report --markets-root . --odds-dir artifacts/odds_remote" in wf and "--notify-state artifacts/markets/notified_drift.json" in wf
+
+
+def test_small_windows_from_one_distribution_do_not_alarm_even_above_the_history_threshold():
+    """ADR 0092 amendment: with ~100-170 rows per window PSI often exceeds the large-window history threshold by chance; the permutation test at the real sample size stops that.
+    TEST_ONLY rows drawn from ONE distribution."""
+    rng = np.random.default_rng(11)
+    t0 = datetime(2026, 1, 1, tzinfo=UTC)
+    rows = [{"key": f"k{i}", "league": "EPL", "kickoff": t0 + timedelta(hours=2 * i), "p_home": float(rng.beta(5, 6)), "p_over_2_5": float(rng.beta(5, 5)), "p_btts": float(rng.beta(5, 5)),
+             "odds": True, "low_confidence": False} for i in range(166)]  # fmt: skip
+    rows += [{**r, "key": f"c{i}", "kickoff": t0 + timedelta(days=20, hours=2 * i), "p_home": float(rng.beta(5, 6)), "p_over_2_5": float(rng.beta(5, 5)), "p_btts": float(rng.beta(5, 5))} for i, r in enumerate(rows[:101])]
+    res = monitor.input_drift(rows, TH, t0 + timedelta(days=30))
+    assert res["features"]["p_home"]["permutation_p_psi"] > monitor.ALARM_P and not any(a.startswith("input_drift:p_") for a in res["alarms"])

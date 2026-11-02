@@ -135,7 +135,9 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def guarded(request: Request):
         """(user, redirect): the redirect goes to the login screen when there is no valid session."""
         u = user_of(request)
-        return (u, None) if u else (None, RedirectResponse("/giris", 303))
+        # ADR 0098 amendment: the app's start URL carries ?app=android; keep it so the login page can mark the tab as the app
+        login = "/giris?app=android" if request.query_params.get("app") == "android" else "/giris"
+        return (u, None) if u else (None, RedirectResponse(login, 303))
 
     # ------------------------------------------------------------------ app shell and assets (public)
     @app.get("/manifest.webmanifest", include_in_schema=False)

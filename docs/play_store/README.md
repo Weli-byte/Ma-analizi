@@ -175,9 +175,8 @@ Eksik: `play_app_signing` parmak izi (ilk yüklemeden sonra eklenecek).
 
 - Gizlilik ve koşullar sayfaları kendilerini "taslak, hukuki danışmanlık değildir" diye tanımlıyor. Play bunu reddetmez,
   ama yayından önce bir hukukçuya göstermek önerilir.
-- Giriş ekranında "Apple ile devam et" ve "Telefon numarası ile devam et" düğmeleri görünüyor. Canlıda basınca
-  "henüz etkin değil, misafir olarak devam edebilirsin" yazıyor (2026-11-02). Çökme değil, ama inceleyen "bozuk işlev"
-  sayabilir; yapılandırılmamış düğmeleri gizlemek daha güvenli.
+- Giriş ekranında "Apple ile devam et" ve "Telefon numarası ile devam et" düğmeleri web'de görünüyor ("henüz etkin değil").
+  Android uygulamasında yapılandırılmadıkça gizlenir (9. bölüm).
 - Giriş ekranı "Altı lig" diyor; ligler: 5 büyük lig + Süper Lig = 6. Tutarlı.
 
 ## 9. Politika riski: bahis içeriği
@@ -185,7 +184,6 @@ Eksik: `play_app_signing` parmak izi (ilk yüklemeden sonra eklenecek).
 Uygulama bahis oynatmaz (ADR 0039), ama "Tavsiyeler" sekmesi ve maç sayfasındaki "Tavsiye" sekmesi seçim önerisi,
 piyasa oranları ve "bahis" kelimesini içeriyor. Google Play'in gerçek parayla kumar politikası bahis ipuçları ve oran
 içeriğine dikkatle bakar; bu durumda incelemenin reddetme ihtimali vardır. Bu Google'ın şu anki metniyle teyit edilmedi.
-Seçenekler (sahip kararı):
-
-1. Olduğu gibi gönder, ret gelirse gerekçeye göre değiştir.
-2. TWA içinde (Android uygulamasından açıldığında) "Tavsiyeler" ve "Tavsiye" sekmesini gizle; web aynı kalır.
+Uygulanan çözüm (ADR 0098 ek, 2026-11-02): Android uygulaması `/?app=android` ile açılır; uygulamada "Tavsiyeler" menüsü,
+ana sayfadaki "Öne çıkan tavsiyeler", maç sayfasındaki "Tavsiye" sekmesi ve yapılandırılmamış Apple/telefon giriş düğmeleri
+gizlenir, `/tavsiyeler` ana sayfaya yönlenir. Web sitesi değişmez. Yeni başlangıç adresi için `.aab` yeniden üretilmeli.

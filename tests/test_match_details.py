@@ -216,6 +216,7 @@ def test_match_page_has_the_tabs_the_market_categories_form_table_and_injuries()
     for needle in ("data-t='ozet'", "data-t='market'", "data-t='form'", "data-t='puan'", "data-t='eksik'", "Çifte şans", "Karşılıklı gol", "Korner", "Aralarındaki maçlar", "B. Saka"):  # fmt: skip
         assert needle in html, needle
     assert "class='me'" in html  # the two teams are highlighted in the table
+    assert "data-t='oneri' class='no-app'" in html  # ADR 0098 amendment: the Android app hides the advice tab
     old = pages.match_page(_intel(None), [], Logos())
     assert (
         "ayrıntı istatistikleri eklenmeden önce" in old

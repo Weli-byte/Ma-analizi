@@ -11,7 +11,7 @@ a real product (see ADR 0054).
    - `DATA_REPO_DEPLOY_KEY`: a NEW read-only deploy key for `Weli-byte/Ma-analizi2` (GitHub -> that repo -> Settings -> Deploy keys
      -> Add key, leave "Allow write access" OFF; paste the private half into the secret). Do not reuse the writer key.
    - `FORECAST_SESSION_SECRET`: any long random text (keeps logins valid across restarts).
-   - optional later: `GOOGLE_CLIENT_ID`, `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_VERIFY_SID`.
+   - optional later: `GOOGLE_CLIENT_ID`.
 3. On your PC: `python scripts/make_space_bundle.py` (writes `dist/space/`), then push that folder to the Space's git repo
    (`git init`, `git remote add space https://huggingface.co/spaces/<you>/<name>`, `git add -A`, `git commit`, `git push space HEAD:main`).
 4. The Space builds, starts `space_start.sh`, pulls the forecasts from the private data repo every 20 minutes and serves the app.

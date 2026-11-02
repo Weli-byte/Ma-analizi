@@ -8,7 +8,6 @@
   Python RSA (no extra dependency), checking issuer, audience, expiry and signature. Needs `APPLE_CLIENT_ID` (a Services ID of a
   PAID Apple Developer account, domain and return URL registered there). NOT verified live: the code is tested with a locally
   generated key pair only, and the button stays off until the variable is set.
-- phone: SMS one-time codes need an SMS provider (Firebase, Twilio, ...): NOT_CONFIGURED.
 A provider that is not configured says so on the login screen; nothing is simulated.
 """
 
@@ -32,9 +31,7 @@ def google_client_id() -> str | None:
 
 
 def provider_status() -> dict[str, bool]:
-    from . import phone
-
-    return {"google": bool(google_client_id()), "apple": bool(apple_client_id()), "phone": phone.configured()}
+    return {"google": bool(google_client_id()), "apple": bool(apple_client_id())}
 
 
 def validate_google_claims(claims: dict, client_id: str, now: float | None = None) -> User | None:

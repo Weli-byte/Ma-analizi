@@ -121,7 +121,7 @@ her işlevi açar; Google girişi yalnızca favorileri hesaba bağlar.
 | Kişisel bilgi: Ad | Toplanıyor, isteğe bağlı (Google girişi), amaç: Hesap yönetimi |
 | Kişisel bilgi: E-posta adresi | Toplanıyor, isteğe bağlı (Google girişi), amaç: Hesap yönetimi |
 | Kişisel bilgi: Kullanıcı kimlikleri | Toplanıyor (Google hesap kimliği / oturum kimliği), amaç: Hesap yönetimi, uygulama işlevselliği |
-| Kişisel bilgi: Telefon numarası | **İşaretleme.** Telefon girişi canlıda kapalı (2026-11-02: "Telefonla giriş henüz etkin değil"). Açılırsa formu güncelle (yalnızca tek yönlü özet + son 4 hane, amaç: Hesap yönetimi). |
+| Kişisel bilgi: Telefon numarası | **İşaretleme.** Telefonla giriş 2026-11-02'de tamamen kaldırıldı (ADR 0054 ek). |
 | Uygulama etkinliği: Diğer kullanıcı içeriği / işlemleri | Favori takımlar ve maçlar, amaç: Uygulama işlevselliği |
 | Konum, kişiler, fotoğraf, finans, sağlık, mesajlar, cihaz kimliği | Toplanmıyor |
 | Analitik / reklam | Yok |
@@ -175,7 +175,7 @@ Eksik: `play_app_signing` parmak izi (ilk yüklemeden sonra eklenecek).
 
 - Gizlilik ve koşullar sayfaları kendilerini "taslak, hukuki danışmanlık değildir" diye tanımlıyor. Play bunu reddetmez,
   ama yayından önce bir hukukçuya göstermek önerilir.
-- Giriş ekranında "Apple ile devam et" ve "Telefon numarası ile devam et" düğmeleri web'de görünüyor ("henüz etkin değil").
+- Giriş ekranında "Apple ile devam et" düğmesi web'de görünüyor ("henüz etkin değil"). Telefonla giriş kaldırıldı.
   Android uygulamasında yapılandırılmadıkça gizlenir (9. bölüm).
 - Giriş ekranı "Altı lig" diyor; ligler: 5 büyük lig + Süper Lig = 6. Tutarlı.
 
@@ -185,5 +185,5 @@ Uygulama bahis oynatmaz (ADR 0039), ama "Tavsiyeler" sekmesi ve maç sayfasında
 piyasa oranları ve "bahis" kelimesini içeriyor. Google Play'in gerçek parayla kumar politikası bahis ipuçları ve oran
 içeriğine dikkatle bakar; bu durumda incelemenin reddetme ihtimali vardır. Bu Google'ın şu anki metniyle teyit edilmedi.
 Uygulanan çözüm (ADR 0098 ek, 2026-11-02): Android uygulaması `/?app=android` ile açılır; uygulamada "Tavsiyeler" menüsü,
-ana sayfadaki "Öne çıkan tavsiyeler", maç sayfasındaki "Tavsiye" sekmesi ve yapılandırılmamış Apple/telefon giriş düğmeleri
+ana sayfadaki "Öne çıkan tavsiyeler", maç sayfasındaki "Tavsiye" sekmesi ve yapılandırılmamış Apple giriş düğmesi
 gizlenir, `/tavsiyeler` ana sayfaya yönlenir. Web sitesi değişmez. Yeni başlangıç adresi için `.aab` yeniden üretilmeli.

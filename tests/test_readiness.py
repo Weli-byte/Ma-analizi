@@ -4,13 +4,13 @@ from src import readiness
 
 
 def test_a_set_and_a_missing_item_are_reported_without_any_value():
-    env = {"FOOTBALL_DATA_ORG_API_KEY": "SECRET-VALUE-123", "TWILIO_ACCOUNT_SID": "AC-secret", "TWILIO_AUTH_TOKEN": ""}
+    env = {"FOOTBALL_DATA_ORG_API_KEY": "SECRET-VALUE-123", "APPLE_CLIENT_ID": ""}
     rows = {r["item"]: r for r in readiness.local_status(env)}
     assert rows["football-data.org key"]["status"] == "SET" and rows["football-data.org key"]["next"] == ""
-    phone = rows["Phone sign-in (Twilio Verify)"]
-    assert phone["status"] == "NOT_SET" and phone["missing"] == ["TWILIO_AUTH_TOKEN", "TWILIO_VERIFY_SID"]               # all three are needed; an empty value counts as missing
+    apple = rows["Apple sign-in"]
+    assert apple["status"] == "NOT_SET" and apple["missing"] == ["APPLE_CLIENT_ID"]  # an empty value counts as missing
     text = readiness.render(readiness.local_status(env), None, "basic")
-    assert "SECRET-VALUE-123" not in text and "AC-secret" not in text and "football-data.org key: SET" in text and "Highlightly planı" in text and "basic" in text
+    assert "SECRET-VALUE-123" not in text and "football-data.org key: SET" in text and "Highlightly planı" in text and "basic" in text
 
 
 def test_the_github_section_lists_names_only_and_says_so_when_gh_is_unavailable():

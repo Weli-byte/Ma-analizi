@@ -19,7 +19,6 @@ LOCAL = [
     ("Anthropic key", ("ANTHROPIC_API_KEY",), "Claude in the LLM benchmark (paid usage)", "console.anthropic.com: API anahtarı ve kredi (ücretli)"),
     ("Google sign-in", ("GOOGLE_CLIENT_ID",), "Sign in with Google", "Vercel ortam değişkeni olarak kurulu (canlıda doğrulandı); bu bilgisayarda gerekmez"),
     ("Apple sign-in", ("APPLE_CLIENT_ID",), "Sign in with Apple", "Apple Developer hesabı (ücretli) + Services ID"),
-    ("Phone sign-in (Twilio Verify)", ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_VERIFY_SID"), "SMS sign-in", "twilio.com hesabı + Verify servisi (mesaj başına ücret)"),
     ("Persistent user database (Turso)", ("FORECAST_TURSO_URL", "FORECAST_TURSO_TOKEN"), "favourites and plans survive a redeploy", "Vercel ortam değişkeni olarak kurulu olmalı; bu bilgisayarda gerekmez"),
     ("Session secret", ("FORECAST_SESSION_SECRET",), "signed login cookies on the deployed site", "Vercel ortam değişkeni; bu bilgisayarda gerekmez"),
     ("Telegram bot", ("TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"), "owner notifications (local test only; the cloud jobs use repository secrets)", "BotFather + @userinfobot"),

@@ -361,7 +361,7 @@ def test_web_app_needs_a_session_and_serves_turkish_pages_without_raw_prices_or_
         and "Google ile devam et" in login.text
         and "Apple ile devam et" in login.text
     )
-    assert "Telefon numarası ile devam et" in login.text and "Misafir olarak devam et" in login.text
+    assert "Telefon numarası" not in login.text and "Misafir olarak devam et" in login.text  # phone sign-in removed (ADR 0054 amendment)
     assert c.post("/giris/misafir").status_code == 303
     c = TestClient(c.app)  # a fresh client that follows redirects
     c.post("/giris/misafir")

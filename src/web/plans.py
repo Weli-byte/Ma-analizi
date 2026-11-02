@@ -6,7 +6,7 @@
 - A user is Pro when their stored plan is `pro` (set by a future payment hook or by the owner), when their VERIFIED e-mail is
   listed in `FORECAST_PRO_EMAILS` (comma separated), or when it is the owner's contact address (`brand.CONTACT_EMAIL`): the owner
   uses Pro for free. Only Google sign-in puts an e-mail on the session, and it is checked
-  against `email_verified` there, so a guest or phone user can never match that list."""
+  against `email_verified` there, so a guest can never match that list."""
 
 import os
 

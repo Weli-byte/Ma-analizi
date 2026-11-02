@@ -18,7 +18,7 @@ _FALLBACK = secrets.token_bytes(32)
 
 @dataclass(frozen=True)
 class User:
-    provider: str  # guest | google | apple | phone
+    provider: str  # guest | google | apple
     name: str
     email: str | None = None
     uid: str = ""  # stable id: random for guests, provider:subject for signed-in users

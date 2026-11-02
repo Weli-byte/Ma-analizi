@@ -44,9 +44,9 @@ def test_app_mode_hides_tips_and_unconfigured_sign_in_only_through_css(tmp_path)
     """The flag lives in sessionStorage (a TWA shares Chrome's cookies), so the server sends the same HTML to both and marks what the app hides."""
     from src.web import pages
 
-    login = pages.login_page({"google": True, "apple": False, "phone": False}, "cid")
+    login = pages.login_page({"google": True, "apple": False}, "cid")
     assert "sessionStorage.setItem('app','android')" in login and ".app-android .no-app{display:none!important}" in login
-    assert "btn b-k no-app" in login and "btn b-o no-app" in login
-    assert "btn b-k no-app" not in pages.login_page({"google": True, "apple": True, "phone": True}, "cid", "aid")
+    assert "btn b-k no-app" in login and "Telefon" not in login  # phone sign-in was removed (ADR 0054 amendment)
+    assert "btn b-k no-app" not in pages.login_page({"google": True, "apple": True}, "cid", "aid")
     shell = pages.page("x", "")
     assert "<a href='/tavsiyeler' class=' no-app'>" in shell and "location.replace('/')" in shell

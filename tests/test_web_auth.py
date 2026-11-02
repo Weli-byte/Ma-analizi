@@ -45,7 +45,7 @@ def test_google_claims_are_validated_strictly():
 
 def test_providers_without_credentials_are_reported_as_not_configured(monkeypatch):
     monkeypatch.delenv("GOOGLE_CLIENT_ID", raising=False)
-    assert auth.provider_status() == {"google": False, "apple": False, "phone": False}
+    assert auth.provider_status() == {"google": False, "apple": False}
     assert auth.verify_google("any-token") is None  # nothing is accepted without a configured client id
     monkeypatch.setenv("GOOGLE_CLIENT_ID", "cid")
     assert auth.provider_status()["google"] is True
@@ -228,74 +228,6 @@ def test_language_switch_cookie_translates_pages_but_never_the_json_api(tmp_path
     assert c.get("/v1/health").json()["data"]["status"] == "ok"  # the API is never translated
     c.cookies.set("lang", "tr")
     assert "Misafir olarak devam et" in c.get("/giris").text
-
-
-def test_phone_numbers_are_normalised_masked_hashed_and_throttled():
-    from src.web import phone
-
-    assert (
-        phone.normalize("0532 123 45 67") == "+905321234567"
-        and phone.normalize("532-123-45-67") == "+905321234567"
-    )
-    assert (
-        phone.normalize("+44 7700 900123") == "+447700900123"
-        and phone.normalize("0044 7700 900123") == "+447700900123"
-    )
-    for bad in ("", "abc", "123", "+0123456789", "+1", "05321234"):
-        assert phone.normalize(bad) is None
-    u = phone.user_for("+905321234567")
-    assert u.name == "Telefon ····4567" and u.uid.startswith("phone:") and "5321234567" not in u.uid + u.name
-    clock = [0.0]
-    t = phone.Throttle(2, 60, lambda: clock[0])
-    assert t.allow("a") and t.allow("a") and not t.allow("a") and t.allow("b")
-    clock[0] = 61
-    assert t.allow("a")  # the window passed
-
-
-def test_phone_sign_in_is_off_without_credentials_and_guards_the_flow_when_on(tmp_path, monkeypatch):
-    import shutil
-    from pathlib import Path
-
-    from fastapi.testclient import TestClient
-
-    from src.api.app import create_app
-    from src.web import phone
-
-    root = Path(__file__).resolve().parents[1]
-    shutil.copytree(root / "configs", tmp_path / "configs")
-    for k in ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_VERIFY_SID"):
-        monkeypatch.delenv(k, raising=False)
-    c = TestClient(create_app(tmp_path, keys=[]), follow_redirects=False)
-    assert phone.configured() is False and c.get("/giris/telefon").status_code == 503
-    assert c.post("/giris/telefon/kod", data={"phone": "+905321234567"}).status_code == 503
-    assert c.post("/giris/telefon/dogrula", data={"code": "123456"}).headers["location"] == "/giris/telefon"
-    assert phone.send_code("+905321234567") is False and phone.check_code("+905321234567", "123456") is False
-    # configured: the flow logic (the SMS call itself is replaced; the live Twilio call is NOT verified)
-    for k in ("TWILIO_ACCOUNT_SID", "TWILIO_AUTH_TOKEN", "TWILIO_VERIFY_SID"):
-        monkeypatch.setenv(k, "x")
-    sent: list[str] = []
-    monkeypatch.setattr(phone, "send_code", lambda n: (sent.append(n), True)[1])
-    monkeypatch.setattr(phone, "check_code", lambda n, code: code == "123456")
-    assert c.get("/giris/telefon").status_code == 200
-    assert c.post("/giris/telefon/kod", data={"phone": "abc"}).status_code == 400
-    ok = c.post("/giris/telefon/kod", data={"phone": "0532 123 45 67"})
-    assert (
-        ok.status_code == 200
-        and "····4567" in ok.text
-        and sent == ["+905321234567"]
-        and "mt_phone" in ok.headers["set-cookie"]
-    )
-    assert c.post("/giris/telefon/dogrula", data={"code": "000000"}).status_code == 400
-    done = c.post("/giris/telefon/dogrula", data={"code": "123456"})
-    assert (
-        done.status_code == 303
-        and done.headers["location"] == "/"
-        and session.COOKIE in done.headers["set-cookie"]
-    )
-    c.cookies.set(session.COOKIE, done.cookies.get(session.COOKIE) or "")
-    for _ in range(3):
-        c.post("/giris/telefon/kod", data={"phone": "0532 123 45 67"})
-    assert c.post("/giris/telefon/kod", data={"phone": "0532 123 45 67"}).status_code == 429  # throttled
 
 
 def test_cookies_are_marked_secure_only_behind_https(tmp_path):

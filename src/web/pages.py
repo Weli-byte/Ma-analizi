@@ -306,7 +306,6 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"
         f"<button class='btn b-k{'' if status.get('apple') else ' no-app'}' onclick=\"pick('apple')\"> Apple ile devam et</button>"
-        f"<button class='btn b-o{'' if status.get('phone') else ' no-app'}' onclick=\"pick('phone')\">Telefon numarası ile devam et</button>"
         "<div id='msg' class='msg'></div>"
         "<form class='guest' method='post' action='/giris/misafir'><button type='submit'>Misafir olarak devam et</button>"
         "<p style='font-size:12px;opacity:.85;margin-top:14px'>Devam ederek 18 yaşından büyük olduğunu onaylarsın. "
@@ -315,11 +314,9 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
         "<script>"
         f"const ST={str(status).lower()};"
         "const WHY={google:'Google ile giriş henüz etkin değil (Google istemci kimliği ayarlanmadı).',"
-        "apple:'Apple ile giriş henüz etkin değil (Apple Developer hesabı gerekir).',"
-        "phone:'Telefonla giriş henüz etkin değil (SMS sağlayıcısı gerekir).'};"
+        "apple:'Apple ile giriş henüz etkin değil (Apple Developer hesabı gerekir).'};"
         "function pick(p){const m=document.getElementById('msg');"
         "if(p==='google'&&ST.google&&window.google){google.accounts.id.prompt();return;}"
-        "if(p==='phone'&&ST.phone){location.href='/giris/telefon';return;}"
         "if(p==='apple'&&ST.apple&&window.AppleID){AppleID.auth.init({clientId:document.querySelector('meta[name=apple-client]').content,"
         "scope:'name email',redirectURI:location.origin+'/giris',usePopup:true});"
         "AppleID.auth.signIn().then(r=>fetch('/giris/apple',{method:'POST',headers:{'Content-Type':'application/json'},"
@@ -1248,10 +1245,6 @@ LEGAL = {
                 "li",
                 "Google ile giriş: Google'ın verdiği hesap kimliği, adın ve e-posta adresin. Şifren bize hiç ulaşmaz.",
             ),
-            (
-                "li",
-                "Telefon ile giriş: numaran saklanmaz; yalnızca tek yönlü bir özet (hash) ve numaranın son 4 hanesi tutulur.",
-            ),
             ("li", "Favori takımların ve maçların, hesabına bağlı olarak sunucudaki veritabanında saklanır."),
             ("h", "Ne yapmıyoruz?"),
             (
@@ -1326,7 +1319,6 @@ def legal_blocks(kind: str) -> tuple[str, list[tuple[str, str]]]:
                 "li",
                 "Site Vercel (ABD) üzerinde çalışır ve Google ile giriş Google (ABD) üzerinden yapılır; kişisel verilerin yurt dışındaki bu hizmet sağlayıcılarda işlenebilir.",
             ),
-            ("li", "Telefonla giriş etkinleştirilirse doğrulama kodu Twilio (ABD) üzerinden gönderilir."),
             (
                 "li",
                 "Hesap kaydın ve favorilerin, bulut üzerinde barındırılan Turso (libSQL) veritabanında saklanır; bu hizmet sağlayıcı yurt dışındadır.",
@@ -1384,7 +1376,7 @@ LOCKED_TAB = (
 
 
 def profile_page(user, plan: str = "free") -> str:
-    kind = {"guest": "Misafir", "google": "Google hesabı", "apple": "Apple hesabı", "phone": "Telefon"}.get(
+    kind = {"guest": "Misafir", "google": "Google hesabı", "apple": "Apple hesabı"}.get(
         user.provider, user.provider
     )
     body = (
@@ -1514,21 +1506,3 @@ def sunum_page() -> str:
         "gerçek veri kaynakları lisans şartlarına göre incelenmiştir.</p></div>",
         "profile", back="/profil",
     )  # fmt: skip
-
-
-def phone_page(step: str, masked: str = "", error: str = "") -> str:
-    err = f"<div class='card warn'>{e(error)}</div>" if error else ""
-    box = "width:100%;padding:12px;border-radius:10px;border:1px solid var(--line);font:inherit"
-    if step == "code":
-        form = (
-            f"<div class='card'><p>{e(masked)} numarasına bir SMS kodu gönderdik.</p><form method='post' action='/giris/telefon/dogrula'>"
-            f"<input name='code' inputmode='numeric' autocomplete='one-time-code' placeholder='Kod' style='{box}'>"
-            "<button class='btn' style='background:var(--g);color:#fff;margin-top:10px'>Doğrula</button></form></div>"
-        )
-    else:
-        form = (
-            "<div class='card'><p>Telefon numaranı yaz: sana tek kullanımlık bir SMS kodu göndereceğiz. Numaran saklanmaz.</p>"
-            f"<form method='post' action='/giris/telefon/kod'><input name='phone' inputmode='tel' placeholder='+90 5xx xxx xx xx' style='{box}'>"
-            "<button class='btn' style='background:var(--g);color:#fff;margin-top:10px'>Kod gönder</button></form></div>"
-        )
-    return page("Telefonla giriş", err + form, "profile", back="/giris")

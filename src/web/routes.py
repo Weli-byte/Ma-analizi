@@ -24,7 +24,7 @@ from fastapi.responses import (
 
 from src.dashboard.viewmodel import intel_section
 
-from . import auth, pages, phone, plans, session
+from . import auth, pages, plans, session
 from .brand import APP_NAME
 from .i18n import LANG_COOKIE, translate_html
 from .logos import LogoIndex
@@ -231,65 +231,6 @@ def register(app: FastAPI, service, root, now_fn) -> None:
     def logout():
         r = RedirectResponse("/giris", 303)
         r.delete_cookie(session.COOKIE)
-        return r
-
-    # ---------------------------------------------------------------------------------- phone sign-in
-    sms_per_number, sms_per_client = phone.Throttle(3, 600), phone.Throttle(10, 3600)
-    off = "Telefonla giriş henüz etkin değil (SMS sağlayıcısı ayarlanmadı). Misafir olarak devam edebilirsin."
-
-    @app.get("/giris/telefon", response_class=HTMLResponse, include_in_schema=False)
-    def phone_form():
-        if not phone.configured():
-            return HTMLResponse(pages.phone_page("number", error=off), 503)
-        return pages.phone_page("number")
-
-    @app.post("/giris/telefon/kod", response_class=HTMLResponse, include_in_schema=False)
-    async def phone_send(request: Request):
-        if not phone.configured():
-            return HTMLResponse(pages.phone_page("number", error=off), 503)
-        form = await _form(request)
-        e164 = phone.normalize(str(form.get("phone", "")))
-        client = request.client.host if request.client else "?"
-        if e164 is None:
-            return HTMLResponse(
-                pages.phone_page("number", error="Geçerli bir telefon numarası yaz (ör. +90 5xx xxx xx xx)."),
-                400,
-            )
-        if not (sms_per_number.allow(e164) and sms_per_client.allow(client)):
-            return HTMLResponse(
-                pages.phone_page("number", error="Çok fazla deneme. Biraz sonra tekrar dene."), 429
-            )
-        if not phone.send_code(e164):
-            return HTMLResponse(
-                pages.phone_page("number", error="Kod gönderilemedi. Numarayı kontrol edip tekrar dene."), 502
-            )
-        r = HTMLResponse(pages.phone_page("code", masked="····" + e164[-4:]))
-        r.set_cookie(
-            "mt_phone",
-            session.sign(session.User("phone-pending", e164)),
-            max_age=600,
-            httponly=True,
-            samesite="lax",
-        )
-        return r
-
-    @app.post("/giris/telefon/dogrula", include_in_schema=False)
-    async def phone_verify(request: Request):
-        pending = session.verify(request.cookies.get("mt_phone"))
-        form = await _form(request)
-        if pending is None or pending.provider != "phone-pending":
-            return RedirectResponse("/giris/telefon", 303)
-        tail = "····" + pending.name[-4:]
-        if not sms_per_number.allow("check:" + pending.name):
-            return HTMLResponse(pages.phone_page("code", masked=tail, error="Çok fazla deneme."), 429)
-        if not phone.check_code(pending.name, str(form.get("code", "")).strip()):
-            return HTMLResponse(
-                pages.phone_page("code", masked=tail, error="Kod yanlış ya da süresi dolmuş."), 400
-            )
-        user = phone.user_for(pending.name)
-        store.touch(user.uid, user.provider, user.name, None)
-        r = start(user)
-        r.delete_cookie("mt_phone")
         return r
 
     # ------------------------------------------------------------------------------------------ language

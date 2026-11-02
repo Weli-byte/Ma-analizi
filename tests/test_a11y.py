@@ -57,7 +57,7 @@ def test_initials_badges_have_enough_contrast_for_every_hue():
 
 def test_every_page_has_one_main_landmark():
     assert pages.page("Profil", "<p>x</p>").count("<main>") == 1
-    login = pages.login_page({"google": False, "apple": False, "phone": False}, None)
+    login = pages.login_page({"google": False, "apple": False}, None)
     assert login.count("<main") == 1 and login.count("</main>") == 1
 
 

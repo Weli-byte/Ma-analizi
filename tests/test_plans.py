@@ -40,7 +40,7 @@ def test_pro_email_list_grants_pro_case_insensitively_and_only_with_an_email(mon
     monkeypatch.setenv("FORECAST_PRO_EMAILS", " Owner@Example.com , other@example.com ")
     assert plans.effective_plan("owner@example.com", "free") == "pro"
     assert plans.effective_plan("stranger@example.com", "free") == "free"
-    assert plans.effective_plan(None, "free") == "free"  # a guest or phone user has no verified e-mail
+    assert plans.effective_plan(None, "free") == "free"  # a guest has no verified e-mail
     assert plans.effective_plan(None, "pro") == "pro"  # a stored plan still counts
     assert plans.effective_plan(None, "garbage") == "free"
 

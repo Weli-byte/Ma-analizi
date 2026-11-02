@@ -34,6 +34,7 @@ CSS = """
 :root{--g:#00843f;--gd:#007a3d;--gt:#007a3d;--gl:#e6f6ed;--bg:#f1f4f2;--card:#fff;--fg:#0e1f15;--mut:#5b6a61;--line:#e1e8e3;--warn:#d29922}
 @media (prefers-color-scheme:dark){:root{--gt:#4cc38a;--bg:#0b120e;--card:#14201a;--fg:#e8f1ec;--mut:#8fa297;--line:#243229;--gl:#12301f}}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.app-android .no-app{display:none!important}
 body{margin:0;background:#cfd8d2;color:var(--fg);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
 #app{max-width:480px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:76px;box-shadow:0 0 30px rgba(0,0,0,.18)}
 a{color:inherit;text-decoration:none}
@@ -100,6 +101,15 @@ NAV_ITEMS = [
     ("/tavsiyeler", "💡", "Tavsiyeler", "tips"),
     ("/profil", "👤", "Profil", "profile"),
 ]
+# ADR 0098 amendment: the Android app opens /?app=android (or arrives with an android-app:// referrer). The flag lives in the
+# tab's sessionStorage, not a cookie, because a Trusted Web Activity shares Chrome's cookie jar: the plain browser stays unchanged.
+# In the app, elements marked `no-app` (betting-style tips, sign-in buttons that are not configured) are hidden.
+APP_MODE_SCRIPT = (
+    "<script>try{var q=new URLSearchParams(location.search);"
+    "if(q.get('app')==='android'||document.referrer.indexOf('android-app://app.welliddia.tahmin')===0)sessionStorage.setItem('app','android');"
+    "if(sessionStorage.getItem('app')==='android'){document.documentElement.classList.add('app-android');"
+    "if(location.pathname==='/tavsiyeler')location.replace('/');}}catch(_){}</script>"
+)
 FOOT = (
     "<div class='foot'><a href='/dil/tr'>Türkçe</a> · <a href='/dil/en'>English</a><br>Football data provided by the Football-Data.org API. Sonuç ve fikstür verisi ayrıca openfootball'dan "
     "(kamu malı), oran verisi The Odds API'den. Tahminler istatistiksel modellerin tahminidir, kazanç garantisi değildir. "
@@ -109,6 +119,7 @@ HEAD = (
     "<meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1,viewport-fit=cover'>"
     "<meta name='theme-color' content='#00a651'><link rel='manifest' href='/manifest.webmanifest'>"
     "<link rel='apple-touch-icon' href='/icon-192.png'><meta name='apple-mobile-web-app-capable' content='yes'>"
+    + APP_MODE_SCRIPT
 )
 
 
@@ -146,7 +157,7 @@ def page(
     title: str, body: str, active: str = "", back: str | None = None, hero: str = "", desc: str = DEFAULT_DESC
 ) -> str:
     nav = "".join(
-        f"<a href='{h}' class='{'on' if k == active else ''}'><b>{ic}</b>{lab}</a>"
+        f"<a href='{h}' class='{'on' if k == active else ''}{' no-app' if k == 'tips' else ''}'><b>{ic}</b>{lab}</a>"
         for h, ic, lab, k in NAV_ITEMS
     )
     bar = (
@@ -294,8 +305,8 @@ def login_page(status: dict[str, bool], client_id: str | None, apple_id: str | N
         f"<main class='login'><div style='font-size:46px'>⚽</div><h1>{e(APP_NAME)}</h1>"
         "<p>Gerçek verilerle hesaplanan maç sonucu, skor ve gol tahminleri. Altı lig ve Avrupa kupaları, tek uygulama.</p>"
         f"{gsi}{google_button(client_id)}"
-        "<button class='btn b-k' onclick=\"pick('apple')\"> Apple ile devam et</button>"
-        "<button class='btn b-o' onclick=\"pick('phone')\">Telefon numarası ile devam et</button>"
+        f"<button class='btn b-k{'' if status.get('apple') else ' no-app'}' onclick=\"pick('apple')\"> Apple ile devam et</button>"
+        f"<button class='btn b-o{'' if status.get('phone') else ' no-app'}' onclick=\"pick('phone')\">Telefon numarası ile devam et</button>"
         "<div id='msg' class='msg'></div>"
         "<form class='guest' method='post' action='/giris/misafir'><button type='submit'>Misafir olarak devam et</button>"
         "<p style='font-size:12px;opacity:.85;margin-top:14px'>Devam ederek 18 yaşından büyük olduğunu onaylarsın. "
@@ -363,7 +374,7 @@ def home_page(
             "".join(match_row(i, logos) for i in today)
             or "<div class='card mut'>Bugün tahmin edilen maç yok. Ligler sekmesinden diğer günleri gör.</div>"
         )
-        + f"<div class='sec'><h2>Öne çıkan tavsiyeler <a href='/tavsiyeler'>Hepsi</a></h2></div><div class='card pad0'>{best_html}</div>"
+        + f"<div class='no-app'><div class='sec'><h2>Öne çıkan tavsiyeler <a href='/tavsiyeler'>Hepsi</a></h2></div><div class='card pad0'>{best_html}</div></div>"
     )
     return page("Ana sayfa", body, "home", hero=hero)
 
@@ -937,7 +948,7 @@ def match_page(
     bar = (
         "<div class='tabs'>"
         + "".join(
-            f"<button data-t='{k}' class='{'on' if k == 'ozet' else ''}'>{lab}{' (Pro)' if k in locked else ''}</button>"
+            f"<button data-t='{k}' class='{'on' if k == 'ozet' else 'no-app' if k == 'oneri' else ''}'>{lab}{' (Pro)' if k in locked else ''}</button>"
             for k, lab in tabs
         )
         + "</div>"

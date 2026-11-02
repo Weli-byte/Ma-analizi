@@ -13,7 +13,7 @@
   "navigationDividerColorDark": "#00A651",
   "backgroundColor": "#00A651",
   "enableNotifications": false,
-  "startUrl": "/",
+  "startUrl": "/?app=android",
   "iconUrl": "https://mac-tahmin-eight.vercel.app/icon-512.png",
   "maskableIconUrl": "https://mac-tahmin-eight.vercel.app/icon-maskable-512.png",
   "splashScreenFadeOutDuration": 300,

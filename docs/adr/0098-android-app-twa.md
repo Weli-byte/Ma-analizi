@@ -17,3 +17,13 @@ Owner decision: publish Welliddia on Google Play; package `app.welliddia.tahmin`
 ## Not decided here (owner, Play Console)
 Developer account and identity verification, the closed test (12 testers for 14 days for a new personal account), store listing, content rating, target audience 18+, Data safety form,
 account deletion URL, the gambling-content questions; the licence gate of ADR 0097 still says NO_GO for a commercial launch.
+
+## Amendment (2026-11-02): app mode for the Play review
+- The TWA start URL is `/?app=android`. A script in the page head marks the tab as the app when that query or an `android-app://app.welliddia.tahmin` referrer is
+  seen, stores the flag in the tab's sessionStorage (not a cookie: a TWA shares Chrome's cookie jar, so a cookie would also change the plain browser) and adds
+  the class `app-android` to `<html>`. The login redirect keeps `?app=android`.
+- In app mode CSS hides elements marked `no-app`: the "Tavsiyeler" navigation item and home-page section, the match page's "Tavsiye" tab (betting-style picks
+  and the research-only value table) and the Apple / phone sign-in buttons while they are not configured. `/tavsiyeler` redirects to `/` in the app.
+- Reason: Google Play's real-money gambling policy is strict about betting tips and odds; the store build shows probabilities and the track record only. The
+  website is unchanged. Nothing is removed from the server's HTML (the app hides it); forecasts, models and the API are untouched.
+- The `.aab` must be rebuilt (`android-build`) for the new start URL; versionCode stays 1 because nothing was uploaded yet.

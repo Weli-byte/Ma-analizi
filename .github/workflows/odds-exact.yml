@@ -72,6 +72,17 @@ jobs:
           fi
       - name: Collect every 10 minutes for about 50 minutes (credits are spent only inside a window)
         run: bash scripts/odds_cloud_loop.sh ${{ inputs.rounds || '5' }} 600 ${{ inputs.force && '--force' || '' }}
+      - name: Keep markets-cloud hourly (GitHub drops most of its hourly scheduled runs; ADR 0094 amendment; repository variable MARKETS_KICK=off stops it)
+        if: success() && vars.ODDS_LOOP != 'off' && vars.MARKETS_KICK != 'off' && !inputs.force
+        continue-on-error: true   # a failed kick must never stop the odds loop's self-restart below
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          last=$(gh run list --workflow markets-cloud.yml --limit 1 --json createdAt,status --jq '.[0] | "\(.createdAt) \(.status)"')
+          started=${last% *}; status=${last#* }
+          age=$(( $(date -u +%s) - $(date -u -d "$started" +%s) ))
+          if [ "$status" != "completed" ] || [ "$age" -lt 2700 ]; then echo "markets-cloud: last run $started ($status), ${age}s ago - no kick"
+          else gh workflow run markets-cloud.yml --ref main -f kind=auto && echo "markets-cloud kicked (last run ${age}s ago)"; fi
       - name: Start the next run (self-restart keeps the cadence; set repository variable ODDS_LOOP=off to stop)
         if: success() && vars.ODDS_LOOP != 'off' && !inputs.force
         env:

@@ -6,7 +6,13 @@ name: markets-cloud
 on:
   schedule:
     - cron: "23 * * * *"   # hourly (ADR 0094): fresher t-90m / t-30m stage records; the paid / budgeted calls run only in the four-hourly full run
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "full = every call (a manual run); auto = the hourly rule (the odds loop's hourly kick, ADR 0094 amendment)"
+        type: choice
+        options: [full, auto]
+        default: full
 concurrency:
   group: markets-cloud
   cancel-in-progress: false
@@ -92,7 +98,7 @@ jobs:
           fi
       - name: Full or light run (ADR 0094)
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || [ $(( 10#$(date -u +%H) % 4 )) -eq 0 ]; then echo "MARKETS_LIGHT_RUN=0" >> "$GITHUB_ENV"; echo "full run"; else echo "MARKETS_LIGHT_RUN=1" >> "$GITHUB_ENV"; echo "light run"; fi
+          if { [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ "${{ inputs.kind }}" != "auto" ]; } || [ $(( 10#$(date -u +%H) % 4 )) -eq 0 ]; then echo "MARKETS_LIGHT_RUN=0" >> "$GITHUB_ENV"; echo "full run"; else echo "MARKETS_LIGHT_RUN=1" >> "$GITHUB_ENV"; echo "light run"; fi
       - name: Match statistics (Highlightly, within the daily request budget; full runs only)
         run: |
           if [ "$MARKETS_LIGHT_RUN" = "1" ]; then echo "light run: statistics skipped (the daily request budget is spent by the four-hourly runs)"; else python -m src.markets.stats_collect; fi
